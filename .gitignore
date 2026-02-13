@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+*.log
+.env
+
+# local-only / generated
+.claude/
+bin/
+md/
+ppt/
+claude_copy.sh
+claude_team_v0.txt
