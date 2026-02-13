@@ -4,25 +4,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This is a multi-agent team prompt toolkit for accelerating day-to-day document creation in Japanese business contexts. It defines a 4-role agent team (企画/本文/要約/チェック) that collaborates to produce polished internal documents.
+Multi-agent team prompt toolkit for accelerating document creation in Japanese business contexts. Two prompt variants define agent teams that collaborate to produce polished internal documents.
 
-## Structure
+## Prompt Variants
 
-- `team_prompt.txt` — The core multi-agent system prompt (Japanese). Defines team roles and shared rules.
-- `team_copy.sh` — Copies `team_prompt.txt` to the macOS clipboard via `pbcopy`.
-- `team_show.sh` — Prints `team_prompt.txt` to stdout.
+- `team_prompt.txt` — 4-role team (企画/本文/要約/チェック). Original prompt for general document creation.
+- `claude_team_v0.txt` — 3-role team (オーケストレーター/リサーチャ/ライター). Lighter variant optimized for Claude 4.6; adds diagram suggestion support.
 
-## Usage
+## Clipboard Scripts
 
 ```bash
-# Copy the prompt to clipboard for pasting into an AI chat
-./team_copy.sh
-
-# View the prompt in terminal
-./team_show.sh
+./team_copy.sh          # Copy team_prompt.txt to clipboard
+./team_show.sh          # Print team_prompt.txt to stdout
+./claude_copy.sh        # Copy claude_team_v0.txt to clipboard
 ```
+
+## Markdown-to-PPTX Pipeline
+
+`bin/md2ppt.py` converts structured Markdown into PowerPoint slides. Requires `python-pptx`.
+
+```bash
+python bin/md2ppt.py md/sample.md ppt/output.pptx
+```
+
+Markdown conventions for slide generation:
+- `# Heading` → title slide
+- `## Heading` → new content slide with that title
+- `### Heading` → bold paragraph (level 0) within current slide
+- `- bullet` / `  - nested` → bullet points with indentation levels
+- `[図解案] text` → collected into a dedicated "図解案" slide
 
 ## Notes
 
-- All shell scripts use `zsh` and `set -e`.
-- The prompt and all document output are in Japanese.
+- All shell scripts use `zsh` with `set -e`.
+- All prompts and document output are in Japanese.
+- Shell scripts reference `$HOME/agent-team/` as the repo path.
