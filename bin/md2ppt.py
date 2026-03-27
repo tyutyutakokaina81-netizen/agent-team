@@ -41,8 +41,8 @@ COLOR_ZU_BG = RGBColor(0xED, 0x7D, 0x31)      # オレンジ（図解案）
 
 def add_title_slide(prs: Presentation, title: str) -> None:
     slide = prs.slides.add_slide(prs.slide_layouts[6])  # blank
-    slide.shapes.background.fill.solid()
-    slide.shapes.background.fill.fore_color.rgb = COLOR_TITLE_BG
+    slide.background.fill.solid()
+    slide.background.fill.fore_color.rgb = COLOR_TITLE_BG
 
     txBox = slide.shapes.add_textbox(
         Inches(1.5), Inches(2.5), Inches(10.33), Inches(2.5)
@@ -64,6 +64,8 @@ def add_content_slide(prs: Presentation, heading: str, body_items: list) -> None
 
     # ヘッダー帯
     hdr = slide.shapes.add_textbox(Inches(0), Inches(0), SLIDE_WIDTH, Inches(1.1))
+    hdr.text_frame  # ensure initialized
+    from pptx.util import Pt as _Pt
     hdr.fill.solid()
     hdr.fill.fore_color.rgb = COLOR_HEADING_BG
     tf = hdr.text_frame
