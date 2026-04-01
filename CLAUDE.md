@@ -89,6 +89,10 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - `server.mjs` の実行・curl での検証は「必ず事前承認」を取る
 - 変更が完了したら「要点 → 詳細 → 次アクション」形式でレビュー依頼（承認）を出す
 
+## ユーザー情報
+
+- **名前**: 藤森徹次
+
 ## Notes
 
 - All shell scripts use `zsh` with `set -e`.
