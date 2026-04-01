@@ -93,6 +93,7 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 - **名前**: 藤森徹次
 - **会社**: 北陸電力送配電
+- **環境**: 会社PC使用のため、ローカルにWindowsデスクトップアプリは使用不可
 
 ## Notes
 
