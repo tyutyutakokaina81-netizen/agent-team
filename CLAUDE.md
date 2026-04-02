@@ -12,23 +12,26 @@ Tracked files (checked into git):
 
 ```
 agent-team/
-├── CLAUDE.md            # This file
-├── README.md            # Project overview (Japanese)
-├── server.mjs           # Zero-dependency Node.js JSON API server
-├── team_prompt.txt      # 4-role agent team prompt (Japanese)
-├── team_copy.sh         # Copy team_prompt.txt to clipboard (macOS)
-└── team_show.sh         # Print team_prompt.txt to stdout
+├── CLAUDE.md                    # This file
+├── README.md                    # Project overview (Japanese)
+├── gateway/
+│   └── server.mjs               # Zero-dependency Node.js JSON API server
+├── prompts/
+│   └── team_prompt.txt          # 4-role agent team prompt (Japanese)
+└── scripts/
+    ├── team_copy.sh             # Copy team_prompt.txt to clipboard (macOS)
+    └── team_show.sh             # Print team_prompt.txt to stdout
 ```
 
 Local-only files (in `.gitignore`, not tracked):
 
 ```
-.claude/                 # Claude Code session state
-bin/                     # md2ppt.py Markdown→PPTX converter (requires python-pptx)
-md/                      # Markdown source files for slide generation
-ppt/                     # Generated PowerPoint output
-claude_team_v0.txt       # 3-role agent variant for Claude 4.6
-claude_copy.sh           # Copy claude_team_v0.txt to clipboard
+.claude/                         # Claude Code session state
+bin/                             # md2ppt.py Markdown→PPTX converter (requires python-pptx)
+md/                              # Markdown source files for slide generation
+ppt/                             # Generated PowerPoint output
+claude_team_v0.txt               # 3-role agent variant for Claude 4.6
+claude_copy.sh                   # Copy claude_team_v0.txt to clipboard
 ```
 
 ## Prompt Variants
@@ -39,9 +42,9 @@ claude_copy.sh           # Copy claude_team_v0.txt to clipboard
 ## Clipboard Scripts
 
 ```bash
-./team_copy.sh          # Copy team_prompt.txt to clipboard (macOS pbcopy)
-./team_show.sh          # Print team_prompt.txt to stdout
-./claude_copy.sh        # Copy claude_team_v0.txt to clipboard (local-only)
+./scripts/team_copy.sh          # Copy prompts/team_prompt.txt to clipboard (macOS pbcopy)
+./scripts/team_show.sh          # Print prompts/team_prompt.txt to stdout
+./claude_copy.sh                # Copy claude_team_v0.txt to clipboard (local-only)
 ```
 
 ## Markdown-to-PPTX Pipeline (local-only)
@@ -104,7 +107,7 @@ Markdown conventions for slide generation:
 - バインドアドレス: `HOST=127.0.0.1`（ローカルのみ）
 
 ### 起動
-- `node server.mjs`
+- `node gateway/server.mjs`
 - `PORT` 環境変数でポート変更可能（デフォルト3000）
 
 ### 動作確認（curl）
@@ -126,7 +129,7 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 - All shell scripts use `zsh` with `set -e`.
 - All prompts and document output are in Japanese.
-- Shell scripts reference `$HOME/agent-team/` as the repo path.
+- Shell scripts reference `$HOME/agent-team/prompts/` for prompt files.
 - No external dependencies — `server.mjs` uses only Node.js standard library.
 - Clipboard scripts use macOS `pbcopy`; not compatible with Linux without modification.
 - Development branch: `claude/add-claude-documentation-afn5L`

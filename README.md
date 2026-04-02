@@ -5,14 +5,14 @@
 ## 起動
 
 ```bash
-node server.mjs
+node gateway/server.mjs
 # => Listening on http://127.0.0.1:3000
 ```
 
 ポートを変更する場合:
 
 ```bash
-PORT=8080 node server.mjs
+PORT=8080 node gateway/server.mjs
 ```
 
 ## エンドポイント
