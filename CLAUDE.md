@@ -4,22 +4,47 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-Multi-agent team prompt toolkit for accelerating document creation in Japanese business contexts. Two prompt variants define agent teams that collaborate to produce polished internal documents.
+Multi-agent team prompt toolkit for accelerating document creation in Japanese business contexts, combined with a zero-dependency JSON API server (`agent-gateway`).
+
+## Repository Structure
+
+Tracked files (checked into git):
+
+```
+agent-team/
+├── CLAUDE.md            # This file
+├── README.md            # Project overview (Japanese)
+├── server.mjs           # Zero-dependency Node.js JSON API server
+├── team_prompt.txt      # 4-role agent team prompt (Japanese)
+├── team_copy.sh         # Copy team_prompt.txt to clipboard (macOS)
+└── team_show.sh         # Print team_prompt.txt to stdout
+```
+
+Local-only files (in `.gitignore`, not tracked):
+
+```
+.claude/                 # Claude Code session state
+bin/                     # md2ppt.py Markdown→PPTX converter (requires python-pptx)
+md/                      # Markdown source files for slide generation
+ppt/                     # Generated PowerPoint output
+claude_team_v0.txt       # 3-role agent variant for Claude 4.6
+claude_copy.sh           # Copy claude_team_v0.txt to clipboard
+```
 
 ## Prompt Variants
 
-- `team_prompt.txt` — 4-role team (企画/本文/要約/チェック). Original prompt for general document creation.
-- `claude_team_v0.txt` — 3-role team (オーケストレーター/リサーチャ/ライター). Lighter variant optimized for Claude 4.6; adds diagram suggestion support.
+- `team_prompt.txt` (tracked) — 4-role team (企画/本文/要約/チェック). Original prompt for general document creation.
+- `claude_team_v0.txt` (local-only) — 3-role team (オーケストレーター/リサーチャ/ライター). Lighter variant optimized for Claude 4.6; adds diagram suggestion support.
 
 ## Clipboard Scripts
 
 ```bash
-./team_copy.sh          # Copy team_prompt.txt to clipboard
+./team_copy.sh          # Copy team_prompt.txt to clipboard (macOS pbcopy)
 ./team_show.sh          # Print team_prompt.txt to stdout
-./claude_copy.sh        # Copy claude_team_v0.txt to clipboard
+./claude_copy.sh        # Copy claude_team_v0.txt to clipboard (local-only)
 ```
 
-## Markdown-to-PPTX Pipeline
+## Markdown-to-PPTX Pipeline (local-only)
 
 `bin/md2ppt.py` converts structured Markdown into PowerPoint slides. Requires `python-pptx`.
 
@@ -63,12 +88,20 @@ Markdown conventions for slide generation:
 
 ### 概要
 - `server.mjs` は依存ゼロ（Node標準のみ）の JSON API サーバー
+- Node.js 組み込みモジュール `node:http` と `performance` のみ使用
 - エンドポイント:
   - `GET /health` → `{ ok: true, time: ISO文字列 }`
   - `GET /version` → `{ name: "agent-gateway", version: "0.1.0" }`
   - `POST /echo` → 受け取ったJSONをそのまま返す（不正JSONは 400）
   - その他は 404 → `{ error: "Not Found" }`
 - ログ: `METHOD /path STATUS 処理時間ms` を stdout に出力
+- 内部エラー時は 500 → `{ error: "Internal Server Error" }`
+
+### 実装の要点
+- `json(res, status, body)` — JSON レスポンスヘルパー（Content-Length 付き）
+- `readBody(req)` — Promise ベースのリクエストボディ読み取り
+- `handleRequest(req, res)` — 非同期ルーティングハンドラ
+- バインドアドレス: `HOST=127.0.0.1`（ローカルのみ）
 
 ### 起動
 - `node server.mjs`
@@ -94,3 +127,6 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - All shell scripts use `zsh` with `set -e`.
 - All prompts and document output are in Japanese.
 - Shell scripts reference `$HOME/agent-team/` as the repo path.
+- No external dependencies — `server.mjs` uses only Node.js standard library.
+- Clipboard scripts use macOS `pbcopy`; not compatible with Linux without modification.
+- Development branch: `claude/add-claude-documentation-afn5L`
