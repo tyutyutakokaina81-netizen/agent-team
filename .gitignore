@@ -2,6 +2,7 @@ node_modules/
 .DS_Store
 *.log
 .env
+*.env.*
 
 # local-only / generated
 .claude/
@@ -15,12 +16,20 @@ claude_team_v0.txt
 CFO/outputs/*.pdf
 CFO/outputs/*.xlsx
 CFO/outputs/*.xls
+CFO/outputs/*.csv
 CSO/outputs/*_顧客*.md
 CSO/outputs/*_個人*.md
+CSO/outputs/*_商談*.md
 *_secret*
 *_confidential*
 *_機密*
 *_秘密*
 
-# オーナー個人情報（日記をgit管理外にしたい場合は # を外す）
-# context/diary/
+# オーナー個人情報（日記・アイデア・参考資料）
+context/diary/*
+context/ideas/*
+context/references/*
+# フォルダ構造維持のため .gitkeep は除外しない
+!context/diary/.gitkeep
+!context/ideas/.gitkeep
+!context/references/.gitkeep
