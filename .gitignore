@@ -27,6 +27,9 @@ CSO/research/*
 *_機密*
 *_秘密*
 
+# 柱D：納品前成果物（顧客データ含む可能性）
+projects/*/D_エクセル入力スクレイピング/outputs/*
+
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
 context/ideas/*
