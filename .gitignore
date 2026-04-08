@@ -10,3 +10,17 @@ md/
 ppt/
 claude_copy.sh
 claude_team_v0.txt
+
+# 機密ファイル（請求書・契約書・個人情報）
+CFO/outputs/*.pdf
+CFO/outputs/*.xlsx
+CFO/outputs/*.xls
+CSO/outputs/*_顧客*.md
+CSO/outputs/*_個人*.md
+*_secret*
+*_confidential*
+*_機密*
+*_秘密*
+
+# オーナー個人情報（日記をgit管理外にしたい場合は # を外す）
+# context/diary/
