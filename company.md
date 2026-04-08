@@ -4,27 +4,22 @@
 
 ```
 agent-team/
-├── context/                  ← オーナーの一次情報（日記・メモ・考え事）
-├── CMO/                      ← マーケティング責任者
-│   └── context/
-│       ├── research/         ← 調査・リサーチ
-│       └── outputs/          ← 台本・投稿文・LP
-├── CPO/                      ← プロダクト責任者
-│   └── context/
-│       ├── research/         ← 教材調査・セミナー準備
-│       └── outputs/          ← スライド・構成案
-├── CFO/                      ← 財務責任者
-│   └── context/
-│       ├── research/         ← 契約・規約調査
-│       └── outputs/          ← 請求書・契約書
-├── CSO/                      ← 営業責任者
-│   └── context/
-│       ├── research/         ← 顧客分析・市場調査
-│       └── outputs/          ← 商談記録・提案書
-└── CDO/                      ← 技術責任者
-    └── context/
-        ├── research/         ← プロンプト検証・ツール調査
-        └── outputs/          ← プロンプト集・活用ガイド
+├── context/          ← オーナーの一次情報（日記・メモ・考え事）
+├── CMO/              ← マーケティング責任者
+│   ├── research/     ← 調査・リサーチ
+│   └── outputs/      ← 台本・投稿文・LP
+├── CPO/              ← プロダクト責任者
+│   ├── research/     ← 教材調査・セミナー準備
+│   └── outputs/      ← スライド・構成案
+├── CFO/              ← 財務責任者
+│   ├── research/     ← 契約・規約調査
+│   └── outputs/      ← 請求書・契約書
+├── CSO/              ← 営業責任者
+│   ├── research/     ← 顧客分析・市場調査
+│   └── outputs/      ← 商談記録・提案書
+└── CDO/              ← 技術責任者
+    ├── research/     ← プロンプト検証・ツール調査
+    └── outputs/      ← プロンプト集・活用ガイド
 ```
 
 ---
@@ -40,11 +35,11 @@ agent-team/
 
 | 役割 | 調査・リサーチ | 最終成果物 |
 |------|--------------|-----------|
-| CMO（マーケティング） | `CMO/context/research/` | `CMO/context/outputs/` |
-| CPO（プロダクト） | `CPO/context/research/` | `CPO/context/outputs/` |
-| CFO（財務・事務） | `CFO/context/research/` | `CFO/context/outputs/` |
-| CSO（営業） | `CSO/context/research/` | `CSO/context/outputs/` |
-| CDO（技術） | `CDO/context/research/` | `CDO/context/outputs/` |
+| CMO（マーケティング） | `CMO/research/` | `CMO/outputs/` |
+| CPO（プロダクト） | `CPO/research/` | `CPO/outputs/` |
+| CFO（財務・事務） | `CFO/research/` | `CFO/outputs/` |
+| CSO（営業） | `CSO/research/` | `CSO/outputs/` |
+| CDO（技術） | `CDO/research/` | `CDO/outputs/` |
 | 一次情報・インプット | `context/` | — |
 
 - ファイル名には日付をプレフィックスとして付ける（例：`2026-04-08_企画案.md`）。
@@ -86,4 +81,4 @@ agent-team/
 - インタビュー記録・音声の文字起こし
 - 参考資料・リサーチ素材
 
-各AI社員はタスク実行前にルートの `context/` および自分の役職フォルダ内の `context/` を参照し、オーナーの意図や背景を把握してから作業を開始すること。
+各AI社員はタスク実行前にルートの `context/` を参照し、オーナーの意図や背景を把握してから作業を開始すること。
