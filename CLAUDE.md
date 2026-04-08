@@ -23,34 +23,34 @@ All documents and operational output are in Japanese.
 ├── team_show.sh           ← Print team_prompt.txt to stdout
 │
 ├── CDO/                   ← Chief Digital Officer (systems, automation, tech, role management)
-│   ├── _index.md          ← Performance log & active tasks
+│   ├── _index.md          ← Performance log & active tasks (台帳)
 │   ├── prompt.md          ← Role definition, personality, workflow, boundaries
-│   ├── research/          ← Prototypes, investigations
-│   └── outputs/           ← Prompts, tools, guides
+│   ├── research/          ← Drafts, prototypes, investigations
+│   └── outputs/           ← Final deliverables: prompts, tools, guides
 │
 ├── CFO/                   ← Chief Financial Officer (finance, contracts, admin)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/
-│   └── outputs/           ← Invoices, contracts, expense reports
+│   ├── research/          ← Contract/tax research drafts
+│   └── outputs/           ← Final: invoices, contracts, expense reports
 │
 ├── CMO/                   ← Chief Marketing Officer (content, SNS, LP, YouTube)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/
-│   └── outputs/           ← Scripts, SNS posts, landing pages
+│   ├── research/          ← Content strategy drafts
+│   └── outputs/           ← Final: scripts, SNS posts, landing pages
 │
-├── CPO/                   ← Chief Product Officer (courses, seminars, educational products)
+├── CPO/                   ← Chief Product Officer (courses, seminars, templates)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/
-│   └── outputs/           ← Slides, templates, step-by-step guides
+│   ├── research/          ← Curriculum/product research drafts
+│   └── outputs/           ← Final: slides, templates, step-by-step guides
 │
 ├── CSO/                   ← Chief Sales Officer (customer dialogue, proposals, pipeline)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/
-│   └── outputs/           ← Proposals, dialog logs, FAQs
+│   ├── research/          ← Customer analysis, market research drafts
+│   └── outputs/           ← Final: proposals, dialog logs, FAQs
 │
 ├── context/               ← Owner's primary source of truth (read before any task)
 │   ├── diary/             ← Daily reflections and observations
@@ -59,13 +59,9 @@ All documents and operational output are in Japanese.
 │
 └── projects/              ← Cross-functional work (multi-role collaboration)
     ├── _index.md          ← Master project registry
-    └── 2026-04-08_月30万自動化/   ← Active: ¥300K/month automation project
-        ├── brief.md
-        ├── cashflow.md
-        ├── cost_breakdown.md
-        ├── A_ライティング/        ← SEO writing service (Pillar A)
-        ├── B_SNS運用代行/         ← SNS management service (Pillar B)
-        └── C_テンプレ販売/        ← Template sales service (Pillar C)
+    └── YYYY-MM-DD_プロジェクト名/
+        ├── brief.md       ← Goal, timeline, roles involved
+        └── [役職名]/      ← Per-role subfolders (only for involved roles)
 ```
 
 ---
@@ -79,51 +75,131 @@ All documents and operational output are in Japanese.
 2. `context/` — オーナーの日記・アイデア・参考資料（意図や背景の把握に使う）
 3. 担当役職の `_index.md` — 過去の成果物・進行中タスクの確認
 
-### ファイル作成・更新時の必須ルール
-- 成果物を作成・更新したら **必ず** 該当役職の `_index.md` の成果物ログに追記する
-- ファイル名は `YYYY-MM-DD_名前.md` 形式にする
-- 役職をまたぐ作業は `projects/` 配下にフォルダを作り `projects/_index.md` に登録する
-- センシティブな情報（請求書・契約書・顧客PII）はGitにコミットしない（`.gitignore`管理）
+---
 
-### _index.md の標準形式
+## ファイル管理ルール
+
+### 命名規則
+- 日付プレフィックス必須：`YYYY-MM-DD_ファイル名.md`
+- 下書き・調査中は `research/` に保存する
+- 確定・完成版は `outputs/` に保存する
+- センシティブなファイル（請求書・契約書・顧客PII）は Git にコミットしない（`.gitignore` 管理）
+
+### _index.md の運用ルール
+
+ファイルを作成・更新するたびに **必ず** 該当役職の `_index.md` 成果物ログに追記する。
+
 ```markdown
-# [役職] インデックス（[タイトル]）
-
-## 担当業務
-- 責任範囲の箇条書き
-
-## 成果物ログ
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
-
-## 進行中タスク
-- タスクリスト
-
-## メモ・引き継ぎ事項
-- 備考
 ```
 
-### 役職の判断基準（各役職 prompt.md 参照）
+- 進行中タスクは完了後に削除しない → ステータスを「完了」に変更する
+- 他役職の成果物を参照した場合、自分の `_index.md` のメモ欄に参照元を記載する
+- CFO は `_index.md` に金額を記載しない（ファイル名のみ記録する）
 
-| 役職 | 主な責任 | 得意なアウトプット |
-|------|---------|------------------|
-| CDO  | 自動化・プロンプト設計・役職管理 | ツール、プロンプト、フォルダ設計 |
-| CFO  | 数字の正確性・契約・経費 | 請求書、契約書、財務サマリ |
-| CMO  | マーケティング・コンテンツ | YouTubeスクリプト、SNS投稿、LP |
-| CPO  | 教育コンテンツ・製品設計 | スライド、テンプレート、手順書 |
-| CSO  | 顧客対話・提案・パイプライン | 提案書、対話ログ、FAQ |
+### projects/ の使い方
+
+複数役職が関与するタスクは必ず `projects/` に切り出す。
+
+```
+projects/YYYY-MM-DD_プロジェクト名/
+├── brief.md       ← 目的・ゴール・関与役職
+└── 役職名/        ← 関与する役職分のみ作成
+```
+
+1. 開始時に `projects/_index.md` のテーブルに追記する
+2. 完了後も削除せずアーカイブとして残す
+
+```markdown
+# projects/_index.md テーブル形式
+| 開始日 | プロジェクト名 | 関与役職 | 状態 | フォルダ |
+```
+
+### context/ の使い方
+
+| サブフォルダ | 格納するもの |
+|------------|------------|
+| `context/diary/` | 日記・日常の気づき・感情メモ |
+| `context/ideas/` | アイデア・考え事・将来構想 |
+| `context/references/` | 参考資料・書籍メモ・外部情報 |
+
+- タスク実行前に必ず参照し、オーナーの意図・背景を把握してから作業を開始する
+- 古くなった情報にはファイル冒頭に `[アーカイブ]` を付ける
+
+---
+
+## 役職ルール
+
+### 役職一覧と担当領域
+
+| 役職 | 役割 | 主な成果物 |
+|------|------|----------|
+| CDO | 自動化・プロンプト設計・技術検証・役職管理 | プロンプト集、ツール、ガイド |
+| CFO | 数字の正確性・契約・経費・事務 | 請求書、契約書、財務サマリ |
+| CMO | マーケティング・コンテンツ企画・集客 | YouTube台本、SNS投稿、LP |
+| CPO | 教育コンテンツ・プロダクト設計 | スライド、テンプレート、手順書 |
+| CSO | 顧客対話・営業・パイプライン管理 | 提案書、対話ログ、FAQ |
 
 ### 役職間の情報フロー
+
 ```
-CSO → CMO（顧客インサイト → マーケティング）
-CMO → CPO（市場ニーズ → プロダクト）
-CPO → CFO（製品仕様 → 価格・請求）
-全役職 ← CDO（ツール・自動化・役職生成）
+オーナー（context/）
+    ├─→ CSO：顧客ニーズ・商談情報を収集
+    │       ├─→ CMO：マーケ施策・コンテンツに反映
+    │       └─→ CPO：プロダクト改善に反映
+    ├─→ CMO：コンテンツ企画・集客
+    │       └─→ CPO：教材・セミナーと連携
+    ├─→ CPO：プロダクト設計・教材
+    │       └─→ CFO：価格・契約条件と整合
+    ├─→ CFO：財務・事務管理
+    │       └─→ CSO：見積・契約書を提供
+    └─→ CDO：全役職のツール・プロンプト整備
+            └─→ 全役職：効率化・自動化を支援
 ```
 
-### 新役職が必要と判断した場合
-`company.md` の「新役職の自動生成ルール」の条件をすべて満たす場合、**承認不要で自律実行してよい**。  
-実行後、作成した内容をオーナーに報告すること（事前確認は不要）。  
-条件を満たすか迷う場合は既存役職で対応する（役職は増やさない方向で判断する）。
+### 新役職の自動生成ルール（CDO 権限）
+
+以下の条件をすべて満たす場合、**CDO は承認不要で即実行してよい**：
+
+1. 既存の役職のどれにも明確に当てはまらないタスクが発生した
+2. 同種のタスクが今後も繰り返し発生すると予測できる
+3. 役割名と担当業務を明確に定義できる
+4. 迷う場合は既存役職で対応する（役職は増やさない方向で判断する）
+
+**生成手順：**
+1. 条件を満たすと判断したら即実行（承認不要）
+2. 以下の構造でフォルダを作成する：
+   ```
+   新役職名/
+   ├── _index.md     ← 担当業務・成果物ログを記載
+   ├── research/
+   └── outputs/
+   ```
+3. `company.md` のディレクトリ構造と成果物保存先テーブルを更新する
+4. 実行後にオーナーへ報告する（「新役職を追加しました」）
+
+**役職名の命名規則：**
+- C?O 形式を基本とする（例：CHO=人事、CLO=法務、CXO=顧客体験）
+- 略称が既存役職と重複する場合は別名を検討する
+
+---
+
+## 報告ルール
+
+### 事実と意見を分ける
+
+報告時は事実と推測・意見を必ず区別して記載する。
+
+```
+【事実】先月のYouTube登録者数は1,200人増加した。
+【考察】コンテンツ投稿頻度を週2回に増やした影響と考えられる。
+【提案】来月も同頻度を維持し、効果を検証することを推奨する。
+```
+
+### 出力形式
+1. **要点** — 結論・変更サマリを最初に示す
+2. **詳細** — 根拠・実装内容・補足説明
+3. **次アクション** — ユーザーが取るべき手順や選択肢
 
 ---
 
@@ -146,11 +222,6 @@ CPO → CFO（製品仕様 → 価格・請求）
 ### 完了時のルール
 - 作業完了時は必ず **レビュー依頼（承認）** を出す
 - 変更内容の要約と確認ポイントを提示してからユーザー承認を得る
-
-### 出力形式
-1. **要点** — 結論・変更サマリを最初に示す
-2. **詳細** — 根拠・実装内容・補足説明
-3. **次アクション** — ユーザーが取るべき手順や選択肢
 
 ---
 
@@ -207,12 +278,13 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 **目標**: 3ヶ月以内に月収¥300K達成（2026-04 〜 2026-06）  
 **ランニングコスト**: ¥5,800/月（Claude Pro ¥3K + Canva ¥1.5K + Microsoft 365 ¥1.3K）  
-**関与役職**: CMO, CPO, CSO, CDO
+**関与役職**: CMO, CPO, CSO, CDO  
+**フォルダ**: `projects/2026-04-08_月30万自動化/`
 
 ### 3つの収益柱
 
-| 柱 | サービス | 単価 | 目標 | 月収 |
-|----|---------|------|------|------|
+| 柱 | サービス | 単価 | 目標 | 月収目標 |
+|----|---------|------|------|---------|
 | A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K |
 | B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K |
 | C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH販売 | ¥30K〜 |
@@ -223,6 +295,7 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - Month 3: ¥330K（目標達成）
 
 ### テンプレート販売 — 進捗
+
 | Vol | タイトル | 価格 | ステータス |
 |-----|---------|------|----------|
 | Vol.1 | フリーランス収支管理スプレッドシート | ¥980 | 販売中（note） |
@@ -238,4 +311,3 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - Shell scripts reference `$HOME/agent-team/` as the repo path (macOS `pbcopy` assumed)
 - All prompts and document output are in Japanese
 - Sensitive files (invoices, contracts, customer PII) must not be committed to Git
-- Git development branch: `claude/add-claude-documentation-6K1Pe`
