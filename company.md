@@ -1,5 +1,34 @@
 # 会社共通ルール（Company Rules）
 
+## ディレクトリ構造
+
+```
+agent-team/
+├── context/                  ← オーナーの一次情報（日記・メモ・考え事）
+├── CMO/                      ← マーケティング責任者
+│   └── context/
+│       ├── research/         ← 調査・リサーチ
+│       └── outputs/          ← 台本・投稿文・LP
+├── CPO/                      ← プロダクト責任者
+│   └── context/
+│       ├── research/         ← 教材調査・セミナー準備
+│       └── outputs/          ← スライド・構成案
+├── CFO/                      ← 財務責任者
+│   └── context/
+│       ├── research/         ← 契約・規約調査
+│       └── outputs/          ← 請求書・契約書
+├── CSO/                      ← 営業責任者
+│   └── context/
+│       ├── research/         ← 顧客分析・市場調査
+│       └── outputs/          ← 商談記録・提案書
+└── CDO/                      ← 技術責任者
+    └── context/
+        ├── research/         ← プロンプト検証・ツール調査
+        └── outputs/          ← プロンプト集・活用ガイド
+```
+
+---
+
 ## 1. 報告ルール
 
 - 作業完了時は必ず **要点 → 詳細 → 次アクション** の形式で報告する。
@@ -11,11 +40,11 @@
 
 | 役割 | 調査・リサーチ | 最終成果物 |
 |------|--------------|-----------|
-| CMO（マーケティング） | `CMO/research/` | `CMO/outputs/` |
-| CPO（プロダクト） | `CPO/research/` | `CPO/outputs/` |
-| CFO（財務・事務） | `CFO/research/` | `CFO/outputs/` |
-| CSO（営業） | `CSO/research/` | `CSO/outputs/` |
-| CDO（技術） | `CDO/research/` | `CDO/outputs/` |
+| CMO（マーケティング） | `CMO/context/research/` | `CMO/context/outputs/` |
+| CPO（プロダクト） | `CPO/context/research/` | `CPO/context/outputs/` |
+| CFO（財務・事務） | `CFO/context/research/` | `CFO/context/outputs/` |
+| CSO（営業） | `CSO/context/research/` | `CSO/context/outputs/` |
+| CDO（技術） | `CDO/context/research/` | `CDO/context/outputs/` |
 | 一次情報・インプット | `context/` | — |
 
 - ファイル名には日付をプレフィックスとして付ける（例：`2026-04-08_企画案.md`）。
@@ -51,10 +80,10 @@
 
 ## 5. contextフォルダの使い方
 
-`context/` フォルダはオーナーの一次情報を格納する場所です。
+ルート直下の `context/` フォルダはオーナーの一次情報を格納する場所です。
 
 - 日記・メモ・考え事
 - インタビュー記録・音声の文字起こし
 - 参考資料・リサーチ素材
 
-各AI社員はタスク実行前に `context/` を参照し、オーナーの意図や背景を把握してから作業を開始すること。
+各AI社員はタスク実行前にルートの `context/` および自分の役職フォルダ内の `context/` を参照し、オーナーの意図や背景を把握してから作業を開始すること。
