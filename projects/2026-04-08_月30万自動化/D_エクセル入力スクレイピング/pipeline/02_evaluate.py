@@ -1,50 +1,106 @@
 """
-02_evaluate.py — 案件評価・選別
-Claude API で案件文を読み、実行可能・採算合うか判定する。
+02_evaluate.py — 案件見極め（高精度版）
+案件テキストをコピペするだけで GO / NO-GO を判定する。
+
+使い方:
+  python 02_evaluate.py                    # 対話モード（テキストを貼り付け）
+  python 02_evaluate.py --file jobs.json   # 検索結果JSONから一括評価
+  echo "案件テキスト" | python 02_evaluate.py  # パイプ入力
 """
 
 import json
 import os
+import sys
 import urllib.request
+from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
+OUTPUT_DIR.mkdir(exist_ok=True)
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
+# ─────────────────────────────────────────────
+# 評価プロンプト（4軸 × 詳細基準）
+# ─────────────────────────────────────────────
+
 EVAL_PROMPT = """
-あなたはクラウドソーシングの案件を評価するAIです。
-以下の案件情報を読み、JSON形式で評価結果を返してください。
+あなたはクラウドソーシングの案件を評価する専門家です。
+以下の案件テキストを読み、4軸で採点して GO/NO-GO を判定してください。
 
-# 案件情報
-タイトル: {title}
-URL: {url}
-プラットフォーム: {platform}
+━━━━━━━━━━━━━━━━━━━━━━━━
+案件テキスト:
+{job_text}
+━━━━━━━━━━━━━━━━━━━━━━━━
 
-# 評価基準
-1. executable (bool): Claudeと Pythonで自動実行できるか
-2. score (1-10): 採算・難易度・リスクの総合スコア
-3. category: "excel_input" / "scraping" / "data_processing" / "other"
-4. estimated_price_jpy: 想定単価（円）
-5. reason: 採点理由（1文）
-6. recommend (bool): 応募推奨か
+## 評価軸と採点基準
 
-# 出力形式（JSONのみ、説明不要）
-{{"executable": true, "score": 7, "category": "excel_input",
-  "estimated_price_jpy": 3000, "reason": "...", "recommend": true}}
+### 軸1：技術実現性（0〜25点）
+- 25点：標準的なHTML構造、静的サイト、openpyxlで処理できるExcel
+- 15点：多少のJavaScriptあり、Playwrightで対応可能
+- 5点：ログイン必須、CAPTCHA、Cloudflare等の強固な対策あり
+- 0点：技術的に不可能（リアルタイムAPI専用、Flash等）
+
+### 軸2：法的・規約リスク（0〜25点）
+- 25点：明らかに公開情報、クライアントが対象サイトのオーナーまたは許可あり
+- 15点：公開情報だが対象サイトの規約確認が必要
+- 5点：個人情報・競合調査・著作物コピーの可能性あり
+- 0点：明らかな違法行為（不正アクセス、個人情報の無断収集等）
+
+### 軸3：採算性（0〜25点）
+- 25点：¥10,000以上、または繰り返し受注が見込める
+- 20点：¥5,000〜¥9,999
+- 10点：¥2,000〜¥4,999
+- 5点：¥1,000〜¥1,999
+- 0点：¥1,000未満、または予算不明で低そう
+
+### 軸4：要件明確性（0〜25点）
+- 25点：入力元・出力形式・件数・納期がすべて明記されている
+- 15点：主要項目は明確、細部は確認で解決できる
+- 5点：要件が曖昧で大幅な追加確認が必要
+- 0点：何をすべきか不明、または矛盾している
+
+## 出力形式（JSONのみ、説明不要）
+
+{{
+  "category": "scraping" | "excel_input" | "data_processing" | "other",
+  "scores": {{
+    "technical": <0-25>,
+    "legal": <0-25>,
+    "profitability": <0-25>,
+    "clarity": <0-25>
+  }},
+  "total": <0-100>,
+  "verdict": "GO" | "CAUTION" | "NO-GO",
+  "estimated_price_jpy": <数値>,
+  "estimated_work_hours": <数値>,
+  "hourly_rate_jpy": <時給換算>,
+  "red_flags": ["懸念点1", "懸念点2"],
+  "green_flags": ["優良点1", "優良点2"],
+  "questions_to_ask": ["確認すべき質問1", "質問2"],
+  "reason": "GO/NO-GO の主な理由（1〜2文）"
+}}
+
+## 判定基準
+- GO     : total >= 70（積極的に応募）
+- CAUTION: total 50〜69（質問して判断）
+- NO-GO  : total < 50（見送り推奨）
 """
 
+# ─────────────────────────────────────────────
+# Claude API 呼び出し
+# ─────────────────────────────────────────────
 
-def call_claude(prompt: str) -> str:
-    """Claude API を直接呼び出す"""
+def call_claude(prompt: str, model: str = "claude-haiku-4-5-20251001") -> str:
     if not ANTHROPIC_API_KEY:
-        raise EnvironmentError("ANTHROPIC_API_KEY が設定されていません")
-
+        raise EnvironmentError(
+            "ANTHROPIC_API_KEY が設定されていません\n"
+            "export ANTHROPIC_API_KEY=sk-ant-... を実行してください"
+        )
     payload = json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 256,
+        "model": model,
+        "max_tokens": 1024,
         "messages": [{"role": "user", "content": prompt}],
     }).encode("utf-8")
-
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
@@ -60,51 +116,186 @@ def call_claude(prompt: str) -> str:
     return body["content"][0]["text"]
 
 
-def evaluate_job(job: dict) -> dict:
-    prompt = EVAL_PROMPT.format(
-        title=job.get("title", ""),
-        url=job.get("url", ""),
-        platform=job.get("platform", ""),
-    )
+# ─────────────────────────────────────────────
+# 評価ロジック
+# ─────────────────────────────────────────────
+
+def evaluate(job_text: str, meta: dict | None = None) -> dict:
+    """案件テキストを評価して結果dictを返す"""
+    prompt = EVAL_PROMPT.format(job_text=job_text.strip())
     try:
         raw = call_claude(prompt)
-        # JSONブロックを抽出
         start = raw.find("{")
         end = raw.rfind("}") + 1
         result = json.loads(raw[start:end])
-        return {**job, **result}
     except Exception as e:
-        print(f"[WARN] evaluate_job failed: {e}")
-        return {**job, "executable": False, "score": 0, "recommend": False}
+        return {
+            "verdict": "NO-GO",
+            "total": 0,
+            "error": str(e),
+            "reason": f"評価エラー: {e}",
+        }
+
+    # メタ情報をマージ
+    if meta:
+        result = {**meta, **result}
+
+    result["evaluated_at"] = datetime.now().isoformat()
+    result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+    return result
+
+
+def print_result(result: dict) -> None:
+    """評価結果を見やすく表示する"""
+    verdict = result.get("verdict", "?")
+    total = result.get("total", 0)
+    colors = {"GO": "✅", "CAUTION": "⚠️ ", "NO-GO": "❌"}
+    icon = colors.get(verdict, "❓")
+
+    print("\n" + "═" * 60)
+    print(f"  {icon} {verdict}   スコア: {total}/100")
+    print("═" * 60)
+
+    # スコア内訳
+    scores = result.get("scores", {})
+    if scores:
+        print(f"  技術実現性  : {'█' * (scores.get('technical', 0) // 5):<5} {scores.get('technical', 0)}/25")
+        print(f"  法的リスク  : {'█' * (scores.get('legal', 0) // 5):<5} {scores.get('legal', 0)}/25")
+        print(f"  採算性      : {'█' * (scores.get('profitability', 0) // 5):<5} {scores.get('profitability', 0)}/25")
+        print(f"  要件明確性  : {'█' * (scores.get('clarity', 0) // 5):<5} {scores.get('clarity', 0)}/25")
+
+    # 採算
+    price = result.get("estimated_price_jpy", 0)
+    hours = result.get("estimated_work_hours", 0)
+    rate = result.get("hourly_rate_jpy", 0)
+    if price:
+        print(f"\n  想定単価: ¥{price:,}  /  工数: {hours}h  /  時給換算: ¥{rate:,}")
+
+    # 判定理由
+    print(f"\n  【判定理由】{result.get('reason', '')}")
+
+    # 優良点
+    greens = result.get("green_flags", [])
+    if greens:
+        print("\n  【優良点】")
+        for g in greens:
+            print(f"    ✓ {g}")
+
+    # 懸念点
+    reds = result.get("red_flags", [])
+    if reds:
+        print("\n  【懸念点】")
+        for r in reds:
+            print(f"    ✗ {r}")
+
+    # 確認質問
+    questions = result.get("questions_to_ask", [])
+    if questions and verdict == "CAUTION":
+        print("\n  【応募前に確認すべき質問】")
+        for i, q in enumerate(questions, 1):
+            print(f"    {i}. {q}")
+
+    print("═" * 60)
+
+
+# ─────────────────────────────────────────────
+# 実行モード
+# ─────────────────────────────────────────────
+
+def interactive_mode() -> dict:
+    """対話モード：案件テキストをターミナルに貼り付けて評価"""
+    print("\n" + "─" * 60)
+    print("  案件見極めツール（Enter×2 で評価開始）")
+    print("─" * 60)
+    print("案件テキストを貼り付けてください（タイトル・説明・予算・納期を含める）:")
+    print()
+
+    lines = []
+    empty_count = 0
+    while True:
+        try:
+            line = input()
+            if line == "":
+                empty_count += 1
+                if empty_count >= 2:
+                    break
+            else:
+                empty_count = 0
+                lines.append(line)
+        except EOFError:
+            break
+
+    job_text = "\n".join(lines)
+    if not job_text.strip():
+        print("[エラー] テキストが空です")
+        sys.exit(1)
+
+    print("\n評価中...")
+    result = evaluate(job_text)
+    print_result(result)
+
+    # 結果を保存
+    out = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M%S')}_eval.json"
+    out.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"\n  結果保存: {out}")
+    return result
+
+
+def batch_mode(file_path: str) -> list[dict]:
+    """バッチモード：検索結果JSONを一括評価"""
+    jobs = json.loads(Path(file_path).read_text(encoding="utf-8"))
+    results = []
+    go_count = caution_count = nogo_count = 0
+
+    print(f"\n[一括評価] {len(jobs)}件")
+    for i, job in enumerate(jobs, 1):
+        text = job.get("description") or job.get("title") or str(job)
+        print(f"  [{i}/{len(jobs)}] {job.get('title', '')[:40]}...", end=" ", flush=True)
+        result = evaluate(text, meta=job)
+        v = result.get("verdict", "NO-GO")
+        if v == "GO": go_count += 1
+        elif v == "CAUTION": caution_count += 1
+        else: nogo_count += 1
+        print(f"→ {v} ({result.get('total', 0)}点)")
+        results.append(result)
+
+    # サマリ
+    print(f"\n結果: GO={go_count} / CAUTION={caution_count} / NO-GO={nogo_count}")
+
+    # GO案件のみ表示
+    go_jobs = [r for r in results if r.get("verdict") == "GO"]
+    if go_jobs:
+        print("\n▼ GO案件（応募推奨）")
+        for r in sorted(go_jobs, key=lambda x: x.get("total", 0), reverse=True):
+            print_result(r)
+
+    out = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M')}_evaluated.json"
+    out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"\n[保存] {out}")
+    return [r for r in results if r.get("verdict") in ("GO", "CAUTION")]
 
 
 def run(jobs: list[dict] | None = None):
+    """パイプラインから呼び出す場合"""
     if jobs is None:
-        # 最新の検索結果ファイルを読み込む
         files = sorted(OUTPUT_DIR.glob("*_jobs.json"))
         if not files:
-            print("[ERROR] 案件ファイルが見つかりません。01_search.py を先に実行してください")
+            print("[ERROR] 01_search.py を先に実行してください")
             return []
         jobs = json.loads(files[-1].read_text(encoding="utf-8"))
-
-    print(f"[評価開始] {len(jobs)}件")
-    evaluated = [evaluate_job(j) for j in jobs]
-
-    # 推奨案件のみ抽出・スコア降順
-    recommended = sorted(
-        [j for j in evaluated if j.get("recommend")],
-        key=lambda x: x.get("score", 0),
-        reverse=True,
-    )
-
-    from datetime import datetime
-    out_path = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M')}_evaluated.json"
-    out_path.write_text(
-        json.dumps(evaluated, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    print(f"[完了] 推奨: {len(recommended)}件 / 全{len(evaluated)}件 → {out_path}")
-    return recommended
+    return batch_mode.__wrapped__(jobs) if hasattr(batch_mode, "__wrapped__") else [
+        evaluate(j.get("description") or j.get("title", ""), meta=j)
+        for j in jobs
+    ]
 
 
 if __name__ == "__main__":
-    run()
+    if len(sys.argv) > 1 and sys.argv[1] == "--file":
+        batch_mode(sys.argv[2])
+    elif not sys.stdin.isatty():
+        # パイプ入力
+        text = sys.stdin.read()
+        result = evaluate(text)
+        print_result(result)
+    else:
+        interactive_mode()
