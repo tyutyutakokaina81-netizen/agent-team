@@ -60,8 +60,8 @@ All documents and operational output are in Japanese.
 └── projects/              ← Cross-functional work (multi-role collaboration)
     ├── _index.md          ← Master project registry
     └── YYYY-MM-DD_プロジェクト名/
-        ├── brief.md       ← Goal, timeline, roles involved
-        └── [役職名]/      ← Per-role subfolders (only for involved roles)
+        ├── brief.md       ← Goal, timeline, roles involved, subfolder rationale
+        └── [サブフォルダ]/ ← 役職別（CMO/ CPO/）またはテーマ別（A_〇〇/ B_〇〇/）
 ```
 
 ---
@@ -103,9 +103,13 @@ All documents and operational output are in Japanese.
 
 ```
 projects/YYYY-MM-DD_プロジェクト名/
-├── brief.md       ← 目的・ゴール・関与役職
-└── 役職名/        ← 関与する役職分のみ作成
+├── brief.md       ← 目的・ゴール・関与役職・サブフォルダ構成の理由
+└── [サブフォルダ]/ ← 役職別 or テーマ別（どちらでも可）
 ```
+
+**サブフォルダの選び方：**
+- 役職別（CMO/ CPO/ 等）：担当が役職で明確に分かれる場合
+- テーマ別（A_〇〇/ B_〇〇/ 等）：事業柱・機能単位で整理した方が自然な場合
 
 1. 開始時に `projects/_index.md` のテーブルに追記する
 2. 完了後も削除せずアーカイブとして残す
