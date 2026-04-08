@@ -13,13 +13,15 @@ claude_copy.sh
 claude_team_v0.txt
 
 # 機密ファイル（請求書・契約書・個人情報）
-CFO/outputs/*.pdf
-CFO/outputs/*.xlsx
-CFO/outputs/*.xls
-CFO/outputs/*.csv
-CSO/outputs/*_顧客*.md
-CSO/outputs/*_個人*.md
-CSO/outputs/*_商談*.md
+CFO/outputs/*
+CFO/research/*
+CSO/outputs/*
+CSO/research/*
+# フォルダ構造維持のため .gitkeep は除外しない
+!CFO/outputs/.gitkeep
+!CFO/research/.gitkeep
+!CSO/outputs/.gitkeep
+!CSO/research/.gitkeep
 *_secret*
 *_confidential*
 *_機密*
