@@ -117,32 +117,128 @@ def call_claude(prompt: str, model: str = "claude-haiku-4-5-20251001") -> str:
 
 
 # ─────────────────────────────────────────────
+# ルールベース評価（APIキー不要のフォールバック）
+# ─────────────────────────────────────────────
+
+def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
+    """APIキーなしで動くルールベース評価"""
+    import re
+    text = job_text.lower()
+    title = (meta or {}).get("title", "").lower()
+    budget_text = (meta or {}).get("budget_text", "")
+
+    # --- 軸1: 技術実現性 ---
+    tech = 10  # デフォルト
+    if any(k in text + title for k in ["エクセル", "excel", "csv", "スプレッドシート", "データ入力"]):
+        tech = 25
+    elif any(k in text + title for k in ["スクレイピング", "scraping", "データ収集", "web取得"]):
+        tech = 20
+    if any(k in text for k in ["captcha", "キャプチャ", "ログイン必須", "会員限定"]):
+        tech = max(tech - 10, 5)
+
+    # --- 軸2: 法的リスク ---
+    legal = 15  # デフォルト
+    if any(k in text for k in ["公開情報", "自社サイト", "許可", "オーナー", "委託"]):
+        legal = 25
+    if any(k in text for k in ["個人情報", "プライバシー", "住所", "電話番号", "メールアドレス収集"]):
+        legal = 5
+    if any(k in text + title for k in ["詐欺", "副業", "不正", "違法"]):
+        legal = 0
+
+    # --- 軸3: 採算性 ---
+    profitability = 10
+    # 金額を抽出
+    amounts = re.findall(r'[¥￥]?\s*(\d[\d,]+)\s*円?', budget_text + " " + text)
+    max_amount = 0
+    for a in amounts:
+        try:
+            val = int(a.replace(",", ""))
+            if val > max_amount:
+                max_amount = val
+        except Exception:
+            pass
+    if max_amount >= 10000:
+        profitability = 25
+    elif max_amount >= 5000:
+        profitability = 20
+    elif max_amount >= 2000:
+        profitability = 10
+    elif max_amount >= 1000:
+        profitability = 5
+    estimated_price = max_amount or 5000
+
+    # --- 軸4: 要件明確性 ---
+    clarity = 10
+    has_count = bool(re.search(r'\d+\s*(件|行|ページ|sheet)', text))
+    has_deadline = any(k in text for k in ["納期", "期限", "までに", "日以内", "締め切り"])
+    has_format = any(k in text for k in ["excel", "エクセル", "csv", "json", "形式", "フォーマット"])
+    clarity += (15 if has_count else 0) + (5 if has_deadline else 0) + (5 if has_format else 0)
+    clarity = min(clarity, 25)
+
+    total = tech + legal + profitability + clarity
+
+    # 詐欺フラグ
+    red_flags = []
+    if any(k in text + title for k in ["海外在住", "受け取り", "転送", "送金", "LINE登録"]):
+        red_flags.append("詐欺の疑い（受け取り・転送系）")
+        total = 0
+    if any(k in text + title for k in ["副業", "初心者歓迎", "誰でも", "簡単に稼"]):
+        red_flags.append("怪しい副業案件の可能性")
+        total = max(total - 20, 0)
+    if (meta or {}).get("platform") == "crowdworks" and "0" == str((meta or {}).get("client_reviews", "")):
+        red_flags.append("クライアントのレビュー0件")
+
+    if total >= 70:
+        verdict = "GO"
+    elif total >= 50:
+        verdict = "CAUTION"
+    else:
+        verdict = "NO-GO"
+
+    result = {
+        "category": "excel_input" if "excel" in text + title or "エクセル" in text + title else "scraping",
+        "scores": {"technical": tech, "legal": legal, "profitability": profitability, "clarity": clarity},
+        "total": total,
+        "verdict": verdict,
+        "estimated_price_jpy": estimated_price,
+        "estimated_work_hours": max(1, estimated_price // 2000),
+        "hourly_rate_jpy": estimated_price // max(1, estimated_price // 2000),
+        "red_flags": red_flags,
+        "green_flags": [k for k in ["データ入力", "エクセル", "スクレイピング", "CSV"] if k in text + title],
+        "questions_to_ask": ["データの件数と納期を教えてください", "出力形式（Excel/CSV等）はありますか？"],
+        "reason": f"ルールベース評価: 技術{tech}+法的{legal}+採算{profitability}+明確{clarity}={total}点",
+        "evaluated_by": "rule_based",
+    }
+    if meta:
+        result = {**meta, **result}
+    result["evaluated_at"] = datetime.now().isoformat()
+    result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+    return result
+
+
+# ─────────────────────────────────────────────
 # 評価ロジック
 # ─────────────────────────────────────────────
 
 def evaluate(job_text: str, meta: dict | None = None) -> dict:
-    """案件テキストを評価して結果dictを返す"""
-    prompt = EVAL_PROMPT.format(job_text=job_text.strip())
-    try:
-        raw = call_claude(prompt)
-        start = raw.find("{")
-        end = raw.rfind("}") + 1
-        result = json.loads(raw[start:end])
-    except Exception as e:
-        return {
-            "verdict": "NO-GO",
-            "total": 0,
-            "error": str(e),
-            "reason": f"評価エラー: {e}",
-        }
+    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック）"""
+    if ANTHROPIC_API_KEY:
+        prompt = EVAL_PROMPT.format(job_text=job_text.strip())
+        try:
+            raw = call_claude(prompt)
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            result = json.loads(raw[start:end])
+            if meta:
+                result = {**meta, **result}
+            result["evaluated_at"] = datetime.now().isoformat()
+            result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+            return result
+        except Exception:
+            pass  # API失敗時はルールベースにフォールバック
 
-    # メタ情報をマージ
-    if meta:
-        result = {**meta, **result}
-
-    result["evaluated_at"] = datetime.now().isoformat()
-    result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
-    return result
+    # APIキー未設定またはAPI失敗 → ルールベース評価
+    return _rule_based_evaluate(job_text, meta)
 
 
 def print_result(result: dict) -> None:
