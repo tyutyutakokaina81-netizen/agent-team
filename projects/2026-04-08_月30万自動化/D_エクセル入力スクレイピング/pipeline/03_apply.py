@@ -65,19 +65,46 @@ def call_claude(prompt: str) -> str:
     return body["content"][0]["text"]
 
 
+def _template_application(job: dict) -> str:
+    """APIキー不要のテンプレートベース応募文"""
+    title = job.get("title", "")
+    category = job.get("category", "")
+    price = job.get("estimated_price_jpy", 0)
+
+    if "scraping" in category or "スクレイピング" in title:
+        skill = "PythonとPlaywrightを使ったWebスクレイピング"
+        detail = "対象サイトの構造を確認し、正確にデータを収集いたします。"
+    elif "excel" in category or "エクセル" in title.lower() or "Excel" in title:
+        skill = "ExcelおよびPythonを使ったデータ処理・入力作業"
+        detail = "正確性を重視し、入力後に必ずダブルチェックを行います。"
+    else:
+        skill = "データ入力・収集作業"
+        detail = "丁寧かつ正確に対応いたします。"
+
+    return f"""はじめまして。{skill}を得意としております。
+
+ご依頼の「{title[:30]}」について、{detail}
+
+納期は厳守いたします。不明点があれば事前に確認させていただきますので、安心してお任せください。ぜひご検討よろしくお願いいたします。"""
+
+
 def generate_application(job: dict) -> dict:
-    prompt = APPLY_PROMPT.format(
-        title=job.get("title", ""),
-        url=job.get("url", ""),
-        category=job.get("category", ""),
-        price=job.get("estimated_price_jpy", "不明"),
-    )
-    try:
-        text = call_claude(prompt)
-        return {**job, "application_text": text, "status": "draft"}
-    except Exception as e:
-        print(f"[WARN] generate_application failed: {e}")
-        return {**job, "application_text": "", "status": "error"}
+    if ANTHROPIC_API_KEY:
+        prompt = APPLY_PROMPT.format(
+            title=job.get("title", ""),
+            url=job.get("url", ""),
+            category=job.get("category", ""),
+            price=job.get("estimated_price_jpy", "不明"),
+        )
+        try:
+            text = call_claude(prompt)
+            return {**job, "application_text": text, "status": "draft"}
+        except Exception:
+            pass
+
+    # APIキーなし → テンプレート応募文
+    text = _template_application(job)
+    return {**job, "application_text": text, "status": "template"}
 
 
 def run(jobs: list[dict] | None = None):
