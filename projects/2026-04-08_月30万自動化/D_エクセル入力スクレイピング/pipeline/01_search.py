@@ -222,7 +222,11 @@ def run(platforms: list[str] | None = None) -> list[dict]:
 
             print(f"\n[{platform}] 検索開始...")
             storage = json.loads(session_file.read_text(encoding="utf-8"))
-            context = p.chromium.launch(headless=True).new_context(
+            browser = p.chromium.launch(
+                headless=False,  # サイト検出回避のため可視モード
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+            context = browser.new_context(
                 storage_state=storage,
                 viewport={"width": 1280, "height": 800},
                 user_agent=(
@@ -232,8 +236,11 @@ def run(platforms: list[str] | None = None) -> list[dict]:
                 ),
             )
             page = context.new_page()
+            # 自動化フラグを非表示
+            page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
             raw_jobs = []
+            first_kw = True
             for kw in KEYWORDS:
                 print(f"  検索: 「{kw}」", end=" ", flush=True)
                 try:
@@ -241,6 +248,12 @@ def run(platforms: list[str] | None = None) -> list[dict]:
                         jobs = search_crowdworks(page, kw)
                     else:
                         jobs = search_lancers(page, kw)
+                    # 最初のキーワードでスクリーンショット保存（デバッグ用）
+                    if first_kw:
+                        ss_path = OUTPUT_DIR / f"{platform}_debug.png"
+                        page.screenshot(path=str(ss_path))
+                        print(f"\n  [DEBUG] スクリーンショット保存: {ss_path}")
+                        first_kw = False
                     raw_jobs.extend(jobs)
                     print(f"→ {len(jobs)}件")
                 except Exception as e:
