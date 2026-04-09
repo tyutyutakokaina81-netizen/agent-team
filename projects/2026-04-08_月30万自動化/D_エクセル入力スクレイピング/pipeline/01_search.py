@@ -32,40 +32,44 @@ KEYWORDS = [
 # ─────────────────────────────────────────────
 
 def search_crowdworks(page, keyword: str) -> list[dict]:
-    """クラウドワークスの案件一覧を取得"""
+    """クラウドワークスの案件一覧を取得（URLパターンマッチング方式）"""
+    import urllib.parse
     jobs = []
-    url = f"https://crowdworks.jp/public/jobs/search?order=new&keyword={keyword}"
+    encoded = urllib.parse.quote(keyword)
+    url = f"https://crowdworks.jp/public/jobs/search?order=new&keyword={encoded}"
     page.goto(url)
     _human_scroll(page)
 
-    # 案件カードを取得
-    cards = page.query_selector_all(".job_offer__item, .c-jobOffer__item")
-    for card in cards[:10]:
+    # /public/jobs/ にマッチするリンクを全て取得
+    links = page.query_selector_all("a[href*='/public/jobs/']")
+    seen = set()
+    for link in links[:30]:
         try:
-            title_el = card.query_selector("a.job_offer__title, a.c-jobOffer__title")
-            if not title_el:
+            href = link.get_attribute("href") or ""
+            if not href or href in seen:
                 continue
-            title = title_el.inner_text().strip()
-            href = title_el.get_attribute("href") or ""
+            # 検索・カテゴリページ除外（数字IDの案件ページのみ）
+            import re
+            if not re.search(r'/public/jobs/\d+', href):
+                continue
+            seen.add(href)
+            title = link.inner_text().strip()
+            if not title or len(title) < 3:
+                continue
             url_full = href if href.startswith("http") else f"https://crowdworks.jp{href}"
-
-            # 報酬・納期を取得
-            budget_el = card.query_selector(".job_offer__budget, .c-jobOffer__budget")
-            deadline_el = card.query_selector(".job_offer__deadline, .c-jobOffer__deadline")
-
             jobs.append({
                 "title": title,
                 "url": url_full,
                 "platform": "crowdworks",
                 "keyword": keyword,
-                "budget_text": budget_el.inner_text().strip() if budget_el else "",
-                "deadline_text": deadline_el.inner_text().strip() if deadline_el else "",
+                "budget_text": "",
+                "deadline_text": "",
                 "found_at": datetime.now().isoformat(),
             })
         except Exception:
             continue
 
-    return jobs
+    return jobs[:10]
 
 
 def get_crowdworks_detail(page, job: dict) -> dict:
@@ -73,8 +77,16 @@ def get_crowdworks_detail(page, job: dict) -> dict:
     try:
         page.goto(job["url"])
         _human_scroll(page)
-        desc_el = page.query_selector(".job_offer__description, .c-jobOffer__description")
-        job["description"] = desc_el.inner_text().strip() if desc_el else job["title"]
+        # 複数のセレクタを試す
+        for sel in [".job_offer__description", ".c-jobOffer__description",
+                    "[class*='description']", "article", "main"]:
+            desc_el = page.query_selector(sel)
+            if desc_el:
+                text = desc_el.inner_text().strip()
+                if len(text) > 20:
+                    job["description"] = text
+                    return job
+        job["description"] = job["title"]
     except Exception:
         job["description"] = job["title"]
     return job
@@ -93,7 +105,37 @@ def search_lancers(page, keyword: str) -> list[dict]:
     page.goto(url)
     _human_scroll(page)
 
-    cards = page.query_selector_all(".c-workCard, .p-workCard")
+    # /work/ にマッチするリンクを全て取得
+    links = page.query_selector_all("a[href*='/work/']")
+    seen_lancers = set()
+    for link in links[:30]:
+        try:
+            href = link.get_attribute("href") or ""
+            if not href or href in seen_lancers:
+                continue
+            import re
+            if not re.search(r'/work/\d+', href):
+                continue
+            seen_lancers.add(href)
+            title = link.inner_text().strip()
+            if not title or len(title) < 3:
+                continue
+            url_full = href if href.startswith("http") else f"https://www.lancers.jp{href}"
+            jobs.append({
+                "title": title,
+                "url": url_full,
+                "platform": "lancers",
+                "keyword": keyword,
+                "budget_text": "",
+                "found_at": datetime.now().isoformat(),
+            })
+        except Exception:
+            continue
+    return jobs[:10]
+
+
+def _lancers_old_card_parse(cards, jobs, keyword):
+    """旧セレクタ（フォールバック用）"""
     for card in cards[:10]:
         try:
             title_el = card.query_selector("a.c-workCard__title, a.p-workCard__title, h3 a")
@@ -124,8 +166,15 @@ def get_lancers_detail(page, job: dict) -> dict:
     try:
         page.goto(job["url"])
         _human_scroll(page)
-        desc_el = page.query_selector(".c-workDetail__description, .p-workDetail__body")
-        job["description"] = desc_el.inner_text().strip() if desc_el else job["title"]
+        for sel in [".c-workDetail__description", ".p-workDetail__body",
+                    "[class*='description']", "article", "main"]:
+            desc_el = page.query_selector(sel)
+            if desc_el:
+                text = desc_el.inner_text().strip()
+                if len(text) > 20:
+                    job["description"] = text
+                    return job
+        job["description"] = job["title"]
     except Exception:
         job["description"] = job["title"]
     return job
