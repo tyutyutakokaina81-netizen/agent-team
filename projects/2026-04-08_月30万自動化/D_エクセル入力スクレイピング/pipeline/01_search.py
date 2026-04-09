@@ -38,7 +38,10 @@ def search_crowdworks(page, keyword: str) -> list[dict]:
     encoded = urllib.parse.quote(keyword)
     url = f"https://crowdworks.jp/public/jobs/search?order=new&keyword={encoded}"
     page.goto(url)
-    page.wait_for_load_state("networkidle", timeout=15000)
+    try:
+        page.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass  # タイムアウトしても続行
     _human_scroll(page)
 
     # 全リンクを取得してjob URLをフィルタ
@@ -106,7 +109,10 @@ def search_lancers(page, keyword: str) -> list[dict]:
     encoded = urllib.parse.quote(keyword)
     url = f"https://www.lancers.jp/work/search?keyword={encoded}&open=1&sort=new"
     page.goto(url)
-    page.wait_for_load_state("networkidle", timeout=15000)
+    try:
+        page.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass  # タイムアウトしても続行
     _human_scroll(page)
 
     # 全リンクを取得してjob URLをフィルタ
@@ -229,7 +235,7 @@ def run(platforms: list[str] | None = None) -> list[dict]:
             print(f"\n[{platform}] 検索開始...")
             storage = json.loads(session_file.read_text(encoding="utf-8"))
             browser = p.chromium.launch(
-                headless=False,  # サイト検出回避のため可視モード
+                headless=True,  # バックグラウンドで実行（画面表示なし）
                 args=["--disable-blink-features=AutomationControlled"],
             )
             context = browser.new_context(
