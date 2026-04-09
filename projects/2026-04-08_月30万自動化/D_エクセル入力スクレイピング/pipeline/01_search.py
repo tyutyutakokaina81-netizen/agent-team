@@ -32,29 +32,32 @@ KEYWORDS = [
 # ─────────────────────────────────────────────
 
 def search_crowdworks(page, keyword: str) -> list[dict]:
-    """クラウドワークスの案件一覧を取得（URLパターンマッチング方式）"""
-    import urllib.parse
+    """クラウドワークスの案件一覧を取得（全リンクスキャン方式）"""
+    import urllib.parse, re
     jobs = []
     encoded = urllib.parse.quote(keyword)
     url = f"https://crowdworks.jp/public/jobs/search?order=new&keyword={encoded}"
     page.goto(url)
+    page.wait_for_load_state("networkidle", timeout=15000)
     _human_scroll(page)
 
-    # /public/jobs/ にマッチするリンクを全て取得
-    links = page.query_selector_all("a[href*='/public/jobs/']")
+    # 全リンクを取得してjob URLをフィルタ
+    links = page.query_selector_all("a")
     seen = set()
-    for link in links[:30]:
+    for link in links:
         try:
             href = link.get_attribute("href") or ""
             if not href or href in seen:
                 continue
-            # 検索・カテゴリページ除外（数字IDの案件ページのみ）
-            import re
-            if not re.search(r'/public/jobs/\d+', href):
+            # crowdworksの案件URL（数字IDを含む）
+            if not re.search(r'(crowdworks\.jp)?/public/jobs/\d+', href):
+                continue
+            # 検索ページ自体は除外
+            if 'search' in href or 'category' in href:
                 continue
             seen.add(href)
             title = link.inner_text().strip()
-            if not title or len(title) < 3:
+            if not title or len(title) < 5:
                 continue
             url_full = href if href.startswith("http") else f"https://crowdworks.jp{href}"
             jobs.append({
@@ -97,28 +100,31 @@ def get_crowdworks_detail(page, job: dict) -> dict:
 # ─────────────────────────────────────────────
 
 def search_lancers(page, keyword: str) -> list[dict]:
-    """ランサーズの案件一覧を取得"""
-    import urllib.parse
+    """ランサーズの案件一覧を取得（全リンクスキャン方式）"""
+    import urllib.parse, re
     jobs = []
     encoded = urllib.parse.quote(keyword)
     url = f"https://www.lancers.jp/work/search?keyword={encoded}&open=1&sort=new"
     page.goto(url)
+    page.wait_for_load_state("networkidle", timeout=15000)
     _human_scroll(page)
 
-    # /work/ にマッチするリンクを全て取得
-    links = page.query_selector_all("a[href*='/work/']")
+    # 全リンクを取得してjob URLをフィルタ
+    links = page.query_selector_all("a")
     seen_lancers = set()
-    for link in links[:30]:
+    for link in links:
         try:
             href = link.get_attribute("href") or ""
             if not href or href in seen_lancers:
                 continue
-            import re
-            if not re.search(r'/work/\d+', href):
+            # lancersの案件URL（数字IDを含む）
+            if not re.search(r'lancers\.jp/(work|tasks)/.*\d|^/(work|tasks)/.*\d', href):
+                continue
+            if 'search' in href or 'category' in href:
                 continue
             seen_lancers.add(href)
             title = link.inner_text().strip()
-            if not title or len(title) < 3:
+            if not title or len(title) < 5:
                 continue
             url_full = href if href.startswith("http") else f"https://www.lancers.jp{href}"
             jobs.append({
