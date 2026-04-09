@@ -44,14 +44,14 @@ def setup_session(platform: str):
     print("ログイン後、ブラウザを閉じてください（自動でセッションが保存されます）\n")
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=100)
+        # インストール済みのChromeを使う（GoogleログインをPlaywright Chromiumでブロックされないため）
+        try:
+            browser = p.chromium.launch(channel="chrome", headless=False, slow_mo=100)
+        except Exception:
+            # Chromeがなければ通常のChromiumにフォールバック
+            browser = p.chromium.launch(headless=False, slow_mo=100)
         context = browser.new_context(
             viewport={"width": 1280, "height": 800},
-            user_agent=(
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/120.0.0.0 Safari/537.36"
-            ),
         )
         page = context.new_page()
         page.goto(config["url"])
