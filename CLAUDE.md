@@ -1,67 +1,77 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、Claude Code（claude.ai/code）がこのリポジトリで作業する際のガイダンスを提供します。
 
-## Purpose
+## 目的
 
-AI-operated multi-officer company framework for building a ¥300K/month automated business.  
-Five C?O roles (CDO/CFO/CMO/CPO/CSO) each maintain their own work log, research, and outputs.  
-All documents and operational output are in Japanese.
+月収¥300K達成を目指すAI自動経営フレームワーク。  
+5つのC?O役職（CDO/CFO/CMO/CPO/CSO）がそれぞれ作業ログ・調査・成果物を管理する。  
+すべてのドキュメントと成果物は日本語で出力する。
 
 ---
 
-## Repository Structure
+## リポジトリ構造
 
 ```
 /home/user/agent-team/
-├── CLAUDE.md              ← This file (Claude Code guidance)
-├── README.md              ← agent-gateway server documentation
-├── company.md             ← Core company rules, role definitions, governance (MUST READ)
-├── server.mjs             ← Zero-dependency Node.js JSON API server
-├── team_prompt.txt        ← 4-role multi-agent document creation prompt
-├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
-├── team_show.sh           ← Print team_prompt.txt to stdout
+├── CLAUDE.md                  ← このファイル（Claude Code ガイダンス）
+├── README.md                  ← agent-gateway サーバードキュメント
+├── company.md                 ← 会社共通ルール・役職定義・ガバナンス（必読）
+├── server.mjs                 ← 依存ゼロの Node.js JSON API サーバー（ポート 3000）
+├── pipeline_server.mjs        ← iPhone 対応パイプライン制御サーバー（ポート 3001）
+├── team_prompt.txt            ← 4役割・多エージェント文書作成プロンプト
+├── team_copy.sh               ← team_prompt.txt をクリップボードにコピー（zsh/macOS）
+├── team_show.sh               ← team_prompt.txt を stdout に出力
 │
-├── CDO/                   ← Chief Digital Officer (systems, automation, tech, role management)
-│   ├── _index.md          ← Performance log & active tasks (台帳)
-│   ├── prompt.md          ← Role definition, personality, workflow, boundaries
-│   ├── research/          ← Drafts, prototypes, investigations
-│   └── outputs/           ← Final deliverables: prompts, tools, guides
+├── CDO/                       ← 最高デジタル責任者（システム・自動化・技術・役職管理）
+│   ├── _index.md              ← 成果物ログ・進行中タスク（台帳）
+│   ├── prompt.md              ← 役割定義・性格・ワークフロー・境界線
+│   ├── research/              ← 下書き・試作・調査
+│   └── outputs/               ← 最終成果物: プロンプト集・ツール・ガイド
 │
-├── CFO/                   ← Chief Financial Officer (finance, contracts, admin)
+├── CFO/                       ← 最高財務責任者（財務・契約・事務）
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Contract/tax research drafts
-│   └── outputs/           ← Final: invoices, contracts, expense reports
+│   ├── research/              ← 契約・税務調査の下書き
+│   └── outputs/               ← 最終: 請求書・契約書・経費報告
 │
-├── CMO/                   ← Chief Marketing Officer (content, SNS, LP, YouTube)
+├── CMO/                       ← 最高マーケティング責任者（コンテンツ・SNS・LP・YouTube）
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Content strategy drafts
-│   └── outputs/           ← Final: scripts, SNS posts, landing pages
+│   ├── research/              ← コンテンツ戦略の下書き
+│   └── outputs/               ← 最終: 台本・SNS投稿・LP
 │
-├── CPO/                   ← Chief Product Officer (courses, seminars, templates)
+├── CPO/                       ← 最高プロダクト責任者（コース・セミナー・テンプレート）
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Curriculum/product research drafts
-│   └── outputs/           ← Final: slides, templates, step-by-step guides
+│   ├── research/              ← カリキュラム・プロダクト調査の下書き
+│   └── outputs/               ← 最終: スライド・テンプレート・手順書
 │
-├── CSO/                   ← Chief Sales Officer (customer dialogue, proposals, pipeline)
+├── CSO/                       ← 最高営業責任者（顧客対話・提案・パイプライン管理）
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Customer analysis, market research drafts
-│   └── outputs/           ← Final: proposals, dialog logs, FAQs
+│   ├── research/              ← 顧客分析・市場調査の下書き
+│   └── outputs/               ← 最終: 提案書・対話ログ・FAQ
 │
-├── context/               ← Owner's primary source of truth (read before any task)
-│   ├── diary/             ← Daily reflections and observations
-│   ├── ideas/             ← Concepts and strategic thinking
-│   └── references/        ← External materials and research
+├── context/                   ← オーナーの一次情報（タスク前に必ず参照）
+│   ├── diary/                 ← 日記・日常の気づき・感情メモ
+│   ├── ideas/                 ← アイデア・考え事・将来構想
+│   └── references/            ← 参考資料・書籍メモ・外部情報
 │
-└── projects/              ← Cross-functional work (multi-role collaboration)
-    ├── _index.md          ← Master project registry
-    └── YYYY-MM-DD_プロジェクト名/
-        ├── brief.md       ← Goal, timeline, roles involved, subfolder rationale
-        └── [サブフォルダ]/ ← 役職別（CMO/ CPO/）またはテーマ別（A_〇〇/ B_〇〇/）
+└── projects/                  ← 役職横断プロジェクト
+    ├── _index.md              ← プロジェクト一覧（マスター台帳）
+    └── 2026-04-08_月30万自動化/  ← 進行中プロジェクト（月30万自動化）
+        ├── brief.md           ← 目標・期間・関与役職
+        ├── cashflow.md        ← 月次キャッシュフロー予測・シナリオ分析
+        ├── cost_breakdown.md  ← ツール費用・プラットフォーム手数料分析
+        ├── A_ライティング/    ← 柱A: SEOライティング（service_design・service_page）
+        ├── B_SNS運用代行/     ← 柱B: SNS運用代行（service_design・proposal_templates）
+        ├── C_テンプレ販売/    ← 柱C: テンプレート販売（Vol.1〜4 コンテンツファイル）
+        └── D_エクセル入力スクレイピング/  ← 柱D: 自動受注パイプライン
+            ├── brief.md
+            ├── pipeline/      ← Python 自動化スクリプト（00〜06 + run_pipeline.py）
+            ├── templates/     ← 応募文テンプレート
+            └── outputs/       ← 納品物ファイル（gitignore 対象）
 ```
 
 ---
@@ -229,24 +239,27 @@ projects/YYYY-MM-DD_プロジェクト名/
 
 ---
 
-## Prompt Variants
+## プロンプトバリアント
 
-### team_prompt.txt — 4-role document creation team
-- Roles: 企画（Planning）→ 本文（Body）→ 要約（Summary）→ チェック（Review）
-- Use case: General internal document creation
-- Shared rules: preserve content, explain jargon, infer intent, output single final version
+### team_prompt.txt — 4役割文書作成チーム
+- 役割: 企画（Planning）→ 本文（Body）→ 要約（Summary）→ チェック（Review）
+- ユースケース: 一般的な社内文書作成
+- 共通ルール: コンテンツを保持し、専門用語を説明し、意図を推察し、最終版を1つ出力する
 
 ```bash
-./team_copy.sh    # Copy to clipboard (macOS/pbcopy)
-./team_show.sh    # Print to stdout
+./team_copy.sh    # クリップボードにコピー（macOS/pbcopy）
+./team_show.sh    # stdout に出力
 ```
 
 ---
 
-## agent-gateway（server.mjs）
+## サーバー
 
-### 概要
+### agent-gateway（server.mjs）
+
+#### 概要
 - `server.mjs` は依存ゼロ（Node標準 `node:http` のみ）の JSON API サーバー
+- バインド先: `127.0.0.1`（ローカルのみ）
 - エンドポイント:
   - `GET /health` → `{ ok: true, time: ISO文字列 }`
   - `GET /version` → `{ name: "agent-gateway", version: "0.1.0" }`
@@ -255,13 +268,13 @@ projects/YYYY-MM-DD_プロジェクト名/
 - ログ: `METHOD /path STATUS 処理時間ms` を stdout に出力
 - ステータスコード: 200 / 400（不正JSON）/ 404（未定義パス）/ 500（サーバーエラー）
 
-### 起動
+#### 起動
 ```bash
 node server.mjs           # デフォルト PORT=3000
 PORT=8080 node server.mjs # ポート変更
 ```
 
-### 動作確認（curl）
+#### 動作確認（curl）
 ```bash
 curl -s http://127.0.0.1:${PORT:-3000}/health | python3 -m json.tool
 curl -s http://127.0.0.1:${PORT:-3000}/version | python3 -m json.tool
@@ -272,46 +285,132 @@ curl -s -X POST http://127.0.0.1:${PORT:-3000}/echo \
 curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 ```
 
-### 運用ルール
-- `server.mjs` の実行・curl での検証は「必ず事前承認」を取る
-- 変更が完了したら「要点 → 詳細 → 次アクション」形式でレビュー依頼（承認）を出す
+---
+
+### パイプラインサーバー（pipeline_server.mjs）
+
+#### 概要
+- `pipeline_server.mjs` は柱D（エクセル入力・スクレイピング）の自動受注パイプラインを  
+  iPhone / スマートフォンから操作するための HTTP 制御サーバー
+- バインド先: `0.0.0.0`（LAN 内の iPhone からアクセス可能）
+- 認証: `PIPELINE_TOKEN` 環境変数（Bearer トークン または URLクエリパラメータ `?token=`）
+- Python スクリプトをサブプロセスで起動し、結果を JSON で返す
+
+#### エンドポイント
+
+| メソッド | パス | 認証 | 概要 |
+|---------|------|------|------|
+| `GET /` | HTML パネル | 不要 | iPhone 操作パネル（ブラウザUI） |
+| `GET /status` | JSON | 不要 | パイプライン稼働状況（idle/running/done/error） |
+| `POST /search` | JSON | 必要 | 案件検索フェーズ開始（`run_pipeline.py search`） |
+| `POST /deliver` | JSON | 必要 | 納品フェーズ開始（`run_pipeline.py deliver`） |
+| `GET /results` | JSON | 必要 | 最新の案件評価結果（`*_evaluated.json`） |
+
+#### 起動
+```bash
+PIPELINE_TOKEN=your-secret-token node pipeline_server.mjs   # デフォルト PORT=3001
+PIPELINE_PORT=8081 PIPELINE_TOKEN=xxx node pipeline_server.mjs
+```
+
+#### 状態管理
+- 同時実行は 1 フェーズのみ（実行中に別フェーズを起動すると 409 を返す）
+- ログは最新 200 行をインメモリで保持（`GET /status` で最新 50 行を返す）
+- 結果ファイルは `D_エクセル入力スクレイピング/outputs/` から最新の JSON を自動取得
+
+#### 運用ルール
+- 実行・curl での検証は「必ず事前承認」を取る
+- `PIPELINE_TOKEN` 未設定時は警告を出力するが起動は続行する（開発環境のみ許容）
 
 ---
 
-## Active Project: 月30万自動化（¥300K/Month Automation）
+## 柱D：自動受注パイプライン（Python）
+
+### 概要
+
+`projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline/` 配下の  
+Python スクリプト群がクラウドワークス・ランサーズの案件を自動処理する。
+
+### パイプライン構成
+
+```
+00_session_setup.py  ← ブラウザログイン・セッション保存（初回のみ手動）
+01_search.py         ← 案件検索・詳細取得
+02_evaluate.py       ← 案件評価・スコアリング（GO / CAUTION / NO-GO）
+03_apply.py          ← 応募文生成・ブラウザ自動オープン
+04_execute.py        ← 作業実行（Excel入力・スクレイピング）
+05_review.py         ← 念査（品質チェック）
+06_deliver.py        ← 納品文生成・納品ページ自動オープン
+run_pipeline.py      ← 統合エントリポイント
+```
+
+### 実行方法
+
+```bash
+# 初回セットアップ（セッション確認）
+python run_pipeline.py setup
+
+# フェーズ1: 検索 → 評価 → 応募文生成
+python run_pipeline.py search
+
+# フェーズ2: 受注後の作業実行 → 念査 → 納品準備
+python run_pipeline.py deliver
+```
+
+### 人手介入が必要な箇所（設計上2〜3回のみ）
+
+1. 初回ログイン（`00_session_setup.py` 実行時）
+2. 応募ボタンのクリック（ブラウザが自動で開くので押すだけ）
+3. 納品ボタンのクリック（ファイルを添付して押すだけ）
+
+### 出力ファイル
+- `outputs/*_applications.json` — 応募情報（評価スコア・応募文・URL）
+- `outputs/*_evaluated.json` — 評価済み案件リスト
+- `outputs/` は `.gitignore` 対象（顧客データ・納品物を含むため）
+
+---
+
+## 進行中プロジェクト：月30万自動化（¥300K/月）
 
 **目標**: 3ヶ月以内に月収¥300K達成（2026-04 〜 2026-06）  
 **ランニングコスト**: ¥5,800/月（Claude Pro ¥3K + Canva ¥1.5K + Microsoft 365 ¥1.3K）  
+**実質追加コスト**: ¥0〜1,300/月（Claude Code 契約済み・Google スプレッドシート活用の場合）  
 **関与役職**: CMO, CPO, CSO, CDO  
 **フォルダ**: `projects/2026-04-08_月30万自動化/`
 
-### 3つの収益柱
+### 4つの収益柱
 
-| 柱 | サービス | 単価 | 目標 | 月収目標 |
-|----|---------|------|------|---------|
-| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K |
-| B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K |
-| C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH販売 | ¥30K〜 |
+| 柱 | サービス | 単価 | 月収目標 | 担当役職 |
+|----|---------|------|---------|---------|
+| A | SEOライティング代行 | ¥15K/記事 × 20本 | ¥300K | CSO・CMO・CDO |
+| B | SNS運用代行 | ¥50K/社 × 6社 | ¥300K | CMO・CSO・CDO |
+| C | テンプレート販売（note/BOOTH） | ¥500〜¥10K | ¥30K〜 | CPO・CMO・CDO |
+| D | エクセル入力・スクレイピング受注 | 案件単価 | ¥100K〜 | CDO・CSO |
 
-### 売上予測（リアルシナリオ）
-- Month 1: ¥10K（テンプレ初動のみ）
-- Month 2: ¥155K（A・B契約開始）
-- Month 3: ¥330K（目標達成）
+### 売上予測（現実的シナリオ）
 
-### テンプレート販売 — 進捗
+| 月 | 月収 | 手取り（コスト差引） | 累計 |
+|----|------|-------------------|------|
+| Month 1 | ¥10K | ¥4,200 | ▲¥1,600 |
+| Month 2 | ¥155K | ¥149,200 | ¥147,600 |
+| Month 3 | ¥330K | ¥324,200 | ¥471,800 |
+
+→ 詳細は `cashflow.md`・`cost_breakdown.md` を参照
+
+### テンプレート販売（柱C）進捗
 
 | Vol | タイトル | 価格 | ステータス |
 |-----|---------|------|----------|
-| Vol.1 | フリーランス収支管理スプレッドシート | ¥980 | 販売中（note） |
+| Vol.1 | フリーランス収支管理スプレッドシート | ¥980 | **販売中（note）** |
 | Vol.2 | SNSコンテンツカレンダー | 設計済 | 制作中 |
 | Vol.3 | 飲食店向けプロンプト集 | 設計済 | 制作中 |
 | Vol.4 | バンドルパック | 設計済 | Vol.1-3完成後 |
 
 ---
 
-## Notes
+## 備考
 
-- All shell scripts use `#!/bin/zsh` with `set -e`
-- Shell scripts reference `$HOME/agent-team/` as the repo path (macOS `pbcopy` assumed)
-- All prompts and document output are in Japanese
-- Sensitive files (invoices, contracts, customer PII) must not be committed to Git
+- すべてのシェルスクリプトは `#!/bin/zsh` + `set -e` を使用
+- シェルスクリプトは `$HOME/agent-team/` をリポジトリパスとして参照（macOS `pbcopy` 前提）
+- すべてのプロンプトとドキュメント出力は日本語
+- センシティブなファイル（請求書・契約書・顧客PII・納品物）は Git にコミットしない
+- `pipeline_server.mjs` の出力ディレクトリ `outputs/` は `.gitignore` 対象
