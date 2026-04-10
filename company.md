@@ -30,10 +30,14 @@ agent-team/
 │   ├── _index.md
 │   ├── research/             ← プロンプト検証・ツール調査
 │   └── outputs/              ← プロンプト集・活用ガイド
-└── CCO/                      ← コマース責任者（2026-04-10 新設）
+├── CCO/                      ← コマース責任者（2026-04-10 新設）
+│   ├── _index.md
+│   ├── research/             ← プラットフォーム調査・競合分析
+│   └── outputs/              ← 出品ページ・価格戦略・プラットフォーム設定
+└── CGO/                      ← グロース責任者（2026-04-10 新設）
     ├── _index.md
-    ├── research/             ← プラットフォーム調査・競合分析
-    └── outputs/              ← 出品ページ・価格戦略・プラットフォーム設定
+    ├── research/             ← 見込み客調査・市場開拓
+    └── outputs/              ← プロスペクトリスト・DMスクリプト・成長戦略
 ```
 
 ---
@@ -57,6 +61,7 @@ agent-team/
 | CSO（営業） | `CSO/research/` | `CSO/outputs/` |
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
 | CCO（コマース） | `CCO/research/` | `CCO/outputs/` |
+| CGO（グロース） | `CGO/research/` | `CGO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
@@ -200,3 +205,4 @@ projects/YYYY-MM-DD_プロジェクト名/
 - **CSO**：顧客との対話記録、営業提案、商談管理
 - **CDO**：プロンプト管理、Claude Code活用、技術検証、新役職生成
 - **CCO**：BOOTH/note/ランサーズ出品管理、価格戦略、プラットフォーム最適化（2026-04-10 新設）
+- **CGO**：新規クライアント開拓（冷アプローチ）、見込み客リスト管理、成長戦略（2026-04-10 新設）
