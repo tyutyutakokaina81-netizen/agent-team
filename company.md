@@ -26,10 +26,14 @@ agent-team/
 │   ├── _index.md
 │   ├── research/             ← 顧客分析・市場調査
 │   └── outputs/              ← 商談記録・提案書
-└── CDO/                      ← 技術責任者
+├── CDO/                      ← 技術責任者
+│   ├── _index.md
+│   ├── research/             ← プロンプト検証・ツール調査
+│   └── outputs/              ← プロンプト集・活用ガイド
+└── CCO/                      ← コマース責任者（2026-04-10 新設）
     ├── _index.md
-    ├── research/             ← プロンプト検証・ツール調査
-    └── outputs/              ← プロンプト集・活用ガイド
+    ├── research/             ← プラットフォーム調査・競合分析
+    └── outputs/              ← 出品ページ・価格戦略・プラットフォーム設定
 ```
 
 ---
@@ -52,6 +56,7 @@ agent-team/
 | CFO（財務・事務） | `CFO/research/` | `CFO/outputs/` |
 | CSO（営業） | `CSO/research/` | `CSO/outputs/` |
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
+| CCO（コマース） | `CCO/research/` | `CCO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
@@ -194,3 +199,4 @@ projects/YYYY-MM-DD_プロジェクト名/
 - **CFO**：請求書発行、契約書管理、経費管理、事務全般
 - **CSO**：顧客との対話記録、営業提案、商談管理
 - **CDO**：プロンプト管理、Claude Code活用、技術検証、新役職生成
+- **CCO**：BOOTH/note/ランサーズ出品管理、価格戦略、プラットフォーム最適化（2026-04-10 新設）
