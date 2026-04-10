@@ -379,10 +379,23 @@ def run(jobs: list[dict] | None = None):
             print("[ERROR] 01_search.py を先に実行してください")
             return []
         jobs = json.loads(files[-1].read_text(encoding="utf-8"))
-    return batch_mode.__wrapped__(jobs) if hasattr(batch_mode, "__wrapped__") else [
-        evaluate(j.get("description") or j.get("title", ""), meta=j)
-        for j in jobs
-    ]
+
+    results = []
+    for j in jobs:
+        text = j.get("description") or j.get("title", "")
+        result = evaluate(text, meta=j)
+        results.append(result)
+
+    # GO/CAUTION のみ保存
+    out = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M')}_evaluated.json"
+    out.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"[評価完了] {len(results)}件 → {out}")
+
+    recommended = [r for r in results if r.get("verdict") in ("GO", "CAUTION")]
+    print(f"  GO: {sum(1 for r in results if r.get('verdict')=='GO')}件 / "
+          f"CAUTION: {sum(1 for r in results if r.get('verdict')=='CAUTION')}件 / "
+          f"NO-GO: {sum(1 for r in results if r.get('verdict')=='NO-GO')}件")
+    return recommended
 
 
 if __name__ == "__main__":
