@@ -61,9 +61,10 @@ def make_session():
     sess = requests.Session()
     sess.headers.update({
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept": "application/json, text/html, */*",
         "Accept-Language": "ja,en-US;q=0.9",
         "Referer": "https://manage.booth.pm/",
+        "X-Requested-With": "XMLHttpRequest",
     })
     for part in cookie_str.split(";"):
         part = part.strip()
@@ -150,9 +151,14 @@ def update_item(sess, item_id, product, csrf):
     """PATCH でアイテムに商品情報とファイルを登録し、公開状態にする"""
     url = f"https://manage.booth.pm/items/{item_id}"
 
+    # BOOTH React SPA は JSON API → X-CSRF-Token ヘッダー + Accept: application/json
+    extra_headers = {
+        "X-CSRF-Token": csrf,
+        "Accept": "application/json, */*",
+        "Referer": f"https://manage.booth.pm/items/{item_id}/edit",
+    }
+
     data = {
-        "_method": "patch",
-        "authenticity_token": csrf,
         "item[name]": product["title"],
         "item[description]": product["description"],
         "item[price]": product["price"],
@@ -172,8 +178,9 @@ def update_item(sess, item_id, product, csrf):
     else:
         print(f"  ⚠️  ファイルなし: {fp}")
 
-    r = sess.post(url, data=data, files=files if files else None,
-                  timeout=30, allow_redirects=True)
+    # 実際の PATCH メソッドを使用（_method オーバーライド不要）
+    r = sess.patch(url, data=data, files=files if files else None,
+                   headers=extra_headers, timeout=30, allow_redirects=True)
 
     for fv in files.values():
         fv[1].close()
@@ -199,22 +206,41 @@ def main():
     print("📋 注意: 前回のテスト実行で誤作成されたアイテムがある場合は")
     print("   https://manage.booth.pm/items?state=draft で確認・削除してください\n")
 
+    # 前回作成済みの blank デジタルアイテム（再利用して無駄な作成を防ぐ）
+    # 新規作成する場合は空リストにする: REUSE_IDS = []
+    REUSE_IDS = ["8190086", "8190087", "8190088", "8190089"]
+
     success = 0
     created_ids = []
 
     for i, product in enumerate(PRODUCTS, 1):
         print(f"[{i}/{len(PRODUCTS)}] {product['title'][:45]}...")
 
-        # select_type フォームを毎回取得（CSRF 更新のため）
-        forms = get_select_type_forms(sess)
-        print(f"  フォーム数: {len(forms)} | "
-              f"digital: {'✅' if any('digital' in f['action'] for f in forms) else '❌'}")
+        # 再利用 or 新規作成
+        if i - 1 < len(REUSE_IDS):
+            item_id = REUSE_IDS[i - 1]
+            print(f"  既存アイテム再利用: {item_id}")
+            # edit ページから CSRF を取得
+            r_edit = sess.get(f"https://manage.booth.pm/items/{item_id}/edit", timeout=15)
+            edit_csrf = extract_csrf(r_edit.text)
+            if not edit_csrf:
+                # select_type から CSRF を取得
+                forms = get_select_type_forms(sess)
+                edit_csrf = next(
+                    (f["inputs"].get("authenticity_token") for f in forms if f["inputs"].get("authenticity_token")),
+                    None
+                )
+        else:
+            # select_type フォームを毎回取得（CSRF 更新のため）
+            forms = get_select_type_forms(sess)
+            print(f"  フォーム数: {len(forms)} | "
+                  f"digital: {'✅' if any('digital' in f['action'] for f in forms) else '❌'}")
 
-        # Step 1: blank デジタルアイテムを作成
-        item_id, edit_csrf = create_digital_item(sess, forms)
-        if not item_id:
-            print(f"  ❌ アイテム作成スキップ\n")
-            continue
+            # blank デジタルアイテムを作成
+            item_id, edit_csrf = create_digital_item(sess, forms)
+            if not item_id:
+                print(f"  ❌ アイテム作成スキップ\n")
+                continue
 
         created_ids.append(item_id)
         print(f"  アイテムID: {item_id}")
