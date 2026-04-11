@@ -62,6 +62,87 @@ if [ ! -d "$PRODUCTS_DIR" ]; then
   exit 1
 fi
 
+# ── Cloudflare workers.dev subdomain 自動登録 ─
+# 初回 deploy 前に一度だけ必要。ブラウザ不要。
+CF_API="https://api.cloudflare.com/client/v4"
+
+cf_get_account_id() {
+  local resp
+  resp=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "$CF_API/accounts")
+  printf "%s" "$resp" | grep -o '"id":"[^"]*"' | head -1 | sed 's/"id":"//; s/"$//'
+}
+
+cf_get_subdomain() {
+  local acc="$1"
+  local resp
+  resp=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "$CF_API/accounts/$acc/workers/subdomain")
+  printf "%s" "$resp" | grep -o '"subdomain":"[^"]*"' | head -1 | sed 's/"subdomain":"//; s/"$//'
+}
+
+cf_put_subdomain() {
+  local acc="$1"
+  local name="$2"
+  local resp
+  resp=$(curl -s -X PUT \
+    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "{\"subdomain\":\"$name\"}" \
+    "$CF_API/accounts/$acc/workers/subdomain")
+  if printf "%s" "$resp" | grep -q '"success":true'; then
+    return 0
+  fi
+  printf "%s" "$resp" | head -c 300
+  return 1
+}
+
+hdr "Cloudflare Subdomain Setup"
+
+ACCOUNT_ID=$(cf_get_account_id)
+if [ -z "$ACCOUNT_ID" ]; then
+  err "could not fetch Cloudflare account ID (token may be invalid)"
+  exit 1
+fi
+log "account ID: $ACCOUNT_ID"
+
+EXISTING_SUB=$(cf_get_subdomain "$ACCOUNT_ID")
+if [ -n "$EXISTING_SUB" ]; then
+  log "subdomain already registered: $EXISTING_SUB.workers.dev"
+  CF_SUBDOMAIN="$EXISTING_SUB"
+else
+  # 登録されていない場合、自動で決める
+  # 優先順：WORKERS_SUBDOMAIN env var > toyama-ai-<random>
+  if [ -n "${WORKERS_SUBDOMAIN:-}" ]; then
+    DESIRED="$WORKERS_SUBDOMAIN"
+  else
+    SUFFIX=$(head /dev/urandom 2>/dev/null | LC_ALL=C tr -dc 'a-z0-9' 2>/dev/null | head -c 6 || echo "$$$(date +%N)" | tr -dc 'a-z0-9' | head -c 6)
+    [ -z "$SUFFIX" ] && SUFFIX="$(date +%s | tail -c 6)"
+    DESIRED="toyama-ai-$SUFFIX"
+  fi
+  log "registering new subdomain: $DESIRED"
+  if cf_put_subdomain "$ACCOUNT_ID" "$DESIRED"; then
+    CF_SUBDOMAIN="$DESIRED"
+    log "✓ subdomain registered: $CF_SUBDOMAIN.workers.dev"
+  else
+    # 名前衝突してたら 3 回までリトライ
+    for i in 1 2 3; do
+      RETRY="toyama-$i-$(date +%s | tail -c 5)"
+      warn "retrying with $RETRY..."
+      if cf_put_subdomain "$ACCOUNT_ID" "$RETRY"; then
+        CF_SUBDOMAIN="$RETRY"
+        log "✓ subdomain registered: $CF_SUBDOMAIN.workers.dev"
+        break
+      fi
+    done
+  fi
+  if [ -z "${CF_SUBDOMAIN:-}" ]; then
+    err "subdomain registration failed after retries"
+    err "register manually: https://dash.cloudflare.com/$ACCOUNT_ID/workers/onboarding"
+    exit 1
+  fi
+fi
+
+export CLOUDFLARE_ACCOUNT_ID="$ACCOUNT_ID"
+
 # ── deploy function ────────────────────────────
 deploy_one() {
   local name="$1"
