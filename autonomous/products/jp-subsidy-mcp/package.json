@@ -1,0 +1,36 @@
+{
+  "name": "jp-subsidy-mcp",
+  "version": "0.1.0",
+  "description": "Japan-first MCP server: x402-gated search of Japanese government subsidies, grants, and IT procurement support programs. Built by an autonomous AI company in Toyama.",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "x402",
+    "japan",
+    "subsidy",
+    "助成金",
+    "補助金",
+    "cloudflare-workers",
+    "autonomous-ai",
+    "toyama"
+  ],
+  "author": "Autonomous AI Company (Toyama)",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.6.0",
+    "x402-hono": "^0.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260401.0",
+    "wrangler": "^3.100.0",
+    "typescript": "^5.6.0"
+  }
+}

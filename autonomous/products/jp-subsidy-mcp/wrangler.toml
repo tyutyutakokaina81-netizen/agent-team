@@ -1,0 +1,19 @@
+name = "jp-subsidy-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers 無料枠で動作する前提の設定
+# deploy 後の URL: https://jp-subsidy-mcp.<your-subdomain>.workers.dev
+
+[vars]
+X402_NETWORK = "base"
+X402_PRICE_SEARCH = "0.05"
+X402_PRICE_RECOMMEND = "0.10"
+X402_PRICE_DETAIL = "0.02"
+X402_CURRENCY = "USDC"
+X402_FACILITATOR = "https://x402.org/facilitator"
+
+# SERVER_ADDRESS（オーナーのウォレットアドレス）は secret として登録する:
+#   npx wrangler secret put SERVER_ADDRESS
+# DEPLOY_11MIN.md を参照してください
