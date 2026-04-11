@@ -22,6 +22,11 @@ CSO/research/*
 !CFO/research/.gitkeep
 !CSO/outputs/.gitkeep
 !CSO/research/.gitkeep
+# 公開可能な CFO 文書（事業計画書・予測・方針等）は例外として commit 許可
+# ファイル名末尾に "_public" を付けること
+!CFO/outputs/*_public.md
+!CFO/outputs/reports/
+!CFO/outputs/reports/*.md
 *_secret*
 *_confidential*
 *_機密*
