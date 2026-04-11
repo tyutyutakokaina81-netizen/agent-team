@@ -13,7 +13,8 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
-| — | — | — | — | — |
+| 2026-04-11 | `CMO/outputs/2026-04-11_templateシリーズ販促/` | 販促資産 | テンプレ Vol.1-4 のマーケ 40本（旧計画、archive） | archival |
+| 2026-04-11 | `CMO/outputs/2026-04-11_jp_subsidy_mcp_launch/zenn_article_draft.md` | Zenn 記事ドラフト | jp-subsidy-mcp ローンチ告知記事。約 3,500 字、deploy 完了後に即公開可能な状態 | 準備完了・deploy 待ち |
 
 ## 進行中タスク
 
