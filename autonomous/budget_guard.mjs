@@ -23,6 +23,18 @@ export const CONFIG = {
   dailyLimit: 100,     // ¥/日
   monthlyLimit: 2000,  // ¥/月
 
+  // revenue-gated モードの設定
+  // 有効時、monthlyLimit を動的に変更する:
+  //   monthlyLimit = max(base, cumulativeRevenue × revenueMultiplier)
+  // 収益が出るまで極限まで絞りたい場合は base を 0-500 に設定する
+  revenueGated: {
+    enabled: false,                // true にすると revenue-gated モード
+    baseMonthlyLimit: 500,         // 収益ゼロ時の最低月次予算（¥）
+    revenueMultiplier: 1.5,        // 累計収益の何倍まで支出を許容するか
+    revenueSourcePath: 'state/revenue/summary.json', // revenue_watcher が生成
+    usdcToJpyRate: 150,            // $1 = ¥150 概算
+  },
+
   // 料金レート（円/1Mトークン、$1=¥150 換算の概算）
   // 参考: Anthropic 公式価格（Haiku/Sonnet/Opus）
   rates: {
@@ -101,6 +113,43 @@ export function estimateYen({ model, inputTokens, outputTokens }) {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Revenue-gated 予算計算
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * revenue_watcher が生成した state/revenue/summary.json を読み、
+ * 累計 USDC 収益を円換算で返す。ファイルが無ければ 0。
+ */
+async function loadCumulativeRevenueYen() {
+  const revPath = path.join(__dirname, CONFIG.revenueGated.revenueSourcePath);
+  if (!existsSync(revPath)) return 0;
+  try {
+    const summary = JSON.parse(await readFile(revPath, 'utf8'));
+    const usdc = Number(summary.cumulative_diff ?? summary.last_balance ?? 0);
+    return usdc * CONFIG.revenueGated.usdcToJpyRate;
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * revenue-gated モード時の有効月次上限を計算する。
+ * 有効でない場合は CONFIG.monthlyLimit をそのまま返す。
+ */
+export async function effectiveMonthlyLimit() {
+  if (!CONFIG.revenueGated.enabled) {
+    return CONFIG.monthlyLimit;
+  }
+  const revenueYen = await loadCumulativeRevenueYen();
+  const gated = Math.max(
+    CONFIG.revenueGated.baseMonthlyLimit,
+    revenueYen * CONFIG.revenueGated.revenueMultiplier
+  );
+  // 絶対上限（CONFIG.monthlyLimit）は超えない
+  return Math.min(gated, CONFIG.monthlyLimit);
+}
+
+// ─────────────────────────────────────────────────────────────
 // 許可判定
 // ─────────────────────────────────────────────────────────────
 
@@ -117,28 +166,34 @@ export async function canProceed({ estimate }) {
   const todaySpend = daily[t] || 0;
   const monthSpend = monthly[m] || 0;
 
+  // revenue-gated 時は動的な月次上限を計算
+  const effectiveMonthly = await effectiveMonthlyLimit();
+
   if (estimate > CONFIG.perLoopLimit) {
     return {
       allowed: false,
       reason: `per-loop limit exceeded: estimate ¥${estimate} > limit ¥${CONFIG.perLoopLimit}`,
-      state: { todaySpend, monthSpend },
+      state: { todaySpend, monthSpend, effectiveMonthly },
     };
   }
   if (todaySpend + estimate > CONFIG.dailyLimit) {
     return {
       allowed: false,
       reason: `daily limit exceeded: today ¥${todaySpend.toFixed(2)} + ¥${estimate} > limit ¥${CONFIG.dailyLimit}`,
-      state: { todaySpend, monthSpend },
+      state: { todaySpend, monthSpend, effectiveMonthly },
     };
   }
-  if (monthSpend + estimate > CONFIG.monthlyLimit) {
+  if (monthSpend + estimate > effectiveMonthly) {
+    const gatedSuffix = CONFIG.revenueGated.enabled
+      ? ` (revenue-gated effective limit ¥${effectiveMonthly.toFixed(0)})`
+      : '';
     return {
       allowed: false,
-      reason: `monthly limit exceeded: month ¥${monthSpend.toFixed(2)} + ¥${estimate} > limit ¥${CONFIG.monthlyLimit}`,
-      state: { todaySpend, monthSpend },
+      reason: `monthly limit exceeded: month ¥${monthSpend.toFixed(2)} + ¥${estimate} > limit ¥${effectiveMonthly.toFixed(0)}${gatedSuffix}`,
+      state: { todaySpend, monthSpend, effectiveMonthly },
     };
   }
-  return { allowed: true, state: { todaySpend, monthSpend } };
+  return { allowed: true, state: { todaySpend, monthSpend, effectiveMonthly } };
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -197,11 +252,14 @@ export async function summary() {
   const monthly = await loadJson(MONTHLY_FILE, {});
   const t = today();
   const m = currentMonth();
+  const effectiveMonthly = await effectiveMonthlyLimit();
   return {
     today: daily[t] || 0,
     month: monthly[m] || 0,
     dailyLimit: CONFIG.dailyLimit,
     monthlyLimit: CONFIG.monthlyLimit,
+    effectiveMonthlyLimit: effectiveMonthly,
+    revenueGatedMode: CONFIG.revenueGated.enabled,
     perLoopLimit: CONFIG.perLoopLimit,
     todayRemaining: Math.max(0, CONFIG.dailyLimit - (daily[t] || 0)),
     monthRemaining: Math.max(0, CONFIG.monthlyLimit - (monthly[m] || 0)),
