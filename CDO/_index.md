@@ -18,7 +18,9 @@
 | 2026-04-11 | `autonomous/officer_runner.mjs` | Node.js モジュール | 1役職ぶんの1ターン実行。context/ideas を standing directive として毎ターン読込み、Claude API または dry-run モックで応答、成果物書き出し＋_index.md 追記＋task_queue 追加 | 実装済・未稼働試験 |
 | 2026-04-11 | `autonomous/orchestrator.mjs` | Node.js モジュール | 5役職の日次ループ実行。事前予算チェック→各役職実行→日次サマリ→optional git commit/push。CLI: --commit/--push/--dry-run/--only | 実装済・未稼働試験 |
 | 2026-04-11 | `autonomous/README.md` | ドキュメント | autonomous/ ディレクトリの構成表と各コンポーネントの使い方 | 策定済 |
-| 2026-04-11 | 2026-04-11_dryrun_cdo.md | dry-run | officer_runner 動作確認 | モック |
+| 2026-04-11 | `CDO/research/2026-04-11_dryrun_cdo.md` | dry-run 成果物 | officer_runner end-to-end 動作確認。モック応答をパース→ファイル書き出し→_index.md 追記→予算カウンタ更新まで正常動作 | パス |
+| 2026-04-11 | `autonomous/state/budget/{daily,monthly}_spend.json` | 予算台帳 | budget_guard.mjs のクロスラン永続ストレージ（autonomous/state/ に配置、CFO/research/ は gitignore 対象のため移動済） | 初期化済 |
+| 2026-04-11 | `context/ideas/2026-04-11_toyama_challenge_directive.md` | standing directive | オーナー指示「事業採算性 × 富山初」を自律ループの最優先 directive として捕捉。.gitignore 例外（`!*_directive.md`）で git 管理下 | 反映済 |
 
 ## 進行中タスク
 

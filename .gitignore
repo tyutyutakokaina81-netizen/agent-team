@@ -39,3 +39,6 @@ context/references/*
 !context/diary/.gitkeep
 !context/ideas/.gitkeep
 !context/references/.gitkeep
+# 自律ループが参照する standing directive は例外的に commit する
+# （*_directive.md のみ、他のアイデア類は引き続き local-only）
+!context/ideas/*_directive.md

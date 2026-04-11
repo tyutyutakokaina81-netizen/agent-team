@@ -1,0 +1,13 @@
+{
+  "2026-04-11": 0,
+  "_log": [
+    {
+      "at": "2026-04-11T09:43:58.226Z",
+      "officer": "CDO",
+      "model": "claude-haiku-4-5-20251001",
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "yen": 0
+    }
+  ]
+}

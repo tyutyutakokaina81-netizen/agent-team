@@ -42,7 +42,9 @@ export const CONFIG = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
-const SPEND_DIR = path.join(REPO_ROOT, 'CFO', 'research');
+// 予算台帳は autonomous/state/budget/ に置く。CFO/research/ は .gitignore
+// 対象なので、自律ループ間で持続しない（クロスラン共有に不適切）。
+const SPEND_DIR = path.join(__dirname, 'state', 'budget');
 const DAILY_FILE = path.join(SPEND_DIR, 'daily_spend.json');
 const MONTHLY_FILE = path.join(SPEND_DIR, 'monthly_spend.json');
 
