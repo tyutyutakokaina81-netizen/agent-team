@@ -230,30 +230,18 @@ def get_csrf_token(sess: requests.Session, url: str) -> str | None:
         r = sess.get(url, timeout=15)
         html = r.text
 
-        # パターン1: <meta name="csrf-token" content="...">
-        m = re.search(r'<meta[^>]+name=["\']csrf-token["\'][^>]+content=["\']([^"\']+)["\']', html)
-        if m:
-            return m.group(1)
-
-        # パターン2: <meta content="..." name="csrf-token">（属性順が逆）
-        m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']csrf-token["\']', html)
-        if m:
-            return m.group(1)
-
-        # パターン3: <input type="hidden" name="authenticity_token" value="...">
-        m = re.search(r'name=["\']authenticity_token["\'][^>]*value=["\']([^"\']+)["\']', html)
-        if m:
-            return m.group(1)
-
-        # パターン4: value="..." name="authenticity_token"（属性順が逆）
-        m = re.search(r'value=["\']([^"\']{20,})["\'][^>]*name=["\']authenticity_token["\']', html)
-        if m:
-            return m.group(1)
-
-        # パターン5: JSON内の csrf_token
-        m = re.search(r'"csrf_token"\s*:\s*"([^"]+)"', html)
-        if m:
-            return m.group(1)
+        patterns = [
+            r'<meta[^>]+name=["\']csrf-token["\'][^>]+content=["\']([^"\']+)["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']csrf-token["\']',
+            r'name=["\']authenticity_token["\'][^>]*value=["\']([^"\']+)["\']',
+            r'value=["\']([^"\']{20,})["\'][^>]*name=["\']authenticity_token["\']',
+            r'"csrf_token"\s*:\s*"([^"]+)"',
+            r'"csrfToken"\s*:\s*"([^"]+)"',
+        ]
+        for pat in patterns:
+            m = re.search(pat, html)
+            if m:
+                return m.group(1)
 
     except Exception as e:
         print(f"  [debug] CSRF取得エラー: {e}")
