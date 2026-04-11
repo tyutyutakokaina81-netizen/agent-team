@@ -17,6 +17,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as budget from './budget_guard.mjs';
+import * as memory from './memory.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -119,17 +120,12 @@ export async function loadOfficerContext(officer) {
     ''
   );
 
-  // task_queue から自分宛メッセージを取り出す
-  const queueFile = path.join(__dirname, 'task_queue.json');
-  let myMessages = [];
-  if (existsSync(queueFile)) {
-    try {
-      const q = JSON.parse(await readFile(queueFile, 'utf8'));
-      myMessages = (q.queue || []).filter(m => m.to === officer);
-    } catch {
-      myMessages = [];
-    }
-  }
+  // task_queue から自分宛メッセージを取り出す（consume は turn 成功後に実施）
+  const queue = await loadTaskQueue();
+  const myMessages = queue.queue.filter(m => m.to === officer);
+
+  // 短期記憶（memory.mjs）を読み込む
+  const mem = await memory.recall(officer);
 
   return {
     officer,
@@ -143,6 +139,8 @@ export async function loadOfficerContext(officer) {
     projectBrief,
     autonomousSpec: officer === 'CDO' ? autonomousSpec : autonomousSpec.split('\n').slice(0, 30).join('\n'),
     myMessages,
+    shortTermMemory: mem.shortTerm,
+    longTermMemory: mem.longTerm,
   };
 }
 
@@ -195,8 +193,13 @@ export function buildMessages(ctx) {
     referencesBlock,
   ].filter(s => s && s.trim()).join('\n');
 
+  const shortTermBlock = memory.formatShortTermForPrompt(ctx.shortTermMemory);
+
   const user = [
     `今日の日付: ${ctx.today}`,
+    '',
+    '## あなたの短期記憶（直近ターンの履歴）',
+    shortTermBlock,
     '',
     '## あなた自身の成果物ログ（_index.md）',
     ctx.officerIndex,
@@ -214,6 +217,7 @@ export function buildMessages(ctx) {
     '',
     '## 今日のあなたのタスク',
     '自律判断で、今日1つだけやるべきことを決めて実行してください。',
+    '直近の短期記憶を見て、同じことを繰り返さず、連続性のある次の一手を選ぶこと。',
     '',
     '## 出力形式（必ず有効な JSON で、他の文字は一切含めない）',
     '```json',
@@ -401,20 +405,31 @@ function appendIndexRow(indexContent, newRow) {
   return indexContent;
 }
 
-async function appendToTaskQueue(fromOfficer, messages) {
-  const queueFile = path.join(__dirname, 'task_queue.json');
-  let queue = { queue: [] };
-  if (existsSync(queueFile)) {
-    try {
-      queue = JSON.parse(await readFile(queueFile, 'utf8'));
-      if (!Array.isArray(queue.queue)) queue.queue = [];
-    } catch {
-      queue = { queue: [] };
-    }
+// task_queue.json は autonomous/state/ 以下に置く（クロスラン永続）
+const TASK_QUEUE_FILE = path.join(__dirname, 'state', 'task_queue.json');
+
+async function loadTaskQueue() {
+  if (!existsSync(TASK_QUEUE_FILE)) return { queue: [] };
+  try {
+    const q = JSON.parse(await readFile(TASK_QUEUE_FILE, 'utf8'));
+    if (!Array.isArray(q.queue)) q.queue = [];
+    return q;
+  } catch {
+    return { queue: [] };
   }
+}
+
+async function saveTaskQueue(queue) {
+  await mkdir(path.dirname(TASK_QUEUE_FILE), { recursive: true });
+  await writeFile(TASK_QUEUE_FILE, JSON.stringify(queue, null, 2) + '\n', 'utf8');
+}
+
+async function appendToTaskQueue(fromOfficer, messages) {
+  const queue = await loadTaskQueue();
   const now = new Date().toISOString();
   for (const m of messages) {
     queue.queue.push({
+      id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
       from: fromOfficer,
       to: m.to,
       priority: m.priority || 'normal',
@@ -422,7 +437,22 @@ async function appendToTaskQueue(fromOfficer, messages) {
       message: m.message,
     });
   }
-  await writeFile(queueFile, JSON.stringify(queue, null, 2) + '\n', 'utf8');
+  await saveTaskQueue(queue);
+}
+
+/**
+ * 役職に届いていた message を queue から削除する（consume）。
+ * ターン成功後に呼ぶことで、同じメッセージを繰り返し処理しない。
+ */
+async function consumeTaskQueueFor(officer) {
+  const queue = await loadTaskQueue();
+  const before = queue.queue.length;
+  queue.queue = queue.queue.filter(m => m.to !== officer);
+  const consumed = before - queue.queue.length;
+  if (consumed > 0) {
+    await saveTaskQueue(queue);
+  }
+  return consumed;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -510,6 +540,17 @@ export async function runOfficerTurn(officer, opts = {}) {
     outputTokens: response.usage.output_tokens,
   });
 
+  // 9. 短期記憶に追加
+  await memory.remember(officer, {
+    date: ctx.today,
+    decision: parsed.today_decision,
+    rationale: parsed.rationale,
+    artifactPath: applied.artifactPath,
+  });
+
+  // 10. task_queue から自分宛メッセージを consume（繰り返し処理を防ぐ）
+  const consumed = await consumeTaskQueueFor(officer);
+
   return {
     officer,
     mode: resolved,
@@ -518,6 +559,7 @@ export async function runOfficerTurn(officer, opts = {}) {
     artifactPath: applied.artifactPath,
     indexUpdated: applied.indexUpdated,
     messagesQueued: applied.messagesQueued,
+    messagesConsumed: consumed,
     spend: {
       thisCall: recorded.yen,
       today: recorded.todaySpend,

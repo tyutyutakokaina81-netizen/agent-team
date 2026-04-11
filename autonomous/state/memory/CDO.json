@@ -1,0 +1,12 @@
+{
+  "short_term": [
+    {
+      "date": "2026-04-11",
+      "decision": "[dry-run] CDO の今日のサンプルタスク",
+      "rationale": "dry-run モードなので実 API は呼ばれていません。構造テスト用のモックです。",
+      "artifact": "CDO/research/2026-04-11_dryrun_cdo.md"
+    }
+  ],
+  "long_term": [],
+  "updated_at": "2026-04-11T10:27:24.934Z"
+}
