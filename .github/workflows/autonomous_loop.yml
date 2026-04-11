@@ -1,0 +1,128 @@
+name: Autonomous Loop (Dormant)
+
+# ⚠️ この workflow は意図的に dormant（休眠）状態で配置されている。
+# - schedule trigger は全てコメントアウト済み
+# - workflow_dispatch のみが有効（手動起動のみ）
+# - 有効化するにはオーナーが明示的に下の schedule 行のコメントを外す必要がある
+# - ANTHROPIC_API_KEY secret が設定されていない場合は dry-run に自動 fallback
+# - 1 loop あたり ¥30 / 日 ¥100 / 月 ¥2,000 の hard limit が budget_guard で強制されている
+#
+# 手動起動:
+#   gh workflow run autonomous_loop.yml           # dry-run モード
+#   gh workflow run autonomous_loop.yml -f mode=live  # live モード（要 secret）
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '実行モード'
+        type: choice
+        default: dry-run
+        options:
+          - dry-run
+          - live
+      officers:
+        description: '対象役職（カンマ区切り、空なら全役職）'
+        type: string
+        default: ''
+      commit:
+        description: '変更を自動コミット'
+        type: boolean
+        default: true
+      push:
+        description: 'リモートに push'
+        type: boolean
+        default: false
+
+  # ↓↓↓ 定期実行を有効化したい場合はオーナーが下の行のコメントを外すこと ↓↓↓
+  # ↓↓↓ 有効化前に必ず predelction.md を読むこと ↓↓↓
+  # schedule:
+  #   - cron: '0 0,8,16 * * *'  # 1日3回（JST で 9時、17時、翌1時）
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autonomous-loop
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Verify autonomous/ structure
+        run: |
+          set -e
+          test -f autonomous/budget_guard.mjs
+          test -f autonomous/officer_runner.mjs
+          test -f autonomous/orchestrator.mjs
+          test -f autonomous/memory.mjs
+          test -d autonomous/state
+          echo "structure OK"
+
+      - name: Syntax check
+        run: |
+          set -e
+          node --check autonomous/budget_guard.mjs
+          node --check autonomous/officer_runner.mjs
+          node --check autonomous/orchestrator.mjs
+          node --check autonomous/memory.mjs
+          node --check autonomous/dashboard.mjs
+          echo "syntax OK"
+
+      - name: Show pre-run budget status
+        run: node autonomous/budget_guard.mjs status
+
+      - name: Configure git identity
+        run: |
+          git config user.name "autonomous-loop[bot]"
+          git config user.email "autonomous-loop@users.noreply.github.com"
+
+      - name: Run orchestrator
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set -e
+          ARGS=""
+          if [ "${{ inputs.mode }}" = "dry-run" ]; then
+            ARGS="$ARGS --dry-run"
+          else
+            ARGS="$ARGS --live"
+          fi
+          if [ -n "${{ inputs.officers }}" ]; then
+            ARGS="$ARGS --officers ${{ inputs.officers }}"
+          fi
+          if [ "${{ inputs.commit }}" = "true" ]; then
+            ARGS="$ARGS --commit"
+          fi
+          if [ "${{ inputs.push }}" = "true" ]; then
+            ARGS="$ARGS --push"
+          fi
+          echo "running: node autonomous/orchestrator.mjs $ARGS"
+          node autonomous/orchestrator.mjs $ARGS
+
+      - name: Show post-run budget status
+        if: always()
+        run: node autonomous/budget_guard.mjs status
+
+      - name: Upload loop summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-loop-summary
+          path: CDO/research/daily_loop_*.md
+          if-no-files-found: ignore
+          retention-days: 30
