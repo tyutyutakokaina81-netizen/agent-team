@@ -18,6 +18,7 @@
 | 2026-04-11 | `autonomous/officer_runner.mjs` | Node.js モジュール | 1役職ぶんの1ターン実行。context/ideas を standing directive として毎ターン読込み、Claude API または dry-run モックで応答、成果物書き出し＋_index.md 追記＋task_queue 追加 | 実装済・未稼働試験 |
 | 2026-04-11 | `autonomous/orchestrator.mjs` | Node.js モジュール | 5役職の日次ループ実行。事前予算チェック→各役職実行→日次サマリ→optional git commit/push。CLI: --commit/--push/--dry-run/--only | 実装済・未稼働試験 |
 | 2026-04-11 | `autonomous/README.md` | ドキュメント | autonomous/ ディレクトリの構成表と各コンポーネントの使い方 | 策定済 |
+| 2026-04-11 | 2026-04-11_dryrun_cdo.md | dry-run | officer_runner 動作確認 | モック |
 
 ## 進行中タスク
 
