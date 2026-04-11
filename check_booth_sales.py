@@ -64,133 +64,77 @@ def save_alerts(alerts: list):
 
 def scrape_booth_sales() -> dict:
     """
-    BOOTHの管理画面から売上情報を取得する。
-    returns: {
-        "orders": [...],
-        "total_revenue": int,
-        "bank_account_required": bool,  ← 口座未登録通知が出ているか
-        "error": str | None,
-    }
+    BOOTHの管理画面から売上情報を取得する（requests版・ブラウザ不要）。
     """
     if not SESSION_FILE.exists():
         return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": "セッション未設定"}
 
     try:
-        from playwright.sync_api import sync_playwright
+        import requests as req
     except ImportError:
-        return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": "playwright未インストール"}
+        return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": "requests未インストール"}
 
-    storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
+        cookie_str = data.get("cookie", "")
+        if not cookie_str:
+            return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": "クッキー未設定"}
+    except Exception:
+        return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": "セッションファイル読み込み失敗"}
+
+    sess = req.Session()
+    sess.headers.update({"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"})
+    for part in cookie_str.split(";"):
+        part = part.strip()
+        if "=" in part:
+            k, v = part.split("=", 1)
+            sess.cookies.set(k.strip(), v.strip(), domain=".booth.pm")
+
     orders = []
     total_revenue = 0
     bank_account_required = False
     error = None
 
     try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True, slow_mo=100)
-            context = browser.new_context(
-                storage_state=storage,
-                viewport={"width": 1280, "height": 800},
-            )
-            page = context.new_page()
+        import re as _re
 
-            # ── 注文履歴ページ ──
-            page.goto("https://manage.booth.pm/orders", timeout=20000)
-            try:
-                page.wait_for_load_state("networkidle", timeout=8000)
-            except Exception:
-                pass
-            time.sleep(1)
+        # 注文履歴ページ
+        r = sess.get("https://manage.booth.pm/orders", timeout=15)
+        if "sign_in" in r.url or "login" in r.url:
+            return {"orders": [], "total_revenue": 0, "bank_account_required": False,
+                    "error": "セッション期限切れ（再ログインが必要）"}
 
-            # 振込口座未登録の通知を検出（自動入力はしない）
-            for notice_sel in [
-                "[class*='bank']", "[class*='payment_account']",
-                "a[href*='payment_account']",
-                "*:has-text('振込先')", "*:has-text('口座登録')", "*:has-text('口座未登録')",
-            ]:
-                try:
-                    el = page.query_selector(notice_sel)
-                    if el and el.is_visible():
-                        bank_account_required = True
-                        break
-                except Exception:
-                    pass
+        html = r.text
 
-            # ログイン確認
-            if "sign_in" in page.url or "login" in page.url:
-                error = "セッション期限切れ（再ログインが必要）"
-                browser.close()
-                return {"orders": [], "total_revenue": 0, "bank_account_required": False, "error": error}
+        # 振込口座未登録チェック
+        if "payment_account" in html and ("未登録" in html or "口座" in html):
+            bank_account_required = True
 
-            # 注文行を取得
-            for row_sel in [
-                "tr.order", ".order-row", "[class*='order__row']",
-                "table tbody tr", ".c-ordersTable__row",
-            ]:
-                rows = page.query_selector_all(row_sel)
-                if rows:
-                    for row in rows[:50]:  # 最大50件
-                        try:
-                            text = row.inner_text()
-                            lines = [l.strip() for l in text.split("\n") if l.strip()]
-                            if not lines:
-                                continue
-                            # 金額を抽出（¥数字 パターン）
-                            import re
-                            amounts = re.findall(r"[¥￥][\d,]+", text)
-                            amount = 0
-                            if amounts:
-                                amount = int(amounts[0].replace("¥", "").replace("￥", "").replace(",", ""))
+        # 注文IDと金額を正規表現で抽出
+        order_blocks = _re.findall(
+            r'(order[_-]?\d+|#\d{6,}|注文番号[^\d]*(\d+))',
+            html, _re.IGNORECASE
+        )
+        amounts_raw = _re.findall(r"¥([\d,]+)", html)
+        for a in amounts_raw:
+            v = int(a.replace(",", ""))
+            if 100 <= v <= 50000:
+                orders.append({"amount": v, "id": f"order_{len(orders)}", "date": ""})
+                total_revenue += v
 
-                            # 日付を抽出
-                            dates = re.findall(r"\d{4}[/-]\d{1,2}[/-]\d{1,2}", text)
-                            order_date = dates[0] if dates else ""
-
-                            # 注文IDを抽出
-                            order_ids = re.findall(r"#\d+|\d{8,}", text)
-                            order_id = order_ids[0] if order_ids else f"row_{len(orders)}"
-
-                            orders.append({
-                                "id": order_id,
-                                "date": order_date,
-                                "amount": amount,
-                                "raw": lines[0][:60] if lines else "",
-                            })
-                            total_revenue += amount
-                        except Exception:
-                            pass
-                    if orders:
-                        break
-
-            # 売上サマリーページも確認
-            page.goto("https://manage.booth.pm/stats", timeout=15000)
-            try:
-                page.wait_for_load_state("networkidle", timeout=6000)
-            except Exception:
-                pass
-
-            # 合計売上金額をより正確に取得
-            for total_sel in [
-                "[class*='total_sales']", "[class*='totalSales']",
-                "[class*='revenue']", ".stats-total",
-                "*:has-text('売上合計')", "*:has-text('累計売上')",
-            ]:
-                try:
-                    el = page.query_selector(total_sel)
-                    if el:
-                        import re
-                        text = el.inner_text()
-                        m = re.search(r"[\d,]+", text)
-                        if m:
-                            v = int(m.group().replace(",", ""))
-                            if v > total_revenue:
-                                total_revenue = v
-                            break
-                except Exception:
-                    pass
-
-            browser.close()
+        # 売上サマリー
+        r2 = sess.get("https://manage.booth.pm/stats", timeout=15)
+        m = _re.search(r"累計売上[^\d]*([\d,]+)", r2.text)
+        if m:
+            v = int(m.group(1).replace(",", ""))
+            if v > total_revenue:
+                total_revenue = v
+        else:
+            # 最大の数値を合計売上として採用
+            all_amounts = [int(a.replace(",", "")) for a in _re.findall(r"¥([\d,]+)", r2.text)]
+            big = [a for a in all_amounts if a > 1000]
+            if big:
+                total_revenue = max(total_revenue, max(big))
 
     except Exception as e:
         error = str(e)
