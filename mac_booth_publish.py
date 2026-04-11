@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-mac_booth_publish.py — BOOTH出品（requests版・フォーム解析）
-select_type の form action を取得して直接POST
+mac_booth_publish.py v2 — BOOTH出品（2ステップ方式）
+1. select_type の digital フォームで blank item を作成 → item_id 取得
+2. PATCH で商品情報 + ファイルを登録して公開
 """
 import json, re, sys, time
 from pathlib import Path
@@ -53,14 +54,14 @@ PRODUCTS = [
 
 def make_session():
     if not SESSION_FILE.exists():
-        print("❌ セッションなし")
+        print("❌ セッションなし。mac_auto_cookie.py を先に実行してください")
         sys.exit(1)
     data = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
     cookie_str = data.get("cookie", "")
     sess = requests.Session()
     sess.headers.update({
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-        "Accept": "text/html,application/xhtml+xml",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "ja,en-US;q=0.9",
         "Referer": "https://manage.booth.pm/",
     })
@@ -72,34 +73,91 @@ def make_session():
     return sess
 
 
-def get_forms(sess, url):
-    """ページのフォームを全て解析して返す"""
-    r = sess.get(url, timeout=15)
+def get_select_type_forms(sess):
+    """select_type ページのフォームを解析して返す"""
+    r = sess.get("https://manage.booth.pm/items/select_type", timeout=15)
     soup = BeautifulSoup(r.text, "html.parser")
     forms = []
     for form in soup.find_all("form"):
         action = form.get("action", "")
-        method = form.get("method", "post").lower()
         inputs = {}
         for inp in form.find_all(["input", "select", "textarea"]):
             name = inp.get("name")
             val = inp.get("value", "")
             if name:
                 inputs[name] = val
-        forms.append({"action": action, "method": method, "inputs": inputs})
-    return forms, soup
+        forms.append({"action": action, "inputs": inputs})
+    return forms
 
 
-def publish_product(sess, product, form_url, csrf_token):
-    """商品を出品"""
+def extract_csrf(html_text):
+    """HTML から CSRF トークンを取得（meta tag または form input）"""
+    soup = BeautifulSoup(html_text, "html.parser")
+    # React SPA でも <meta name="csrf-token"> は含まれることが多い
+    meta = soup.find("meta", {"name": "csrf-token"})
+    if meta and meta.get("content"):
+        return meta["content"]
+    # フォームの hidden input
+    for inp in soup.find_all("input", {"name": "authenticity_token"}):
+        val = inp.get("value", "")
+        if val:
+            return val
+    return None
+
+
+def create_digital_item(sess, forms):
+    """
+    デジタルアイテムを select_type フォームで作成し、item_id と CSRF を返す。
+    戻り値: (item_id, edit_csrf) or (None, None)
+    """
+    # 'digital' を action URL に含むフォームを選択
+    digital_form = next(
+        (f for f in forms if "digital" in f.get("action", "")), None
+    )
+    if not digital_form:
+        return None, None
+
+    action = digital_form["action"]
+    csrf = digital_form["inputs"].get("authenticity_token", "")
+    url = f"https://manage.booth.pm{action}" if action.startswith("/") else action
+
+    print(f"  デジタルフォーム: {url}")
+
+    # POST → blank デジタルアイテム作成 → /items/{id}/edit へリダイレクト
+    r = sess.post(url, data={"authenticity_token": csrf},
+                  timeout=20, allow_redirects=True)
+    print(f"  作成後URL: {r.url} (status: {r.status_code})")
+
+    # アイテムID を URL から抽出
+    m = re.search(r"/items/(\d+)", r.url)
+    if not m:
+        print(f"  ❌ アイテムIDが取得できません")
+        return None, None
+
+    item_id = m.group(1)
+
+    # edit ページの CSRF を取得（meta tag 優先）
+    edit_csrf = extract_csrf(r.text)
+    if not edit_csrf:
+        # フォールバック: select_type の CSRF をそのまま使用
+        edit_csrf = csrf
+        print(f"  ⚠️  edit CSRF が見つからないため select_type の CSRF を使用")
+
+    return item_id, edit_csrf
+
+
+def update_item(sess, item_id, product, csrf):
+    """PATCH でアイテムに商品情報とファイルを登録し、公開状態にする"""
+    url = f"https://manage.booth.pm/items/{item_id}"
+
     data = {
-        "authenticity_token": csrf_token,
+        "_method": "patch",
+        "authenticity_token": csrf,
         "item[name]": product["title"],
         "item[description]": product["description"],
         "item[price]": product["price"],
         "item[tag_list]": product["tags"],
         "item[status]": "on_sale",
-        "item[type]": "digital",
     }
 
     files = {}
@@ -110,106 +168,90 @@ def publish_product(sess, product, form_url, csrf_token):
             open(fp, "rb"),
             "application/octet-stream",
         )
+        print(f"  ファイル: {Path(fp).name} ({Path(fp).stat().st_size // 1024}KB)")
+    else:
+        print(f"  ⚠️  ファイルなし: {fp}")
 
-    r = sess.post(
-        form_url,
-        data=data,
-        files=files if files else None,
-        timeout=30,
-        allow_redirects=True,
-    )
-    for f in files.values():
-        f[1].close()
+    r = sess.post(url, data=data, files=files if files else None,
+                  timeout=30, allow_redirects=True)
+
+    for fv in files.values():
+        fv[1].close()
 
     return r
 
 
 def main():
     print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("  BOOTH 出品（フォーム解析版）")
+    print("  BOOTH 出品（2ステップ方式 v2）")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
     sess = make_session()
 
-    # select_type フォームを解析
-    print("フォームを解析中...")
-    forms, soup = get_forms(sess, "https://manage.booth.pm/items/select_type")
-    print(f"  フォーム数: {len(forms)}個")
-    for i, f in enumerate(forms):
-        print(f"  [{i}] action={f['action']} inputs={list(f['inputs'].keys())}")
+    # ログイン確認
+    r = sess.get("https://manage.booth.pm/items", timeout=15, allow_redirects=True)
+    if "sign_in" in r.url or "login" in r.url:
+        print("❌ セッション無効。mac_auto_cookie.py を再実行してください")
+        sys.exit(1)
+    print(f"✅ ログイン確認: {r.url}\n")
 
-    # デジタル商品フォームを特定してPOST
-    digital_url = None
-    digital_csrf = None
+    # 前回誤作成のアイテムがある場合の案内
+    print("📋 注意: 前回のテスト実行で誤作成されたアイテムがある場合は")
+    print("   https://manage.booth.pm/items?state=draft で確認・削除してください\n")
 
-    for f in forms:
-        action = f.get("action", "")
-        if "digital" in action or "item" in action:
-            digital_url = "https://manage.booth.pm" + action if action.startswith("/") else action
-            digital_csrf = f["inputs"].get("authenticity_token", "")
-            break
-
-    if not digital_url:
-        # 最初のフォームを試す
-        if forms:
-            f = forms[0]
-            action = f.get("action", "")
-            digital_url = "https://manage.booth.pm" + action if action.startswith("/") else action
-            digital_csrf = f["inputs"].get("authenticity_token", "")
-            print(f"  最初のフォームを使用: {digital_url}")
-
-    if not digital_url or not digital_csrf:
-        print("❌ フォームが見つかりません")
-        print("  全フォーム:")
-        for f in forms:
-            print(f"    {f}")
-        return
-
-    print(f"\n  出品フォーム: {digital_url}")
-    print(f"  CSRFトークン: {digital_csrf[:20]}...")
-
-    # まずフォームページに移動してCSRFを再取得
-    print("\n出品フォームを取得中...")
-    r = sess.post(digital_url,
-                  data={"authenticity_token": digital_csrf},
-                  timeout=15, allow_redirects=True)
-    print(f"  → {r.url} (status: {r.status_code})")
-
-    # 出品フォームのCSRFを取得
-    item_forms, item_soup = get_forms(sess, r.url)
-    print(f"  出品フォーム要素数: {len(item_forms)}")
-
-    item_csrf = None
-    item_post_url = None
-    for f in item_forms:
-        if f["inputs"].get("authenticity_token"):
-            item_csrf = f["inputs"]["authenticity_token"]
-            action = f.get("action", "")
-            item_post_url = "https://manage.booth.pm" + action if action.startswith("/") else action
-            break
-
-    if not item_csrf:
-        print("❌ 出品フォームのCSRFが見つかりません")
-        print(f"  フォーム内容: {item_forms}")
-        return
-
-    # 商品を出品
     success = 0
+    created_ids = []
+
     for i, product in enumerate(PRODUCTS, 1):
-        print(f"\n[{i}/{len(PRODUCTS)}] {product['title'][:40]}...")
-        r = publish_product(sess, product, item_post_url or r.url, item_csrf)
-        print(f"  status: {r.status_code} | url: {r.url}")
-        if r.status_code < 400 and "select_type" not in r.url and "new" not in r.url:
-            print(f"  ✅ 出品完了")
+        print(f"[{i}/{len(PRODUCTS)}] {product['title'][:45]}...")
+
+        # select_type フォームを毎回取得（CSRF 更新のため）
+        forms = get_select_type_forms(sess)
+        print(f"  フォーム数: {len(forms)} | "
+              f"digital: {'✅' if any('digital' in f['action'] for f in forms) else '❌'}")
+
+        # Step 1: blank デジタルアイテムを作成
+        item_id, edit_csrf = create_digital_item(sess, forms)
+        if not item_id:
+            print(f"  ❌ アイテム作成スキップ\n")
+            continue
+
+        created_ids.append(item_id)
+        print(f"  アイテムID: {item_id}")
+
+        # Step 2: PATCH で商品情報 + ファイルを登録
+        r2 = update_item(sess, item_id, product, edit_csrf)
+        print(f"  更新後URL: {r2.url} (status: {r2.status_code})")
+
+        if r2.status_code < 400 and "/edit" not in r2.url:
+            print(f"  ✅ 出品完了: https://freelance-tools.booth.pm/items/{item_id}")
             success += 1
         else:
-            print(f"  ❌ 失敗")
-        time.sleep(2)
+            print(f"  ⚠️  要確認: https://manage.booth.pm/items/{item_id}/edit")
+            # エラー内容を抽出して表示
+            err_soup = BeautifulSoup(r2.text, "html.parser")
+            # JSON エラーレスポンスの可能性
+            try:
+                err_json = r2.json()
+                print(f"     JSON: {str(err_json)[:200]}")
+            except Exception:
+                # HTML エラーメッセージを抽出
+                for sel in [".error", ".alert", "[class*='error']", "[class*='alert']"]:
+                    errors = err_soup.select(sel)
+                    if errors:
+                        msgs = [e.get_text(strip=True)[:80] for e in errors[:3]]
+                        print(f"     エラー: {msgs}")
+                        break
 
-    print(f"\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print()
+        time.sleep(3)
+
+    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print(f"  完了: {success}/{len(PRODUCTS)} 件")
+    if created_ids:
+        print(f"  作成ID: {', '.join(created_ids)}")
     print(f"  確認: https://manage.booth.pm/items")
-    print(f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
 
 if __name__ == "__main__":
