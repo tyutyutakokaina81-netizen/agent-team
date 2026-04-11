@@ -225,17 +225,38 @@ def check_sales(sess: requests.Session) -> dict:
 # ─────────────────────────────────────────────
 
 def get_csrf_token(sess: requests.Session, url: str) -> str | None:
-    """ページからCSRFトークンを取得"""
+    """ページからCSRFトークンを取得（複数パターン対応）"""
     try:
         r = sess.get(url, timeout=15)
-        m = re.search(r'<meta[^>]+name=["\']csrf-token["\'][^>]+content=["\']([^"\']+)["\']', r.text)
+        html = r.text
+
+        # パターン1: <meta name="csrf-token" content="...">
+        m = re.search(r'<meta[^>]+name=["\']csrf-token["\'][^>]+content=["\']([^"\']+)["\']', html)
         if m:
             return m.group(1)
-        m = re.search(r'authenticity_token["\'][^>]*value=["\']([^"\']+)["\']', r.text)
+
+        # パターン2: <meta content="..." name="csrf-token">（属性順が逆）
+        m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']csrf-token["\']', html)
         if m:
             return m.group(1)
-    except Exception:
-        pass
+
+        # パターン3: <input type="hidden" name="authenticity_token" value="...">
+        m = re.search(r'name=["\']authenticity_token["\'][^>]*value=["\']([^"\']+)["\']', html)
+        if m:
+            return m.group(1)
+
+        # パターン4: value="..." name="authenticity_token"（属性順が逆）
+        m = re.search(r'value=["\']([^"\']{20,})["\'][^>]*name=["\']authenticity_token["\']', html)
+        if m:
+            return m.group(1)
+
+        # パターン5: JSON内の csrf_token
+        m = re.search(r'"csrf_token"\s*:\s*"([^"]+)"', html)
+        if m:
+            return m.group(1)
+
+    except Exception as e:
+        print(f"  [debug] CSRF取得エラー: {e}")
     return None
 
 
@@ -244,8 +265,14 @@ def publish_product(sess: requests.Session, product: dict) -> bool:
     new_item_url = "https://manage.booth.pm/items/new"
     csrf = get_csrf_token(sess, new_item_url)
     if not csrf:
-        print("  ⚠️  CSRFトークン取得失敗")
+        # manage.booth.pm トップからも試みる
+        csrf = get_csrf_token(sess, "https://manage.booth.pm/")
+    if not csrf:
+        print("  ⚠️  CSRFトークン取得失敗（BOOTHにログイン中か確認してください）")
         return False
+
+    # タグをカンマ区切りで渡す
+    tags = ",".join(product.get("tags", []))
 
     data = {
         "authenticity_token": csrf,
@@ -253,11 +280,10 @@ def publish_product(sess: requests.Session, product: dict) -> bool:
         "item[description]": product["description"],
         "item[price]": str(product["price"]),
         "item[status]": "on_sale",
+        "item[tag_list]": tags,
         "item[category_id]": "",
+        "item[type]": "digital",
     }
-    # タグ
-    for i, tag in enumerate(product.get("tags", [])):
-        data[f"item[tag_list][]"] = tag
 
     files = {}
     file_path = product.get("file")
@@ -275,12 +301,14 @@ def publish_product(sess: requests.Session, product: dict) -> bool:
         for f in files.values():
             f.close()
 
-        # 成功判定: リダイレクト先が items/{id} ならOK
-        if r.status_code in (200, 201, 302) and "items/new" not in r.url:
+        # 成功判定
+        if r.status_code in (200, 201) and "items/new" not in r.url:
             return True
-        if "エラー" in r.text or "error" in r.text.lower():
-            return False
-        return r.status_code < 400
+        if r.status_code == 302:
+            location = r.headers.get("Location", "")
+            if "items/new" not in location:
+                return True
+        return False
     except Exception as e:
         print(f"  エラー: {e}")
         return False
