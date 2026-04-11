@@ -245,13 +245,34 @@ def publish_products(playwright):
 
             time.sleep(1)
 
-            # 保存（下書き）
+            # ステータスを「販売中」に設定（即公開）
+            status_set = False
+            for sel in ["select[name='item[status]']", "select[id='item_status']"]:
+                el = page.query_selector(sel)
+                if el:
+                    el.select_option("on_sale")
+                    status_set = True
+                    time.sleep(0.3)
+                    break
+            if not status_set:
+                for sel in ["input[value='on_sale']", "label:has-text('販売中')", "label:has-text('公開')"]:
+                    el = page.query_selector(sel)
+                    if el:
+                        el.click()
+                        status_set = True
+                        time.sleep(0.3)
+                        break
+
+            time.sleep(0.5)
+
+            # 保存（即公開）
             for sel in ["[type='submit']", "button:has-text('保存')", "input[value*='保存']"]:
                 btn = page.query_selector(sel)
                 if btn:
                     btn.click()
                     time.sleep(2)
-                    print(f"  ✅ 保存完了（下書き状態）")
+                    label = "公開完了" if status_set else "保存完了（要手動公開）"
+                    print(f"  ✅ {label}")
                     success_count += 1
                     break
 
@@ -265,7 +286,7 @@ def publish_products(playwright):
     print(f"\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print(f"  出品完了: {success_count}/{len(PRODUCTS)} 件")
     if success_count > 0:
-        print(f"  ⚠️  下書き状態です。BOOTH 管理画面で「公開」にしてください")
+        print(f"  ✅ BOOTH 管理画面で確認してください")
         print(f"  https://manage.booth.pm/items")
     print(f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     return success_count > 0

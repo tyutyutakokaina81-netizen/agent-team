@@ -1,18 +1,26 @@
 """
-03_apply.py — 応募文生成
-案件情報をもとに Claude が最適な応募文を生成する。
-送信は人手確認後（規約グレーのため半自動運用）。
+03_apply.py — 応募文生成 + 自動送信
+案件情報をもとに Claude が最適な応募文を生成し、Playwright で自動送信する。
+
+自動送信の条件（リスク管理）:
+  - 環境変数 AUTO_APPLY=1 が設定されていること
+  - verdict が "GO" であること
+  - スコアが AUTO_APPLY_THRESHOLD（デフォルト80）以上であること
 """
 
 import json
 import os
+import time
 import urllib.request
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
+SESSION_DIR = Path(__file__).parent.parent / ".sessions"
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+AUTO_APPLY = os.environ.get("AUTO_APPLY", "0") == "1"
+AUTO_APPLY_THRESHOLD = int(os.environ.get("AUTO_APPLY_THRESHOLD", "80"))
 
 APPLY_PROMPT = """
 あなたはクラウドソーシングの応募文を作成するプロフェッショナルです。
@@ -107,6 +115,138 @@ def generate_application(job: dict) -> dict:
     return {**job, "application_text": text, "status": "template"}
 
 
+def _submit_crowdworks(page, url: str, text: str) -> bool:
+    """クラウドワークス: 応募フォームを自動送信"""
+    page.goto(url)
+    time.sleep(2)
+    # 「応募する」ボタンをクリック
+    for sel in [
+        "a.btn-apply", "a[href*='apply']", "a:has-text('応募する')",
+        "button:has-text('応募する')", ".job-apply-btn",
+    ]:
+        btn = page.query_selector(sel)
+        if btn:
+            btn.click()
+            time.sleep(2)
+            break
+    # テキストエリアに応募文を入力
+    for sel in [
+        "textarea[name='job_offer_apply[body]']",
+        "textarea[name='apply[body]']",
+        "#job_offer_apply_body", "#body",
+        "textarea.apply-body", "textarea",
+    ]:
+        ta = page.query_selector(sel)
+        if ta:
+            ta.fill(text)
+            time.sleep(0.5)
+            break
+    else:
+        return False
+    # 送信ボタン
+    for sel in [
+        "input[type='submit']", "button[type='submit']",
+        "button:has-text('送信')", "input[value*='送信']",
+        "button:has-text('応募')", "input[value*='応募']",
+    ]:
+        btn = page.query_selector(sel)
+        if btn:
+            btn.click()
+            time.sleep(3)
+            return True
+    return False
+
+
+def _submit_lancers(page, url: str, text: str) -> bool:
+    """ランサーズ: 提案フォームを自動送信"""
+    page.goto(url)
+    time.sleep(2)
+    # 「提案する」ボタン
+    for sel in [
+        "a.btn-proposal", "a[href*='propose']", "a:has-text('提案する')",
+        "button:has-text('提案する')", ".propose-btn",
+    ]:
+        btn = page.query_selector(sel)
+        if btn:
+            btn.click()
+            time.sleep(2)
+            break
+    # テキストエリア
+    for sel in [
+        "textarea[name='proposal[body]']", "textarea[name='body']",
+        "#proposal_body", "textarea.proposal-body", "textarea",
+    ]:
+        ta = page.query_selector(sel)
+        if ta:
+            ta.fill(text)
+            time.sleep(0.5)
+            break
+    else:
+        return False
+    # 送信
+    for sel in [
+        "input[type='submit']", "button[type='submit']",
+        "button:has-text('提案を送る')", "input[value*='提案']",
+    ]:
+        btn = page.query_selector(sel)
+        if btn:
+            btn.click()
+            time.sleep(3)
+            return True
+    return False
+
+
+def auto_submit_application(app: dict) -> bool:
+    """
+    高スコア GO 案件に Playwright で自動応募する。
+    AUTO_APPLY=1 かつ score >= AUTO_APPLY_THRESHOLD の場合のみ実行。
+    """
+    if not AUTO_APPLY:
+        return False
+    if app.get("verdict") != "GO":
+        return False
+    if app.get("total", 0) < AUTO_APPLY_THRESHOLD:
+        return False
+
+    url = app.get("url", "")
+    text = app.get("application_text", "")
+    if not url or not text:
+        return False
+
+    platform = "crowdworks" if "crowdworks.jp" in url else "lancers" if "lancers.jp" in url else None
+    if not platform:
+        return False
+
+    session_file = SESSION_DIR / f"{platform}_session.json"
+    if not session_file.exists():
+        print(f"  ⚠️  セッションなし ({platform}) → 手動応募してください")
+        return False
+
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return False
+
+    storage = json.loads(session_file.read_text(encoding="utf-8"))
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, slow_mo=200)
+            context = browser.new_context(
+                storage_state=storage,
+                viewport={"width": 1280, "height": 800},
+            )
+            page = context.new_page()
+            if platform == "crowdworks":
+                ok = _submit_crowdworks(page, url, text)
+            else:
+                ok = _submit_lancers(page, url, text)
+            browser.close()
+        return ok
+    except Exception as e:
+        print(f"  ⚠️  自動応募失敗 ({platform}): {e}")
+        return False
+
+
 def run(jobs: list[dict] | None = None):
     if jobs is None:
         files = sorted(OUTPUT_DIR.glob("*_evaluated.json"))
@@ -124,18 +264,41 @@ def run(jobs: list[dict] | None = None):
         json.dumps(applications, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    # 人間確認用のサマリを表示
+    # 自動応募（AUTO_APPLY=1 の場合）
+    auto_count = 0
+    if AUTO_APPLY:
+        go_apps = [a for a in applications if a.get("verdict") == "GO" and a.get("total", 0) >= AUTO_APPLY_THRESHOLD]
+        print(f"\n[自動応募] GO案件 {len(go_apps)}件（スコア≥{AUTO_APPLY_THRESHOLD}）")
+        for app in go_apps:
+            print(f"  応募中: {app.get('title','')[:40]}...", end=" ", flush=True)
+            ok = auto_submit_application(app)
+            if ok:
+                app["submitted"] = True
+                auto_count += 1
+                print("✅ 送信完了")
+            else:
+                print("❌ 失敗（手動対応）")
+        out_path.write_text(json.dumps(applications, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # サマリ表示
     print("\n" + "=" * 60)
-    print("【要確認】以下の応募文を送信してよいか確認してください")
+    if AUTO_APPLY:
+        print(f"  自動応募: {auto_count}件送信完了")
+        manual = [a for a in applications if not a.get("submitted")]
+        if manual:
+            print(f"  手動応募が必要: {len(manual)}件")
+    else:
+        print("  応募文を生成しました（手動送信 or AUTO_APPLY=1 で自動送信）")
     print("=" * 60)
     for i, app in enumerate(applications, 1):
-        print(f"\n[{i}] {app['title']}")
+        submitted = "✅ 送信済" if app.get("submitted") else "📋 未送信"
+        print(f"\n[{i}] {submitted} {app['title']}")
         print(f"    URL: {app['url']}")
-        print(f"    応募文:\n{app.get('application_text', '')}")
-        print("-" * 40)
+        if not app.get("submitted"):
+            print(f"    応募文:\n{app.get('application_text', '')}")
+            print("-" * 40)
 
-    print(f"\n[完了] {len(applications)}件の応募文を生成 → {out_path}")
-    print("[次のステップ] 内容確認後、各プラットフォームから手動で送信してください")
+    print(f"\n[完了] {len(applications)}件 → {out_path}")
     return applications
 
 

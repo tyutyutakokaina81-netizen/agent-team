@@ -60,10 +60,10 @@ else
   echo "  ✅ API キーあり（Claude による高精度評価が有効）"
 fi
 
-# パイプライン実行
+# パイプライン実行（AUTO_APPLY=1: GOスコア80以上の案件に自動応募）
 echo "\n[4/4] パイプライン実行中..."
 cd "$PIPELINE_DIR"
-python3 run_pipeline.py search
+AUTO_APPLY=1 AUTO_APPLY_THRESHOLD=80 python3 run_pipeline.py search
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
