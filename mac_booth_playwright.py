@@ -83,8 +83,9 @@ async def publish_all():
 
         page = await ctx.new_page()
 
-        # BOOTHにアクセスして確認
-        await page.goto("https://manage.booth.pm/items", wait_until="networkidle", timeout=30000)
+        # BOOTHにアクセスして確認（domcontentloaded の方が SPA では安定）
+        await page.goto("https://manage.booth.pm/items", wait_until="domcontentloaded", timeout=30000)
+        await page.wait_for_timeout(3000)
 
         # ログインチェック
         if "sign_in" in page.url or "login" in page.url:
@@ -94,37 +95,32 @@ async def publish_all():
 
         print(f"✅ ログイン確認: {page.url}")
 
-        # 「新しい商品を作る」ボタンを探す
-        new_item_url = None
-        for selector in [
-            "a[href*='/items/new']",
-            "a:has-text('新しい商品')",
-            "a:has-text('商品を追加')",
-            "a:has-text('Add item')",
-            ".new-item",
-        ]:
-            el = page.locator(selector).first
-            if await el.count() > 0:
-                href = await el.get_attribute("href")
-                if href:
-                    new_item_url = href if href.startswith("http") else f"https://manage.booth.pm{href}"
-                    print(f"  新規作成URL: {new_item_url}")
-                    break
-
-        if not new_item_url:
-            # ページのリンクを全部表示して確認
-            links = await page.eval_on_selector_all("a[href*='item']", "els => els.map(e => e.href)")
-            print("  見つかったitemリンク:")
-            for l in links[:10]:
-                print(f"    {l}")
-            await browser.close()
-            return
+        # 新規作成URL（調査済み）
+        new_item_url = "https://manage.booth.pm/items/select_type"
+        print(f"  新規作成URL: {new_item_url}")
 
         success = 0
         for i, product in enumerate(PRODUCTS, 1):
             print(f"\n[{i}/{len(PRODUCTS)}] {product['title'][:40]}...")
 
-            await page.goto(new_item_url, wait_until="networkidle", timeout=30000)
+            # タイプ選択ページへ
+            await page.goto(new_item_url, wait_until="domcontentloaded", timeout=30000)
+            await page.wait_for_timeout(2000)
+
+            # 「デジタルコンテンツ」を選択
+            for sel in [
+                "a:has-text('デジタルコンテンツ')",
+                "a:has-text('digital')",
+                "a[href*='digital']",
+                "a[href*='type=digital']",
+                ".type-digital",
+            ]:
+                el = page.locator(sel).first
+                if await el.count() > 0:
+                    await el.click()
+                    await page.wait_for_load_state("domcontentloaded")
+                    await page.wait_for_timeout(2000)
+                    break
 
             try:
                 # 商品名
@@ -163,18 +159,24 @@ async def publish_all():
                     "input[type='submit']",
                     "button:has-text('保存')",
                     "button:has-text('出品')",
+                    "button:has-text('登録')",
                 ]:
                     btn = page.locator(sel).first
                     if await btn.count() > 0:
                         await btn.click()
-                        await page.wait_for_load_state("networkidle", timeout=15000)
+                        await page.wait_for_load_state("domcontentloaded", timeout=15000)
+                        await page.wait_for_timeout(2000)
                         break
 
-                if "items/new" not in page.url:
+                if "select_type" not in page.url and "items/new" not in page.url:
                     print(f"  ✅ 出品完了: {page.url}")
                     success += 1
                 else:
+                    # スクリーンショットを保存して確認
+                    shot = Path(__file__).parent / "logs" / f"booth_debug_{i}.png"
+                    await page.screenshot(path=str(shot))
                     print(f"  ⚠️  要確認: {page.url}")
+                    print(f"     スクリーンショット: {shot}")
 
             except Exception as e:
                 print(f"  ❌ エラー: {e}")
