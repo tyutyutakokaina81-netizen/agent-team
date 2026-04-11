@@ -1,0 +1,31 @@
+{
+  "name": "toyama-local-mcp",
+  "version": "0.1.0",
+  "description": "Toyama Prefecture local information MCP server. Tourism spots, food, festivals, traditional crafts. Free tier + x402 paid tier.",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "x402",
+    "toyama",
+    "富山",
+    "tourism",
+    "cloudflare-workers"
+  ],
+  "author": "Autonomous AI Company (Toyama)",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.6.0",
+    "x402-hono": "^0.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260401.0",
+    "wrangler": "^3.100.0",
+    "typescript": "^5.6.0"
+  }
+}

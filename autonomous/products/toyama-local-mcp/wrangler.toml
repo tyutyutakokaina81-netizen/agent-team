@@ -1,0 +1,15 @@
+name = "toyama-local-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+X402_NETWORK = "base"
+X402_PRICE_SEARCH = "0.03"
+X402_PRICE_RECOMMEND = "0.08"
+X402_PRICE_DETAIL = "0.02"
+X402_CURRENCY = "USDC"
+X402_FACILITATOR = "https://x402.org/facilitator"
+
+# SERVER_ADDRESS は jp-subsidy-mcp と同じウォレットを共有する場合は
+# 再度 `wrangler secret put SERVER_ADDRESS` で設定する
