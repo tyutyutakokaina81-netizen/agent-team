@@ -90,6 +90,19 @@ else
   echo "  ✅ 日次レポート cron 登録: 毎朝 08:00"
 fi
 
+# BOOTH売上チェックの cron 登録（30分ごと）
+SALES_LOGFILE="$LOG_DIR/booth_sales.log"
+if echo "$(crontab -l 2>/dev/null)" | grep -q "check_booth_sales.py"; then
+  echo "  ✅ BOOTH売上チェック cron 登録済み（スキップ）"
+else
+  CURRENT_CRON3=$(crontab -l 2>/dev/null || echo "")
+  SALES_CRON="$CURRENT_CRON3
+# agent-team BOOTH売上チェック（30分ごと）
+*/30 * * * * python3 $REPO_DIR/check_booth_sales.py >> $SALES_LOGFILE 2>&1"
+  echo "$SALES_CRON" | crontab -
+  echo "  ✅ BOOTH売上チェック cron 登録: 30分ごと → $SALES_LOGFILE"
+fi
+
 # ────────────────────────────────────────────────────────
 # STEP 4: 初回レポート表示
 # ────────────────────────────────────────────────────────

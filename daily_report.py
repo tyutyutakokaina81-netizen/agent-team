@@ -100,32 +100,36 @@ def check_pipeline_outputs():
     }
 
 
-def estimate_booth_revenue():
+def get_booth_revenue():
     """
-    BOOTH売上の推計（APIなし・手動ログ方式）
-    logs/booth_sales.json に手動入力されたデータを読む
+    BOOTH売上を取得（check_booth_sales.py が自動収集した logs/booth_sales.json を読む）
     """
     sales_file = LOG_DIR / "booth_sales.json"
     if not sales_file.exists():
-        # 初期ファイルを作成（手動入力用テンプレ）
-        template = {
-            "_comment": "BOOTHの管理画面を見て手動で更新してください",
-            "_url": "https://manage.booth.pm/items",
-            "last_updated": "",
-            "sales": []
-        }
-        sales_file.write_text(json.dumps(template, ensure_ascii=False, indent=2), encoding="utf-8")
-        return {"total": 0, "this_month": 0, "count": 0}
+        return {"total": 0, "this_month": 0, "count": 0, "last_checked": None, "alerts": []}
 
     try:
         data = json.loads(sales_file.read_text(encoding="utf-8"))
         sales = data.get("sales", [])
         this_month = date.today().strftime("%Y-%m")
         monthly = sum(s.get("amount", 0) for s in sales if s.get("date", "").startswith(this_month))
-        total = sum(s.get("amount", 0) for s in sales)
-        return {"total": total, "this_month": monthly, "count": len(sales)}
+        total = data.get("total_revenue", sum(s.get("amount", 0) for s in sales))
+        last_checked = data.get("last_checked")
+
+        # 未解決アラートも読む
+        alert_file = LOG_DIR / "booth_alerts.json"
+        alerts = []
+        if alert_file.exists():
+            try:
+                all_alerts = json.loads(alert_file.read_text(encoding="utf-8"))
+                alerts = [a for a in all_alerts if not a.get("resolved")]
+            except Exception:
+                pass
+
+        return {"total": total, "this_month": monthly, "count": len(sales),
+                "last_checked": last_checked, "alerts": alerts}
     except Exception:
-        return {"total": 0, "this_month": 0, "count": 0}
+        return {"total": 0, "this_month": 0, "count": 0, "last_checked": None, "alerts": []}
 
 
 def main():
@@ -156,9 +160,13 @@ def main():
         else:
             print(f"  ❌ {label} → python3 generate_products.py を実行")
 
-    booth_sales = estimate_booth_revenue()
+    booth_sales = get_booth_revenue()
+    checked = booth_sales["last_checked"] or "未チェック（check_booth_sales.py 未実行）"
     print(f"  売上（今月）: ¥{booth_sales['this_month']:,}  累計: ¥{booth_sales['total']:,}  件数: {booth_sales['count']}件")
-    print(f"  ※ 売上記録: logs/booth_sales.json に手動で入力してください")
+    print(f"  最終確認    : {checked}（30分ごと自動更新）")
+    # 未解決アラートを表示
+    for alert in booth_sales.get("alerts", []):
+        print(f"  🚨 {alert['message'].splitlines()[0]}")
 
     # D柱: パイプライン
     pipeline = check_pipeline_outputs()
@@ -173,7 +181,7 @@ def main():
 
     # 月次目標進捗
     target = 300_000
-    booth_rev  = booth_sales["this_month"]
+    booth_rev  = booth_sales.get("this_month", 0)
     pipeline_rev = pipeline["estimated_revenue"]
     total_est  = booth_rev + pipeline_rev
     progress   = min(int(total_est / target * 100), 100)
@@ -203,8 +211,12 @@ def main():
     if pipeline["go_count"] > 0:
         actions.append(f"📝 応募: {pipeline['go_count']}件のGO案件に応募ボタンを押す（start.shが自動でブラウザを開きます）")
 
-    if booth_sales["count"] == 0 and sessions["booth"]:
-        actions.append("🛒 BOOTH出品: 管理画面で下書きを「公開」にする → https://manage.booth.pm/items")
+    # 口座登録アラートがあれば手動対応を促す
+    for alert in booth_sales.get("alerts", []):
+        if alert.get("type") == "bank_account_required":
+            actions.append("🏦 【手動対応】BOOTH振込口座を登録 → https://manage.booth.pm/payment_accounts")
+        elif alert.get("type") == "session_expired":
+            actions.append("🔑 BOOTHセッション再ログイン → python3 C_テンプレ販売/auto_booth_publish.py")
 
     if not actions:
         actions.append("✅ 特になし（パイプラインが自動稼働中）")
