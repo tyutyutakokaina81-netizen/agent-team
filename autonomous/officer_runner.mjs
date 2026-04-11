@@ -49,6 +49,27 @@ async function safeList(dir) {
 }
 
 /**
+ * context/ 下の指定フォルダから .md ファイルを読み込む。
+ * ファイル名 (降順＝新しい順) でソートし、limit 件まで。
+ * 各ファイルは chars 文字まで切り詰める。
+ */
+async function loadContextFolder(dir, { limit, chars }) {
+  const names = await safeList(dir);
+  const mdFiles = names.filter(n => n.endsWith('.md')).sort().reverse().slice(0, limit);
+  const out = [];
+  for (const name of mdFiles) {
+    const content = await safeRead(path.join(dir, name), '');
+    if (content.trim()) {
+      out.push({
+        filename: name,
+        content: content.length > chars ? content.slice(0, chars) + '\n...[切り詰め]' : content,
+      });
+    }
+  }
+  return out;
+}
+
+/**
  * 役職用のコンテキストを集める。
  * @param {string} officer - 役職名 (e.g. "CDO")
  * @returns {Promise<object>} ctx
@@ -77,11 +98,13 @@ export async function loadOfficerContext(officer) {
     otherOfficersSummary[other] = content.split('\n').slice(0, 40).join('\n');
   }
 
-  // context/ の中身ファイル一覧（中身は読まず、ファイル名のみ渡す）
-  const contextIndex = {
-    diary: await safeList(path.join(REPO_ROOT, 'context', 'diary')),
-    ideas: await safeList(path.join(REPO_ROOT, 'context', 'ideas')),
-    references: await safeList(path.join(REPO_ROOT, 'context', 'references')),
+  // context/ の中身を読み込む。
+  // ideas は standing directive を含むため全文読み込み（上限 20 件・各 4000 字）。
+  // diary と references は直近 5 件・各 2000 字まで。
+  const contextBody = {
+    ideas: await loadContextFolder(path.join(REPO_ROOT, 'context', 'ideas'), { limit: 20, chars: 4000 }),
+    diary: await loadContextFolder(path.join(REPO_ROOT, 'context', 'diary'), { limit: 5, chars: 2000 }),
+    references: await loadContextFolder(path.join(REPO_ROOT, 'context', 'references'), { limit: 5, chars: 2000 }),
   };
 
   // プロジェクトブリーフ
@@ -116,7 +139,7 @@ export async function loadOfficerContext(officer) {
     officerPrompt,
     officerIndex,
     otherOfficersSummary,
-    contextIndex,
+    contextBody,
     projectBrief,
     autonomousSpec: officer === 'CDO' ? autonomousSpec : autonomousSpec.split('\n').slice(0, 30).join('\n'),
     myMessages,
@@ -128,6 +151,30 @@ export async function loadOfficerContext(officer) {
 // ─────────────────────────────────────────────────────────────
 
 export function buildMessages(ctx) {
+  // オーナーからの standing directive（context/ideas/ に置かれたもの）を強調ブロックで出す
+  const ideasBlock = ctx.contextBody.ideas.length > 0
+    ? [
+        '## ⭐ オーナーからの standing directive（context/ideas/）',
+        '以下は「日々のループで必ず考慮すべき」オーナー指示である。優先度は最高。',
+        '',
+        ...ctx.contextBody.ideas.map(f => `### ${f.filename}\n${f.content}`),
+      ].join('\n')
+    : '';
+
+  const diaryBlock = ctx.contextBody.diary.length > 0
+    ? [
+        '## オーナーの日記（context/diary/ 直近分）',
+        ...ctx.contextBody.diary.map(f => `### ${f.filename}\n${f.content}`),
+      ].join('\n')
+    : '';
+
+  const referencesBlock = ctx.contextBody.references.length > 0
+    ? [
+        '## 参考資料（context/references/ 直近分）',
+        ...ctx.contextBody.references.map(f => `### ${f.filename}\n${f.content}`),
+      ].join('\n')
+    : '';
+
   const system = [
     `あなたは AI 自律経営会社の ${ctx.officer} です。`,
     '',
@@ -140,7 +187,13 @@ export function buildMessages(ctx) {
     '## 現在のミッション',
     '今月（2026-04）は「自立型AI基盤構築月」。収益目標はゼロ、インフラ構築が目的。',
     '人間オーナーは一切作業しない。あなたは自律して判断し、1ターンで1つだけ成果物を作る。',
-  ].join('\n');
+    '',
+    ideasBlock,
+    '',
+    diaryBlock,
+    '',
+    referencesBlock,
+  ].filter(s => s && s.trim()).join('\n');
 
   const user = [
     `今日の日付: ${ctx.today}`,
