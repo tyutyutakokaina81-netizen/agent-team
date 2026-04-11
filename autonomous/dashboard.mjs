@@ -15,10 +15,12 @@
 //   GET /api/memory    → 全役職の記憶サマリ JSON
 //   GET /api/queue     → task_queue 内容 JSON
 //   GET /api/loops     → 直近の daily_loop_*.md 一覧 JSON
+//   GET /api/products  → autonomous/products/ の一覧とメタ情報 JSON
+//   GET /api/revenue   → revenue_watcher の summary / snapshots JSON
 //   GET /api/health    → ヘルスチェック
 
 import { createServer } from 'node:http';
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,6 +31,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
 const TASK_QUEUE_FILE = path.join(__dirname, 'state', 'task_queue.json');
+const PRODUCTS_DIR = path.join(__dirname, 'products');
+const REVENUE_SUMMARY_FILE = path.join(__dirname, 'state', 'revenue', 'summary.json');
+const REVENUE_SNAPSHOTS_FILE = path.join(__dirname, 'state', 'revenue', 'snapshots.json');
 
 const PORT = parseInt(process.env.DASHBOARD_PORT || '3002', 10);
 const HOST = process.env.DASHBOARD_HOST || '0.0.0.0';
@@ -77,16 +82,107 @@ async function getRecentLoops(limit = 14) {
   }
 }
 
+async function getProducts() {
+  if (!existsSync(PRODUCTS_DIR)) return [];
+  try {
+    const entries = await readdir(PRODUCTS_DIR, { withFileTypes: true });
+    const products = [];
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const productDir = path.join(PRODUCTS_DIR, entry.name);
+      const pkgPath = path.join(productDir, 'package.json');
+      const wranglerPath = path.join(productDir, 'wrangler.toml');
+      const dataDir = path.join(productDir, 'data');
+
+      const product = {
+        name: entry.name,
+        has_code: existsSync(path.join(productDir, 'src')),
+        has_wrangler: existsSync(wranglerPath),
+        deployed: false, // 後で actual deploy 状態を見る
+      };
+
+      if (existsSync(pkgPath)) {
+        try {
+          const pkg = JSON.parse(await readFile(pkgPath, 'utf8'));
+          product.version = pkg.version;
+          product.description = pkg.description;
+        } catch { /* skip */ }
+      }
+
+      // data/ の件数
+      if (existsSync(dataDir)) {
+        try {
+          const dataFiles = await readdir(dataDir);
+          const jsonFiles = dataFiles.filter(f => f.endsWith('.json'));
+          if (jsonFiles.length > 0) {
+            const firstData = JSON.parse(await readFile(path.join(dataDir, jsonFiles[0]), 'utf8'));
+            product.data_count = firstData._meta?.count ?? Object.keys(firstData).filter(k => Array.isArray(firstData[k])).reduce((max, k) => Math.max(max, firstData[k].length), 0);
+          }
+        } catch { /* skip */ }
+      }
+
+      // wrangler.toml から prices を抜く（簡易パース）
+      if (existsSync(wranglerPath)) {
+        try {
+          const toml = await readFile(wranglerPath, 'utf8');
+          const priceMatch = toml.match(/X402_PRICE_\w+\s*=\s*"([^"]+)"/g);
+          if (priceMatch) {
+            product.pricing = priceMatch.map(m => {
+              const [, key] = m.match(/X402_PRICE_(\w+)/) || [];
+              const [, val] = m.match(/"([^"]+)"/) || [];
+              return { endpoint: key?.toLowerCase(), price_usd: val };
+            });
+          }
+        } catch { /* skip */ }
+      }
+
+      products.push(product);
+    }
+    return products;
+  } catch {
+    return [];
+  }
+}
+
+async function getRevenue() {
+  const out = {
+    summary: null,
+    latest_snapshot: null,
+    snapshot_count: 0,
+    estimated_jpy: 0,
+  };
+  if (existsSync(REVENUE_SUMMARY_FILE)) {
+    try {
+      out.summary = JSON.parse(await readFile(REVENUE_SUMMARY_FILE, 'utf8'));
+    } catch { /* skip */ }
+  }
+  if (existsSync(REVENUE_SNAPSHOTS_FILE)) {
+    try {
+      const snap = JSON.parse(await readFile(REVENUE_SNAPSHOTS_FILE, 'utf8'));
+      if (Array.isArray(snap.history)) {
+        out.snapshot_count = snap.history.length;
+        out.latest_snapshot = snap.history[snap.history.length - 1] || null;
+      }
+    } catch { /* skip */ }
+  }
+  if (out.latest_snapshot) {
+    out.estimated_jpy = Math.round((out.latest_snapshot.balance_usdc || 0) * 150);
+  }
+  return out;
+}
+
 // ─────────────────────────────────────────────────────────────
 // HTML ダッシュボード
 // ─────────────────────────────────────────────────────────────
 
 async function renderHtml() {
-  const [budgetData, memoryData, queueData, loops] = await Promise.all([
+  const [budgetData, memoryData, queueData, loops, products, revenue] = await Promise.all([
     getBudget(),
     getMemory(),
     getQueue(),
     getRecentLoops(7),
+    getProducts(),
+    getRevenue(),
   ]);
 
   const html = `<!doctype html>
@@ -206,7 +302,43 @@ async function renderHtml() {
         </div>
       </div>
     </div>
-    <div class="muted" style="margin-top: 8px;">残り本日 ¥${budgetData.todayRemaining.toFixed(2)} / 今月 ¥${budgetData.monthRemaining.toFixed(2)}</div>
+    <div class="muted" style="margin-top: 8px;">残り本日 ¥${budgetData.todayRemaining.toFixed(2)} / 今月 ¥${budgetData.monthRemaining.toFixed(2)}${budgetData.revenueGatedMode ? ' · <span class="warn">revenue-gated mode ON</span>' : ''}</div>
+  </div>
+
+  <div class="card">
+    <h2>💵 収益（USDC on Base）</h2>
+    ${revenue.latest_snapshot ? `
+    <div class="grid2">
+      <div>
+        <div class="stat-label">最新残高</div>
+        <div class="stat">${revenue.latest_snapshot.balance_usdc.toFixed(4)} USDC</div>
+        <div class="muted">≈ ¥${revenue.estimated_jpy.toLocaleString()}</div>
+      </div>
+      <div>
+        <div class="stat-label">累計受領 (diff)</div>
+        <div class="stat">${(revenue.summary?.cumulative_diff ?? 0).toFixed(4)} USDC</div>
+        <div class="muted">スナップショット ${revenue.snapshot_count} 件</div>
+      </div>
+    </div>
+    ${revenue.latest_snapshot.wallet ? `<div class="muted" style="margin-top: 8px;">wallet: <code>${escapeHtml(revenue.latest_snapshot.wallet.slice(0, 10))}…${escapeHtml(revenue.latest_snapshot.wallet.slice(-4))}</code> / block ${revenue.latest_snapshot.block_number}</div>` : ''}
+    ` : '<div class="muted">revenue_watcher snapshot がまだありません。<br>Coinbase Wallet アドレス受領後に <code>node autonomous/revenue_watcher.mjs snapshot</code> を実行してください。</div>'}
+  </div>
+
+  <div class="card">
+    <h2>📦 Products (${products.length})</h2>
+    ${products.length === 0 ? '<div class="muted">(まだプロダクトがありません)</div>' : `
+    <table>
+      <thead><tr><th>name</th><th>version</th><th>data</th><th>pricing</th><th>deploy</th></tr></thead>
+      <tbody>
+        ${products.map(p => `<tr>
+          <td><strong>${escapeHtml(p.name)}</strong><div class="muted" style="font-size: 11px;">${escapeHtml((p.description || '').slice(0, 60))}</div></td>
+          <td>${escapeHtml(p.version || '?')}</td>
+          <td>${p.data_count || '—'}</td>
+          <td class="muted" style="font-size: 11px;">${p.pricing ? p.pricing.map(x => `${x.endpoint}: $${x.price_usd}`).join('<br>') : '—'}</td>
+          <td class="${p.has_wrangler ? 'warn' : 'muted'}">${p.has_wrangler ? 'ready' : '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`}
   </div>
 
   <div class="card">
@@ -258,7 +390,9 @@ async function renderHtml() {
     <a href="/api/budget" style="color: var(--muted);">/api/budget</a> ·
     <a href="/api/memory" style="color: var(--muted);">/api/memory</a> ·
     <a href="/api/queue" style="color: var(--muted);">/api/queue</a> ·
-    <a href="/api/loops" style="color: var(--muted);">/api/loops</a>
+    <a href="/api/loops" style="color: var(--muted);">/api/loops</a> ·
+    <a href="/api/products" style="color: var(--muted);">/api/products</a> ·
+    <a href="/api/revenue" style="color: var(--muted);">/api/revenue</a>
   </div>
 </body>
 </html>`;
@@ -311,6 +445,10 @@ const server = createServer(async (req, res) => {
       json(res, await getQueue());
     } else if (p === '/api/loops') {
       json(res, await getRecentLoops(14));
+    } else if (p === '/api/products') {
+      json(res, await getProducts());
+    } else if (p === '/api/revenue') {
+      json(res, await getRevenue());
     } else {
       json(res, { error: 'Not Found', path: p }, 404);
     }
