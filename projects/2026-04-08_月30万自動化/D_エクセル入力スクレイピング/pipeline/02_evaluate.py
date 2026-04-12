@@ -179,7 +179,7 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
 
     # 詐欺フラグ
     red_flags = []
-    if any(k in text + title for k in ["海外在住", "受け取り", "転送", "送金", "LINE登録"]):
+    if any(k in text + title for k in ["海外在住", "受け取り", "転送", "送金", "line登録"]):
         red_flags.append("詐欺の疑い（受け取り・転送系）")
         total = 0
     if any(k in text + title for k in ["副業", "初心者歓迎", "誰でも", "簡単に稼"]):
@@ -379,10 +379,12 @@ def run(jobs: list[dict] | None = None):
             print("[ERROR] 01_search.py を先に実行してください")
             return []
         jobs = json.loads(files[-1].read_text(encoding="utf-8"))
-    return batch_mode.__wrapped__(jobs) if hasattr(batch_mode, "__wrapped__") else [
-        evaluate(j.get("description") or j.get("title", ""), meta=j)
-        for j in jobs
-    ]
+    results = []
+    for j in jobs:
+        text = j.get("description") or j.get("title", "")
+        result = evaluate(text, meta=j)
+        results.append(result)
+    return [r for r in results if r.get("verdict") in ("GO", "CAUTION")]
 
 
 if __name__ == "__main__":
