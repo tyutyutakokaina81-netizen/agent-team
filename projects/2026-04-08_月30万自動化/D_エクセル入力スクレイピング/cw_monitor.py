@@ -15,6 +15,8 @@ import sys
 import signal
 import argparse
 import time
+import subprocess
+import platform
 from pathlib import Path
 from datetime import datetime
 
@@ -27,6 +29,28 @@ LOG_FILE = OUTPUT_DIR / "messages_log.json"
 # --- 定数 ---
 MESSAGES_URL = "https://crowdworks.jp/messages"
 CHECK_INTERVAL = 300  # 5分（秒）
+
+
+def mac_notify(title: str, message: str, sound: bool = True):
+    """macOS にネイティブ通知を送る"""
+    if platform.system() != "Darwin":
+        return
+    sound_str = 'sound name "Glass"' if sound else ""
+    script = f'display notification "{message}" with title "{title}" {sound_str}'
+    try:
+        subprocess.run(["osascript", "-e", script], capture_output=True, timeout=5)
+    except Exception:
+        pass
+
+
+def mac_say(text: str):
+    """macOS に音声で読み上げさせる（採用通知時）"""
+    if platform.system() != "Darwin":
+        return
+    try:
+        subprocess.run(["say", "-v", "Kyoko", text], capture_output=True, timeout=10)
+    except Exception:
+        pass
 
 # 採用通知キーワード
 HIRE_KEYWORDS = ["採用", "承認", "契約", "選定", "決定", "お願いしたい", "依頼したい", "作業を開始"]
@@ -183,6 +207,8 @@ def display_new_messages(new_messages: list) -> None:
         if is_hire:
             print()
             print("  🎉🎉🎉 採用・契約通知の可能性あり！ 🎉🎉🎉")
+            mac_notify("🎉 CW 採用通知！", f"{msg['sender']}: {msg['title']}")
+            mac_say("クラウドワークスで採用通知が届きました。確認してください。")
 
         print(f"  送信者: {msg['sender']}")
         print(f"  タイトル: {msg['title']}")
@@ -192,6 +218,8 @@ def display_new_messages(new_messages: list) -> None:
 
         if is_hire:
             print("  ⚡ すぐに確認してください！")
+        else:
+            mac_notify("📩 CW 新着メッセージ", f"{msg['sender']}: {msg['title']}", sound=False)
 
         print("-" * 60)
 
