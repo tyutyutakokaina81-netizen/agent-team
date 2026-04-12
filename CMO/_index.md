@@ -13,8 +13,9 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
-| 2026-04-12 | research/2026-04-12_note_4days_failure_story.md | note記事 | 4日間で4本柱を破棄した失敗談（Stage 1集客の主砲） | ドラフト完了 |
-| 2026-04-12 | research/2026-04-12_x_claude_code_tips_10posts.md | X投稿 | Claude Code / CLAUDE.md Tips 10本（Tips5＋失敗談3＋質問2） | ドラフト完了 |
+| 2026-04-12 | research/2026-04-12_note_4days_failure_story.md | note記事 | 4日間で4本柱を破棄した失敗談（v2用、保留） | 保留 |
+| 2026-04-12 | research/2026-04-12_x_claude_code_tips_10posts.md | X投稿 | Claude Code Tips 10本（v2用、保留） | 保留 |
+| 2026-04-12 | outputs/2026-04-12_メルカリ出品プレイブック.md | 実弾マニュアル | 女性ジャケット向けの出品手順・写真・タイトル・説明文・価格ロジック | 完了 |
 
 ## 進行中タスク
 
