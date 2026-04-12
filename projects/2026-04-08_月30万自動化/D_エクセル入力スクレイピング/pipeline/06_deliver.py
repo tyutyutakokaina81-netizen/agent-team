@@ -79,7 +79,19 @@ def run(job: dict, output_file: Path, review_result: dict) -> dict:
         review_status=review_status,
         filename=output_file.name,
     )
-    delivery_message = call_claude(prompt)
+    try:
+        delivery_message = call_claude(prompt)
+    except Exception:
+        # API不在時のテンプレート納品文
+        delivery_message = (
+            f"お世話になっております。\n\n"
+            f"ご依頼いただいた「{job.get('title', '案件')[:30]}」の作業が完了しましたのでご報告いたします。\n\n"
+            f"成果物: {output_file.name}\n"
+            f"総件数: {review_result.get('total_rows', '?')}件\n"
+            f"品質チェック: {review_status}\n\n"
+            f"内容をご確認いただき、修正点等ございましたらお気軽にお申し付けください。\n"
+            f"よろしくお願いいたします。"
+        )
 
     # サマリをJSONで保存
     summary = {

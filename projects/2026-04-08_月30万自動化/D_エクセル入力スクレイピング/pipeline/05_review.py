@@ -64,6 +64,44 @@ def call_claude(prompt: str) -> str:
     return body["content"][0]["text"]
 
 
+def _rule_based_review(rows: list[dict], file_type: str) -> dict:
+    """APIキー不要のルールベース品質チェック"""
+    issues = []
+    total = len(rows)
+    if total == 0:
+        return {"passed": False, "total_rows": 0, "issues": [{"type": "empty", "column": "-", "detail": "データが空です", "severity": "high"}], "summary": "データが空です", "reviewed_by": "rule_based"}
+
+    headers = list(rows[0].keys()) if rows else []
+
+    # 空欄チェック
+    for col in headers:
+        empty_count = sum(1 for r in rows if not str(r.get(col, "")).strip())
+        ratio = empty_count / total
+        if ratio > 0.5:
+            issues.append({"type": "empty_values", "column": col, "detail": f"{empty_count}/{total}行が空欄（{ratio:.0%}）", "severity": "high"})
+        elif ratio > 0.2:
+            issues.append({"type": "empty_values", "column": col, "detail": f"{empty_count}/{total}行が空欄（{ratio:.0%}）", "severity": "medium"})
+
+    # 重複チェック（全行を文字列化して比較）
+    row_strings = [json.dumps(r, ensure_ascii=False, sort_keys=True) for r in rows]
+    dup_count = len(row_strings) - len(set(row_strings))
+    if dup_count > 0:
+        issues.append({"type": "duplicate", "column": "-", "detail": f"{dup_count}件の重複行", "severity": "medium"})
+
+    # 行数チェック
+    if total < 3:
+        issues.append({"type": "low_count", "column": "-", "detail": f"データが{total}件のみ", "severity": "low"})
+
+    has_high = any(i["severity"] == "high" for i in issues)
+    return {
+        "passed": not has_high,
+        "total_rows": total,
+        "issues": issues,
+        "summary": f"ルールベース念査完了: {len(issues)}件の問題検出" if issues else "問題なし",
+        "reviewed_by": "rule_based",
+    }
+
+
 def review_csv(file_path: Path) -> dict:
     rows = []
     with open(file_path, encoding="utf-8-sig", newline="") as f:
@@ -71,18 +109,20 @@ def review_csv(file_path: Path) -> dict:
         for i, row in enumerate(reader):
             rows.append(row)
 
-    sample = json.dumps(rows[:20], ensure_ascii=False, indent=2)
-    prompt = REVIEW_PROMPT.format(file_type="CSV", sample=sample)
+    if ANTHROPIC_API_KEY:
+        sample = json.dumps(rows[:20], ensure_ascii=False, indent=2)
+        prompt = REVIEW_PROMPT.format(file_type="CSV", sample=sample)
+        try:
+            raw = call_claude(prompt)
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            result = json.loads(raw[start:end])
+            result["total_rows"] = len(rows)
+            return result
+        except Exception:
+            pass  # API失敗時はルールベースにフォールバック
 
-    try:
-        raw = call_claude(prompt)
-        start = raw.find("{")
-        end = raw.rfind("}") + 1
-        result = json.loads(raw[start:end])
-        result["total_rows"] = len(rows)
-        return result
-    except Exception as e:
-        return {"passed": False, "error": str(e), "total_rows": len(rows)}
+    return _rule_based_review(rows, "CSV")
 
 
 def review_excel(file_path: Path) -> dict:
@@ -98,18 +138,20 @@ def review_excel(file_path: Path) -> dict:
     for row in ws.iter_rows(min_row=2, values_only=True):
         rows.append(dict(zip(headers, row)))
 
-    sample = json.dumps(rows[:20], ensure_ascii=False, indent=2, default=str)
-    prompt = REVIEW_PROMPT.format(file_type="Excel", sample=sample)
+    if ANTHROPIC_API_KEY:
+        sample = json.dumps(rows[:20], ensure_ascii=False, indent=2, default=str)
+        prompt = REVIEW_PROMPT.format(file_type="Excel", sample=sample)
+        try:
+            raw = call_claude(prompt)
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            result = json.loads(raw[start:end])
+            result["total_rows"] = len(rows)
+            return result
+        except Exception:
+            pass  # API失敗時はルールベースにフォールバック
 
-    try:
-        raw = call_claude(prompt)
-        start = raw.find("{")
-        end = raw.rfind("}") + 1
-        result = json.loads(raw[start:end])
-        result["total_rows"] = len(rows)
-        return result
-    except Exception as e:
-        return {"passed": False, "error": str(e), "total_rows": len(rows)}
+    return _rule_based_review(rows, "Excel")
 
 
 def run(file_path: str | Path) -> dict:

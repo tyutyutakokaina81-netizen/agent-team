@@ -3,6 +3,8 @@ node_modules/
 *.log
 .env
 *.env.*
+__pycache__/
+*.pyc
 
 # local-only / generated
 .claude/

@@ -114,7 +114,7 @@ def run(jobs: list[dict] | None = None):
             print("[ERROR] 評価済みファイルが見つかりません。02_evaluate.py を先に実行してください")
             return []
         all_jobs = json.loads(files[-1].read_text(encoding="utf-8"))
-        jobs = [j for j in all_jobs if j.get("recommend")]
+        jobs = [j for j in all_jobs if j.get("verdict") in ("GO", "CAUTION")]
 
     print(f"[応募文生成] {len(jobs)}件")
     applications = [generate_application(j) for j in jobs]
