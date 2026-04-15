@@ -177,16 +177,8 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
 
     total = tech + legal + profitability + clarity
 
-    # 詐欺フラグ
+    # 詐欺パターンは 02b_fraud_check.py が担当（evaluate() 内でマージされる）
     red_flags = []
-    if any(k in text + title for k in ["海外在住", "受け取り", "転送", "送金", "LINE登録"]):
-        red_flags.append("詐欺の疑い（受け取り・転送系）")
-        total = 0
-    if any(k in text + title for k in ["副業", "初心者歓迎", "誰でも", "簡単に稼"]):
-        red_flags.append("怪しい副業案件の可能性")
-        total = max(total - 20, 0)
-    if (meta or {}).get("platform") == "crowdworks" and "0" == str((meta or {}).get("client_reviews", "")):
-        red_flags.append("クライアントのレビュー0件")
 
     if total >= 70:
         verdict = "GO"
@@ -220,8 +212,48 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
 # 評価ロジック
 # ─────────────────────────────────────────────
 
+def _run_fraud_check(job_text: str, meta: dict | None) -> dict | None:
+    """02b_fraud_check.py を遅延インポートして詐欺チェックを実行"""
+    try:
+        from importlib import import_module
+        fc = import_module("02b_fraud_check")
+        return fc.assess(job_text, meta)
+    except Exception as e:
+        return {"risk_level": "SAFE", "findings": [], "auto_block": False,
+                "explanation": f"詐欺チェックモジュール呼び出し失敗: {e}"}
+
+
+def _apply_fraud_check(result: dict, fraud: dict | None) -> dict:
+    """詐欺チェック結果を評価resultにマージし、必要ならverdictを上書き"""
+    if not fraud:
+        return result
+    result["fraud_check"] = fraud
+    if fraud.get("auto_block"):
+        # FRAUD判定 → verdict を強制NO-GO上書き、totalを0に
+        original_reason = result.get("reason", "")
+        result["verdict"] = "NO-GO"
+        result["total"] = 0
+        result["reason"] = f"🚨 詐欺疑いのため自動除外 ({fraud.get('explanation', '')})"
+        if original_reason:
+            result["reason"] += f" / 元評価: {original_reason}"
+        result["red_flags"] = list(result.get("red_flags", [])) + [
+            f"[詐欺:{f.get('category','')}] {f.get('description','')}"
+            for f in fraud.get("findings", [])
+        ]
+    elif fraud.get("risk_level") == "SUSPICIOUS":
+        # SUSPICIOUS → verdict を少なくとも CAUTION に引き下げ
+        if result.get("verdict") == "GO":
+            result["verdict"] = "CAUTION"
+        result["red_flags"] = list(result.get("red_flags", [])) + [
+            f"[要注意:{f.get('category','')}] {f.get('description','')}"
+            for f in fraud.get("findings", [])
+        ]
+    return result
+
+
 def evaluate(job_text: str, meta: dict | None = None) -> dict:
-    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック）"""
+    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック → 詐欺チェック）"""
+    result: dict | None = None
     if ANTHROPIC_API_KEY:
         prompt = EVAL_PROMPT.format(job_text=job_text.strip())
         try:
@@ -233,12 +265,16 @@ def evaluate(job_text: str, meta: dict | None = None) -> dict:
                 result = {**meta, **result}
             result["evaluated_at"] = datetime.now().isoformat()
             result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
-            return result
         except Exception:
-            pass  # API失敗時はルールベースにフォールバック
+            result = None  # API失敗時はルールベースにフォールバック
 
-    # APIキー未設定またはAPI失敗 → ルールベース評価
-    return _rule_based_evaluate(job_text, meta)
+    if result is None:
+        # APIキー未設定またはAPI失敗 → ルールベース評価
+        result = _rule_based_evaluate(job_text, meta)
+
+    # 詐欺チェックを必ず実行（API有無に関わらず）
+    fraud = _run_fraud_check(job_text, meta)
+    return _apply_fraud_check(result, fraud)
 
 
 def print_result(result: dict) -> None:
@@ -290,6 +326,18 @@ def print_result(result: dict) -> None:
         print("\n  【応募前に確認すべき質問】")
         for i, q in enumerate(questions, 1):
             print(f"    {i}. {q}")
+
+    # 詐欺チェック結果
+    fraud = result.get("fraud_check") or {}
+    risk_level = fraud.get("risk_level", "SAFE")
+    if risk_level != "SAFE":
+        icon = "🚨" if risk_level == "FRAUD" else "⚠️ "
+        print(f"\n  【詐欺チェック】{icon} {risk_level} — {fraud.get('explanation','')}")
+        sev_icon = {"critical": "🚨", "high": "⚠️ ", "medium": "⚠ ", "low": "・"}
+        for f in fraud.get("findings", []):
+            si = sev_icon.get(f.get("severity", "low"), "・")
+            print(f"    {si}[層{f.get('layer','?')}:{f.get('category','')}] "
+                  f"{f.get('description','')} — {f.get('evidence','')}")
 
     print("═" * 60)
 

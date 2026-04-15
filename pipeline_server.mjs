@@ -167,6 +167,11 @@ function renderPanel() {
     .badge.go      { background: #e3f9e5; color: #1a7f37; }
     .badge.caution { background: #fff3e0; color: #b45309; }
     .badge.nogo    { background: #ffeaea; color: #c0392b; }
+    .badge.fraud      { background: #c0392b; color: #fff; }
+    .badge.suspicious { background: #fff3e0; color: #b45309; border: 1px solid #b45309; }
+    .fraud-reasons { margin-top: 6px; padding: 8px; background: #fff8f0;
+                     border-left: 3px solid #c0392b; border-radius: 4px;
+                     font-size: 11px; color: #8b2f1a; }
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
              background: #1c1c1e; color: #fff; padding: 10px 20px; border-radius: 20px;
              font-size: 14px; opacity: 0; transition: opacity .3s; pointer-events: none; }
@@ -298,13 +303,28 @@ function renderPanel() {
           const v = j.verdict || 'NO-GO';
           const cls = v === 'GO' ? 'go' : v === 'CAUTION' ? 'caution' : 'nogo';
           const price = j.estimated_price_jpy ? '¥' + j.estimated_price_jpy.toLocaleString() : '';
+          const fraud = j.fraud_check || {};
+          const risk = fraud.risk_level || 'SAFE';
+          const fraudBadge = risk === 'FRAUD'
+            ? '<span class="badge fraud">🚨 詐欺疑い</span> '
+            : risk === 'SUSPICIOUS'
+              ? '<span class="badge suspicious">⚠️ 要注意</span> '
+              : '';
+          const fraudReasons = (risk !== 'SAFE' && Array.isArray(fraud.findings) && fraud.findings.length)
+            ? '<div class="fraud-reasons">' +
+                fraud.findings.slice(0, 3).map(f =>
+                  '・' + (f.description || '') + (f.evidence ? '（' + f.evidence + '）' : '')
+                ).join('<br>') +
+              '</div>'
+            : '';
           return \`<div class="job-card">
             <div class="job-title">\${j.title || ''}</div>
             <div class="job-meta">
-              <span class="badge \${cls}">\${v} \${j.total||0}点</span>
+              \${fraudBadge}<span class="badge \${cls}">\${v} \${j.total||0}点</span>
               \${price ? '<span>' + price + '</span>' : ''}
               <span> · \${j.platform||''}</span>
             </div>
+            \${fraudReasons}
             \${j.url ? '<div style="margin-top:8px"><a href="' + j.url + '" style="font-size:12px;color:#007aff">案件ページを開く ›</a></div>' : ''}
           </div>\`;
         }).join('');

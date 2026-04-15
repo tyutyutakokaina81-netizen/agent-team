@@ -63,22 +63,37 @@ def phase1_search_to_apply():
     # 評価
     print(f"\n[STEP 2/3] 案件評価中（{len(jobs)}件）...")
     recommended = []
+    fraud_count = 0
     for i, job in enumerate(jobs, 1):
         text = job.get("description") or job.get("title", "")
         print(f"  [{i}/{len(jobs)}] {job.get('title','')[:35]}...", end=" ", flush=True)
         result = evaluate.evaluate(text, meta=job)
         v = result.get("verdict", "NO-GO")
         score = result.get("total", 0)
-        print(f"→ {v} ({score}点)")
+        fraud = result.get("fraud_check") or {}
+        risk = fraud.get("risk_level", "SAFE")
+        if risk == "FRAUD":
+            fraud_count += 1
+            print(f"→ 🚨 FRAUD（自動除外）")
+        elif risk == "SUSPICIOUS":
+            print(f"→ {v} ({score}点) ⚠️  要注意")
+        else:
+            print(f"→ {v} ({score}点)")
         if v in ("GO", "CAUTION"):
             recommended.append(result)
 
     if not recommended:
-        print("\n[中断] 推奨案件がありませんでした（全件 NO-GO）")
+        msg = "\n[中断] 推奨案件がありませんでした（全件 NO-GO）"
+        if fraud_count:
+            msg += f"  / うち 🚨 詐欺疑い自動除外: {fraud_count}件"
+        print(msg)
         return
 
     go_jobs = [j for j in recommended if j.get("verdict") == "GO"]
-    print(f"\n  結果: GO={len(go_jobs)}件 / CAUTION={len(recommended)-len(go_jobs)}件")
+    summary = f"\n  結果: GO={len(go_jobs)}件 / CAUTION={len(recommended)-len(go_jobs)}件"
+    if fraud_count:
+        summary += f" / 🚨 FRAUD除外={fraud_count}件"
+    print(summary)
 
     # 応募文生成
     print(f"\n[STEP 3/3] 応募文生成中（{len(recommended)}件）...")
