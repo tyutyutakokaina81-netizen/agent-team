@@ -267,24 +267,60 @@ try {
   }
 
   // ─── 公開ボタンクリック ───
-  console.log('🚀 公開ボタンを押下中...');
-  const published = await clickByText(page, ['投稿する', '公開する', '公開', '有料エリアありで公開']);
-  if (!published) throw new Error('「公開」ボタンが見つかりません');
+  console.log('🚀 「投稿する」ボタンを押下中...');
+  const clicked = await clickByText(page, [
+    '投稿する',
+    '公開する',
+    '有料エリアありで投稿する',
+    '有料エリアありで公開する',
+  ]);
+  if (!clicked) throw new Error('「投稿する」ボタンが見つかりません');
 
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(2500);
 
-  // ─── 公開後URL取得 ───
+  // ─── 確認モーダル対応（note は「本当に公開しますか？」モーダルを出すケースあり）───
+  console.log('   確認モーダルをチェック...');
+  const confirmed = await clickByText(page, [
+    '投稿する',
+    '公開する',
+    '確認',
+    'OK',
+  ], 5000);
+  if (confirmed) console.log('   → 確認モーダルを検出・再クリック');
+
+  // ─── 公開完了を待機（記事URL /n/... への遷移） ───
+  console.log('   公開完了を待機中...');
+  await Promise.race([
+    page.waitForURL((url) => /\/n\/[a-z0-9]+/i.test(url.toString()), { timeout: 30000 }),
+    page.waitForTimeout(15000),
+  ]).catch(() => {});
+  await page.waitForTimeout(2000);
+
   const finalUrl = page.url();
   console.log('');
   console.log('==================================================');
-  console.log('✅ 公開完了');
-  console.log('==================================================');
-  console.log(`URL: ${finalUrl}`);
-  console.log('');
-  console.log('5秒後にブラウザを閉じます...');
-  await page.waitForTimeout(5000);
-  await browser.close();
-  process.exit(0);
+  if (finalUrl.includes('/publish')) {
+    console.log('⚠️  公開が完了していない可能性があります');
+    console.log('==================================================');
+    console.log(`URL: ${finalUrl}`);
+    console.log('');
+    console.log('ブラウザは開いたままにします。');
+    console.log('手動で公開ボタンを押すか、画面のメッセージを Claude に共有してください。');
+    console.log('Ctrl+C で終了。');
+    const shotPath = join(__dirname, `publish_pending_${Date.now()}.png`);
+    await page.screenshot({ path: shotPath, fullPage: true }).catch(() => {});
+    console.log(`スクショ保存: ${shotPath}`);
+    await new Promise(() => {});
+  } else {
+    console.log('✅ 公開完了');
+    console.log('==================================================');
+    console.log(`URL: ${finalUrl}`);
+    console.log('');
+    console.log('5秒後にブラウザを閉じます...');
+    await page.waitForTimeout(5000);
+    await browser.close();
+    process.exit(0);
+  }
 
 } catch (err) {
   console.error('');
