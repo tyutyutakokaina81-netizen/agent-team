@@ -15,6 +15,7 @@
 |------|-----------|------|------|-----------|
 | 2026-04-18 | `CLAUDE.md` | ガイダンス更新 | 旧月30万自動化方針を停止、note執筆方針へ更新／pipeline_server.mjs追記 | 完了 |
 | 2026-04-18 | `projects/2026-04-18_note執筆/` | プロジェクト立ち上げ | note執筆プロジェクトのフォルダ構造・brief.md作成 | 完了 |
+| 2026-04-18 | `CDO/outputs/note_uploader/` | ツール | note.com 完全自動投稿ツール（Playwright製・FULL-AUTO/REVIEW/DRY-RUN モード） | 完了・要オーナー初回セットアップ |
 
 ## 進行中タスク
 

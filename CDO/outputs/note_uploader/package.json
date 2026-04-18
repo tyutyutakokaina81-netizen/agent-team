@@ -1,0 +1,18 @@
+{
+  "name": "note-uploader",
+  "version": "0.1.0",
+  "description": "note.com セミ自動投稿ツール（Playwright製・初回ログインのみ手動）",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "setup": "playwright install chromium",
+    "login": "node login_setup.mjs",
+    "post": "node post_to_note.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
