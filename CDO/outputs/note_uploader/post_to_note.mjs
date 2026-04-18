@@ -114,12 +114,17 @@ console.log('');
 // ─────────────────────────────────────────────
 // ヘルパー
 // ─────────────────────────────────────────────
-async function findFirst(page, selectors, name) {
+async function waitForFirst(page, selectors, timeoutPerSelector = 5000) {
   for (const sel of selectors) {
-    const el = await page.$(sel);
-    if (el) return el;
+    try {
+      const el = await page.waitForSelector(sel, {
+        state: 'visible',
+        timeout: timeoutPerSelector,
+      });
+      if (el) return { el, selector: sel };
+    } catch {}
   }
-  throw new Error(`${name} の要素が見つかりません（noteのUI変更の可能性）`);
+  return null;
 }
 
 async function clickByText(page, texts, timeout = 10000) {
@@ -146,34 +151,59 @@ try {
   await page.goto('https://note.com/notes/new', { waitUntil: 'domcontentloaded' });
   await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
+  // goto でホーム等にリダイレクトされた場合の救済：投稿リンクをクリックして編集画面へ
+  if (!page.url().includes('/notes/new') && !page.url().includes('/new')) {
+    console.log(`ℹ️  URLがリダイレクトされました: ${page.url()}`);
+    console.log('   「投稿」リンクを探してクリックします...');
+    const newLink = await waitForFirst(page, [
+      'a[href*="/notes/new"]',
+      'a[href="/new"]',
+      'a[href*="editor.note.com"]',
+    ], 5000);
+    if (newLink) {
+      await newLink.el.click();
+      await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+    }
+  }
+
   // ─── タイトル入力 ───
   console.log('✏️  タイトルを入力中...');
-  const titleEl = await findFirst(page, [
+  const titleMatch = await waitForFirst(page, [
+    'textarea[placeholder="記事タイトル"]',
     'textarea[placeholder*="タイトル"]',
-    '[contenteditable="true"][aria-label*="タイトル"]',
     'textarea[aria-label*="タイトル"]',
-    'h1[contenteditable="true"]',
-  ], 'タイトル');
-  await titleEl.click();
-  try { await titleEl.fill(meta.title); }
+    'input[placeholder*="タイトル"]',
+    '[contenteditable="true"][aria-label*="タイトル"]',
+  ], 10000);
+  if (!titleMatch) {
+    throw new Error(`タイトル欄が見つかりません。URL: ${page.url()}`);
+  }
+  console.log(`   使用セレクタ: ${titleMatch.selector}`);
+  await titleMatch.el.click();
+  try { await titleMatch.el.fill(meta.title); }
   catch { await page.keyboard.type(meta.title, { delay: 10 }); }
 
   // ─── 本文入力 ───
   console.log('✏️  本文を入力中...（やや時間がかかります）');
-  const bodyEl = await findFirst(page, [
-    '[contenteditable="true"][aria-label*="本文"]',
-    '[contenteditable="true"][role="textbox"]:not([aria-label*="タイトル"])',
-    'div[contenteditable="true"]:not(:first-of-type)',
-  ], '本文');
-  await bodyEl.click();
+  const bodyMatch = await waitForFirst(page, [
+    'div.ProseMirror[contenteditable="true"][role="textbox"]',
+    'div[contenteditable="true"].ProseMirror',
+    '.ProseMirror[contenteditable="true"]',
+    'div[contenteditable="true"][aria-label*="本文"]',
+    'div[contenteditable="true"][role="textbox"]:not([aria-label*="タイトル"])',
+  ], 10000);
+  if (!bodyMatch) {
+    throw new Error(`本文欄が見つかりません。URL: ${page.url()}`);
+  }
+  console.log(`   使用セレクタ: ${bodyMatch.selector}`);
+  await bodyMatch.el.click();
 
   const paragraphs = body.split(/\n\n+/);
   for (let i = 0; i < paragraphs.length; i++) {
     const p = paragraphs[i].replace(/\n/g, ' ').trim();
     if (!p) continue;
-    await page.keyboard.type(p, { delay: 3 });
+    await page.keyboard.type(p, { delay: 2 });
     if (i < paragraphs.length - 1) {
-      await page.keyboard.press('Enter');
       await page.keyboard.press('Enter');
     }
   }
