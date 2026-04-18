@@ -4,9 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-AI-operated multi-officer company framework for building a ¥300K/month automated business.  
-Five C?O roles (CDO/CFO/CMO/CPO/CSO) each maintain their own work log, research, and outputs.  
+AI-operated multi-officer company framework that supports the owner's content business.
+Five C?O roles (CDO/CFO/CMO/CPO/CSO) each maintain their own work log, research, and outputs.
 All documents and operational output are in Japanese.
+
+**現在の事業方針（2026-04-18 更新）：**
+従来の「月30万自動化（4本柱：SEOライティング代行 / SNS運用代行 / テンプレ販売 / スクレイピング案件取得）」は
+**実績が出なかったため一旦停止**。これからは **note への執筆・投稿に集中** する方針に切り替わった。
+旧プロジェクトの資産は `projects/2026-04-08_月30万自動化/` にアーカイブとして残す（削除しない）。
 
 ---
 
@@ -15,9 +20,10 @@ All documents and operational output are in Japanese.
 ```
 /home/user/agent-team/
 ├── CLAUDE.md              ← This file (Claude Code guidance)
-├── README.md              ← agent-gateway server documentation
+├── README.md              ← agent-gateway (server.mjs) documentation
 ├── company.md             ← Core company rules, role definitions, governance (MUST READ)
-├── server.mjs             ← Zero-dependency Node.js JSON API server
+├── server.mjs             ← Zero-dependency Node.js JSON API server (agent-gateway)
+├── pipeline_server.mjs    ← iPhone操作用パイプライン制御サーバー（旧月30万自動化の遺産・現在は停止中）
 ├── team_prompt.txt        ← 4-role multi-agent document creation prompt
 ├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
 ├── team_show.sh           ← Print team_prompt.txt to stdout
@@ -278,34 +284,51 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 ---
 
-## Active Project: 月30万自動化（¥300K/Month Automation）
+## pipeline_server.mjs（旧プロジェクト遺産・現在は停止中）
 
-**目標**: 3ヶ月以内に月収¥300K達成（2026-04 〜 2026-06）  
-**ランニングコスト**: ¥5,800/月（Claude Pro ¥3K + Canva ¥1.5K + Microsoft 365 ¥1.3K）  
-**関与役職**: CMO, CPO, CSO, CDO  
-**フォルダ**: `projects/2026-04-08_月30万自動化/`
+旧「月30万自動化」プロジェクトの柱D（クラウドソーシング案件の検索・評価・納品自動化）の
+iPhone操作用 HTTP コントロールパネル。事業方針の転換により**新規実行は停止**。
+ファイル自体は履歴・参考のため残す。
 
-### 3つの収益柱
+- ポート：`PIPELINE_PORT`（デフォルト 3001）
+- 認証：`PIPELINE_TOKEN`（Bearer または `?token=` クエリ）
+- 依存パス：`projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/{pipeline,outputs}/`
+- 主要エンドポイント：`GET /`（HTMLパネル）, `GET /status`, `POST /search`, `POST /deliver`, `GET /results`
+- 実行は `python3 run_pipeline.py {search|deliver}` をサブプロセス起動
 
-| 柱 | サービス | 単価 | 目標 | 月収目標 |
-|----|---------|------|------|---------|
-| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K |
-| B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K |
-| C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH販売 | ¥30K〜 |
+**新方針下での扱い：** 起動・実行・関連スクリプトの修正は原則行わない。
+オーナーから明示の指示があった場合のみ作業すること。
 
-### 売上予測（リアルシナリオ）
-- Month 1: ¥10K（テンプレ初動のみ）
-- Month 2: ¥155K（A・B契約開始）
-- Month 3: ¥330K（目標達成）
+---
 
-### テンプレート販売 — 進捗
+## Active Direction: noteへの執筆・投稿（2026-04-18 〜）
 
-| Vol | タイトル | 価格 | ステータス |
-|-----|---------|------|----------|
-| Vol.1 | フリーランス収支管理スプレッドシート | ¥980 | 販売中（note） |
-| Vol.2 | SNSコンテンツカレンダー | 設計済 | 制作中 |
-| Vol.3 | 飲食店向けプロンプト集 | 設計済 | 制作中 |
-| Vol.4 | バンドルパック | 設計済 | Vol.1-3完成後 |
+**現在の方針：** noteへの執筆・投稿に集中する。  
+**背景：** 旧「月30万自動化」（4本柱）は実績が出なかったため一旦停止。
+小さく始めて発信を継続することを優先する。
+
+### 主担当の暫定アサイン
+
+| 役職 | この方針における役割 |
+|------|--------------------|
+| CMO | note記事の企画・タイトル設計・SEO/見出し構成・投稿計画 |
+| CPO | 記事本文の構成テンプレ・連載/マガジン設計・読者導線 |
+| CSO | 読者反応・コメント・有料記事の問い合わせ対応 |
+| CFO | note売上の記録・経費管理（請求書系は引き続き機密扱い） |
+| CDO | 執筆ワークフローのプロンプト整備・投稿補助ツール |
+
+### 運用ルール
+- note 関連の作業は原則 `projects/` 配下に新規プロジェクトを切って管理する  
+  （例：`projects/YYYY-MM-DD_note執筆/`）
+- 各役職の `research/`（下書き・構成案）→ `outputs/`（投稿確定版）の流れは従来どおり
+- 投稿前に必ずオーナー承認を得る（noteへの実投稿は外部送信に該当）
+- 旧プロジェクト（`projects/2026-04-08_月30万自動化/`）は**アーカイブ扱い**で参照可、新規作業は行わない
+
+### 旧プロジェクト（参考保存）
+
+`projects/2026-04-08_月30万自動化/` の内容（Aライティング代行 / B SNS運用代行 / C テンプレ販売 /
+D エクセル入力スクレイピング、`brief.md` / `cashflow.md` / `cost_breakdown.md`）は削除せずに残す。
+note方針で再利用できるノウハウ（テンプレ販売の知見、SEOライティング知見など）があれば参照してよい。
 
 ---
 
