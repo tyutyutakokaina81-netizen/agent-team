@@ -7,7 +7,8 @@
   "scripts": {
     "setup": "playwright install chromium",
     "login": "node login_setup.mjs",
-    "post": "node post_to_note.mjs"
+    "post": "node post_to_note.mjs",
+    "watch": "node watch_and_post.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.0"
