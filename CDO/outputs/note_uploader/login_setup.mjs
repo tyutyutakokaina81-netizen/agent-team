@@ -27,8 +27,23 @@ console.log('');
 console.log('ログイン完了を自動検知します。最大10分待機します。');
 console.log('');
 
-const browser = await chromium.launch({ headless: false });
-const context = await browser.newContext();
+const browser = await chromium.launch({
+  headless: false,
+  args: [
+    '--disable-blink-features=AutomationControlled',
+    '--disable-infobars',
+    '--no-default-browser-check',
+  ],
+});
+const context = await browser.newContext({
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  viewport: { width: 1280, height: 800 },
+  locale: 'ja-JP',
+  timezoneId: 'Asia/Tokyo',
+});
+await context.addInitScript(() => {
+  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+});
 const page = await context.newPage();
 
 await page.goto('https://note.com/login');
