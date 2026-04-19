@@ -307,13 +307,13 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 ### 認証・環境変数
 - `PIPELINE_PORT`（デフォルト 3001）
-- `PIPELINE_TOKEN`（**本番では必須**）— 未設定時は警告ログを出して認証スキップ
+- `PIPELINE_TOKEN`（**必須**）— 未設定時は `exit 1` で起動を中止する
 - 認証は `Authorization: Bearer <TOKEN>` または `?token=<TOKEN>`
 
 ### 起動
 ```bash
-export PIPELINE_TOKEN=your-secret-token
-node pipeline_server.mjs                    # 3001 で起動
+export PIPELINE_TOKEN=your-secret-token  # 未設定だと起動しない
+node pipeline_server.mjs                 # 3001 で起動
 PIPELINE_PORT=4000 node pipeline_server.mjs # ポート変更
 ```
 
