@@ -17,7 +17,8 @@ All documents and operational output are in Japanese.
 ├── CLAUDE.md              ← This file (Claude Code guidance)
 ├── README.md              ← agent-gateway server documentation
 ├── company.md             ← Core company rules, role definitions, governance (MUST READ)
-├── server.mjs             ← Zero-dependency Node.js JSON API server
+├── server.mjs             ← Zero-dependency Node.js JSON API server (port 3000)
+├── pipeline_server.mjs    ← iPhone control panel for pillar-D pipeline (port 3001)
 ├── team_prompt.txt        ← 4-role multi-agent document creation prompt
 ├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
 ├── team_show.sh           ← Print team_prompt.txt to stdout
@@ -59,9 +60,20 @@ All documents and operational output are in Japanese.
 │
 └── projects/              ← Cross-functional work (multi-role collaboration)
     ├── _index.md          ← Master project registry
-    └── YYYY-MM-DD_プロジェクト名/
+    └── 2026-04-08_月30万自動化/
         ├── brief.md       ← Goal, timeline, roles involved, subfolder rationale
-        └── [サブフォルダ]/ ← 役職別（CMO/ CPO/）またはテーマ別（A_〇〇/ B_〇〇/）
+        ├── cashflow.md    ← Revenue/cost projections
+        ├── cost_breakdown.md
+        ├── A_ライティング/           ← 柱A: SEO writing service
+        ├── B_SNS運用代行/            ← 柱B: SNS operation outsourcing
+        ├── C_テンプレ販売/           ← 柱C: Template sales (note/BOOTH)
+        └── D_エクセル入力スクレイピング/ ← 柱D: Data-entry scraping pipeline
+            ├── brief.md
+            ├── risk_and_feasibility.md
+            ├── pipeline/             ← Python automation (00-06 scripts + run_pipeline.py)
+            ├── templates/            ← profile_bio.md etc
+            ├── outputs/              ← Generated results (.gitignore'd)
+            └── .sessions/            ← Login sessions (.gitignore'd)
 ```
 
 ---
@@ -278,6 +290,40 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 ---
 
+## pipeline_server.mjs（iPhone操作パネル）
+
+### 概要
+- 柱D（エクセル入力スクレイピング）のパイプラインを iPhone から操作するための Node.js サーバー
+- `HOST='0.0.0.0'` でバインドし、同一LAN内の iPhone からアクセス可能
+- 画面は `/` の HTML パネル（検索／納品／結果確認ボタン）
+- バックエンドは Python スクリプト（`projects/.../D_.../pipeline/run_pipeline.py`）を `spawn` で実行
+
+### エンドポイント
+- `GET /` → iPhone 用 HTML 操作パネル
+- `GET /status` → `{ status, phase, startedAt, finishedAt, log[] }`（認証不要）
+- `POST /search` → 案件検索フェーズ開始（バックグラウンド実行）
+- `POST /deliver` → 納品フェーズ開始（バックグラウンド実行）
+- `GET /results` → 最新の評価結果 JSON（`outputs/*_evaluated.json` or `*_applications.json`）
+
+### 認証・環境変数
+- `PIPELINE_PORT`（デフォルト 3001）
+- `PIPELINE_TOKEN`（**本番では必須**）— 未設定時は警告ログを出して認証スキップ
+- 認証は `Authorization: Bearer <TOKEN>` または `?token=<TOKEN>`
+
+### 起動
+```bash
+export PIPELINE_TOKEN=your-secret-token
+node pipeline_server.mjs                    # 3001 で起動
+PIPELINE_PORT=4000 node pipeline_server.mjs # ポート変更
+```
+
+### 運用ルール
+- サーバー起動・`POST /search` `POST /deliver` の実行は「必ず事前承認」を取る
+- パイプライン配下（`D_エクセル入力スクレイピング/outputs/`、`.sessions/`）は `.gitignore` 済みなのでコミットしない
+- 納品前成果物・ログイン情報を含むため、`PIPELINE_TOKEN` なしで公開ネットワークに晒さない
+
+---
+
 ## Active Project: 月30万自動化（¥300K/Month Automation）
 
 **目標**: 3ヶ月以内に月収¥300K達成（2026-04 〜 2026-06）  
@@ -285,13 +331,41 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 **関与役職**: CMO, CPO, CSO, CDO  
 **フォルダ**: `projects/2026-04-08_月30万自動化/`
 
-### 3つの収益柱
+### 収益柱（A/B/C/D の4本）
 
-| 柱 | サービス | 単価 | 目標 | 月収目標 |
+| 柱 | サービス | 単価 | 目標 | 担当役職 |
 |----|---------|------|------|---------|
-| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K |
-| B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K |
-| C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH販売 | ¥30K〜 |
+| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 → ¥300K | CSO・CMO・CDO |
+| B  | SNS運用代行 | ¥50K/社 | 6社 → ¥300K | CMO・CSO・CDO |
+| C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH | CPO・CMO・CDO |
+| D  | エクセル入力スクレイピング | 案件単価 | パイプライン自動化 | CDO |
+
+### 柱Dパイプライン（`D_エクセル入力スクレイピング/pipeline/`）
+
+案件検索から納品までを Python + Playwright で自動化。**人手が必要なのは初回ログインと応募／納品ボタンの押下のみ**。
+
+| 番号 | スクリプト | 役割 |
+|------|-----------|------|
+| 00 | `00_session_setup.py` | クラウドワークス／ランサーズの初回ログイン・セッション保存 |
+| 01 | `01_search.py` | 案件一覧の検索・詳細取得 |
+| 02 | `02_evaluate.py` | 4軸スコアリング（GO / CAUTION / NO-GO）— APIキー未設定時はルールベースにフォールバック |
+| 03 | `03_apply.py` | 応募文生成（APIキー不要のテンプレ版あり）・上位URLをブラウザで自動オープン |
+| 04 | `04_execute.py` | 受注後の作業実行 |
+| 05 | `05_review.py` | 念査（品質チェック） |
+| 06 | `06_deliver.py` | 納品文生成・納品ページを自動オープン |
+
+```bash
+# セッション状態確認
+python run_pipeline.py setup
+
+# 検索 → 評価 → 応募文生成（ブラウザで上位3件を自動オープン）
+python run_pipeline.py search
+
+# 受注後：作業実行 → 念査 → 納品準備
+python run_pipeline.py deliver
+```
+
+iPhone から操作する場合は `pipeline_server.mjs` を経由する（上記セクション参照）。
 
 ### 売上予測（リアルシナリオ）
 - Month 1: ¥10K（テンプレ初動のみ）
@@ -315,3 +389,5 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - Shell scripts reference `$HOME/agent-team/` as the repo path (macOS `pbcopy` assumed)
 - All prompts and document output are in Japanese
 - Sensitive files (invoices, contracts, customer PII) must not be committed to Git
+- `.gitignore` で保護されているもの: `CFO/outputs/`, `CFO/research/`, `CSO/outputs/`, `CSO/research/`, `context/diary/`, `context/ideas/`, `context/references/`, `projects/*/D_エクセル入力スクレイピング/outputs/`, `projects/*/D_エクセル入力スクレイピング/.sessions/`
+- フォルダ構造維持用の `.gitkeep` のみ上記保護対象でも例外的にコミットされる
