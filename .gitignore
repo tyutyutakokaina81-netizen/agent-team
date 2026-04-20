@@ -39,3 +39,4 @@ context/references/*
 !context/diary/.gitkeep
 !context/ideas/.gitkeep
 !context/references/.gitkeep
+scripts/applications.csv
