@@ -18,6 +18,7 @@
 | 2026-04-08 | Vol.1 フリーランス収支管理スプレッドシート | テンプレ販売 | note販売開始・980円 | 販売中 |
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/vol2_spreadsheet_formulas.md | テンプレ設計 | Vol.2 SNSカレンダー完全設計書（数式・マニュアル） | 完了 |
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/vol3_prompt_collection_restaurant.md | テンプレ制作 | Vol.3 飲食店プロンプト集20選（全文完成） | 完了 |
+| 2026-04-13 | projects/月30万自動化/C_テンプレ販売/note_sales_copy_optimized.md | 販売ページ | Vol.1-4 売れる販売文リライト版（CTR/CVR最適化） | 完了 |
 
 ## 進行中タスク
 
