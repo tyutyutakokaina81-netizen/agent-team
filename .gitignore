@@ -40,3 +40,4 @@ context/references/*
 !context/ideas/.gitkeep
 !context/references/.gitkeep
 scripts/applications.csv
+scripts/dashboard.html
