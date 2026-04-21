@@ -109,24 +109,43 @@ def check_article(drafts_dir, meta):
     else:
         report['ok'].append(f'文字数OK（{actual}/{target}字）')
 
-    # キーワードチェック
+    # キーワードチェック（完全一致＋分割マッチ両対応）
     keyword = meta['details'].get('keyword', '')
     if keyword:
+        # 完全一致
         kw_count = content.count(keyword)
-        kw_density = kw_count / (actual / 100) if actual else 0  # %
+        # 単語分割マッチ（スペース区切りなら各単語を確認）
+        kw_tokens = keyword.split()
+        token_occurrences = sum(content.count(t) for t in kw_tokens) if len(kw_tokens) > 1 else 0
+        # 分割バリエーション（例：「副業 始め方」→「副業の始め方」「副業を始める」等）
+        # 単純に分割語全部含むか
+        all_tokens_present = all(t in content for t in kw_tokens)
+
+        kw_density = kw_count / (actual / 100) if actual else 0
         report['metrics']['キーワード密度'] = f'{kw_density:.1f}%'
 
-        if kw_count < 3:
+        if kw_count < 3 and not all_tokens_present:
             report['warning'].append(f'キーワード出現が少ない（{keyword}: {kw_count}回）')
         elif kw_count > 30:
             report['critical'].append(f'キーワードスタッフィング疑惑（{keyword}: {kw_count}回）')
         else:
-            report['ok'].append(f'キーワードOK（{kw_count}回・密度{kw_density:.1f}%）')
+            note = ''
+            if kw_count < 3 and all_tokens_present:
+                note = '（分割形で存在）'
+            report['ok'].append(f'キーワードOK（{kw_count}回・密度{kw_density:.1f}%{note}）')
 
-        # タイトルにキーワードが含まれているか
+        # タイトルにキーワードが含まれているか（分割マッチ対応）
         title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
-        if title_match and keyword not in title_match.group(1):
-            report['warning'].append(f'タイトルにメインキーワードが含まれていない')
+        if title_match:
+            title_text = title_match.group(1)
+            title_has_keyword = (
+                keyword in title_text
+                or all(t in title_text for t in kw_tokens)
+            )
+            if not title_has_keyword:
+                report['warning'].append(f'タイトルにメインキーワードが含まれていない')
+            else:
+                report['ok'].append('タイトルにキーワード含有')
 
     # 見出し構造
     if h2_count < 3:
@@ -174,10 +193,14 @@ def check_article(drafts_dir, meta):
         else:
             report['ok'].append(f'メタディスクリプションOK（{meta_len}字）')
 
-    # 繰り返し表現チェック（簡易・連続同じ語）
-    repetitions = re.findall(r'(\S{2,}?)(?:\s*\1){2,}', content)
-    if repetitions:
-        report['warning'].append(f'繰り返し表現あり: {list(set(repetitions))[:3]}')
+    # 繰り返し表現チェック（Markdown記号は除外）
+    # --- や ### などMarkdown記号を除いてから判定
+    content_clean = re.sub(r'[-=#*_|]{2,}', ' ', content)
+    repetitions = re.findall(r'(\S{2,}?)(?:\s*\1){2,}', content_clean)
+    # 日本語の句読点・記号のみの繰り返しも除外
+    meaningful_reps = [r for r in repetitions if re.search(r'[\w一-龯ぁ-んァ-ン]', r) and len(r) >= 2]
+    if meaningful_reps:
+        report['warning'].append(f'繰り返し表現あり: {list(set(meaningful_reps))[:3]}')
 
     # 箇条書き・表の使用
     bullet_count = len(re.findall(r'^[\-\*]\s', content, re.MULTILINE))
