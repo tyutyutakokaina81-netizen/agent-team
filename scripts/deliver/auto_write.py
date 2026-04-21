@@ -148,8 +148,63 @@ def save_draft(folder_path, filename, content):
     return path
 
 
+REVIEW_PROMPT_TEMPLATE = """あなたはプロのSEOエディターです。
+以下の記事を100点満点で厳しく採点し、90点未満なら改善版を出力してください。
+
+【採点基準】
+- 構成の論理性: 20点
+- 読みやすさ: 15点
+- キーワードの自然配置: 15点
+- E-E-A-T要素（経験・専門性・権威・信頼）: 20点
+- 独自性（テンプレ的でないか）: 10点
+- 事実の正確性: 10点
+- 読者への価値提供: 10点
+
+【元記事】
+{article}
+
+【出力形式】
+## 採点
+合計: XX/100
+
+## 改善版
+（90点以上なら元記事をそのまま出力。90点未満なら改善した全文を出力）
+
+重要：改善版のセクションには必ず完全な記事全文を含めてください。省略不可。
+"""
+
+
+def review_and_improve(article, api_key, target_score=90):
+    """生成記事を Claude でレビュー→改善"""
+    print('🔍 STEP 3: プロエディターによるレビュー＆改善...')
+
+    review_prompt = REVIEW_PROMPT_TEMPLATE.format(article=article)
+    result = call_claude(review_prompt, api_key)
+    if not result:
+        return article  # 失敗時は元記事を返す
+
+    # 採点を抽出
+    import re as _re
+    score_match = _re.search(r'合計[:：]\s*(\d+)', result)
+    score = int(score_match.group(1)) if score_match else 0
+    print(f'  📊 エディター採点: {score}/100')
+
+    # 改善版を抽出
+    improved_match = _re.search(r'##\s*改善版\s*\n(.+)', result, _re.DOTALL)
+    if improved_match:
+        improved = improved_match.group(1).strip()
+        # 元記事より短すぎる場合は元記事を保持
+        if len(improved) >= len(article) * 0.8:
+            if score < target_score:
+                print(f'  ✏️  改善版を採用（{score}→目標{target_score}点）')
+                return improved
+            else:
+                print(f'  ✅ 十分な品質（{score}点・元記事を維持）')
+    return article
+
+
 def write_article(folder_path, meta, api_key):
-    """記事を2段階生成（構成→本文）"""
+    """記事を3段階生成（構成→本文→レビュー改善）"""
     # 既存尊重
     drafts_dir = os.path.join(folder_path, 'drafts')
     existing_article = os.path.join(drafts_dir, 'article.md')
@@ -160,7 +215,7 @@ def write_article(folder_path, meta, api_key):
             return True
 
     # STEP 1: 構成生成
-    print('📝 STEP 1: 構成を生成中...')
+    print('📝 STEP 1/3: 構成を生成中...')
     structure_prompt = load_prompt(folder_path, '1_structure.md')
     if not structure_prompt:
         print('❌ prompts/1_structure.md が見つかりません。generate.py を先に実行してください')
@@ -174,7 +229,7 @@ def write_article(folder_path, meta, api_key):
     print(f'  ✅ 構成保存: drafts/1_structure.md（{len(structure)}字）')
 
     # STEP 2: 本文生成（構成を埋め込み）
-    print('📝 STEP 2: 本文を生成中...')
+    print('📝 STEP 2/3: 本文を生成中（E-E-A-T強化＋事実確認ルール適用）...')
     body_prompt_template = load_prompt(folder_path, '2_body.md')
     if not body_prompt_template:
         print('❌ prompts/2_body.md が見つかりません')
@@ -185,8 +240,14 @@ def write_article(folder_path, meta, api_key):
     if not body:
         return False
 
+    print(f'  ✅ 初稿生成（{len(body)}字）')
+
+    # STEP 3: プロエディターによるレビュー＆改善
+    if '--no-review' not in sys.argv:
+        body = review_and_improve(body, api_key, target_score=90)
+
     save_draft(folder_path, 'article.md', body)
-    print(f'  ✅ 本文保存: drafts/article.md（{len(body)}字）')
+    print(f'  ✅ 最終稿保存: drafts/article.md（{len(body)}字）')
 
     return True
 

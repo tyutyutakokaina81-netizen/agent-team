@@ -210,6 +210,49 @@ def check_article(drafts_dir, meta):
     else:
         report['ok'].append(f'構造化OK（箇条書き{bullet_count}個・表{table_count//3}個）')
 
+    # E-E-A-T要素チェック
+    # Experience：実体験系の表現
+    exp_patterns = [r'私の', r'実際に', r'体験', r'経験', r'やってみ', r'試して']
+    has_experience = any(re.search(p, content) for p in exp_patterns)
+    if has_experience:
+        report['ok'].append('実体験的な表現あり（E-E-A-T: Experience）')
+    else:
+        report['warning'].append('実体験的な表現が少ない（E-E-A-T弱化）')
+    # 数値データの存在
+    numbers = re.findall(r'\d{2,}', content)
+    numeric_count = len(set(numbers))
+    # 出典・信頼性
+    citation_patterns = [r'によると', r'調査', r'統計', r'出典', r'参考']
+    citations = sum(len(re.findall(p, content)) for p in citation_patterns)
+
+    if numeric_count < 5:
+        report['warning'].append(f'具体的な数値が少ない（{numeric_count}個・推奨5個以上）')
+    else:
+        report['ok'].append(f'具体的数値OK（{numeric_count}種類）')
+
+    if citations == 0:
+        report['warning'].append('出典・参照の表現がない（E-E-A-T不足）')
+    else:
+        report['ok'].append(f'参照表現あり（{citations}箇所）')
+
+    # 独自性チェック（テンプレ的フレーズ）
+    template_phrases = ['結論から言うと', 'まず第一に', 'ご存知でしょうか', 'いかがでしたか']
+    found_templates = [p for p in template_phrases if p in content]
+    if len(found_templates) >= 2:
+        report['warning'].append(f'テンプレ的フレーズが多い: {found_templates}')
+
+    # リスキーな分野の警告（事実確認が特に重要）
+    risky_topics = ['医療', '投資', '法律', '税金', '薬']
+    risky_hits = [t for t in risky_topics if t in content]
+    if risky_hits:
+        # 免責表現があるか
+        disclaimer_patterns = [r'専門家に相談', r'医師に相談', r'弁護士に', r'税理士に', r'専門機関']
+        has_disclaimer = any(re.search(p, content) for p in disclaimer_patterns)
+        if not has_disclaimer:
+            report['warning'].append(f'リスキー分野（{risky_hits}）で免責表現なし')
+        else:
+            report['ok'].append('リスキー分野でも免責表現あり（信頼性OK）')
+
     return report
 
 
