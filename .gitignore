@@ -39,3 +39,24 @@ context/references/*
 !context/diary/.gitkeep
 !context/ideas/.gitkeep
 !context/references/.gitkeep
+scripts/applications.csv
+scripts/dashboard.html
+
+# 認証情報・セッション（絶対コミット禁止）
+**/auth-state.json
+**/*_session.json
+.sessions/
+**/.sessions/
+
+# 自動化ツールの生成物・キャッシュ
+**/__pycache__/
+*.pyc
+**/error_*.png
+**/publish_pending_*.png
+**/form_page.png
+**/select_type.png
+logs/
+CDO/outputs/note_uploader/auth-state.json
+CDO/outputs/note_uploader/*.png
+CDO/outputs/note_uploader/package-lock.json
+autonomous/**/package-lock.json
