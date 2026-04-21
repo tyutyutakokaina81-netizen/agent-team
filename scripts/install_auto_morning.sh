@@ -11,11 +11,15 @@ MORNING_TEMPLATE="$SCRIPT_DIR/com.user.agent-team.morning.plist.template"
 MORNING_DEST="$HOME/Library/LaunchAgents/com.user.agent-team.morning.plist"
 LOGIN_TEMPLATE="$SCRIPT_DIR/com.user.agent-team.login.plist.template"
 LOGIN_DEST="$HOME/Library/LaunchAgents/com.user.agent-team.login.plist"
+ORDER_CHECK_TEMPLATE="$SCRIPT_DIR/deliver/com.user.agent-team.order-check.plist.template"
+ORDER_CHECK_DEST="$HOME/Library/LaunchAgents/com.user.agent-team.order-check.plist"
 
 echo "========================================"
 echo "🔧 自動デイリールーティン インストーラ"
-echo "  ・毎日20:00 自動更新"
+echo "  ・毎日20:00 自動更新＋ダッシュボード"
 echo "  ・Mac起動時 ダッシュボード自動表示"
+echo "  ・1日5回 受注チェック通知＆ブラウザ起動"
+echo "    (8:30 / 12:00 / 15:00 / 18:00 / 21:00)"
 echo "========================================"
 
 # LaunchAgents ディレクトリ作成
@@ -23,7 +27,7 @@ mkdir -p "$HOME/Library/LaunchAgents"
 mkdir -p "$REPO_DIR/logs"
 
 # ========== 20:00自動実行 ==========
-echo "📝 [1/2] 20:00自動実行 plist 生成..."
+echo "📝 [1/3] 20:00自動実行 plist 生成..."
 sed "s|{{REPO_DIR}}|$REPO_DIR|g" "$MORNING_TEMPLATE" > "$MORNING_DEST"
 
 if launchctl list | grep -q "com.user.agent-team.morning"; then
@@ -32,7 +36,7 @@ fi
 launchctl load "$MORNING_DEST"
 
 # ========== Mac起動時ダッシュボード自動表示 ==========
-echo "📝 [2/2] ログイン時ダッシュボード自動表示 plist 生成..."
+echo "📝 [2/3] ログイン時ダッシュボード自動表示 plist 生成..."
 sed "s|{{REPO_DIR}}|$REPO_DIR|g" "$LOGIN_TEMPLATE" > "$LOGIN_DEST"
 
 if launchctl list | grep -q "com.user.agent-team.login"; then
@@ -40,11 +44,21 @@ if launchctl list | grep -q "com.user.agent-team.login"; then
 fi
 launchctl load "$LOGIN_DEST"
 
+# ========== 1日5回 受注チェック自動実行 ==========
+echo "📝 [3/3] 受注チェック1日5回 plist 生成..."
+sed "s|{{REPO_DIR}}|$REPO_DIR|g" "$ORDER_CHECK_TEMPLATE" > "$ORDER_CHECK_DEST"
+
+if launchctl list | grep -q "com.user.agent-team.order-check"; then
+    launchctl unload "$ORDER_CHECK_DEST" 2>/dev/null || true
+fi
+launchctl load "$ORDER_CHECK_DEST"
+
 # 確認
 MORNING_OK=$(launchctl list | grep -c "com.user.agent-team.morning" || echo "0")
 LOGIN_OK=$(launchctl list | grep -c "com.user.agent-team.login" || echo "0")
+ORDER_OK=$(launchctl list | grep -c "com.user.agent-team.order-check" || echo "0")
 
-if [[ "$MORNING_OK" -gt 0 ]] && [[ "$LOGIN_OK" -gt 0 ]]; then
+if [[ "$MORNING_OK" -gt 0 ]] && [[ "$LOGIN_OK" -gt 0 ]] && [[ "$ORDER_OK" -gt 0 ]]; then
     echo ""
     echo "========================================"
     echo "🎉 インストール完了"
@@ -52,21 +66,26 @@ if [[ "$MORNING_OK" -gt 0 ]] && [[ "$LOGIN_OK" -gt 0 ]]; then
     echo ""
     echo "📅 毎日20:00に自動更新されます（PC寝てても起動時キャッチアップ）"
     echo "🌐 Mac起動/ログイン時にダッシュボードが自動で開きます"
+    echo "📬 1日5回 受注チェック通知＆ブラウザ自動起動"
+    echo "    8:30 / 12:00 / 15:00 / 18:00 / 21:00"
     echo "📂 ログ: $REPO_DIR/logs/cron.log"
     echo ""
     echo "【確認コマンド】"
     echo "  launchctl list | grep agent-team"
     echo ""
     echo "【今すぐ手動テスト】"
-    echo "  launchctl start com.user.agent-team.morning  # デイリールーティン"
-    echo "  launchctl start com.user.agent-team.login    # ダッシュボード表示"
+    echo "  launchctl start com.user.agent-team.morning      # デイリールーティン"
+    echo "  launchctl start com.user.agent-team.login        # ダッシュボード表示"
+    echo "  launchctl start com.user.agent-team.order-check  # 受注チェック"
     echo ""
     echo "【解除（自動実行をやめる）】"
     echo "  launchctl unload ~/Library/LaunchAgents/com.user.agent-team.morning.plist"
     echo "  launchctl unload ~/Library/LaunchAgents/com.user.agent-team.login.plist"
+    echo "  launchctl unload ~/Library/LaunchAgents/com.user.agent-team.order-check.plist"
 else
     echo "❌ 登録失敗。"
     [[ "$MORNING_OK" -eq 0 ]] && echo "  morning.plist の登録に失敗"
     [[ "$LOGIN_OK" -eq 0 ]] && echo "  login.plist の登録に失敗"
+    [[ "$ORDER_OK" -eq 0 ]] && echo "  order-check.plist の登録に失敗"
     exit 1
 fi
