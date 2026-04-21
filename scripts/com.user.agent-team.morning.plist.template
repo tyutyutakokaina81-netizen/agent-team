@@ -11,6 +11,7 @@
         <string>{{REPO_DIR}}/scripts/auto_morning.sh</string>
     </array>
 
+    <!-- 毎日8時に実行。PCが寝てた場合、起動時にキャッチアップ実行される -->
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
@@ -19,8 +20,9 @@
         <integer>0</integer>
     </dict>
 
+    <!-- launchctl load 時にも即実行（初回テスト用。日次ロックで重複防止） -->
     <key>RunAtLoad</key>
-    <false/>
+    <true/>
 
     <key>StandardOutPath</key>
     <string>{{REPO_DIR}}/logs/launchd.out.log</string>
