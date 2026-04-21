@@ -68,3 +68,4 @@ autonomous/**/package-lock.json
 deliveries/*
 !deliveries/.gitkeep
 !deliveries/_client_profiles/.gitkeep
+logs/scrutiny.jsonl
