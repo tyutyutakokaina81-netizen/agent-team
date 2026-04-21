@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.agent-team.login</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{REPO_DIR}}/scripts/open_dashboard.sh</string>
+    </array>
+
+    <!-- Macログイン/起動時にダッシュボードを自動で開く -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>{{REPO_DIR}}/logs/login_dashboard.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>{{REPO_DIR}}/logs/login_dashboard.err.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>{{REPO_DIR}}</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

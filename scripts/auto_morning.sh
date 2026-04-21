@@ -68,5 +68,12 @@ fi
     echo "$TODAY" > "$LOCK_FILE"
 } >> "$LOG_FILE" 2>&1
 
+# 7. ダッシュボードをブラウザで自動表示（Macのみ）
+if command -v open >/dev/null 2>&1; then
+    if [[ -f "$SCRIPT_DIR/dashboard.html" ]]; then
+        open "$SCRIPT_DIR/dashboard.html" 2>/dev/null || true
+    fi
+fi
+
 # 最後の行をstdoutに出す（ログを見やすく）
 tail -5 "$LOG_FILE"
