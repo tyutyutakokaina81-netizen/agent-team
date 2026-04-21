@@ -70,13 +70,22 @@ echo ""
 
 # STEP 2: Claude API で実作業
 echo "▶ STEP 2/4: Claude API で実作業"
-if python3 "$SCRIPT_DIR/auto_write.py" "$FOLDER"; then
-    echo "  ✅ 実作業完了"
-else
-    echo "  ⚠️  API作業スキップ（API Key未設定の可能性）"
-    echo "  手動で drafts/ に原稿を配置してから再実行してください"
-    exit 1
-fi
+echo "  品質モード選択："
+echo "    [1] STANDARD  - 3段階生成（90点・3分・¥3-5）"
+echo "    [2] ULTRA     - 10段階生成（10000点クラス・10分・¥30-50）"
+echo "    [E] スキップ"
+read -p "選択 [1/2/E]: " QUALITY_MODE
+case "$QUALITY_MODE" in
+    1)
+        python3 "$SCRIPT_DIR/auto_write.py" "$FOLDER" || { echo "❌ STANDARD失敗"; exit 1; }
+        ;;
+    2)
+        python3 "$SCRIPT_DIR/ultra_write.py" "$FOLDER" || { echo "❌ ULTRA失敗"; exit 1; }
+        ;;
+    *)
+        echo "  実作業スキップ（手動で drafts/ に配置してください）"
+        ;;
+esac
 echo ""
 
 # STEP 3: 品質チェック
