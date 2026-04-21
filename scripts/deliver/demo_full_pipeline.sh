@@ -4,9 +4,17 @@
 # ・構成・本文を自動生成＆保存
 # ・品質チェック
 # ・納品パッケージ作成
-# 使い方: ./scripts/deliver/demo_full_pipeline.sh
+#
+# 使い方:
+#   ./scripts/deliver/demo_full_pipeline.sh          # 既存あれば確認
+#   ./scripts/deliver/demo_full_pipeline.sh --force  # 強制上書き
+#
+# 【重要】既存の drafts/article.md があれば上書きしない
+# （手動で改善した内容を保護するため）
 
 set -e
+FORCE_OVERWRITE=false
+[[ "$1" = "--force" ]] && FORCE_OVERWRITE=true
 
 REPO_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$REPO_DIR"
@@ -67,9 +75,13 @@ python3 "$SCRIPT_DIR/generate.py" "$FOLDER_NAME" > /dev/null 2>&1 || true
 [[ -f "$FOLDER_PATH/prompts/2_body.md" ]] && echo "  ✅ 2_body.md 生成済み"
 echo ""
 
-# ========== STEP 3: 構成を保存 ==========
+# ========== STEP 3: 構成を保存（既存あれば尊重） ==========
 echo "▶ STEP 3: 構成を drafts/ に保存"
 
+if [[ -f "$FOLDER_PATH/drafts/1_structure.md" ]] && [[ "$FORCE_OVERWRITE" != "true" ]]; then
+    echo "  ℹ️  既存の 1_structure.md を尊重します（上書きしません）"
+    echo "  強制上書きしたい場合: ./demo_full_pipeline.sh --force"
+else
 cat > "$FOLDER_PATH/drafts/1_structure.md" <<'STRUCTURE_EOF'
 # タイトル案
 1. 【2026年版】副業の始め方完全ガイド｜30代会社員向け
@@ -110,13 +122,18 @@ cat > "$FOLDER_PATH/drafts/1_structure.md" <<'STRUCTURE_EOF'
   ### H3-5-2：2ヶ月目：月5万円
   ### H3-5-3：3ヶ月目：月10万円
 STRUCTURE_EOF
-
-echo "  ✅ 1_structure.md 保存完了"
+    echo "  ✅ 1_structure.md 保存完了"
+fi
 echo ""
 
-# ========== STEP 4: 本文を保存 ==========
+# ========== STEP 4: 本文を保存（既存あれば尊重） ==========
 echo "▶ STEP 4: 本文記事を drafts/ に保存"
 
+if [[ -f "$FOLDER_PATH/drafts/article.md" ]] && [[ "$FORCE_OVERWRITE" != "true" ]]; then
+    EXISTING_SIZE=$(wc -c < "$FOLDER_PATH/drafts/article.md" | tr -d ' ')
+    echo "  ℹ️  既存の article.md を尊重します（${EXISTING_SIZE}バイト・上書きしません）"
+    echo "  強制上書きしたい場合: ./demo_full_pipeline.sh --force"
+else
 cat > "$FOLDER_PATH/drafts/article.md" <<'ARTICLE_EOF'
 # 【2026年版】副業の始め方完全ガイド｜30代会社員向け
 
@@ -289,9 +306,9 @@ Excel・Notionテンプレを販売。一度作れば永久に収益化可能で
 
 まずは本日、最初の一歩を踏み出しましょう。
 ARTICLE_EOF
-
-CHARS=$(wc -c < "$FOLDER_PATH/drafts/article.md" | tr -d ' ')
-echo "  ✅ article.md 保存完了（${CHARS}バイト）"
+    CHARS=$(wc -c < "$FOLDER_PATH/drafts/article.md" | tr -d ' ')
+    echo "  ✅ article.md 保存完了（${CHARS}バイト）"
+fi
 echo ""
 
 # ========== STEP 5: 品質チェック ==========

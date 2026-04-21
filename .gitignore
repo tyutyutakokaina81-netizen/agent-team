@@ -42,6 +42,9 @@ context/references/*
 scripts/applications.csv
 scripts/dashboard.html
 
+# 個人設定ファイル（名前・メール・口座情報等）
+user_config.json
+
 # 認証情報・セッション（絶対コミット禁止）
 **/auth-state.json
 **/*_session.json

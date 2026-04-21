@@ -17,6 +17,14 @@ import shutil
 import sys
 from datetime import datetime
 
+# ユーザー設定（名前・メール等）を読み込み
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from user_config import apply_placeholders
+except ImportError:
+    def apply_placeholders(text):
+        return text
+
 DELIVERIES_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     '..',
@@ -213,8 +221,28 @@ def main():
         print(f'   対応拡張子: {VALID_EXTENSIONS}')
         sys.exit(1)
 
-    # 複数あれば最大サイズのものをメインに（ただし全部コピー）
-    drafts.sort(key=lambda f: os.path.getsize(os.path.join(drafts_dir, f)), reverse=True)
+    # メインファイルを判定（納品対象を絞り込む）
+    # 優先順位1: meta.json の main_deliverable で指定
+    # 優先順位2: 命名規則（article.md > delivery.md > output.md > main.md）
+    # 優先順位3: 番号プレフィックス無しで最大サイズ
+    main_pattern = meta.get('main_deliverable')
+    main_candidates = ['article.md', 'delivery.md', 'output.md', 'main.md', 'final.md']
+
+    if main_pattern and main_pattern in drafts:
+        # 明示指定があればそれだけ
+        drafts = [main_pattern]
+        print(f'  📌 納品対象: {main_pattern}（meta.json指定）')
+    else:
+        # 命名規則でメインを探す
+        main_file = next((f for f in main_candidates if f in drafts), None)
+        if main_file:
+            # 作業ファイル（1_structure.md等の番号付き）を除外
+            work_files = [f for f in drafts if re.match(r'^\d+_', f)]
+            drafts = [f for f in drafts if f not in work_files]
+            if work_files:
+                print(f'  ℹ️  作業ファイルを除外: {", ".join(work_files)}')
+        # 複数あれば最大サイズのものを先頭に（ただし全部コピー）
+        drafts.sort(key=lambda f: os.path.getsize(os.path.join(drafts_dir, f)), reverse=True)
 
     # 納品ファイル名の安全な生成
     date = datetime.now().strftime('%Y%m%d')
@@ -270,6 +298,9 @@ def main():
     except KeyError as e:
         print(f'  ⚠️  メールテンプレ変数不足: {e}。デフォルトを使用')
         email = DELIVERY_EMAIL_DEFAULT.format(**email_vars)
+
+    # ユーザー情報を自動展開（設定されていれば）
+    email = apply_placeholders(email)
 
     email_path = os.path.join(folder_path, 'delivery_email.txt')
     with open(email_path, 'w', encoding='utf-8') as f:
