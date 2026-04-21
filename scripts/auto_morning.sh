@@ -11,12 +11,21 @@ cd "$REPO_DIR"
 LOG_DIR="$REPO_DIR/logs"
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/cron.log"
+LOCK_FILE="$LOG_DIR/.last_run_date"
+TODAY=$(date '+%Y-%m-%d')
+
+# 1日1回ロック：既に今日実行済みなら終了
+if [[ -f "$LOCK_FILE" ]] && [[ "$(cat "$LOCK_FILE")" == "$TODAY" ]]; then
+    echo "今日はすでに実行済みです（$TODAY）" >> "$LOG_FILE"
+    exit 0
+fi
 
 {
     echo ""
     echo "========================================"
     echo "🌅 自動朝ルーティン $(date '+%Y-%m-%d %H:%M')"
     echo "========================================"
+    echo "（前回実行: $([[ -f "$LOCK_FILE" ]] && cat "$LOCK_FILE" || echo "初回")）"
 
     # 1. 最新をpull（conflictがあればスキップ）
     echo "📥 Git pull..."
@@ -53,6 +62,9 @@ LOG_FILE="$LOG_DIR/cron.log"
     echo ""
     echo "✅ 自動朝ルーティン完了 $(date '+%Y-%m-%d %H:%M')"
     echo "========================================"
+
+    # 今日実行済みマークをつける
+    echo "$TODAY" > "$LOCK_FILE"
 } >> "$LOG_FILE" 2>&1
 
 # 最後の行をstdoutに出す（ログを見やすく）
