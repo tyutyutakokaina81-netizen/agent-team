@@ -68,37 +68,31 @@ else
 fi
 echo ""
 
-# STEP 2: Claude API で実作業
-echo "▶ STEP 2/4: Claude API で実作業"
-echo "  品質モード選択："
-echo "    [1] STANDARD  - 3段階生成（90点・3分・¥3-5）"
-echo "    [2] ULTRA     - 10段階生成（10000点クラス・10分・¥30-50）"
-echo "    [E] スキップ"
-read -p "選択 [1/2/E]: " QUALITY_MODE
-case "$QUALITY_MODE" in
-    1)
-        python3 "$SCRIPT_DIR/auto_write.py" "$FOLDER" || { echo "❌ STANDARD失敗"; exit 1; }
-        ;;
-    2)
-        python3 "$SCRIPT_DIR/ultra_write.py" "$FOLDER" || { echo "❌ ULTRA失敗"; exit 1; }
-        ;;
-    *)
-        echo "  実作業スキップ（手動で drafts/ に配置してください）"
-        ;;
-esac
+# STEP 2: 実作業（無料Claude Code推奨）
+echo "▶ STEP 2/4: 実作業"
+echo "  推奨フロー（無料）："
+echo "    1. cat $FOLDER_PATH/prompts/1_structure.md | pbcopy"
+echo "    2. このClaude Codeに貼り付け→構成生成"
+echo "    3. 結果を drafts/ に保存"
+echo ""
+echo "  既に drafts/article.md がある場合はSTEP3に進みます"
+[[ -f "$FOLDER_PATH/drafts/article.md" ]] && echo "  ✅ drafts/article.md 検出" || echo "  ⚠️  drafts/article.md 無し"
 echo ""
 
-# STEP 3: 品質チェック
-echo "▶ STEP 3/4: 品質チェック"
+# STEP 3: 品質チェック（技術的）＋クライアント視点レビュー
+echo "▶ STEP 3a/4: 技術的品質チェック"
 QC_OUTPUT=$(python3 "$SCRIPT_DIR/quality_check.py" "$FOLDER")
-echo "$QC_OUTPUT" | tail -30
+echo "$QC_OUTPUT" | tail -20
 
 if echo "$QC_OUTPUT" | grep -q "致命的"; then
     echo ""
     echo "❌ 品質チェックで致命的な問題を検出。パイプライン停止。"
-    echo "   drafts/article.md を手動で修正してから再実行"
     exit 1
 fi
+echo ""
+
+echo "▶ STEP 3b/4: クライアント視点レビュー"
+python3 "$SCRIPT_DIR/client_review.py" "$FOLDER"
 echo ""
 
 # STEP 4: 納品パッケージ生成
