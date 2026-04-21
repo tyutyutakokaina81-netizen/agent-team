@@ -83,6 +83,20 @@ fi
     echo ""
     "$SCRIPT_DIR/backup.sh" 2>&1 || echo "⚠️  backup失敗"
 
+    # 7. 受注チェックリマインド
+    echo ""
+    echo "========================================"
+    echo "📬 受注チェック リマインド"
+    echo "========================================"
+    echo "各プラットフォームの未読・新着を確認してください："
+    echo "  クラウドワークス: https://crowdworks.jp/mypage"
+    echo "  ランサーズ:       https://www.lancers.jp/mypage"
+    echo "  ママワークス:     https://mamaworks.jp/member/home"
+    echo ""
+    echo "対話で確認する場合："
+    echo "  ./scripts/deliver/check_orders.sh"
+    echo ""
+
     echo ""
     echo "✅ 自動デイリールーティン完了 $(date '+%Y-%m-%d %H:%M')"
     echo "========================================"
