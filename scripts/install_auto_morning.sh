@@ -11,7 +11,7 @@ PLIST_TEMPLATE="$SCRIPT_DIR/com.user.agent-team.morning.plist.template"
 PLIST_DEST="$HOME/Library/LaunchAgents/com.user.agent-team.morning.plist"
 
 echo "========================================"
-echo "🔧 自動朝ルーティン インストーラ"
+echo "🔧 自動デイリールーティン インストーラ（毎日20:00）"
 echo "========================================"
 
 # LaunchAgents ディレクトリ作成
@@ -38,7 +38,8 @@ if launchctl list | grep -q "com.user.agent-team.morning"; then
     echo "🎉 インストール完了"
     echo "========================================"
     echo ""
-    echo "📅 毎朝8:00に自動実行されます"
+    echo "📅 毎日20:00に自動実行されます"
+    echo "（その時刻PCが寝てても、次回起動時にキャッチアップ）"
     echo "📂 ログ: $REPO_DIR/logs/cron.log"
     echo ""
     echo "【確認コマンド】"

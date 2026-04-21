@@ -11,11 +11,11 @@
         <string>{{REPO_DIR}}/scripts/auto_morning.sh</string>
     </array>
 
-    <!-- 毎日8時に実行。PCが寝てた場合、起動時にキャッチアップ実行される -->
+    <!-- 毎日20時に実行。PCが寝てた場合、起動時にキャッチアップ実行される -->
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>8</integer>
+        <integer>20</integer>
         <key>Minute</key>
         <integer>0</integer>
     </dict>
