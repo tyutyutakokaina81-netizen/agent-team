@@ -60,3 +60,8 @@ CDO/outputs/note_uploader/auth-state.json
 CDO/outputs/note_uploader/*.png
 CDO/outputs/note_uploader/package-lock.json
 autonomous/**/package-lock.json
+
+# 納品パイプラインの個別案件（メタデータ・下書き含む）
+deliveries/*
+!deliveries/.gitkeep
+!deliveries/_client_profiles/.gitkeep
