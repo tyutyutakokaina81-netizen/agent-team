@@ -57,6 +57,9 @@ git add -- '*.mjs' '*.js' 2>/dev/null || true
 # シェル関連の定義済みファイル
 git add -- '*.txt' '*.sh' 2>/dev/null || true
 
+# 設定ファイルテンプレート（plist等）
+git add -- '*.plist' '*.template' 'scripts/*.plist.template' 2>/dev/null || true
+
 # 追加されたものを確認
 STAGED=$(git diff --cached --name-only | wc -l | tr -d ' ')
 if [[ "$STAGED" -eq 0 ]]; then
