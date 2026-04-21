@@ -1,12 +1,41 @@
 #!/bin/bash
 # Gitに自動バックアップ（安全版：明示的許可リスト方式）
 # 機密ファイルが混入しないよう、追加するファイルパターンを明示指定
+#
+# エッジケース対応：
+# - detached HEAD 検出
+# - ネットワーク失敗時の自動リトライ
+# - git lock ファイル検出
+# - リポジトリ外からの実行検知
+# - ステージング失敗時の自動クリーンアップ
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_DIR"
+
+# gitリポジトリであることを検証
+if [[ ! -d "$REPO_DIR/.git" ]]; then
+    echo "❌ gitリポジトリではありません: $REPO_DIR"
+    exit 1
+fi
+
+# git lock ファイル検出
+if [[ -f "$REPO_DIR/.git/index.lock" ]]; then
+    echo "❌ git lock ファイルが残っています: .git/index.lock"
+    echo "   他のgit操作が実行中か、前回の操作が中断された可能性があります"
+    echo "   手動で確認してください: ls -la .git/index.lock"
+    exit 1
+fi
+
+# detached HEAD 検出
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+if [[ "$BRANCH" = "HEAD" ]]; then
+    echo "❌ detached HEAD状態です。ブランチに戻ってください："
+    echo "   git checkout claude/check-current-status-IRaNC"
+    exit 1
+fi
 
 # 変更があるかチェック（ignoredを除く）
 if [[ -z "$(git status --porcelain)" ]]; then
@@ -15,7 +44,6 @@ if [[ -z "$(git status --porcelain)" ]]; then
 fi
 
 # 許可されたファイルのみを追加（許可リスト方式）
-# .gitignoreに書いてあっても、ここに書いてないファイルは add されない
 echo "📋 安全なファイルのみステージング..."
 
 # ルートレベルのMarkdownと設定
@@ -50,6 +78,9 @@ git add -- 'projects/**/*.py' 2>/dev/null || true
 git add -- 'scripts/*.py' 2>/dev/null || true
 git add -- 'scripts/*.sh' 2>/dev/null || true
 git add -- 'scripts/*.md' 2>/dev/null || true
+git add -- 'scripts/deliver/*.py' 2>/dev/null || true
+git add -- 'scripts/deliver/*.sh' 2>/dev/null || true
+git add -- 'scripts/deliver/*.md' 2>/dev/null || true
 
 # サーバーコード（ルート）
 git add -- '*.mjs' '*.js' 2>/dev/null || true
@@ -87,13 +118,34 @@ if [[ "$UNSTAGED" -gt 0 ]] || [[ "$UNTRACKED" -gt 0 ]]; then
     echo ""
 fi
 
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
 DATE=$(date '+%Y-%m-%d %H:%M')
 
+# コミット（失敗時はステージングをクリア）
 echo "📝 コミットします..."
-git commit -m "backup: 自動バックアップ $DATE"
+if ! git commit -m "backup: 自動バックアップ $DATE"; then
+    echo "⚠️  コミット失敗。ステージングを解除します。"
+    git reset HEAD 2>/dev/null || true
+    exit 1
+fi
 
+# プッシュ（ネットワーク失敗時のリトライ）
 echo "☁️  GitHubへプッシュ中..."
-git push -u origin "$BRANCH"
+PUSH_RETRY=0
+MAX_RETRIES=3
+while [[ $PUSH_RETRY -lt $MAX_RETRIES ]]; do
+    if git push -u origin "$BRANCH" 2>&1; then
+        echo "✅ バックアップ完了: $DATE"
+        exit 0
+    fi
+    PUSH_RETRY=$((PUSH_RETRY + 1))
+    if [[ $PUSH_RETRY -lt $MAX_RETRIES ]]; then
+        WAIT=$((2 ** PUSH_RETRY))
+        echo "⚠️  push失敗（${PUSH_RETRY}回目）。${WAIT}秒後にリトライ..."
+        sleep $WAIT
+    fi
+done
 
-echo "✅ バックアップ完了: $DATE"
+echo "❌ push が $MAX_RETRIES 回失敗しました（ネットワーク確認必要）"
+echo "   ローカルコミットは保持されています。後で手動pushしてください："
+echo "   git push origin $BRANCH"
+exit 2

@@ -74,6 +74,7 @@ All documents and operational output are in Japanese.
 1. `company.md` — 会社共通ルール・ディレクトリ構造・役職定義・新役職生成ルール
 2. `context/` — オーナーの日記・アイデア・参考資料（意図や背景の把握に使う）
 3. 担当役職の `_index.md` — 過去の成果物・進行中タスクの確認
+4. **`scripts/deliver/RULES.md`** — パイプライン運用ルール・エッジケース対応（コード改修時は必読）
 
 ---
 
@@ -329,7 +330,37 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 ## Notes
 
-- All shell scripts use `#!/bin/zsh` with `set -e`
+- All shell scripts use `#!/bin/bash` with `set -e`（zsh依存は避ける - 移植性のため）
 - Shell scripts reference `$HOME/agent-team/` as the repo path (macOS `pbcopy` assumed)
 - All prompts and document output are in Japanese
 - Sensitive files (invoices, contracts, customer PII) must not be committed to Git
+- **バックアップは許可リスト方式** — `scripts/backup.sh` は明示的に許可されたファイルのみpush
+- **機密ファイルの混入防止** — `.gitignore` 強化 + バックアップ時の二重チェック
+
+---
+
+## 🚨 パイプライン運用の鉄則
+
+**コード改修時は必ず `scripts/deliver/RULES.md` を参照すること。**
+
+### 絶対守るべき4原則
+
+1. **安全第一（Fail-Safe）** — 未検証の入力はそのままファイルシステムに書かない
+2. **冪等性（Idempotent）** — 同じ操作を何度実行しても結果は同じ
+3. **透明性（Transparency）** — 失敗時は原因を明示・警告と致命的を区別
+4. **下位互換（Backward Compatibility）** — 古いフォーマットは自動マイグレーション
+
+### 新規スクリプト追加時の必須チェック
+
+- [ ] 必須入力の検証（空欄拒否・型チェック）
+- [ ] ファイル存在確認
+- [ ] try/except での例外捕捉（特に `KeyboardInterrupt`, `EOFError`）
+- [ ] 絶対パス解決（どのディレクトリからでも実行可能）
+- [ ] ロック機構（多重実行防止）
+- [ ] リトライロジック（ネットワーク依存時は指数バックオフ）
+
+### 自動実行（launchd）の注意
+
+- `auto_morning.sh` は PIDロック＋日付ロックで多重実行防止
+- ログは `~/agent-team/logs/cron.log` に蓄積（5000行超で自動切り詰め）
+- 機密ファイルの混入は `backup.sh` の許可リストで事前ブロック
