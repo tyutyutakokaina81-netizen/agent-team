@@ -8,8 +8,9 @@ LOG=$REPO/logs/booth_publish_new.log
 cd "$REPO"
 mkdir -p "$REPO/logs"
 
-# 最新コードを取得
-git pull --ff-only origin claude/add-claude-documentation-Wipf0
+# 最新コードを取得（diverge しても強制同期）
+git fetch origin claude/add-claude-documentation-Wipf0
+git reset --hard origin/claude/add-claude-documentation-Wipf0
 
 # バックグラウンドで実行（ターミナルを閉じてもOK）
 nohup python3 "$REPO/mac_booth_publish.py" > "$LOG" 2>&1 &
