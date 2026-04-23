@@ -12,8 +12,8 @@ mkdir -p "$REPO/logs"
 git fetch origin claude/add-claude-documentation-Wipf0
 git reset --hard origin/claude/add-claude-documentation-Wipf0
 
-# バックグラウンドで実行（ターミナルを閉じてもOK）
-nohup python3 "$REPO/mac_booth_publish.py" > "$LOG" 2>&1 &
+# Cookie更新してから出品（バックグラウンド）
+nohup zsh -c "cd '$REPO' && python3 mac_auto_cookie.py && python3 mac_booth_publish.py" > "$LOG" 2>&1 &
 PID=$!
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
