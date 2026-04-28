@@ -77,6 +77,13 @@ PRODUCTS = [
         "tags": "note,ブログ,記事ネタ,AIプロンプト,副業,ChatGPT,コンテンツ販売",
         "file": TMPL_DIR / "vol7_note_blog_prompts.txt",
     },
+    {
+        "title": "高岡市・富山観光 インバウンド向けAIプロンプト集30選【SNS/YouTube/多言語対応】",
+        "description": "高岡市・富山県の観光PR・インバウンド向けコンテンツ制作に使えるAIプロンプト30選。\n\n【こんな方に】\n・高岡市・富山の観光を世界に発信したい\n・飲食店・旅館・観光施設のSNS担当者\n・YouTubeで地域観光チャンネルを運営したい\n・インバウンド向けの英語コンテンツを作りたい\n\n【収録内容（30選）】\n▼ SNS投稿文 10選（日本語・英語・バイリンガル）\n▼ note・ブログ記事 8選（SEO記事・旅行記・グルメ特集）\n▼ YouTube・動画台本 6選（5分動画・ショート・VLOG）\n▼ インバウンド対応 6選（多言語翻訳・FAQなど）\n\n【使い方】\nChatGPT・Claude・Gemini 全対応。[ ]を書き換えて貼るだけ。\n\n【返金について】\nデジタルコンテンツの性質上、返金はお受けできません。",
+        "price": "2480",
+        "tags": "高岡市,富山観光,インバウンド,AIプロンプト,ChatGPT,SNS,YouTube,観光PR",
+        "file": TMPL_DIR / "vol8_takaoka_tourism_prompts.txt",
+    },
 ]
 
 

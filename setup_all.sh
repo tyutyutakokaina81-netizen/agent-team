@@ -35,55 +35,38 @@ else
 fi
 
 # ────────────────────────────────────────
-hdr "STEP 2/5  note.com ログイン保存"
+hdr "STEP 2/5  Chrome セッション一括取得（BOOTH / note / X）"
 # ────────────────────────────────────────
-if [ -f "$SESSIONS/note_session.json" ]; then
-  ok "note セッション済み（スキップ）"
-else
-  echo "  ブラウザが開きます → note.com にログイン → Enter を押してください"
-  python3 "$REPO/auto_note_publish.py" --setup
-fi
+echo "  Chromeにログイン済みであれば自動取得します"
+echo "  ※ キーチェーンのダイアログが出たら「許可」"
+python3 "$REPO/mac_auto_cookie_all.py"
 
 # ────────────────────────────────────────
-hdr "STEP 3/5  X(Twitter) ログイン保存"
-# ────────────────────────────────────────
-if [ -f "$SESSIONS/x_session.json" ]; then
-  ok "X セッション済み（スキップ）"
-else
-  echo "  ブラウザが開きます → X にログイン → Enter を押してください"
-  python3 "$REPO/auto_x_post.py" --setup
-fi
-
-# ────────────────────────────────────────
-hdr "STEP 4/5  クラウドワークス ログイン保存"
+hdr "STEP 3/5  クラウドワークス セッション確認"
 # ────────────────────────────────────────
 CW_SESSION="$REPO/projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/.sessions/crowdworks_session.json"
 if [ -f "$CW_SESSION" ]; then
   ok "CW セッション済み（スキップ）"
 else
-  echo "  ブラウザが開きます → クラウドワークスにログイン → Enter を押してください"
+  echo "  CWのセッションがありません。ブラウザでログインします..."
   python3 - <<'PYEOF'
 import json, sys
 from pathlib import Path
 SESSION_FILE = Path.home() / "agent-team/projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/.sessions/crowdworks_session.json"
 SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
 try:
-    from playwright.sync_api import sync_playwright
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        ctx = browser.new_context()
-        page = ctx.new_page()
-        page.goto("https://crowdworks.jp/login")
-        print("  ブラウザでクラウドワークスにログインしてください。")
-        print("  ログイン完了後、Enterを押してください...")
-        input()
-        ctx.storage_state(path=str(SESSION_FILE))
-        browser.close()
-    print(f"  セッション保存: {SESSION_FILE}")
+    import browser_cookie3 as bc3
+    jar = bc3.chrome(domain_name='.crowdworks.jp')
+    cookies = {c.name: c.value for c in jar}
+    if cookies:
+        state = {"cookies": [{"name":k,"value":v,"domain":".crowdworks.jp","path":"/","expires":-1,"httpOnly":False,"secure":True,"sameSite":"None"} for k,v in cookies.items()], "origins":[]}
+        SESSION_FILE.write_text(json.dumps(state), encoding="utf-8")
+        print(f"  ✅ CW: {len(cookies)}個のクッキーを保存")
+    else:
+        print("  ⚠️  CWのクッキーなし → Chromeでクラウドワークスにログインしてから再実行")
 except Exception as e:
     print(f"  エラー: {e}")
 PYEOF
-  ok "CW セッション保存完了"
 fi
 
 # ────────────────────────────────────────
