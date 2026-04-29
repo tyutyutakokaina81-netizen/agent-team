@@ -21,14 +21,20 @@ QUEUE_STATE = REPO / ".sessions" / "note_publish_queue.json"
 # 公開する記事キュー（順番に1本ずつ公開）
 ARTICLE_QUEUE = [
     {
-        "id": "youtube_open",
-        "file": "CMO/outputs/2026-04-28_高岡アイ_YouTube開設note記事.md",
-        "title": "架空の女性アナウンサー「高岡アイ」が、富山・高岡の魅力を世界に届けます",
+        "id": "takaoka_paid_guide",
+        "file": "CMO/outputs/2026-04-29_高岡観光_有料note記事.md",
+        "title": "【保存版】高岡市 完全観光マップ＋モデルコース3選——国宝・日本三大仏・鋳物・グルメ全網羅",
+        "price": 300,  # 有料記事
     },
     {
         "id": "kyoto_vs_takaoka",
         "file": "CMO/outputs/2026-04-29_京都より高岡を勧める理由_バズ狙い記事.md",
         "title": "京都に行くくらいなら、高岡に行けばよかった——国宝、日本三大仏、無料。人混みなし。",
+    },
+    {
+        "id": "youtube_open",
+        "file": "CMO/outputs/2026-04-28_高岡アイ_YouTube開設note記事.md",
+        "title": "架空の女性アナウンサー「高岡アイ」が、富山・高岡の魅力を世界に届けます",
     },
     {
         "id": "zuiryuji",
@@ -204,6 +210,21 @@ def publish_article():
             time.sleep(0.05)
 
         time.sleep(2)
+
+        # 有料記事の場合は価格設定
+        price = article.get("price", 0)
+        if price and price > 0:
+            for sel in ["button:has-text('販売設定')", "button:has-text('価格')",
+                        "[aria-label*='価格']"]:
+                btn = page.query_selector(sel)
+                if btn:
+                    btn.click()
+                    time.sleep(1)
+                    price_input = page.query_selector("input[type='number'], input[name*='price']")
+                    if price_input:
+                        price_input.fill(str(price))
+                        time.sleep(0.5)
+                    break
 
         # 公開ボタン
         for sel in ["button:has-text('公開')", "button:has-text('投稿')"]:

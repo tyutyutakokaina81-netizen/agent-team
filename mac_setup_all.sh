@@ -53,17 +53,19 @@ exec(open('auto_youtube_upload.py').read())
 extract_youtube_cookies()
 " && echo "  ✅ YouTubeセッション準備完了"
 
-# ── 6. LaunchAgent 登録（毎朝9時自動実行）────────────
-echo "\n[6/6] 毎日9時の自動実行を設定..."
-PLIST="$HOME/Library/LaunchAgents/com.agent-team.daily.plist"
-cat > "$PLIST" << PLIST_EOF
+# ── 6. LaunchAgent 登録（朝9時 + 夕20時）────────────
+echo "\n[6/6] 自動実行スケジュール設定（朝9時・夕20時）..."
+
+make_plist() {
+  local name=$1 hour=$2
+  local plist="$HOME/Library/LaunchAgents/com.agent-team.${name}.plist"
+  cat > "$plist" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
   "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key>
-  <string>com.agent-team.daily</string>
+  <key>Label</key><string>com.agent-team.${name}</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>
@@ -71,24 +73,22 @@ cat > "$PLIST" << PLIST_EOF
   </array>
   <key>StartCalendarInterval</key>
   <dict>
-    <key>Hour</key>
-    <integer>9</integer>
-    <key>Minute</key>
-    <integer>0</integer>
+    <key>Hour</key><integer>${hour}</integer>
+    <key>Minute</key><integer>0</integer>
   </dict>
-  <key>StandardOutPath</key>
-  <string>$REPO/logs/launchd_stdout.log</string>
-  <key>StandardErrorPath</key>
-  <string>$REPO/logs/launchd_stderr.log</string>
-  <key>WorkingDirectory</key>
-  <string>$REPO</string>
+  <key>StandardOutPath</key><string>$REPO/logs/launchd_${name}.log</string>
+  <key>StandardErrorPath</key><string>$REPO/logs/launchd_${name}_err.log</string>
+  <key>WorkingDirectory</key><string>$REPO</string>
 </dict>
 </plist>
-PLIST_EOF
+EOF
+  launchctl unload "$plist" 2>/dev/null || true
+  launchctl load "$plist"
+  echo "  ✅ ${hour}時に自動実行登録完了"
+}
 
-launchctl unload "$PLIST" 2>/dev/null || true
-launchctl load "$PLIST"
-echo "  ✅ 毎朝9時に自動実行されます"
+make_plist "morning" 9
+make_plist "evening" 20
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

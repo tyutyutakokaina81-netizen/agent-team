@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """
-auto_d_apply.py — CW案件 5件を完全自動応募（ユーザー介入不要）
+auto_d_apply.py — CW案件をリアルタイム検索して自動応募
 
-前提:
-  pip install playwright && playwright install chromium
-  .sessions/crowdworks_session.json が存在すること
-  （初回: projects/.../pipeline/00_session_setup.py でログイン保存）
+固定URLではなく毎回検索して新着案件に応募する
+対象: データ入力・スクレイピング・Excel・事務
 """
 
 import json
@@ -13,158 +11,136 @@ import time
 import sys
 from pathlib import Path
 
-PIPELINE_DIR = Path(__file__).parent / "projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング"
-SESSION_FILE = PIPELINE_DIR / ".sessions" / "crowdworks_session.json"
+REPO = Path(__file__).parent
+SESSION_FILE = REPO / ".sessions" / "crowdworks_session.json"
+APPLIED_FILE = REPO / ".sessions" / "cw_applied.json"
+MAX_APPLY = 5  # 1日の最大応募数
 
-JOBS = [
-    {
-        "id": "A1",
-        "title": "【100%採用】データ入力業務",
-        "url": "https://crowdworks.jp/public/jobs/12876568",
-        "text": """はじめまして。
-データ入力業務で応募いたします。
-
-ご提示の条件で問題なく対応可能です。
-・指示通りの正確な作業
-・ダブルチェックによるミス防止
-・納期厳守・迅速な連絡対応
-
-平日3〜5時間、土日も対応可能です。
-ご指示いただければすぐに作業開始いたします。
-
-よろしくお願いいたします。""",
-    },
-    {
-        "id": "A2",
-        "title": "ポータルサイトへの店舗入力作業",
-        "url": "https://crowdworks.jp/public/jobs/13059624",
-        "text": """はじめまして。
-ポータルサイトへの店舗情報入力のご案件に応募いたします。
-
-店舗データの入力作業は得意分野で、類似案件にも対応経験があります。
-
-■ 対応スタンス
-・マニュアル通りの正確な作業
-・表記ゆれ・入力漏れの徹底防止
-・ダブルチェックによる品質確保
-
-平日3〜5時間確保可能で、納期厳守いたします。
-ご指示いただければすぐに作業開始いたします。
-
-よろしくお願いいたします。""",
-    },
-    {
-        "id": "A3",
-        "title": "月初3日間限定・画像情報を文字起こし",
-        "url": "https://crowdworks.jp/public/jobs/12965543",
-        "text": """はじめまして。
-月初限定の画像→テキスト化業務に応募いたします。
-
-画像からの文字起こし、データ入力は得意分野です。
-正確性とスピードを両立できます。
-
-■ 稼働
-月初3日間は優先的に時間確保可能です。
-専用システムの操作もすぐ習熟できます。
-
-■ 強み
-・ダブルチェックによるミス防止
-・納期厳守
-・迅速な連絡対応
-
-ご指示いただければすぐに作業開始いたします。
-よろしくお願いいたします。""",
-    },
-    {
-        "id": "A4",
-        "title": "繁忙期・好きな時間にできる簡単データ入力",
-        "url": "https://crowdworks.jp/public/jobs/12876562",
-        "text": """はじめまして。
-繁忙期のデータ入力スタッフとして応募いたします。
-
-■ 稼働時間の自由度
-平日3〜5時間、土日も対応可能。
-繁忙期はさらに時間確保できます。
-
-■ 対応範囲
-・Excel・Googleスプレッドシートでの入力
-・ダブルチェックによる精度確保
-・納期前倒し納品を心がけ
-
-即日対応可能です。
-ご指示いただければすぐに作業開始いたします。
-
-よろしくお願いいたします。""",
-    },
-    {
-        "id": "A5",
-        "title": "スマートフォンを用いた事務作業",
-        "url": "https://crowdworks.jp/public/jobs/12529225",
-        "text": """はじめまして。
-スマートフォンを用いた事務作業に応募いたします。
-
-■ 対応可能
-・スマホ操作に慣れており、スキマ時間活用可能
-・事務作業（入力・確認・コピペ）の経験あり
-・マニュアル通りの正確な作業
-
-■ 稼働
-平日3〜5時間、土日対応可能。
-即レス（数時間以内）を心がけております。
-
-ご指示いただければすぐに作業開始いたします。
-よろしくお願いいたします。""",
-    },
+# 検索キーワード（順番に試して案件を集める）
+SEARCH_QUERIES = [
+    "データ入力",
+    "Excel 入力",
+    "スクレイピング",
+    "文字起こし",
+    "リスト作成",
 ]
 
+# 案件種別ごとの応募文テンプレート
+TEMPLATES = {
+    "default": """はじめまして。
+ご案件を拝見し、ぜひ取り組みたいと思い応募いたします。
 
-def _submit(page, job: dict) -> bool:
-    page.goto(job["url"], wait_until="networkidle", timeout=30000)
+■ 対応可能な内容
+・Excelおよびスプレッドシートでのデータ入力
+・Webサイトからの情報収集・整理
+・指示書に沿った正確な作業
+
+■ 稼働
+平日3〜5時間 / 土日も対応可能
+納期は必ず厳守いたします。ダブルチェックで品質を確保します。
+
+不明点はすぐにご確認します。お気軽にご連絡ください。
+よろしくお願いいたします。""",
+
+    "scraping": """はじめまして。
+スクレイピング・データ収集のご案件に応募いたします。
+
+■ 対応可能
+・PythonによるWebスクレイピング（requests / Playwright）
+・Excel / CSVへの自動出力
+・取得データの整形・クレンジング
+
+■ 稼働
+平日3〜5時間 / 土日も対応可能
+仕様をお伝えいただければ即日対応いたします。
+
+よろしくお願いいたします。""",
+
+    "excel": """はじめまして。
+Excel作業のご案件に応募いたします。
+
+■ 対応可能
+・データ入力・整理・集計
+・VLOOKUP / IF / ピボットテーブル
+・フォーマット統一・エラーチェック
+
+■ 稼働
+平日3〜5時間 / 土日も対応可能
+正確性を最優先に作業いたします。
+
+よろしくお願いいたします。""",
+}
+
+
+def load_applied() -> set:
+    if APPLIED_FILE.exists():
+        data = json.loads(APPLIED_FILE.read_text())
+        return set(data.get("urls", []))
+    return set()
+
+
+def save_applied(applied: set):
+    APPLIED_FILE.parent.mkdir(exist_ok=True)
+    APPLIED_FILE.write_text(json.dumps(
+        {"urls": list(applied)}, ensure_ascii=False, indent=2))
+
+
+def pick_template(title: str, description: str) -> str:
+    text = (title + description).lower()
+    if any(w in text for w in ["スクレイピング", "python", "自動", "収集"]):
+        return TEMPLATES["scraping"]
+    if any(w in text for w in ["excel", "エクセル", "スプレッドシート", "関数"]):
+        return TEMPLATES["excel"]
+    return TEMPLATES["default"]
+
+
+def search_jobs(page, query: str) -> list[dict]:
+    """CWで案件を検索してURLリストを返す"""
+    url = f"https://crowdworks.jp/public/jobs/search?order=new&job_category_id=1&keyword={query}"
+    page.goto(url, wait_until="networkidle", timeout=20000)
     time.sleep(2)
 
-    # 応募ボタン
-    clicked = False
-    for sel in [
-        "a.btn-apply",
-        "a[href*='apply']",
-        "a:has-text('応募する')",
-        "button:has-text('応募する')",
-    ]:
+    jobs = []
+    links = page.query_selector_all("article.job_offer a[href*='/public/jobs/']")
+    for link in links[:8]:
+        href = link.get_attribute("href")
+        if href and "/public/jobs/" in href:
+            full_url = href if href.startswith("http") else f"https://crowdworks.jp{href}"
+            title_el = link.query_selector("h3, .job_offer_name, .title")
+            title = title_el.inner_text().strip() if title_el else query
+            jobs.append({"url": full_url, "title": title[:60]})
+    return jobs
+
+
+def apply_job(page, job: dict, template: str) -> bool:
+    page.goto(job["url"], wait_until="networkidle", timeout=20000)
+    time.sleep(2)
+
+    # 応募ボタンを探してクリック
+    for sel in ["a.btn-apply", "a[href*='apply']",
+                "a:has-text('応募する')", "button:has-text('応募する')"]:
         btn = page.query_selector(sel)
         if btn:
             btn.click()
             time.sleep(2)
-            clicked = True
             break
-    if not clicked:
+    else:
         return False
 
-    # 応募文テキストエリア
-    filled = False
-    for sel in [
-        "textarea[name*='body']",
-        "#job_offer_apply_body",
-        "#body",
-        "textarea.apply-body",
-        "textarea",
-    ]:
+    # 応募文入力
+    for sel in ["textarea[name*='body']", "#job_offer_apply_body",
+                "#body", "textarea.apply-body", "textarea"]:
         ta = page.query_selector(sel)
         if ta:
-            ta.fill(job["text"])
+            ta.fill(template)
             time.sleep(0.5)
-            filled = True
             break
-    if not filled:
+    else:
         return False
 
-    # 送信ボタン
-    for sel in [
-        "input[type='submit']",
-        "button[type='submit']",
-        "button:has-text('送信')",
-        "input[value*='送信']",
-        "button:has-text('応募')",
-    ]:
+    # 送信
+    for sel in ["input[type='submit']", "button[type='submit']",
+                "button:has-text('送信')", "button:has-text('応募')"]:
         btn = page.query_selector(sel)
         if btn:
             btn.click()
@@ -173,27 +149,58 @@ def _submit(page, job: dict) -> bool:
     return False
 
 
+def extract_cw_cookies():
+    """ChromeからCWセッションを自動取得"""
+    try:
+        import browser_cookie3
+        cookies = list(browser_cookie3.chrome(domain_name=".crowdworks.jp"))
+        if not cookies:
+            return False
+        state = {
+            "cookies": [
+                {"name": c.name, "value": c.value,
+                 "domain": c.domain if c.domain.startswith(".") else f".{c.domain}",
+                 "path": c.path or "/", "secure": bool(c.secure),
+                 "httpOnly": False, "sameSite": "Lax"}
+                for c in cookies if c.value
+            ],
+            "origins": [],
+        }
+        SESSION_FILE.parent.mkdir(exist_ok=True)
+        SESSION_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
+        return True
+    except Exception:
+        return False
+
+
 def run():
+    # セッション自動取得
     if not SESSION_FILE.exists():
-        print("❌ セッションファイルなし")
-        print(f"   {PIPELINE_DIR}/pipeline/00_session_setup.py を実行してください")
-        sys.exit(1)
+        print("  🍪 CWセッションをChromeから取得中...")
+        if not extract_cw_cookies():
+            print("  ❌ セッション取得失敗（Chromeでcrowdworks.jpにログインしてください）")
+            return
 
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("❌ Playwright未インストール")
-        print("   pip install playwright && playwright install chromium")
-        sys.exit(1)
+        import subprocess
+        subprocess.run([sys.executable, "-m", "pip", "install", "playwright",
+                        "-q", "--break-system-packages"], capture_output=True)
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
+                       capture_output=True)
+        from playwright.sync_api import sync_playwright
 
-    storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
+    applied = load_applied()
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("  CW 5件 完全自動応募")
+    print("  CW 新着案件 自動応募（最大5件）")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
+    storage = json.loads(SESSION_FILE.read_text())
     done = []
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, slow_mo=300)
+        browser = p.chromium.launch(headless=True, slow_mo=200)
         ctx = browser.new_context(
             storage_state=storage,
             viewport={"width": 1280, "height": 800},
@@ -201,25 +208,41 @@ def run():
         )
         page = ctx.new_page()
 
-        for job in JOBS:
-            print(f"\n[{job['id']}] {job['title'][:45]}...")
+        # 各キーワードで案件検索
+        candidates = []
+        for q in SEARCH_QUERIES:
+            if len(candidates) >= MAX_APPLY * 3:
+                break
+            jobs = search_jobs(page, q)
+            for j in jobs:
+                if j["url"] not in applied and j not in candidates:
+                    candidates.append(j)
+
+        print(f"  候補: {len(candidates)}件 → 最大{MAX_APPLY}件に応募")
+
+        for job in candidates[:MAX_APPLY]:
+            print(f"\n  [{job['title'][:40]}]")
+            template = pick_template(job["title"], "")
             try:
-                ok = _submit(page, job)
+                ok = apply_job(page, job, template)
                 if ok:
-                    done.append(job["id"])
+                    applied.add(job["url"])
+                    done.append(job["title"][:30])
                     print(f"  ✅ 応募完了")
                 else:
-                    print(f"  ❌ セレクタ不一致（手動確認: {job['url']}）")
+                    print(f"  ❌ 応募失敗（応募済み or セレクタ不一致）")
             except Exception as e:
                 print(f"  ❌ エラー: {e}")
-            time.sleep(5)  # BANリスク軽減
+            time.sleep(5)
 
-        # セッション更新
         ctx.storage_state(path=str(SESSION_FILE))
         browser.close()
 
-    print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print(f"  完了: {len(done)}/5件 {done}")
+    save_applied(applied)
+    print(f"\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print(f"  完了: {len(done)}/{MAX_APPLY}件")
+    for t in done:
+        print(f"  ✅ {t}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
 

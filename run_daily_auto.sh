@@ -1,17 +1,16 @@
 #!/bin/zsh
-# run_daily_auto.sh — 毎朝の自動実行マスター（note → X → D → A → B）
-# 実行: zsh run_daily_auto.sh
-# 自動実行: launchctl load ~/Library/LaunchAgents/com.agent-team.daily.plist
+# run_daily_auto.sh — 毎朝・毎晩の自動実行マスター
+# 朝9時: git pull → note公開×2 → X投稿×2 → D → A → YouTube(月木)
+# 夕20時: X投稿×1（同スクリプト）
 
 REPO="$HOME/agent-team"
-LOG="$REPO/logs/daily_auto_$(date +%Y-%m-%d).log"
+LOG="$REPO/logs/daily_auto_$(date +%Y-%m-%d_%H%M).log"
 mkdir -p "$REPO/logs"
-
 cd "$REPO"
 
 run() {
   local label="$1"; shift
-  echo "\n[$label] $*..." | tee -a "$LOG"
+  echo "\n[$label] 開始..." | tee -a "$LOG"
   if python3 "$REPO/$@" 2>&1 | tee -a "$LOG"; then
     echo "  ✅ ${label}完了" | tee -a "$LOG"
   else
@@ -19,40 +18,51 @@ run() {
   fi
 }
 
-# 最新コードを取得
-git fetch origin claude/add-claude-documentation-Wipf0
-git reset --hard origin/claude/add-claude-documentation-Wipf0
+# 最新コード取得
+git fetch origin claude/add-claude-documentation-Wipf0 --quiet
+git reset --hard origin/claude/add-claude-documentation-Wipf0 --quiet
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" | tee -a "$LOG"
 echo "  日次自動実行 $(date '+%Y-%m-%d %H:%M')" | tee -a "$LOG"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" | tee -a "$LOG"
 
-# ── note記事 公開（キュー順に1本/日）────────────────
-run "note公開" auto_note_publish.py
+HOUR=$(date +%H)
 
-# ── X 今日の1投稿 ────────────────────────────
-run "X投稿" auto_x_post.py
+if [ "$HOUR" -lt "15" ]; then
+  # ── 朝の実行 ────────────────────────────────────
 
-# ── D: CW案件 5件自動応募 ──────────────────────
-run "D" auto_d_apply.py
+  # note記事 2本公開（1日2本で7本を4日で出し切る）
+  run "note公開①" auto_note_publish.py
+  run "note公開②" auto_note_publish.py
 
-# ── A: SEOサービス出品 ────────────────────────
-run "A" auto_a_service.py
+  # X投稿 2本（朝）
+  run "X投稿①" auto_x_post.py
+  run "X投稿②" auto_x_post.py
+
+  # CW案件 新着検索→自動応募
+  run "CW応募" auto_d_apply.py
+
+  # CWサービス出品
+  run "CW出品" auto_a_service.py
+
+  # BOOTH出品（vol8）
+  run "BOOTH" mac_booth_publish.py
+
+  # YouTube動画生成（月・木のみ）
+  DOW=$(date +%u)
+  if [ "$DOW" = "1" ] || [ "$DOW" = "4" ]; then
+    run "YouTube動画生成" auto_youtube_produce.py
+    run "YouTubeアップロード" auto_youtube_upload.py
+  fi
+
+else
+  # ── 夕方の実行（20時）────────────────────────────
+
+  # X投稿 1本（夕方）
+  run "X投稿（夕）" auto_x_post.py
+
+fi
 
 echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" | tee -a "$LOG"
-echo "  完了。SNS DM（B）は半自動:" | tee -a "$LOG"
-echo "  python3 $REPO/auto_b_dm.py" | tee -a "$LOG"
+echo "  完了 $(date '+%H:%M')" | tee -a "$LOG"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" | tee -a "$LOG"
-
-# ── YouTube動画生成（月・木のみ） ─────────────────────
-DOW=$(date +%u)  # 1=月 〜 7=日
-if [ "$DOW" = "1" ] || [ "$DOW" = "4" ]; then
-  run "YouTube動画生成" auto_youtube_produce.py
-  run "YouTubeアップロード" auto_youtube_upload.py
-fi
-
-# B は半自動（Instagram規約上、完全自動は規約違反）
-if [ -t 0 ]; then
-  echo "\n[B] SNS DM 起動（今日の3件）..."
-  python3 "$REPO/auto_b_dm.py"
-fi
