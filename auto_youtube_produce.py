@@ -113,19 +113,40 @@ def check_espeak() -> bool:
     return result.returncode == 0
 
 
+def check_pyopenjtalk() -> bool:
+    try:
+        import pyopenjtalk  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
+def text_to_speech_openjtalk(text: str, output_path: Path) -> bool:
+    """pyopenjtalk で日本語音声を生成（VOICEVOX同エンジン・ローカル・無料）"""
+    try:
+        import pyopenjtalk
+        import numpy as np
+        import wave
+
+        x, sr = pyopenjtalk.tts(text, speed=1.1, half_tone=2.0)
+        with wave.open(str(output_path), "w") as f:
+            f.setnchannels(1)
+            f.setsampwidth(2)
+            f.setframerate(sr)
+            data = (x * 32767).astype(np.int16)
+            f.writeframes(data.tobytes())
+        return output_path.exists()
+    except Exception as e:
+        print(f"  ⚠️ pyopenjtalk エラー: {e}")
+        return False
+
+
 def text_to_speech_espeak(text: str, output_path: Path) -> bool:
-    """espeak-ng で日本語音声を生成（ローカル・無料・ネット不要）"""
+    """espeak-ng で日本語音声を生成（フォールバック用）"""
     try:
         result = subprocess.run(
-            [
-                "espeak-ng",
-                "-v", "ja",        # 日本語
-                "-s", "140",       # 話速（デフォルト175より遅め）
-                "-p", "68",        # ピッチ（高め＝女性的）
-                "-a", "100",       # 音量
-                text,
-                "-w", str(output_path),
-            ],
+            ["espeak-ng", "-v", "ja", "-s", "140", "-p", "68", "-a", "100",
+             text, "-w", str(output_path)],
             capture_output=True, text=True,
         )
         return result.returncode == 0 and output_path.exists()
@@ -276,10 +297,13 @@ def ensure_voicevox():
 def select_tts_engine() -> str:
     """利用可能な最良のTTSエンジンを選択"""
     if check_voicevox():
-        print("  🎙️  TTS: VOICEVOX（高品質）")
+        print("  🎙️  TTS: VOICEVOX（最高品質）")
         return "voicevox"
+    if check_pyopenjtalk():
+        print("  🎙️  TTS: pyopenjtalk（VOICEVOXと同エンジン・ローカル・無料）")
+        return "openjtalk"
     if check_espeak():
-        print("  🎙️  TTS: espeak-ng（ローカル・ネット不要）")
+        print("  🎙️  TTS: espeak-ng（フォールバック）")
         return "espeak"
     print("  ⚠️  TTSエンジンなし → 無音動画")
     return "silent"
@@ -322,7 +346,12 @@ def produce(title: str = "高岡市観光ガイド"):
         if tts_engine == "voicevox":
             audio_ok = text_to_speech(scene["text"], SPEAKER_ID, audio_path)
             if not audio_ok:
-                tts_engine = "espeak" if check_espeak() else "silent"
+                tts_engine = "openjtalk" if check_pyopenjtalk() else "espeak"
+
+        if tts_engine == "openjtalk" and not audio_ok:
+            audio_ok = text_to_speech_openjtalk(scene["text"], audio_path)
+            if not audio_ok:
+                tts_engine = "espeak"
 
         if tts_engine == "espeak" and not audio_ok:
             audio_ok = text_to_speech_espeak(scene["text"], audio_path)
