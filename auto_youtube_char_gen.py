@@ -21,48 +21,51 @@ CHARACTER_NAME = "高岡アイ"
 PROMPTS = {
     "ai_takaoka_main.png": {
         "positive": (
-            "professional female Japanese TV news anchor, 26 years old, "
+            "professional female Japanese TV news anchor, mid 30s, 34 years old, "
             "photorealistic, high resolution portrait, "
             "navy blue blazer, white blouse, subtle copper brooch, "
-            "long straight black hair, warm friendly smile, "
+            "long straight black hair, warm mature smile, "
             "holding a microphone, standing pose, "
             "studio lighting, clean white background, "
             "4k photo, hyperrealistic, sharp focus, "
-            "beautiful face, natural makeup, confident expression"
+            "beautiful mature face, elegant natural makeup, confident sophisticated expression, "
+            "experienced broadcaster look"
         ),
         "negative": (
             "anime, cartoon, illustration, drawing, painting, sketch, "
-            "deformed, blurry, bad anatomy, ugly, watermark, text, "
+            "young teen, child, deformed, blurry, bad anatomy, ugly, watermark, text, "
             "nsfw, revealing clothing, excessive jewelry"
         ),
         "size": (512, 768),
     },
     "ai_takaoka_smile.png": {
         "positive": (
-            "professional female Japanese TV news anchor, 26 years old, "
+            "professional female Japanese TV news anchor, mid 30s, 34 years old, "
             "photorealistic, upper body portrait, "
-            "navy blue blazer, big bright smile, looking at camera, "
-            "long straight black hair, natural makeup, "
+            "navy blue blazer, bright warm smile, looking at camera, "
+            "long straight black hair, elegant natural makeup, "
             "studio lighting, soft bokeh background, "
-            "4k photo, hyperrealistic, sharp focus"
+            "4k photo, hyperrealistic, sharp focus, "
+            "mature beautiful face, confident experienced presenter"
         ),
         "negative": (
             "anime, cartoon, illustration, deformed, blurry, "
-            "bad anatomy, ugly, watermark, nsfw"
+            "young teen, bad anatomy, ugly, watermark, nsfw"
         ),
         "size": (512, 512),
     },
     "ai_takaoka_guide.png": {
         "positive": (
-            "professional female Japanese TV presenter, 26 years old, "
+            "professional female Japanese TV presenter, mid 30s, 34 years old, "
             "photorealistic, full body shot, "
             "navy blue blazer, arm extended welcoming gesture, "
             "Japanese traditional architecture background, "
             "outdoor natural lighting, travel guide style, "
-            "4k photo, hyperrealistic"
+            "4k photo, hyperrealistic, mature elegant appearance"
         ),
         "negative": (
-            "anime, cartoon, illustration, deformed, blurry, nsfw"
+            "anime, cartoon, illustration, deformed, blurry, "
+            "young teen, nsfw"
         ),
         "size": (512, 768),
     },

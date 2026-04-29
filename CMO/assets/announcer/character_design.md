@@ -7,7 +7,7 @@
 ## プロフィール
 | 項目 | 内容 |
 |------|------|
-| 年齢 | 26歳（設定） |
+| 年齢 | 34歳（設定・30歳中旬） |
 | 出身 | 富山県高岡市 |
 | 職業 | 富山県観光PR大使（架空） |
 | 性格 | 明るく親しみやすい、地元愛が強い |
@@ -20,7 +20,7 @@
 ### ▼ メインビジュアル（立ち絵・全身）
 ```
 A professional Japanese female TV announcer named Ai Takaoka, 
-26 years old, warm smile, wearing a navy blue blazer with a 
+mid 30s, 34 years old, warm smile, wearing a navy blue blazer with a 
 traditional Takaoka copper brooch, holding a microphone, 
 standing confidently, anime-style illustration, clean lines, 
 soft lighting, white background, full body shot
