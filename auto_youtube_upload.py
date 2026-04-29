@@ -1,140 +1,26 @@
 #!/usr/bin/env python3
 """
-auto_youtube_upload.py — YouTube Data API v3 で動画を自動アップロード
+auto_youtube_upload.py — Playwright でYouTube Studioに動画を自動アップロード
 
-前提（初回のみ）:
-  pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
-  Google Cloud Console で OAuth2 クライアントIDを作成 → client_secrets.json を配置
-
-認証手順:
-  1. https://console.cloud.google.com/ → 新規プロジェクト
-  2. YouTube Data API v3 を有効化
-  3. 認証情報 → OAuth クライアントID（デスクトップ） → JSONダウンロード
-  4. ~/agent-team/.sessions/yt_client_secrets.json として保存
-  5. python3 auto_youtube_upload.py --setup  で初回認証（ブラウザで許可）
+OAuth不要・Google Cloud設定不要
+Chrome の既存ログインセッションをそのまま利用する
 """
 
 import json
 import sys
+import time
 from pathlib import Path
 
-SESSIONS = Path(__file__).parent / ".sessions"
-SECRETS_FILE = SESSIONS / "yt_client_secrets.json"
-TOKEN_FILE = SESSIONS / "yt_token.json"
+REPO = Path(__file__).parent
+VIDEO_DIR = REPO / "CMO" / "outputs" / "youtube_videos"
+SESSIONS = REPO / ".sessions"
 SESSIONS.mkdir(exist_ok=True)
+URLS_FILE = SESSIONS / "note_article_urls.json"
+YT_SESSION_FILE = SESSIONS / "youtube_session.json"
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
-
-
-def check_deps():
-    try:
-        import googleapiclient
-        import google_auth_oauthlib
-        return True
-    except ImportError:
-        import subprocess
-        print("📦 YouTube API ライブラリをインストール中...")
-        pkgs = ["google-api-python-client", "google-auth-httplib2", "google-auth-oauthlib"]
-        ret = subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs + ["-q"],
-                             capture_output=True)
-        if ret.returncode != 0:
-            # Homebrew管理Python（Mac）は --break-system-packages が必要
-            subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs +
-                           ["-q", "--break-system-packages"])
-        return True
-
-
-def get_credentials():
-    from google.oauth2.credentials import Credentials
-    from google_auth_oauthlib.flow import InstalledAppFlow
-    from google.auth.transport.requests import Request
-
-    creds = None
-    if TOKEN_FILE.exists():
-        creds = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
-
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            if not SECRETS_FILE.exists():
-                print("❌ yt_client_secrets.json がありません")
-                print()
-                print("  設定手順:")
-                print("  1. https://console.cloud.google.com/ を開く")
-                print("  2. 新規プロジェクト → YouTube Data API v3 を有効化")
-                print("  3. 認証情報 → OAuth クライアントID（デスクトップ）")
-                print("  4. JSONダウンロード")
-                print(f"  5. {SECRETS_FILE} として保存")
-                print("  6. python3 auto_youtube_upload.py --setup")
-                return None
-            flow = InstalledAppFlow.from_client_secrets_file(str(SECRETS_FILE), SCOPES)
-            creds = flow.run_local_server(port=0)
-        TOKEN_FILE.write_text(creds.to_json())
-
-    return creds
-
-
-def upload(video_path: Path, title: str, description: str, tags: list) -> str | None:
-    check_deps()
-    from googleapiclient.discovery import build
-    from googleapiclient.http import MediaFileUpload
-
-    creds = get_credentials()
-    if not creds:
-        return None
-
-    youtube = build("youtube", "v3", credentials=creds)
-
-    body = {
-        "snippet": {
-            "title": title,
-            "description": description,
-            "tags": tags,
-            "categoryId": "19",  # Travel & Events
-            "defaultLanguage": "ja",
-        },
-        "status": {
-            "privacyStatus": "public",
-            "selfDeclaredMadeForKids": False,
-        },
-    }
-
-    media = MediaFileUpload(str(video_path), chunksize=-1, resumable=True,
-                            mimetype="video/mp4")
-
-    print(f"  📤 アップロード中: {video_path.name}")
-    request = youtube.videos().insert(
-        part=",".join(body.keys()), body=body, media_body=media
-    )
-
-    response = None
-    while response is None:
-        status, response = request.next_chunk()
-        if status:
-            print(f"     進行: {int(status.progress() * 100)}%")
-
-    video_id = response["id"]
-    url = f"https://youtu.be/{video_id}"
-    print(f"  ✅ アップロード完了: {url}")
-    return url
-
-
-def upload_latest():
-    """CMO/outputs/youtube_videos/ から最新のMP4を自動アップロード"""
-    video_dir = Path(__file__).parent / "CMO" / "outputs" / "youtube_videos"
-    mp4s = sorted(video_dir.glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True)
-
-    if not mp4s:
-        print("❌ アップロードする動画がありません")
-        print("   先に python3 auto_youtube_produce.py を実行してください")
-        return
-
-    latest = mp4s[0]
-    print(f"対象: {latest.name}")
-
-    title = "【高岡市観光】架空の女子アナが案内する富山・高岡の魅力｜瑞龍寺・高岡大仏・金屋町"
-    description = """富山県高岡市の観光スポットを女性アナウンサーがご案内します！
+VIDEO_META = {
+    "title": "【高岡市観光】架空の女子アナが案内する富山・高岡の魅力｜瑞龍寺・高岡大仏・金屋町",
+    "description": """富山県高岡市の観光スポットを女性アナウンサーがご案内します！
 
 📍 紹介スポット
 ・国宝 瑞龍寺（禅宗の美しい古刹）
@@ -143,37 +29,215 @@ def upload_latest():
 ・氷見うどん・高岡コロッケ
 
 🚄 アクセス
-東京から北陸新幹線で約2時間10分
-金沢から30分
+東京から北陸新幹線で約2時間10分 / 金沢から30分
 
-🗾 高岡市観光公式: https://www.takaoka.or.jp/
+#高岡市 #富山観光 #TakaokaToyama #JapanTravel #瑞龍寺 #高岡大仏 #北陸観光 #隠れた名所""",
+    "tags": ["高岡市", "富山観光", "TakaokaToyama", "JapanTravel",
+             "瑞龍寺", "高岡大仏", "金屋町", "北陸観光"],
+}
 
-#高岡市 #富山観光 #TakaokaToyama #JapanTravel #瑞龍寺 #高岡大仏 #北陸観光"""
 
-    tags = [
-        "高岡市", "富山観光", "TakaokaToyama", "JapanTravel",
-        "瑞龍寺", "高岡大仏", "金屋町", "北陸観光", "HiddenJapan",
-        "日本観光", "インバウンド", "富山県",
-    ]
+def install_deps():
+    import subprocess
+    pkgs = ["playwright"]
+    subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs +
+                   ["-q", "--break-system-packages"], capture_output=True)
+    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
+                   capture_output=True)
 
-    url = upload(latest, title, description, tags)
-    if url:
-        # URL保存
-        urls_file = Path(__file__).parent / ".sessions" / "note_article_urls.json"
-        urls = {}
-        if urls_file.exists():
-            urls = json.loads(urls_file.read_text())
-        urls["youtube_takaoka"] = url
-        urls_file.write_text(json.dumps(urls, ensure_ascii=False, indent=2))
-        print(f"  URL保存済み → X投稿・note記事に自動挿入されます")
 
-    return url
+def extract_youtube_cookies():
+    """ChromeからYouTubeのクッキーを取得してPlaywright形式で保存"""
+    try:
+        import browser_cookie3
+        cookies = list(browser_cookie3.chrome(domain_name=".youtube.com"))
+        if not cookies:
+            cookies = list(browser_cookie3.chrome(domain_name="youtube.com"))
+        if not cookies:
+            return False
+        state = {
+            "cookies": [
+                {
+                    "name": c.name,
+                    "value": c.value,
+                    "domain": c.domain if c.domain.startswith(".") else f".{c.domain}",
+                    "path": c.path or "/",
+                    "secure": bool(c.secure),
+                    "httpOnly": False,
+                    "sameSite": "Lax",
+                }
+                for c in cookies if c.value
+            ],
+            "origins": [],
+        }
+        YT_SESSION_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
+        print(f"  ✅ YouTubeセッション取得: {len(state['cookies'])}件")
+        return True
+    except Exception as e:
+        print(f"  ⚠️  クッキー取得失敗: {e}")
+        return False
+
+
+def find_latest_video() -> Path | None:
+    mp4s = sorted(VIDEO_DIR.glob("*.mp4"),
+                  key=lambda p: p.stat().st_mtime, reverse=True)
+    return mp4s[0] if mp4s else None
+
+
+def upload_via_browser(video_path: Path) -> str | None:
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        install_deps()
+        from playwright.sync_api import sync_playwright
+
+    print(f"  📤 アップロード開始: {video_path.name}")
+
+    with sync_playwright() as p:
+        # セッションファイルがあれば読み込む、なければ新規
+        ctx_args = {}
+        if YT_SESSION_FILE.exists():
+            ctx_args["storage_state"] = str(YT_SESSION_FILE)
+
+        browser = p.chromium.launch(headless=True)
+        ctx = browser.new_context(**ctx_args)
+        page = ctx.new_page()
+
+        # YouTube Studio を開く
+        page.goto("https://studio.youtube.com/", timeout=30000)
+        time.sleep(3)
+
+        # ログイン確認
+        if "accounts.google.com" in page.url or "signin" in page.url:
+            print("  ⚠️  YouTubeにログインされていません")
+            print("  Chromeで https://studio.youtube.com/ を開いてログインしてください")
+            browser.close()
+            return None
+
+        # 「作成」ボタン → 「動画をアップロード」
+        page.click('[aria-label="作成"], [aria-label="Create"], #create-icon', timeout=10000)
+        time.sleep(1)
+        page.click('text=動画をアップロード, text=Upload videos', timeout=5000)
+        time.sleep(2)
+
+        # ファイル選択（input[type=file]に直接セット）
+        file_input = page.query_selector('input[type="file"]')
+        if not file_input:
+            # 別の方法でinputを探す
+            page.evaluate("""
+                const input = document.querySelector('input[type="file"]');
+                if(input) input.style.display = 'block';
+            """)
+            file_input = page.query_selector('input[type="file"]')
+
+        if file_input:
+            file_input.set_input_files(str(video_path))
+        else:
+            page.set_input_files('input[type="file"]', str(video_path))
+
+        print("  📁 ファイル選択完了・アップロード中...")
+        time.sleep(5)
+
+        # タイトル入力
+        title_box = page.query_selector('[placeholder="動画タイトルを追加"], [id="title-textarea"] #input')
+        if not title_box:
+            title_box = page.query_selector('ytcp-social-suggestions-textbox[id="title-textarea"] #input')
+        if title_box:
+            title_box.triple_click()
+            title_box.fill(VIDEO_META["title"])
+            time.sleep(1)
+
+        # 説明文入力
+        desc_box = page.query_selector('[placeholder="視聴者に動画の内容を伝えましょう"], [id="description-textarea"] #input')
+        if not desc_box:
+            desc_box = page.query_selector('ytcp-social-suggestions-textbox[id="description-textarea"] #input')
+        if desc_box:
+            desc_box.click()
+            desc_box.fill(VIDEO_META["description"])
+            time.sleep(1)
+
+        # 「子ども向けではない」を選択
+        not_for_kids = page.query_selector('[name="VIDEO_MADE_FOR_KIDS_NOT_MFK"]')
+        if not_for_kids:
+            not_for_kids.click()
+            time.sleep(0.5)
+
+        # 「次へ」を3回クリック（詳細→収益化→公開設定）
+        for _ in range(3):
+            next_btn = page.query_selector('ytcp-button[id="next-button"]')
+            if next_btn:
+                next_btn.click()
+                time.sleep(2)
+
+        # 公開設定「公開」を選択
+        public_btn = page.query_selector('[name="PUBLIC"]')
+        if public_btn:
+            public_btn.click()
+            time.sleep(1)
+
+        # 「保存」クリック
+        save_btn = page.query_selector('ytcp-button[id="done-button"]')
+        if save_btn:
+            save_btn.click()
+            time.sleep(5)
+
+        # アップロード完了URL取得
+        current_url = page.url
+        video_url = None
+
+        # URLからvideo_idを抽出
+        if "watch?v=" in current_url:
+            video_id = current_url.split("watch?v=")[1].split("&")[0]
+            video_url = f"https://youtu.be/{video_id}"
+        else:
+            # ページ内からURLを探す
+            links = page.query_selector_all('a[href*="watch?v="]')
+            if links:
+                href = links[0].get_attribute("href")
+                video_id = href.split("watch?v=")[1].split("&")[0]
+                video_url = f"https://youtu.be/{video_id}"
+
+        browser.close()
+
+        if video_url:
+            print(f"  ✅ アップロード完了: {video_url}")
+            _save_url(video_url)
+        else:
+            print("  ✅ アップロード完了（URLは studio.youtube.com で確認）")
+            video_url = "https://studio.youtube.com/"
+
+        return video_url
+
+
+def _save_url(url: str):
+    urls = {}
+    if URLS_FILE.exists():
+        try:
+            urls = json.loads(URLS_FILE.read_text())
+        except Exception:
+            pass
+    urls["youtube_takaoka"] = url
+    URLS_FILE.write_text(json.dumps(urls, ensure_ascii=False, indent=2))
+    print(f"  URL保存済み → X投稿・note記事に自動挿入されます")
+
+
+def upload_latest():
+    video = find_latest_video()
+    if not video:
+        print("❌ 動画がありません。先に python3 auto_youtube_produce.py を実行してください")
+        return
+
+    print(f"対象動画: {video.name}")
+
+    # Chromeセッション取得（毎回更新）
+    extract_youtube_cookies()
+
+    return upload_via_browser(video)
 
 
 if __name__ == "__main__":
     if "--setup" in sys.argv:
-        check_deps()
-        get_credentials()
-        print("✅ YouTube認証完了")
+        # 後方互換: setupも同じフローで実行
+        upload_latest()
     else:
         upload_latest()

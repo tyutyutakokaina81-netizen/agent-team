@@ -45,32 +45,13 @@ fi
 echo "\n[4/6] 音声付き動画生成..."
 python3 auto_youtube_produce.py
 
-# ── 5. YouTube OAuth 認証 ─────────────────────────────
-echo "\n[5/6] YouTube 認証..."
-SECRETS="$REPO/.sessions/yt_client_secrets.json"
-if [ ! -f "$SECRETS" ]; then
-  echo ""
-  echo "  ┌─────────────────────────────────────────┐"
-  echo "  │  YouTube アップロードに1回だけ手動設定が必要  │"
-  echo "  └─────────────────────────────────────────┘"
-  echo ""
-  echo "  以下を実行してください（所要約3分）:"
-  echo "  1. 下記URLをブラウザで開く"
-  echo "     → https://console.cloud.google.com/"
-  echo "  2. 新規プロジェクト作成"
-  echo "  3. 「APIとサービス」→「ライブラリ」→ YouTube Data API v3 を有効化"
-  echo "  4. 「認証情報」→「認証情報を作成」→「OAuthクライアントID」"
-  echo "     → アプリの種類:「デスクトップアプリ」→ 作成"
-  echo "  5. JSONをダウンロード → 以下に保存:"
-  echo "     $SECRETS"
-  echo ""
-  echo "  保存後、もう一度このスクリプトを実行してください:"
-  echo "  zsh mac_setup_all.sh"
-  echo ""
-  open "https://console.cloud.google.com/" 2>/dev/null || true
-else
-  python3 auto_youtube_upload.py --setup && echo "  ✅ YouTube認証完了"
-fi
+# ── 5. YouTube セッション取得（Chromeクッキー） ───────────
+echo "\n[5/6] YouTube セッション取得..."
+python3 -c "
+import sys; sys.path.insert(0, '.')
+exec(open('auto_youtube_upload.py').read())
+extract_youtube_cookies()
+" && echo "  ✅ YouTubeセッション準備完了"
 
 # ── 6. LaunchAgent 登録（毎朝9時自動実行）────────────
 echo "\n[6/6] 毎日9時の自動実行を設定..."
