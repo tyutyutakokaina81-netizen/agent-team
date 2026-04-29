@@ -13,10 +13,12 @@ from pathlib import Path
 
 REPO = Path(__file__).parent
 VIDEO_DIR = REPO / "CMO" / "outputs" / "youtube_videos"
+SHORTS_DIR = VIDEO_DIR / "shorts"
 SESSIONS = REPO / ".sessions"
 SESSIONS.mkdir(exist_ok=True)
 URLS_FILE = SESSIONS / "note_article_urls.json"
 YT_SESSION_FILE = SESSIONS / "youtube_session.json"
+YT_UPLOAD_LOG = SESSIONS / "youtube_upload_log.json"
 
 VIDEO_META = {
     "title": "【高岡市観光】架空の女子アナが案内する富山・高岡の魅力｜瑞龍寺・高岡大仏・金屋町",
@@ -34,6 +36,30 @@ VIDEO_META = {
 #高岡市 #富山観光 #TakaokaToyama #JapanTravel #瑞龍寺 #高岡大仏 #北陸観光 #隠れた名所""",
     "tags": ["高岡市", "富山観光", "TakaokaToyama", "JapanTravel",
              "瑞龍寺", "高岡大仏", "金屋町", "北陸観光"],
+}
+
+# Shorts ごとのメタデータ（auto_youtube_shorts.py の short_id に対応）
+SHORTS_META = {
+    "s1_daibutsu_free": {
+        "title": "【知らなかった】高岡大仏が無料な理由 #高岡市 #Shorts",
+        "description": "日本三大仏のひとつ・高岡大仏が無料で入れる理由を解説。奈良・鎌倉と比べてみた。\n#高岡市 #富山観光 #高岡大仏 #日本三大仏 #Shorts",
+    },
+    "s2_kyoto_vs": {
+        "title": "【衝撃】京都より高岡に行けばよかった #高岡市 #Shorts",
+        "description": "混んでいる京都より、高岡市で貸し切り国宝を体験する方法。\n#高岡市 #富山観光 #穴場 #隠れた名所 #Shorts",
+    },
+    "s3_takaoka_cost": {
+        "title": "【実費公開】高岡市日帰り¥2,450の全内訳 #富山 #Shorts",
+        "description": "東京から日帰りで高岡市を観光した全費用を公開。新幹線・食事・入場料の内訳。\n#高岡市 #富山観光 #旅費 #節約旅行 #Shorts",
+    },
+    "s4_english_hidden": {
+        "title": "Japan's Hidden Tourism Gem Nobody Knows #HiddenJapan #Shorts",
+        "description": "Takaoka City, Toyama — Japan's best kept secret for travelers.\n#HiddenJapan #JapanTravel #TakaokaToyama #Shorts",
+    },
+    "s5_zuiryuji": {
+        "title": "【貸し切り】国宝・瑞龍寺の朝は別世界 #高岡市 #Shorts",
+        "description": "国宝5棟を誇る瑞龍寺。朝一番に行けば貸し切りになれる。\n#高岡市 #富山観光 #瑞龍寺 #国宝 #Shorts",
+    },
 }
 
 
@@ -84,13 +110,45 @@ def find_latest_video() -> Path | None:
     return mp4s[0] if mp4s else None
 
 
-def upload_via_browser(video_path: Path) -> str | None:
+def find_unuploaded_shorts() -> list[Path]:
+    """未アップロードのShortsを返す"""
+    if not SHORTS_DIR.exists():
+        return []
+    log = _load_upload_log()
+    uploaded = set(log.get("uploaded", []))
+    shorts = sorted(SHORTS_DIR.glob("*.mp4"), key=lambda p: p.stat().st_mtime)
+    return [p for p in shorts if p.stem not in uploaded]
+
+
+def _load_upload_log() -> dict:
+    if YT_UPLOAD_LOG.exists():
+        return json.loads(YT_UPLOAD_LOG.read_text())
+    return {"uploaded": [], "urls": {}}
+
+
+def _save_upload_log(log: dict):
+    YT_UPLOAD_LOG.write_text(json.dumps(log, ensure_ascii=False, indent=2))
+
+
+def _get_short_meta(video_path: Path) -> dict:
+    """Short IDからメタデータを取得（デフォルトは汎用タイトル）"""
+    stem = video_path.stem
+    if stem in SHORTS_META:
+        return SHORTS_META[stem]
+    return {
+        "title": f"【高岡市】{stem} #高岡市 #Shorts",
+        "description": f"富山県高岡市の観光Shorts。\n#高岡市 #富山観光 #Shorts",
+    }
+
+
+def upload_via_browser(video_path: Path, meta: dict | None = None) -> str | None:
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
         install_deps()
         from playwright.sync_api import sync_playwright
 
+    use_meta = meta or VIDEO_META
     print(f"  📤 アップロード開始: {video_path.name}")
 
     with sync_playwright() as p:
@@ -123,7 +181,6 @@ def upload_via_browser(video_path: Path) -> str | None:
         # ファイル選択（input[type=file]に直接セット）
         file_input = page.query_selector('input[type="file"]')
         if not file_input:
-            # 別の方法でinputを探す
             page.evaluate("""
                 const input = document.querySelector('input[type="file"]');
                 if(input) input.style.display = 'block';
@@ -144,7 +201,7 @@ def upload_via_browser(video_path: Path) -> str | None:
             title_box = page.query_selector('ytcp-social-suggestions-textbox[id="title-textarea"] #input')
         if title_box:
             title_box.triple_click()
-            title_box.fill(VIDEO_META["title"])
+            title_box.fill(use_meta["title"])
             time.sleep(1)
 
         # 説明文入力
@@ -153,7 +210,7 @@ def upload_via_browser(video_path: Path) -> str | None:
             desc_box = page.query_selector('ytcp-social-suggestions-textbox[id="description-textarea"] #input')
         if desc_box:
             desc_box.click()
-            desc_box.fill(VIDEO_META["description"])
+            desc_box.fill(use_meta["description"])
             time.sleep(1)
 
         # 「子ども向けではない」を選択
@@ -222,22 +279,44 @@ def _save_url(url: str):
 
 
 def upload_latest():
+    """長尺動画を1本アップロード"""
     video = find_latest_video()
     if not video:
         print("❌ 動画がありません。先に python3 auto_youtube_produce.py を実行してください")
-        return
+        return None
 
     print(f"対象動画: {video.name}")
-
-    # Chromeセッション取得（毎回更新）
     extract_youtube_cookies()
-
     return upload_via_browser(video)
 
 
+def upload_shorts_batch():
+    """未アップロードのShortsを全てアップロード"""
+    shorts = find_unuploaded_shorts()
+    if not shorts:
+        print("  ✅ アップロード待ちのShortsなし")
+        return
+
+    print(f"  Shorts アップロード対象: {len(shorts)}本")
+    extract_youtube_cookies()
+    log = _load_upload_log()
+
+    for short_path in shorts:
+        meta = _get_short_meta(short_path)
+        url = upload_via_browser(short_path, meta)
+        if url:
+            log["uploaded"].append(short_path.stem)
+            log["urls"][short_path.stem] = url
+            _save_upload_log(log)
+            time.sleep(10)  # YouTube APIレート制限対策
+
+
 if __name__ == "__main__":
-    if "--setup" in sys.argv:
-        # 後方互換: setupも同じフローで実行
+    if "--shorts" in sys.argv:
+        upload_shorts_batch()
+    elif "--setup" in sys.argv:
         upload_latest()
     else:
+        # デフォルト: 長尺 + Shorts 両方
         upload_latest()
+        upload_shorts_batch()
