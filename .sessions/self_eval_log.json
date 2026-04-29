@@ -223,6 +223,62 @@
         "no_errors": "直近3日のエラー数: 0"
       },
       "date": "2026-04-29_after_improve"
+    },
+    {
+      "total": 76,
+      "scores": {
+        "content_queue": 10,
+        "x_activity": 3,
+        "note_activity": 3,
+        "youtube_activity": 10,
+        "x_followers_growth": 5,
+        "note_pv_growth": 5,
+        "photo_assets": 10,
+        "affiliate": 10,
+        "repurpose": 10,
+        "no_errors": 10
+      },
+      "details": {
+        "content_queue": "noteキュー=OK, Xキュー=27本(OK)",
+        "x_activity": "今日の投稿: 0本",
+        "note_activity": "今日の公開: 0本",
+        "youtube_activity": "Shorts: 5本, 長尺: 6本",
+        "x_followers_growth": "KPIデータなし（初期値5点）",
+        "note_pv_growth": "KPIデータなし",
+        "photo_assets": "写真素材: 7枚",
+        "affiliate": "アフィリエイト処理済み記事: 6本",
+        "repurpose": "変換済み記事: 3本",
+        "no_errors": "直近3日のエラー数: 0"
+      },
+      "date": "2026-04-29"
+    },
+    {
+      "total": 76,
+      "scores": {
+        "content_queue": 10,
+        "x_activity": 3,
+        "note_activity": 3,
+        "youtube_activity": 10,
+        "x_followers_growth": 5,
+        "note_pv_growth": 5,
+        "photo_assets": 10,
+        "affiliate": 10,
+        "repurpose": 10,
+        "no_errors": 10
+      },
+      "details": {
+        "content_queue": "noteキュー=OK, Xキュー=27本(OK)",
+        "x_activity": "今日の投稿: 0本",
+        "note_activity": "今日の公開: 0本",
+        "youtube_activity": "Shorts: 5本, 長尺: 6本",
+        "x_followers_growth": "KPIデータなし（初期値5点）",
+        "note_pv_growth": "KPIデータなし",
+        "photo_assets": "写真素材: 7枚",
+        "affiliate": "アフィリエイト処理済み記事: 6本",
+        "repurpose": "変換済み記事: 3本",
+        "no_errors": "直近3日のエラー数: 0"
+      },
+      "date": "2026-04-29_after_improve"
     }
   ]
 }
