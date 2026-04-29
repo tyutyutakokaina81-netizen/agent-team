@@ -32,14 +32,10 @@ echo "\n[4] アフィリエイト・横断変換..."
 python3 auto_affiliate.py 2>/dev/null || true
 python3 auto_repurpose.py 2>/dev/null || true
 
-# 案件サーチ（クラウドワークス）
-echo "\n[5] 案件自動サーチ..."
-python3 auto_job_hunt.py 2>/dev/null && echo "  OK: .sessions/ に応募リスト保存" || true
+# 案件全自動サーチ＆応募（Playwright）
+echo "\n[5] 案件自動応募..."
+python3 auto_job_apply.py || echo "  NG: Chromeでcrowdworks.jp/lancers.jpにログインしているか確認"
 
 echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  完了 $(date '+%H:%M')"
-echo ""
-echo "  【今日やること】"
-echo "  cat .sessions/job_applications_$(date '+%Y%m%d').txt"
-echo "  → URLを開いて応募文をコピペして応募ボタンを押す"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

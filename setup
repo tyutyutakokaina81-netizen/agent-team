@@ -32,7 +32,7 @@ python3 make_placeholder_char.py 2>/dev/null || true
 echo "\n[4] 自動スケジュール..."
 mkdir -p "$HOME/Library/LaunchAgents" logs
 
-for hour in 9 20; do
+for hour in 9 14 20; do
   name="com.agent-team.h${hour}"
   plist="$HOME/Library/LaunchAgents/${name}.plist"
   cat > "$plist" << PLIST
