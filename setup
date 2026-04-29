@@ -1,0 +1,69 @@
+#!/bin/zsh
+# setup — 初回セットアップ（1回だけ実行）
+# 使い方（ターミナルに手入力）: zsh setup
+REPO="$HOME/agent-team"
+cd "$REPO"
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  セットアップ"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 最新コード取得
+echo "\n[1] 最新コード..."
+git fetch origin claude/add-claude-documentation-Wipf0 --quiet
+git reset --hard origin/claude/add-claude-documentation-Wipf0 --quiet
+git config pull.ff only
+echo "  OK: $(git log --oneline -1)"
+
+# ライブラリ
+echo "\n[2] ライブラリ..."
+pip3 install playwright browser-cookie3 requests Pillow numpy pyopenjtalk \
+  --break-system-packages -q 2>/dev/null || \
+pip3 install playwright browser-cookie3 requests Pillow numpy pyopenjtalk -q 2>/dev/null || true
+python3 -m playwright install chromium 2>/dev/null || true
+echo "  OK"
+
+# 画像生成
+echo "\n[3] キャラクター画像..."
+mkdir -p CMO/assets/announcer
+python3 make_placeholder_char.py 2>/dev/null || true
+
+# LaunchAgent（朝9時・夕20時）
+echo "\n[4] 自動スケジュール..."
+mkdir -p "$HOME/Library/LaunchAgents" logs
+
+for hour in 9 20; do
+  name="com.agent-team.h${hour}"
+  plist="$HOME/Library/LaunchAgents/${name}.plist"
+  cat > "$plist" << PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>${name}</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/zsh</string><string>${REPO}/now</string>
+  </array>
+  <key>StartCalendarInterval</key><dict>
+    <key>Hour</key><integer>${hour}</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>WorkingDirectory</key><string>${REPO}</string>
+  <key>StandardOutPath</key><string>${REPO}/logs/auto_${hour}h.log</string>
+  <key>StandardErrorPath</key><string>${REPO}/logs/auto_${hour}h_err.log</string>
+  <key>RunAtLoad</key><false/>
+</dict></plist>
+PLIST
+  launchctl unload "$plist" 2>/dev/null || true
+  launchctl load "$plist" && echo "  OK: ${hour}:00 自動実行"
+done
+
+echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  完了！"
+echo ""
+echo "  Chrome で以下にログインしてから:"
+echo "    note.com"
+echo "    x.com"
+echo "    studio.youtube.com"
+echo ""
+echo "  その後: zsh now"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

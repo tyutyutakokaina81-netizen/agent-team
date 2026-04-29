@@ -1,0 +1,37 @@
+#!/bin/zsh
+# now — ワンコマンド公開スクリプト
+# 使い方（ターミナルに手入力）: zsh now
+REPO="$HOME/agent-team"
+cd "$REPO"
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  高岡アイ 公開実行"
+echo "  $(date '+%Y-%m-%d %H:%M')"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 最新コードに確実に同期（fetch してから reset）
+echo "\n[git] 最新コード取得..."
+git fetch origin claude/add-claude-documentation-Wipf0 --quiet
+git reset --hard origin/claude/add-claude-documentation-Wipf0 --quiet
+echo "  OK: $(git log --oneline -1)"
+
+# note 公開
+echo "\n[1] note 公開..."
+python3 auto_note_publish.py || echo "  NG: note未ログイン？"
+
+# X 投稿
+echo "\n[2] X 投稿..."
+python3 auto_x_post.py || echo "  NG: X未ログイン？"
+
+# YouTube アップロード
+echo "\n[3] YouTube アップロード..."
+python3 auto_youtube_upload.py || echo "  NG: YouTube未ログイン？"
+
+# 追加処理
+echo "\n[4] アフィリエイト・横断変換..."
+python3 auto_affiliate.py 2>/dev/null || true
+python3 auto_repurpose.py 2>/dev/null || true
+
+echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  完了 $(date '+%H:%M')"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
