@@ -57,6 +57,41 @@ TARGETS = [
 
 API = "https://commons.wikimedia.org/w/api.php"
 
+# スポットごとの背景色（プレースホルダー用）
+SCENE_COLORS = {
+    "瑞龍寺": "#2c3e50", "高岡大仏": "#8e44ad", "金屋町": "#c0392b",
+    "高岡市全景": "#2980b9", "北陸新幹線": "#27ae60", "高岡グルメ": "#e67e22",
+    "高岡銅器": "#d35400",
+}
+
+
+def make_placeholder_photo(save_path: Path, scene: str):
+    """Pillowでプレースホルダー写真を生成（ネットワーク不可時）"""
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        bg_color = SCENE_COLORS.get(scene, "#1a237e")
+        img = Image.new("RGB", (1280, 720), bg_color)
+        draw = ImageDraw.Draw(img)
+        # グラデーション風のオーバーレイ
+        for i in range(0, 720, 2):
+            alpha = int(40 * (i / 720))
+            draw.line([(0, i), (1280, i)], fill=(255, 255, 255), width=1)
+        # テキスト
+        try:
+            font_large = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 72)
+            font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 36)
+        except Exception:
+            font_large = ImageFont.load_default()
+            font_small = font_large
+        draw.text((640, 300), scene, fill="white", font=font_large, anchor="mm")
+        draw.text((640, 420), "富山県高岡市", fill="#ecf0f1", font=font_small, anchor="mm")
+        draw.text((640, 470), "Takaoka City, Toyama", fill="#bdc3c7", font=font_small, anchor="mm")
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(str(save_path), "JPEG", quality=90)
+        print(f"  📷 プレースホルダー生成: {save_path.name} ({scene})")
+    except Exception as e:
+        print(f"  ⚠️  プレースホルダー生成失敗: {e}")
+
 
 def search_image(session, query: str) -> dict | None:
     """Wikimedia Commons で画像を検索して最初のヒットを返す"""
@@ -178,7 +213,16 @@ def fetch_all():
             }
             copy_to_announcer_dir(target["save_as"])
             print(f"  ✅ {target['save_as']} 取得完了 ({info['license']})")
+        else:
+            make_placeholder_photo(save_path, target["scene"])
         time.sleep(1)  # API負荷軽減
+
+    # ネットワーク非到達 → 全てプレースホルダー生成
+    for target in TARGETS:
+        save_path = PHOTO_DIR / target["save_as"]
+        if not save_path.exists():
+            make_placeholder_photo(save_path, target["scene"])
+            copy_to_announcer_dir(target["save_as"])
 
     LICENSE_LOG.write_text(json.dumps(licenses, ensure_ascii=False, indent=2))
     print(f"\n  保存先: {PHOTO_DIR}")
