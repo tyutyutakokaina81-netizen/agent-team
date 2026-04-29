@@ -220,6 +220,37 @@ def concat_clips(clip_paths: list, output_path: Path):
 
 
 # ── メイン ──────────────────────────────────────────
+def ensure_char_image():
+    """キャラ画像がなければ自動生成"""
+    if not ANNOUNCER_IMG.exists():
+        print("  🎨 キャラクター画像を自動生成中...")
+        import subprocess
+        subprocess.run([sys.executable,
+                        str(Path(__file__).parent / "auto_youtube_char_gen.py")],
+                       check=False)
+
+
+def ensure_voicevox():
+    """VOICEVOXが起動していなければ自動起動"""
+    if check_voicevox():
+        return True
+    print("  🎙️  VOICEVOX を起動中...")
+    app_paths = [
+        "/Applications/VOICEVOX.app/Contents/MacOS/run",
+        str(Path.home() / "Applications/VOICEVOX.app/Contents/MacOS/run"),
+    ]
+    for path in app_paths:
+        if Path(path).exists():
+            subprocess.Popen([path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            for _ in range(20):        # 最大20秒待機
+                time.sleep(1)
+                if check_voicevox():
+                    print("  ✅ VOICEVOX 起動完了")
+                    return True
+    print("  ⚠️  VOICEVOX 自動起動失敗 → サイレント動画で続行")
+    return False
+
+
 def produce(title: str = "高岡市観光ガイド"):
     timestamp = time.strftime("%Y%m%d_%H%M")
     out_dir = OUTPUT_DIR / timestamp
@@ -229,12 +260,9 @@ def produce(title: str = "高岡市観光ガイド"):
     print(f"  YouTube動画生成: {title}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-    # VOICEVOX 確認
-    use_voicevox = check_voicevox()
-    if not use_voicevox:
-        print("⚠️  VOICEVOXが起動していません。サイレント動画を生成します。")
-        print("   起動: VOICEVOXアプリを開いてから再実行してください")
-        print("   ダウンロード: https://voicevox.hiroshiba.jp/")
+    # キャラ画像・VOICEVOX を自動準備
+    ensure_char_image()
+    use_voicevox = ensure_voicevox()
 
     clip_paths = []
 

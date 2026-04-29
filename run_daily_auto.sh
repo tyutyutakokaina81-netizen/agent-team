@@ -46,6 +46,13 @@ echo "  完了。SNS DM（B）は半自動:" | tee -a "$LOG"
 echo "  python3 $REPO/auto_b_dm.py" | tee -a "$LOG"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" | tee -a "$LOG"
 
+# ── YouTube動画生成（月・木のみ） ─────────────────────
+DOW=$(date +%u)  # 1=月 〜 7=日
+if [ "$DOW" = "1" ] || [ "$DOW" = "4" ]; then
+  run "YouTube動画生成" auto_youtube_produce.py
+  run "YouTubeアップロード" auto_youtube_upload.py
+fi
+
 # B は半自動（Instagram規約上、完全自動は規約違反）
 if [ -t 0 ]; then
   echo "\n[B] SNS DM 起動（今日の3件）..."
