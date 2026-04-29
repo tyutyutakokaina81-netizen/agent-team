@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-auto_note_publish.py — note.com に記事を自動投稿
+auto_note_publish.py — note.com に記事をキュー順で自動投稿
 
-前提:
-  pip install playwright && playwright install chromium
-  初回: python3 auto_note_publish.py --setup  でセッション保存
+動作:
+  - ARTICLE_QUEUE から未公開の記事を1本選んで投稿
+  - 公開済みURLは .sessions/note_article_urls.json に保存
+  - 全記事公開済みなら何もしない
 """
 
 import json
@@ -12,99 +13,169 @@ import sys
 import time
 from pathlib import Path
 
-SESSION_FILE = Path(__file__).parent / ".sessions" / "note_session.json"
-ARTICLE_FILE = Path(__file__).parent / "CMO/outputs/2026-04-10_vol1_note_free_article.md"
-URL_CACHE = Path(__file__).parent / ".sessions" / "note_article_urls.json"
+REPO = Path(__file__).parent
+SESSION_FILE = REPO / ".sessions" / "note_session.json"
+URL_CACHE = REPO / ".sessions" / "note_article_urls.json"
+QUEUE_STATE = REPO / ".sessions" / "note_publish_queue.json"
 
-# 記事の本文（タイトルと本文を分けて抽出）
-def load_article():
-    text = ARTICLE_FILE.read_text(encoding="utf-8")
-    # タイトル抽出: ``` の中の最初のテキスト
-    lines = text.split("\n")
-    title = ""
+# 公開する記事キュー（順番に1本ずつ公開）
+ARTICLE_QUEUE = [
+    {
+        "id": "youtube_open",
+        "file": "CMO/outputs/2026-04-28_高岡アイ_YouTube開設note記事.md",
+        "title": "架空の女性アナウンサー「高岡アイ」が、富山・高岡の魅力を世界に届けます",
+    },
+    {
+        "id": "kyoto_vs_takaoka",
+        "file": "CMO/outputs/2026-04-29_京都より高岡を勧める理由_バズ狙い記事.md",
+        "title": "京都に行くくらいなら、高岡に行けばよかった——国宝、日本三大仏、無料。人混みなし。",
+    },
+    {
+        "id": "zuiryuji",
+        "file": "CMO/outputs/2026-04-29_瑞龍寺_note記事.md",
+        "title": "国宝・瑞龍寺——富山県高岡市に残る、江戸時代の完全な禅宗建築",
+    },
+    {
+        "id": "daibutsu",
+        "file": "CMO/outputs/2026-04-29_高岡大仏_note記事.md",
+        "title": "日本三大仏のひとつ、高岡大仏——無料で、台座の中にも入れる",
+    },
+    {
+        "id": "kanayamachi",
+        "file": "CMO/outputs/2026-04-29_金屋町_note記事.md",
+        "title": "金屋町——400年前の石畳と千本格子が今も残る、高岡の原点",
+    },
+    {
+        "id": "okutofu",
+        "file": "CMO/outputs/2026-04-24_奥とうふ店_note記事.md",
+        "title": "高岡市・奥とうふ店——大豆の甘みが違う、地元の名豆腐屋",
+    },
+    {
+        "id": "vol1_free",
+        "file": "CMO/outputs/2026-04-10_vol1_note_free_article.md",
+        "title": None,  # ファイルから自動抽出
+    },
+]
+
+
+def load_queue_state() -> dict:
+    if QUEUE_STATE.exists():
+        return json.loads(QUEUE_STATE.read_text())
+    return {"published": {}}
+
+
+def save_queue_state(state: dict):
+    QUEUE_STATE.parent.mkdir(exist_ok=True)
+    QUEUE_STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
+
+
+def next_article() -> dict | None:
+    state = load_queue_state()
+    for article in ARTICLE_QUEUE:
+        if article["id"] not in state["published"]:
+            path = REPO / article["file"]
+            if path.exists():
+                return article
+    return None
+
+
+def load_article_content(article: dict) -> tuple[str, str]:
+    path = REPO / article["file"]
+    text = path.read_text(encoding="utf-8")
+    lines = text.strip().split("\n")
+
+    # タイトル: 指定あればそれ、なければ先頭#行から抽出
+    title = article.get("title") or ""
+    if not title:
+        for line in lines:
+            if line.startswith("# "):
+                title = line[2:].strip()
+                break
+
+    # 本文: タイトル行を除いた全文
     body_lines = []
-    in_body = False
-    code_count = 0
-
     for line in lines:
-        if "## タイトル" in line:
+        if line.strip() == title or (line.startswith("# ") and line[2:].strip() == title):
             continue
-        if "## 本文" in line:
-            in_body = True
-            continue
-        if in_body:
-            if line.strip() == "```":
-                code_count += 1
-                if code_count == 2:
-                    break
-                continue
-            if code_count == 1:
-                body_lines.append(line)
-        elif "```" in line and not title:
-            continue
-        elif not title and not in_body:
-            # タイトルブロック内
-            stripped = line.strip()
-            if stripped and not stripped.startswith("#") and not stripped.startswith(">") and not stripped == "```":
-                title = stripped
+        body_lines.append(line)
 
     body = "\n".join(body_lines).strip()
     return title, body
 
 
-def setup_session():
-    """初回ログイン: ブラウザを開いてユーザーが手動ログイン → セッション保存"""
+def extract_note_cookies():
+    """ChromeからnoteのクッキーをPlaywright形式で取得"""
     try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("pip install playwright && playwright install chromium")
-        sys.exit(1)
-
-    SESSION_FILE.parent.mkdir(exist_ok=True)
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        ctx = browser.new_context()
-        page = ctx.new_page()
-        page.goto("https://note.com/login")
-        print("ブラウザでnote.comにログインしてください。")
-        print("ログイン完了後、Enterを押してください...")
-        input()
-        ctx.storage_state(path=str(SESSION_FILE))
-        browser.close()
-    print(f"✅ セッション保存: {SESSION_FILE}")
+        import browser_cookie3
+        cookies = list(browser_cookie3.chrome(domain_name=".note.com"))
+        if not cookies:
+            return False
+        state = {
+            "cookies": [
+                {
+                    "name": c.name, "value": c.value,
+                    "domain": c.domain if c.domain.startswith(".") else f".{c.domain}",
+                    "path": c.path or "/", "secure": bool(c.secure),
+                    "httpOnly": False, "sameSite": "Lax",
+                }
+                for c in cookies if c.value
+            ],
+            "origins": [],
+        }
+        SESSION_FILE.parent.mkdir(exist_ok=True)
+        SESSION_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
+        return True
+    except Exception:
+        return False
 
 
 def publish_article():
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("pip install playwright && playwright install chromium")
-        sys.exit(1)
+        import subprocess
+        subprocess.run([sys.executable, "-m", "pip", "install", "playwright",
+                        "-q", "--break-system-packages"], capture_output=True)
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
+                       capture_output=True)
+        from playwright.sync_api import sync_playwright
 
+    # セッションがなければChromeから自動取得
     if not SESSION_FILE.exists():
-        print("❌ セッションなし → python3 auto_note_publish.py --setup を先に実行")
-        sys.exit(1)
+        print("  🍪 Chromeクッキーから noteセッション取得中...")
+        extract_note_cookies()
 
-    title, body = load_article()
-    if not title or not body:
-        print("❌ 記事の読み込み失敗")
-        sys.exit(1)
+    article = next_article()
+    if not article:
+        print("✅ 全記事公開済み")
+        return None
 
-    print(f"タイトル: {title[:50]}...")
-    storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
+    title, body = load_article_content(article)
+    print(f"公開: {title[:50]}...")
 
+    storage = json.loads(SESSION_FILE.read_text()) if SESSION_FILE.exists() else None
+
+    published_url = None
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=100)
-        ctx = browser.new_context(storage_state=storage, viewport={"width": 1280, "height": 900})
+        browser = p.chromium.launch(headless=True)
+        ctx_args = {"viewport": {"width": 1280, "height": 900}}
+        if storage:
+            ctx_args["storage_state"] = storage
+        ctx = browser.new_context(**ctx_args)
         page = ctx.new_page()
 
-        # 新規記事作成
-        print("note.com を開いています...")
         page.goto("https://note.com/notes/new", wait_until="networkidle", timeout=30000)
         time.sleep(3)
 
+        # ログイン確認
+        if "login" in page.url:
+            print("  ⚠️  note未ログイン。Chromeでログインして再実行してください")
+            browser.close()
+            return None
+
         # タイトル入力
-        for sel in ["[data-placeholder='タイトル']", ".title-input", "h1[contenteditable]", "input[placeholder*='タイトル']"]:
+        for sel in ["[data-placeholder='タイトル']", ".title-input",
+                    "h1[contenteditable]", "input[placeholder*='タイトル']"]:
             el = page.query_selector(sel)
             if el:
                 el.click()
@@ -112,73 +183,85 @@ def publish_article():
                 time.sleep(0.5)
                 break
 
-        # 本文エリアをクリックしてフォーカス
         time.sleep(1)
-        for sel in ["[data-placeholder='本文を書く']", ".public-DraftEditor-content", "[contenteditable='true']"]:
+
+        # 本文入力
+        for sel in ["[data-placeholder='本文を書く']",
+                    ".public-DraftEditor-content", "[contenteditable='true']"]:
             els = page.query_selector_all(sel)
-            if len(els) >= 2:
-                els[-1].click()
-                break
-            elif els:
-                els[0].click()
+            target = els[-1] if len(els) >= 2 else (els[0] if els else None)
+            if target:
+                target.click()
                 break
 
         time.sleep(0.5)
-
-        # 本文を段落ごとに入力（contenteditable対応）
-        paragraphs = body.split("\n\n")
-        for i, para in enumerate(paragraphs):
+        for i, para in enumerate(body.split("\n\n")):
             if para.strip():
                 page.keyboard.type(para.replace("\n", " "))
-            if i < len(paragraphs) - 1:
+            if i < len(body.split("\n\n")) - 1:
                 page.keyboard.press("Enter")
                 page.keyboard.press("Enter")
-            time.sleep(0.1)
+            time.sleep(0.05)
 
         time.sleep(2)
 
         # 公開ボタン
-        published_url = None
-        for sel in ["button:has-text('公開')", "button:has-text('投稿')", ".publish-button"]:
+        for sel in ["button:has-text('公開')", "button:has-text('投稿')"]:
             btn = page.query_selector(sel)
             if btn:
                 btn.click()
                 time.sleep(2)
                 break
 
-        # 公開確認ダイアログ
-        for sel in ["button:has-text('公開する')", "button:has-text('今すぐ公開')", "button:has-text('投稿する')"]:
+        for sel in ["button:has-text('公開する')", "button:has-text('今すぐ公開')",
+                    "button:has-text('投稿する')"]:
             btn = page.query_selector(sel)
             if btn:
                 btn.click()
                 time.sleep(4)
                 break
 
-        # URL取得
         current_url = page.url
         if "note.com" in current_url and "/n/" in current_url:
             published_url = current_url
             print(f"✅ 公開完了: {published_url}")
-
-            # URL保存
-            URL_CACHE.parent.mkdir(exist_ok=True)
-            urls = {}
-            if URL_CACHE.exists():
-                urls = json.loads(URL_CACHE.read_text())
-            urls["vol1_free_article"] = published_url
-            URL_CACHE.write_text(json.dumps(urls, ensure_ascii=False, indent=2))
         else:
-            print(f"⚠️  URL取得失敗。現在のURL: {current_url}")
-            print("   手動で公開してURLをコピーしてください")
+            print(f"⚠️  URL取得失敗（現在: {current_url}）")
 
         ctx.storage_state(path=str(SESSION_FILE))
         browser.close()
+
+    if published_url:
+        # キューに記録
+        state = load_queue_state()
+        state["published"][article["id"]] = published_url
+        save_queue_state(state)
+
+        # URLキャッシュに保存
+        urls = {}
+        if URL_CACHE.exists():
+            try:
+                urls = json.loads(URL_CACHE.read_text())
+            except Exception:
+                pass
+        urls[article["id"]] = published_url
+        if article["id"] == "vol1_free":
+            urls["vol1_free_article"] = published_url
+        URL_CACHE.write_text(json.dumps(urls, ensure_ascii=False, indent=2))
 
     return published_url
 
 
 if __name__ == "__main__":
     if "--setup" in sys.argv:
-        setup_session()
+        print("セッション取得中...")
+        extract_note_cookies()
+        print("✅ 完了")
+    elif "--status" in sys.argv:
+        state = load_queue_state()
+        print(f"公開済み: {len(state['published'])}/{len(ARTICLE_QUEUE)}件")
+        for a in ARTICLE_QUEUE:
+            mark = "✅" if a["id"] in state["published"] else "⬜"
+            print(f"  {mark} {a['id']}: {a['title'] or a['file']}")
     else:
         publish_article()

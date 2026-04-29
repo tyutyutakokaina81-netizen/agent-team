@@ -152,6 +152,9 @@ Googleスプレッドシートで全部見える化するテンプレ
 全部、静かに歩ける。
 外国人に教えたくないけど、教える。
 
+👇 詳しく書きました
+{takaoka_url}
+
 #高岡市 #隠れた名所 #北陸観光 #TakaokaToyama""",
     },
     {
@@ -197,8 +200,8 @@ Googleスプレッドシートで全部見える化するテンプレ
 新幹線で東京から2時間なのに、
 観光客が少なくて、静かで、本物がある。
 
-YouTubeにフル動画あります。
-概要欄のリンクからどうぞ。
+詳しくはnoteで書きました👇
+{takaoka_url}
 
 #高岡市 #富山観光 #YouTube #JapanTravel #TakaokaToyama""",
     },
@@ -216,10 +219,21 @@ def save_queue(q: dict):
     QUEUE_FILE.write_text(json.dumps(q, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def get_note_url() -> str:
+def get_note_url(key: str = "vol1_free_article") -> str:
     if NOTE_URLS.exists():
         urls = json.loads(NOTE_URLS.read_text())
-        return urls.get("vol1_free_article", "https://note.com")
+        return urls.get(key, urls.get("vol1_free_article", "https://note.com"))
+    return "https://note.com"
+
+
+def get_takaoka_url() -> str:
+    """高岡観光記事のURL（複数あれば最新を使う）"""
+    keys = ["kyoto_vs_takaoka", "youtube_open", "zuiryuji", "daibutsu", "kanayamachi"]
+    if NOTE_URLS.exists():
+        urls = json.loads(NOTE_URLS.read_text())
+        for k in keys:
+            if k in urls:
+                return urls[k]
     return "https://note.com"
 
 
@@ -271,7 +285,8 @@ def post_today():
         queue = {p["id"]: {"posted": False, "posted_at": None} for p in POSTS}
         target = POSTS[0]
 
-    post_text = target["text"].format(note_url=note_url)
+    takaoka_url = get_takaoka_url()
+    post_text = target["text"].format(note_url=note_url, takaoka_url=takaoka_url)
     print(f"投稿: {post_text[:50]}...")
 
     storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
