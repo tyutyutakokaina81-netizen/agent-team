@@ -22,6 +22,15 @@ SESSION_FILE = Path(__file__).parent / ".sessions" / "x_session.json"
 QUEUE_FILE = Path(__file__).parent / ".sessions" / "x_post_queue.json"
 NOTE_URLS = Path(__file__).parent / ".sessions" / "note_article_urls.json"
 
+# ── バズ設計ルール ────────────────────────────────────────
+# 1. フック: 最初の1行で「え？」と思わせる（数字・逆張り・意外性）
+# 2. 本文: 箇条書きで読みやすく、スクロール止める情報密度
+# 3. CTA: note/YouTube URLを自然に差し込む
+# 4. ハッシュタグ: 3〜5個（多すぎ→スパム判定）
+# 5. 英語投稿: 週2本（#HiddenJapan #JapanTravel で国際リーチ）
+# 6. スレッド: 5連投稿で情報量を増やし滞在時間を上げる
+# ──────────────────────────────────────────────────────────
+
 POSTS = [
     {
         "id": "p1",
@@ -205,13 +214,267 @@ Googleスプレッドシートで全部見える化するテンプレ
 
 #高岡市 #富山観光 #YouTube #JapanTravel #TakaokaToyama""",
     },
+    # ── バズ狙い 追加10本 ─────────────────────────────────
+    {
+        "id": "b1",
+        "text": """高岡市 日帰り旅
+全部で¥2,450 だった
+
+内訳:
+・瑞龍寺（国宝） ¥500
+・高岡大仏（日本三大仏） ¥0
+・金屋町 ¥0
+・コロッケ×3 ¥300
+・氷見うどん ¥750
+・万葉線 ¥800
+・お土産（銅製小物） ¥100
+
+「本物の日本」をこの値段で体験できる場所
+まだあったんだ
+
+#高岡市 #富山観光 #旅行好きな人と繋がりたい #穴場""",
+    },
+    {
+        "id": "b2",
+        "text": """【衝撃】高岡大仏、台座の中に入れる
+
+これ知ってた人いる？
+
+高岡大仏（日本三大仏）
+→ 外観はよく知られてる
+→ でも台座の「回廊」は知られてない
+
+中に入ると:
+・仏画が飾られてる
+→ ひんやりした空間
+→ 先代大仏のお顔（火災で焼けた）が安置されてる
+
+しかも全部タダ
+拝観料: ¥0
+
+#高岡大仏 #高岡市 #日本三大仏 #知らなかった""",
+    },
+    {
+        "id": "b3",
+        "text": """「京都行くくらいなら高岡行けばよかった」
+と言った友人の話
+
+友人A（京都旅行後）:
+「写真撮るのに20分並んだ。疲れた」
+
+友人B（高岡旅行後）:
+「国宝の禅寺、貸し切りで入れた」
+「大仏、無料だった」
+「コロッケ100円で最高だった」
+
+同じ「本物の日本」なのに
+この差は何なのか
+
+→ ただ「知られていない」だけ
+
+詳しくはこちら👇
+{takaoka_url}
+
+#高岡市 #旅行 #穴場 #京都""",
+    },
+    {
+        "id": "b4",
+        "text": """日本で「人混みゼロの国宝」に会いたいなら高岡
+
+瑞龍寺（富山県高岡市）
+
+✅ 国宝3棟（山門・仏殿・法堂）
+✅ 1609年建立、江戸時代の完全形
+✅ 春: 桜と国宝建築
+✅ 冬: 雪×国宝（絶景）
+✅ 平日午前: ほぼ貸し切り
+
+拝観料 ¥500
+混み具合 ほぼゼロ
+
+知名度が低いのが逆にラッキー
+
+#瑞龍寺 #高岡市 #国宝 #隠れた名所 #富山観光""",
+    },
+    {
+        "id": "b5",
+        "text": """高岡の「職人体験」が意外とすごい
+
+金屋町（400年続く鋳物の町）でできること:
+
+① 錫（すず）の酒器づくり体験 ¥3,850〜
+② 鋳物工房の見学（無料）
+③ 職人と話せる（観光客が少ないから）
+
+能作（鋳物ブランド）の本社工場見学も無料
+
+「工場で職人が作ったもの」を
+その場で買える
+
+これ、フィレンツェの革細工と同レベルの体験
+
+#金屋町 #高岡市 #伝統工芸 #JapanCraft #体験""",
+    },
+    # ── 英語投稿 5本 ─────────────────────────────────────
+    {
+        "id": "e1",
+        "text": """Japan's 3 Great Buddhas.
+Most people know 2.
+
+1. Nara Daibutsu — ¥600
+2. Kamakura Daibutsu — ¥300
+3. Takaoka Daibutsu — ¥0
+
+The third one is FREE.
+And you can walk INSIDE the pedestal.
+
+Almost no tourists.
+2 hours from Tokyo by Shinkansen.
+
+#HiddenJapan #JapanTravel #TakaokaToyama #JapanTrip""",
+    },
+    {
+        "id": "e2",
+        "text": """Kyoto: Crowded. Expensive. Beautiful.
+Takaoka: Empty. Cheap. Also Beautiful.
+
+What Takaoka has:
+→ National Treasure Zen Temple (¥500)
+→ One of Japan's 3 Great Buddhas (FREE)
+→ 400-year-old copper craft town (FREE)
+
+What it doesn't have:
+→ Tourist crowds
+
+2hrs from Tokyo. Almost nobody goes.
+That's the point.
+
+#HiddenJapan #JapanTravel #Toyama #TakaokaToyama""",
+    },
+    {
+        "id": "e3",
+        "text": """A day trip to Takaoka cost me ¥2,450 ($16).
+
+Here's the breakdown:
+· Zuiryuji Temple (National Treasure) — ¥500
+· Takaoka Buddha (Great Buddha) — FREE
+· Kanayamachi craft street — FREE
+· Korokke (local croquette ×3) — ¥300
+· Himi udon noodles — ¥750
+· Tram — ¥800
+
+National treasure + Great Buddha + artisan street
+for $16 total.
+
+Japan still has hidden places like this.
+
+#JapanBudgetTravel #HiddenJapan #TakaokaToyama""",
+    },
+    {
+        "id": "e4",
+        "text": """In this town, 90% of Japan's Buddhist temple
+copper goods are made.
+
+Takaoka City, Toyama.
+Craftsmen have been doing this for 400 years.
+
+You can watch them work.
+You can try it yourself.
+Almost no tourists.
+
+It's the Florence of Japan.
+Nobody has figured that out yet.
+
+#Takaoka #JapanCraft #HiddenJapan #TravelJapan #Toyama""",
+    },
+    {
+        "id": "e5",
+        "text": """An AI announcer who doesn't exist
+is introducing a city that tourists haven't discovered.
+
+That's this channel.
+
+高岡アイ (Ai Takaoka) — fictional.
+Takaoka City — very real.
+
+National treasure temple, Great Buddha, copper town,
+amazing food. All in one city.
+
+2 hours from Tokyo. Almost no crowds.
+
+#HiddenJapan #AIContent #TakaokaToyama #JapanTravel""",
+    },
 ]
+
+
+# ── Xスレッド投稿データ ───────────────────────────────────
+THREADS = [
+    {
+        "id": "thread_takaoka_complete",
+        "tweets": [
+            """高岡市のこと、ほとんどの人が知らなすぎる。
+
+国宝あり、日本三大仏あり、400年の職人街あり。
+なのに観光客がほぼいない。
+
+なぜそうなのか、そしてどう行くかを整理した🧵""",
+
+            """① 国宝・瑞龍寺
+
+江戸時代初期に建てられた禅宗の寺。
+山門・仏殿・法堂の3棟すべてが国宝。
+
+京都の有名な禅寺と比べて:
+→ 拝観料 半額以下（¥500）
+→ 混み具合 1/100
+→ 写真: 思い通りに撮れる""",
+
+            """② 高岡大仏
+
+奈良・鎌倉と並ぶ「日本三大仏」のひとつ。
+
+知られていない事実:
+・拝観料: ¥0（無料）
+・台座の中に入れる（回廊あり）
+・仏画と先代大仏のお顔が安置されてる
+
+東京から新幹線2時間の場所に、
+無料で入れる日本三大仏がある。""",
+
+            """③ 金屋町
+
+1609年から続く鋳物の職人街。
+石畳と千本格子の路地が400年前のまま残ってる。
+
+全国の仏具の約90%が高岡産。
+東大寺の香炉も、伊勢神宮の神具も、高岡製がある。
+
+工房見学: 無料
+職人体験: ¥3,850〜""",
+
+            """④ アクセス＆費用
+
+東京 → 北陸新幹線かがやき → 新高岡（約2時間）
+日帰り旅の総費用: ¥2,450〜
+
+瑞龍寺500+大仏0+金屋町0+コロッケ300+うどん750+電車800
+
+「本物の日本」を¥2,450で体験できる。
+まだ知られていないだけ。
+
+{takaoka_url}""",
+        ],
+    },
+]
+
+
+ALL_IDS = [p["id"] for p in POSTS] + [t["id"] for t in THREADS]
 
 
 def load_queue() -> dict:
     if QUEUE_FILE.exists():
         return json.loads(QUEUE_FILE.read_text(encoding="utf-8"))
-    return {p["id"]: {"posted": False, "posted_at": None} for p in POSTS}
+    return {id_: {"posted": False, "posted_at": None} for id_ in ALL_IDS}
 
 
 def save_queue(q: dict):
@@ -258,94 +521,176 @@ def setup_session():
     print(f"✅ セッション保存: {SESSION_FILE}")
 
 
+def extract_x_cookies():
+    try:
+        import browser_cookie3
+        cookies = list(browser_cookie3.chrome(domain_name=".twitter.com"))
+        if not cookies:
+            cookies = list(browser_cookie3.chrome(domain_name=".x.com"))
+        if not cookies:
+            return False
+        state = {
+            "cookies": [
+                {"name": c.name, "value": c.value,
+                 "domain": c.domain if c.domain.startswith(".") else f".{c.domain}",
+                 "path": c.path or "/", "secure": bool(c.secure),
+                 "httpOnly": False, "sameSite": "Lax"}
+                for c in cookies if c.value
+            ],
+            "origins": [],
+        }
+        SESSION_FILE.parent.mkdir(exist_ok=True)
+        SESSION_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
+        return True
+    except Exception:
+        return False
+
+
+def _type_text(page, text: str):
+    """テキストエリアにテキストを入力（改行対応）"""
+    for sel in ["[data-testid='tweetTextarea_0']", "div[role='textbox']",
+                ".public-DraftEditor-content", "[contenteditable='true']"]:
+        el = page.query_selector(sel)
+        if el:
+            el.click()
+            time.sleep(0.3)
+            for line in text.split("\n"):
+                page.keyboard.type(line)
+                page.keyboard.press("Shift+Enter")
+                time.sleep(0.03)
+            return True
+    return False
+
+
+def _click_post(page) -> bool:
+    for sel in ["[data-testid='tweetButtonInline']", "[data-testid='tweetButton']",
+                "button:has-text('ポストする')", "button:has-text('Post')"]:
+        btn = page.query_selector(sel)
+        if btn:
+            btn.click()
+            time.sleep(3)
+            return True
+    return False
+
+
+def post_single(page, text: str) -> bool:
+    """単発ツイートを投稿"""
+    page.goto("https://x.com/compose/post", wait_until="networkidle", timeout=30000)
+    time.sleep(2)
+    if not _type_text(page, text):
+        page.goto("https://twitter.com/compose/tweet", wait_until="networkidle", timeout=30000)
+        time.sleep(2)
+        _type_text(page, text)
+    return _click_post(page)
+
+
+def post_thread(page, tweets: list[str]) -> bool:
+    """スレッド投稿（最初のツイートに返信を連鎖させる）"""
+    # 1ツイート目
+    page.goto("https://x.com/compose/post", wait_until="networkidle", timeout=30000)
+    time.sleep(2)
+    _type_text(page, tweets[0])
+
+    # 「もっと追加」ボタンでスレッドを追加
+    for tweet in tweets[1:]:
+        for sel in ["[data-testid='addButton']", "button:has-text('追加')",
+                    "button[aria-label*='追加']", "div[data-testid='addButton']"]:
+            btn = page.query_selector(sel)
+            if btn:
+                btn.click()
+                time.sleep(1)
+                break
+        # 新しいテキストエリア（最後の一つ）に入力
+        textareas = page.query_selector_all("[data-testid^='tweetTextarea_']")
+        if textareas:
+            last = textareas[-1]
+            last.click()
+            time.sleep(0.3)
+            for line in tweet.split("\n"):
+                page.keyboard.type(line)
+                page.keyboard.press("Shift+Enter")
+                time.sleep(0.03)
+
+    return _click_post(page)
+
+
 def post_today():
     if not SESSION_FILE.exists():
-        print("❌ セッションなし → python3 auto_x_post.py --setup を先に実行")
-        sys.exit(1)
+        print("  🍪 XセッションをChromeから取得中...")
+        if not extract_x_cookies():
+            print("  ❌ Xセッション取得失敗（ChromeでX.comにログインしてください）")
+            return
 
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("pip install playwright && playwright install chromium")
-        sys.exit(1)
+        import subprocess
+        subprocess.run([sys.executable, "-m", "pip", "install", "playwright",
+                        "-q", "--break-system-packages"], capture_output=True)
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
+                       capture_output=True)
+        from playwright.sync_api import sync_playwright
 
     queue = load_queue()
     note_url = get_note_url()
-
-    # 未投稿の投稿を1件選ぶ
-    target = None
-    for post in POSTS:
-        if not queue.get(post["id"], {}).get("posted"):
-            target = post
-            break
-
-    if not target:
-        # 全部投稿済み → 最初からリセットして繰り返す
-        print("全投稿済み → キューをリセットして最初から繰り返します")
-        queue = {p["id"]: {"posted": False, "posted_at": None} for p in POSTS}
-        target = POSTS[0]
-
     takaoka_url = get_takaoka_url()
-    post_text = target["text"].format(note_url=note_url, takaoka_url=takaoka_url)
-    print(f"投稿: {post_text[:50]}...")
+
+    # 未投稿を選択（POSTS → THREADS の順）
+    target_post = None
+    target_thread = None
+
+    # 週1回スレッドを挟む（7の倍数回目）
+    posted_count = sum(1 for v in queue.values() if v.get("posted"))
+    if posted_count % 7 == 6:
+        for th in THREADS:
+            if not queue.get(th["id"], {}).get("posted"):
+                target_thread = th
+                break
+
+    if not target_thread:
+        for post in POSTS:
+            if not queue.get(post["id"], {}).get("posted"):
+                target_post = post
+                break
+
+    if not target_post and not target_thread:
+        print("全投稿済み → キューリセット")
+        queue = {id_: {"posted": False, "posted_at": None} for id_ in ALL_IDS}
+        target_post = POSTS[0]
 
     storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, slow_mo=200)
-        ctx = browser.new_context(
-            storage_state=storage,
-            viewport={"width": 1280, "height": 900},
-        )
+        browser = p.chromium.launch(headless=True, slow_mo=150)
+        ctx = browser.new_context(storage_state=storage,
+                                   viewport={"width": 1280, "height": 900})
         page = ctx.new_page()
-        page.goto("https://twitter.com/compose/tweet", wait_until="networkidle", timeout=30000)
-        time.sleep(3)
 
-        # テキストエリアに入力
-        for sel in [
-            "[data-testid='tweetTextarea_0']",
-            ".public-DraftEditor-content",
-            "[contenteditable='true']",
-            "div[role='textbox']",
-        ]:
-            el = page.query_selector(sel)
-            if el:
-                el.click()
-                time.sleep(0.5)
-                # 長文は段落ごとに分けて入力
-                for line in post_text.split("\n"):
-                    page.keyboard.type(line)
-                    page.keyboard.press("Shift+Enter")
-                    time.sleep(0.05)
-                break
+        if target_thread:
+            tweets = [t.format(note_url=note_url, takaoka_url=takaoka_url)
+                      for t in target_thread["tweets"]]
+            print(f"スレッド投稿: {target_thread['id']} ({len(tweets)}連)")
+            ok = post_thread(page, tweets)
+            if ok:
+                queue[target_thread["id"]] = {"posted": True,
+                                               "posted_at": datetime.now().isoformat()}
+                save_queue(queue)
+                print(f"✅ スレッド投稿完了")
+            else:
+                print("❌ スレッド投稿失敗")
 
-        time.sleep(1)
-
-        # 投稿ボタン
-        ok = False
-        for sel in [
-            "[data-testid='tweetButtonInline']",
-            "[data-testid='tweetButton']",
-            "button:has-text('ポストする')",
-            "button:has-text('Tweet')",
-            "button:has-text('Post')",
-        ]:
-            btn = page.query_selector(sel)
-            if btn:
-                btn.click()
-                time.sleep(3)
-                ok = True
-                break
-
-        if ok:
-            queue[target["id"]] = {
-                "posted": True,
-                "posted_at": datetime.now().isoformat(),
-            }
-            save_queue(queue)
-            print(f"✅ X投稿完了: {target['id']}")
-        else:
-            print("❌ 投稿ボタンが見つかりません（手動で確認してください）")
+        elif target_post:
+            post_text = target_post["text"].format(note_url=note_url,
+                                                    takaoka_url=takaoka_url)
+            print(f"投稿: {post_text[:60].strip()}...")
+            ok = post_single(page, post_text)
+            if ok:
+                queue[target_post["id"]] = {"posted": True,
+                                             "posted_at": datetime.now().isoformat()}
+                save_queue(queue)
+                print(f"✅ 投稿完了: {target_post['id']}")
+            else:
+                print("❌ 投稿失敗（ログイン確認 or セレクタ変更）")
 
         ctx.storage_state(path=str(SESSION_FILE))
         browser.close()
@@ -353,6 +698,15 @@ def post_today():
 
 if __name__ == "__main__":
     if "--setup" in sys.argv:
-        setup_session()
+        print("Xセッション取得中...")
+        extract_x_cookies()
+        print("完了")
+    elif "--status" in sys.argv:
+        q = load_queue()
+        posted = [k for k, v in q.items() if v.get("posted")]
+        print(f"投稿済み: {len(posted)}/{len(ALL_IDS)}件")
+        for id_ in ALL_IDS:
+            mark = "✅" if id_ in posted else "⬜"
+            print(f"  {mark} {id_}")
     else:
         post_today()
