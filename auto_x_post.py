@@ -673,6 +673,17 @@ def post_today():
                 break
 
     if not target_post and not target_thread:
+        # extra_posts（auto_repurpose.pyが生成した追加投稿）を確認
+        extra_file = QUEUE_FILE.parent / "x_extra_posts.json"
+        if extra_file.exists():
+            extras = json.loads(extra_file.read_text())
+            for ex in extras:
+                if not ex.get("posted"):
+                    target_post = ex
+                    print(f"  extra投稿を使用: {ex['id']}")
+                    break
+
+    if not target_post and not target_thread:
         print("全投稿済み → キューリセット")
         queue = {id_: {"posted": False, "posted_at": None} for id_ in ALL_IDS}
         target_post = POSTS[0]
@@ -699,14 +710,23 @@ def post_today():
                 print("❌ スレッド投稿失敗")
 
         elif target_post:
-            post_text = target_post["text"].format(note_url=note_url,
-                                                    takaoka_url=takaoka_url)
+            post_text = target_post["text"].format(
+                note_url=note_url, takaoka_url=takaoka_url)
             print(f"投稿: {post_text[:60].strip()}...")
             ok = post_single(page, post_text)
             if ok:
                 queue[target_post["id"]] = {"posted": True,
                                              "posted_at": datetime.now().isoformat()}
                 save_queue(queue)
+                # extra_posts の場合もフラグを更新
+                extra_file = QUEUE_FILE.parent / "x_extra_posts.json"
+                if extra_file.exists():
+                    extras = json.loads(extra_file.read_text())
+                    for ex in extras:
+                        if ex["id"] == target_post["id"]:
+                            ex["posted"] = True
+                            ex["posted_at"] = datetime.now().isoformat()
+                    extra_file.write_text(json.dumps(extras, ensure_ascii=False, indent=2))
                 print(f"✅ 投稿完了: {target_post['id']}")
             else:
                 print("❌ 投稿失敗（ログイン確認 or セレクタ変更）")

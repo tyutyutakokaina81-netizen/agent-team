@@ -1,103 +1,86 @@
 #!/bin/zsh
-# mac_setup_all.sh — Mac上での全自動セットアップ＆初回実行
-# 実行: zsh mac_setup_all.sh
+# mac_setup_all.sh — Mac 全自動セットアップ（初回1回だけ実行）
 set -e
 REPO="$HOME/agent-team"
 cd "$REPO"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  agent-team 全自動セットアップ"
+echo "  agent-team セットアップ"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# ── 1. 依存ライブラリ ──────────────────────────────────
-echo "\n[1/6] Python ライブラリ インストール..."
-pip3 install --break-system-packages -q \
-  playwright \
-  browser-cookie3 \
-  requests \
-  Pillow \
-  numpy \
-  google-api-python-client \
-  google-auth-httplib2 \
-  google-auth-oauthlib \
-  pyopenjtalk 2>/dev/null || true
-python3 -m playwright install chromium 2>/dev/null || true
+# ── 1. 最新コード取得 ──────────────────────────────────
+echo "\n[1/5] 最新コード取得..."
+git fetch origin claude/add-claude-documentation-Wipf0
+git reset --hard origin/claude/add-claude-documentation-Wipf0
 echo "  ✅ 完了"
 
-# ── 2. Chromeクッキー自動取得 ─────────────────────────
-echo "\n[2/6] Chrome セッション取得..."
-if python3 mac_auto_cookie_all.py 2>/dev/null; then
-  echo "  ✅ セッション取得完了"
-else
-  echo "  ⚠️  Chrome未起動 or ログイン未確認（後で再実行可）"
-fi
+# ── 2. Python ライブラリ（Homebrew Python 対応）──────────
+echo "\n[2/5] Python ライブラリ インストール..."
+pip3 install playwright browser-cookie3 requests Pillow numpy \
+  --break-system-packages -q 2>/dev/null || \
+pip3 install playwright browser-cookie3 requests Pillow numpy -q 2>/dev/null || true
+python3 -m playwright install chromium 2>/dev/null || true
+
+# pyopenjtalk（音声合成）
+pip3 install pyopenjtalk --break-system-packages -q 2>/dev/null || \
+pip3 install pyopenjtalk -q 2>/dev/null || true
+
+echo "  ✅ 完了"
 
 # ── 3. キャラクター画像生成 ───────────────────────────
-echo "\n[3/6] キャラクター画像生成..."
+echo "\n[3/5] キャラクター画像生成..."
 mkdir -p CMO/assets/announcer
 if [ ! -f "CMO/assets/announcer/ai_takaoka_main.png" ]; then
-  python3 make_placeholder_char.py
+  python3 make_placeholder_char.py && echo "  ✅ 生成完了"
 else
   echo "  ✅ 既存（スキップ）"
 fi
 
-# ── 4. 音声付き動画生成 ───────────────────────────────
-echo "\n[4/6] 音声付き動画生成..."
-python3 auto_youtube_produce.py
-
-# ── 5. YouTube セッション取得（Chromeクッキー） ───────────
-echo "\n[5/6] YouTube セッション取得..."
-python3 -c "
-import sys; sys.path.insert(0, '.')
-exec(open('auto_youtube_upload.py').read())
-extract_youtube_cookies()
-" && echo "  ✅ YouTubeセッション準備完了"
-
-# ── 6. LaunchAgent 登録（朝9時 + 夕20時）────────────
-echo "\n[6/6] 自動実行スケジュール設定（朝9時・夕20時）..."
+# ── 4. LaunchAgent 登録（朝9時 + 夕20時）────────────
+echo "\n[4/5] 自動実行スケジュール設定..."
 
 make_plist() {
   local name=$1 hour=$2
-  local plist="$HOME/Library/LaunchAgents/com.agent-team.${name}.plist"
-  cat > "$plist" << EOF
+  local plist="$HOME/Library/LaunchAgents/${name}.plist"
+  cat > "$plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
   "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key><string>com.agent-team.${name}</string>
+<plist version="1.0"><dict>
+  <key>Label</key><string>${name}</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>
     <string>$REPO/run_daily_auto.sh</string>
   </array>
   <key>StartCalendarInterval</key>
-  <dict>
-    <key>Hour</key><integer>${hour}</integer>
-    <key>Minute</key><integer>0</integer>
-  </dict>
-  <key>StandardOutPath</key><string>$REPO/logs/launchd_${name}.log</string>
-  <key>StandardErrorPath</key><string>$REPO/logs/launchd_${name}_err.log</string>
+  <dict><key>Hour</key><integer>${hour}</integer><key>Minute</key><integer>0</integer></dict>
   <key>WorkingDirectory</key><string>$REPO</string>
-</dict>
-</plist>
-EOF
+  <key>StandardOutPath</key><string>$REPO/logs/launchagent_${hour}h.log</string>
+  <key>StandardErrorPath</key><string>$REPO/logs/launchagent_${hour}h_err.log</string>
+  <key>RunAtLoad</key><false/>
+</dict></plist>
+PLIST
   launchctl unload "$plist" 2>/dev/null || true
   launchctl load "$plist"
-  echo "  ✅ ${hour}時に自動実行登録完了"
+  echo "  ✅ $name (${hour}:00)"
 }
 
-make_plist "morning" 9
-make_plist "evening" 20
+mkdir -p "$HOME/Library/LaunchAgents" "$REPO/logs"
+make_plist "com.agent-team.morning" 9
+make_plist "com.agent-team.evening" 20
 
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# ── 5. 初回コンテンツ生成 ─────────────────────────────
+echo "\n[5/5] 初回コンテンツ生成..."
+python3 auto_wikimedia_photos.py 2>/dev/null || true
+python3 auto_youtube_produce.py 2>/dev/null || true
+echo "  ✅ 完了"
+
+echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  セットアップ完了！"
 echo ""
-echo "  自動実行スケジュール:"
-echo "  ・毎朝9時: X投稿 → CW応募 → CW出品"
-echo "  ・月・木 9時: YouTube動画生成 → アップロード"
-echo ""
-echo "  今すぐ手動実行する場合:"
-echo "  zsh run_daily_auto.sh"
+echo "  次のステップ:"
+echo "  1. Chrome で note.com / x.com / studio.youtube.com に"
+echo "     ログインしておく"
+echo "  2. zsh run_mac.sh で今すぐ公開できます"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

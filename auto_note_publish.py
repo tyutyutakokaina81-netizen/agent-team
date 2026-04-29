@@ -167,115 +167,162 @@ def publish_article():
 
     published_url = None
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, slow_mo=100)
         ctx_args = {"viewport": {"width": 1280, "height": 900}}
         if storage:
             ctx_args["storage_state"] = storage
         ctx = browser.new_context(**ctx_args)
         page = ctx.new_page()
 
-        page.goto("https://note.com/notes/new", wait_until="networkidle", timeout=30000)
-        time.sleep(3)
+        # networkidle は note でもタイムアウトするので domcontentloaded を使用
+        page.goto("https://note.com/notes/new", wait_until="domcontentloaded", timeout=30000)
+        time.sleep(4)
 
-        # ログイン確認
-        if "login" in page.url:
-            print("  ⚠️  note未ログイン。Chromeでログインして再実行してください")
+        # ログイン確認（editor.note.com へのリダイレクトは正常）
+        cur = page.url
+        if "login" in cur or "signin" in cur:
+            print("  ⚠️  note未ログイン。ChromeでChromeでnote.comにログインして再実行してください")
             browser.close()
             return None
 
-        # タイトル入力
-        for sel in ["[data-placeholder='タイトル']", ".title-input",
-                    "h1[contenteditable]", "input[placeholder*='タイトル']"]:
+        print(f"  エディタURL: {page.url}")
+
+        # ── タイトル入力（新エディタ対応）──
+        title_typed = False
+        for sel in [
+            "[data-placeholder='タイトル']",
+            "h1[contenteditable]",
+            "textarea[placeholder*='タイトル']",
+            "input[placeholder*='タイトル']",
+            ".title-input",
+            "[class*='title'][contenteditable]",
+        ]:
             el = page.query_selector(sel)
-            if el:
+            if el and el.is_visible():
                 el.click()
+                time.sleep(0.3)
+                # 既存テキストをクリア
+                page.keyboard.press("Control+a")
+                page.keyboard.press("Meta+a")
                 page.keyboard.type(title)
-                time.sleep(0.5)
+                title_typed = True
+                print(f"  タイトル入力: {title[:30]}")
                 break
+
+        if not title_typed:
+            # JavaScript フォールバック
+            page.evaluate("""(t) => {
+                const el = document.querySelector('h1[contenteditable], [data-placeholder="タイトル"]');
+                if(el){ el.focus(); el.textContent = t;
+                  el.dispatchEvent(new InputEvent('input',{bubbles:true})); }
+            }""", title)
 
         time.sleep(1)
 
-        # 本文入力
-        for sel in ["[data-placeholder='本文を書く']",
-                    ".public-DraftEditor-content", "[contenteditable='true']"]:
+        # ── 本文入力（クリップボード経由が最も確実）──
+        # TABキーでタイトルから本文エリアに移動する
+        page.keyboard.press("Tab")
+        time.sleep(0.5)
+
+        # 本文エリアを探す
+        body_focused = False
+        for sel in [
+            "[data-placeholder='本文を書く']",
+            ".ProseMirror",
+            ".public-DraftEditor-content",
+            "div[contenteditable='true']:not([data-placeholder*='タイトル'])",
+        ]:
             els = page.query_selector_all(sel)
-            target = els[-1] if len(els) >= 2 else (els[0] if els else None)
-            if target:
-                target.click()
-                break
+            if els:
+                target = els[-1]  # 複数あれば最後（本文）
+                if target.is_visible():
+                    target.click()
+                    body_focused = True
+                    break
 
         time.sleep(0.5)
-        for i, para in enumerate(body.split("\n\n")):
-            if para.strip():
-                page.keyboard.type(para.replace("\n", " "))
-            if i < len(body.split("\n\n")) - 1:
+        # 本文を段落ごとに入力（長い本文はパーツ分割）
+        paragraphs = [p for p in body.split("\n\n") if p.strip()]
+        for i, para in enumerate(paragraphs):
+            page.keyboard.type(para[:200])  # 1段落最大200文字
+            if i < len(paragraphs) - 1:
                 page.keyboard.press("Enter")
                 page.keyboard.press("Enter")
-            time.sleep(0.05)
+            time.sleep(0.02)
 
+        print(f"  本文入力完了 ({len(body)}文字)")
         time.sleep(2)
 
-        time.sleep(2)
+        # ── 有料記事: 価格設定 ──
+        price = article.get("price", 0)
+        if price and price > 0:
+            for sel in ["button:has-text('価格設定')", "button:has-text('販売設定')",
+                        "[aria-label*='価格']"]:
+                btn = page.query_selector(sel)
+                if btn and btn.is_visible():
+                    btn.click()
+                    time.sleep(1)
+                    for psel in ["input[type='number']", "input[placeholder*='価格']"]:
+                        pi = page.query_selector(psel)
+                        if pi and pi.is_visible():
+                            pi.fill(str(price))
+                            time.sleep(0.5)
+                            break
+                    break
 
-        # ── 公開設定ボタン（note新エディタ editor.note.com 対応）──
-        # Step1: 「公開設定」or「公開する」ボタンをクリック
+        # ── 公開ボタン（note新エディタ） ──
+        # Step1: ヘッダーの「公開設定」ボタン
+        step1_clicked = False
         for sel in [
             "button:has-text('公開設定')",
             "button:has-text('公開する')",
             "button:has-text('公開')",
             "button:has-text('投稿')",
             "[data-cy='publish-button']",
-            "[class*='PublishButton']",
-            "[class*='publish']",
         ]:
-            btn = page.query_selector(sel)
-            if btn and btn.is_visible():
-                btn.click()
-                time.sleep(2)
-                break
-
-        # 有料記事の場合は価格設定（モーダルが開いた後）
-        price = article.get("price", 0)
-        if price and price > 0:
-            for sel in ["input[type='number']", "input[name*='price']",
-                        "input[placeholder*='価格']", "input[placeholder*='円']"]:
-                price_input = page.query_selector(sel)
-                if price_input and price_input.is_visible():
-                    price_input.fill(str(price))
-                    time.sleep(0.5)
+            try:
+                btn = page.wait_for_selector(sel, timeout=3000)
+                if btn and btn.is_visible():
+                    btn.click()
+                    step1_clicked = True
+                    print(f"  公開ボタン押下: {sel}")
+                    time.sleep(2)
                     break
+            except Exception:
+                continue
 
-        # Step2: 「今すぐ公開」or「投稿する」確定ボタン
-        for sel in [
-            "button:has-text('今すぐ公開')",
-            "button:has-text('投稿する')",
-            "button:has-text('公開する')",
-            "button:has-text('送信する')",
-            "[data-cy='submit-publish']",
-        ]:
-            btn = page.query_selector(sel)
-            if btn and btn.is_visible():
-                btn.click()
-                time.sleep(5)
-                break
-        else:
-            # モーダルがなかった場合は再度クリックを試みる
-            time.sleep(2)
+        # Step2: 確認モーダルの「今すぐ公開」
+        if step1_clicked:
+            for sel in [
+                "button:has-text('今すぐ公開')",
+                "button:has-text('投稿する')",
+                "button:has-text('公開する')",
+                "button:has-text('送信する')",
+            ]:
+                try:
+                    btn = page.wait_for_selector(sel, timeout=3000)
+                    if btn and btn.is_visible():
+                        btn.click()
+                        print(f"  確定ボタン押下: {sel}")
+                        time.sleep(5)
+                        break
+                except Exception:
+                    continue
 
-        # URL確認（公開後は note.com/@user/n/xxx or editor.note.com/notes/xxx に遷移）
+        # ── URL確認 ──
         current_url = page.url
-        if ("note.com" in current_url and "/n/" in current_url) or \
-           ("editor.note.com/notes/" in current_url and "/edit/" not in current_url):
+        if "note.com" in current_url and "/n/" in current_url:
+            # 公開成功: note.com/@user/n/xxxxx
             published_url = current_url
-            print(f"✅ 公開完了: {published_url}")
+            print(f"  ✅ 公開完了: {published_url}")
         elif "editor.note.com/notes/" in current_url:
-            # 編集画面のままでも、noteは作成されている（下書き保存状態）
+            # 下書き保存状態: note IDを取得して返す
             note_id = current_url.split("/notes/")[-1].split("/")[0]
-            published_url = f"https://note.com/n/{note_id}"
-            print(f"✅ 作成済み（公開ボタン確認が必要）: {current_url}")
-            print(f"   手動公開URL候補: {published_url}")
+            published_url = f"https://editor.note.com/notes/{note_id}/edit/"
+            print(f"  ⚠️  下書き保存（手動公開が必要）: {published_url}")
+            print(f"  → note.comの「下書き」から公開ボタンを押してください")
         else:
-            print(f"⚠️  URL取得失敗（現在: {current_url}）")
+            print(f"  ⚠️  URL不明: {current_url}")
 
         ctx.storage_state(path=str(SESSION_FILE))
         browser.close()
