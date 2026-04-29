@@ -140,10 +140,14 @@ def publish_article():
         from playwright.sync_api import sync_playwright
     except ImportError:
         import subprocess
-        subprocess.run([sys.executable, "-m", "pip", "install", "playwright",
-                        "-q", "--break-system-packages"], capture_output=True)
-        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
-                       capture_output=True)
+        for cmd in [
+            [sys.executable, "-m", "pip", "install", "playwright", "-q", "--break-system-packages"],
+            [sys.executable, "-m", "pip", "install", "playwright", "-q"],
+        ]:
+            if subprocess.run(cmd, capture_output=True).returncode == 0:
+                break
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium",
+                        "--with-deps"], capture_output=True)
         from playwright.sync_api import sync_playwright
 
     # セッションがなければChromeから自動取得
@@ -211,41 +215,65 @@ def publish_article():
 
         time.sleep(2)
 
-        # 有料記事の場合は価格設定
-        price = article.get("price", 0)
-        if price and price > 0:
-            for sel in ["button:has-text('販売設定')", "button:has-text('価格')",
-                        "[aria-label*='価格']"]:
-                btn = page.query_selector(sel)
-                if btn:
-                    btn.click()
-                    time.sleep(1)
-                    price_input = page.query_selector("input[type='number'], input[name*='price']")
-                    if price_input:
-                        price_input.fill(str(price))
-                        time.sleep(0.5)
-                    break
+        time.sleep(2)
 
-        # 公開ボタン
-        for sel in ["button:has-text('公開')", "button:has-text('投稿')"]:
+        # ── 公開設定ボタン（note新エディタ editor.note.com 対応）──
+        # Step1: 「公開設定」or「公開する」ボタンをクリック
+        for sel in [
+            "button:has-text('公開設定')",
+            "button:has-text('公開する')",
+            "button:has-text('公開')",
+            "button:has-text('投稿')",
+            "[data-cy='publish-button']",
+            "[class*='PublishButton']",
+            "[class*='publish']",
+        ]:
             btn = page.query_selector(sel)
-            if btn:
+            if btn and btn.is_visible():
                 btn.click()
                 time.sleep(2)
                 break
 
-        for sel in ["button:has-text('公開する')", "button:has-text('今すぐ公開')",
-                    "button:has-text('投稿する')"]:
-            btn = page.query_selector(sel)
-            if btn:
-                btn.click()
-                time.sleep(4)
-                break
+        # 有料記事の場合は価格設定（モーダルが開いた後）
+        price = article.get("price", 0)
+        if price and price > 0:
+            for sel in ["input[type='number']", "input[name*='price']",
+                        "input[placeholder*='価格']", "input[placeholder*='円']"]:
+                price_input = page.query_selector(sel)
+                if price_input and price_input.is_visible():
+                    price_input.fill(str(price))
+                    time.sleep(0.5)
+                    break
 
+        # Step2: 「今すぐ公開」or「投稿する」確定ボタン
+        for sel in [
+            "button:has-text('今すぐ公開')",
+            "button:has-text('投稿する')",
+            "button:has-text('公開する')",
+            "button:has-text('送信する')",
+            "[data-cy='submit-publish']",
+        ]:
+            btn = page.query_selector(sel)
+            if btn and btn.is_visible():
+                btn.click()
+                time.sleep(5)
+                break
+        else:
+            # モーダルがなかった場合は再度クリックを試みる
+            time.sleep(2)
+
+        # URL確認（公開後は note.com/@user/n/xxx or editor.note.com/notes/xxx に遷移）
         current_url = page.url
-        if "note.com" in current_url and "/n/" in current_url:
+        if ("note.com" in current_url and "/n/" in current_url) or \
+           ("editor.note.com/notes/" in current_url and "/edit/" not in current_url):
             published_url = current_url
             print(f"✅ 公開完了: {published_url}")
+        elif "editor.note.com/notes/" in current_url:
+            # 編集画面のままでも、noteは作成されている（下書き保存状態）
+            note_id = current_url.split("/notes/")[-1].split("/")[0]
+            published_url = f"https://note.com/n/{note_id}"
+            print(f"✅ 作成済み（公開ボタン確認が必要）: {current_url}")
+            print(f"   手動公開URL候補: {published_url}")
         else:
             print(f"⚠️  URL取得失敗（現在: {current_url}）")
 

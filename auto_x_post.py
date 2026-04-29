@@ -573,22 +573,37 @@ def _click_post(page) -> bool:
     return False
 
 
+def _open_compose(page):
+    """X の投稿画面を開く（networkidle は使わない）"""
+    # x.com/compose/post は直接開ける（ログイン済みなら）
+    page.goto("https://x.com/compose/post", wait_until="domcontentloaded", timeout=30000)
+    time.sleep(3)
+    # まだテキストエリアがなければホームから開く
+    if not page.query_selector("[data-testid='tweetTextarea_0']"):
+        page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=30000)
+        time.sleep(3)
+        # ホーム画面の投稿ボックスをクリック
+        for sel in ["[data-testid='tweetTextarea_0']", "[placeholder*='今どうしてる']",
+                    "[aria-label*='ポスト'], [aria-label*='Post']"]:
+            el = page.query_selector(sel)
+            if el:
+                el.click()
+                time.sleep(1)
+                break
+
+
 def post_single(page, text: str) -> bool:
     """単発ツイートを投稿"""
-    page.goto("https://x.com/compose/post", wait_until="networkidle", timeout=30000)
-    time.sleep(2)
-    if not _type_text(page, text):
-        page.goto("https://twitter.com/compose/tweet", wait_until="networkidle", timeout=30000)
-        time.sleep(2)
-        _type_text(page, text)
+    _open_compose(page)
+    _type_text(page, text)
     return _click_post(page)
 
 
 def post_thread(page, tweets: list[str]) -> bool:
     """スレッド投稿（最初のツイートに返信を連鎖させる）"""
     # 1ツイート目
-    page.goto("https://x.com/compose/post", wait_until="networkidle", timeout=30000)
-    time.sleep(2)
+    _open_compose(page)
+    time.sleep(1)
     _type_text(page, tweets[0])
 
     # 「もっと追加」ボタンでスレッドを追加
@@ -625,10 +640,14 @@ def post_today():
         from playwright.sync_api import sync_playwright
     except ImportError:
         import subprocess
-        subprocess.run([sys.executable, "-m", "pip", "install", "playwright",
-                        "-q", "--break-system-packages"], capture_output=True)
-        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
-                       capture_output=True)
+        for cmd in [
+            [sys.executable, "-m", "pip", "install", "playwright", "-q", "--break-system-packages"],
+            [sys.executable, "-m", "pip", "install", "playwright", "-q"],
+        ]:
+            if subprocess.run(cmd, capture_output=True).returncode == 0:
+                break
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium",
+                        "--with-deps"], capture_output=True)
         from playwright.sync_api import sync_playwright
 
     queue = load_queue()

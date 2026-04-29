@@ -65,11 +65,16 @@ SHORTS_META = {
 
 def install_deps():
     import subprocess
-    pkgs = ["playwright"]
-    subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs +
-                   ["-q", "--break-system-packages"], capture_output=True)
-    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"],
-                   capture_output=True)
+    # Mac Homebrew Python は --break-system-packages が必要
+    for attempt in [
+        [sys.executable, "-m", "pip", "install", "playwright", "-q", "--break-system-packages"],
+        [sys.executable, "-m", "pip", "install", "playwright", "-q"],
+    ]:
+        r = subprocess.run(attempt, capture_output=True)
+        if r.returncode == 0:
+            break
+    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium",
+                    "--with-deps"], capture_output=True)
 
 
 def extract_youtube_cookies():
