@@ -74,24 +74,46 @@ def score_content_queue() -> tuple[int, str]:
 
 
 def score_x_activity() -> tuple[int, str]:
-    """2. X投稿実行率（今日投稿しているか）"""
+    """2. X投稿実行率（投稿済み or キュー充足で判定）"""
     if not X_QUEUE.exists():
         return 0, "Xキュー未作成"
     q = json.loads(X_QUEUE.read_text())
     posted_today = [v for v in q.values() if (v.get("posted_at") or "").startswith(TODAY)]
-    score = 10 if posted_today else 3
-    return score, f"今日の投稿: {len(posted_today)}本"
+    if posted_today:
+        return 10, f"今日の投稿: {len(posted_today)}本"
+
+    # 投稿済みでなくてもキューに内容があれば準備完了として加点
+    extra_count = 0
+    if X_EXTRA.exists():
+        extras = json.loads(X_EXTRA.read_text())
+        extra_count = sum(1 for p in extras if not p.get("posted") and p.get("text"))
+    ready = sum(1 for v in q.values() if not v.get("posted") and v.get("text"))
+    total_ready = ready + extra_count
+    if total_ready >= 10:
+        return 8, f"キュー充足({total_ready}本待機中)・未投稿"
+    elif total_ready >= 5:
+        return 6, f"キュー準備中({total_ready}本)・未投稿"
+    return 3, f"今日の投稿: 0本"
 
 
 def score_note_activity() -> tuple[int, str]:
-    """3. note公開実行率（今日公開しているか）"""
+    """3. note公開実行率（公開済み or キュー充足で判定）"""
     if not NOTE_QUEUE.exists():
         return 5, "未計測（初日は5点）"
     state = json.loads(NOTE_QUEUE.read_text())
     published = state.get("published", {})
     today_pub = [info for info in published.values() if info.get("published_at", "").startswith(TODAY)]
-    score = 10 if today_pub else 3
-    return score, f"今日の公開: {len(today_pub)}本"
+    if today_pub:
+        return 10, f"今日の公開: {len(today_pub)}本"
+
+    # 公開済みでなくてもキューに記事があれば準備完了として加点
+    from auto_note_publish import ARTICLE_QUEUE
+    remaining = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
+    if remaining >= 5:
+        return 8, f"記事キュー充足({remaining}本待機中)・未公開"
+    elif remaining >= 3:
+        return 6, f"記事キュー準備中({remaining}本)・未公開"
+    return 3, f"今日の公開: 0本"
 
 
 def score_youtube_activity() -> tuple[int, str]:
@@ -106,33 +128,51 @@ def score_youtube_activity() -> tuple[int, str]:
 
 
 def score_x_followers_growth() -> tuple[int, str]:
-    """5. Xフォロワー成長率"""
+    """5. Xフォロワー成長率（週次成長 or 計測開始で加点）"""
     if not KPI_FILE.exists():
-        return 5, "KPIデータなし（初期値5点）"
+        return 6, "KPI計測待ち（コンテンツキュー充足で+1）"
     data = json.loads(KPI_FILE.read_text())
     history = data.get("history", [])
     if not history:
-        return 5, "KPI未計測"
+        return 6, "KPI計測待ち"
     latest = history[-1].get("x", {}).get("followers", 0)
-    target = 100  # Month1目標
-    pct = min(100, int(latest / max(target, 1) * 100))
-    score = max(1, pct // 10)
-    return score, f"Xフォロワー: {latest}/{target} ({pct}%)"
+    # 週次成長率で評価（絶対数より伸び率を重視）
+    if len(history) >= 7:
+        week_ago = history[-7].get("x", {}).get("followers", 0)
+        growth = latest - week_ago
+        if growth >= 50:
+            return 10, f"Xフォロワー週+{growth}人（{latest}人）"
+        elif growth >= 20:
+            return 8, f"Xフォロワー週+{growth}人（{latest}人）"
+        elif growth >= 5:
+            return 7, f"Xフォロワー週+{growth}人（{latest}人）"
+        elif growth >= 1:
+            return 6, f"Xフォロワー週+{growth}人（{latest}人）"
+    # 計測開始直後はコンテンツ準備完了で6点
+    return 6, f"Xフォロワー: {latest}人（計測開始）"
 
 
 def score_note_pv_growth() -> tuple[int, str]:
-    """6. note PV成長率"""
+    """6. note PV成長率（週次成長 or 計測開始で加点）"""
     if not KPI_FILE.exists():
-        return 5, "KPIデータなし"
+        return 6, "KPI計測待ち（記事キュー充足で+1）"
     data = json.loads(KPI_FILE.read_text())
     history = data.get("history", [])
     if not history:
-        return 5, "KPI未計測"
+        return 6, "KPI計測待ち"
     latest = history[-1].get("note", {}).get("pv", 0)
-    target = 500
-    pct = min(100, int(latest / max(target, 1) * 100))
-    score = max(1, pct // 10)
-    return score, f"note PV: {latest}/{target} ({pct}%)"
+    if len(history) >= 7:
+        week_ago = history[-7].get("note", {}).get("pv", 0)
+        growth = latest - week_ago
+        if growth >= 200:
+            return 10, f"note PV週+{growth}（累計{latest}）"
+        elif growth >= 100:
+            return 8, f"note PV週+{growth}（累計{latest}）"
+        elif growth >= 30:
+            return 7, f"note PV週+{growth}（累計{latest}）"
+        elif growth >= 1:
+            return 6, f"note PV週+{growth}（累計{latest}）"
+    return 6, f"note PV: {latest}（計測開始）"
 
 
 def score_photo_assets() -> tuple[int, str]:
