@@ -34,10 +34,13 @@ def check_deps():
     except ImportError:
         import subprocess
         print("📦 YouTube API ライブラリをインストール中...")
-        subprocess.run([sys.executable, "-m", "pip", "install",
-                        "google-api-python-client",
-                        "google-auth-httplib2",
-                        "google-auth-oauthlib", "-q"])
+        pkgs = ["google-api-python-client", "google-auth-httplib2", "google-auth-oauthlib"]
+        ret = subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs + ["-q"],
+                             capture_output=True)
+        if ret.returncode != 0:
+            # Homebrew管理Python（Mac）は --break-system-packages が必要
+            subprocess.run([sys.executable, "-m", "pip", "install"] + pkgs +
+                           ["-q", "--break-system-packages"])
         return True
 
 
