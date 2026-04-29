@@ -83,7 +83,6 @@ def check_voicevox():
 
 def text_to_speech(text: str, speaker: int, output_path: Path) -> bool:
     try:
-        # 音声クエリ生成
         r = requests.post(
             f"{VOICEVOX_URL}/audio_query",
             params={"text": text, "speaker": speaker},
@@ -91,13 +90,9 @@ def text_to_speech(text: str, speaker: int, output_path: Path) -> bool:
         )
         r.raise_for_status()
         query = r.json()
-
-        # 話速・音程調整
         query["speedScale"] = 1.1
         query["pitchScale"] = 0.02
         query["intonationScale"] = 1.2
-
-        # 音声合成
         r2 = requests.post(
             f"{VOICEVOX_URL}/synthesis",
             params={"speaker": speaker},
@@ -109,6 +104,33 @@ def text_to_speech(text: str, speaker: int, output_path: Path) -> bool:
         return True
     except Exception as e:
         print(f"  ⚠️ VOICEVOX エラー: {e}")
+        return False
+
+
+# ── espeak-ng 音声生成（VOICEVOX代替・Linux/サーバー用）──────────
+def check_espeak() -> bool:
+    result = subprocess.run(["which", "espeak-ng"], capture_output=True)
+    return result.returncode == 0
+
+
+def text_to_speech_espeak(text: str, output_path: Path) -> bool:
+    """espeak-ng で日本語音声を生成（ローカル・無料・ネット不要）"""
+    try:
+        result = subprocess.run(
+            [
+                "espeak-ng",
+                "-v", "ja",        # 日本語
+                "-s", "140",       # 話速（デフォルト175より遅め）
+                "-p", "68",        # ピッチ（高め＝女性的）
+                "-a", "100",       # 音量
+                text,
+                "-w", str(output_path),
+            ],
+            capture_output=True, text=True,
+        )
+        return result.returncode == 0 and output_path.exists()
+    except Exception as e:
+        print(f"  ⚠️ espeak-ng エラー: {e}")
         return False
 
 
@@ -242,13 +264,25 @@ def ensure_voicevox():
     for path in app_paths:
         if Path(path).exists():
             subprocess.Popen([path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            for _ in range(20):        # 最大20秒待機
+            for _ in range(20):
                 time.sleep(1)
                 if check_voicevox():
                     print("  ✅ VOICEVOX 起動完了")
                     return True
-    print("  ⚠️  VOICEVOX 自動起動失敗 → サイレント動画で続行")
+    print("  ⚠️  VOICEVOX 自動起動失敗")
     return False
+
+
+def select_tts_engine() -> str:
+    """利用可能な最良のTTSエンジンを選択"""
+    if check_voicevox():
+        print("  🎙️  TTS: VOICEVOX（高品質）")
+        return "voicevox"
+    if check_espeak():
+        print("  🎙️  TTS: espeak-ng（ローカル・ネット不要）")
+        return "espeak"
+    print("  ⚠️  TTSエンジンなし → 無音動画")
+    return "silent"
 
 
 def produce(title: str = "高岡市観光ガイド"):
@@ -260,9 +294,10 @@ def produce(title: str = "高岡市観光ガイド"):
     print(f"  YouTube動画生成: {title}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-    # キャラ画像・VOICEVOX を自動準備
+    # キャラ画像・TTSエンジン を自動準備
     ensure_char_image()
-    use_voicevox = ensure_voicevox()
+    ensure_voicevox()
+    tts_engine = select_tts_engine()
 
     clip_paths = []
 
@@ -282,16 +317,22 @@ def produce(title: str = "高岡市観光ガイド"):
         # 音声生成
         audio_path = out_dir / f"audio_{i:02d}.wav"
         duration = SLIDE_DURATION
+        audio_ok = False
 
-        if use_voicevox:
-            ok = text_to_speech(scene["text"], SPEAKER_ID, audio_path)
-            if ok:
-                duration = get_audio_duration(audio_path) + 0.5
-                print(f"  🎙️  音声生成完了 ({duration:.1f}秒)")
-            else:
-                use_voicevox = False
+        if tts_engine == "voicevox":
+            audio_ok = text_to_speech(scene["text"], SPEAKER_ID, audio_path)
+            if not audio_ok:
+                tts_engine = "espeak" if check_espeak() else "silent"
 
-        if not use_voicevox:
+        if tts_engine == "espeak" and not audio_ok:
+            audio_ok = text_to_speech_espeak(scene["text"], audio_path)
+            if not audio_ok:
+                tts_engine = "silent"
+
+        if audio_ok:
+            duration = get_audio_duration(audio_path) + 0.5
+            print(f"  🎙️  音声生成完了 ({duration:.1f}秒)")
+        else:
             # サイレント音声（無音）
             subprocess.run([
                 "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
