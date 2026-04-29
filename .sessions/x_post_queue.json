@@ -1,0 +1,86 @@
+{
+  "p1": {
+    "posted": false,
+    "posted_at": null
+  },
+  "p2": {
+    "posted": false,
+    "posted_at": null
+  },
+  "p3": {
+    "posted": false,
+    "posted_at": null
+  },
+  "p4": {
+    "posted": false,
+    "posted_at": null
+  },
+  "p5": {
+    "posted": false,
+    "posted_at": null
+  },
+  "t1": {
+    "posted": false,
+    "posted_at": null
+  },
+  "t2": {
+    "posted": false,
+    "posted_at": null
+  },
+  "t3": {
+    "posted": false,
+    "posted_at": null
+  },
+  "t4": {
+    "posted": false,
+    "posted_at": null
+  },
+  "t5": {
+    "posted": false,
+    "posted_at": null
+  },
+  "b1": {
+    "posted": false,
+    "posted_at": null
+  },
+  "b2": {
+    "posted": false,
+    "posted_at": null
+  },
+  "b3": {
+    "posted": false,
+    "posted_at": null
+  },
+  "b4": {
+    "posted": false,
+    "posted_at": null
+  },
+  "b5": {
+    "posted": false,
+    "posted_at": null
+  },
+  "e1": {
+    "posted": false,
+    "posted_at": null
+  },
+  "e2": {
+    "posted": false,
+    "posted_at": null
+  },
+  "e3": {
+    "posted": false,
+    "posted_at": null
+  },
+  "e4": {
+    "posted": false,
+    "posted_at": null
+  },
+  "e5": {
+    "posted": false,
+    "posted_at": null
+  },
+  "thread_takaoka_complete": {
+    "posted": false,
+    "posted_at": null
+  }
+}

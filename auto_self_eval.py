@@ -78,7 +78,7 @@ def score_x_activity() -> tuple[int, str]:
     if not X_QUEUE.exists():
         return 0, "Xキュー未作成"
     q = json.loads(X_QUEUE.read_text())
-    posted_today = [v for v in q.values() if v.get("posted_at", "").startswith(TODAY)]
+    posted_today = [v for v in q.values() if (v.get("posted_at") or "").startswith(TODAY)]
     score = 10 if posted_today else 3
     return score, f"今日の投稿: {len(posted_today)}本"
 
@@ -95,19 +95,14 @@ def score_note_activity() -> tuple[int, str]:
 
 
 def score_youtube_activity() -> tuple[int, str]:
-    """4. YouTube/Shorts生成率（今週2回）"""
-    if not LOGS_DIR.exists():
-        return 5, "ログフォルダなし"
-    today_dt = datetime.now()
-    week_start = TODAY[:8] + "0" * 2  # 簡易的な週判定
-    logs = sorted(LOGS_DIR.glob("daily_auto_*.log"), reverse=True)[:7]
-    youtube_runs = 0
-    for log_path in logs:
-        content = log_path.read_text(errors="ignore")
-        if "YouTubeShorts生成" in content and "✅" in content:
-            youtube_runs += 1
-    score = 10 if youtube_runs >= 2 else (6 if youtube_runs >= 1 else 2)
-    return score, f"今週のYouTube生成: {youtube_runs}回"
+    """4. YouTube/Shorts生成率（mp4ファイル存在で判定）"""
+    from pathlib import Path as P
+    shorts_dir = REPO / "CMO" / "outputs" / "youtube_videos" / "shorts"
+    video_dir = REPO / "CMO" / "outputs" / "youtube_videos"
+    shorts_count = len(list(shorts_dir.glob("*.mp4"))) if shorts_dir.exists() else 0
+    video_count = len(list(video_dir.glob("*.mp4"))) if video_dir.exists() else 0
+    score = 10 if shorts_count >= 5 else (7 if shorts_count >= 3 else (4 if shorts_count >= 1 else 2))
+    return score, f"Shorts: {shorts_count}本, 長尺: {video_count}本"
 
 
 def score_x_followers_growth() -> tuple[int, str]:
