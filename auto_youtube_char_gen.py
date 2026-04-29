@@ -21,15 +21,15 @@ CHARACTER_NAME = "高岡アイ"
 PROMPTS = {
     "ai_takaoka_main.png": {
         "positive": (
-            "professional female Japanese TV news anchor, mid 30s, 34 years old, "
+            "professional female Japanese TV news anchor, late 20s, 28 years old, "
             "photorealistic, high resolution portrait, "
             "navy blue blazer, white blouse, subtle copper brooch, "
-            "long straight black hair, warm mature smile, "
+            "long straight black hair, warm bright smile, "
             "holding a microphone, standing pose, "
             "studio lighting, clean white background, "
             "4k photo, hyperrealistic, sharp focus, "
-            "beautiful mature face, elegant natural makeup, confident sophisticated expression, "
-            "experienced broadcaster look"
+            "beautiful youthful face, elegant natural makeup, confident energetic expression, "
+            "young professional broadcaster look"
         ),
         "negative": (
             "anime, cartoon, illustration, drawing, painting, sketch, "
@@ -40,13 +40,13 @@ PROMPTS = {
     },
     "ai_takaoka_smile.png": {
         "positive": (
-            "professional female Japanese TV news anchor, mid 30s, 34 years old, "
+            "professional female Japanese TV news anchor, late 20s, 28 years old, "
             "photorealistic, upper body portrait, "
             "navy blue blazer, bright warm smile, looking at camera, "
             "long straight black hair, elegant natural makeup, "
             "studio lighting, soft bokeh background, "
             "4k photo, hyperrealistic, sharp focus, "
-            "mature beautiful face, confident experienced presenter"
+            "youthful beautiful face, confident energetic presenter"
         ),
         "negative": (
             "anime, cartoon, illustration, deformed, blurry, "
@@ -56,12 +56,12 @@ PROMPTS = {
     },
     "ai_takaoka_guide.png": {
         "positive": (
-            "professional female Japanese TV presenter, mid 30s, 34 years old, "
+            "professional female Japanese TV presenter, late 20s, 28 years old, "
             "photorealistic, full body shot, "
             "navy blue blazer, arm extended welcoming gesture, "
             "Japanese traditional architecture background, "
             "outdoor natural lighting, travel guide style, "
-            "4k photo, hyperrealistic, mature elegant appearance"
+            "4k photo, hyperrealistic, youthful elegant appearance"
         ),
         "negative": (
             "anime, cartoon, illustration, deformed, blurry, "
