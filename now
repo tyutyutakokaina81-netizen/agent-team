@@ -16,6 +16,26 @@ git fetch origin "$BRANCH" --quiet
 git reset --hard "origin/$BRANCH" --quiet
 echo "  OK: $(git log --oneline -1)"
 
+# ── X API セットアップ（未設定なら自動で案内・設定） ──────────
+echo "\n[0] X API チェック..."
+if [ ! -f "$REPO/.env" ] || ! grep -q "X_API_KEY=\"[^\"]\+\"" "$REPO/.env" 2>/dev/null; then
+  echo "  ⚠️  X API 未設定 → セットアップを開始します"
+  echo ""
+  echo "  【必要なもの（5分・無料）】"
+  echo "  1. https://developer.twitter.com を開く"
+  echo "  2. 無料登録 → App作成 → Keys and Tokens"
+  echo "  3. 4つのキーをコピー"
+  echo ""
+  read "ans?  今すぐセットアップしますか？ [y/N]: "
+  if [[ "$ans" == "y" || "$ans" == "Y" ]]; then
+    bash "$REPO/setup_x_api.sh"
+  else
+    echo "  スキップ（次回 zsh now で再案内）"
+  fi
+else
+  echo "  ✅ X API 設定済み"
+fi
+
 # note 公開
 echo "\n[1] note 公開..."
 python3 auto_note_publish.py || echo "  NG: note未ログイン？"
