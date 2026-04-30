@@ -341,9 +341,30 @@ def run():
     print("━" * 50)
 
 
+def _check_crowdworks_login(page) -> bool:
+    """CrowdWorksにログインしているか確認"""
+    try:
+        page.goto("https://crowdworks.jp/login", wait_until="domcontentloaded", timeout=15000)
+        time.sleep(2)
+        # ログイン済みならダッシュボードにリダイレクト
+        return "dashboard" in page.url or "mypage" in page.url or "crowdworks.jp/users" in page.url
+    except Exception:
+        return False
+
+
 def _run_with_playwright(pw, apply_log, remaining):
     browser, page = launch_page(pw)
     try:
+        # CrowdWorksログイン確認
+        logged_in = _check_crowdworks_login(page)
+        if not logged_in:
+            print("\n  ⚠️  CrowdWorksにログインしていません")
+            print("  Chrome で crowdworks.jp にログインしてから再実行してください")
+            print("  （lancers.jp も同様にログインしてください）")
+            # ログインなしでも検索・評価・一覧保存は実行
+        else:
+            print("  ✅ CrowdWorksログイン確認")
+
         # 検索
         print("\n[1] 案件検索...")
         jobs = search_all(page)

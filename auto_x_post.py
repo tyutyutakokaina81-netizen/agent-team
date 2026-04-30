@@ -765,7 +765,11 @@ def post_today():
             else:
                 print("❌ 投稿失敗（ログイン確認 or セレクタ変更）")
 
-        ctx.storage_state(path=str(SESSION_FILE))
+        # セッション保存（persistent_contextの場合はctxなし）
+        try:
+            ctx.storage_state(path=str(SESSION_FILE))
+        except Exception:
+            pass
         browser.close()
 
 

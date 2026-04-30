@@ -177,55 +177,56 @@ def upload_via_browser(video_path: Path, meta: dict | None = None) -> str | None
             browser.close()
             return None
 
-        # 「作成」ボタン → 「動画をアップロード」
-        create_sels = [
-            'button[aria-label="作成"]',
-            'button[aria-label="Create"]',
-            '#create-icon',
-            'ytcp-button#create-icon',
-            'button:has-text("作成")',
-            '[id="create-icon-container"]',
-        ]
-        for sel in create_sels:
-            try:
-                page.click(sel, timeout=5000)
-                break
-            except Exception:
-                continue
-        time.sleep(2)
-        upload_sels = [
-            'text=動画をアップロード',
-            'text=Upload videos',
-            'text=Upload video',
-            'tp-yt-paper-item:has-text("動画")',
-            '#text-item-0',
-        ]
-        for sel in upload_sels:
-            try:
-                page.click(sel, timeout=3000)
-                break
-            except Exception:
-                continue
-        time.sleep(2)
-
-        # ファイル選択（input[type=file]が出るまで待機してからセット）
-        try:
-            page.wait_for_selector('input[type="file"]', timeout=15000)
-        except Exception:
-            # JSで非表示のinputを表示して再試行
-            page.evaluate("const i=document.querySelector('input[type=\"file\"]');if(i)i.style.display='block';")
-            time.sleep(2)
-
+        # 「作成」→「動画をアップロード」→ file input
+        # まずJS経由で非表示のfile inputを強制表示してから直接セット
+        page.evaluate("""
+            () => {
+                const inputs = document.querySelectorAll('input[type="file"]');
+                inputs.forEach(i => { i.style.display = 'block'; i.style.visibility = 'visible'; });
+            }
+        """)
         file_input = page.query_selector('input[type="file"]')
-        if file_input:
-            file_input.set_input_files(str(video_path))
-        else:
-            # フォールバック: ドラッグ&ドロップ領域をクリックしてダイアログ代わりに
+
+        if not file_input:
+            # 作成ボタンをクリックしてアップロードダイアログを開く
+            for sel in ['button[aria-label="作成"]', 'button[aria-label="Create"]',
+                        '#create-icon', 'ytcp-button#create-icon',
+                        'button:has-text("作成")', '[id="create-icon-container"]']:
+                try:
+                    page.click(sel, timeout=4000)
+                    time.sleep(1.5)
+                    break
+                except Exception:
+                    continue
+
+            # アップロードメニュー選択
+            for sel in ['text=動画をアップロード', 'text=Upload videos', 'text=Upload video',
+                        'tp-yt-paper-item:has-text("動画")', '#text-item-0',
+                        'ytcp-ve:has-text("アップロード")']:
+                try:
+                    page.click(sel, timeout=3000)
+                    time.sleep(2)
+                    break
+                except Exception:
+                    continue
+
+            # file input を再度探す（JSで表示してから）
+            page.evaluate("""
+                () => {
+                    const inputs = document.querySelectorAll('input[type="file"]');
+                    inputs.forEach(i => { i.style.display = 'block'; i.style.visibility = 'visible'; });
+                }
+            """)
             try:
-                page.wait_for_selector('[class*="upload-box"], [class*="drag"]', timeout=5000)
+                page.wait_for_selector('input[type="file"]', timeout=12000)
             except Exception:
                 pass
-            raise RuntimeError("ファイル入力欄が見つかりません（YouTube Studioのログインを確認）")
+            file_input = page.query_selector('input[type="file"]')
+
+        if not file_input:
+            raise RuntimeError("ファイル入力欄が見つかりません（ChromeでYouTube Studioにログインしているか確認）")
+
+        file_input.set_input_files(str(video_path))
 
         print("  📁 ファイル選択完了・アップロード中...")
         time.sleep(5)
