@@ -89,6 +89,16 @@ def auto_approve_ringi() -> list[dict]:
             print(f"  ⏳ 保留: [{p['score']}点] {p['title']}（手動承認が必要）")
 
     approval_log.write_text(json.dumps(log, ensure_ascii=False, indent=2))
+
+    # 稟議サマリーのステータスを現在の承認状況に基づいて更新
+    all_approved_ids = {a["id"] for a in log["approved"]}
+    all_proposal_ids = {p["id"] for p in proposals}
+    if all_proposal_ids and all_proposal_ids <= all_approved_ids:
+        summary["status"] = "全件承認済み"
+    elif log["approved"]:
+        summary["status"] = f"{len(log['approved'])}件承認済み・{len(log['pending'])}件保留"
+    summary_files[0].write_text(json.dumps(summary, ensure_ascii=False, indent=2))
+
     return approved
 
 

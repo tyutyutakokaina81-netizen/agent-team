@@ -85,7 +85,14 @@ def check_logs() -> dict:
     error_count = 0
     for log in recent:
         content = log.read_text(errors="ignore")
-        error_count += content.count("ERROR") + content.count("Traceback") + content.count("  NG")
+        # "NO ERRORS" は正常表示なので除外し、実際のエラー行のみカウント
+        import re
+        lines = content.splitlines()
+        for line in lines:
+            if re.search(r'\bERROR\b', line) and "NO ERROR" not in line:
+                error_count += 1
+            elif "Traceback" in line or line.rstrip().endswith("  NG"):
+                error_count += 1
 
     return {
         "error_count": error_count,
