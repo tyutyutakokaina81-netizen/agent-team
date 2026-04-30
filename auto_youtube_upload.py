@@ -208,19 +208,24 @@ def upload_via_browser(video_path: Path, meta: dict | None = None) -> str | None
                 continue
         time.sleep(2)
 
-        # ファイル選択（input[type=file]に直接セット）
-        file_input = page.query_selector('input[type="file"]')
-        if not file_input:
-            page.evaluate("""
-                const input = document.querySelector('input[type="file"]');
-                if(input) input.style.display = 'block';
-            """)
-            file_input = page.query_selector('input[type="file"]')
+        # ファイル選択（input[type=file]が出るまで待機してからセット）
+        try:
+            page.wait_for_selector('input[type="file"]', timeout=15000)
+        except Exception:
+            # JSで非表示のinputを表示して再試行
+            page.evaluate("const i=document.querySelector('input[type=\"file\"]');if(i)i.style.display='block';")
+            time.sleep(2)
 
+        file_input = page.query_selector('input[type="file"]')
         if file_input:
             file_input.set_input_files(str(video_path))
         else:
-            page.set_input_files('input[type="file"]', str(video_path))
+            # フォールバック: ドラッグ&ドロップ領域をクリックしてダイアログ代わりに
+            try:
+                page.wait_for_selector('[class*="upload-box"], [class*="drag"]', timeout=5000)
+            except Exception:
+                pass
+            raise RuntimeError("ファイル入力欄が見つかりません（YouTube Studioのログインを確認）")
 
         print("  📁 ファイル選択完了・アップロード中...")
         time.sleep(5)

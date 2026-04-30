@@ -27,7 +27,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 APPLY_LOG = SESSIONS / "applied_jobs.json"
 TODAY = date.today().isoformat()
 MAX_APPLY_PER_DAY = 5
-AUTO_APPLY_THRESHOLD = 80
+AUTO_APPLY_THRESHOLD = 50  # CAUTION以上（score≥50）も応募対象
 
 KEYWORDS = ["データ入力", "エクセル入力", "スクレイピング", "データ収集", "CSV作成"]
 
@@ -355,11 +355,12 @@ def _run_with_playwright(pw, apply_log, remaining):
 
         # 評価
         results = [evaluate(j) for j in jobs]
-        go_jobs = [r for r in results if r["verdict"] == "GO"
-                   and r["total"] >= AUTO_APPLY_THRESHOLD
+        go_jobs = [r for r in results
+                   if r["total"] >= AUTO_APPLY_THRESHOLD
+                   and r["verdict"] != "NO-GO"
                    and r["id"] not in apply_log["applied"]]
 
-        print(f"\n[2] 評価結果: GO(応募対象)={len(go_jobs)}件 / 全{len(results)}件")
+        print(f"\n[2] 評価結果: 応募対象={len(go_jobs)}件 / 全{len(results)}件")
 
         # JSON保存
         out = OUTPUT_DIR / f"{TODAY}_evaluated.json"

@@ -575,29 +575,40 @@ def _click_post(page) -> bool:
 
 def _open_compose(page):
     """X の投稿画面を開く"""
-    # まずホームに移動してセッション確認
-    page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=30000)
-    time.sleep(4)
+    # compose/post に直接アクセス（最も確実）
+    page.goto("https://x.com/compose/post", wait_until="domcontentloaded", timeout=30000)
+    time.sleep(3)
 
-    # ホーム画面の投稿ボックスをクリックして展開
+    # テキストエリアを待機（最大8秒）
     textarea_sels = [
         "[data-testid='tweetTextarea_0']",
-        "div[data-testid='tweetTextarea_0_label']",
-        "[placeholder*='今どうしてる']",
-        "[placeholder*=\"What's happening\"]",
-        "[aria-label*='Post text']",
-        "div[role='textbox']",
+        "[data-testid='tweetTextarea_0_label']",
+        "div[role='textbox'][aria-multiline='true']",
+        "[contenteditable='true']",
     ]
     for sel in textarea_sels:
-        el = page.query_selector(sel)
-        if el and el.is_visible():
-            el.click()
-            time.sleep(1)
-            return
+        try:
+            el = page.wait_for_selector(sel, timeout=5000)
+            if el and el.is_visible():
+                el.click()
+                time.sleep(0.5)
+                return
+        except Exception:
+            continue
 
-    # フォールバック: compose/post に直接アクセス
-    page.goto("https://x.com/compose/post", wait_until="domcontentloaded", timeout=30000)
+    # フォールバック: ホームの投稿ボックス
+    page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=30000)
     time.sleep(4)
+    for sel in ["[data-testid='tweetTextarea_0']", "[placeholder*='今どうしてる']",
+                "[placeholder*=\"What's happening\"]", "[contenteditable='true']"]:
+        try:
+            el = page.wait_for_selector(sel, timeout=3000)
+            if el:
+                el.click()
+                time.sleep(0.5)
+                return
+        except Exception:
+            continue
 
 
 def post_single(page, text: str) -> bool:
@@ -699,10 +710,25 @@ def post_today():
     storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, slow_mo=150)
-        ctx = browser.new_context(storage_state=storage,
-                                   viewport={"width": 1280, "height": 900})
-        page = ctx.new_page()
+        # Chromeの実際のプロファイルから起動（cookie自動引き継ぎ）
+        import tempfile, shutil as _shutil
+        chrome_user_data = Path.home() / "Library/Application Support/Google/Chrome"
+        _skip = {"SingletonSocket","SingletonLock","SingletonCookie","RunningChromeVersion","lockfile"}
+        if chrome_user_data.exists():
+            _tmp = Path(tempfile.mkdtemp()) / "chrome_x"
+            _shutil.copytree(chrome_user_data, _tmp, dirs_exist_ok=True,
+                             ignore=_shutil.ignore_patterns(*_skip))
+            browser = p.chromium.launch_persistent_context(
+                str(_tmp), headless=True, slow_mo=100,
+                args=["--disable-blink-features=AutomationControlled"],
+                viewport={"width": 1280, "height": 900},
+            )
+            page = browser.new_page()
+        else:
+            browser = p.chromium.launch(headless=True, slow_mo=150)
+            ctx = browser.new_context(storage_state=storage,
+                                       viewport={"width": 1280, "height": 900})
+            page = ctx.new_page()
 
         if target_thread:
             tweets = [t.format(note_url=note_url, takaoka_url=takaoka_url)
