@@ -34,6 +34,25 @@ REPO = Path(__file__).parent
 QUEUE_FILE = REPO / ".sessions" / "x_post_queue.json"
 EXTRA_FILE = REPO / ".sessions" / "x_extra_posts.json"
 LOG_FILE = REPO / ".sessions" / "x_api_post_log.json"
+ENV_FILE = REPO / ".env"
+
+
+def _load_env():
+    """環境変数優先、なければ .env ファイルから読み込む"""
+    if not ENV_FILE.exists():
+        return
+    for line in ENV_FILE.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, _, v = line.partition("=")
+        k = k.strip()
+        v = v.strip().strip('"').strip("'")
+        if k and k not in os.environ:
+            os.environ[k] = v
+
+
+_load_env()
 
 API_KEY = os.environ.get("X_API_KEY", "")
 API_SECRET = os.environ.get("X_API_SECRET", "")

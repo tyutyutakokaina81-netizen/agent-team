@@ -5,6 +5,11 @@ cd $REPO
 LOG="$REPO/logs/cron_$(date +%Y-%m-%d_%H%M).log"
 mkdir -p "$REPO/logs"
 
+# .env 読み込み（X API等の認証情報）
+if [ -f "$REPO/.env" ]; then
+  set -a; source "$REPO/.env"; set +a
+fi
+
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') ===" >> "$LOG"
 
 # 常に最新コードで実行
