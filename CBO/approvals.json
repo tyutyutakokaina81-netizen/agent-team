@@ -1,0 +1,66 @@
+{
+  "approved": [
+    {
+      "id": "B001",
+      "title": "高岡市日帰り旅行PDFガイド",
+      "category": "コンテンツ販売",
+      "price": 980,
+      "cost": 0,
+      "time_to_market": "3日",
+      "monthly_potential": 30000,
+      "fit_keywords": [
+        "旅行",
+        "日帰り",
+        "穴場",
+        "GW",
+        "高岡"
+      ],
+      "platform": "note",
+      "risk": "低",
+      "score": 130,
+      "approved_at": "2026-04-30",
+      "approved_by": "CEO（自動承認: スコア130点≥100点）"
+    },
+    {
+      "id": "B002",
+      "title": "フリーランス案件管理Excelテンプレ",
+      "category": "テンプレ販売",
+      "price": 1480,
+      "cost": 0,
+      "time_to_market": "2日",
+      "monthly_potential": 50000,
+      "fit_keywords": [
+        "フリーランス",
+        "副業",
+        "Excel",
+        "案件管理"
+      ],
+      "platform": "BOOTH",
+      "risk": "低",
+      "score": 110,
+      "approved_at": "2026-04-30",
+      "approved_by": "CEO（自動承認: スコア110点≥100点）"
+    }
+  ],
+  "pending": [
+    {
+      "id": "B005",
+      "title": "データ入力・スクレイピング受注（柱D）",
+      "category": "受託案件",
+      "price": 10000,
+      "cost": 0,
+      "time_to_market": "即日",
+      "monthly_potential": 100000,
+      "fit_keywords": [
+        "データ入力",
+        "スクレイピング",
+        "Excel"
+      ],
+      "platform": "CrowdWorks/Lancers",
+      "risk": "低",
+      "score": 90,
+      "reason": "スコア90点 < 100点（手動承認待ち）"
+    }
+  ],
+  "rejected": []
+}

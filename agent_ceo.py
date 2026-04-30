@@ -21,6 +21,8 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 TODAY = date.today().isoformat()
 WEEK = datetime.now().strftime("%Y-W%V")
 
+AUTO_APPROVE_THRESHOLD = 100  # 100点以上の稟議は自動承認→即実行指示
+
 
 def run_agent(script: str, label: str) -> dict:
     """サブエージェントを実行して結果を取得"""
@@ -50,6 +52,58 @@ def load_latest_report(folder: str, pattern: str) -> str:
     if files:
         return files[0].read_text(encoding="utf-8")
     return ""
+
+
+def auto_approve_ringi() -> list[dict]:
+    """100点以上の稟議を自動承認し、実行指示を各部署に発行する"""
+    ringi_dir = REPO / "CBO" / "outputs"
+    summary_files = sorted(ringi_dir.glob("*_ringi_summary.json"), reverse=True)
+    if not summary_files:
+        return []
+
+    summary = json.loads(summary_files[0].read_text())
+    proposals = summary.get("top_proposals", [])
+    approved = []
+
+    approval_log = REPO / "CBO" / "approvals.json"
+    log = json.loads(approval_log.read_text()) if approval_log.exists() else {"approved": [], "pending": [], "rejected": []}
+
+    for p in proposals:
+        already = any(a["id"] == p["id"] for a in log["approved"])
+        if already:
+            continue
+
+        if p["score"] >= AUTO_APPROVE_THRESHOLD:
+            # 自動承認
+            p["approved_at"] = TODAY
+            p["approved_by"] = "CEO（自動承認: スコア{}点≥{}点）".format(p["score"], AUTO_APPROVE_THRESHOLD)
+            log["approved"].append(p)
+            approved.append(p)
+            print(f"  ✅ 自動承認: [{p['score']}点] {p['title']}")
+
+            # 実行指示ファイルを各部署に発行
+            _issue_directive(p)
+        else:
+            if not any(a["id"] == p["id"] for a in log["pending"]):
+                log["pending"].append({**p, "reason": f"スコア{p['score']}点 < {AUTO_APPROVE_THRESHOLD}点（手動承認待ち）"})
+            print(f"  ⏳ 保留: [{p['score']}点] {p['title']}（手動承認が必要）")
+
+    approval_log.write_text(json.dumps(log, ensure_ascii=False, indent=2))
+    return approved
+
+
+def _issue_directive(proposal: dict):
+    """承認された稟議の実行指示を担当部署フォルダに配置"""
+    directives = {
+        "CMO": f"【実行指示】{proposal['title']} のコンテンツを作成してください（CEO自動承認済み・{TODAY}）",
+        "CPO": f"【実行指示】{proposal['title']} を商品化・出品ページを作成してください（CEO自動承認済み・{TODAY}）",
+        "CSO": f"【実行指示】{proposal['title']} の営業・応募を開始してください（CEO自動承認済み・{TODAY}）",
+    }
+    for dept, msg in directives.items():
+        dept_dir = REPO / dept / "outputs"
+        dept_dir.mkdir(parents=True, exist_ok=True)
+        out = dept_dir / f"{TODAY}_directive_{proposal['id']}.md"
+        out.write_text(f"# CEO指示書\n\n{msg}\n\n## 事業概要\n- タイトル: {proposal['title']}\n- 単価: ¥{proposal['price']:,}\n- プラットフォーム: {proposal['platform']}\n- 優先度: 第{proposal.get('rank',1)}位（スコア{proposal['score']}点）\n", encoding="utf-8")
 
 
 def generate_directives(cro_data: str, coo_data: str, cfo_data: str) -> dict:
@@ -155,6 +209,10 @@ def run():
     results["COO"] = run_agent("agent_coo.py", "COO 運用チェック")
     results["CFO"] = run_agent("agent_cfo.py", "CFO 財務確認")
 
+    # 稟議自動承認（100点以上）
+    print(f"\n  稟議自動承認チェック（閾値: {AUTO_APPROVE_THRESHOLD}点）...")
+    approved = auto_approve_ringi()
+
     print("\n  来週の優先指示を生成中...")
     directives = generate_directives("", "", "")
 
@@ -165,6 +223,10 @@ def run():
     print(f"\n{'━'*50}")
     print("  【CEO 週次判断】")
     print("━" * 50)
+    print(f"\n  自動承認済み稟議: {len(approved)}件")
+    for a in approved:
+        print(f"    ✅ {a['title']} → CMO/CPO/CSOに指示発行済み")
+
     print("\n  最優先アクション:")
     print("  1. Mac Chrome ログイン → zsh now（今週中）")
     print("  2. X APIキー設定（developer.twitter.com）")
