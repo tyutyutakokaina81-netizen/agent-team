@@ -10,6 +10,7 @@ agent_coo.py — COO（運用・総務）自動実行
 """
 
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, date, timedelta
@@ -53,17 +54,20 @@ def check_queues() -> dict:
         x_count += sum(1 for p in extras if not p.get("posted"))
     results["x_queue"] = {"count": x_count, "status": "OK" if x_count >= 10 else "警告: 補充必要"}
 
-    # note記事キュー
+    # note記事キュー（CMO/outputs の未公開記事ファイル数で計測）
     note_queue = SESSIONS / "note_publish_queue.json"
     note_count = 0
+    published_ids: set = set()
     if note_queue.exists():
         try:
             state = json.loads(note_queue.read_text())
-            published = state.get("published", {})
-            from auto_note_publish import ARTICLE_QUEUE
-            note_count = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
+            published_ids = set(state.get("published", {}).keys())
         except Exception:
-            note_count = -1
+            pass
+    cmo_outputs = REPO / "CMO" / "outputs"
+    if cmo_outputs.exists():
+        note_files = [f for f in cmo_outputs.glob("*_note*.md") if "directive" not in f.name]
+        note_count = sum(1 for f in note_files if f.stem not in published_ids)
     results["note_queue"] = {"count": note_count, "status": "OK" if note_count >= 5 else "警告: 補充必要"}
 
     # YouTube動画
@@ -86,7 +90,6 @@ def check_logs() -> dict:
     for log in recent:
         content = log.read_text(errors="ignore")
         # "NO ERRORS" は正常表示なので除外し、実際のエラー行のみカウント
-        import re
         lines = content.splitlines()
         for line in lines:
             if re.search(r'\bERROR\b', line) and "NO ERROR" not in line:

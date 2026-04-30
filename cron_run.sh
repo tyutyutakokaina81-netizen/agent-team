@@ -12,13 +12,27 @@ fi
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') ===" >> "$LOG"
 
-# 常に最新コードで実行
+# 常に最新コードで実行（ローカル変更を保護しつつ pull）
 BRANCH=$(git -C "$REPO" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "claude/add-claude-documentation-Wipf0")
 git -C "$REPO" fetch origin "$BRANCH" --quiet >> "$LOG" 2>&1
-git -C "$REPO" reset --hard "origin/$BRANCH" --quiet >> "$LOG" 2>&1
+# ローカルに未コミット変更があれば stash してから pull
+if ! git -C "$REPO" diff --quiet HEAD 2>/dev/null; then
+  git -C "$REPO" stash --quiet >> "$LOG" 2>&1
+  git -C "$REPO" pull origin "$BRANCH" --ff-only --quiet >> "$LOG" 2>&1
+  git -C "$REPO" stash pop --quiet >> "$LOG" 2>&1 || true
+else
+  git -C "$REPO" pull origin "$BRANCH" --ff-only --quiet >> "$LOG" 2>&1
+fi
 echo "[git] $(git -C "$REPO" log --oneline -1)" >> "$LOG"
 
-# ── ディスパッチャー経由で全タスクを実行 ──────────────────
+# ── ログローテーション（30件より古いものを削除）───────────────
+LOG_COUNT=$(ls "$REPO/logs"/cron_*.log 2>/dev/null | wc -l)
+if [ "$LOG_COUNT" -gt 30 ]; then
+  ls -t "$REPO/logs"/cron_*.log | tail -n +31 | xargs rm -f
+  echo "[log] ローテーション: $((LOG_COUNT - 30))件削除" >> "$LOG"
+fi
+
+# ── ディスパッチャー経由で全タスクを実行 ──────────────────────
 # 月曜のみ weekly モード（全エージェント+稟議+統括）
 # それ以外は daily モード（優先度1-2のみ）
 if [ "$(date +%u)" = "1" ]; then

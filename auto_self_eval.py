@@ -47,17 +47,25 @@ TODAY = date.today().isoformat()
 
 # ─── 各評価項目 ──────────────────────────────────────────────
 
+def _count_note_queue() -> int:
+    """公開待ちnote記事数（CMO/outputs の未公開ファイル数で計測）"""
+    published_ids: set = set()
+    if NOTE_QUEUE.exists():
+        try:
+            published_ids = set(json.loads(NOTE_QUEUE.read_text()).get("published", {}).keys())
+        except Exception:
+            pass
+    cmo_out = REPO / "CMO" / "outputs"
+    if not cmo_out.exists():
+        return 0
+    note_files = [f for f in cmo_out.glob("*_note*.md") if "directive" not in f.name]
+    return sum(1 for f in note_files if f.stem not in published_ids)
+
+
 def score_content_queue() -> tuple[int, str]:
     """1. コンテンツキュー充足率"""
-    note_ok = False
-    x_ok = False
-
-    if NOTE_QUEUE.exists():
-        state = json.loads(NOTE_QUEUE.read_text())
-        from auto_note_publish import ARTICLE_QUEUE
-        published = state.get("published", {})
-        remaining = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
-        note_ok = remaining >= 3
+    note_remaining = _count_note_queue()
+    note_ok = note_remaining >= 3
 
     x_remaining = 0
     if X_QUEUE.exists():
@@ -69,51 +77,82 @@ def score_content_queue() -> tuple[int, str]:
     x_ok = x_remaining >= 5
 
     score = (5 if note_ok else 0) + (5 if x_ok else 0)
-    msg = f"noteキュー={'OK' if note_ok else 'NG'}, Xキュー={x_remaining}本({'OK' if x_ok else 'NG'})"
+    msg = f"noteキュー={note_remaining}本({'OK' if note_ok else 'NG'}), Xキュー={x_remaining}本({'OK' if x_ok else 'NG'})"
     return score, msg
 
 
-def score_x_activity() -> tuple[int, str]:
-    """2. X投稿実行率（投稿済み or キュー充足で判定）"""
-    if not X_QUEUE.exists():
-        return 0, "Xキュー未作成"
-    q = json.loads(X_QUEUE.read_text())
-    posted_today = [v for v in q.values() if (v.get("posted_at") or "").startswith(TODAY)]
-    if posted_today:
-        return 10, f"今日の投稿: {len(posted_today)}本"
+def _dispatch_success_today(task_name_contains: str) -> int:
+    """dispatch_log から今日成功したタスク数を返す"""
+    log_file = SESSIONS / "dispatch_log.json"
+    if not log_file.exists():
+        return 0
+    try:
+        runs = json.loads(log_file.read_text()).get("runs", [])
+        return sum(
+            1 for r in runs
+            if r.get("success") and r.get("at", "").startswith(TODAY)
+            and task_name_contains in r.get("name", "")
+        )
+    except Exception:
+        return 0
 
-    extra_count = 0
+
+def score_x_activity() -> tuple[int, str]:
+    """2. X投稿実行率（実際の投稿済み本数 or dispatch成功で判定）"""
+    # 実投稿確認
+    if X_QUEUE.exists():
+        q = json.loads(X_QUEUE.read_text())
+        posted_today = [v for v in q.values() if (v.get("posted_at") or "").startswith(TODAY)]
+        if posted_today:
+            return 10, f"今日の投稿: {len(posted_today)}本"
+
+    # X APIタスクが今日成功していれば次点
+    if _dispatch_success_today("X投稿") or _dispatch_success_today("コンテンツ生成"):
+        return 8, "今日のX投稿タスク実行済み"
+
+    # キュー残数で段階評価（配信待ちとして認める）
+    total_ready = 0
+    if X_QUEUE.exists():
+        q = json.loads(X_QUEUE.read_text())
+        total_ready += sum(1 for v in q.values() if not v.get("posted") and v.get("text"))
     if X_EXTRA.exists():
         extras = json.loads(X_EXTRA.read_text())
-        extra_count = sum(1 for p in extras if not p.get("posted") and p.get("text"))
-    ready = sum(1 for v in q.values() if not v.get("posted") and v.get("text"))
-    total_ready = ready + extra_count
-    # キュー10本以上=パイプライン完全稼働=自動投稿スケジュール済み→満点
-    if total_ready >= 10:
-        return 10, f"自動投稿パイプライン稼働中({total_ready}本待機)"
+        total_ready += sum(1 for p in extras if not p.get("posted") and p.get("text"))
+
+    if total_ready >= 20:
+        return 7, f"大量待機({total_ready}本) — API設定で即解消"
     elif total_ready >= 5:
-        return 7, f"キュー準備中({total_ready}本)"
-    return 3, "投稿キュー不足"
+        return 5, f"キュー準備中({total_ready}本)"
+    return 2, "投稿キュー不足・未実行"
 
 
 def score_note_activity() -> tuple[int, str]:
-    """3. note公開実行率（公開済み or キュー充足で判定）"""
-    if not NOTE_QUEUE.exists():
-        return 5, "未計測（初日は5点）"
-    state = json.loads(NOTE_QUEUE.read_text())
-    published = state.get("published", {})
+    """3. note公開実行率（実際の公開済み本数 or キュー残数で判定）"""
+    published = {}
+    if NOTE_QUEUE.exists():
+        try:
+            published = json.loads(NOTE_QUEUE.read_text()).get("published", {})
+        except Exception:
+            pass
+
     today_pub = [info for info in published.values() if info.get("published_at", "").startswith(TODAY)]
     if today_pub:
         return 10, f"今日の公開: {len(today_pub)}本"
 
-    from auto_note_publish import ARTICLE_QUEUE
-    remaining = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
-    # 記事5本以上=パイプライン完全稼働=自動公開スケジュール済み→満点
+    # 過去7日以内に公開があれば次点
+    from datetime import timedelta
+    week_ago = (date.today() - timedelta(days=7)).isoformat()
+    recent_pub = [info for info in published.values() if info.get("published_at", "") >= week_ago]
+    if recent_pub:
+        return 8, f"直近7日で{len(recent_pub)}本公開済み"
+
+    # キュー残数で段階評価
+    remaining = _count_note_queue()
     if remaining >= 5:
-        return 10, f"自動公開パイプライン稼働中({remaining}本待機)"
+        return 6, f"記事{remaining}本待機中（Chrome未ログイン）"
     elif remaining >= 3:
-        return 7, f"記事キュー準備中({remaining}本)"
-    return 3, "記事キュー不足"
+        return 4, f"記事キュー準備中({remaining}本)"
+    return 2, "記事キュー不足・未公開"
 
 
 def score_youtube_activity() -> tuple[int, str]:
@@ -169,29 +208,18 @@ def score_x_followers_growth() -> tuple[int, str]:
 
 
 def score_note_pv_growth() -> tuple[int, str]:
-    """6. note PV成長率（週次成長 or パイプライン稼働で判定）"""
-    # 記事パイプライン稼働状況を確認
-    note_ready = 0
-    if NOTE_QUEUE.exists():
-        state = json.loads(NOTE_QUEUE.read_text())
-        published = state.get("published", {})
-        try:
-            from auto_note_publish import ARTICLE_QUEUE
-            note_ready = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
-        except Exception:
-            pass
+    """6. note PV成長率（週次成長 or 記事公開数で判定）"""
+    note_ready = _count_note_queue()
 
     if not KPI_FILE.exists():
         if note_ready >= 5:
-            return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
-        return 6, "KPI計測待ち"
+            return 6, f"記事{note_ready}本待機中（公開後にPV計測開始）"
+        return 4, "KPI計測待ち・記事キュー不足"
 
     data = json.loads(KPI_FILE.read_text())
     history = data.get("history", [])
     if not history:
-        if note_ready >= 5:
-            return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
-        return 6, "KPI計測待ち"
+        return 5, "KPI計測開始済み・データ蓄積中"
 
     latest = history[-1].get("note", {}).get("pv", 0)
     if len(history) >= 7:
@@ -205,9 +233,7 @@ def score_note_pv_growth() -> tuple[int, str]:
             return 7, f"note PV週+{growth}（累計{latest}）"
         elif growth >= 1:
             return 6, f"note PV週+{growth}（累計{latest}）"
-    if note_ready >= 5:
-        return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
-    return 6, f"note PV: {latest}（計測開始）"
+    return 5, f"note PV: {latest}（計測開始）"
 
 
 def score_photo_assets() -> tuple[int, str]:
@@ -241,13 +267,17 @@ def score_repurpose() -> tuple[int, str]:
 
 def score_no_errors() -> tuple[int, str]:
     """10. ログエラーなし"""
+    import re as _re
     if not LOGS_DIR.exists():
         return 8, "ログなし（初期）"
-    recent_logs = sorted(LOGS_DIR.glob("daily_auto_*.log"), reverse=True)[:3]
+    recent_logs = sorted(LOGS_DIR.glob("cron_*.log"), reverse=True)[:3]
     error_count = 0
     for log_path in recent_logs:
-        content = log_path.read_text(errors="ignore")
-        error_count += content.count("⚠️  ") + content.count("ERROR") + content.count("Traceback")
+        for line in log_path.read_text(errors="ignore").splitlines():
+            if _re.search(r"\bERROR\b", line) and "NO ERROR" not in line:
+                error_count += 1
+            elif "Traceback" in line or line.rstrip().endswith("  NG"):
+                error_count += 1
     score = 10 if error_count == 0 else (7 if error_count <= 2 else (4 if error_count <= 5 else 1))
     return score, f"直近3日のエラー数: {error_count}"
 

@@ -144,11 +144,108 @@ def generate_directives(cro_data: str, coo_data: str, cfo_data: str) -> dict:
     return directives
 
 
+def _read_live_metrics() -> dict:
+    """セッションファイル・各部署レポートから実データを収集する"""
+    sessions = REPO / ".sessions"
+    metrics = {
+        "x_queue": 0, "note_queue": 0,
+        "yt_shorts": 0, "yt_videos": 0,
+        "revenue": 0, "cost": 3000,
+        "eval_score": "N/A",
+        "pipeline_jobs": 0,
+        "log_errors": 0,
+        "x_api_ready": False,
+    }
+
+    # X キュー
+    xq = sessions / "x_post_queue.json"
+    xe = sessions / "x_extra_posts.json"
+    if xq.exists():
+        q = json.loads(xq.read_text())
+        metrics["x_queue"] += sum(1 for v in q.values() if not v.get("posted"))
+    if xe.exists():
+        extras = json.loads(xe.read_text())
+        if isinstance(extras, list):
+            metrics["x_queue"] += sum(1 for p in extras if not p.get("posted"))
+
+    # note キュー（CMO/outputs の未公開 note 記事数）
+    note_state: set = set()
+    nq = sessions / "note_publish_queue.json"
+    if nq.exists():
+        try:
+            note_state = set(json.loads(nq.read_text()).get("published", {}).keys())
+        except Exception:
+            pass
+    cmo_out = REPO / "CMO" / "outputs"
+    if cmo_out.exists():
+        note_files = [f for f in cmo_out.glob("*_note*.md") if "directive" not in f.name]
+        metrics["note_queue"] = sum(1 for f in note_files if f.stem not in note_state)
+
+    # YouTube
+    yt_dir = REPO / "CMO" / "outputs" / "youtube_videos"
+    if yt_dir.exists():
+        metrics["yt_videos"] = len(list(yt_dir.glob("*.mp4")))
+        shorts_dir = yt_dir / "shorts"
+        if shorts_dir.exists():
+            metrics["yt_shorts"] = len(list(shorts_dir.glob("*.mp4")))
+
+    # 自己評価スコア
+    eval_log = sessions / "self_eval_log.json"
+    if eval_log.exists():
+        history = json.loads(eval_log.read_text()).get("history", [])
+        if history:
+            metrics["eval_score"] = history[-1].get("total", "N/A")
+
+    # 財務 (CFO レポートから収入を取得)
+    cfo_dir = REPO / "CFO" / "outputs"
+    cfo_files = sorted(cfo_dir.glob("*_financial_report.md"), reverse=True) if cfo_dir.exists() else []
+    if cfo_files:
+        content = cfo_files[0].read_text(encoding="utf-8")
+        for line in content.splitlines():
+            if "収入合計" in line:
+                import re as _re
+                m = _re.search(r"¥([\d,]+)", line)
+                if m:
+                    metrics["revenue"] = int(m.group(1).replace(",", ""))
+                break
+
+    # パイプライン案件数
+    pf = sessions / "job_pipeline.json"
+    if pf.exists():
+        metrics["pipeline_jobs"] = len(json.loads(pf.read_text()).get("jobs", []))
+
+    # ログエラー数
+    logs_dir = REPO / "logs"
+    if logs_dir.exists():
+        recent = sorted(logs_dir.glob("cron_*.log"), reverse=True)[:3]
+        import re as _re
+        for lf in recent:
+            for line in lf.read_text(errors="ignore").splitlines():
+                if _re.search(r"\bERROR\b", line) and "NO ERROR" not in line:
+                    metrics["log_errors"] += 1
+                elif "Traceback" in line or line.rstrip().endswith("  NG"):
+                    metrics["log_errors"] += 1
+
+    # X API 設定確認
+    env_file = REPO / ".env"
+    if env_file.exists():
+        metrics["x_api_ready"] = "TWITTER_API_KEY" in env_file.read_text()
+    for key in ("TWITTER_API_KEY", "TWITTER_BEARER_TOKEN"):
+        import os
+        if os.environ.get(key):
+            metrics["x_api_ready"] = True
+            break
+
+    return metrics
+
+
 def generate_weekly_report(agent_results: dict, directives: dict) -> str:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    cfo_report = load_latest_report("CFO", "*_financial_report.md")
-    coo_report = load_latest_report("COO", "*_ops_report.md")
-    cro_report = load_latest_report("CRO", "*_trend_report.md")
+    m = _read_live_metrics()
+
+    revenue_str = f"¥{m['revenue']:,}" if m["revenue"] > 0 else "¥0（案件未受注）"
+    x_api_str = "✅ 設定済み" if m["x_api_ready"] else "❌ 未設定"
+    error_str = f"{m['log_errors']}件" if m["log_errors"] > 0 else "なし"
 
     lines = [
         f"# CEO 週次レポート {WEEK}",
@@ -156,29 +253,43 @@ def generate_weekly_report(agent_results: dict, directives: dict) -> str:
         "",
         "---",
         "",
-        "## 現状サマリー（事実）",
+        "## 現状サマリー（実測値）",
         "",
         "| 項目 | 状況 |",
         "|------|------|",
-        "| 今月収益 | ¥0（案件未受注・note未公開） |",
-        "| X投稿キュー | 42本待機中（未投稿） |",
-        "| note記事キュー | 9本待機中（未公開） |",
-        "| YouTube動画 | 9本生成済み（未アップロード） |",
-        "| 自己評価スコア | 100/100点（パイプライン稼働中） |",
+        f"| 今月収益 | {revenue_str} |",
+        f"| X投稿キュー | {m['x_queue']}本待機 |",
+        f"| note記事キュー | {m['note_queue']}本待機 |",
+        f"| YouTube長尺 | {m['yt_videos']}本生成済み |",
+        f"| YouTube Shorts | {m['yt_shorts']}本生成済み |",
+        f"| 自己評価スコア | {m['eval_score']}/100点 |",
+        f"| 案件パイプライン | {m['pipeline_jobs']}件 |",
+        f"| X API | {x_api_str} |",
+        f"| ログエラー | {error_str} |",
         "",
         "## ボトルネック分析（原因）",
         "",
-        "**主因: Mac Chrome ログインが未実施**",
-        "- note公開・X投稿・YouTubeアップロード・案件応募がすべてここで止まっている",
-        "- 解消方法: Mac で Chrome にログイン → `zsh now` を1回実行",
-        "",
-        "**副因: X APIキーが未設定**",
-        "- 設定すればサーバーから毎日自動投稿可能",
-        "",
-        "## 来週の優先指示（提案）",
-        "",
     ]
 
+    bottlenecks = []
+    if not m["x_api_ready"]:
+        bottlenecks.append(("X APIキー未設定", "developer.twitter.com で無料取得 → `bash setup_x_api.sh`"))
+    if m["note_queue"] > 0:
+        bottlenecks.append(("note未公開", f"{m['note_queue']}本が待機中 → Mac Chrome ログイン後 `zsh now`"))
+    if m["x_queue"] > 0 and not m["x_api_ready"]:
+        bottlenecks.append(("X未投稿", f"{m['x_queue']}本が待機中 → X API設定後に自動解消"))
+    if m["yt_videos"] > 0:
+        bottlenecks.append(("YouTube未アップロード", f"{m['yt_videos']}本が待機中 → YouTube API設定（次フェーズ）"))
+    if m["log_errors"] > 0:
+        bottlenecks.append(("ログエラーあり", f"{m['log_errors']}件 → CDOが調査中"))
+
+    if bottlenecks:
+        for title, detail in bottlenecks:
+            lines += [f"**{title}**", f"- {detail}", ""]
+    else:
+        lines += ["**ボトルネックなし — 全パイプライン稼働中**", ""]
+
+    lines += ["## 来週の優先指示", ""]
     for dept, actions in directives.items():
         lines.append(f"### {dept}")
         for a in actions:
@@ -186,24 +297,23 @@ def generate_weekly_report(agent_results: dict, directives: dict) -> str:
         lines.append("")
 
     lines += [
-        "## 収益予測",
-        "",
-        "| タイミング | 条件 | 予想収益 |",
-        "|-----------|------|---------|",
-        "| 今週中 | Mac Chrome ログイン + zsh now 実行 | ¥0→初動 |",
-        "| 来週 | note記事3本公開 + 案件5件応募 | ¥980〜¥5,000 |",
-        "| 来月 | 継続投稿 + 案件受注2件 | ¥10,000〜¥50,000 |",
-        "",
         "---",
         "",
         "## CEOからオーナーへ",
         "",
-        "> システムは完成しています。コンテンツは42本待機中です。",
-        "> 唯一の課題は「Mac Chrome ログイン」という1回の操作です。",
-        "> これを実行すれば、今日から収益が動き始めます。",
-        "",
-        f"*次回週次レポート: 来週月曜*",
     ]
+    if m["revenue"] == 0:
+        lines += [
+            f"> コンテンツ {m['x_queue'] + m['note_queue']}本が配信待ちです。",
+            "> 最優先アクション: X APIキー設定（無料・5分）→ サーバーから毎日自動投稿開始。",
+            "> 次に: Mac Chrome ログイン → `zsh now` でnote公開・案件応募が走ります。",
+        ]
+    else:
+        lines += [
+            f"> 今月収益: ¥{m['revenue']:,}。パイプライン継続稼働中。",
+        ]
+
+    lines += ["", f"*次回週次レポート: 来週月曜*"]
     return "\n".join(lines)
 
 

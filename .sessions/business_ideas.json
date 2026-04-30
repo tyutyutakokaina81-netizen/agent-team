@@ -1,0 +1,92 @@
+{
+  "ideas": [
+    {
+      "id": "B001",
+      "title": "高岡市日帰り旅行PDFガイド",
+      "category": "コンテンツ販売",
+      "price": 980,
+      "cost": 0,
+      "time_to_market": "3日",
+      "monthly_potential": 30000,
+      "fit_keywords": [
+        "旅行",
+        "日帰り",
+        "穴場",
+        "GW",
+        "高岡"
+      ],
+      "platform": "note",
+      "risk": "低"
+    },
+    {
+      "id": "B002",
+      "title": "フリーランス案件管理Excelテンプレ",
+      "category": "テンプレ販売",
+      "price": 1480,
+      "cost": 0,
+      "time_to_market": "2日",
+      "monthly_potential": 50000,
+      "fit_keywords": [
+        "フリーランス",
+        "副業",
+        "Excel",
+        "案件管理"
+      ],
+      "platform": "BOOTH",
+      "risk": "低"
+    },
+    {
+      "id": "B003",
+      "title": "SNS運用代行（個人・小規模店舗向け）",
+      "category": "サービス提供",
+      "price": 30000,
+      "cost": 0,
+      "time_to_market": "即日",
+      "monthly_potential": 90000,
+      "fit_keywords": [
+        "SNS運用",
+        "Instagram",
+        "副業"
+      ],
+      "platform": "Lancers/直接契約",
+      "risk": "中（継続コミット必要）"
+    },
+    {
+      "id": "B004",
+      "title": "高岡市観光YouTube チャンネル収益化",
+      "category": "広告収益",
+      "price": 0,
+      "cost": 0,
+      "time_to_market": "3〜6ヶ月",
+      "monthly_potential": 50000,
+      "fit_keywords": [
+        "旅行",
+        "観光",
+        "YouTube",
+        "HiddenJapan"
+      ],
+      "platform": "YouTube",
+      "risk": "中（時間かかる）"
+    },
+    {
+      "id": "B005",
+      "title": "データ入力・スクレイピング受注（柱D）",
+      "category": "受託案件",
+      "price": 10000,
+      "cost": 0,
+      "time_to_market": "即日",
+      "monthly_potential": 100000,
+      "fit_keywords": [
+        "データ入力",
+        "スクレイピング",
+        "Excel",
+        "副業",
+        "自動化",
+        "フリーランス"
+      ],
+      "platform": "CrowdWorks/Lancers",
+      "risk": "低"
+    }
+  ],
+  "_note": "このファイルを編集して事業候補を追加・変更できます"
+}

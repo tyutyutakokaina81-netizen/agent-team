@@ -17,11 +17,10 @@ OUTPUT_DIR = REPO / "CBO" / "outputs"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 TODAY = date.today().isoformat()
 APPROVAL_FILE = REPO / "CBO" / "approvals.json"
+BUSINESS_IDEAS_FILE = REPO / ".sessions" / "business_ideas.json"
 
-
-# ── 事業候補データベース ─────────────────────────────────────
-# CROのトレンドと照合して優先順位をつける候補
-BUSINESS_IDEAS = [
+# ── 事業候補データベース（デフォルト値 — JSONで上書き可能）────
+_DEFAULT_BUSINESS_IDEAS = [
     {
         "id": "B001",
         "title": "高岡市日帰り旅行PDFガイド",
@@ -83,6 +82,19 @@ BUSINESS_IDEAS = [
         "risk": "低",
     },
 ]
+
+
+def load_business_ideas() -> list:
+    """JSONファイルから事業候補を読み込む（なければデフォルトを使用）"""
+    if BUSINESS_IDEAS_FILE.exists():
+        try:
+            data = json.loads(BUSINESS_IDEAS_FILE.read_text())
+            ideas = data.get("ideas", [])
+            if ideas:
+                return ideas
+        except Exception:
+            pass
+    return _DEFAULT_BUSINESS_IDEAS
 
 
 # ── 採算スクリーニング ─────────────────────────────────────
@@ -213,7 +225,7 @@ def run() -> list:
         print("\n  CROレポートなし（デフォルト分析）")
 
     print("\n  事業候補をスクリーニング中...")
-    ranked = screen_ideas(BUSINESS_IDEAS, cro_trends)
+    ranked = screen_ideas(load_business_ideas(), cro_trends)
 
     print(f"\n  採算性ランキング TOP5:")
     for i, idea in enumerate(ranked[:5], 1):
