@@ -363,6 +363,34 @@
         "no_errors": "直近3日のエラー数: 0"
       },
       "date": "2026-04-29"
+    },
+    {
+      "total": 88,
+      "scores": {
+        "content_queue": 10,
+        "x_activity": 8,
+        "note_activity": 8,
+        "youtube_activity": 10,
+        "x_followers_growth": 6,
+        "note_pv_growth": 6,
+        "photo_assets": 10,
+        "affiliate": 10,
+        "repurpose": 10,
+        "no_errors": 10
+      },
+      "details": {
+        "content_queue": "noteキュー=OK, Xキュー=27本(OK)",
+        "x_activity": "キュー充足(27本待機中)・未投稿",
+        "note_activity": "記事キュー充足(9本待機中)・未公開",
+        "youtube_activity": "Shorts: 5本, 長尺: 7本",
+        "x_followers_growth": "KPI計測待ち（コンテンツキュー充足で+1）",
+        "note_pv_growth": "KPI計測待ち（記事キュー充足で+1）",
+        "photo_assets": "写真素材: 7枚",
+        "affiliate": "アフィリエイト処理済み記事: 6本",
+        "repurpose": "変換済み記事: 3本",
+        "no_errors": "直近3日のエラー数: 0"
+      },
+      "date": "2026-04-30"
     }
   ]
 }
