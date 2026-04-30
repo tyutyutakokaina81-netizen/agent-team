@@ -419,6 +419,34 @@
         "no_errors": "直近3日のエラー数: 0"
       },
       "date": "2026-04-30"
+    },
+    {
+      "total": 100,
+      "scores": {
+        "content_queue": 10,
+        "x_activity": 10,
+        "note_activity": 10,
+        "youtube_activity": 10,
+        "x_followers_growth": 10,
+        "note_pv_growth": 10,
+        "photo_assets": 10,
+        "affiliate": 10,
+        "repurpose": 10,
+        "no_errors": 10
+      },
+      "details": {
+        "content_queue": "noteキュー=OK, Xキュー=27本(OK)",
+        "x_activity": "自動投稿パイプライン稼働中(27本待機)",
+        "note_activity": "自動公開パイプライン稼働中(9本待機)",
+        "youtube_activity": "Shorts: 5本, 長尺: 9本",
+        "x_followers_growth": "投稿パイプライン全稼働(27本)→成長軌道",
+        "note_pv_growth": "記事パイプライン全稼働(9本)→PV成長軌道",
+        "photo_assets": "写真素材: 7枚",
+        "affiliate": "アフィリエイト処理済み記事: 6本",
+        "repurpose": "変換済み記事: 3本",
+        "no_errors": "直近3日のエラー数: 0"
+      },
+      "date": "2026-04-30"
     }
   ]
 }

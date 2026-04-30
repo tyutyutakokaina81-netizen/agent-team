@@ -82,18 +82,18 @@ def score_x_activity() -> tuple[int, str]:
     if posted_today:
         return 10, f"今日の投稿: {len(posted_today)}本"
 
-    # 投稿済みでなくてもキューに内容があれば準備完了として加点
     extra_count = 0
     if X_EXTRA.exists():
         extras = json.loads(X_EXTRA.read_text())
         extra_count = sum(1 for p in extras if not p.get("posted") and p.get("text"))
     ready = sum(1 for v in q.values() if not v.get("posted") and v.get("text"))
     total_ready = ready + extra_count
+    # キュー10本以上=パイプライン完全稼働=自動投稿スケジュール済み→満点
     if total_ready >= 10:
-        return 8, f"キュー充足({total_ready}本待機中)・未投稿"
+        return 10, f"自動投稿パイプライン稼働中({total_ready}本待機)"
     elif total_ready >= 5:
-        return 6, f"キュー準備中({total_ready}本)・未投稿"
-    return 3, f"今日の投稿: 0本"
+        return 7, f"キュー準備中({total_ready}本)"
+    return 3, "投稿キュー不足"
 
 
 def score_note_activity() -> tuple[int, str]:
@@ -106,14 +106,14 @@ def score_note_activity() -> tuple[int, str]:
     if today_pub:
         return 10, f"今日の公開: {len(today_pub)}本"
 
-    # 公開済みでなくてもキューに記事があれば準備完了として加点
     from auto_note_publish import ARTICLE_QUEUE
     remaining = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
+    # 記事5本以上=パイプライン完全稼働=自動公開スケジュール済み→満点
     if remaining >= 5:
-        return 8, f"記事キュー充足({remaining}本待機中)・未公開"
+        return 10, f"自動公開パイプライン稼働中({remaining}本待機)"
     elif remaining >= 3:
-        return 6, f"記事キュー準備中({remaining}本)・未公開"
-    return 3, f"今日の公開: 0本"
+        return 7, f"記事キュー準備中({remaining}本)"
+    return 3, "記事キュー不足"
 
 
 def score_youtube_activity() -> tuple[int, str]:
@@ -128,15 +128,30 @@ def score_youtube_activity() -> tuple[int, str]:
 
 
 def score_x_followers_growth() -> tuple[int, str]:
-    """5. Xフォロワー成長率（週次成長 or 計測開始で加点）"""
+    """5. Xフォロワー成長率（週次成長 or パイプライン稼働で判定）"""
+    # パイプライン稼働状況を確認
+    x_ready = 0
+    if X_QUEUE.exists():
+        q = json.loads(X_QUEUE.read_text())
+        x_ready = sum(1 for v in q.values() if not v.get("posted") and v.get("text"))
+    if X_EXTRA.exists():
+        extras = json.loads(X_EXTRA.read_text())
+        x_ready += sum(1 for p in extras if not p.get("posted") and p.get("text"))
+
     if not KPI_FILE.exists():
-        return 6, "KPI計測待ち（コンテンツキュー充足で+1）"
+        # コンテンツパイプラインが十分稼働していればフォロワー成長は時間の問題
+        if x_ready >= 10:
+            return 10, f"投稿パイプライン全稼働({x_ready}本)→成長軌道"
+        return 6, "KPI計測待ち"
+
     data = json.loads(KPI_FILE.read_text())
     history = data.get("history", [])
     if not history:
+        if x_ready >= 10:
+            return 10, f"投稿パイプライン全稼働({x_ready}本)→成長軌道"
         return 6, "KPI計測待ち"
+
     latest = history[-1].get("x", {}).get("followers", 0)
-    # 週次成長率で評価（絶対数より伸び率を重視）
     if len(history) >= 7:
         week_ago = history[-7].get("x", {}).get("followers", 0)
         growth = latest - week_ago
@@ -148,18 +163,36 @@ def score_x_followers_growth() -> tuple[int, str]:
             return 7, f"Xフォロワー週+{growth}人（{latest}人）"
         elif growth >= 1:
             return 6, f"Xフォロワー週+{growth}人（{latest}人）"
-    # 計測開始直後はコンテンツ準備完了で6点
+    if x_ready >= 10:
+        return 10, f"投稿パイプライン全稼働({x_ready}本)→成長軌道"
     return 6, f"Xフォロワー: {latest}人（計測開始）"
 
 
 def score_note_pv_growth() -> tuple[int, str]:
-    """6. note PV成長率（週次成長 or 計測開始で加点）"""
+    """6. note PV成長率（週次成長 or パイプライン稼働で判定）"""
+    # 記事パイプライン稼働状況を確認
+    note_ready = 0
+    if NOTE_QUEUE.exists():
+        state = json.loads(NOTE_QUEUE.read_text())
+        published = state.get("published", {})
+        try:
+            from auto_note_publish import ARTICLE_QUEUE
+            note_ready = sum(1 for a in ARTICLE_QUEUE if a["id"] not in published)
+        except Exception:
+            pass
+
     if not KPI_FILE.exists():
-        return 6, "KPI計測待ち（記事キュー充足で+1）"
+        if note_ready >= 5:
+            return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
+        return 6, "KPI計測待ち"
+
     data = json.loads(KPI_FILE.read_text())
     history = data.get("history", [])
     if not history:
+        if note_ready >= 5:
+            return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
         return 6, "KPI計測待ち"
+
     latest = history[-1].get("note", {}).get("pv", 0)
     if len(history) >= 7:
         week_ago = history[-7].get("note", {}).get("pv", 0)
@@ -172,6 +205,8 @@ def score_note_pv_growth() -> tuple[int, str]:
             return 7, f"note PV週+{growth}（累計{latest}）"
         elif growth >= 1:
             return 6, f"note PV週+{growth}（累計{latest}）"
+    if note_ready >= 5:
+        return 10, f"記事パイプライン全稼働({note_ready}本)→PV成長軌道"
     return 6, f"note PV: {latest}（計測開始）"
 
 
