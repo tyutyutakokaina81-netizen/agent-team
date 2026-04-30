@@ -36,4 +36,13 @@ run "X投稿(API)"         auto_x_api_post.py
 
 run "自己評価"           auto_self_eval.py
 
+# エージェント群（週1回月曜のみ）
+if [ "$(date +%u)" = "1" ]; then
+  run "CROトレンド調査"   agent_cro.py
+  run "CBO稟議生成"       agent_cbo.py
+  run "COO運用チェック"   agent_coo.py
+  run "CFO財務レポート"   agent_cfo.py
+  run "CEO週次統括"       agent_ceo.py
+fi
+
 echo "=== 完了 $(date '+%H:%M:%S') ===" >> "$LOG"
