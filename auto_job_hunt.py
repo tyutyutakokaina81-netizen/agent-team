@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-auto_job_hunt.py — 案件自動サーチ＋応募文生成（¥0・ブラウザ不要）
+auto_job_hunt.py — 案件自動サーチ＋応募文生成（requests版・参照用）
+
+※ サーバー環境では CrowdWorks が HTTP 403 を返すため動作しません。
+※ Mac/Playwright版は auto_job_apply.py を使用してください。
 
 1. requestsでクラウドワークス公開案件を検索（ログイン不要）
 2. ルールベース評価でGO/CAUTION/NO-GOを判定

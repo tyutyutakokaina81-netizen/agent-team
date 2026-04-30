@@ -7,6 +7,12 @@ mkdir -p "$REPO/logs"
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') ===" >> "$LOG"
 
+# 常に最新コードで実行
+BRANCH=$(git -C "$REPO" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "claude/add-claude-documentation-Wipf0")
+git -C "$REPO" fetch origin "$BRANCH" --quiet >> "$LOG" 2>&1
+git -C "$REPO" reset --hard "origin/$BRANCH" --quiet >> "$LOG" 2>&1
+echo "[git] $(git -C "$REPO" log --oneline -1)" >> "$LOG"
+
 run() {
   echo "[$(date +%H:%M)] $1" >> "$LOG"
   python3 "$REPO/$2" >> "$LOG" 2>&1 && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"

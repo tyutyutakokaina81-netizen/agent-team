@@ -52,6 +52,26 @@
 ├── team_copy.sh               ← team_prompt.txt をクリップボードにコピー（zsh/macOS）
 ├── team_show.sh               ← team_prompt.txt を stdout に出力
 │
+├── now                        ← Mac用ワンコマンド公開（note/X/YouTube/案件応募）
+├── setup                      ← Mac初回セットアップ（ライブラリ・LaunchAgent登録）
+├── cron_run.sh                ← サーバー自動実行ラッパー（cron から呼ばれる）
+│
+├── auto_content_loop.py       ← コンテンツキュー自動補充（note記事・X投稿）
+├── auto_note_publish.py       ← note記事自動公開（Playwright・Chromeセッション使用）
+├── auto_x_post.py             ← X投稿自動実行（Playwright・Chromeセッション使用）
+├── auto_x_api_post.py         ← X投稿 API直接投稿版（Chrome不要・要APIキー設定）
+├── auto_youtube_produce.py    ← YouTube長尺動画生成（pyopenjtalk TTS・Pillow）
+├── auto_youtube_shorts.py     ← YouTube Shorts生成（縦型720x1280）
+├── auto_youtube_upload.py     ← YouTube自動アップロード（Playwright）
+├── auto_wikimedia_photos.py   ← Wikimedia Commons写真取得（CC BY-SA・¥0）
+├── auto_affiliate.py          ← アフィリエイトリンク自動挿入
+├── auto_repurpose.py          ← note記事→X投稿+Shorts台本 横断変換
+├── auto_job_apply.py          ← CrowdWorks/Lancers 案件自動サーチ＆応募（Playwright）
+├── auto_kpi_tracker.py        ← KPI自動計測（YouTube/note/X フォロワー・PV）
+├── auto_self_eval.py          ← 自己評価ループ（10項目100点満点・自動改善）
+├── .claudecode.md             ← AI従業員運用規約（CLAUDE.md に統合済み・参照用）
+├── .sessions/                 ← 実行状態ファイル（キュー・ログ・cookieは除外）
+│
 ├── CDO/                       ← 最高デジタル責任者（システム・自動化・技術・役職管理）
 │   ├── _index.md              ← 成果物ログ・進行中タスク（台帳）
 │   ├── prompt.md              ← 役割定義・性格・ワークフロー・境界線
