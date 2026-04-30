@@ -40,3 +40,9 @@ context/references/*
 !context/ideas/.gitkeep
 !context/references/.gitkeep
 __pycache__/
+
+# セッション・cookie・応募ログ（個人情報含む可能性）
+.sessions/*_session.json
+.sessions/*_cookies.json
+.sessions/applied_jobs.json
+.sessions/job_applications_*.txt
