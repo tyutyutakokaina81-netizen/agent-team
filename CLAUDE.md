@@ -72,6 +72,17 @@
 ├── .claudecode.md             ← AI従業員運用規約（CLAUDE.md に統合済み・参照用）
 ├── .sessions/                 ← 実行状態ファイル（キュー・ログ・cookieは除外）
 │
+├── mac_auto_cookie_all.py     ← [Mac専用] Chrome から全サービスのセッションを一括取得
+├── mac_booth_publish.py       ← [Mac専用] BOOTH商品出品（2ステップ方式）
+├── mac_booth_refresh.py       ← [Mac専用] BOOTH検索順位維持（週次更新日時更新）
+├── mac_check_sales.py         ← [Mac専用] BOOTH売上30分ごと自動チェック＋Mac通知
+├── mac_daily_report.py        ← [Mac専用] 毎朝8時の日次レポート＋Mac通知
+├── mac_pipeline.py            ← [Mac専用] Lancers/CW 全自動パイプライン
+├── booth_requests.py          ← BOOTHクライアントライブラリ（mac_booth_publish.py が使用）
+├── check_booth_sales.py       ← BOOTH売上チェック（Playwright版）
+├── daily_report.py            ← サーバー用日次レポート（cron から呼び出し可）
+├── setup_booth.py             ← BOOTHセッション初期設定
+│
 ├── CDO/                       ← 最高デジタル責任者（システム・自動化・技術・役職管理）
 │   ├── _index.md              ← 成果物ログ・進行中タスク（台帳）
 │   ├── prompt.md              ← 役割定義・性格・ワークフロー・境界線
