@@ -178,9 +178,34 @@ def upload_via_browser(video_path: Path, meta: dict | None = None) -> str | None
             return None
 
         # 「作成」ボタン → 「動画をアップロード」
-        page.click('[aria-label="作成"], [aria-label="Create"], #create-icon', timeout=10000)
-        time.sleep(1)
-        page.click('text=動画をアップロード, text=Upload videos', timeout=5000)
+        create_sels = [
+            'button[aria-label="作成"]',
+            'button[aria-label="Create"]',
+            '#create-icon',
+            'ytcp-button#create-icon',
+            'button:has-text("作成")',
+            '[id="create-icon-container"]',
+        ]
+        for sel in create_sels:
+            try:
+                page.click(sel, timeout=5000)
+                break
+            except Exception:
+                continue
+        time.sleep(2)
+        upload_sels = [
+            'text=動画をアップロード',
+            'text=Upload videos',
+            'text=Upload video',
+            'tp-yt-paper-item:has-text("動画")',
+            '#text-item-0',
+        ]
+        for sel in upload_sels:
+            try:
+                page.click(sel, timeout=3000)
+                break
+            except Exception:
+                continue
         time.sleep(2)
 
         # ファイル選択（input[type=file]に直接セット）

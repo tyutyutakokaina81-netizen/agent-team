@@ -574,22 +574,30 @@ def _click_post(page) -> bool:
 
 
 def _open_compose(page):
-    """X の投稿画面を開く（networkidle は使わない）"""
-    # x.com/compose/post は直接開ける（ログイン済みなら）
+    """X の投稿画面を開く"""
+    # まずホームに移動してセッション確認
+    page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=30000)
+    time.sleep(4)
+
+    # ホーム画面の投稿ボックスをクリックして展開
+    textarea_sels = [
+        "[data-testid='tweetTextarea_0']",
+        "div[data-testid='tweetTextarea_0_label']",
+        "[placeholder*='今どうしてる']",
+        "[placeholder*=\"What's happening\"]",
+        "[aria-label*='Post text']",
+        "div[role='textbox']",
+    ]
+    for sel in textarea_sels:
+        el = page.query_selector(sel)
+        if el and el.is_visible():
+            el.click()
+            time.sleep(1)
+            return
+
+    # フォールバック: compose/post に直接アクセス
     page.goto("https://x.com/compose/post", wait_until="domcontentloaded", timeout=30000)
-    time.sleep(3)
-    # まだテキストエリアがなければホームから開く
-    if not page.query_selector("[data-testid='tweetTextarea_0']"):
-        page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=30000)
-        time.sleep(3)
-        # ホーム画面の投稿ボックスをクリック
-        for sel in ["[data-testid='tweetTextarea_0']", "[placeholder*='今どうしてる']",
-                    "[aria-label*='ポスト'], [aria-label*='Post']"]:
-            el = page.query_selector(sel)
-            if el:
-                el.click()
-                time.sleep(1)
-                break
+    time.sleep(4)
 
 
 def post_single(page, text: str) -> bool:
