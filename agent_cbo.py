@@ -78,7 +78,7 @@ BUSINESS_IDEAS = [
         "cost": 0,
         "time_to_market": "即日",
         "monthly_potential": 100000,
-        "fit_keywords": ["データ入力", "スクレイピング", "Excel"],
+        "fit_keywords": ["データ入力", "スクレイピング", "Excel", "副業", "自動化", "フリーランス"],
         "platform": "CrowdWorks/Lancers",
         "risk": "低",
     },

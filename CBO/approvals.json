@@ -40,9 +40,7 @@
       "score": 110,
       "approved_at": "2026-04-30",
       "approved_by": "CEO（自動承認: スコア110点≥100点）"
-    }
-  ],
-  "pending": [
+    },
     {
       "id": "B005",
       "title": "データ入力・スクレイピング受注（柱D）",
@@ -54,13 +52,18 @@
       "fit_keywords": [
         "データ入力",
         "スクレイピング",
-        "Excel"
+        "Excel",
+        "副業",
+        "自動化",
+        "フリーランス"
       ],
       "platform": "CrowdWorks/Lancers",
       "risk": "低",
-      "score": 90,
-      "reason": "スコア90点 < 100点（手動承認待ち）"
+      "score": 110,
+      "approved_at": "2026-04-30",
+      "approved_by": "CEO（自動承認: スコア110点≥100点）"
     }
   ],
+  "pending": [],
   "rejected": []
 }
