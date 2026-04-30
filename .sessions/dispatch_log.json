@@ -1,0 +1,84 @@
+{
+  "runs": [
+    {
+      "at": "2026-04-30T17:40:28.549928",
+      "task": "T001",
+      "name": "トレンド調査",
+      "owner": "CRO",
+      "executor": "CRO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 0.1
+    },
+    {
+      "at": "2026-04-30T17:40:28.580487",
+      "task": "T002",
+      "name": "コンテンツ生成",
+      "owner": "CMO",
+      "executor": "CMO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 0.0
+    },
+    {
+      "at": "2026-04-30T17:40:38.534661",
+      "task": "T005",
+      "name": "案件サーチ",
+      "owner": "CSO",
+      "executor": "CSO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 10.0
+    },
+    {
+      "at": "2026-04-30T17:40:38.724949",
+      "task": "T013",
+      "name": "週次統括",
+      "owner": "CEO",
+      "executor": "CEO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 0.2
+    },
+    {
+      "at": "2026-04-30T17:41:04.896095",
+      "task": "T003",
+      "name": "YouTube動画生成",
+      "owner": "CMO",
+      "executor": "CMO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 26.2
+    },
+    {
+      "at": "2026-04-30T17:41:44.133926",
+      "task": "T004",
+      "name": "Shorts生成",
+      "owner": "CMO",
+      "executor": "CMO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 39.2
+    },
+    {
+      "at": "2026-04-30T17:41:44.169940",
+      "task": "T006",
+      "name": "運用チェック",
+      "owner": "COO",
+      "executor": "COO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 0.0
+    },
+    {
+      "at": "2026-04-30T17:41:44.200143",
+      "task": "T008",
+      "name": "稟議生成",
+      "owner": "CBO",
+      "executor": "CBO",
+      "covered": false,
+      "success": true,
+      "elapsed_sec": 0.0
+    }
+  ]
+}

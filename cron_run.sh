@@ -18,31 +18,22 @@ git -C "$REPO" fetch origin "$BRANCH" --quiet >> "$LOG" 2>&1
 git -C "$REPO" reset --hard "origin/$BRANCH" --quiet >> "$LOG" 2>&1
 echo "[git] $(git -C "$REPO" log --oneline -1)" >> "$LOG"
 
-run() {
-  echo "[$(date +%H:%M)] $1" >> "$LOG"
-  python3 "$REPO/$2" >> "$LOG" 2>&1 && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"
-}
-
-# 常時実行（コンテンツ生成・評価）
-run "写真取得"           auto_wikimedia_photos.py
-run "アフィリエイト"     auto_affiliate.py
-run "横断変換"           auto_repurpose.py
-run "コンテンツループ"   auto_content_loop.py
-run "Shorts生成"         auto_youtube_shorts.py
-run "動画生成"           auto_youtube_produce.py
-
-# X API直接投稿（認証情報があればChrome不要でサーバーから投稿）
-run "X投稿(API)"         auto_x_api_post.py
-
-run "自己評価"           auto_self_eval.py
-
-# エージェント群（週1回月曜のみ）
+# ── ディスパッチャー経由で全タスクを実行 ──────────────────
+# 月曜のみ weekly モード（全エージェント+稟議+統括）
+# それ以外は daily モード（優先度1-2のみ）
 if [ "$(date +%u)" = "1" ]; then
-  run "CROトレンド調査"   agent_cro.py
-  run "CBO稟議生成"       agent_cbo.py
-  run "COO運用チェック"   agent_coo.py
-  run "CFO財務レポート"   agent_cfo.py
-  run "CEO週次統括"       agent_ceo.py
+  MODE="weekly"
+else
+  MODE="daily"
 fi
+
+echo "[$(date +%H:%M)] dispatch[$MODE]" >> "$LOG"
+python3 "$REPO/agent_dispatch.py" "$MODE" >> "$LOG" 2>&1 \
+  && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"
+
+# X API 直接投稿（認証情報があればサーバーから投稿）
+echo "[$(date +%H:%M)] X投稿(API)" >> "$LOG"
+python3 "$REPO/auto_x_api_post.py" >> "$LOG" 2>&1 \
+  && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"
 
 echo "=== 完了 $(date '+%H:%M:%S') ===" >> "$LOG"

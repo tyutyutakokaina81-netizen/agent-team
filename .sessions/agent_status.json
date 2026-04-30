@@ -1,0 +1,68 @@
+{
+  "CRO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 1,
+    "failed": 0
+  },
+  "CMO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 3,
+    "failed": 0
+  },
+  "CPO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 0,
+    "failed": 0
+  },
+  "CSO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 1,
+    "failed": 0
+  },
+  "CGO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 0,
+    "failed": 0
+  },
+  "COO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 1,
+    "failed": 0
+  },
+  "CFO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 0,
+    "failed": 0
+  },
+  "CBO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 1,
+    "failed": 0
+  },
+  "CDO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 0,
+    "failed": 0
+  },
+  "CCO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 0,
+    "failed": 0
+  },
+  "CEO": {
+    "status": "available",
+    "current_task": null,
+    "completed": 1,
+    "failed": 0
+  }
+}
