@@ -19,6 +19,10 @@ run "横断変換"           auto_repurpose.py
 run "コンテンツループ"   auto_content_loop.py
 run "Shorts生成"         auto_youtube_shorts.py
 run "動画生成"           auto_youtube_produce.py
+
+# X API直接投稿（認証情報があればChrome不要でサーバーから投稿）
+run "X投稿(API)"         auto_x_api_post.py
+
 run "自己評価"           auto_self_eval.py
 
 echo "=== 完了 $(date '+%H:%M:%S') ===" >> "$LOG"

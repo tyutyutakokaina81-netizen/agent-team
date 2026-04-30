@@ -21,6 +21,11 @@ QUEUE_STATE = REPO / ".sessions" / "note_publish_queue.json"
 # 公開する記事キュー（順番に1本ずつ公開）
 ARTICLE_QUEUE = [
     {
+        "id": "template_sales_free",
+        "file": "CMO/outputs/2026-04-29_テンプレ販売_無料記事.md",
+        "title": "フリーランス1年目で確定申告をほぼ詰んだ話と、今は月5分で終わる話",
+    },
+    {
         "id": "takaoka_paid_guide",
         "file": "CMO/outputs/2026-04-29_高岡観光_有料note記事.md",
         "title": "【保存版】高岡市 完全観光マップ＋モデルコース3選——国宝・日本三大仏・鋳物・グルメ全網羅",
