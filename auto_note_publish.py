@@ -66,6 +66,57 @@ ARTICLE_QUEUE = [
         "file": "CMO/outputs/2026-04-10_vol1_note_free_article.md",
         "title": None,  # ファイルから自動抽出
     },
+    # ── 2026-05-01 SEO記事10本 ─────────────────────────────────
+    {
+        "id": "seo_01",
+        "file": "CMO/outputs/2026-05-01_seo_01_確定申告いくらから_note記事.md",
+        "title": "フリーランスの確定申告はいくらから必要？20万円の壁を完全解説",
+    },
+    {
+        "id": "seo_02",
+        "file": "CMO/outputs/2026-05-01_seo_02_在宅ワーク初心者_note記事.md",
+        "title": "在宅ワーク初心者が最初に稼げる仕事5選【2026年・実績あり】",
+    },
+    {
+        "id": "seo_03",
+        "file": "CMO/outputs/2026-05-01_seo_03_副業バレない_note記事.md",
+        "title": "会社員の副業がバレない3つの方法と、バレたときの対処法",
+    },
+    {
+        "id": "seo_04",
+        "file": "CMO/outputs/2026-05-01_seo_04_クラウドワークス始め方_note記事.md",
+        "title": "クラウドワークス始め方ガイド【登録〜初受注まで画像付きで解説】",
+    },
+    {
+        "id": "seo_05",
+        "file": "CMO/outputs/2026-05-01_seo_05_ランサーズvsCW_note記事.md",
+        "title": "ランサーズとクラウドワークスの違い5つ——初心者はどちらを選ぶべきか",
+    },
+    {
+        "id": "seo_06",
+        "file": "CMO/outputs/2026-05-01_seo_06_スプレッドシート家計簿_note記事.md",
+        "title": "Googleスプレッドシートで家計簿を自動化する方法【無料テンプレ付き】",
+    },
+    {
+        "id": "seo_07",
+        "file": "CMO/outputs/2026-05-01_seo_07_SNS運用代行料金_note記事.md",
+        "title": "SNS運用代行の料金相場は？【依頼側・受注側 両方の視点で解説】",
+    },
+    {
+        "id": "seo_08",
+        "file": "CMO/outputs/2026-05-01_seo_08_Instagram投稿頻度_note記事.md",
+        "title": "Instagramの投稿頻度とフォロワーの関係——週何回投稿すべきか",
+    },
+    {
+        "id": "seo_09",
+        "file": "CMO/outputs/2026-05-01_seo_09_Excel副業_note記事.md",
+        "title": "Excelスキルを副業に活かす5つの方法【月5万円の実例あり】",
+    },
+    {
+        "id": "seo_10",
+        "file": "CMO/outputs/2026-05-01_seo_10_高岡日帰り旅行_note記事.md",
+        "title": "東京から高岡へ日帰り旅行は可能？【新幹線・モデルコース・費用まとめ】",
+    },
 ]
 
 
