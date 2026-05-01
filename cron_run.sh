@@ -50,4 +50,9 @@ echo "[$(date +%H:%M)] X投稿(API)" >> "$LOG"
 python3 "$REPO/auto_x_api_post.py" >> "$LOG" 2>&1 \
   && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"
 
+# マネジメントエージェント（日次レポート生成）
+echo "[$(date +%H:%M)] manager report" >> "$LOG"
+python3 "$REPO/agent_manager.py" >> "$LOG" 2>&1 \
+  && echo "  OK" >> "$LOG" || echo "  NG" >> "$LOG"
+
 echo "=== 完了 $(date '+%H:%M:%S') ===" >> "$LOG"
