@@ -58,13 +58,41 @@ PLIST
 done
 
 # Mac自動ウェイクアップ（蓋を閉じたままでも動くように）
-# pmset: 毎日 8:58 / 13:58 / 19:58 に自動起動（充電中かつスリープ時に有効）
 echo "\n[5] 自動ウェイクアップ設定..."
-sudo pmset repeat wakeorpoweron MTWRFSU 08:58:00 2>/dev/null && echo "  OK: 08:58 自動起動" || echo "  NG: sudo権限が必要です（手動で設定してください）"
-# 複数時刻はpmsetでは1つしか設定できないため、13:58と19:58はsleepwatcherかショートカットで対応
-# → 代替: Energy Saver の「スケジュール」で 13:58 / 19:58 を追加
-echo "  ℹ️  14:00 / 20:00 分は システム設定 > バッテリー > スケジュール で追加設定してください"
-echo "     設定値: 起動/ウェイク — 毎日 13:58 / 19:58"
+
+# sudoers: pmset をパスワードなしで実行できるように
+SUDOERS_FILE="/etc/sudoers.d/agent-team-pmset"
+echo "%admin ALL=(ALL) NOPASSWD: /usr/bin/pmset" | sudo tee "$SUDOERS_FILE" > /dev/null && \
+  sudo chmod 440 "$SUDOERS_FILE" && \
+  echo "  OK: pmset パスワードなし設定" || \
+  echo "  NG: sudoers設定失敗"
+
+# 8:58 は pmset repeat で毎日固定ウェイク
+sudo pmset repeat wakeorpoweron MTWRFSU 08:58:00 2>/dev/null && \
+  echo "  OK: 08:58 毎日ウェイク" || \
+  echo "  NG: pmset repeat 失敗"
+
+# 13:58 / 19:58 は LaunchAgent が毎朝スケジュールする
+WAKE_PLIST="$HOME/Library/LaunchAgents/com.agent-team.wakeup.plist"
+cat > "$WAKE_PLIST" << 'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.agent-team.wakeup</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/zsh</string>
+    <string>/Users/apple/agent-team/schedule_wakeups.zsh</string>
+  </array>
+  <key>StartCalendarInterval</key><dict>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>50</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/Users/apple/agent-team/logs/wakeup.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/agent-team/logs/wakeup_err.log</string>
+</dict></plist>
+PLIST
+launchctl unload "$WAKE_PLIST" 2>/dev/null || true
+launchctl load "$WAKE_PLIST" && echo "  OK: 08:50 ウェイク予約スクリプト登録（13:58 / 19:58）"
 
 echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  完了！"
