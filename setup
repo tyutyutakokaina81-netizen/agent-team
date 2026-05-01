@@ -28,7 +28,7 @@ echo "\n[3] キャラクター画像..."
 mkdir -p CMO/assets/announcer
 python3 make_placeholder_char.py 2>/dev/null || true
 
-# LaunchAgent（朝9時・夕20時）
+# LaunchAgent（朝9時・昼14時・夜20時）
 echo "\n[4] 自動スケジュール..."
 mkdir -p "$HOME/Library/LaunchAgents" logs
 
@@ -56,6 +56,15 @@ PLIST
   launchctl unload "$plist" 2>/dev/null || true
   launchctl load "$plist" && echo "  OK: ${hour}:00 自動実行"
 done
+
+# Mac自動ウェイクアップ（蓋を閉じたままでも動くように）
+# pmset: 毎日 8:58 / 13:58 / 19:58 に自動起動（充電中かつスリープ時に有効）
+echo "\n[5] 自動ウェイクアップ設定..."
+sudo pmset repeat wakeorpoweron MTWRFSU 08:58:00 2>/dev/null && echo "  OK: 08:58 自動起動" || echo "  NG: sudo権限が必要です（手動で設定してください）"
+# 複数時刻はpmsetでは1つしか設定できないため、13:58と19:58はsleepwatcherかショートカットで対応
+# → 代替: Energy Saver の「スケジュール」で 13:58 / 19:58 を追加
+echo "  ℹ️  14:00 / 20:00 分は システム設定 > バッテリー > スケジュール で追加設定してください"
+echo "     設定値: 起動/ウェイク — 毎日 13:58 / 19:58"
 
 echo "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  完了！"
