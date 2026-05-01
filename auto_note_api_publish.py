@@ -132,6 +132,32 @@ def save_state(state: dict):
     STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2))
 
 
+# ── 収益化フッター（アフィリエイト）────────────────────────────
+MONETIZE_FOOTER = """
+
+---
+
+## 旅の予約・準備はこちら
+
+**宿泊予約（高岡・富山）**
+- [じゃらんnet — 高岡市のホテル・旅館](https://www.jalan.net/ken/japan_160000/city_16202/)
+- [楽天トラベル — 高岡市の宿](https://travel.rakuten.co.jp/place/toyama/takaoka/)
+
+**交通・パス**
+- [JR西日本 北陸乗り放題パス](https://www.westjr.co.jp/global/en/travel-information/pass/hokuriku/)
+
+**旅行グッズ（Amazon）**
+- [旅行用コンパクトバッグ](https://amzn.to/takaoka-bag)
+- [ガイドブック「富山・石川」](https://amzn.to/toyama-guide)
+
+---
+
+*この記事が役に立ったら「スキ」で応援してください！*
+*次の記事もフォローでお見逃しなく → [@takaoka_guide](https://note.com/)*
+
+#高岡市 #富山観光 #北陸旅行 #HiddenJapan #国内旅行 #日帰り旅行
+"""
+
 # ── 投稿する記事リスト ───────────────────────────────────────
 ARTICLES = [
     {"id": "takaoka_intro",   "price": 0,   "file": "2026-04-28_高岡市観光_note記事.md"},
@@ -200,7 +226,10 @@ def run():
         body = fpath.read_text(encoding="utf-8")
         title = extract_title(body)
 
-        # 無料記事の末尾にマガジン誘導を追加
+        # 全記事末尾にアフィリエイト収益化フッターを追加
+        body += MONETIZE_FOOTER
+
+        # 無料（集客）記事はさらにマガジン誘導も追加
         if art["price"] == 0:
             body += (
                 "\n\n---\n\n"
