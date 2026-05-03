@@ -19,12 +19,13 @@
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/vol2_spreadsheet_formulas.md | テンプレ設計 | Vol.2 SNSカレンダー完全設計書（数式・マニュアル） | 完了 |
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/vol3_prompt_collection_restaurant.md | テンプレ制作 | Vol.3 飲食店プロンプト集20選（全文完成） | 完了 |
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/note_sales_copy_optimized.md | 販売ページ | Vol.1-4 売れる販売文リライト版（CTR/CVR最適化） | 完了 |
+| 2026-05-03 | projects/月30万自動化/C_テンプレ販売/vol2_sns_calendar.md | 販売ページ | Vol.2 note本文をVol.1基準に拡充（コピペ完成版） | 完了 |
+| 2026-05-03 | projects/月30万自動化/2026-05-03_実行パック.md | 実行パック | Vol.2-4 note/BOOTH登録 + CrowdWorks応募の統合コピペパック | 完了 |
 
 ## 進行中タスク
 
-- Vol.2 SNSカレンダー Googleスプレッドシート実体の作成（設計書に沿って）
-- Vol.3 note/BOOTH販売ページ登録
-- Vol.4 バンドルパック（Vol.1-3完成後に着手）
+- Vol.2 SNSカレンダー Googleスプレッドシート実体の作成（設計書に沿って・藤森さん作業）
+- Vol.2/Vol.3/Vol.4 note・BOOTH登録（藤森さん作業・実行パックから即コピペ可）
 
 ## メモ・引き継ぎ事項
 
