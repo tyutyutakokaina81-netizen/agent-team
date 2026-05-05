@@ -107,6 +107,20 @@
 - note：同様に note.com に手動ログイン
 - CrowdWorks：同様に crowdworks.jp に手動ログイン
 
+### Phase 7：iPhone から確認・操作できるようにする（私が「iPhone対応もする」と言ったら）
+
+11. `.env` に `AI_AUTO_TOKEN` を生成して追記：
+    ```bash
+    echo "AI_AUTO_TOKEN=$(openssl rand -hex 24)" >> ~/ai-auto/.env
+    ```
+12. API サーバー起動：
+    - mac内のみ：`~/ai-auto/run_server.sh`
+    - 同一LAN公開：`~/ai-auto/run_server.sh lan`
+    - mac 常駐：`cp ~/ai-auto/com.aiauto.server.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.aiauto.server.plist`
+13. mac の IP アドレスとトークンを表示し、`~/ai-auto/iphone_shortcuts.md` を読むよう案内
+14. iPhone のショートカットアプリで4本のショートカットを作成（KPI閲覧 / 生成物表示 / 公開記録 / DRY_RUN切替）
+15. SSH 補助レシピも案内（mac で「リモートログイン」を有効化する手順を提示）
+
 ## 重要な制約
 - **私が明示的に「DRY_RUN=0 にして」と言うまで、絶対に DRY_RUN=0 にしない**
 - crontab の編集は事前確認必須

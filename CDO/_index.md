@@ -23,6 +23,7 @@
 | 2026-05-05 | `~/ai-auto/` | リファクタ | publish_note._parse バグ修正（H1ベース）/ apply_crowdworks 提案数バグ修正（数値抽出）/ post_x 見出しスキップ＋CSV末尾読み / dead code削除 / _browser USER_DATA_DIR統一 / DRY_RUNでRuntimeError化 / docstring圧縮 | 完了 |
 | 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/deploy/` | デプロイ | mac再現用パッケージ（28ファイル＋install.sh＋SETUP_PROMPT.md） | 完了 |
 | 2026-05-05 | `~/ai-auto/ban_detector.py` `~/ai-auto/sunday_polish.py` | A案実装 | 朝9時にBAN検知（403/404/410/451）・日曜18時に高単価候補3本（有料note/SEO記事/提案書）を自動生成。SETUP_PROMPT.md にA案運用プロトコルとcron 4行を追記 | 完了 |
+| 2026-05-05 | `~/ai-auto/server.py` `~/ai-auto/iphone_shortcuts.md` | iPhone対応 | Python標準ライブラリのみのHTTP API（/kpi /outputs /publish /dry-run）。run_server.sh/LaunchAgent plist 同梱。ショートカット 4本のレシピ（HTTP）と SSH 補助レシピを iphone_shortcuts.md に集約 | 完了 |
 
 ## 進行中タスク
 

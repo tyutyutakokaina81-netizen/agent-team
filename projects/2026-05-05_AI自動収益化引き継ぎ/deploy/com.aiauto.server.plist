@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+mac で常駐起動させたい場合の LaunchAgent サンプル。
+配置: ~/Library/LaunchAgents/com.aiauto.server.plist
+ロード: launchctl load ~/Library/LaunchAgents/com.aiauto.server.plist
+アンロード: launchctl unload ~/Library/LaunchAgents/com.aiauto.server.plist
+
+LAN 公開する場合は ProgramArguments の最後を 0.0.0.0 に変更し、
+.env に AI_AUTO_TOKEN を設定すること。
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.aiauto.server</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd $HOME/ai-auto &amp;&amp; set -a &amp;&amp; source .env &amp;&amp; set +a &amp;&amp; python3 server.py --port 8765 --bind 127.0.0.1</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/aiauto-server.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/tmp/aiauto-server.err</string>
+</dict>
+</plist>

@@ -733,7 +733,44 @@ def main() -> None:
         CALLOUT_WARN,
     )
 
-    add_heading(doc, "付録H　最終命令（要約）", 1)
+    add_heading(doc, "付録H　iPhone 連携（HTTP API + SSH）", 1)
+    add_para(
+        doc,
+        "外出先から iPhone でKPI確認・公開記録・DRY_RUN切替を行うための仕組み。"
+        "ai-auto/server.py が Python標準ライブラリのみで動く HTTP API を提供し、"
+        "iPhone ショートカットアプリから直接叩ける。SSH 経由の補助レシピも併用可。",
+    )
+    add_table(
+        doc,
+        ["エンドポイント", "用途"],
+        [
+            ["GET /health", "稼働確認・DRY_RUN状態取得"],
+            ["GET /kpi", "KPI集計（kpi.py の出力）"],
+            ["GET /outputs", "outputs/ 最新ファイル一覧"],
+            ["GET /outputs/<name>", "ファイル本文取得"],
+            ["GET /schedule", "当日 schedule.json"],
+            ["POST /publish", "公開記録の追加"],
+            ["POST /dry-run", ".env の DRY_RUN を 0/1 切替"],
+        ],
+    )
+    add_para(doc, "認証：環境変数 AI_AUTO_TOKEN（未設定時は loopback のみ）。", bold=True)
+    add_para(doc, "起動：")
+    add_code_block(
+        doc,
+        "~/ai-auto/run_server.sh           # mac内のみ（127.0.0.1:8765）\n"
+        "~/ai-auto/run_server.sh lan       # LAN公開（要 AI_AUTO_TOKEN）\n"
+        "# 常駐化: ~/Library/LaunchAgents/com.aiauto.server.plist を配置して launchctl load",
+    )
+    add_callout(
+        doc,
+        "外出先からも使う場合",
+        "Tailscale（無料・推奨）で mac と iPhone を仮想LANに入れる。"
+        "ngrok でも可だが一時URL。iCloud Private Relay はインバウンド不可なので使えない。",
+        CALLOUT_INFO,
+    )
+    add_para(doc, "詳細レシピ：~/ai-auto/iphone_shortcuts.md", bold=True)
+
+    add_heading(doc, "付録I　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",

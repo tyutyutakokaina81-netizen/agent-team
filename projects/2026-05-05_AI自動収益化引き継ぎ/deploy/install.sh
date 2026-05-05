@@ -18,9 +18,11 @@ mkdir -p "$DEST/prompts" "$DEST/logs" "$DEST/outputs"
 
 # 2) ファイルコピー
 cp "$SOURCE"/*.py "$DEST/"
-cp "$SOURCE"/run.sh "$DEST/"
+cp "$SOURCE"/*.sh "$DEST/"
 cp "$SOURCE"/requirements.txt "$DEST/"
 cp "$SOURCE"/README.md "$DEST/"
+cp "$SOURCE"/iphone_shortcuts.md "$DEST/"
+cp "$SOURCE"/com.aiauto.server.plist "$DEST/"
 cp "$SOURCE"/.gitignore "$DEST/"
 cp "$SOURCE"/prompts/* "$DEST/prompts/"
 
@@ -33,7 +35,7 @@ else
 fi
 
 # 4) 実行権限
-chmod +x "$DEST/run.sh"
+chmod +x "$DEST"/*.sh
 
 # 5) Python 依存
 echo ""
@@ -73,4 +75,10 @@ echo "     0 * * * * /bin/zsh -lc 'cd \$HOME/ai-auto && python3 dispatcher.py >>
 echo ""
 echo "  4) 7日 DRY_RUN で観察 → Reddit から段階的に本番化"
 echo ""
-echo "詳細：$DEST/README.md"
+echo "  5) iPhone から確認・操作したい場合："
+echo "     - .env に AI_AUTO_TOKEN=<32文字以上> を設定"
+echo "     - $DEST/run_server.sh で API サーバー起動"
+echo "     - 詳細手順は $DEST/iphone_shortcuts.md 参照"
+echo "     - mac 常駐させるなら $DEST/com.aiauto.server.plist を ~/Library/LaunchAgents/ へ"
+echo ""
+echo "詳細：$DEST/README.md  /  iPhone対応：$DEST/iphone_shortcuts.md"
