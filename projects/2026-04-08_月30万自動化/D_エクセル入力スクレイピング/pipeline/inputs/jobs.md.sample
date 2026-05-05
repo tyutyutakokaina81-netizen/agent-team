@@ -1,0 +1,43 @@
+# 案件貼り付けフォーマット見本
+
+このファイルを `jobs.md` にコピーして案件情報を書き換えてください。
+（`jobs.md` は .gitignore 対象です。案件URLや個人情報の混入を防ぐためコミットされません）
+
+---
+
+## Job 1
+- title: 飲食店リスト100件のWebスクレイピング
+- url: https://example.com/jobs/12345
+- price_jpy: 15000
+- deadline: 2026-05-15
+- detail: |
+    指定エリア（東京・新宿区）の飲食店情報を100件、CSV形式で納品。
+    取得項目: 店舗名 / 住所 / 電話番号 / カテゴリ / 平均予算
+    対象サイト: 食べログ等（指定なし、提案可）
+
+## Job 2
+- title: ECサイト商品データ500件のExcel入力
+- url: https://example.com/jobs/67890
+- price_jpy: 8000
+- deadline: 2026-05-10
+- detail: |
+    添付Excelテンプレートに商品名・価格・URL・在庫数を入力。
+    元データは指定CSV（500行）。フォーマット崩れなく入力できる方を希望。
+
+## Job 3
+- title: クラウドソーシングへの自動応募ツール開発
+- url: https://example.com/jobs/11111
+- price_jpy: 50000
+- deadline: 2026-05-20
+- detail: |
+    クラウドワークスにログインして自動で応募メッセージを送信するbot。
+    Cookie保持・キャプチャ回避ロジック含む。Python推奨。
+
+## Job 4
+- title: 通販サイトの会員リスト取得（メルアド・電話番号付き）
+- url: https://example.com/jobs/22222
+- price_jpy: 30000
+- deadline: 2026-05-12
+- detail: |
+    特定通販サイトの会員データ（氏名・メールアドレス・電話番号）を
+    1,000件取得してExcelで納品してほしい。

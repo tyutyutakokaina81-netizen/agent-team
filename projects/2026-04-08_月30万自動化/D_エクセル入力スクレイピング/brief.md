@@ -26,11 +26,13 @@ D_エクセル入力スクレイピング/
 ├── pipeline/              ← 自動化スクリプト群
 │   ├── 01_search.py       ← 案件検索
 │   ├── 02_evaluate.py     ← 案件評価・選別
-│   ├── 03_apply.py        ← 応募文生成・送信
+│   ├── 03_apply.py        ← 応募文生成（API利用 / シングルプロンプト）
+│   ├── 03b_sansimai_apply.py ← 応募文生成（三姉妹AI統合：りん/しおり/あかね）
 │   ├── 04_execute.py      ← 作業実行（Excel/スクレイピング）
 │   ├── 05_review.py       ← 念査
-│   └── 06_deliver.py      ← 納品
-├── templates/             ← 応募文テンプレート
+│   ├── 06_deliver.py      ← 納品
+│   └── inputs/            ← 03bへの手動コピペ案件入力（jobs.md は gitignore対象）
+├── templates/             ← 応募文テンプレート・プロンプト
 └── outputs/               ← 納品前成果物（gitignore対象）
 ```
 

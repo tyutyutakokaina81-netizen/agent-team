@@ -27,9 +27,13 @@ CSO/research/*
 *_機密*
 *_秘密*
 
-# 柱D：納品前成果物・セッション情報
+# 柱D：納品前成果物・セッション情報・応募文入力
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
+projects/*/D_エクセル入力スクレイピング/pipeline/inputs/jobs.md
+# フォーマット見本と .gitkeep は残す
+!projects/*/D_エクセル入力スクレイピング/pipeline/inputs/.gitkeep
+!projects/*/D_エクセル入力スクレイピング/pipeline/inputs/jobs.md.sample
 
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
