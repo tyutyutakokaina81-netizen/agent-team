@@ -65,8 +65,7 @@ COO（統括）
 2. KPI 7日進捗を集計（`kpi.py` 出力）
 3. ai-auto の sunday_polish 候補3本をレビュー → オーナーに推薦
 4. 来週の優先順位 1〜3 を整理
-5. `COO/outputs/YYYY-MM-DD_週次レポート.md` に発行
-6. 同内容を `context/diary/` にも複写（オーナー閲覧用）
+5. `COO/outputs/YYYY-MM-DD_週次レポート.md` に発行（オーナーはここを見る）
 
 ## 月次ルーチン（月初・30分）
 
@@ -110,7 +109,7 @@ COO（統括）
 ai-auto プロジェクト（`~/ai-auto/`）と密接に連動：
 
 - **入力**：`published.csv`, `kpi.py` 出力, `logs/scheduler.log`, `logs/ban_check.log`
-- **出力**：`COO/outputs/` に週次/月次レポート, `context/diary/` に申送り
+- **出力**：`COO/outputs/` に週次/月次レポート（context/diary はオーナー個人領域のため複写しない）
 - **iPhone 連携**：API サーバーの `/kpi` エンドポイントを叩いて出先からも確認可
 
 ## 作業の進め方
