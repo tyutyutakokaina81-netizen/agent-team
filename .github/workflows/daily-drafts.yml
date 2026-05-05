@@ -14,6 +14,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      enable_note:
+        description: 'note を実投稿する（規約上グレー・BANリスク承知で）'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: write
@@ -115,3 +120,44 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           python3 tools/notify.py --type failure "Reddit 自動公開ジョブが失敗しました\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  publish_note:
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ vars.ENABLE_NOTE_AUTO_PUBLISH == 'true' || inputs.enable_note == true }}
+    steps:
+      - name: Checkout (after auto-commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Playwright Chromium
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: Publish to note
+        env:
+          DRY_RUN: ${{ inputs.enable_note == true && '0' || '1' }}
+          NOTE_STORAGE_STATE: ${{ secrets.NOTE_STORAGE_STATE }}
+        run: python3 tools/publish_note.py
+
+      - name: Notify note success
+        if: success() && (inputs.enable_note == true || vars.ENABLE_NOTE_AUTO_PUBLISH == 'true')
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type success "📤 note 自動公開ジョブ完了\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Notify note failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "🚨 note 自動公開ジョブ失敗（NOTE_STORAGE_STATE 失効の可能性）\nmac で tools/extract_note_state.py を実行して再登録してください\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

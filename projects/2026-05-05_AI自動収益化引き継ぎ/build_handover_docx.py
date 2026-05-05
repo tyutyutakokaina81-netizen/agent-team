@@ -819,7 +819,44 @@ def main() -> None:
         CALLOUT_INFO,
     )
 
-    add_heading(doc, "付録J　最終命令（要約）", 1)
+    add_heading(doc, "付録J　note 自動公開（GitHub Actions + iPhone Shortcuts）", 1)
+    add_para(
+        doc,
+        "note の自動公開を2系統で実装。GitHub Actions 経由（B案・完全自動・規約グレー）と "
+        "iPhone Shortcuts 経由（C案・半自動・規約準拠・BANゼロ）。"
+        "C を主軸・B を補助で組み合わせる運用が推奨。",
+    )
+    add_table(
+        doc,
+        ["案", "自動化", "BAN リスク", "mac", "運用継続性"],
+        [
+            ["B (GitHub Actions)", "完全自動", "高", "不要（state取得時のみ）", "数週間で失効"],
+            ["C (iPhone Shortcuts)", "半自動", "ゼロ", "不要", "高"],
+        ],
+    )
+    add_para(doc, "B のセットアップ要件：", bold=True)
+    add_bullets(doc, [
+        "mac で tools/extract_note_state.py 実行 → 手動ログイン",
+        "出力 note_state.b64 を GitHub Secret NOTE_STORAGE_STATE に登録",
+        "Variable ENABLE_NOTE_AUTO_PUBLISH=true で常時稼働、または workflow_dispatch で手動",
+        "失敗時は Discord 通知 → state 再取得",
+    ])
+    add_para(doc, "C のセットアップ要件：", bold=True)
+    add_bullets(doc, [
+        "iPhone Shortcuts で raw.githubusercontent.com から note_draft.md 取得",
+        "クリップボードコピー → note アプリ起動",
+        "公開ボタンだけ人間が押す（10秒で完了）",
+    ])
+    add_callout(
+        doc,
+        "推奨運用",
+        "C を毎日の主軸（10秒1タップ・BANゼロ）、B は旅行や緊急時の補助とする。"
+        "BAN 兆候を検知したら即 ENABLE_NOTE_AUTO_PUBLISH=false に戻す。",
+        CALLOUT_WARN,
+    )
+    add_para(doc, "詳細手順：COO/outputs/2026-05-05_note自動公開セットアップ.md", bold=True)
+
+    add_heading(doc, "付録K　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",

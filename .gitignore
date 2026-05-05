@@ -27,6 +27,12 @@ CSO/research/*
 *_機密*
 *_秘密*
 
+# Cookie/storageState（GitHub Secret として登録するもの。リポジトリには絶対に commit しない）
+note_state.json
+note_state.b64
+*storage_state*.json
+*storage_state*.b64
+
 # 柱D：納品前成果物・セッション情報
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
