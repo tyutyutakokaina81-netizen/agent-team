@@ -566,24 +566,46 @@ def main() -> None:
     add_heading(doc, "付録A　generate_daily_outputs.py", 1)
     add_para(
         doc,
-        "本日の note・Reddit・YouTube Shorts 台本・CrowdWorks 応募文を `outputs/` に出力するスクリプト。"
-        "本書発行時点で `~/ai-auto/generate_daily_outputs.py` として配置済み。",
+        "本日の note・Reddit・YouTube Shorts 台本・CrowdWorks 応募文を outputs/ に出力するスクリプト。"
+        "テーマは prompts/themes.json から日付ベースで自動ローテ選択され、"
+        "各 generate_*.py の build() 関数を再利用する。"
+        "本書発行時点で ~/ai-auto/generate_daily_outputs.py として配置済み。",
+    )
+
+    add_heading(doc, "付録B　published.csv と KPI 計測", 1)
+    add_para(
+        doc,
+        "公開後は published.py で記録し、kpi.py で 7/30/90 日の達成度を確認する。",
     )
     add_code_block(
         doc,
-        "from pathlib import Path\n"
-        "from datetime import datetime\n"
-        "BASE = Path.home() / \"ai-auto\"\n"
-        "OUT = BASE / \"outputs\"\n"
-        "LOG = BASE / \"logs\"\n"
-        "OUT.mkdir(exist_ok=True)\n"
-        "LOG.mkdir(exist_ok=True)\n"
-        "today = datetime.now().strftime(\"%Y-%m-%d_%H%M\")\n"
-        "# note / reddit / youtube / cw のテンプレートを outputs/ に書き出す\n"
-        "# 詳細は ~/ai-auto/generate_daily_outputs.py を参照",
+        "# 公開記録\n"
+        "python3 published.py note      \"https://note.com/...\" \"記事タイトル\" 0\n"
+        "python3 published.py paid_note \"https://note.com/...\" \"30日メソッド\" 980\n"
+        "python3 published.py crowdworks \"案件名\" \"応募完了\" 0\n"
+        "\n"
+        "# KPI 集計\n"
+        "python3 kpi.py",
     )
 
-    add_heading(doc, "付録B　最終命令（要約）", 1)
+    add_heading(doc, "付録C　LLM 呼び出しとコストガード", 1)
+    add_para(
+        doc,
+        "ANTHROPIC_API_KEY または OPENAI_API_KEY が設定されていれば generate_note.py が API で生成する。"
+        "日次予算（既定 ¥100）超過時は自動でテンプレフォールバックする。"
+        "累計コストは .cost_log.json に記録される。",
+    )
+    add_code_block(
+        doc,
+        "# .env の例\n"
+        "ANTHROPIC_API_KEY=sk-ant-...\n"
+        "AI_DAILY_BUDGET_JPY=100\n"
+        "\n"
+        "# 既存の CW 案件スコアリング結果を取り込む\n"
+        "python3 cw_apply.py --from-json /path/to/job.json",
+    )
+
+    add_heading(doc, "付録D　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",
