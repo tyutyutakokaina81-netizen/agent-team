@@ -21,6 +21,8 @@
 | 2026-05-05 | `~/ai-auto/`（リポジトリ外） | L2/L3対応 | cw_apply に writer/ai_support/consultant の3カテゴリ追加・generate_seo_article.py / generate_proposal.py 新規・有料note既定¥2,980化・kpi.py に Level別売上分解・prompts/polish_prompts.md（無料Web AI 7プロンプト集）・SEOキーワード辞書追加 | 完了 |
 | 2026-05-05 | `~/ai-auto/`（リポジトリ外） | Plan B 全自動 | _scheduler.py / _browser.py / auto_schedule.py / dispatcher.py / publish_note.py / post_x.py / post_reddit.py / apply_crowdworks.py / _note.py を新規。時間分散ランダム化＋人間挙動エミュレーション＋ DRY_RUN 既定。BANリスクは残るためPlanBは段階的有効化必須 | 完了 |
 | 2026-05-05 | `~/ai-auto/` | リファクタ | publish_note._parse バグ修正（H1ベース）/ apply_crowdworks 提案数バグ修正（数値抽出）/ post_x 見出しスキップ＋CSV末尾読み / dead code削除 / _browser USER_DATA_DIR統一 / DRY_RUNでRuntimeError化 / docstring圧縮 | 完了 |
+| 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/deploy/` | デプロイ | mac再現用パッケージ（28ファイル＋install.sh＋SETUP_PROMPT.md） | 完了 |
+| 2026-05-05 | `~/ai-auto/ban_detector.py` `~/ai-auto/sunday_polish.py` | A案実装 | 朝9時にBAN検知（403/404/410/451）・日曜18時に高単価候補3本（有料note/SEO記事/提案書）を自動生成。SETUP_PROMPT.md にA案運用プロトコルとcron 4行を追記 | 完了 |
 
 ## 進行中タスク
 

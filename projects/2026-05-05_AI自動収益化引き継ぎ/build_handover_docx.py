@@ -700,7 +700,40 @@ def main() -> None:
         CALLOUT_WARN,
     )
 
-    add_heading(doc, "付録G　最終命令（要約）", 1)
+    add_heading(doc, "付録G　A 案運用プロトコル（Plan B + 週1ハイブリッド）", 1)
+    add_para(
+        doc,
+        "Plan B 自動投稿の量と人間ポリッシュの質を組み合わせる推奨運用。"
+        "BAN リスクを織り込んでも 6ヶ月累計利益 ¥831K（時給 ¥6,648相当）を期待できる。",
+    )
+    add_table(
+        doc,
+        ["曜日・時刻", "やること", "所要"],
+        [
+            ["平日 朝", "何もしない（cron で全自動）", "0分"],
+            ["平日 朝9時", "ban_detector でBAN検知（異常時のみ対応）", "1分"],
+            ["日曜 18時", "sunday_polish.py が高単価候補3本を自動生成", "0分"],
+            ["日曜 18:00-19:00", "claude.ai でポリッシュ（有料note・SEO記事・提案書）", "30〜60分"],
+            ["日曜 19:00-19:30", "公開・応募 → published.py で記録", "30分"],
+        ],
+    )
+    add_heading(doc, "cron 設定（A案 4行）", 2)
+    add_code_block(
+        doc,
+        "0 7 * * *  /bin/zsh -lc 'cd $HOME/ai-auto && ./run.sh >> logs/cron.log 2>&1'\n"
+        "0 * * * *  /bin/zsh -lc 'cd $HOME/ai-auto && python3 dispatcher.py >> logs/dispatcher.log 2>&1'\n"
+        "0 9 * * *  /bin/zsh -lc 'cd $HOME/ai-auto && python3 ban_detector.py >> logs/ban_check.log 2>&1'\n"
+        "0 18 * * 0 /bin/zsh -lc 'cd $HOME/ai-auto && python3 sunday_polish.py >> logs/sunday.log 2>&1'",
+    )
+    add_callout(
+        doc,
+        "BAN対応",
+        "ban_detector.py が 403/404/410/451 を検出したら、該当サービスの自動投稿を即停止"
+        "（.env で DRY_RUN=1）。原因特定までは手動運用に戻す。",
+        CALLOUT_WARN,
+    )
+
+    add_heading(doc, "付録H　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",
