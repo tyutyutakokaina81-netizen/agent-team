@@ -1,7 +1,7 @@
 name: Daily Drafts & Auto-Publish
 
-# 毎朝 07:00 JST (= 22:00 UTC 前日) に当日ドラフトを生成して daily/ にコミット。
-# Reddit のみ公式API経由で自動公開（GitHub Secrets の REDDIT_* が設定されている場合）。
+# 毎朝 07:00 JST (= 22:00 UTC 前日) に当日ドラフトを生成・自動コミット。
+# Reddit のみ公式API経由で自動公開（GitHub Secrets と Variables の設定が必要）。
 # note / X / CrowdWorks は規約上の理由で自動公開しない（iPhone から手動で1分公開）。
 
 on:
@@ -47,19 +47,37 @@ jobs:
           TZ: Asia/Tokyo
         run: python3 tools/daily_drafts.py
 
+      - name: Update README KPI section
+        run: python3 tools/update_readme_kpi.py
+
       - name: Commit and push
         env:
           TZ: Asia/Tokyo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add daily/
+          git add daily/ README.md
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
             git commit -m "feat(daily): drafts for ${{ steps.date.outputs.today }}"
             git push
           fi
+
+      - name: Notify success
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/daily/${{ steps.date.outputs.today }}"
+          python3 tools/notify.py --type success "📝 daily/${{ steps.date.outputs.today }}/ にドラフト準備完了\n→ $REPO_URL\n\niPhone で開いてコピペ→note 公開で1分運用。"
+
+      - name: Notify failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "Daily Drafts ワークフロー失敗\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
   publish_reddit:
     needs: generate
@@ -90,3 +108,10 @@ jobs:
           REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
           REDDIT_SUBREDDIT: ${{ vars.REDDIT_SUBREDDIT || 'SlowLiving' }}
         run: python3 tools/publish_reddit.py
+
+      - name: Notify reddit failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "Reddit 自動公開ジョブが失敗しました\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

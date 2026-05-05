@@ -59,3 +59,37 @@ curl -s http://127.0.0.1:3000/unknown | jq
 GET /health 200 0.12ms
 POST /echo 200 0.45ms
 ```
+
+<!-- KPI:START -->
+## ai-auto 自動運用ステータス（2026-05-05 20:10 時点）
+
+毎朝 07:00 (JST) に GitHub Actions が当日のドラフトを自動生成・自動コミットします。
+mac セットアップ不要。iPhone の GitHub アプリで開いて1分以内に公開可能。
+
+| 指標 | 値 |
+|------|---|
+| 自動生成日数 | **1 日** |
+| 最新ドラフト | [`daily/2026-05-05/`](daily/2026-05-05/) |
+| ドラフト本日分 | 8 ファイル |
+
+### 最新ドラフト一覧
+  - `crowdworks_application_data.txt`
+  - `crowdworks_application_writer.txt`
+  - `note_draft.md`
+  - `paid_note_2980.md`
+  - `proposal_sample.md`
+  - `reddit_post.md`
+  - `seo_article.md`
+  - `youtube_short.md`
+
+### 公開フロー（iPhone・1分）
+1. GitHub アプリで上の最新ドラフトを開く
+2. `note_draft.md` を Raw 表示 → コピー
+3. note アプリで貼り付け → 公開ボタン
+4. 完了
+
+詳細：
+- 全体設計：[`projects/2026-05-05_AI自動収益化引き継ぎ/outputs/claude_code_handover.docx`](projects/2026-05-05_AI自動収益化引き継ぎ/outputs/claude_code_handover.docx)
+- iPhone 1分運用ガイド：[`COO/outputs/2026-05-05_iPhone1分運用ガイド.md`](COO/outputs/2026-05-05_iPhone1分運用ガイド.md)
+- mac 全自動 Plan B：[`projects/2026-05-05_AI自動収益化引き継ぎ/deploy/SETUP_PROMPT.md`](projects/2026-05-05_AI自動収益化引き継ぎ/deploy/SETUP_PROMPT.md)
+<!-- KPI:END -->
