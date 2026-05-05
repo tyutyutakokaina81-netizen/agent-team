@@ -101,25 +101,39 @@
 
 **6ヶ月リスク調整後利益：¥831K（時給¥6,648相当）**
 
-### Phase 6：手動ログイン手順を案内（私が「Reddit本番化したい」「X本番化したい」と言ってから）
-- Reddit：reddit.com/prefs/apps で script アプリ作成 → .env の REDDIT_* に値を入れる
-- X：~/ai-auto/.browser_profile を Playwright で起動して x.com に手動ログイン（具体コマンド提示）
-- note：同様に note.com に手動ログイン
-- CrowdWorks：同様に crowdworks.jp に手動ログイン
+### Phase 6：手動ログイン（私が「X/note/CW を本番化したい」と言ってから）
+11. Reddit：reddit.com/prefs/apps で script アプリ作成 → `.env` の REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET / REDDIT_USER_AGENT / REDDIT_USERNAME / REDDIT_PASSWORD / REDDIT_SUBREDDIT を埋める
+12. X / note / CrowdWorks：1コマンドでブラウザ起動＋順次ログイン：
+    ```bash
+    cd ~/ai-auto
+    DRY_RUN=0 python3 init_login.py            # 全サービス順番に
+    # または個別: DRY_RUN=0 python3 init_login.py x note
+    ```
+    ブラウザが開いて各サイトのログインページに遷移するので、ログイン完了後にターミナルで Enter を押す。Cookie/セッションが `~/ai-auto/.browser_profile/` に保存され、以降の自動投稿はこれを再利用。
 
 ### Phase 7：iPhone から確認・操作できるようにする（私が「iPhone対応もする」と言ったら）
 
-11. `.env` に `AI_AUTO_TOKEN` を生成して追記：
+13. iPhone セットアップを1コマンドで実行：
     ```bash
-    echo "AI_AUTO_TOKEN=$(openssl rand -hex 24)" >> ~/ai-auto/.env
+    cd ~/ai-auto && bash quick_start.sh           # LAN公開モード（推奨）
+    # または:
+    cd ~/ai-auto && bash quick_start.sh local     # mac内のみ
+    cd ~/ai-auto && bash quick_start.sh stop      # 停止
     ```
-12. API サーバー起動：
-    - mac内のみ：`~/ai-auto/run_server.sh`
-    - 同一LAN公開：`~/ai-auto/run_server.sh lan`
-    - mac 常駐：`cp ~/ai-auto/com.aiauto.server.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.aiauto.server.plist`
-13. mac の IP アドレスとトークンを表示し、`~/ai-auto/iphone_shortcuts.md` を読むよう案内
-14. iPhone のショートカットアプリで4本のショートカットを作成（KPI閲覧 / 生成物表示 / 公開記録 / DRY_RUN切替）
-15. SSH 補助レシピも案内（mac で「リモートログイン」を有効化する手順を提示）
+    実行されること：
+    - `.env` に `AI_AUTO_TOKEN` を自動生成（既存なら保持）
+    - API サーバーをバックグラウンド起動
+    - mac の IP・トークン・URL を表示（iPhone 設定にコピペする値）
+
+14. mac 常駐させたい場合は LaunchAgent も登録：
+    ```bash
+    cp ~/ai-auto/com.aiauto.server.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.aiauto.server.plist
+    ```
+
+15. iPhone のショートカットアプリで4本のショートカットを作成（手順は `~/ai-auto/iphone_shortcuts.md` 参照）
+
+16. 外出先からも使うなら Tailscale 設定を案内（mac+iPhone 両方にインストール → URL の IP を 100.x.y.z に置換）
 
 ## 重要な制約
 - **私が明示的に「DRY_RUN=0 にして」と言うまで、絶対に DRY_RUN=0 にしない**

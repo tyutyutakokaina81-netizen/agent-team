@@ -769,6 +769,17 @@ def main() -> None:
         CALLOUT_INFO,
     )
     add_para(doc, "詳細レシピ：~/ai-auto/iphone_shortcuts.md", bold=True)
+    add_heading(doc, "1コマンドでセットアップ", 2)
+    add_code_block(
+        doc,
+        "# iPhone 連携を立ち上げる（トークン生成＋サーバー起動＋IP表示まで）\n"
+        "cd ~/ai-auto && bash quick_start.sh           # LAN公開\n"
+        "cd ~/ai-auto && bash quick_start.sh local     # mac内のみ\n"
+        "cd ~/ai-auto && bash quick_start.sh stop      # 停止\n"
+        "\n"
+        "# 各サービスの初回手動ログイン（Cookie保存）\n"
+        "cd ~/ai-auto && DRY_RUN=0 python3 init_login.py",
+    )
 
     add_heading(doc, "付録I　最終命令（要約）", 1)
     add_numbered(doc, [

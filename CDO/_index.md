@@ -24,6 +24,7 @@
 | 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/deploy/` | デプロイ | mac再現用パッケージ（28ファイル＋install.sh＋SETUP_PROMPT.md） | 完了 |
 | 2026-05-05 | `~/ai-auto/ban_detector.py` `~/ai-auto/sunday_polish.py` | A案実装 | 朝9時にBAN検知（403/404/410/451）・日曜18時に高単価候補3本（有料note/SEO記事/提案書）を自動生成。SETUP_PROMPT.md にA案運用プロトコルとcron 4行を追記 | 完了 |
 | 2026-05-05 | `~/ai-auto/server.py` `~/ai-auto/iphone_shortcuts.md` | iPhone対応 | Python標準ライブラリのみのHTTP API（/kpi /outputs /publish /dry-run）。run_server.sh/LaunchAgent plist 同梱。ショートカット 4本のレシピ（HTTP）と SSH 補助レシピを iphone_shortcuts.md に集約 | 完了 |
+| 2026-05-05 | `~/ai-auto/init_login.py` `~/ai-auto/quick_start.sh` | UX改善 | Phase 6/7 の手順を1コマンド化。init_login.py で X/note/CW を順次ログイン、quick_start.sh でトークン生成＋サーバー起動＋IP表示を自動 | 完了 |
 
 ## 進行中タスク
 
