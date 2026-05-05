@@ -781,7 +781,45 @@ def main() -> None:
         "cd ~/ai-auto && DRY_RUN=0 python3 init_login.py",
     )
 
-    add_heading(doc, "付録I　最終命令（要約）", 1)
+    add_heading(doc, "付録I　GitHub Actions 自動運用（mac 不要・iPhone 1分公開）", 1)
+    add_para(
+        doc,
+        "mac セットアップが障壁となり実運用が始まらない問題を解決するため、"
+        "GitHub Actions による完全自動ドラフト生成と Reddit 自動公開を導入。"
+        "オーナーは iPhone のブラウザだけで毎朝1分以内に公開を完了できる。",
+    )
+    add_table(
+        doc,
+        ["コンポーネント", "ファイル", "役割"],
+        [
+            ["生成ワークフロー", ".github/workflows/daily-drafts.yml", "毎朝07:00 JST にドラフト生成→自動コミット"],
+            ["生成スクリプト", "tools/daily_drafts.py", "8種類のドラフトを daily/<日付>/ に出力"],
+            ["Reddit 自動公開", "tools/publish_reddit.py", "PRAW 経由・GitHub Secrets で認証"],
+            ["ドラフト置き場", "daily/<日付>/", "iPhone の GitHub アプリから閲覧"],
+        ],
+    )
+    add_heading(doc, "Reddit 自動公開の有効化", 2)
+    add_para(doc, "GitHub リポジトリの Settings で以下を設定：", bold=True)
+    add_bullets(doc, [
+        "Secrets: REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET / REDDIT_USER_AGENT / REDDIT_USERNAME / REDDIT_PASSWORD",
+        "Variables: ENABLE_REDDIT_AUTO_PUBLISH=true / REDDIT_SUBREDDIT=SlowLiving (任意)",
+    ])
+    add_heading(doc, "iPhone 1分運用フロー", 2)
+    add_numbered(doc, [
+        "GitHub アプリで daily/<最新日付>/ を開く",
+        "note_draft.md をタップ → Raw → 全選択コピー",
+        "note アプリで新規記事 → 貼り付け → 公開",
+    ])
+    add_callout(
+        doc,
+        "重要",
+        "note / X / CrowdWorks の Web 自動化（Plan B）は規約上グレーで mac 環境必須。"
+        "GitHub Actions では Reddit のみ規約準拠で自動化可能。"
+        "L1 構成（GitHub Actions ドラフト生成 + Reddit 自動 + iPhone 手動公開）が時間対効果最大。",
+        CALLOUT_INFO,
+    )
+
+    add_heading(doc, "付録J　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",

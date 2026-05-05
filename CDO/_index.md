@@ -26,6 +26,7 @@
 | 2026-05-05 | `~/ai-auto/server.py` `~/ai-auto/iphone_shortcuts.md` | iPhone対応 | Python標準ライブラリのみのHTTP API（/kpi /outputs /publish /dry-run）。run_server.sh/LaunchAgent plist 同梱。ショートカット 4本のレシピ（HTTP）と SSH 補助レシピを iphone_shortcuts.md に集約 | 完了 |
 | 2026-05-05 | `~/ai-auto/init_login.py` `~/ai-auto/quick_start.sh` | UX改善 | Phase 6/7 の手順を1コマンド化。init_login.py で X/note/CW を順次ログイン、quick_start.sh でトークン生成＋サーバー起動＋IP表示を自動 | 完了 |
 | 2026-05-05 | `COO/` フォルダ一式 | 新役職生成 | 全業務統括役のCOO（Chief Operating Officer）を新規追加。company.md / CLAUDE.md のディレクトリ構造・役職一覧・情報フロー図を更新。`projects/` プロジェクトと各C?O横断の進捗管理を担当 | 完了 |
+| 2026-05-05 | `tools/daily_drafts.py` `tools/publish_reddit.py` `.github/workflows/daily-drafts.yml` `daily/` | GitHub Actions自動化 | mac不要でドラフト自動生成・自動コミット・Reddit自動公開（PRAW・規約OK）。iPhone のGitHub アプリから1分公開可能に。L0/L1/L2の3段階自動化レベル設計 | 完了 |
 
 ## 進行中タスク
 
