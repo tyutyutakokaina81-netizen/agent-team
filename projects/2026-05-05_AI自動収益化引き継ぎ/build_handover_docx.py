@@ -605,7 +605,62 @@ def main() -> None:
         "python3 cw_apply.py --from-json /path/to/job.json",
     )
 
-    add_heading(doc, "付録D　最終命令（要約）", 1)
+    add_heading(doc, "付録D　原単位レベル戦略（L1/L2/L3）", 1)
+    add_para(
+        doc,
+        "本システムは原単位レベルを段階的に上げる前提で設計されている。"
+        "L1（データ入力・¥980 note）は実績ゼロからの入口、L2（SEO記事執筆・¥2,980 note）が主収益、"
+        "L3（SNS運用代行・コンサル・AI業務支援）が継続収益となる。",
+    )
+    add_table(
+        doc,
+        ["Level", "主な収益柱", "単価", "月必要件数", "月売上目安"],
+        [
+            ["L1", "データ入力 / ¥980 note", "¥1K〜10K", "30〜50件", "¥30〜50K"],
+            ["L2", "SEO記事 / ¥2,980 note / マガジン", "¥10K〜30K", "5〜15件", "¥100〜300K"],
+            ["L3", "SNS運用代行 / コンサル / AI支援", "¥50K〜300K", "2〜5件", "¥200K〜1.5M"],
+        ],
+    )
+    add_para(doc, "対応スクリプト：", bold=True)
+    add_bullets(doc, [
+        "L1 応募：cw_apply.py --kind data",
+        "L2 応募：cw_apply.py --kind writer",
+        "L2 記事：generate_seo_article.py（無料Web AIで肉付け）",
+        "L2 note：generate_paid_note.py（既定 ¥2,980）",
+        "L3 応募：cw_apply.py --kind ai_support / --kind consultant",
+        "L3 提案書：generate_proposal.py",
+    ])
+    add_callout(
+        doc,
+        "重要",
+        "L1 のまま3ヶ月以上居座らないこと。M2 開始時には L2 案件への応募にシフトする。",
+        CALLOUT_WARN,
+    )
+
+    add_heading(doc, "付録E　無料Web AI 運用（金銭費用ゼロの核）", 1)
+    add_para(
+        doc,
+        "本システムは API を呼ばなくても L2 単価が成立するよう、"
+        "無料Web AI（claude.ai / gemini.google.com / chatgpt.com）でのポリッシュ運用を採用する。"
+        "プロンプト集は ~/ai-auto/prompts/polish_prompts.md に集約されている。",
+    )
+    add_table(
+        doc,
+        ["ツール", "強み", "主用途", "1日目安"],
+        [
+            ["claude.ai", "長文・日本語・SEO構成", "SEO記事 / 有料note / 提案書", "5〜10本"],
+            ["gemini", "検索連携・タイトル発想", "キーワード調査 / タイトル候補", "無制限"],
+            ["chatgpt", "短文・SNS表現", "X / Threads / Instagram", "5〜10本"],
+        ],
+    )
+    add_callout(
+        doc,
+        "推奨",
+        "API は既定で無効。3つの無料Web AI を使い分けて1日30本ペースまでカバー可能。月額¥0で L2 単価が狙える。",
+        CALLOUT_INFO,
+    )
+
+    add_heading(doc, "付録F　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",
