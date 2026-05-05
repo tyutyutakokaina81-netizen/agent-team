@@ -660,7 +660,47 @@ def main() -> None:
         CALLOUT_INFO,
     )
 
-    add_heading(doc, "付録F　最終命令（要約）", 1)
+    add_heading(doc, "付録F　Plan B 自動投稿基盤（時間分散・規約上グレー領域）", 1)
+    add_para(
+        doc,
+        "本システムは公開〜応募までを Web 自動化で全自動化する Plan B を別途実装している。"
+        "BANリスクを下げるため、時間分散・ジッター・人間挙動エミュレーション・1日上限・"
+        "連続失敗停止の5重ガードを組み込み、初回は DRY_RUN=1 で試運転する設計。",
+    )
+    add_table(
+        doc,
+        ["コンポーネント", "ファイル", "役割"],
+        [
+            ["スケジューラ", "auto_schedule.py / _scheduler.py", "朝に当日のランダム投稿時刻を schedule.json に書き出し"],
+            ["ディスパッチャ", "dispatcher.py", "毎時起動・現在時刻±15分のpendingタスクをジッター後に実行"],
+            ["ブラウザ共通", "_browser.py", "Playwright 起動・人間挙動（ランダム待機/タイピング/マウス）"],
+            ["note 公開", "publish_note.py", "Playwright・初回手動ログイン後はセッション再利用"],
+            ["X 投稿", "post_x.py", "Playwright・3回/日に分散"],
+            ["Reddit 投稿", "post_reddit.py", "PRAW（公式API・低リスク）"],
+            ["CW 自動応募", "apply_crowdworks.py", "Playwright・1日3件まで・カテゴリ自動判定"],
+        ],
+    )
+    add_heading(doc, "時間分散ルール", 2)
+    add_table(
+        doc,
+        ["kind", "時間帯候補", "1日上限"],
+        [
+            ["note", "7-9 / 12-13 / 21-22 のランダム1本", "1"],
+            ["x", "7-9 / 12-13 / 18-20 で各1回", "3"],
+            ["reddit", "22-23 / 5-7（米国朝）", "1"],
+            ["crowdworks", "平日 10-12 / 13-17", "3"],
+        ],
+    )
+    add_callout(
+        doc,
+        "重要・規約",
+        "note / X / CrowdWorks の Web 自動化はサービス規約上グレー。BANリスクは残る。"
+        "段階的有効化（Reddit→X→note→CW）と DRY_RUN 試運転を必ず経ること。"
+        "規約変更や検知強化があれば即停止。",
+        CALLOUT_WARN,
+    )
+
+    add_heading(doc, "付録G　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
         "CrowdWorks応募文を1本作る",

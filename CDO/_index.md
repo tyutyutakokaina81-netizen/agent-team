@@ -19,11 +19,14 @@
 | 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/build_handover_docx.py` | リファクタ | style_run ヘルパ・定数化・コメント整理で 647 → 604 行 | 完了 |
 | 2026-05-05 | `~/ai-auto/`（リポジトリ外） | 機能拡張 | テーマローテ（prompts/themes.json）・published.csv記録・kpi集計・LLMラッパ（_ai.py、コストガード）・cw_apply --from-json 対応・run.sh拡張 | 完了 |
 | 2026-05-05 | `~/ai-auto/`（リポジトリ外） | L2/L3対応 | cw_apply に writer/ai_support/consultant の3カテゴリ追加・generate_seo_article.py / generate_proposal.py 新規・有料note既定¥2,980化・kpi.py に Level別売上分解・prompts/polish_prompts.md（無料Web AI 7プロンプト集）・SEOキーワード辞書追加 | 完了 |
+| 2026-05-05 | `~/ai-auto/`（リポジトリ外） | Plan B 全自動 | _scheduler.py / _browser.py / auto_schedule.py / dispatcher.py / publish_note.py / post_x.py / post_reddit.py / apply_crowdworks.py / _note.py を新規。時間分散ランダム化＋人間挙動エミュレーション＋ DRY_RUN 既定。BANリスクは残るためPlanBは段階的有効化必須 | 完了 |
+| 2026-05-05 | `~/ai-auto/` | リファクタ | publish_note._parse バグ修正（H1ベース）/ apply_crowdworks 提案数バグ修正（数値抽出）/ post_x 見出しスキップ＋CSV末尾読み / dead code削除 / _browser USER_DATA_DIR統一 / DRY_RUNでRuntimeError化 / docstring圧縮 | 完了 |
 
 ## 進行中タスク
 
 - AI自動収益化引き継ぎ：cron常時稼働化（zsh環境前提・ローカル設定）
 - AI自動収益化引き継ぎ：M2 開始時に L1 → L2 案件応募シフト（cw_apply --kind writer）
+- AI自動収益化引き継ぎ：Plan B の段階的有効化（Reddit → X → note → CW の順、DRY_RUN試運転7日経てから本番化）
 
 ## メモ・引き継ぎ事項
 
