@@ -10,6 +10,30 @@ from docx.oxml import OxmlElement
 OUT = Path(__file__).parent / "outputs" / "claude_code_handover.docx"
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
+JP_FONT = "Yu Gothic"
+MONO_FONT = "Consolas"
+MONO_EAST = "MS Gothic"
+
+HEADER_FILL = "1F4E78"
+CALLOUT_DEFAULT = "FFF4CE"
+CALLOUT_INFO = "E7F3FF"
+CALLOUT_WARN = "FFE2E2"
+
+WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+
+
+def style_run(run, *, size: float | None = 11, bold: bool = False,
+              color: RGBColor | None = None, mono: bool = False) -> None:
+    name = MONO_FONT if mono else JP_FONT
+    east = MONO_EAST if mono else JP_FONT
+    run.font.name = name
+    if size is not None:
+        run.font.size = Pt(size)
+    run.bold = bold
+    if color is not None:
+        run.font.color.rgb = color
+    run.font.element.rPr.rFonts.set(qn("w:eastAsia"), east)
+
 
 def set_cell_shading(cell, color_hex: str) -> None:
     tc_pr = cell._tc.get_or_add_tcPr()
@@ -23,38 +47,28 @@ def set_cell_shading(cell, color_hex: str) -> None:
 def add_heading(doc: Document, text: str, level: int) -> None:
     p = doc.add_heading(text, level=level)
     for run in p.runs:
-        run.font.name = "Yu Gothic"
-        run.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+        style_run(run, size=None)
 
 
-def add_para(doc: Document, text: str, *, bold: bool = False, size: int = 11,
+def add_para(doc: Document, text: str, *, bold: bool = False, size: float = 11,
              align=WD_ALIGN_PARAGRAPH.LEFT) -> None:
     p = doc.add_paragraph()
     p.alignment = align
-    run = p.add_run(text)
-    run.font.name = "Yu Gothic"
-    run.font.size = Pt(size)
-    run.bold = bold
-    rPr = run.font.element.rPr
-    rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    style_run(p.add_run(text), size=size, bold=bold)
+
+
+def _add_listed(doc: Document, items: list[str], style: str) -> None:
+    for item in items:
+        p = doc.add_paragraph(style=style)
+        style_run(p.add_run(item), size=11)
 
 
 def add_bullets(doc: Document, items: list[str]) -> None:
-    for item in items:
-        p = doc.add_paragraph(style="List Bullet")
-        run = p.add_run(item)
-        run.font.name = "Yu Gothic"
-        run.font.size = Pt(11)
-        run.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    _add_listed(doc, items, "List Bullet")
 
 
 def add_numbered(doc: Document, items: list[str]) -> None:
-    for item in items:
-        p = doc.add_paragraph(style="List Number")
-        run = p.add_run(item)
-        run.font.name = "Yu Gothic"
-        run.font.size = Pt(11)
-        run.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    _add_listed(doc, items, "List Number")
 
 
 def add_table(doc: Document, headers: list[str], rows: list[list[str]]) -> None:
@@ -63,24 +77,14 @@ def add_table(doc: Document, headers: list[str], rows: list[list[str]]) -> None:
     hdr = table.rows[0].cells
     for i, h in enumerate(headers):
         hdr[i].text = ""
-        p = hdr[i].paragraphs[0]
-        run = p.add_run(h)
-        run.bold = True
-        run.font.size = Pt(11)
-        run.font.name = "Yu Gothic"
-        run.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
-        run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        set_cell_shading(hdr[i], "1F4E78")
+        style_run(hdr[i].paragraphs[0].add_run(h), size=11, bold=True, color=WHITE)
+        set_cell_shading(hdr[i], HEADER_FILL)
         hdr[i].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
     for r_idx, row in enumerate(rows, start=1):
         cells = table.rows[r_idx].cells
         for c_idx, val in enumerate(row):
             cells[c_idx].text = ""
-            p = cells[c_idx].paragraphs[0]
-            run = p.add_run(val)
-            run.font.size = Pt(10.5)
-            run.font.name = "Yu Gothic"
-            run.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+            style_run(cells[c_idx].paragraphs[0].add_run(val), size=10.5)
             cells[c_idx].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
 
 
@@ -88,38 +92,28 @@ def add_code_block(doc: Document, text: str) -> None:
     p = doc.add_paragraph()
     p.paragraph_format.left_indent = Cm(0.4)
     p.paragraph_format.space_after = Pt(6)
-    run = p.add_run(text)
-    run.font.name = "Consolas"
-    run.font.size = Pt(9.5)
-    rPr = run.font.element.rPr
-    rPr.rFonts.set(qn("w:eastAsia"), "MS Gothic")
+    style_run(p.add_run(text), size=9.5, mono=True)
 
 
-def add_callout(doc: Document, label: str, text: str, color_hex: str = "FFF4CE") -> None:
+def add_callout(doc: Document, label: str, text: str, color_hex: str = CALLOUT_DEFAULT) -> None:
     table = doc.add_table(rows=1, cols=1)
     cell = table.rows[0].cells[0]
     set_cell_shading(cell, color_hex)
     cell.text = ""
     p = cell.paragraphs[0]
-    r1 = p.add_run(f"【{label}】 ")
-    r1.bold = True
-    r1.font.name = "Yu Gothic"
-    r1.font.size = Pt(11)
-    r1.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
-    r2 = p.add_run(text)
-    r2.font.name = "Yu Gothic"
-    r2.font.size = Pt(11)
-    r2.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    style_run(p.add_run(f"【{label}】 "), size=11, bold=True)
+    style_run(p.add_run(text), size=11)
 
 
-def page_break(doc: Document) -> None:
-    doc.add_page_break()
+def add_centered_run(doc: Document, text: str, *, size: float, bold: bool = False) -> None:
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    style_run(p.add_run(text), size=size, bold=bold)
 
 
 def main() -> None:
     doc = Document()
 
-    # A4 setup, 余白
     section = doc.sections[0]
     section.page_height = Cm(29.7)
     section.page_width = Cm(21.0)
@@ -128,35 +122,15 @@ def main() -> None:
     section.left_margin = Cm(2.0)
     section.right_margin = Cm(2.0)
 
-    # 既定スタイル
     style = doc.styles["Normal"]
-    style.font.name = "Yu Gothic"
+    style.font.name = JP_FONT
     style.font.size = Pt(11)
-    style.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    style.element.rPr.rFonts.set(qn("w:eastAsia"), JP_FONT)
 
-    # ===== 表紙 =====
-    title = doc.add_paragraph()
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = title.add_run("Claude Code 引き継ぎ書 完全版")
-    r.bold = True
-    r.font.size = Pt(26)
-    r.font.name = "Yu Gothic"
-    r.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
-
-    sub = doc.add_paragraph()
-    sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = sub.add_run("AI自動収益化プロジェクト｜note・YouTube・SNS・CrowdWorks 運用設計")
-    r.font.size = Pt(14)
-    r.font.name = "Yu Gothic"
-    r.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
-
+    add_centered_run(doc, "Claude Code 引き継ぎ書 完全版", size=26, bold=True)
+    add_centered_run(doc, "AI自動収益化プロジェクト｜note・YouTube・SNS・CrowdWorks 運用設計", size=14)
     doc.add_paragraph()
-    meta = doc.add_paragraph()
-    meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = meta.add_run("発行日：2026-05-05　／　対象：Claude Code・Gemini・人間オペレーター")
-    r.font.size = Pt(11)
-    r.font.name = "Yu Gothic"
-    r.font.element.rPr.rFonts.set(qn("w:eastAsia"), "Yu Gothic")
+    add_centered_run(doc, "発行日：2026-05-05　／　対象：Claude Code・Gemini・人間オペレーター", size=11)
 
     doc.add_paragraph()
     add_callout(
@@ -167,9 +141,8 @@ def main() -> None:
         "新しい計画を立てる前に、第8章および第14章の即時実行指示を必ず参照すること。",
     )
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第1章 =====
     add_heading(doc, "第1章　プロジェクト概要", 1)
     add_para(doc, "本プロジェクトは、AIを活用して以下を実現するための自動収益化プロジェクトである。")
     add_bullets(doc, [
@@ -187,10 +160,9 @@ def main() -> None:
         doc,
         "結論",
         "仕組みは80%できている。残る20%は『出す勇気』と『毎日触る習慣』である。",
-        "E7F3FF",
+        CALLOUT_INFO,
     )
 
-    # ===== 第2章 =====
     add_heading(doc, "第2章　主要アカウント・サービス一覧", 1)
     add_table(
         doc,
@@ -212,7 +184,6 @@ def main() -> None:
         "SNS投稿は規約違反・スパム判定を避けるため、頻度制御を必須とする。",
     ])
 
-    # ===== 第3章 =====
     add_heading(doc, "第3章　これまでの成果", 1)
     add_para(doc, "Cowork期間において、以下の成果がある。")
     add_bullets(doc, [
@@ -230,7 +201,6 @@ def main() -> None:
         "技術構築力は高いが、収益化に直結する『公開数』『応募数』『継続実行』が不足している。",
     )
 
-    # ===== 第4章 =====
     add_heading(doc, "第4章　自動化システム稼働状況", 1)
     add_para(doc, "現在の構成は以下の通り。")
     add_code_block(
@@ -255,12 +225,11 @@ def main() -> None:
         doc,
         "総合評価",
         "自動化は約80%完成。残り20%は、投稿連携・動画生成・安定運用である。",
-        "E7F3FF",
+        CALLOUT_INFO,
     )
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第5章 =====
     add_heading(doc, "第5章　Claude Codeへの最重要タスク5本", 1)
     add_para(doc, "Claude Codeは以下を最優先で実行すること。", bold=True)
 
@@ -339,9 +308,8 @@ def main() -> None:
         "会社員から個人収益への移行",
     ])
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第6章 =====
     add_heading(doc, "第6章　ファイル構成", 1)
     add_para(doc, "想定構成：")
     add_code_block(
@@ -378,7 +346,6 @@ def main() -> None:
         ],
     )
 
-    # ===== 第7章 =====
     add_heading(doc, "第7章　運用ルール", 1)
     add_heading(doc, "基本方針", 2)
     add_bullets(doc, [
@@ -399,7 +366,6 @@ def main() -> None:
         "規約違反リスクのある自動化を強行すること",
     ])
 
-    # ===== 第8章 =====
     add_heading(doc, "第8章　日次運用フロー", 1)
     add_para(doc, "理想的な1日の流れ：", bold=True)
     add_numbered(doc, [
@@ -421,9 +387,8 @@ def main() -> None:
         "cronが正常動作しているか確認する",
     ])
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第9章 =====
     add_heading(doc, "第9章　収益化戦略", 1)
     add_heading(doc, "現状", 2)
     add_table(
@@ -450,7 +415,6 @@ def main() -> None:
         "SNSは導線強化に使う",
     ])
 
-    # ===== 第10章 =====
     add_heading(doc, "第10章　KPI", 1)
     add_table(
         doc,
@@ -465,7 +429,6 @@ def main() -> None:
         ],
     )
 
-    # ===== 第11章 =====
     add_heading(doc, "第11章　ロードマップ", 1)
     add_heading(doc, "フェーズ1：7日以内", 2)
     add_bullets(doc, [
@@ -492,9 +455,8 @@ def main() -> None:
         "伸びたテーマに集中投下する",
     ])
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第12章 =====
     add_heading(doc, "第12章　リスク管理", 1)
     add_table(
         doc,
@@ -508,7 +470,6 @@ def main() -> None:
         ],
     )
 
-    # ===== 第13章 =====
     add_heading(doc, "第13章　Claude Code実行方針", 1)
     add_para(doc, "Claude Codeは以下の方針で動くこと。")
     add_para(doc, "優先順位：", bold=True)
@@ -536,9 +497,8 @@ def main() -> None:
         "実際に収益化へ進まない作業を増やす",
     ])
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 第14章 =====
     add_heading(doc, "第14章　Claude Codeに渡す即時実行指示", 1)
     add_para(doc, "以下を実行してください。")
     add_code_block(
@@ -573,10 +533,9 @@ def main() -> None:
         "実行確認",
         "本書発行時点で、上記コマンドは ~/ai-auto に対して実行済み。"
         "logs/run.log および outputs/ 配下に当日分の note・Reddit・YouTube Shorts・CrowdWorks 応募文が生成されている。",
-        "E7F3FF",
+        CALLOUT_INFO,
     )
 
-    # ===== 第15章 =====
     add_heading(doc, "第15章　最終評価", 1)
     add_table(
         doc,
@@ -599,12 +558,11 @@ def main() -> None:
         "最終結論",
         "次にやるべきことは、新しい計画作成ではない。"
         "今日の生成物を公開し、CrowdWorksに1件応募し、ログを確認することである。",
-        "FFE2E2",
+        CALLOUT_WARN,
     )
 
-    page_break(doc)
+    doc.add_page_break()
 
-    # ===== 付録A =====
     add_heading(doc, "付録A　generate_daily_outputs.py", 1)
     add_para(
         doc,
@@ -625,7 +583,6 @@ def main() -> None:
         "# 詳細は ~/ai-auto/generate_daily_outputs.py を参照",
     )
 
-    # ===== 付録B =====
     add_heading(doc, "付録B　最終命令（要約）", 1)
     add_numbered(doc, [
         "note記事を1本公開できる状態にする",
