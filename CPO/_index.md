@@ -21,11 +21,13 @@
 | 2026-04-13 | projects/月30万自動化/C_テンプレ販売/note_sales_copy_optimized.md | 販売ページ | Vol.1-4 売れる販売文リライト版（CTR/CVR最適化） | 完了 |
 | 2026-05-03 | projects/月30万自動化/C_テンプレ販売/vol2_sns_calendar.md | 販売ページ | Vol.2 note本文をVol.1基準に拡充（コピペ完成版） | 完了 |
 | 2026-05-03 | projects/月30万自動化/2026-05-03_実行パック.md | 実行パック | Vol.2-4 note/BOOTH登録 + CrowdWorks応募の統合コピペパック | 完了 |
+| 2026-05-05 | projects/月30万自動化/C_テンプレ販売/2026-05-05_vol2_launch_pack.md | ローンチパック | Vol.2専用：note登録手順 + SNS3媒体告知文(X/Instagram/Facebook) + FAQ + 48hモニタリング計画 | 完了 |
+| 2026-05-05 | projects/月30万自動化/C_テンプレ販売/Vol2_SNS投稿カレンダー.xlsx | テンプレ実体 | Vol.2スプレッドシート完成版（カレンダー/集計/テーマ50選/使い方の4シート・数式45本・エラー0） | 完了 |
 
 ## 進行中タスク
 
-- Vol.2 SNSカレンダー Googleスプレッドシート実体の作成（設計書に沿って・藤森さん作業）
-- Vol.2/Vol.3/Vol.4 note・BOOTH登録（藤森さん作業・実行パックから即コピペ可）
+- Vol.2 スプレッドシート実体は .xlsx 完成版で作成済 → Googleドライブにアップ→ Sheets でインポートのみ（5分）
+- Vol.2/Vol.3/Vol.4 note・BOOTH登録（藤森さん作業・publish.py で半自動化済）
 
 ## メモ・引き継ぎ事項
 

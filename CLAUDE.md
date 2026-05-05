@@ -2,6 +2,24 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+---
+
+## 🤖 SESSION INIT — READ FIRST（自動起動チェックリスト）
+
+**新規セッション開始時、Claude は最初の応答を返す前に必ず以下を Read する。** ユーザーから指示がなくても自動実行する。
+
+1. `AGENT_RULES.md`（v1・13項目の絶対ルール）
+2. このファイル（`CLAUDE.md`）の全文
+3. `projects/2026-04-08_月30万自動化/PLAYBOOK.md`（事業全体マップ）
+4. `projects/2026-04-08_月30万自動化/dashboard.md`（最新進捗）
+5. 担当役職の `_index.md`「進行中タスク」セクション（タスク受領後に該当役職を特定）
+
+これを怠ると重複ファイル作成・既存資産の見落としが発生する（2026-05-05 反省）。
+
+`.claude/scripts/session_init.sh` を任意で実行すれば全項目を一括取得可能（zsh/bash どちらでも動作）。
+
+---
+
 ## Purpose
 
 AI-operated multi-officer company framework for building a ¥300K/month automated business.  

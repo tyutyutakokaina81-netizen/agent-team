@@ -20,10 +20,11 @@
 | 2026-04-08 | projects/月30万自動化/C_テンプレ販売/vol1_note_listing.md | 販売ページ | Vol.1 note・BOOTH販売ページ文言 | 完了 |
 | 2026-04-08 | projects/月30万自動化/C_テンプレ販売/vol2_sns_calendar.md | 販売ページ | Vol.2 SNSカレンダー note販売ページ＆シート設計 | 完了 |
 | 2026-04-08 | projects/月30万自動化/C_テンプレ販売/vol4_bundle_pack.md | 販売ページ | Vol.4 バンドルパック note販売ページ文言 | 完了 |
+| 2026-05-05 | projects/月30万自動化/C_テンプレ販売/2026-05-05_vol2_launch_pack.md | SNS告知文 | Vol.2告知文（X×2パターン/Instagram/Facebook）+ 購入者FAQ + 48hモニタ計画 | 完了 |
 
 ## 進行中タスク
 
-- Vol.2・Vol.3 の販売ページ最終仕上げ（BOOTH掲載文追加）
+- （特になし — Vol.2/3/4 の note・BOOTH 掲載文は全て作成済）
 
 ## メモ・引き継ぎ事項
 
