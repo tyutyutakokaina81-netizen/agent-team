@@ -15,6 +15,8 @@
 |------|-----------|------|------|-----------|
 | 2026-05-06 | research/2026-05-06_note集客記事_freelance確定申告_draft.md | 下書き | note 集客記事の戦略メモ＋本文ドラフト | 完了 |
 | 2026-05-06 | outputs/2026-05-06_note集客記事_freelance確定申告.md | 集客記事 | Vol.1 テンプレへの導線記事（無料公開用） | 完了 |
+| 2026-05-06 | CMO/research/2026-05-06_note集客記事_sns_calendar_input.md | スキャフォルド | Vol.2 SNSコンテンツカレンダー 集客記事の入力JSON＋プロンプト | 下書き |
+| 2026-05-06 | CMO/research/2026-05-06_note集客記事_restaurant_prompts_input.md | スキャフォルド | Vol.3 飲食店向けAIプロンプト集 集客記事の入力JSON＋プロンプト | 下書き |
 
 ## 進行中タスク
 

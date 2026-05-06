@@ -1,0 +1,16 @@
+{
+  "vol_number": "2",
+  "slug": "sns_calendar",
+  "template_name": "SNSコンテンツカレンダー",
+  "template_price": 680,
+  "problem": "SNS投稿のネタ切れ・継続できない・分析できない",
+  "target_reader": "個人事業主・小規模店舗経営者でSNS運用を始めたばかりの人",
+  "seo_keywords": ["SNS 投稿 ネタ", "コンテンツカレンダー", "Instagram 運用"],
+  "features": [
+    "30日分の投稿テーマが事前に設定済み",
+    "業種別（飲食・美容・教育）にカスタマイズ可能",
+    "投稿後のエンゲージメントを自動集計",
+    "週次・月次の振り返りシート付き"
+  ],
+  "tone": "共感"
+}
