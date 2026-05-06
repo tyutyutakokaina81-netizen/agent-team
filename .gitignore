@@ -3,6 +3,8 @@ node_modules/
 *.log
 .env
 *.env.*
+__pycache__/
+*.pyc
 
 # local-only / generated
 .claude/
@@ -30,6 +32,12 @@ CSO/research/*
 # 柱D：納品前成果物・セッション情報
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
+
+# AI自動収益化パイプライン：生成物・ログは未公開状態として除外
+projects/2026-05-06_AI自動収益化パイプライン/outputs/*
+projects/2026-05-06_AI自動収益化パイプライン/logs/*
+!projects/2026-05-06_AI自動収益化パイプライン/outputs/.gitkeep
+!projects/2026-05-06_AI自動収益化パイプライン/logs/.gitkeep
 
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
