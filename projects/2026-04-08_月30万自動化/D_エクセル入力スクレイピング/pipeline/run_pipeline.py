@@ -20,6 +20,7 @@ run_pipeline.py — パイプライン統合実行
 """
 
 import json
+import os
 import sys
 import webbrowser
 from importlib import import_module
@@ -27,6 +28,18 @@ from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 SESSION_DIR = Path(__file__).parent.parent / ".sessions"
+
+
+def _open_url(url: str) -> bool:
+    """ヘッドレス環境では sliently スキップしてURLだけ表示する"""
+    if not url:
+        return False
+    if not os.environ.get("DISPLAY") and sys.platform.startswith("linux"):
+        return False
+    try:
+        return webbrowser.open(url)
+    except Exception:
+        return False
 
 # ─────────────────────────────────────────────
 # フェーズ1：検索 → 評価 → 応募文生成
@@ -99,12 +112,13 @@ def phase1_search_to_apply():
         for line in app.get("application_text", "").split("\n"):
             print(f"       {line}")
 
-    # ブラウザで上位3件を自動オープン
+    # ブラウザで上位3件を自動オープン（GUI 環境のみ）
     top = sorted(applications, key=lambda x: x.get("total", 0), reverse=True)[:3]
-    print(f"\n  上位{len(top)}件のURLをブラウザで開きます...")
-    for app in top:
-        if app.get("url"):
-            webbrowser.open(app["url"])
+    opened = sum(1 for app in top if _open_url(app.get("url", "")))
+    if opened:
+        print(f"\n  上位{opened}件のURLをブラウザで開きました")
+    else:
+        print("\n  （ヘッドレス環境のためブラウザは開きません。上記URLを手動で開いてください）")
 
     print("\n  応募完了後、受注したら以下を実行してください:")
     print("  python run_pipeline.py deliver")
@@ -169,12 +183,15 @@ def phase2_execute_to_deliver(job: dict | None = None, output_file: str | None =
     print("\n[STEP 3/3] 納品準備中...")
     summary = deliver.run(job, Path(result_file), review_result)
 
-    # 納品URLをブラウザで自動オープン
+    # 納品URLをブラウザで自動オープン（GUI 環境のみ）
     job_url = job.get("url", "")
     if job_url:
-        print(f"\n  納品ページを開きます: {job_url}")
-        print("  ファイルを添付して納品ボタンを押してください")
-        webbrowser.open(job_url)
+        if _open_url(job_url):
+            print(f"\n  納品ページを開きました: {job_url}")
+            print("  ファイルを添付して納品ボタンを押してください")
+        else:
+            print(f"\n  納品ページURL: {job_url}")
+            print("  （ヘッドレス環境のためブラウザは開きません。上記URLを手動で開いて納品してください）")
 
     print("\n  ✅ 納品準備完了！ブラウザでファイルを添付して送信してください。")
     return summary
