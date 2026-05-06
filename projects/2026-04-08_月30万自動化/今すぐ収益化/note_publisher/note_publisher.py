@@ -29,7 +29,7 @@ import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent  # 月30万自動化/
 DIST = ROOT / "C_テンプレ販売" / "dist"
 SESSION_FILE = Path(__file__).parent / ".note_session.json"
 META_FILE = Path(__file__).parent / "note_meta.json"
