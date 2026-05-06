@@ -54,3 +54,11 @@ context/references/*
 !context/diary/.gitkeep
 !context/ideas/.gitkeep
 !context/references/.gitkeep
+
+# 請求書（個人情報を含む）
+projects/*/今すぐ収益化/invoice_generator/outputs/*
+!projects/*/今すぐ収益化/invoice_generator/outputs/.gitkeep
+
+# 営業ターゲットリスト（実 email を含む可能性）
+projects/*/今すぐ収益化/sender/logs/*.csv
+projects/*/今すぐ収益化/scraper/scraper.log

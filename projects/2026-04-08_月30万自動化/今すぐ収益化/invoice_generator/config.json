@@ -1,0 +1,16 @@
+{
+  "issuer_name": "あなたの屋号",
+  "issuer_personal_name": "あなたの氏名",
+  "issuer_postal": "〒XXX-XXXX",
+  "issuer_address": "東京都XX区XX 1-2-3",
+  "issuer_email": "your-email@example.com",
+  "issuer_phone": "090-XXXX-XXXX",
+  "registration_number": "T1234567890123",
+  "bank_name": "XX銀行 XX支店",
+  "bank_account_type": "普通",
+  "bank_account_number": "1234567",
+  "bank_account_holder": "アナタ ノ ナマエ",
+  "tax_rate": 0.1,
+  "payment_terms": "月末締め翌月末払い",
+  "invoice_number_prefix": "INV-"
+}
