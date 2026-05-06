@@ -14,11 +14,17 @@
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
 | 2026-05-06 | outputs/2026-05-06_setup_ai_auto.sh | ツール | AI自動収益化のセットアップスクリプト最適化版（macOS/Linux両対応・gitignore生成・publisher投稿ログ・トピックローテーション・launchd冪等） | 完了 |
+| 2026-05-06 | outputs/2026-05-06_setup_ai_auto.sh (v2 更新) | ツール | CSO応募文v2 と CMO note CTAブロックを generate_daily_outputs.py に反映 | 完了 |
 
 ## 進行中タスク
 
-- （なし）
+- check_status.py 拡張（週次KPI集計対応）（5/15まで）
+- X週次スレッド自動生成スクリプト（5/20まで）
+- Phase 2: note 半自動公開・CW応募差込自動埋めの検討（規約準拠範囲）
 
 ## メモ・引き継ぎ事項
 
 - `setup_ai_auto.sh` は `~/ai-auto/` を構築する補助ツール。本体ロジックはOpenAI APIを呼ばない静的テンプレ展開のため追加コストゼロ。月¥300Kの主力ではなく「導線量を作る補助」位置づけ。本命は柱A（SEO代行）/B（SNS代行）。
+- 2026-05-06 採算性向上ディスカッションでCDO見解を提示：
+  自動化の対象が「テンプレ展開」止まりで「公開・応募」が手作業のままという課題を明確化
+- CSO応募文v2・CMO CTA を setup_ai_auto.sh の generate_daily_outputs.py に反映済
