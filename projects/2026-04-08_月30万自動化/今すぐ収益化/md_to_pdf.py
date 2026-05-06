@@ -120,6 +120,7 @@ TARGETS = [
     ("vol7_weekly_review.md", "Vol7_週次レビューテンプレ.pdf", "フリーランス週次レビューテンプレ"),
     ("vol8_prompt_collection_shigyou.md", "Vol8_士業営業メール20選.pdf", "士業向け営業メール文例 20選"),
     ("vol9_prompt_collection_blog_structure.md", "Vol9_ブログ記事構成20選.pdf", "ブログ記事構成生成プロンプト 20選"),
+    ("vol11_contracts.md", "Vol11_契約書5種パック.pdf", "個人事業主向け契約書5種パック"),
 ]
 
 for src, dst, title in TARGETS:
