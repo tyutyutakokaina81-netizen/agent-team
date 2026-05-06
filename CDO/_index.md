@@ -13,12 +13,39 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
-| — | — | — | — | — |
+| 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/outputs/claude_code_handover.docx` | 引き継ぎ書 | Claude Code向け15章構成の完全版引き継ぎ書（A4・実務提出レベル） | 完了 |
+| 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/build_handover_docx.py` | スクリプト | 上記docxを再生成するためのpython-docxビルダ | 完了 |
+| 2026-05-05 | `~/ai-auto/`（リポジトリ外） | 実行基盤 | run.sh / generate_daily_outputs.py / generate_note.py / generate_reddit.py / generate_youtube_short.py / generate_paid_note.py / cw_apply.py / auto_post.py / prompts/ / .env.example を新規配置 | 完了 |
+| 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/build_handover_docx.py` | リファクタ | style_run ヘルパ・定数化・コメント整理で 647 → 604 行 | 完了 |
+| 2026-05-05 | `~/ai-auto/`（リポジトリ外） | 機能拡張 | テーマローテ（prompts/themes.json）・published.csv記録・kpi集計・LLMラッパ（_ai.py、コストガード）・cw_apply --from-json 対応・run.sh拡張 | 完了 |
+| 2026-05-05 | `~/ai-auto/`（リポジトリ外） | L2/L3対応 | cw_apply に writer/ai_support/consultant の3カテゴリ追加・generate_seo_article.py / generate_proposal.py 新規・有料note既定¥2,980化・kpi.py に Level別売上分解・prompts/polish_prompts.md（無料Web AI 7プロンプト集）・SEOキーワード辞書追加 | 完了 |
+| 2026-05-05 | `~/ai-auto/`（リポジトリ外） | Plan B 全自動 | _scheduler.py / _browser.py / auto_schedule.py / dispatcher.py / publish_note.py / post_x.py / post_reddit.py / apply_crowdworks.py / _note.py を新規。時間分散ランダム化＋人間挙動エミュレーション＋ DRY_RUN 既定。BANリスクは残るためPlanBは段階的有効化必須 | 完了 |
+| 2026-05-05 | `~/ai-auto/` | リファクタ | publish_note._parse バグ修正（H1ベース）/ apply_crowdworks 提案数バグ修正（数値抽出）/ post_x 見出しスキップ＋CSV末尾読み / dead code削除 / _browser USER_DATA_DIR統一 / DRY_RUNでRuntimeError化 / docstring圧縮 | 完了 |
+| 2026-05-05 | `projects/2026-05-05_AI自動収益化引き継ぎ/deploy/` | デプロイ | mac再現用パッケージ（28ファイル＋install.sh＋SETUP_PROMPT.md） | 完了 |
+| 2026-05-05 | `~/ai-auto/ban_detector.py` `~/ai-auto/sunday_polish.py` | A案実装 | 朝9時にBAN検知（403/404/410/451）・日曜18時に高単価候補3本（有料note/SEO記事/提案書）を自動生成。SETUP_PROMPT.md にA案運用プロトコルとcron 4行を追記 | 完了 |
+| 2026-05-05 | `~/ai-auto/server.py` `~/ai-auto/iphone_shortcuts.md` | iPhone対応 | Python標準ライブラリのみのHTTP API（/kpi /outputs /publish /dry-run）。run_server.sh/LaunchAgent plist 同梱。ショートカット 4本のレシピ（HTTP）と SSH 補助レシピを iphone_shortcuts.md に集約 | 完了 |
+| 2026-05-05 | `~/ai-auto/init_login.py` `~/ai-auto/quick_start.sh` | UX改善 | Phase 6/7 の手順を1コマンド化。init_login.py で X/note/CW を順次ログイン、quick_start.sh でトークン生成＋サーバー起動＋IP表示を自動 | 完了 |
+| 2026-05-05 | `COO/` フォルダ一式 | 新役職生成 | 全業務統括役のCOO（Chief Operating Officer）を新規追加。company.md / CLAUDE.md のディレクトリ構造・役職一覧・情報フロー図を更新。`projects/` プロジェクトと各C?O横断の進捗管理を担当 | 完了 |
+| 2026-05-05 | `tools/daily_drafts.py` `tools/publish_reddit.py` `.github/workflows/daily-drafts.yml` `daily/` | GitHub Actions自動化 | mac不要でドラフト自動生成・自動コミット・Reddit自動公開（PRAW・規約OK）。iPhone のGitHub アプリから1分公開可能に。L0/L1/L2の3段階自動化レベル設計 | 完了 |
+| 2026-05-05 | `tools/notify.py` `tools/update_readme_kpi.py` README KPI セクション | A+B+E改善 | 成功/失敗の Discord 通知（A）・README に最新KPI自動表示（B）・失敗時の自動アラート（E）。Webhook URL を Secret 設定するだけで朝の通知が iPhone に届く | 完了 |
+| 2026-05-05 | `tools/publish_note.py` `tools/extract_note_state.py` workflow `publish_note` ジョブ + iPhone Shortcuts ⑤ | note 自動公開2系統 | B案：GitHub Actions 経由（storageState・規約グレー・BAN リスク高）。C案：iPhone Shortcuts で1タップ公開（規約準拠・BAN ゼロ）。両方を併用してリスク分散 | 完了 |
 
 ## 進行中タスク
 
-- （なし）
+- AI自動収益化引き継ぎ：cron常時稼働化（zsh環境前提・ローカル設定）
+- AI自動収益化引き継ぎ：M2 開始時に L1 → L2 案件応募シフト（cw_apply --kind writer）
+- AI自動収益化引き継ぎ：Plan B の段階的有効化（Reddit → X → note → CW の順、DRY_RUN試運転7日経てから本番化）
+
+## メモ・引き継ぎ事項（追記）
+
+- **[COO申送り 2026-05-05]** 仕組みは完成。残るのはオーナーの mac でのデプロイ実行のみ。CDO はオーナーが claude を起動した瞬間に SETUP_PROMPT.md を反映できるよう、deploy/ パッケージを最新に保つこと。
+- **[COO申送り 2026-05-05]** 本番稼働後に発生する技術問題（BAN・cron停止・Playwright破損・API課金異常）は CDO が一次対応。COO がアラート受領後すぐ CDO に転送する。
 
 ## メモ・引き継ぎ事項
 
-- （なし）
+- `~/ai-auto/` はローカル実行環境（リポジトリ外）。docxとビルダのみGit管理。
+- 機微情報（.env / .cost_log.json / published.csv / outputs / logs）は `.gitignore` 済み。
+- 完全自動投稿は規約リスクのため不採用。「生成→人間が公開→published.py で記録」運用を堅持。
+- LLM日次予算は環境変数 `AI_DAILY_BUDGET_JPY`（既定 ¥100）。**推奨運用は API無効・無料Web AI 併用**で月額¥0。
+- KPIは `python3 ~/ai-auto/kpi.py` で 7/30/90日の達成状況と Level別売上分解を確認可能。
+- 原単位戦略：L1（実績作り3週間）→ L2（SEO記事・¥2,980note）→ L3（継続契約）の階段移行。

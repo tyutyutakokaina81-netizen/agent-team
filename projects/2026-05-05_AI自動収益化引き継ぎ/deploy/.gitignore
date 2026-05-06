@@ -1,0 +1,8 @@
+.env
+.cost_log.json
+published.csv
+schedule.json
+logs/
+outputs/
+__pycache__/
+*.pyc

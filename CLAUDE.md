@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Purpose
 
 AI-operated multi-officer company framework for building a ¥300K/month automated business.  
-Five C?O roles (CDO/CFO/CMO/CPO/CSO) each maintain their own work log, research, and outputs.  
+COO (執行統括) と 5名の C?O 役職（CDO/CFO/CMO/CPO/CSO）が各自の work log, research, outputs を保持。  
+COO は全業務の進捗・KPI・ボトルネックを横断管理し、オーナーへ週次/月次で報告する。  
 All documents and operational output are in Japanese.
 
 ---
@@ -21,6 +22,12 @@ All documents and operational output are in Japanese.
 ├── team_prompt.txt        ← 4-role multi-agent document creation prompt
 ├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
 ├── team_show.sh           ← Print team_prompt.txt to stdout
+│
+├── COO/                   ← Chief Operating Officer (全業務統括・KPI監視・週次/月次レポート)
+│   ├── _index.md          ← Performance log & active tasks (台帳)
+│   ├── prompt.md          ← Role definition, routines, boundaries
+│   ├── research/          ← Situational notes
+│   └── outputs/           ← Weekly / monthly reports
 │
 ├── CDO/                   ← Chief Digital Officer (systems, automation, tech, role management)
 │   ├── _index.md          ← Performance log & active tasks (台帳)
@@ -138,6 +145,7 @@ projects/YYYY-MM-DD_プロジェクト名/
 
 | 役職 | 役割 | 主な成果物 |
 |------|------|----------|
+| COO | 全業務統括・KPI監視・ボトルネック発見・週次/月次レポート | 週次レポート、月次レポート、申送り |
 | CDO | 自動化・プロンプト設計・技術検証・役職管理 | プロンプト集、ツール、ガイド |
 | CFO | 数字の正確性・契約・経費・事務 | 請求書、契約書、財務サマリ |
 | CMO | マーケティング・コンテンツ企画・集客 | YouTube台本、SNS投稿、LP |
@@ -148,6 +156,9 @@ projects/YYYY-MM-DD_プロジェクト名/
 
 ```
 オーナー（context/）
+    │ 方針・優先順位・最終判断
+    ↓
+COO（執行統括）
     ├─→ CSO：顧客ニーズ・商談情報を収集
     │       ├─→ CMO：マーケ施策・コンテンツに反映
     │       └─→ CPO：プロダクト改善に反映
@@ -159,6 +170,9 @@ projects/YYYY-MM-DD_プロジェクト名/
     │       └─→ CSO：見積・契約書を提供
     └─→ CDO：全役職のツール・プロンプト整備
             └─→ 全役職：効率化・自動化を支援
+    │ 週次/月次レポート（事実/考察/提案）
+    ↑
+オーナー
 ```
 
 ### 新役職の自動生成ルール（CDO 権限）

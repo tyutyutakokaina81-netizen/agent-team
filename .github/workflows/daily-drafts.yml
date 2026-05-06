@@ -1,0 +1,163 @@
+name: Daily Drafts & Auto-Publish
+
+# 毎朝 07:00 JST (= 22:00 UTC 前日) に当日ドラフトを生成・自動コミット。
+# Reddit のみ公式API経由で自動公開（GitHub Secrets と Variables の設定が必要）。
+# note / X / CrowdWorks は規約上の理由で自動公開しない（iPhone から手動で1分公開）。
+
+on:
+  schedule:
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+    inputs:
+      enable_reddit:
+        description: 'Reddit を実投稿する（DRY_RUN=0）'
+        required: false
+        default: 'false'
+        type: boolean
+      enable_note:
+        description: 'note を実投稿する（規約上グレー・BANリスク承知で）'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      today: ${{ steps.date.outputs.today }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set today's date (JST)
+        id: date
+        env:
+          TZ: Asia/Tokyo
+        run: echo "today=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Generate today's drafts
+        env:
+          TZ: Asia/Tokyo
+        run: python3 tools/daily_drafts.py
+
+      - name: Update README KPI section
+        run: python3 tools/update_readme_kpi.py
+
+      - name: Commit and push
+        env:
+          TZ: Asia/Tokyo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add daily/ README.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "feat(daily): drafts for ${{ steps.date.outputs.today }}"
+            git push
+          fi
+
+      - name: Notify success
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}/daily/${{ steps.date.outputs.today }}"
+          python3 tools/notify.py --type success "📝 daily/${{ steps.date.outputs.today }}/ にドラフト準備完了\n→ $REPO_URL\n\niPhone で開いてコピペ→note 公開で1分運用。"
+
+      - name: Notify failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "Daily Drafts ワークフロー失敗\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  publish_reddit:
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.ENABLE_REDDIT_AUTO_PUBLISH == 'true' || inputs.enable_reddit == true }}
+    steps:
+      - name: Checkout (after auto-commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install praw
+        run: pip install praw
+
+      - name: Publish to Reddit
+        env:
+          DRY_RUN: ${{ inputs.enable_reddit == true && '0' || '1' }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+          REDDIT_SUBREDDIT: ${{ vars.REDDIT_SUBREDDIT || 'SlowLiving' }}
+        run: python3 tools/publish_reddit.py
+
+      - name: Notify reddit failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "Reddit 自動公開ジョブが失敗しました\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  publish_note:
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ vars.ENABLE_NOTE_AUTO_PUBLISH == 'true' || inputs.enable_note == true }}
+    steps:
+      - name: Checkout (after auto-commit)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Playwright Chromium
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: Publish to note
+        env:
+          DRY_RUN: ${{ inputs.enable_note == true && '0' || '1' }}
+          NOTE_STORAGE_STATE: ${{ secrets.NOTE_STORAGE_STATE }}
+        run: python3 tools/publish_note.py
+
+      - name: Notify note success
+        if: success() && (inputs.enable_note == true || vars.ENABLE_NOTE_AUTO_PUBLISH == 'true')
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type success "📤 note 自動公開ジョブ完了\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Notify note failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python3 tools/notify.py --type failure "🚨 note 自動公開ジョブ失敗（NOTE_STORAGE_STATE 失効の可能性）\nmac で tools/extract_note_state.py を実行して再登録してください\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
