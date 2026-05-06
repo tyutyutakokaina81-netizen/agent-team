@@ -15,16 +15,19 @@
 |------|-----------|------|------|-----------|
 | 2026-05-06 | research/2026-05-06_note集客記事_freelance確定申告_draft.md | 下書き | note 集客記事の戦略メモ＋本文ドラフト | 完了 |
 | 2026-05-06 | outputs/2026-05-06_note集客記事_freelance確定申告.md | 集客記事 | Vol.1 テンプレへの導線記事（無料公開用） | 完了 |
-| 2026-05-06 | CMO/research/2026-05-06_note集客記事_sns_calendar_input.md | スキャフォルド | Vol.2 SNSコンテンツカレンダー 集客記事の入力JSON＋プロンプト | 下書き |
-| 2026-05-06 | CMO/research/2026-05-06_note集客記事_restaurant_prompts_input.md | スキャフォルド | Vol.3 飲食店向けAIプロンプト集 集客記事の入力JSON＋プロンプト | 下書き |
+| 2026-05-06 | CMO/research/2026-05-06_note集客記事_sns_calendar_input.md | スキャフォルド | Vol.2 SNSコンテンツカレンダー 集客記事の入力JSON＋プロンプト | 完了 |
+| 2026-05-06 | CMO/research/2026-05-06_note集客記事_restaurant_prompts_input.md | スキャフォルド | Vol.3 飲食店向けAIプロンプト集 集客記事の入力JSON＋プロンプト | 完了 |
+| 2026-05-06 | outputs/2026-05-06_note集客記事_sns_calendar.md | 集客記事 | Vol.2 テンプレへの導線記事（無料公開用） | 完了 |
+| 2026-05-06 | outputs/2026-05-06_note集客記事_restaurant_prompts.md | 集客記事 | Vol.3 テンプレへの導線記事（無料公開用） | 完了 |
 
 ## 進行中タスク
 
-- note への投稿作業（オーナー側でコピペ＋Vol.1リンク差し替え＋アイキャッチ作成）
+- note への投稿作業（オーナー側でコピペ＋各Volリンク差し替え＋アイキャッチ作成）
 - 公開後の効果測定（7日／30日）
 
 ## メモ・引き継ぎ事項
 
-- 参照元：`projects/2026-04-08_月30万自動化/C_テンプレ販売/vol1_note_listing.md`（Vol.1 販売ページ本文）
+- 参照元：`projects/2026-04-08_月30万自動化/C_テンプレ販売/`（各Vol販売ページ本文）
+- 量産パイプライン：`CDO/outputs/note_article_scaffold.mjs`（費用ゼロ運用）
 - 派生展開：X スレッド版・YouTube ショート台本へ転用予定
-- Vol.2／Vol.3 公開時にも同フォーマットで集客記事を量産する方針
+- Vol.4 以降は `CDO/outputs/topics/` に JSON 1ファイル追加で対応可能
