@@ -20,12 +20,21 @@
 | 2026-04-08 | `projects/.../C_テンプレ販売/vol2_sns_calendar.md` | テンプレ設計 | Vol.2 SNSコンテンツカレンダー | 設計済 |
 | 2026-04-08 | `projects/.../C_テンプレ販売/vol3_prompt_collection_restaurant.md` | テンプレ設計 | Vol.3 飲食店向けプロンプト集 | 設計済 |
 | 2026-04-08 | `projects/.../C_テンプレ販売/vol4_bundle_pack.md` | テンプレ設計 | Vol.4 バンドルパック | 設計済（Vol.1-3完成後リリース） |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol2_sheet1_calendar.csv` | テンプレ実体 | Vol.2 月次カレンダーCSV | 完成 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol2_sheet2_themes.csv` | テンプレ実体 | Vol.2 投稿テーマ50選CSV | 完成 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol3_prompt_collection_restaurant.md` | テンプレ実体 | Vol.3 プロンプト全20本完成 | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol5_tax_filing_prep.md` + sheet1〜5 CSV | テンプレ実体 | Vol.5 確定申告準備シート（仕様+5シートCSV） | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol6_client_management_db.md` + db1〜4 CSV | テンプレ実体 | Vol.6 クライアント管理DB（仕様+4DB CSV） | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol7_weekly_review.md` | テンプレ実体 | Vol.7 週次レビュー（Markdown版完成） | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol8_prompt_collection_shigyou.md` | テンプレ実体 | Vol.8 士業向け営業メール20選 | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol9_prompt_collection_blog_structure.md` | テンプレ実体 | Vol.9 ブログ記事構成20選 | 販売準備完了 |
+| 2026-05-06 | `projects/.../C_テンプレ販売/vol10_revenue_dashboard.md` + sheet1〜4 CSV | テンプレ実体 | Vol.10 売上ダッシュボード | 販売準備完了 |
 
 ## 進行中タスク
 
-- Vol.2 SNSコンテンツカレンダー：実体（スプレッドシート）制作・販売ページ原稿
-- Vol.3 飲食店向けプロンプト集：実体（PDF/テキスト）制作・販売ページ原稿
-- Vol.4 バンドルパック：Vol.1〜3完成後にパッケージング
+- Vol.2〜10 の note 販売ページ登録（オーナー手動：CSVをGoogle Sheetsにインポート→公開URL取得）
+- Vol.4 バンドルパック：Vol.1〜3 公開完了後にパッケージング
+- 販売後の購入数・レビューを蓄積 → Vol.11以降の制作判断材料に
 
 ## メモ・引き継ぎ事項
 
