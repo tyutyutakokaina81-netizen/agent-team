@@ -19,6 +19,8 @@
 | 2026-05-06 | CMO/research/2026-05-06_note集客記事_restaurant_prompts_input.md | スキャフォルド | Vol.3 飲食店向けAIプロンプト集 集客記事の入力JSON＋プロンプト | 完了 |
 | 2026-05-06 | outputs/2026-05-06_note集客記事_sns_calendar.md | 集客記事 | Vol.2 テンプレへの導線記事（無料公開用） | 完了 |
 | 2026-05-06 | outputs/2026-05-06_note集客記事_restaurant_prompts.md | 集客記事 | Vol.3 テンプレへの導線記事（無料公開用） | 完了 |
+| 2026-05-06 | outputs/2026-05-06_X告知投稿セット_vol1_vol3.md | 告知投稿 | Vol.1〜Vol.3 各記事用 X 単発＋スレッド | 完了 |
+| 2026-05-06 | outputs/2026-05-06_YouTubeショート台本セット_vol1_vol3.md | 台本 | Vol.1〜Vol.3 各3本 計9本 ショート台本 | 完了 |
 
 ## 進行中タスク
 
