@@ -1,0 +1,5 @@
+timestamp,target_company,target_email,template_id,status,note
+2026-05-06T08:45:35,（記入例）株式会社サンプル,sample@example.com,A-1,dry_run,
+2026-05-06T08:45:35,（記入例）田中飲食店,tanaka@example.com,B-1,dry_run,
+2026-05-06T08:46:05,（記入例）株式会社サンプル,sample@example.com,A-1,dry_run,
+2026-05-06T08:46:05,（記入例）田中飲食店,tanaka@example.com,B-1,dry_run,
