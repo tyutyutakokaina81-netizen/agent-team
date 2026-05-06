@@ -22,6 +22,9 @@ CSO/research/*
 !CFO/research/.gitkeep
 !CSO/outputs/.gitkeep
 !CSO/research/.gitkeep
+# 再利用テンプレ（[ ]プレースホルダのみで実顧客データなし）はコミット可
+!CFO/outputs/*_template.md
+!CSO/outputs/*_template.md
 *_secret*
 *_confidential*
 *_機密*
