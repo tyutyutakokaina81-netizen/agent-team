@@ -26,10 +26,20 @@ agent-team/
 │   ├── _index.md
 │   ├── research/             ← 顧客分析・市場調査
 │   └── outputs/              ← 商談記録・提案書
-└── CDO/                      ← 技術責任者
+├── CDO/                      ← 技術責任者
+│   ├── _index.md
+│   ├── research/             ← プロンプト検証・ツール調査
+│   └── outputs/              ← プロンプト集・活用ガイド
+├── CAO/                      ← アナリティクス責任者（2026-05-06 新設）
+│   ├── _index.md
+│   ├── prompt.md
+│   ├── research/             ← KPI 設計検討・データ分析メモ
+│   └── outputs/              ← ダッシュボード設計・週次レポート
+└── CLO/                      ← 法務・コンプライアンス責任者（2026-05-06 新設）
     ├── _index.md
-    ├── research/             ← プロンプト検証・ツール調査
-    └── outputs/              ← プロンプト集・活用ガイド
+    ├── prompt.md
+    ├── research/             ← 法令・規約調査
+    └── outputs/              ← 法務レビュー結果（センシティブ）
 ```
 
 ---
