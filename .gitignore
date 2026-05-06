@@ -10,6 +10,7 @@ __pycache__/
 *.pyo
 .venv/
 venv/
+ms-playwright/
 
 # 認証セッションファイル（個人情報）
 **/.note_session.json
