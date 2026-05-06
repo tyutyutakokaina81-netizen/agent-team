@@ -15,6 +15,7 @@
 |------|-----------|------|------|-----------|
 | 2026-05-06 | outputs/2026-05-06_setup_ai_auto.sh | ツール | AI自動収益化のセットアップスクリプト最適化版（macOS/Linux両対応・gitignore生成・publisher投稿ログ・トピックローテーション・launchd冪等） | 完了 |
 | 2026-05-06 | outputs/2026-05-06_setup_ai_auto.sh (v2 更新) | ツール | CSO応募文v2 と CMO note CTAブロックを generate_daily_outputs.py に反映 | 完了 |
+| 2026-05-06 | outputs/2026-05-06_setup_ai_auto.sh (v3 最適化) | ツール | CW応募関連を削除し柱Dに一本化・SNS発信専用に責務縮小・反省会ループ追加 | 完了 |
 
 ## 進行中タスク
 

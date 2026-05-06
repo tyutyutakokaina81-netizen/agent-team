@@ -390,45 +390,14 @@ shorts_script = f"""# YouTube Shorts 台本 — {date_jp}
 peaceful atmosphere, muted colors, documentary style, 30 seconds
 """
 
-import os
-note_url = os.environ.get("NOTE_URL", "https://note.com/safe_canna441")
-cw_application = f"""{{案件タイトル}} の件、ぜひお手伝いさせてください。
-
-【専門領域】
-{{専門領域 例：北陸地方の地域情報・観光・移住}}に関する
-SEOライティング/取材/データ整理を継続的に手がけています。
-
-【サンプル成果物】
-・{note_url}（note）
-・{note_url}/n/xxx（関連記事URL を貼る）
-・{note_url}/n/yyy（関連記事URL を貼る）
-
-【今回の案件への対応方針】
-1. {{案件要件1}}について：{{具体的な進め方を1-2行}}
-2. {{案件要件2}}について：{{具体的な進め方を1-2行}}
-3. {{納品形式}}にて、{{納期}}までに納品いたします。
-
-【継続対応の可否】
-今回の案件が問題なく完了した場合、月次/週次での継続契約も
-ご相談いただけます（単価は要件に応じて柔軟にご相談）。
-
-【ご連絡について】
-平日9-18時はチャット即時返信可能です。
-不明点があれば事前に確認させていただきます。
-
-どうぞよろしくお願いいたします。
-
----
-※ {{}} の差込項目は応募前に必ず埋めること。空欄のまま送信しない。
-※ 単価¥3K未満の案件はこのv2を使わず、量重視のv1で対応する。
-"""
+# NOTE: CW応募文生成は柱D（projects/.../D_エクセル入力スクレイピング/pipeline/03_apply.py）に
+# 一本化したため、本スクリプトでは生成しない。本スクリプトの責務は SNS発信（note/X/Reddit/Shorts）に限定。
 
 files = {
     f"{ts}_note_draft.md": note_draft,
     f"{ts}_x_post.txt": x_post,
     f"{ts}_reddit_post.md": reddit_post,
     f"{ts}_youtube_short.md": shorts_script,
-    f"{ts}_cw_application.txt": cw_application,
 }
 
 for name, body in files.items():
@@ -482,45 +451,17 @@ print(f"📝 投稿実行ログ: {log.name}")
 PYEOF
 
 # ────────────────────────────────────────────────────────────
-# cw_helper.py — CrowdWorks 応募文をコピー＆ブラウザ起動
+# cw_helper.py — 削除（柱D pipeline に一本化）
 # ────────────────────────────────────────────────────────────
-cat > cw_helper.py << 'PYEOF'
-#!/usr/bin/env python3
-"""最新の CrowdWorks 応募文をクリップボードにコピーしてジョブ一覧を開く。"""
-import os
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).parent / "lib"))
-from _common import latest, copy_to_clipboard, open_url, record_post  # noqa: E402
-
-app = latest("*_cw_application.txt")
-if app is None:
-    print("❌ cw_application.txt が見つかりません。先に run.sh を実行してください。")
-    sys.exit(1)
-
-text = app.read_text(encoding="utf-8")
-if copy_to_clipboard(text):
-    print("✅ 応募文をクリップボードにコピーしました")
-else:
-    print("⚠️  クリップボード未対応の環境です（手動でコピーしてください）")
-    print(text)
-
-print("\n📋 応募文プレビュー:")
-print("-" * 40)
-print(text[:200] + "...")
-print("-" * 40)
-
-cw_url = os.environ.get("CW_JOBS_URL", "https://crowdworks.jp/public/jobs?order=new")
-if open_url(cw_url):
-    print("✅ CrowdWorks の新着案件ページを開きました")
-else:
-    print(f"   👉 ブラウザで開いてください: {cw_url}")
-
-log = record_post("cw", app.name)
-print(f"📝 応募実行ログ: {log.name}")
-print("\n👆 CrowdWorks で案件を選んで、応募文を貼り付けてください")
-PYEOF
+# CW応募関連は柱D（projects/.../D_エクセル入力スクレイピング/pipeline/）が担当する。
+# ~/ai-auto/ では CW 応募文を生成しないため cw_helper.py は不要。
+# 互換のため、過去に生成したファイルを掃除する案内のみ残す:
+if [ -f "$HOME/ai-auto/cw_helper.py" ]; then
+  rm "$HOME/ai-auto/cw_helper.py"
+  echo "🧹 旧 cw_helper.py を削除しました（柱D pipeline に一本化）"
+fi
+# 旧 cw_application 出力も掃除
+find "$HOME/ai-auto/outputs" -maxdepth 1 -name "*_cw_application.txt" -delete 2>/dev/null || true
 
 # ────────────────────────────────────────────────────────────
 # daily_reflection.py — 毎日21:00の反省会（精度向上ループの心臓）
@@ -733,7 +674,9 @@ for p in posted:
 if len(posted) == 0:
     print("\n⚠️  本日はまだ何も投稿していません")
     print("   → python3 note_publisher.py   (note 公開)")
-    print("   → python3 cw_helper.py        (CrowdWorks 応募)")
+    print("   → CW応募は柱D pipeline で実行: ")
+    print("     cd <repo>/projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline")
+    print("     python3 run_pipeline.py search")
 PYEOF
 
 # ────────────────────────────────────────────────────────────
@@ -864,43 +807,55 @@ fi
 cat > README.md << 'EOF'
 # AI Auto Monetization — ~/ai-auto/
 
-## 3つのコマンドだけ覚える
+## 責務（柱Dとの棲み分け）
+
+このディレクトリは **SNS発信専用**（note / X / Reddit / YouTube Shorts）。
+**CW・Lancers の応募/受注は柱D pipeline が担当**：
+`<repo>/projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline/`
+
+## 2つのコマンドだけ覚える
 
 ```bash
-# 1. 生成物を作る（毎日 7:00 / 20:00 に自動実行）
+# 1. 生成物を作る（毎日 7:00 / 20:00 自動実行）
 python3 generate_daily_outputs.py
 
 # 2. note に公開する
 python3 note_publisher.py
-
-# 3. CrowdWorks に応募する
-python3 cw_helper.py
 ```
 
-## 状況確認
+## 反省会・状況確認
 ```bash
-python3 check_status.py
+python3 daily_reflection.py   # 毎日 21:00 自動実行（対話モード/自動モード両対応）
+python3 weekly_review.py      # 毎週月曜 10:00 自動実行
+python3 check_status.py       # 任意のタイミングで現状確認
 ```
 
 ## ファイル構成
-- `outputs/`   生成した記事・応募文・投稿文・posted_*.log（投稿実行ログ）
-- `logs/`      実行ログ（月別ローテーション: run-YYYY-MM.log）
-- `lib/`       共通モジュール (_common.py) とトピック (topics.json)
-- `prompts/`   プロンプトテンプレート
-- `.env`       APIキー（**Git に入れない**: .gitignore 済み）
+- `outputs/`       生成した記事・posted_*.log
+- `logs/`          実行ログ（月別ローテーション: run-YYYY-MM.log）
+- `lib/`           共通モジュール (_common.py)・トピック (topics.json)・学び (learnings.md)
+- `reflections/`   日次反省ファイル
+- `weekly_reviews/` 週次レビューファイル
+- `prompts/`       プロンプトテンプレート
+- `.env`           APIキー（**Git に入れない**: .gitignore 済み）
+
+## 精度向上ループ
+1. 朝/夜 generate（`learnings.md` の直近5件を反映）
+2. 投稿 → posted_*.log
+3. 21:00 reflection（投稿数で score 加減・学び記録）
+4. 月曜10:00 weekly（scoreランキングで来週方針）
 
 ## トピックのカスタマイズ
-`lib/topics.json` を編集すると、日替わりで生成内容のテーマが変わります。
-（日付の通し番号でトピックを決定論的に選択）
+`lib/topics.json` を編集。score が反省会で更新され、最高スコアテーマが優先選択される。
 
 ## クロスプラットフォーム
 - macOS: `pbcopy` / `open` / `launchd` 自動利用
 - Linux: `xclip` or `wl-copy` / `xdg-open` / `cron` 推奨
 
-## KPI（目標）
+## KPI（目標・SNS発信のみ）
 - note: 毎日1本公開
-- CrowdWorks: 毎日1件応募
 - YouTube Shorts: 週3本
+- ※CW案件受注KPIは柱Dが管理
 
 ## note アカウント
 https://note.com/safe_canna441
@@ -919,6 +874,10 @@ echo "✅ ~/ai-auto のセットアップが完了しました"
 echo ""
 echo "次のステップ:"
 echo "  1. python3 note_publisher.py  → note記事を公開"
-echo "  2. python3 cw_helper.py       → CrowdWorksに応募"
-echo "  3. python3 check_status.py    → 状況確認"
+echo "  2. python3 check_status.py    → 状況確認"
+echo "  3. python3 daily_reflection.py → 反省会（任意）"
+echo ""
+echo "  CW応募は柱D pipeline で実行:"
+echo "    cd <repo>/projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline"
+echo "    python3 run_pipeline.py search"
 echo "════════════════════════════════════════"
