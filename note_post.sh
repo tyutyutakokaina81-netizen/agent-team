@@ -49,7 +49,7 @@ echo "  ✅ クリップボード OK"
 echo ""
 echo "  👉 note のブラウザでタイトル欄をクリック → ⌘+V でペースト"
 echo ""
-read -p "  ペーストしたら Enter で次へ（本文）..."
+read < /dev/tty -p "  ペーストしたら Enter で次へ（本文）..."
 echo ""
 
 # ステップ3：本文
@@ -59,7 +59,7 @@ echo "  ✅ クリップボード OK"
 echo ""
 echo "  👉 note の本文欄をクリック → ⌘+V でペースト"
 echo ""
-read -p "  ペーストしたら Enter で次へ（添付・タグ）..."
+read < /dev/tty -p "  ペーストしたら Enter で次へ（添付・タグ）..."
 echo ""
 
 # ステップ4：添付ファイル案内
