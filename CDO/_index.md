@@ -22,6 +22,9 @@
 | 2026-05-07 | outputs/daily_standup.mjs | ツール | 日次スタンドアップ自動レポート（実行ギャップ検知） | 完了 |
 | 2026-05-07 | outputs/improvement_log_template.md | テンプレ | 日次改善ログ | 完了 |
 | 2026-05-07 | outputs/weekly_retrospective.md | テンプレ | 週次レトロスペクティブ KPT＋数字 | 完了 |
+| 2026-05-07 | outputs/morning_meeting.mjs | ツール | 朝の戦略会議自動生成（PDCA: Plan/Do） | 完了 |
+| 2026-05-07 | outputs/evening_checkin.mjs | ツール | 夕方チェックイン（PDCA: Check/Act） | 完了 |
+| 2026-05-07 | outputs/pdca_scheduling_setup.md | ガイド | launchd/cron/タスクスケジューラの設定手順 | 完了 |
 
 ## 進行中タスク
 
