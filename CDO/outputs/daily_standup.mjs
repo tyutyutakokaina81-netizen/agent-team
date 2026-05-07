@@ -23,7 +23,7 @@
  *     → 「実行アクション（公開・応募・登録）」と「準備物作成」を分離して可視化
  */
 
-import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { writeFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { today, dayOfWeekJa, sh as shBase } from './lib/pdca_lib.mjs';

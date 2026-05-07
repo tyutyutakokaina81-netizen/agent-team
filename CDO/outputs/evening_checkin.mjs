@@ -11,7 +11,7 @@
  * 費用ゼロ：Node 標準モジュール + 既存 notify.mjs
  */
 
-import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { writeFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { notify } from './notify.mjs';
