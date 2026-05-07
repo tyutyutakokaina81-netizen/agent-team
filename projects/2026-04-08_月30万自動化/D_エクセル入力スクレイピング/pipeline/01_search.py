@@ -20,11 +20,24 @@ OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 KEYWORDS = [
+    # 汎用（広く拾う）
     "データ入力",
     "エクセル入力",
     "スクレイピング",
     "データ収集",
     "CSV作成",
+    # 形式系（採用率の高い具体タスク）
+    "リスト作成",
+    "転記",
+    "一覧化",
+    # 高単価系（単価アップが見込める案件）
+    "Excel自動化",
+    "VBA",
+    "マクロ",
+    "API連携",
+    # 継続系（継続契約に直結しやすい）
+    "定期",
+    "月次",
 ]
 
 # ─────────────────────────────────────────────
@@ -75,7 +88,7 @@ def search_crowdworks(page, keyword: str) -> list[dict]:
         except Exception:
             continue
 
-    return jobs[:10]
+    return jobs[:15]
 
 
 def get_crowdworks_detail(page, job: dict) -> dict:
@@ -143,7 +156,7 @@ def search_lancers(page, keyword: str) -> list[dict]:
             })
         except Exception:
             continue
-    return jobs[:10]
+    return jobs[:15]
 
 
 def _lancers_old_card_parse(cards, jobs, keyword):
@@ -289,9 +302,9 @@ def run(platforms: list[str] | None = None) -> list[dict]:
                     pass
                 _random_wait(1.0, 2.0)
 
-            all_jobs.extend(unique[:20])
+            all_jobs.extend(unique[:30])
             context.close()
-            print(f"[{platform}] {len(unique[:20])}件取得完了")
+            print(f"[{platform}] {len(unique[:30])}件取得完了（うち詳細: 上位20件）")
 
     # 重複除去（全プラットフォーム統合）
     seen = set()

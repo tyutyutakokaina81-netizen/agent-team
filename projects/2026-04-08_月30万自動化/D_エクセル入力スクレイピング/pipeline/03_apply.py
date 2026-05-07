@@ -16,7 +16,7 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 APPLY_PROMPT = """
 あなたはクラウドソーシングの応募文を作成するプロフェッショナルです。
-以下の案件に対して、受注率の高い応募文を作成してください。
+以下の案件に対して、採用率の高い応募文を作成してください。
 
 # 案件情報
 タイトル: {title}
@@ -26,15 +26,21 @@ URL: {url}
 
 # 自己PR（使用可能なスキル）
 - Pythonによるデータ処理・自動化
-- Excel/CSVの高精度データ入力（AI支援＋人間確認）
+- Excel/CSVの高精度データ入力（AI支援＋人間ダブルチェック）
 - Webスクレイピング（BeautifulSoup/Playwright）
 - 納期厳守・丁寧なコミュニケーション
+
+# 応募文に必ず含める4要素
+1. 案件タイトルへの具体的応答（要件への理解を示す）
+2. AI支援＋人間ダブルチェックの明示（品質シグナル）
+3. 納期確認の能動姿勢（信頼シグナル）
+4. 継続・追加対応の余白を残す一文（次回受注の布石）
 
 # 応募文の条件
 - 200〜300文字
 - 具体的な作業方法に触れる
-- 納期・品質への姿勢を示す
-- 自然な日本語で、押しつけがましくない
+- 自然な日本語、押しつけがましくない
+- 末尾は確認質問または依頼の余白を残す形で締める
 
 応募文のみ出力してください（説明・前置き不要）。
 """
@@ -66,26 +72,56 @@ def call_claude(prompt: str) -> str:
 
 
 def _template_application(job: dict) -> str:
-    """APIキー不要のテンプレートベース応募文"""
-    title = job.get("title", "")
-    category = job.get("category", "")
-    price = job.get("estimated_price_jpy", 0)
+    """APIキー不要のテンプレートベース応募文（4要素を含む）
 
-    if "scraping" in category or "スクレイピング" in title:
-        skill = "PythonとPlaywrightを使ったWebスクレイピング"
-        detail = "対象サイトの構造を確認し、正確にデータを収集いたします。"
-    elif "excel" in category or "エクセル" in title.lower() or "Excel" in title:
-        skill = "ExcelおよびPythonを使ったデータ処理・入力作業"
-        detail = "正確性を重視し、入力後に必ずダブルチェックを行います。"
+    含める4要素：
+      ① タイトルへの具体的応答  ② 品質シグナル（AI＋人間ダブルチェック）
+      ③ 納期確認の能動姿勢      ④ 継続・追加対応の余白
+    """
+    title = job.get("title", "")
+    title_short = title[:30]
+    category = job.get("category", "")
+    title_lower = title.lower()
+
+    # カテゴリ別の作業手順（要素①の解像度を上げる）
+    if "scraping" in category or "スクレイピング" in title or "収集" in title:
+        skill = "PythonとPlaywrightを用いたWebスクレイピング"
+        method = (
+            "対象サイトの構造を事前に確認のうえ、必要項目を正確に取得し、"
+            "Excel/CSV形式で整形して納品いたします"
+        )
+    elif "excel" in category or "エクセル" in title_lower or "excel" in title_lower:
+        skill = "ExcelおよびPythonを用いたデータ処理・入力"
+        method = (
+            "テンプレートに沿って正確に入力し、入力後にチェックリストでダブル確認を行います"
+        )
+    elif any(k in title for k in ["VBA", "マクロ", "自動化"]):
+        skill = "Excel VBA／Pythonによる業務自動化"
+        method = (
+            "現在の手作業フローをヒアリングのうえ、再利用可能なマクロ・スクリプトとして実装いたします"
+        )
+    elif any(k in title for k in ["リスト", "一覧", "転記", "名簿"]):
+        skill = "リスト作成・転記作業"
+        method = (
+            "指定フォーマットに沿って漏れなく転記し、重複・表記ゆれをチェックして納品いたします"
+        )
     else:
         skill = "データ入力・収集作業"
-        detail = "丁寧かつ正確に対応いたします。"
+        method = "ご指定の手順・形式に沿って丁寧かつ正確に対応いたします"
 
-    return f"""はじめまして。{skill}を得意としております。
-
-ご依頼の「{title[:30]}」について、{detail}
-
-納期は厳守いたします。不明点があれば事前に確認させていただきますので、安心してお任せください。ぜひご検討よろしくお願いいたします。"""
+    # 応募文（4要素を順に配置）
+    return (
+        # ① タイトルへの具体的応答 ＋ スキル提示
+        f"はじめまして。{skill}を専門としており、ご依頼の「{title_short}」を確実に対応できます。\n\n"
+        # 作業方法の具体化
+        f"作業方法：{method}。"
+        # ② 品質シグナル
+        "AI支援ツールを併用しつつ、納品前に人間がダブルチェックする体制で品質を担保しております。\n\n"
+        # ③ 納期確認の能動姿勢
+        "納期は厳守いたします。件数・希望納期・出力形式を教えていただければ、所要時間を即お見積もりします。"
+        # ④ 継続・追加対応の余白
+        "定期的なご依頼や、追加作業（集計・グラフ化など）にも対応可能ですので、お気軽にご相談ください。"
+    )
 
 
 def generate_application(job: dict) -> dict:
