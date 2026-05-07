@@ -25,6 +25,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { today } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
@@ -130,17 +131,6 @@ function validateTopic(cfg) {
     console.error(`tone は「共感」「実用」「理論派」のいずれか。受信値: ${cfg.tone}`);
     process.exit(1);
   }
-}
-
-// ─────────────────────────────────────────────
-// 日付ユーティリティ
-// ─────────────────────────────────────────────
-function today() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
 }
 
 // ─────────────────────────────────────────────

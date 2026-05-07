@@ -24,6 +24,7 @@ import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync } fr
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import readline from 'node:readline';
+import { today } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
@@ -67,14 +68,6 @@ USAGE:
 
 費用ゼロ：標準入力のみ、外部API呼び出しなし。
 `);
-}
-
-// ─────────────────────────────────────────────
-// 日付
-// ─────────────────────────────────────────────
-function today() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 // ─────────────────────────────────────────────

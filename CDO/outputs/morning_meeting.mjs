@@ -20,70 +20,47 @@
  *   node CDO/outputs/morning_meeting.mjs --no-notify
  */
 
-import { execSync } from 'node:child_process';
 import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { notify } from './notify.mjs';
+import { today, dayOfWeekJa, safe, sh as shBase } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
 const MEETINGS_DIR = join(REPO_ROOT, 'CDO', 'research', 'meetings');
 const STANDUPS_DIR = join(REPO_ROOT, 'CDO', 'research', 'standups');
 const CHECKINS_DIR = join(REPO_ROOT, 'CDO', 'research', 'checkins');
-const IMPROVEMENTS_DIR = join(REPO_ROOT, 'CDO', 'research', 'improvements');
 const PROJECT_DIR = join(REPO_ROOT, 'projects');
 const METRICS_FILE = join(REPO_ROOT, 'CFO', 'research', '_revenue_data', 'metrics.jsonl');
+
+const sh = (cmd) => shBase(cmd, { cwd: REPO_ROOT });
 
 // ─────────────────────────────────────────────
 // CLI
 // ─────────────────────────────────────────────
 function parseArgs(argv) {
-  const args = { dryRun: false, notify: true };
+  const args = { dryRun: false, notify: true, ifMissing: false };
   for (const a of argv) {
     if (a === '--dry-run') args.dryRun = true;
     else if (a === '--no-notify') args.notify = false;
+    else if (a === '--if-missing') args.ifMissing = true;
     else if (a === '--help' || a === '-h') args.help = true;
   }
   return args;
 }
 
 function showHelp() {
-  console.log(`morning_meeting.mjs v2 — 朝の戦略会議
+  console.log(`morning_meeting.mjs — 朝の戦略会議
 
 USAGE:
   node CDO/outputs/morning_meeting.mjs
   node CDO/outputs/morning_meeting.mjs --dry-run
   node CDO/outputs/morning_meeting.mjs --no-notify
+  node CDO/outputs/morning_meeting.mjs --if-missing  # 当日分が無い時だけ生成（冪等）
 
 費用ゼロ：外部API呼び出しなし、Node標準モジュールのみ。
 `);
-}
-
-// ─────────────────────────────────────────────
-// 共通ユーティリティ
-// ─────────────────────────────────────────────
-function safe(fn, fallback) {
-  try { return fn(); } catch { return fallback; }
-}
-
-function sh(cmd) {
-  return safe(() => execSync(cmd, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim(), '');
-}
-
-function today() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function dayOfWeekJa() {
-  return ['日', '月', '火', '水', '木', '金', '土'][new Date().getDay()];
-}
-
-function daysAgo(n) {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 // ─────────────────────────────────────────────
@@ -660,6 +637,12 @@ function main() {
 
   const dateStr = today();
   const dow = dayOfWeekJa();
+
+  // --if-missing：今日の朝会レポートが既存ならファイル書き込みをスキップ
+  if (args.ifMissing && existsSync(join(MEETINGS_DIR, `${dateStr}_morning.md`))) {
+    console.log(`✅ 朝会レポート既存（スキップ）: CDO/research/meetings/${dateStr}_morning.md`);
+    return;
+  }
 
   const strategy = extractStrategy(findLatestStrategyDoc());
   const undecidedDays = getStrategyUndecidedDays(strategy);

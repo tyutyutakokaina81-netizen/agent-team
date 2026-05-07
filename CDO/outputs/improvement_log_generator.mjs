@@ -14,17 +14,18 @@
  *   node CDO/outputs/improvement_log_generator.mjs --force      # 既存ファイル上書き
  */
 
-import { execSync } from 'node:child_process';
 import { writeFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { today, dayOfWeekJa as dow, safe, sh as shBase } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
 const IMPROVEMENTS_DIR = join(REPO_ROOT, 'CDO', 'research', 'improvements');
 const MEETINGS_DIR = join(REPO_ROOT, 'CDO', 'research', 'meetings');
-const CHECKINS_DIR = join(REPO_ROOT, 'CDO', 'research', 'checkins');
 const METRICS_FILE = join(REPO_ROOT, 'CFO', 'research', '_revenue_data', 'metrics.jsonl');
+
+const sh = (cmd) => shBase(cmd, { cwd: REPO_ROOT });
 
 function parseArgs(argv) {
   const a = { dryRun: false, force: false };
@@ -35,11 +36,6 @@ function parseArgs(argv) {
   }
   return a;
 }
-
-function safe(fn, fb) { try { return fn(); } catch { return fb; } }
-function sh(c) { return safe(() => execSync(c, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim(), ''); }
-function today() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
-function dow() { return ['日','月','火','水','木','金','土'][new Date().getDay()]; }
 
 // 朝会から Top3 を抽出
 function readMorningTop3() {

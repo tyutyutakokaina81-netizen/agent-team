@@ -11,11 +11,11 @@
  * 費用ゼロ：Node 標準モジュール + 既存 notify.mjs
  */
 
-import { execSync } from 'node:child_process';
 import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { notify } from './notify.mjs';
+import { today, dayOfWeekJa, safe, sh as shBase } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
@@ -23,6 +23,8 @@ const CHECKINS_DIR = join(REPO_ROOT, 'CDO', 'research', 'checkins');
 const MEETINGS_DIR = join(REPO_ROOT, 'CDO', 'research', 'meetings');
 const STANDUP_SCRIPT = join(REPO_ROOT, 'CDO', 'outputs', 'daily_standup.mjs');
 const METRICS_FILE = join(REPO_ROOT, 'CFO', 'research', '_revenue_data', 'metrics.jsonl');
+
+const sh = (cmd, opts = {}) => shBase(cmd, { cwd: REPO_ROOT, ...opts });
 
 function parseArgs(argv) {
   const args = { dryRun: false, notify: true };
@@ -33,11 +35,6 @@ function parseArgs(argv) {
   }
   return args;
 }
-
-function safe(fn, fb) { try { return fn(); } catch { return fb; } }
-function sh(cmd, opts = {}) { return safe(() => execSync(cmd, { cwd: REPO_ROOT, encoding: 'utf-8', ...opts }).trim(), ''); }
-function today() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
-function dayOfWeekJa() { return ['日', '月', '火', '水', '木', '金', '土'][new Date().getDay()]; }
 
 // 今朝の戦略会議を読む
 function readTodayMorningMeeting() {
@@ -58,20 +55,29 @@ function readTodayMorningMeeting() {
   }, null);
 }
 
-// 本日の実行を検知
+// 本日の実行を検知（git log 1回でコミット情報＋ファイル一覧を取得）
 function detectExecutionToday() {
-  const log = sh('git log --since="00:00" --pretty=format:"%h|%s"');
-  const commits = log
-    ? log.split('\n').filter(Boolean).map(l => { const [hash, subject] = l.split('|'); return { hash, subject }; })
-    : [];
-  const files = sh('git log --since="00:00" --name-only --pretty=format:""').split('\n').filter(Boolean);
-  const executionFiles = files.filter(f =>
+  // %x00 区切り＋--name-only で1コマンドにまとめる
+  const raw = sh('git log --since="00:00" --name-only --pretty=format:"%x00COMMIT%x00%h|%s"');
+  const commits = [];
+  const files = new Set();
+  if (raw) {
+    for (const block of raw.split('\x00COMMIT\x00').filter(Boolean)) {
+      const lines = block.split('\n').filter(Boolean);
+      if (lines.length === 0) continue;
+      const [hash, subject] = lines[0].split('|');
+      commits.push({ hash, subject });
+      lines.slice(1).forEach(f => files.add(f));
+    }
+  }
+  const fileList = [...files];
+  const executionFiles = fileList.filter(f =>
     f.startsWith('context/diary/') ||
     f.includes('_invoices/') ||
     f.includes('_revenue_data/') ||
     f.includes('_clients/')
   );
-  return { commits, files, executionFiles, hasExecution: executionFiles.length > 0 };
+  return { commits, files: fileList, executionFiles, hasExecution: executionFiles.length > 0 };
 }
 
 // #12 跨日整合性：今朝のTop3が本日のコミット/数字に反映されたか

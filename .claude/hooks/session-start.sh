@@ -27,11 +27,11 @@ if ! command -v node >/dev/null 2>&1; then
   exit 0
 fi
 
-# 朝会レポート生成
+# 朝会レポート生成（--if-missing：当日分が無い時だけ書き込み・冪等）
 echo ""
-echo "▼ 朝会レポート生成"
+echo "▼ 朝会レポート確認"
 if [ -x CDO/outputs/morning_meeting.mjs ] || [ -f CDO/outputs/morning_meeting.mjs ]; then
-  node CDO/outputs/morning_meeting.mjs --no-notify || echo "⚠️ 朝会生成失敗（継続）"
+  node CDO/outputs/morning_meeting.mjs --no-notify --if-missing || echo "⚠️ 朝会生成失敗（継続）"
 else
   echo "⚠️ morning_meeting.mjs が存在しません（スキップ）"
 fi

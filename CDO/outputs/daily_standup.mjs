@@ -23,14 +23,15 @@
  *     → 「実行アクション（公開・応募・登録）」と「準備物作成」を分離して可視化
  */
 
-import { execSync } from 'node:child_process';
 import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { today, dayOfWeekJa, sh as shBase } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
 const STANDUP_DIR = join(REPO_ROOT, 'CDO', 'research', 'standups');
+const sh = (cmd) => shBase(cmd, { cwd: REPO_ROOT });
 
 // ─────────────────────────────────────────────
 // CLI
@@ -61,30 +62,6 @@ OPTIONS:
 
 費用ゼロ：外部API呼び出し・SaaS契約なし。
 `);
-}
-
-// ─────────────────────────────────────────────
-// シェル実行ヘルパー
-// ─────────────────────────────────────────────
-function sh(cmd) {
-  try {
-    return execSync(cmd, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim();
-  } catch {
-    return '';
-  }
-}
-
-// ─────────────────────────────────────────────
-// 日付ユーティリティ
-// ─────────────────────────────────────────────
-function today() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function dayOfWeekJa() {
-  const days = ['日', '月', '火', '水', '木', '金', '土'];
-  return days[new Date().getDay()];
 }
 
 // ─────────────────────────────────────────────

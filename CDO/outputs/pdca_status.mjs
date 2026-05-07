@@ -13,6 +13,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { today, safe } from './lib/pdca_lib.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
@@ -21,9 +22,6 @@ const CHECKINS_DIR = join(REPO_ROOT, 'CDO', 'research', 'checkins');
 const STANDUPS_DIR = join(REPO_ROOT, 'CDO', 'research', 'standups');
 const IMPROVEMENTS_DIR = join(REPO_ROOT, 'CDO', 'research', 'improvements');
 const METRICS_FILE = join(REPO_ROOT, 'CFO', 'research', '_revenue_data', 'metrics.jsonl');
-
-function safe(fn, fb) { try { return fn(); } catch { return fb; } }
-function today() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 
 function listFiles(dir, suffix) {
   return safe(() => {
