@@ -50,6 +50,26 @@ CSO/research/_clients/
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
 
+# 個人情報・センシティブ情報の追加防衛線
+*.csv
+*.xlsx
+*.numbers
+*_personal*
+*_private*
+*_顧客*
+*_取引先*
+.cursor/
+.vscode/settings.json
+*.pem
+*.key
+**/credentials*
+**/api_keys*
+**/.aws/
+**/.ssh/
+
+# note 公開キット（コピペ即公開用 .txt は git に乗せない）
+CMO/outputs/_publish_ready/
+
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
 context/ideas/*
