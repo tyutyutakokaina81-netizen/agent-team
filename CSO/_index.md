@@ -21,6 +21,8 @@
 | 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/job_evaluation_checklist.md | 評価ルール | GO/CAUTION/NO-GO 100点満点採点 | 完了 |
 | 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/application_tracker.md | 実績管理 | Google スプレッドシート構造（5シート） | 完了 |
 | 2026-05-07 | research/2026-05-07_顧客ペルソナ深掘り.md | 顧客分析 | 柱A・柱C のペルソナ詳細・LTV計算・営業フロー | 完了 |
+| 2026-05-07 | projects/2026-04-08_月30万自動化/A_ライティング/sample_article_it_saas.md | サンプル記事 | IT/SaaS ジャンル 4,300字（ポートフォリオ拡充） | 完了 |
+| 2026-05-07 | projects/2026-04-08_月30万自動化/A_ライティング/delivery_workflow.md | 受注後プロセス | Phase 1〜9 完全フロー、失敗パターンと対策、継続契約交渉 | 完了 |
 
 ## 進行中タスク
 

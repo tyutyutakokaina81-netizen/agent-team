@@ -227,6 +227,55 @@ function metricsSummary(records) {
 }
 
 // ─────────────────────────────────────────────
+// 連続Top3検知：過去N日の朝会 Top3 タイトルが同一なら警告
+// ─────────────────────────────────────────────
+function getTop3StreakDays() {
+  return safe(() => {
+    if (!existsSync(MEETINGS_DIR)) return { count: 0, lastTitles: [] };
+    const files = readdirSync(MEETINGS_DIR)
+      .filter(f => f.endsWith('_morning.md'))
+      .sort()
+      .reverse();
+    if (files.length < 2) return { count: 0, lastTitles: [] };
+
+    const extractTitles = (filePath) => {
+      const content = readFileSync(filePath, 'utf-8');
+      const titles = [];
+      const lines = content.split('\n');
+      let inSection = false;
+      for (const line of lines) {
+        if (line.includes('## 🎬 今日のTop3アクション')) inSection = true;
+        else if (line.startsWith('---') && inSection) inSection = false;
+        else if (inSection && line.startsWith('### ')) {
+          const m = line.match(/### .+?\s+(.+)/);
+          if (m) titles.push(m[1].trim());
+        }
+      }
+      return titles.slice(0, 3);
+    };
+
+    const todayName = `${today()}_morning.md`;
+    const candidates = files.filter(f => f !== todayName);
+    if (candidates.length === 0) return { count: 0, lastTitles: [] };
+
+    const recent = candidates.slice(0, 7);
+    const baseTitles = extractTitles(join(MEETINGS_DIR, recent[0]));
+    if (baseTitles.length === 0) return { count: 0, lastTitles: [] };
+
+    let count = 1;
+    for (let i = 1; i < recent.length; i++) {
+      const titles = extractTitles(join(MEETINGS_DIR, recent[i]));
+      if (titles.length === 0) break;
+      const same = titles.length === baseTitles.length &&
+                   titles.every((t, idx) => t === baseTitles[idx]);
+      if (same) count++;
+      else break;
+    }
+    return { count, lastTitles: baseTitles };
+  }, { count: 0, lastTitles: [] });
+}
+
+// ─────────────────────────────────────────────
 // #7 PDCA スキップ検知
 // ─────────────────────────────────────────────
 function getPdcaSkipDays() {
@@ -499,6 +548,7 @@ function buildMeeting(opts) {
   if (undecidedDays >= 3) warnings.push(`🚨 **戦略未決定が${undecidedDays}日継続中**`);
   if (gapDays >= 3) warnings.push(`🚨 **実行ギャップ${gapDays}日連続**`);
   if (skipDays >= 2) warnings.push(`⚠️ 朝会スキップ${skipDays}日`);
+  if (opts.top3Streak >= 3) warnings.push(`🟡 **同じTop3が${opts.top3Streak}日連続**：戦略は機能しているが実行が進んでいない兆候`);
 
   const warningsBlock = warnings.length === 0 ? '' : `\n${warnings.map(w => `> ${w}`).join('\n')}\n`;
 
@@ -618,6 +668,7 @@ function main() {
   const tasks = collectInProgressTasks();
   const gapDays = getConsecutiveGapDays();
   const skipDays = getPdcaSkipDays();
+  const top3StreakInfo = getTop3StreakDays();
   const commitsCount = recentCommitsCount();
   const metrics = metricsSummary(loadMetrics());
   const perspectives = simulateRolePerspectives(strategy, metrics, tasks, gapDays);
@@ -626,6 +677,7 @@ function main() {
   const report = buildMeeting({
     strategy, standup, lastCheckin, metrics, perspectives,
     tasks, gapDays, skipDays, undecidedDays, commitsCount,
+    top3Streak: top3StreakInfo.count, top3StreakTitles: top3StreakInfo.lastTitles,
     dateStr, dow, todayActions,
   });
 

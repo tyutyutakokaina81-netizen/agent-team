@@ -29,6 +29,9 @@
 | 2026-05-07 | outputs/metrics_input.mjs | ツール | 数字入力 CLI（応募/受注/売上/PV）git外作業の検知補完 | 完了 |
 | 2026-05-07 | outputs/pdca_status.mjs | ツール | PDCA ヘルスチェック（朝会・チェックイン・数字・実行ギャップ） | 完了 |
 | 2026-05-07 | outputs/setup_pdca.sh | ツール | PDCA スケジュール自動セットアップ（macOS/Linux/Windows） | 完了 |
+| 2026-05-07 | outputs/improvement_log_generator.mjs | ツール | 改善ログ自動雛形生成（朝会Top3+コミット+数字を自動取り込み） | 完了 |
+| 2026-05-07 | .claude/hooks/session-start.sh | フック | Claude Code セッション起動時に PDCA を自動実行 | 完了 |
+| 2026-05-07 | .claude/settings.json | 設定 | SessionStart フックの登録 | 完了 |
 
 ## 進行中タスク
 
