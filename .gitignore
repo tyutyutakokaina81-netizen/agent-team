@@ -70,6 +70,11 @@ projects/*/D_エクセル入力スクレイピング/.sessions/*
 # note 公開キット（コピペ即公開用 .txt は git に乗せない）
 CMO/outputs/_publish_ready/
 
+# 納品形式変換の出力（クライアント納品物・機密扱い）
+*_plain.txt
+*_html.html
+*_docs.md
+
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
 context/ideas/*

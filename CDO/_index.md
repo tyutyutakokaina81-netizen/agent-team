@@ -36,6 +36,8 @@
 | 2026-05-07 | outputs/test/smoke_test.sh | テスト | PDCA スクリプトの起動・exit code 検証（14ケース） | 完了 |
 | 2026-05-07 | outputs/daily_audit.mjs | 監査 | 日次の改良候補自動検出（broken refs・unused imports・stale index・改善ログ蓄積） | 完了 |
 | 2026-05-07 | outputs/article_quality_checker.mjs | ツール | 納品前 SEO 記事の品質自動チェック（文字数/構造/メタ/NG/密度） | 完了 |
+| 2026-05-07 | outputs/client_article_prompt.md | プロンプト | クライアント SEO 記事生成プロンプト（intake fromに連動） | 完了 |
+| 2026-05-07 | outputs/delivery_format_generator.mjs | ツール | 納品形式自動変換（md→plain/html/Google Docs） | 完了 |
 
 ## 進行中タスク
 
