@@ -5,7 +5,10 @@ node_modules/
 *.env.*
 
 # local-only / generated
-.claude/
+.claude/*
+# 共有すべき hook と settings は許可（PDCA SessionStart hook など）
+!.claude/hooks/
+!.claude/settings.json
 bin/
 md/
 ppt/
