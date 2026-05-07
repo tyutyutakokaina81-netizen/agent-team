@@ -18,6 +18,10 @@
 | 2026-05-06 | outputs/topics/vol1_freelance_cashflow.json | 設定 | Vol.1 用トピック設定 | 完了 |
 | 2026-05-06 | outputs/topics/vol2_sns_calendar.json | 設定 | Vol.2 用トピック設定 | 完了 |
 | 2026-05-06 | outputs/topics/vol3_restaurant_prompts.json | 設定 | Vol.3 用トピック設定 | 完了 |
+| 2026-05-07 | outputs/topics/vol5_client_management.json | 設定 | Vol.5 用トピック設定 | 完了 |
+| 2026-05-07 | outputs/daily_standup.mjs | ツール | 日次スタンドアップ自動レポート（実行ギャップ検知） | 完了 |
+| 2026-05-07 | outputs/improvement_log_template.md | テンプレ | 日次改善ログ | 完了 |
+| 2026-05-07 | outputs/weekly_retrospective.md | テンプレ | 週次レトロスペクティブ KPT＋数字 | 完了 |
 
 ## 進行中タスク
 
