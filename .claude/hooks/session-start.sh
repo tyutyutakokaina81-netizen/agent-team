@@ -45,6 +45,12 @@ else
   echo "⚠️ pdca_status.mjs が存在しません（スキップ）"
 fi
 
+# 日次監査（改良候補の自動検出・--quiet で問題なしなら無音）
+if [ -f CDO/outputs/daily_audit.mjs ]; then
+  echo ""
+  node CDO/outputs/daily_audit.mjs --quiet || true
+fi
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━"
 echo "📚 本日の朝会：CDO/research/meetings/$(date +%Y-%m-%d)_morning.md"

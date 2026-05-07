@@ -41,6 +41,7 @@ run "note_article_scaffold dry"         node CDO/outputs/note_article_scaffold.m
 run "notify (test message)"             node CDO/outputs/notify.mjs "smoke test" "ok" info
 run "session-start hook"                env CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/session-start.sh
 run "lib/pdca_lib import"               node -e "import('./CDO/outputs/lib/pdca_lib.mjs').then(m=>{if(!m.today())process.exit(1)})"
+run "daily_audit"                       node CDO/outputs/daily_audit.mjs --quiet
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━"
 echo "Results: 🟢 PASS=$PASS / 🔴 FAIL=$FAIL"

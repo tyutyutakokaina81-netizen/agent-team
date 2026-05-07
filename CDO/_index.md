@@ -33,6 +33,8 @@
 | 2026-05-07 | .claude/hooks/session-start.sh | フック | Claude Code セッション起動時に PDCA を自動実行 | 完了 |
 | 2026-05-07 | .claude/settings.json | 設定 | SessionStart フックの登録 | 完了 |
 | 2026-05-07 | outputs/quick_publish_kit_generator.mjs | ツール | note 集客記事を「30秒公開キット」.txt に変換 | 完了 |
+| 2026-05-07 | outputs/test/smoke_test.sh | テスト | PDCA スクリプトの起動・exit code 検証（14ケース） | 完了 |
+| 2026-05-07 | outputs/daily_audit.mjs | 監査 | 日次の改良候補自動検出（broken refs・unused imports・stale index・改善ログ蓄積） | 完了 |
 
 ## 進行中タスク
 
