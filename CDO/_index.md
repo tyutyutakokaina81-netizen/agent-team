@@ -22,9 +22,13 @@
 | 2026-05-07 | outputs/daily_standup.mjs | ツール | 日次スタンドアップ自動レポート（実行ギャップ検知） | 完了 |
 | 2026-05-07 | outputs/improvement_log_template.md | テンプレ | 日次改善ログ | 完了 |
 | 2026-05-07 | outputs/weekly_retrospective.md | テンプレ | 週次レトロスペクティブ KPT＋数字 | 完了 |
-| 2026-05-07 | outputs/morning_meeting.mjs | ツール | 朝の戦略会議自動生成（PDCA: Plan/Do） | 完了 |
-| 2026-05-07 | outputs/evening_checkin.mjs | ツール | 夕方チェックイン（PDCA: Check/Act） | 完了 |
+| 2026-05-07 | outputs/morning_meeting.mjs | ツール | 朝の戦略会議自動生成（PDCA: Plan/Do）v2 13改善反映 | 完了 |
+| 2026-05-07 | outputs/evening_checkin.mjs | ツール | 夕方チェックイン（PDCA: Check/Act）v2 13改善反映 | 完了 |
 | 2026-05-07 | outputs/pdca_scheduling_setup.md | ガイド | launchd/cron/タスクスケジューラの設定手順 | 完了 |
+| 2026-05-07 | outputs/notify.mjs | ツール | クロスプラットフォーム通知（macOS/Linux/Windows） | 完了 |
+| 2026-05-07 | outputs/metrics_input.mjs | ツール | 数字入力 CLI（応募/受注/売上/PV）git外作業の検知補完 | 完了 |
+| 2026-05-07 | outputs/pdca_status.mjs | ツール | PDCA ヘルスチェック（朝会・チェックイン・数字・実行ギャップ） | 完了 |
+| 2026-05-07 | outputs/setup_pdca.sh | ツール | PDCA スケジュール自動セットアップ（macOS/Linux/Windows） | 完了 |
 
 ## 進行中タスク
 

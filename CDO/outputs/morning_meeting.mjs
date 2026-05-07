@@ -1,65 +1,74 @@
 #!/usr/bin/env node
 /**
- * morning_meeting.mjs — 朝の戦略会議 自動生成（PDCA: Plan + Do）
+ * morning_meeting.mjs — 朝の戦略会議 自動生成（PDCA: Plan + Do）v2
  *
- * 目的：
- *   - 毎朝1分で読める、今日の戦略会議サマリーを生成
- *   - 昨日の実績(Check)・改善メモ(Act)を踏まえ、今日の3アクション(Plan)を提示
- *   - 戦略文書（projects/.../strategy_review_*.md）と整合
+ * v2 改善点（13項目反映）：
+ *   #1 戦略検知の堅牢化：複数パターンで採用戦略を抽出
+ *   #2 Top3 動的生成：戦略 × 数字 × 直近チェックインから推論
+ *   #3 昨日 fallback：昨日なければ最新スタンドアップ
+ *   #4 robust parsing：try/catch で全体保護
+ *   #9 動的アクション：metrics_summary を読んで指標連動
+ *   #11 戦略未確定の自動エスカレーション：3日以上未決で警告
+ *   #12 跨日整合性：昨夕のチェックイン Top3 と今朝の連続性
+ *   #13 役職別議論：CMO/CSO/CDO/CFO/CPO 5役職の独立視点
  *
- * 費用ゼロ：
- *   - Node 標準モジュールのみ、外部API呼び出しなし
+ * 費用ゼロ：Node 標準モジュールのみ
  *
  * 使い方:
  *   node CDO/outputs/morning_meeting.mjs
  *   node CDO/outputs/morning_meeting.mjs --dry-run
- *
- * 出力:
- *   CDO/research/meetings/YYYY-MM-DD_morning.md
+ *   node CDO/outputs/morning_meeting.mjs --no-notify
  */
 
 import { execSync } from 'node:child_process';
 import { writeFileSync, existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { notify } from './notify.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dir, '../..');
 const MEETINGS_DIR = join(REPO_ROOT, 'CDO', 'research', 'meetings');
 const STANDUPS_DIR = join(REPO_ROOT, 'CDO', 'research', 'standups');
+const CHECKINS_DIR = join(REPO_ROOT, 'CDO', 'research', 'checkins');
 const IMPROVEMENTS_DIR = join(REPO_ROOT, 'CDO', 'research', 'improvements');
 const PROJECT_DIR = join(REPO_ROOT, 'projects');
+const METRICS_FILE = join(REPO_ROOT, 'CFO', 'research', '_revenue_data', 'metrics.jsonl');
 
 // ─────────────────────────────────────────────
 // CLI
 // ─────────────────────────────────────────────
 function parseArgs(argv) {
-  const args = { dryRun: false };
-  for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
+  const args = { dryRun: false, notify: true };
+  for (const a of argv) {
     if (a === '--dry-run') args.dryRun = true;
+    else if (a === '--no-notify') args.notify = false;
     else if (a === '--help' || a === '-h') args.help = true;
   }
   return args;
 }
 
 function showHelp() {
-  console.log(`morning_meeting.mjs — 朝の戦略会議 自動生成
+  console.log(`morning_meeting.mjs v2 — 朝の戦略会議
 
 USAGE:
   node CDO/outputs/morning_meeting.mjs
   node CDO/outputs/morning_meeting.mjs --dry-run
+  node CDO/outputs/morning_meeting.mjs --no-notify
 
 費用ゼロ：外部API呼び出しなし、Node標準モジュールのみ。
 `);
 }
 
 // ─────────────────────────────────────────────
-// ユーティリティ
+// 共通ユーティリティ
 // ─────────────────────────────────────────────
+function safe(fn, fallback) {
+  try { return fn(); } catch { return fallback; }
+}
+
 function sh(cmd) {
-  try { return execSync(cmd, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim(); }
-  catch { return ''; }
+  return safe(() => execSync(cmd, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim(), '');
 }
 
 function today() {
@@ -67,77 +76,194 @@ function today() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function yesterday() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
 function dayOfWeekJa() {
   return ['日', '月', '火', '水', '木', '金', '土'][new Date().getDay()];
 }
 
+function daysAgo(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 // ─────────────────────────────────────────────
-// 直近の戦略文書を取得
+// #1 堅牢な戦略検知
 // ─────────────────────────────────────────────
-function getLatestStrategyDoc() {
-  const candidates = [];
-  function scan(dir) {
-    if (!existsSync(dir)) return;
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const full = join(dir, entry.name);
-      if (entry.isDirectory()) scan(full);
-      else if (entry.name.startsWith('strategy_review_') && entry.name.endsWith('.md')) {
-        candidates.push(full);
+function findLatestStrategyDoc() {
+  return safe(() => {
+    const candidates = [];
+    function scan(dir) {
+      if (!existsSync(dir)) return;
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) scan(full);
+        else if (entry.name.startsWith('strategy_review_') && entry.name.endsWith('.md')) {
+          candidates.push(full);
+        }
       }
     }
-  }
-  scan(PROJECT_DIR);
-  if (candidates.length === 0) return null;
-  candidates.sort();
-  return candidates[candidates.length - 1];
+    scan(PROJECT_DIR);
+    candidates.sort();
+    return candidates[candidates.length - 1] || null;
+  }, null);
 }
 
-function extractStrategySummary(strategyPath) {
+function extractStrategy(strategyPath) {
   if (!strategyPath || !existsSync(strategyPath)) return null;
-  const content = readFileSync(strategyPath, 'utf-8');
-  const titleMatch = content.match(/^# (.+)/m);
-  const recommendMatch = content.match(/推奨戦略「([^」]+)」/);
-  const recommendBlockMatch = content.match(/# Part 4：推奨戦略[^\n]*\n+([\s\S]*?)(?=\n# Part)/);
+  return safe(() => {
+    const content = readFileSync(strategyPath, 'utf-8');
+    // 複数パターンで採用戦略を抽出
+    const patterns = [
+      /推奨戦略「([^」]+)」/,
+      /採用する?戦略[:：]\s*(.+?)(?:\n|$)/,
+      /\[x\]\s*戦略([A-C])/i,
+      /採用：戦略([A-C])/,
+      /# Part 4：推奨戦略「([^」]+)」/,
+    ];
+    let recommended = null;
+    for (const p of patterns) {
+      const m = content.match(p);
+      if (m) { recommended = m[1].startsWith('戦略') ? m[1] : `戦略${m[1]}`; break; }
+    }
+    return {
+      path: strategyPath.replace(REPO_ROOT + '/', ''),
+      recommended,
+      hasContent: content.length > 0,
+    };
+  }, null);
+}
+
+// #11 戦略未決の連続日数（戦略文書の更新日が古ければ未決とみなす）
+function getStrategyUndecidedDays(strategy) {
+  if (!strategy) return 999;
+  if (!strategy.recommended) {
+    return safe(() => {
+      const stat = require('node:fs').statSync(join(REPO_ROOT, strategy.path));
+      const days = Math.floor((Date.now() - stat.mtimeMs) / (1000 * 60 * 60 * 24));
+      return days;
+    }, 0);
+  }
+  return 0;
+}
+
+// ─────────────────────────────────────────────
+// #3 昨日 fallback
+// ─────────────────────────────────────────────
+function getMostRecentStandup() {
+  return safe(() => {
+    if (!existsSync(STANDUPS_DIR)) return null;
+    const files = readdirSync(STANDUPS_DIR)
+      .filter(f => f.endsWith('_standup.md'))
+      .sort()
+      .reverse();
+    const todayName = `${today()}_standup.md`;
+    for (const f of files) {
+      if (f === todayName) continue;  // 今日のはスキップ
+      const dateStr = f.replace('_standup.md', '');
+      const content = readFileSync(join(STANDUPS_DIR, f), 'utf-8');
+      const verdictMatch = content.match(/判定：(.+?)\*\*/);
+      const commitsMatch = content.match(/コミット数 \| (\d+)/);
+      return {
+        date: dateStr,
+        path: join(STANDUPS_DIR, f).replace(REPO_ROOT + '/', ''),
+        verdict: verdictMatch ? verdictMatch[1].trim() : '不明',
+        commits: commitsMatch ? parseInt(commitsMatch[1]) : 0,
+        ageInDays: Math.floor((new Date(today()) - new Date(dateStr)) / (1000 * 60 * 60 * 24)),
+      };
+    }
+    return null;
+  }, null);
+}
+
+// ─────────────────────────────────────────────
+// #12 昨夕のチェックインから「跨日連続性」
+// ─────────────────────────────────────────────
+function getLastEveningCheckin() {
+  return safe(() => {
+    if (!existsSync(CHECKINS_DIR)) return null;
+    const files = readdirSync(CHECKINS_DIR)
+      .filter(f => f.endsWith('_evening.md'))
+      .sort()
+      .reverse();
+    const todayName = `${today()}_evening.md`;
+    for (const f of files) {
+      if (f === todayName) continue;
+      return {
+        date: f.replace('_evening.md', ''),
+        path: join(CHECKINS_DIR, f).replace(REPO_ROOT + '/', ''),
+      };
+    }
+    return null;
+  }, null);
+}
+
+// ─────────────────────────────────────────────
+// #9, #10 数字の参照
+// ─────────────────────────────────────────────
+function loadMetrics() {
+  return safe(() => {
+    if (!existsSync(METRICS_FILE)) return [];
+    return readFileSync(METRICS_FILE, 'utf-8')
+      .split('\n').filter(Boolean)
+      .map(l => { try { return JSON.parse(l); } catch { return null; } })
+      .filter(Boolean);
+  }, []);
+}
+
+function metricsSummary(records) {
+  const recent7 = records.slice(-7);
+  const recent30 = records.slice(-30);
+  const sum = (arr, key) => arr.reduce((s, r) => s + (r[key] || 0), 0);
   return {
-    path: strategyPath.replace(REPO_ROOT + '/', ''),
-    title: titleMatch ? titleMatch[1] : '不明',
-    recommended: recommendMatch ? recommendMatch[1] : null,
-    summary: recommendBlockMatch ? recommendBlockMatch[1].slice(0, 600) : '',
+    last7_applications: sum(recent7, 'applications'),
+    last7_received: sum(recent7, 'received'),
+    last7_revenue: sum(recent7, 'revenue_jpy'),
+    last30_applications: sum(recent30, 'applications'),
+    last30_received: sum(recent30, 'received'),
+    last30_revenue: sum(recent30, 'revenue_jpy'),
+    last30_pv: sum(recent30, 'note_pv'),
+    last30_template_sales: sum(recent30, 'template_sales'),
   };
 }
 
 // ─────────────────────────────────────────────
-// 昨日のスタンドアップを取得
+// #7 PDCA スキップ検知
 // ─────────────────────────────────────────────
-function getYesterdayStandup() {
-  const path = join(STANDUPS_DIR, `${yesterday()}_standup.md`);
-  if (!existsSync(path)) return null;
-  const content = readFileSync(path, 'utf-8');
-  const verdictMatch = content.match(/判定：(.+?)\*\*/);
-  const commitsMatch = content.match(/コミット数 \| (\d+)/);
-  return {
-    path: path.replace(REPO_ROOT + '/', ''),
-    verdict: verdictMatch ? verdictMatch[1].trim() : '不明',
-    commits: commitsMatch ? parseInt(commitsMatch[1]) : 0,
-  };
+function getPdcaSkipDays() {
+  return safe(() => {
+    if (!existsSync(MEETINGS_DIR)) return 0;
+    const files = readdirSync(MEETINGS_DIR)
+      .filter(f => f.endsWith('_morning.md'))
+      .sort()
+      .reverse();
+    if (files.length === 0) return 999;
+    const lastDate = files[0].replace('_morning.md', '');
+    if (lastDate === today()) {
+      // 今日既に存在する場合は2番目で判定
+      if (files.length < 2) return 0;
+      const prev = files[1].replace('_morning.md', '');
+      return Math.floor((new Date(today()) - new Date(prev)) / (1000 * 60 * 60 * 24)) - 1;
+    }
+    return Math.floor((new Date(today()) - new Date(lastDate)) / (1000 * 60 * 60 * 24));
+  }, 0);
 }
 
-// ─────────────────────────────────────────────
-// 直近の改善ログを取得
-// ─────────────────────────────────────────────
-function getRecentImprovements() {
-  if (!existsSync(IMPROVEMENTS_DIR)) return [];
-  const files = readdirSync(IMPROVEMENTS_DIR)
-    .filter(f => f.endsWith('_improvement.md'))
-    .sort()
-    .slice(-3);
-  return files.map(f => f.replace('_improvement.md', ''));
+// 連続実行ギャップ日数
+function getConsecutiveGapDays() {
+  return safe(() => {
+    if (!existsSync(STANDUPS_DIR)) return 0;
+    const files = readdirSync(STANDUPS_DIR)
+      .filter(f => f.endsWith('_standup.md'))
+      .sort()
+      .reverse();
+    let count = 0;
+    for (const f of files) {
+      const content = readFileSync(join(STANDUPS_DIR, f), 'utf-8');
+      if (content.includes('準備物のみ増加')) count++;
+      else break;
+    }
+    return count;
+  }, 0);
 }
 
 // ─────────────────────────────────────────────
@@ -147,111 +273,190 @@ function collectInProgressTasks() {
   const roles = ['CDO', 'CFO', 'CMO', 'CPO', 'CSO'];
   const tasks = {};
   for (const role of roles) {
-    const indexPath = join(REPO_ROOT, role, '_index.md');
-    if (!existsSync(indexPath)) continue;
-    const content = readFileSync(indexPath, 'utf-8');
-    const match = content.match(/## 進行中タスク\s*\n+([\s\S]*?)(?=\n## |$)/);
-    if (!match) continue;
-    const items = match[1]
-      .split('\n')
-      .map(l => l.trim())
-      .filter(l => l.startsWith('- ') && !l.includes('（なし）'))
-      .map(l => l.replace(/^- /, ''));
-    if (items.length) tasks[role] = items;
+    safe(() => {
+      const indexPath = join(REPO_ROOT, role, '_index.md');
+      if (!existsSync(indexPath)) return;
+      const content = readFileSync(indexPath, 'utf-8');
+      const match = content.match(/## 進行中タスク\s*\n+([\s\S]*?)(?=\n## |$)/);
+      if (!match) return;
+      const items = match[1]
+        .split('\n')
+        .map(l => l.trim())
+        .filter(l => l.startsWith('- ') && !l.includes('（なし）'))
+        .map(l => l.replace(/^- /, ''));
+      if (items.length) tasks[role] = items;
+    });
   }
   return tasks;
 }
 
 // ─────────────────────────────────────────────
-// 連続日数の検知（実行ギャップ警告）
+// #13 役職別議論シミュレーション
 // ─────────────────────────────────────────────
-function getConsecutiveGapDays() {
-  if (!existsSync(STANDUPS_DIR)) return 0;
-  const files = readdirSync(STANDUPS_DIR)
-    .filter(f => f.endsWith('_standup.md'))
-    .sort()
-    .reverse();
-  let count = 0;
-  for (const f of files) {
-    const content = readFileSync(join(STANDUPS_DIR, f), 'utf-8');
-    if (content.includes('準備物のみ増加')) count++;
-    else break;
-  }
-  return count;
+function simulateRolePerspectives(strategy, metrics, tasks, gapDays) {
+  const isPillarA = strategy?.recommended?.match(/A/);
+  const lowApplications = (metrics.last7_applications || 0) < 10;
+  const lowRevenue = (metrics.last30_revenue || 0) < 10000;
+  const noNotePub = (metrics.last30_pv || 0) === 0;
+
+  const perspectives = [];
+
+  // CMO（マーケティング・コンテンツ）
+  perspectives.push({
+    role: 'CMO',
+    icon: '📣',
+    point:
+      noNotePub
+        ? '直近30日で note PV ゼロ。コンテンツが世に出ていない。今日 Vol.1 集客記事を公開すべき。コピペで30分の作業'
+        : metrics.last30_pv < 100
+          ? 'PV はあるが集客力不足。タイトルやサムネ A/B テストを推奨'
+          : '集客記事は機能している。次は SNS 連動で増幅'
+  });
+
+  // CSO（営業・受注）
+  perspectives.push({
+    role: 'CSO',
+    icon: '💼',
+    point:
+      lowApplications
+        ? `応募数が直近7日で${metrics.last7_applications || 0}件。1日5件目標に対して${metrics.last7_applications < 35 ? '不足' : '達成'}。今日5件応募する時間枠を確保すべき`
+        : metrics.last7_received === 0
+          ? '応募はあるが受注ゼロ。応募メッセージか案件選定の見直しが必要'
+          : '受注が出始めた。継続契約への切替交渉を最優先で'
+  });
+
+  // CFO（財務・税務）
+  perspectives.push({
+    role: 'CFO',
+    icon: '💰',
+    point: tasks.CFO?.some(t => t.includes('開業届'))
+      ? '開業届の期限が切迫中。本日中に e-Tax 提出を推奨。青色申告65万円控除の権利確保'
+      : lowRevenue
+        ? `30日売上 ¥${(metrics.last30_revenue || 0).toLocaleString()}。月次目標 ¥40K に対して${Math.round((metrics.last30_revenue || 0) / 40000 * 100)}%`
+        : '売上は計画通り。請求書発行・経費記録の習慣化を継続'
+  });
+
+  // CDO（自動化・技術）
+  perspectives.push({
+    role: 'CDO',
+    icon: '⚙️',
+    point: gapDays >= 3
+      ? `実行ギャップ${gapDays}日連続。スクリプトはすべて稼働しているが、オーナーの実行アクションが必要`
+      : '自動化基盤は機能中。改善ログ・週次レトロを習慣化することで、PDCA の質が上がる'
+  });
+
+  // CPO（プロダクト）
+  perspectives.push({
+    role: 'CPO',
+    icon: '📦',
+    point: isPillarA
+      ? '戦略A 採用なら、テンプレ販売（柱C）の新規制作は停止が妥当。既存 Vol.1〜5 の note 公開のみ最低限維持'
+      : 'テンプレ販売の Vol.1 が note で動いていない。Vol.2 以降の制作より Vol.1 の販売チャネル開拓が優先'
+  });
+
+  return perspectives;
 }
 
 // ─────────────────────────────────────────────
-// 直近24時間のコミット
+// #2, #9 動的 Top3 生成（戦略 × 数字 × 直近チェックイン）
 // ─────────────────────────────────────────────
-function recentCommitsCount() {
-  return parseInt(sh(`git log --since="1 day ago" --oneline | wc -l`)) || 0;
-}
-
-// ─────────────────────────────────────────────
-// 今日の Top3 アクション生成（戦略との整合）
-// ─────────────────────────────────────────────
-function generateTodayActions(strategy, gapDays, tasks) {
-  const isStrategyA = strategy?.recommended?.includes('柱A集中') || strategy?.recommended?.includes('A：柱A');
+function generateTodayActions(strategy, metrics, tasks, gapDays, undecidedDays) {
   const actions = [];
 
+  // #11 戦略未決のエスカレーション
+  if (undecidedDays >= 3) {
+    actions.push({
+      priority: '🚨',
+      target: 'オーナー',
+      title: '戦略の意思決定（3日以上未決）',
+      time: '今日の最初',
+      detail: 'strategy_review の Part 8 で戦略A/B/C を選択し、文書に追記',
+      success: '戦略採用が確定する',
+    });
+    return actions; // これが最優先
+  }
+
+  // 実行ギャップ警告
   if (gapDays >= 3) {
     actions.push({
       priority: '🚨',
       target: 'オーナー',
-      title: '【警告】3日以上「実行アクションなし」状態',
+      title: `${gapDays}日連続「実行アクションなし」状態`,
       time: '今すぐ',
-      detail: '戦略文書（Part 8）を再読し、戦略の見直しまたは実行コミットを判断',
-      success: '判断が決まった旨を改善ログに記入',
+      detail: 'note 公開・応募・登録のいずれか1つを実行する。準備物の追加生成は禁止',
+      success: 'context/diary または metrics に実行記録が増える',
     });
   }
 
-  if (isStrategyA) {
-    // 戦略A 採用前提のアクション
-    if (tasks.CSO?.some(t => t.includes('クラウドワークス'))) {
+  const isPillarA = strategy?.recommended?.match(/A/);
+
+  if (isPillarA) {
+    // 数字駆動：何が遅れているかで優先順位を決める
+    if ((metrics.last7_applications || 0) === 0) {
       actions.push({
-        priority: '🥇',
+        priority: actions.length === 0 ? '🥇' : '🥈',
         target: 'オーナー',
         title: 'クラウドワークス・ランサーズ登録',
         time: '午前9〜10時',
-        detail: '`A_ライティング/templates/profile_bio.md` の本文をコピペ。本人確認まで完了',
-        success: 'プロフィール完成度100%、認証マーク取得',
+        detail: 'profile_bio.md コピペ＋本人確認＋プロフィール画像（Canva）',
+        success: 'プロフィール完成度100%',
+      });
+      actions.push({
+        priority: actions.length === 0 ? '🥇' : actions.length === 1 ? '🥈' : '🥉',
+        target: 'オーナー',
+        title: '初応募 5件',
+        time: '午前10〜11時',
+        detail: 'job_evaluation_checklist.md で80点以上のみ。業種別テンプレ使用',
+        success: 'metrics_input.mjs で5件記録',
+      });
+    } else if ((metrics.last7_applications || 0) < 35) {
+      actions.push({
+        priority: actions.length === 0 ? '🥇' : '🥈',
+        target: 'オーナー',
+        title: `応募ペース回復（先週${metrics.last7_applications}件 → 目標35件）`,
+        time: '午前9〜11時',
+        detail: '今日5件以上応募。返信があった案件主の質問に24h以内返信',
+        success: 'metrics で応募+5件以上',
+      });
+    } else if ((metrics.last7_received || 0) === 0) {
+      actions.push({
+        priority: '🥇',
+        target: 'オーナー',
+        title: '応募メッセージの A/B テスト',
+        time: '午前',
+        detail: '受注ゼロが続く場合、テンプレを業種別に短縮版へ切替えて検証',
+        success: '改善ログに仮説と結果を記録',
+      });
+    } else if ((metrics.last7_received || 0) > 0) {
+      actions.push({
+        priority: '🥇',
+        target: 'オーナー',
+        title: '受注案件の品質納品＋継続交渉',
+        time: '集中時間',
+        detail: '初回案件は速納・修正最少を死守。納品時に2回目以降の打診',
+        success: '評価★4以上獲得',
       });
     }
-    actions.push({
-      priority: '🥈',
-      target: 'オーナー',
-      title: '初応募 5件',
-      time: '午前10〜11時',
-      detail: '`job_evaluation_checklist.md` で80点以上の案件のみ。`application_messages.md` の業種別テンプレ使用',
-      success: '応募実績スプレッドシートに5行追記',
-    });
-    actions.push({
-      priority: '🥉',
-      target: 'AI（Claude）',
-      title: '夕方の振り返りで応募結果を集計',
-      time: '夕方17時以降',
-      detail: '`node CDO/outputs/evening_checkin.mjs` を実行',
-      success: 'evening_checkin が生成される',
-    });
   } else {
     actions.push({
       priority: '⚠️',
       target: 'オーナー',
       title: '戦略の意思決定',
       time: '本日中',
-      detail: '`projects/.../strategy_review_*.md` の Part 8 で戦略A/B/C を選択',
-      success: '戦略採用が確定し、後続アクションが定まる',
+      detail: 'strategy_review の Part 8 で戦略A/B/C を選択',
+      success: '戦略確定',
     });
   }
 
-  if (actions.length === 0) {
+  // 夕方チェックインを最後に必ず追加
+  if (actions.length < 3) {
     actions.push({
-      priority: '✅',
-      target: '全員',
-      title: '進行中タスクの推進',
-      time: '通常時間',
-      detail: '各役職 _index.md の進行中タスクから1〜3件',
-      success: 'タスク完了',
+      priority: '🥉',
+      target: 'AI',
+      title: '夕方チェックインで実績集計',
+      time: '夕方17時以降',
+      detail: 'node CDO/outputs/evening_checkin.mjs を実行（または自動）',
+      success: 'チェックインファイルが生成される',
     });
   }
 
@@ -259,10 +464,22 @@ function generateTodayActions(strategy, gapDays, tasks) {
 }
 
 // ─────────────────────────────────────────────
+// #4 既存 24h コミット数（堅牢化）
+// ─────────────────────────────────────────────
+function recentCommitsCount() {
+  const r = sh(`git log --since="1 day ago" --oneline | wc -l`);
+  return parseInt(r) || 0;
+}
+
+// ─────────────────────────────────────────────
 // レポート生成
 // ─────────────────────────────────────────────
 function buildMeeting(opts) {
-  const { strategy, standup, improvements, tasks, gapDays, commitsCount, dateStr, dow, todayActions } = opts;
+  const {
+    strategy, standup, lastCheckin, metrics, perspectives,
+    tasks, gapDays, skipDays, undecidedDays, commitsCount,
+    dateStr, dow, todayActions,
+  } = opts;
 
   const tasksSection = Object.keys(tasks).length === 0
     ? '_（進行中タスクなし）_'
@@ -270,53 +487,85 @@ function buildMeeting(opts) {
         .map(([role, items]) => `**${role}**\n${items.map(t => `- ${t}`).join('\n')}`)
         .join('\n\n');
 
-  const actionsTable = todayActions
-    .map(a => `### ${a.priority} ${a.title}\n\n- **担当**：${a.target}\n- **時間枠**：${a.time}\n- **詳細**：${a.detail}\n- **達成基準**：${a.success}`)
-    .join('\n\n');
+  const actionsSection = todayActions.map(a =>
+    `### ${a.priority} ${a.title}\n\n- **担当**：${a.target}\n- **時間枠**：${a.time}\n- **詳細**：${a.detail}\n- **達成基準**：${a.success}`
+  ).join('\n\n');
 
-  const gapWarning = gapDays >= 3
-    ? `\n> 🚨 **警告：${gapDays}日連続で「準備物のみ増加」状態です。** 戦略の見直しが必要かもしれません。\n`
-    : gapDays > 0
-      ? `\n> ⚠️ ${gapDays}日連続で実行アクションが少ない状態です。\n`
-      : '';
+  const perspectivesSection = perspectives.map(p =>
+    `### ${p.icon} ${p.role} の視点\n\n${p.point}`
+  ).join('\n\n');
 
-  return `# 朝の戦略会議：${dateStr}（${dow}曜日）
+  const warnings = [];
+  if (undecidedDays >= 3) warnings.push(`🚨 **戦略未決定が${undecidedDays}日継続中**`);
+  if (gapDays >= 3) warnings.push(`🚨 **実行ギャップ${gapDays}日連続**`);
+  if (skipDays >= 2) warnings.push(`⚠️ 朝会スキップ${skipDays}日`);
 
-> このレポートは \`CDO/outputs/morning_meeting.mjs\` が自動生成しました。
+  const warningsBlock = warnings.length === 0 ? '' : `\n${warnings.map(w => `> ${w}`).join('\n')}\n`;
+
+  const standupSection = standup
+    ? `- **判定**：${standup.verdict}\n- **コミット**：${standup.commits}件\n- **${standup.ageInDays}日前**：\`${standup.path}\``
+    : '_スタンドアップなし（初回実行か削除）_';
+
+  const continuitySection = lastCheckin
+    ? `- 直近の夕方チェックイン：\`${lastCheckin.path}\`（${lastCheckin.date}）\n- 上記の「明日の Top3 案」を本日の Top3 に反映してください`
+    : '_直近の夕方チェックインなし。今夕 \`evening_checkin.mjs\` の実行を推奨_';
+
+  const metricsSection =
+`| 指標 | 7日 | 30日 |
+|------|-----|------|
+| 応募数 | ${metrics.last7_applications} | ${metrics.last30_applications} |
+| 受注数 | ${metrics.last7_received} | ${metrics.last30_received} |
+| 売上（円） | ${metrics.last7_revenue.toLocaleString()} | ${metrics.last30_revenue.toLocaleString()} |
+| note PV | — | ${metrics.last30_pv} |
+| テンプレ販売 | — | ${metrics.last30_template_sales} |`;
+
+  return `# 朝の戦略会議：${dateStr}（${dow}曜日）v2
+
+> このレポートは \`CDO/outputs/morning_meeting.mjs\` v2 が自動生成しました。
 > 1分で読んで、今日の3アクションを実行してください。
 > 費用：¥0（外部API呼び出しなし）
-${gapWarning}
+${warningsBlock}
 ---
 
-## 🎯 今日のフォーカス（PDCA: Plan/Do）
+## 🎯 戦略アライメント（PDCA: Plan）
 
-### 戦略アライメント
-
-${strategy ? `- **採用戦略**：${strategy.recommended || '未確定（要意思決定）'}\n- **戦略文書**：\`${strategy.path}\`` : '- 戦略文書なし。Part 1 から作成する必要あり'}
-
-### 今日のTop3アクション
-
-${actionsTable}
+${strategy
+  ? `- **採用戦略**：${strategy.recommended || '⚠️ 未確定（要意思決定）'}\n- **戦略文書**：\`${strategy.path}\`\n- **未決定継続**：${undecidedDays}日`
+  : '- 戦略文書なし。要作成'}
 
 ---
 
-## 📊 昨日のチェック（PDCA: Check）
+## 🎬 今日のTop3アクション（PDCA: Do）
 
-${standup
-  ? `- **昨日のスタンドアップ判定**：${standup.verdict}\n- **昨日のコミット数**：${standup.commits}件\n- **詳細**：\`${standup.path}\``
-  : '- 昨日のスタンドアップなし'
-}
+${actionsSection}
+
+---
+
+## 🗣 役職別の視点（議論シミュレーション）
+
+${perspectivesSection}
+
+---
+
+## 📊 数字（直近実績）
+
+${metricsSection}
+
+> 数字を更新する：\`node CDO/outputs/metrics_input.mjs\`
+
+---
+
+## 📋 昨日のチェック（PDCA: Check）
+
+### 直近スタンドアップ
+
+${standupSection}
+
+### 跨日連続性
+
+${continuitySection}
 
 - **直近24時間のコミット数**：${commitsCount}件
-
----
-
-## 📝 直近の改善メモ（PDCA: Act）
-
-${improvements.length === 0
-  ? '- _改善ログなし。今日から `improvement_log_template.md` で記入を習慣化推奨_'
-  : improvements.map(d => `- \`CDO/research/improvements/${d}_improvement.md\``).join('\n')
-}
 
 ---
 
@@ -326,28 +575,29 @@ ${tasksSection}
 
 ---
 
-## 🎬 今日のルーティン
+## 🎯 今日のルーティン
 
 \`\`\`
-07:30  この朝会レポートを読む（5分）
-09:00  Top3 アクション開始（オーナー側）
-17:00  夕方チェックイン実行：node CDO/outputs/evening_checkin.mjs
-21:00  改善ログ記入（5分・任意）
+07:30  この朝会レポートを読む（1分）
+09:00  Top3 アクション開始
+12:00  進捗の自己チェック（任意）
+17:00  夕方チェックイン：node CDO/outputs/evening_checkin.mjs
+21:00  数字入力：node CDO/outputs/metrics_input.mjs --quick
 \`\`\`
 
 ---
 
 ## 📚 リファレンス
 
-- 戦略文書：\`projects/2026-04-08_月30万自動化/strategy_review_2026-05-07.md\`
+- 戦略：\`${strategy?.path || '（未作成）'}\`
 - 応募ツール：\`projects/2026-04-08_月30万自動化/A_ライティング/templates/\`
-- 改善テンプレ：\`CDO/outputs/improvement_log_template.md\`
-- 週次レトロ：\`CDO/outputs/weekly_retrospective.md\`
+- 数字サマリ：\`CFO/outputs/metrics_summary.md\`
+- PDCA セットアップ：\`CDO/outputs/pdca_scheduling_setup.md\`
 
 ---
 
-*次の朝会自動生成：明日の朝（cron / launchd 設定済みなら自動）*
 *手動実行：\`node CDO/outputs/morning_meeting.mjs\`*
+*完璧でない点は \`CDO/outputs/morning_meeting.mjs\` のコメント参照*
 `;
 }
 
@@ -361,16 +611,21 @@ function main() {
   const dateStr = today();
   const dow = dayOfWeekJa();
 
-  const strategy = extractStrategySummary(getLatestStrategyDoc());
-  const standup = getYesterdayStandup();
-  const improvements = getRecentImprovements();
+  const strategy = extractStrategy(findLatestStrategyDoc());
+  const undecidedDays = getStrategyUndecidedDays(strategy);
+  const standup = getMostRecentStandup();
+  const lastCheckin = getLastEveningCheckin();
   const tasks = collectInProgressTasks();
   const gapDays = getConsecutiveGapDays();
+  const skipDays = getPdcaSkipDays();
   const commitsCount = recentCommitsCount();
-  const todayActions = generateTodayActions(strategy, gapDays, tasks);
+  const metrics = metricsSummary(loadMetrics());
+  const perspectives = simulateRolePerspectives(strategy, metrics, tasks, gapDays);
+  const todayActions = generateTodayActions(strategy, metrics, tasks, gapDays, undecidedDays);
 
   const report = buildMeeting({
-    strategy, standup, improvements, tasks, gapDays, commitsCount,
+    strategy, standup, lastCheckin, metrics, perspectives,
+    tasks, gapDays, skipDays, undecidedDays, commitsCount,
     dateStr, dow, todayActions,
   });
 
@@ -383,26 +638,25 @@ function main() {
   const outPath = join(MEETINGS_DIR, `${dateStr}_morning.md`);
   writeFileSync(outPath, report, 'utf-8');
 
-  console.log(`✅ 朝会レポート生成: ${outPath}`);
-  console.log('');
+  console.log(`✅ 朝会レポート v2 生成: ${outPath}`);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━');
   console.log(`📅 ${dateStr}（${dow}）の朝会`);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━');
-  if (gapDays >= 3) {
-    console.log(`🚨 警告：${gapDays}日連続で実行ギャップ`);
-  }
+  if (undecidedDays >= 3) console.log(`🚨 戦略未決定 ${undecidedDays}日継続`);
+  if (gapDays >= 3) console.log(`🚨 実行ギャップ ${gapDays}日連続`);
+  if (skipDays >= 2) console.log(`⚠️ 朝会スキップ ${skipDays}日`);
   console.log(`🎯 戦略：${strategy?.recommended || '未確定'}`);
-  console.log(`📊 直近24時間コミット：${commitsCount}件`);
+  console.log(`📊 7日応募：${metrics.last7_applications} / 受注：${metrics.last7_received} / 売上：¥${metrics.last7_revenue.toLocaleString()}`);
   console.log('');
   console.log('今日のTop3：');
-  todayActions.forEach((a, i) => {
-    console.log(`  ${a.priority} ${a.title} (${a.target})`);
-  });
-  console.log('');
-  console.log('次の手順：');
-  console.log(`  1. ${outPath} を開いて確認（1分）`);
-  console.log(`  2. Top3を順に実行`);
-  console.log(`  3. 夕方に：node CDO/outputs/evening_checkin.mjs`);
+  todayActions.forEach(a => console.log(`  ${a.priority} ${a.title} (${a.target})`));
+
+  if (args.notify) {
+    const notifyBody = todayActions.length > 0
+      ? `Top3: ${todayActions.map(a => a.title).join(' / ')}`
+      : '本日の朝会レポート生成済み';
+    notify('Agent Team 朝会', notifyBody, gapDays >= 3 ? 'warn' : 'info');
+  }
 }
 
 main();

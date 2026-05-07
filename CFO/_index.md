@@ -16,6 +16,7 @@
 | 2026-05-06 | outputs/invoice_templates.md | 請求書テンプレ | 3形式（直接契約／月額契約／法人まとめ買い）インボイス対応 | 完了 |
 | 2026-05-06 | outputs/monthly_financial_summary.md | 財務サマリ | 5シート構成のスプレッドシート設計 | 完了 |
 | 2026-05-06 | outputs/tax_preparation_checklist.md | 確定申告 | 開業届〜申告までの全チェックリスト＋タイムライン | 完了 |
+| 2026-05-07 | outputs/metrics_summary.md | 数字サマリ | metrics_input.mjs が自動生成・直近30日累計（生データは _revenue_data/ に保管） | 完了 |
 
 ## 進行中タスク
 
