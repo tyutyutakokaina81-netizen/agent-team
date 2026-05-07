@@ -42,6 +42,7 @@ run "notify (test message)"             node CDO/outputs/notify.mjs "smoke test"
 run "session-start hook"                env CLAUDE_PROJECT_DIR="$PWD" bash .claude/hooks/session-start.sh
 run "lib/pdca_lib import"               node -e "import('./CDO/outputs/lib/pdca_lib.mjs').then(m=>{if(!m.today())process.exit(1)})"
 run "daily_audit"                       node CDO/outputs/daily_audit.mjs --quiet
+run "article_quality_checker --help"    node CDO/outputs/article_quality_checker.mjs --help
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━"
 echo "Results: 🟢 PASS=$PASS / 🔴 FAIL=$FAIL"
