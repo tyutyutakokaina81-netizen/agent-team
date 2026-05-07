@@ -32,6 +32,7 @@
 | 2026-05-07 | outputs/improvement_log_generator.mjs | ツール | 改善ログ自動雛形生成（朝会Top3+コミット+数字を自動取り込み） | 完了 |
 | 2026-05-07 | .claude/hooks/session-start.sh | フック | Claude Code セッション起動時に PDCA を自動実行 | 完了 |
 | 2026-05-07 | .claude/settings.json | 設定 | SessionStart フックの登録 | 完了 |
+| 2026-05-07 | outputs/quick_publish_kit_generator.mjs | ツール | note 集客記事を「30秒公開キット」.txt に変換 | 完了 |
 
 ## 進行中タスク
 
