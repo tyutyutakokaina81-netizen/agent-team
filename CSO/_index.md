@@ -16,6 +16,10 @@
 | 2026-05-06 | projects/2026-04-08_月30万自動化/B_SNS運用代行/hearing_sheet.md | ヒアリングシート | SNS運用代行 受注前60分商談用シート | 完了 |
 | 2026-05-06 | projects/2026-04-08_月30万自動化/B_SNS運用代行/monthly_report_template.md | レポートテンプレ | SNS運用代行 月次レポート（解約防止用） | 完了 |
 | 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/sample_article_portfolio.md | サンプル記事 | SEOライティング 応募用ポートフォリオ（4,200字） | 完了 |
+| 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/profile_bio.md | プロフィール文 | クラウドワークス・ランサーズ用 | 完了 |
+| 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/application_messages.md | 応募テンプレ | 業種別6種（美容/飲食/不動産/金融/医療/IT） | 完了 |
+| 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/job_evaluation_checklist.md | 評価ルール | GO/CAUTION/NO-GO 100点満点採点 | 完了 |
+| 2026-05-06 | projects/2026-04-08_月30万自動化/A_ライティング/templates/application_tracker.md | 実績管理 | Google スプレッドシート構造（5シート） | 完了 |
 
 ## 進行中タスク
 
