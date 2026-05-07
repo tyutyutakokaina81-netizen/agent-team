@@ -22,6 +22,22 @@ CSO/research/*
 !CFO/research/.gitkeep
 !CSO/outputs/.gitkeep
 !CSO/research/.gitkeep
+# 雛形・テンプレ Markdown は許可（センシティブな実データを含まない）
+!CFO/outputs/*.md
+!CFO/research/*.md
+!CSO/outputs/*.md
+!CSO/research/*.md
+# 実請求書・実契約書・実取引データはサブフォルダで除外
+CFO/outputs/_invoices/
+CFO/outputs/_contracts/
+CFO/outputs/_revenue_data/
+CFO/research/_invoices/
+CFO/research/_contracts/
+CFO/research/_revenue_data/
+CSO/outputs/_clients/
+CSO/research/_clients/
+*_actual.pdf
+*_signed.pdf
 *_secret*
 *_confidential*
 *_機密*
