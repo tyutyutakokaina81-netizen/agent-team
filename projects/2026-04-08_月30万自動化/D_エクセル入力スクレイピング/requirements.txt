@@ -1,0 +1,6 @@
+# 柱D 自動受注パイプライン 必須ライブラリ
+# インストール: pip install -r requirements.txt
+# その後: playwright install chromium
+
+playwright>=1.40.0
+openpyxl>=3.1.0
