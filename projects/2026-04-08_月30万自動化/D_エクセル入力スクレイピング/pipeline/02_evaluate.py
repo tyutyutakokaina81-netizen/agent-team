@@ -1,127 +1,30 @@
 """
-02_evaluate.py — 案件見極め（高精度版）
+02_evaluate.py — 案件見極め（ルールベース）
 案件テキストをコピペするだけで GO / NO-GO を判定する。
 
 使い方:
   python 02_evaluate.py                    # 対話モード（テキストを貼り付け）
   python 02_evaluate.py --file jobs.json   # 検索結果JSONから一括評価
   echo "案件テキスト" | python 02_evaluate.py  # パイプ入力
+
+注: 有料 API は使用しない。完全ルールベースで動作する。
 """
 
 import json
-import os
 import sys
-import urllib.request
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-
-# ─────────────────────────────────────────────
-# 評価プロンプト（4軸 × 詳細基準）
-# ─────────────────────────────────────────────
-
-EVAL_PROMPT = """
-あなたはクラウドソーシングの案件を評価する専門家です。
-以下の案件テキストを読み、4軸で採点して GO/NO-GO を判定してください。
-
-━━━━━━━━━━━━━━━━━━━━━━━━
-案件テキスト:
-{job_text}
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-## 評価軸と採点基準
-
-### 軸1：技術実現性（0〜25点）
-- 25点：標準的なHTML構造、静的サイト、openpyxlで処理できるExcel
-- 15点：多少のJavaScriptあり、Playwrightで対応可能
-- 5点：ログイン必須、CAPTCHA、Cloudflare等の強固な対策あり
-- 0点：技術的に不可能（リアルタイムAPI専用、Flash等）
-
-### 軸2：法的・規約リスク（0〜25点）
-- 25点：明らかに公開情報、クライアントが対象サイトのオーナーまたは許可あり
-- 15点：公開情報だが対象サイトの規約確認が必要
-- 5点：個人情報・競合調査・著作物コピーの可能性あり
-- 0点：明らかな違法行為（不正アクセス、個人情報の無断収集等）
-
-### 軸3：採算性（0〜25点）
-- 25点：¥10,000以上、または繰り返し受注が見込める
-- 20点：¥5,000〜¥9,999
-- 10点：¥2,000〜¥4,999
-- 5点：¥1,000〜¥1,999
-- 0点：¥1,000未満、または予算不明で低そう
-
-### 軸4：要件明確性（0〜25点）
-- 25点：入力元・出力形式・件数・納期がすべて明記されている
-- 15点：主要項目は明確、細部は確認で解決できる
-- 5点：要件が曖昧で大幅な追加確認が必要
-- 0点：何をすべきか不明、または矛盾している
-
-## 出力形式（JSONのみ、説明不要）
-
-{{
-  "category": "scraping" | "excel_input" | "data_processing" | "other",
-  "scores": {{
-    "technical": <0-25>,
-    "legal": <0-25>,
-    "profitability": <0-25>,
-    "clarity": <0-25>
-  }},
-  "total": <0-100>,
-  "verdict": "GO" | "CAUTION" | "NO-GO",
-  "estimated_price_jpy": <数値>,
-  "estimated_work_hours": <数値>,
-  "hourly_rate_jpy": <時給換算>,
-  "red_flags": ["懸念点1", "懸念点2"],
-  "green_flags": ["優良点1", "優良点2"],
-  "questions_to_ask": ["確認すべき質問1", "質問2"],
-  "reason": "GO/NO-GO の主な理由（1〜2文）"
-}}
-
-## 判定基準
-- GO     : total >= 70（積極的に応募）
-- CAUTION: total 50〜69（質問して判断）
-- NO-GO  : total < 50（見送り推奨）
-"""
-
-# ─────────────────────────────────────────────
-# Claude API 呼び出し
-# ─────────────────────────────────────────────
-
-def call_claude(prompt: str, model: str = "claude-haiku-4-5-20251001") -> str:
-    if not ANTHROPIC_API_KEY:
-        raise EnvironmentError(
-            "ANTHROPIC_API_KEY が設定されていません\n"
-            "export ANTHROPIC_API_KEY=sk-ant-... を実行してください"
-        )
-    payload = json.dumps({
-        "model": model,
-        "max_tokens": 1024,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=30) as res:
-        body = json.loads(res.read().decode("utf-8"))
-    return body["content"][0]["text"]
 
 
 # ─────────────────────────────────────────────
-# ルールベース評価（APIキー不要のフォールバック）
+# ルールベース評価
 # ─────────────────────────────────────────────
 
 def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
-    """APIキーなしで動くルールベース評価"""
+    """4軸（技術／法的／採算／明確性）でスコアリング"""
     import re
     text = job_text.lower()
     title = (meta or {}).get("title", "").lower()
@@ -221,23 +124,7 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
 # ─────────────────────────────────────────────
 
 def evaluate(job_text: str, meta: dict | None = None) -> dict:
-    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック）"""
-    if ANTHROPIC_API_KEY:
-        prompt = EVAL_PROMPT.format(job_text=job_text.strip())
-        try:
-            raw = call_claude(prompt)
-            start = raw.find("{")
-            end = raw.rfind("}") + 1
-            result = json.loads(raw[start:end])
-            if meta:
-                result = {**meta, **result}
-            result["evaluated_at"] = datetime.now().isoformat()
-            result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
-            return result
-        except Exception:
-            pass  # API失敗時はルールベースにフォールバック
-
-    # APIキー未設定またはAPI失敗 → ルールベース評価
+    """案件テキストを評価して結果dictを返す（完全ルールベース）"""
     return _rule_based_evaluate(job_text, meta)
 
 

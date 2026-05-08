@@ -1,71 +1,16 @@
 """
 05_review.py — 念査（品質チェック）
-Claude が成果物を自己レビューし、問題があれば報告・自動修正する。
+成果物を機械的にチェックし、問題があれば報告する。
+
+注: 有料 API は使用しない。完全ルールベースで動作する。
 """
 
 import csv
-import json
-import os
-import urllib.request
 from pathlib import Path
-
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-
-REVIEW_PROMPT = """
-あなたはデータ品質チェックの専門家です。
-以下の成果物データをレビューして、問題点を報告してください。
-
-# 成果物の種類
-{file_type}
-
-# データサンプル（先頭20件）
-{sample}
-
-# チェック項目
-1. 空欄・nullが不自然に多い列はないか
-2. 明らかなフォーマットエラー（日付・電話番号・メールなど）
-3. 重複データの有無
-4. 文字化け・エンコード問題
-
-# 出力形式（JSONのみ）
-{{
-  "passed": true/false,
-  "total_rows": 件数,
-  "issues": [
-    {{"type": "問題種別", "column": "列名", "detail": "詳細", "severity": "high/medium/low"}}
-  ],
-  "summary": "全体評価コメント"
-}}
-"""
-
-
-def call_claude(prompt: str) -> str:
-    if not ANTHROPIC_API_KEY:
-        raise EnvironmentError("ANTHROPIC_API_KEY が設定されていません")
-
-    payload = json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 1024,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=30) as res:
-        body = json.loads(res.read().decode("utf-8"))
-    return body["content"][0]["text"]
 
 
 def _rule_based_review(rows: list[dict], file_type: str) -> dict:
-    """API キー不要のルールベース念査（空欄率・重複・文字化け・件数）"""
+    """ルールベース念査（空欄率・重複・文字化け・件数）"""
     import re
     issues = []
     total = len(rows)
@@ -128,29 +73,12 @@ def _rule_based_review(rows: list[dict], file_type: str) -> dict:
     }
 
 
-def _api_review(rows: list[dict], file_type: str) -> dict:
-    sample = json.dumps(rows[:20], ensure_ascii=False, indent=2, default=str)
-    prompt = REVIEW_PROMPT.format(file_type=file_type, sample=sample)
-    raw = call_claude(prompt)
-    start = raw.find("{")
-    end = raw.rfind("}") + 1
-    result = json.loads(raw[start:end])
-    result["total_rows"] = len(rows)
-    return result
-
-
 def review_csv(file_path: Path) -> dict:
     rows = []
     with open(file_path, encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             rows.append(row)
-
-    if ANTHROPIC_API_KEY:
-        try:
-            return _api_review(rows, "CSV")
-        except Exception:
-            pass  # API 失敗時はルールベースにフォールバック
     return _rule_based_review(rows, "CSV")
 
 
@@ -166,12 +94,6 @@ def review_excel(file_path: Path) -> dict:
     rows = []
     for row in ws.iter_rows(min_row=2, values_only=True):
         rows.append(dict(zip(headers, row)))
-
-    if ANTHROPIC_API_KEY:
-        try:
-            return _api_review(rows, "Excel")
-        except Exception:
-            pass
     return _rule_based_review(rows, "Excel")
 
 

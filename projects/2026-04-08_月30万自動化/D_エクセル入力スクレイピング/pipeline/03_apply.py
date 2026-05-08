@@ -1,81 +1,24 @@
 """
-03_apply.py — 応募文生成
-案件情報をもとに Claude が最適な応募文を生成する。
+03_apply.py — 応募文生成（テンプレートベース）
+案件情報をもとに採用率の高い応募文を生成する。
 送信は人手確認後（規約グレーのため半自動運用）。
+
+注: 有料 API は使用しない。完全テンプレートで動作する。
 """
 
 import json
-import os
-import urllib.request
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-
-APPLY_PROMPT = """
-あなたはクラウドソーシングの応募文を作成するプロフェッショナルです。
-以下の案件に対して、採用率の高い応募文を作成してください。
-
-# 案件情報
-タイトル: {title}
-URL: {url}
-カテゴリ: {category}
-想定単価: ¥{price}
-
-# 自己PR（使用可能なスキル）
-- Pythonによるデータ処理・自動化
-- Excel/CSVの高精度データ入力（AI支援＋人間ダブルチェック）
-- Webスクレイピング（BeautifulSoup/Playwright）
-- 納期厳守・丁寧なコミュニケーション
-
-# 応募文に必ず含める4要素
-1. 案件タイトルへの具体的応答（要件への理解を示す）
-2. AI支援＋人間ダブルチェックの明示（品質シグナル）
-3. 納期確認の能動姿勢（信頼シグナル）
-4. 継続・追加対応の余白を残す一文（次回受注の布石）
-
-# 応募文の条件
-- 200〜300文字
-- 具体的な作業方法に触れる
-- 自然な日本語、押しつけがましくない
-- 末尾は確認質問または依頼の余白を残す形で締める
-
-応募文のみ出力してください（説明・前置き不要）。
-"""
-
-
-def call_claude(prompt: str) -> str:
-    if not ANTHROPIC_API_KEY:
-        raise EnvironmentError("ANTHROPIC_API_KEY が設定されていません")
-
-    payload = json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 512,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=30) as res:
-        body = json.loads(res.read().decode("utf-8"))
-    return body["content"][0]["text"]
 
 
 def _template_application(job: dict) -> str:
-    """APIキー不要のテンプレートベース応募文（4要素を含む）
+    """テンプレートベースの応募文（4要素を含む）
 
     含める4要素：
-      ① タイトルへの具体的応答  ② 品質シグナル（AI＋人間ダブルチェック）
+      ① タイトルへの具体的応答  ② 品質シグナル（人間ダブルチェック）
       ③ 納期確認の能動姿勢      ④ 継続・追加対応の余白
     """
     title = job.get("title", "")
@@ -125,20 +68,6 @@ def _template_application(job: dict) -> str:
 
 
 def generate_application(job: dict) -> dict:
-    if ANTHROPIC_API_KEY:
-        prompt = APPLY_PROMPT.format(
-            title=job.get("title", ""),
-            url=job.get("url", ""),
-            category=job.get("category", ""),
-            price=job.get("estimated_price_jpy", "不明"),
-        )
-        try:
-            text = call_claude(prompt)
-            return {**job, "application_text": text, "status": "draft"}
-        except Exception:
-            pass
-
-    # APIキーなし → テンプレート応募文
     text = _template_application(job)
     return {**job, "application_text": text, "status": "template"}
 

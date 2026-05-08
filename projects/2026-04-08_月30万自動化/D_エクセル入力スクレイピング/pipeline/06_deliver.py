@@ -2,66 +2,20 @@
 06_deliver.py — 納品準備・サマリ生成
 念査済み成果物の納品用パッケージを作成し、納品文を生成する。
 実際の送信は人手で行う（規約対応のため半自動運用）。
+
+注: 有料 API は使用しない。完全テンプレートで動作する。
 """
 
 import json
-import os
 import shutil
-import urllib.request
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-
-DELIVERY_PROMPT = """
-以下の作業完了情報をもとに、クラウドソーシングの納品メッセージを作成してください。
-
-# 案件情報
-タイトル: {title}
-カテゴリ: {category}
-
-# 作業結果
-総件数: {total_rows}件
-念査結果: {review_status}
-ファイル名: {filename}
-
-# 納品メッセージの条件
-- 150〜200文字
-- 作業完了の報告・件数・確認依頼を含む
-- 丁寧かつ簡潔な日本語
-
-納品メッセージのみ出力してください。
-"""
-
-
-def call_claude(prompt: str) -> str:
-    if not ANTHROPIC_API_KEY:
-        raise EnvironmentError("ANTHROPIC_API_KEY が設定されていません")
-
-    payload = json.dumps({
-        "model": "claude-haiku-4-5-20251001",
-        "max_tokens": 512,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=30) as res:
-        body = json.loads(res.read().decode("utf-8"))
-    return body["content"][0]["text"]
 
 
 def _template_delivery_message(job: dict, total_rows, filename: str, passed: bool) -> str:
-    """API キー不要のテンプレート納品メッセージ（評価★4獲得を狙う構成）"""
+    """テンプレート納品メッセージ（評価★4獲得を狙う構成）"""
     title_short = job.get("title", "")[:30]
     rows_label = f"{total_rows}件" if isinstance(total_rows, int) else "ご指定件数"
     quality_line = (
@@ -78,28 +32,6 @@ def _template_delivery_message(job: dict, total_rows, filename: str, passed: boo
     )
 
 
-def _generate_delivery_message(job: dict, output_file: Path, review_result: dict) -> str:
-    review_status = "問題なし（全チェック通過）" if review_result.get("passed") else "要確認あり"
-    if ANTHROPIC_API_KEY:
-        prompt = DELIVERY_PROMPT.format(
-            title=job.get("title", ""),
-            category=job.get("category", ""),
-            total_rows=review_result.get("total_rows", "?"),
-            review_status=review_status,
-            filename=output_file.name,
-        )
-        try:
-            return call_claude(prompt)
-        except Exception:
-            pass  # API 失敗時はテンプレートにフォールバック
-    return _template_delivery_message(
-        job,
-        review_result.get("total_rows", "?"),
-        output_file.name,
-        bool(review_result.get("passed")),
-    )
-
-
 def run(job: dict, output_file: Path, review_result: dict) -> dict:
     # 納品パッケージフォルダを作成
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M")
@@ -110,8 +42,13 @@ def run(job: dict, output_file: Path, review_result: dict) -> dict:
     dest = pkg_dir / output_file.name
     shutil.copy2(output_file, dest)
 
-    # 納品メッセージを生成（API → テンプレ フォールバック）
-    delivery_message = _generate_delivery_message(job, output_file, review_result)
+    # 納品メッセージを生成（テンプレート）
+    delivery_message = _template_delivery_message(
+        job,
+        review_result.get("total_rows", "?"),
+        output_file.name,
+        bool(review_result.get("passed")),
+    )
 
     # サマリをJSONで保存
     summary = {

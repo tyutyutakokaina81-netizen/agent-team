@@ -1,17 +1,16 @@
 """
 04_execute.py — 作業実行
 エクセルデータ入力 または Webスクレイピングをカテゴリに応じて実行する。
+
+注: 有料 API は使用しない。
+  - Excel 入力: openpyxl のみで完結
+  - スクレイピング: 手動カスタマイズ用スケルトンを生成（TODO を埋めて実行）
 """
 
-import csv
-import json
-import os
-import urllib.request
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
 # ─────────────────────────────────────────────
@@ -46,46 +45,6 @@ def execute_excel_input(job: dict, source_data: list[dict], template_path: str) 
 # ─────────────────────────────────────────────
 # Webスクレイピング系
 # ─────────────────────────────────────────────
-
-def generate_scraping_script(job: dict) -> str:
-    """Claude に案件情報を渡してスクレイピングスクリプトを生成させる"""
-    if not ANTHROPIC_API_KEY:
-        raise EnvironmentError("ANTHROPIC_API_KEY が設定されていません")
-
-    prompt = f"""
-以下のクラウドソーシング案件の要件に合わせたPythonスクレイピングスクリプトを生成してください。
-
-# 案件タイトル
-{job.get("title", "")}
-
-# 要件
-- urllib と html.parser のみ使用（外部ライブラリ不使用）
-- 結果をCSV（utf-8-sig）で output.csv に保存
-- エラーハンドリング含む
-- main() 関数を定義してスクリプト末尾で呼び出す
-
-Pythonコードのみ出力してください（説明不要）。
-"""
-    payload = json.dumps({
-        "model": "claude-sonnet-4-6",
-        "max_tokens": 2048,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode("utf-8")
-
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=60) as res:
-        body = json.loads(res.read().decode("utf-8"))
-    return body["content"][0]["text"]
-
 
 SCRAPING_SKELETON = '''"""
 スクレイピングスケルトン（手動カスタマイズ用）
@@ -154,62 +113,19 @@ if __name__ == "__main__":
 
 
 def execute_scraping(job: dict) -> Path:
-    """スクレイピングスクリプトを生成して実行する。
+    """案件専用スクレイピングスケルトンを保存して人手作業に渡す。
 
-    API キーがあれば Claude が案件専用スクリプトを生成・実行する。
-    API キーがなければ、手動カスタマイズ用スケルトンを保存して人手作業に切替。
+    Claude Code 等のローカル AI 補助で TODO を埋めてから実行する想定。
     """
-    import subprocess
-    import tempfile
-
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M")
-
-    # API キーがない場合：スケルトンを保存して人手作業に切替
-    if not ANTHROPIC_API_KEY:
-        skeleton_path = OUTPUT_DIR / f"{timestamp}_scraping_skeleton.py"
-        skeleton_path.write_text(
-            SCRAPING_SKELETON.format(title=job.get("title", "")),
-            encoding="utf-8",
-        )
-        print(f"[手動切替] API 未使用のためスケルトンを生成しました")
-        print(f"  ファイル: {skeleton_path}")
-        print(f"  TODO 部分を埋めて `python3 {skeleton_path.name}` を実行してください")
-        return skeleton_path
-
-    # API キーがある場合：Claude にスクリプト生成を依頼
-    script_code = generate_scraping_script(job)
-
-    # コードブロック除去
-    if "```python" in script_code:
-        script_code = script_code.split("```python")[1].split("```")[0].strip()
-    elif "```" in script_code:
-        script_code = script_code.split("```")[1].split("```")[0].strip()
-
-    # 一時ファイルに保存して実行
-    with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".py", delete=False, encoding="utf-8"
-    ) as f:
-        f.write(script_code)
-        tmp_path = f.name
-
-    out_csv = OUTPUT_DIR / f"{timestamp}_scraping.csv"
-    result = subprocess.run(
-        ["python3", tmp_path],
-        capture_output=True, text=True, timeout=120,
-        cwd=str(OUTPUT_DIR),
+    skeleton_path = OUTPUT_DIR / f"{timestamp}_scraping_skeleton.py"
+    skeleton_path.write_text(
+        SCRAPING_SKELETON.format(title=job.get("title", "")),
+        encoding="utf-8",
     )
-    Path(tmp_path).unlink(missing_ok=True)
-
-    if result.returncode != 0:
-        raise RuntimeError(f"スクレイピング失敗:\n{result.stderr}")
-
-    # output.csv を最終ファイル名にリネーム
-    tmp_csv = OUTPUT_DIR / "output.csv"
-    if tmp_csv.exists():
-        tmp_csv.rename(out_csv)
-
-    print(f"[スクレイピング完了] → {out_csv}")
-    return out_csv
+    print(f"[スケルトン生成] {skeleton_path}")
+    print(f"  TODO 部分を埋めて `python3 {skeleton_path.name}` を実行してください")
+    return skeleton_path
 
 
 def run(job: dict, **kwargs):
