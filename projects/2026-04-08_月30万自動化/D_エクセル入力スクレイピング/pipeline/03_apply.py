@@ -83,17 +83,12 @@ def _template_application(job: dict) -> str:
     category = job.get("category", "")
     title_lower = title.lower()
 
-    # カテゴリ別の作業手順（要素①の解像度を上げる）
+    # カテゴリ別の作業手順（特殊技能 → 一般作業 の順で判定）
     if "scraping" in category or "スクレイピング" in title or "収集" in title:
         skill = "PythonとPlaywrightを用いたWebスクレイピング"
         method = (
             "対象サイトの構造を事前に確認のうえ、必要項目を正確に取得し、"
             "Excel/CSV形式で整形して納品いたします"
-        )
-    elif "excel" in category or "エクセル" in title_lower or "excel" in title_lower:
-        skill = "ExcelおよびPythonを用いたデータ処理・入力"
-        method = (
-            "テンプレートに沿って正確に入力し、入力後にチェックリストでダブル確認を行います"
         )
     elif any(k in title for k in ["VBA", "マクロ", "自動化"]):
         skill = "Excel VBA／Pythonによる業務自動化"
@@ -104,6 +99,11 @@ def _template_application(job: dict) -> str:
         skill = "リスト作成・転記作業"
         method = (
             "指定フォーマットに沿って漏れなく転記し、重複・表記ゆれをチェックして納品いたします"
+        )
+    elif "excel" in category or "エクセル" in title_lower or "excel" in title_lower:
+        skill = "ExcelおよびPythonを用いたデータ処理・入力"
+        method = (
+            "テンプレートに沿って正確に入力し、入力後にチェックリストでダブル確認を行います"
         )
     else:
         skill = "データ入力・収集作業"
