@@ -32,11 +32,6 @@ case "$CMD" in
     python3 post_x.py all
     ;;
   all)
-    # まずセッション状態をチェック
-    if [ ! -f .sessions/note_session.json ] || [ ! -f .sessions/x_session.json ]; then
-      echo "[INFO] セッション未保存です。セットアップを実行します。"
-      python3 00_session_setup.py
-    fi
     python3 run_all.py
     ;;
   *)

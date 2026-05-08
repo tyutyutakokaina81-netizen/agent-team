@@ -5,21 +5,19 @@ post_x.py — X に告知ツイート 3 種を投稿（半自動）
   python3 post_x.py 1     # ツイート 1 のみ
   python3 post_x.py all   # 3 つすべて
 
-注: X は自動投稿に対する規約が厳しい。本スクリプトは
-「人間がブラウザを見ながら最終ボタンを押す半自動」運用。
-連続投稿は時間を空ける（スクリプト内で 30 秒待機）。
+永続プロファイル方式（_browser.py）でログイン状態を維持する。
+ポストボタン押下は人手（規約遵守）。連続投稿は 30 秒間隔。
 """
 
-import json
 import sys
 import time
 from pathlib import Path
 
-SESSION_FILE = Path(__file__).parent / ".sessions" / "x_session.json"
+sys.path.insert(0, str(Path(__file__).parent))
+from _browser import open_browser  # noqa: E402
 
 # CMO の下書き（CMO/outputs/2026-05-08_x_announcements_vol2_vol3.md より）
 TWEETS = [
-    # 1: Vol.2 公開当日朝
     """SNSの投稿に毎日悩んでいませんか？
 
 「月初の30分で1ヶ月分の投稿計画が完成する」スプレッドシートを公開しました。
@@ -33,7 +31,6 @@ TWEETS = [
 
 #SNS運用 #フリーランス""",
 
-    # 2: Vol.3 公開翌朝
     """飲食店オーナーさんへ。
 
 「Instagramの文章、毎回考えるのしんどい」を解決するプロンプト集を公開しました。
@@ -46,7 +43,6 @@ TWEETS = [
 
 #飲食店 #SNS集客""",
 
-    # 3: シリーズ告知（公開3日目）
     """1人で事業を回す人向けに、コピペで使える業務テンプレを順次公開しています。
 
 📊 Vol.1 収支管理スプレッドシート ¥980
@@ -67,20 +63,9 @@ def post_one(text: str, idx: int):
         print("[ERROR] pip install playwright && playwright install chromium")
         sys.exit(1)
 
-    if not SESSION_FILE.exists():
-        print(f"[ERROR] セッション未保存: {SESSION_FILE}")
-        print("  python3 00_session_setup.py x を先に実行してください")
-        sys.exit(1)
-
-    storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
-
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=80)
-        context = browser.new_context(
-            storage_state=storage,
-            viewport={"width": 1280, "height": 900},
-        )
-        page = context.new_page()
+        ctx = open_browser(p)
+        page = ctx.new_page()
         page.goto("https://x.com/compose/post")
         try:
             page.wait_for_load_state("domcontentloaded", timeout=15000)
@@ -92,7 +77,6 @@ def post_one(text: str, idx: int):
         print(text)
         print("─" * 50)
 
-        # 投稿入力欄に本文をタイプ
         typed = False
         for sel in [
             "div[role='textbox'][contenteditable='true']",
@@ -116,12 +100,7 @@ def post_one(text: str, idx: int):
         print("  Enter を押したらブラウザを閉じます...")
         input()
 
-        # セッション更新
-        storage = context.storage_state()
-        SESSION_FILE.write_text(
-            json.dumps(storage, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        browser.close()
+        ctx.close()
 
 
 def main():
@@ -134,9 +113,9 @@ def main():
         print("使い方: python3 post_x.py {1|2|3|all}")
         sys.exit(1)
 
-    for i in indices:
+    for n, i in enumerate(indices, 1):
         post_one(TWEETS[i - 1], i)
-        if len(indices) > 1 and i < len(indices):
+        if n < len(indices):
             print(f"\n  次の投稿まで 30 秒待機します（連投回避）...")
             time.sleep(30)
 

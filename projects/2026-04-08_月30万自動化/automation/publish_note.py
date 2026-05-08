@@ -4,17 +4,17 @@ publish_note.py — note に Vol.2/3 を公開（半自動）
 実行方法:
   python3 publish_note.py vol2     # Vol.2 のみ
   python3 publish_note.py vol3     # Vol.3 のみ
-  python3 publish_note.py all      # Vol.2 と Vol.3 両方
+  python3 publish_note.py all      # 両方
 
-注: note 利用規約は自身のアカウントへの自動投稿を明示的に禁止していないが、
-ブラウザ操作は人間と同じ動作。最終公開ボタンの押下は人手で行う「半自動」運用。
+永続プロファイル方式（_browser.py）でログイン状態を維持する。
+最終公開ボタンの押下は人手（規約遵守＋誤公開防止）。
 """
 
-import json
 import sys
 from pathlib import Path
 
-SESSION_FILE = Path(__file__).parent / ".sessions" / "note_session.json"
+sys.path.insert(0, str(Path(__file__).parent))
+from _browser import open_browser  # noqa: E402
 
 # ─────────────────────────────────────────────
 # 公開コンテンツ定義
@@ -74,39 +74,27 @@ ChatGPT・Claude・Geminiなど
 
 
 def open_note_editor(target: dict):
-    """note の新規投稿エディタを開いてタイトル・本文を入力する。
-    最終公開ボタンの押下は人手（規約遵守＋誤公開防止）。"""
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
         print("[ERROR] pip install playwright && playwright install chromium")
         sys.exit(1)
 
-    if not SESSION_FILE.exists():
-        print(f"[ERROR] セッション未保存: {SESSION_FILE}")
-        print("  python3 00_session_setup.py note を先に実行してください")
-        sys.exit(1)
-
-    storage = json.loads(SESSION_FILE.read_text(encoding="utf-8"))
-
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=120)
-        context = browser.new_context(
-            storage_state=storage,
-            viewport={"width": 1280, "height": 900},
-        )
-        page = context.new_page()
-
-        # 有料記事新規作成（note の新規記事画面）
+        ctx = open_browser(p)
+        page = ctx.new_page()
         page.goto("https://note.com/notes/new")
-        page.wait_for_load_state("domcontentloaded", timeout=15000)
+        try:
+            page.wait_for_load_state("domcontentloaded", timeout=15000)
+        except Exception:
+            pass
 
         print(f"\n[note] エディタを開きました")
         print(f"  タイトル: {target['title']}")
         print(f"  価格: ¥{target['price_jpy']:,}")
         print(f"  タグ: {', '.join(target['tags'])}")
 
-        # タイトル欄を埋める（複数のセレクタを試行）
+        # タイトル欄
         title_filled = False
         for sel in [
             "textarea[placeholder*='タイトル']",
@@ -124,7 +112,7 @@ def open_note_editor(target: dict):
         if not title_filled:
             print("  ⚠️  タイトル欄が見つかりません（手動で入力してください）")
 
-        # 本文欄を埋める
+        # 本文欄
         body_filled = False
         for sel in [
             "div.note-common-styles__textnote-body[contenteditable='true']",
@@ -134,7 +122,6 @@ def open_note_editor(target: dict):
             try:
                 els = page.query_selector_all(sel)
                 if els:
-                    # 最後の contenteditable を本文と仮定（タイトルが先頭にあるため）
                     target_el = els[-1] if len(els) > 1 else els[0]
                     target_el.click()
                     page.keyboard.type(target["body"])
@@ -149,16 +136,10 @@ def open_note_editor(target: dict):
         print("     1. 公開設定 → 有料記事 → 価格を入力")
         print(f"     2. タグを追加: {', '.join(target['tags'])}")
         print("     3. 「公開する」ボタンを押す")
-        print("\n  ブラウザは開いたままにしています。終わったら手動で閉じてください。")
-        print("  Enter を押すとセッションを保存します...")
+        print("\n  ブラウザは開いたまま。完了したらターミナルで Enter...")
         input()
 
-        # セッション更新（規約遵守のため上書き保存）
-        storage = context.storage_state()
-        SESSION_FILE.write_text(
-            json.dumps(storage, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        browser.close()
+        ctx.close()
 
 
 def main():
