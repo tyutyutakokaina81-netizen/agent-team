@@ -14,10 +14,25 @@ python3 --version
 cd projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング
 pip install -r requirements.txt
 playwright install chromium
+```
 
-# （任意）Claude API キー
-export ANTHROPIC_API_KEY=sk-ant-...
-# 未設定でもルールベース評価＋テンプレ応募文で稼働可能
+### API キーは完全任意（推奨：未設定で運用）
+
+本パイプラインは **API キー無しで全ステップが動作** するように設計されている。
+全 API 呼び出し箇所に無料フォールバックを実装済み：
+
+| ステップ | API 有り | API 無し（無料） |
+|---------|---------|----------------|
+| 02 評価 | Claude 採点 | ルールベース 4 軸採点 |
+| 03 応募文 | Claude 生成 | カテゴリ別 4 系統テンプレ |
+| 04 Excel 入力 | （API 不要） | （同左） |
+| 04 スクレイピング | Claude がスクリプト生成・実行 | スケルトンを保存 → 人手で TODO 埋め |
+| 05 念査 | Claude が異常検出 | 空欄率・重複・文字化け・形式の機械チェック |
+| 06 納品文 | Claude 生成 | テンプレート（評価★4 構成） |
+
+```bash
+# 必要な場合のみ
+# export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ---
@@ -86,7 +101,7 @@ python3 run_pipeline.py deliver
 |------|------|------|
 | `[SKIP] セッション未設定` | セッション切れ | `00_session_setup.py` 再実行 |
 | 検索結果 0 件 | サイト構造変更 / セッション期限切れ | デバッグ用 `outputs/*_debug.png` を確認 |
-| `ANTHROPIC_API_KEY が設定されていません` | `04_execute.py` の Claude スクリプト生成は API 必須 | キー設定するか、04 を手動実装で代替 |
+| スクレイピングがスケルトン出力で止まる | API 未設定モード（仕様通り） | `outputs/*_scraping_skeleton.py` の TODO を埋めて手動実行 |
 | 全件 NO-GO | キーワードに対し市場が薄い／詐欺案件多い | 別キーワードを `01_search.py` に追加 |
 
 ### 既知の制約

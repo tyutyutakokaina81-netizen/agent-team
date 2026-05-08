@@ -60,6 +60,46 @@ def call_claude(prompt: str) -> str:
     return body["content"][0]["text"]
 
 
+def _template_delivery_message(job: dict, total_rows, filename: str, passed: bool) -> str:
+    """API キー不要のテンプレート納品メッセージ（評価★4獲得を狙う構成）"""
+    title_short = job.get("title", "")[:30]
+    rows_label = f"{total_rows}件" if isinstance(total_rows, int) else "ご指定件数"
+    quality_line = (
+        "全項目チェック済みで問題は確認されておりません。"
+        if passed else
+        "念査時に軽微な確認点がございましたので、ご一読いただけますと幸いです。"
+    )
+    return (
+        f"お世話になっております。「{title_short}」の作業が完了しましたので、"
+        f"成果物（{filename}）を添付して納品いたします。\n\n"
+        f"作業件数：{rows_label}。{quality_line}"
+        f"内容ご確認のうえ、ご不明点・修正のご要望がございましたらお気軽にお知らせください。"
+        "次回以降のご依頼にも継続して対応可能ですので、よろしくお願いいたします。"
+    )
+
+
+def _generate_delivery_message(job: dict, output_file: Path, review_result: dict) -> str:
+    review_status = "問題なし（全チェック通過）" if review_result.get("passed") else "要確認あり"
+    if ANTHROPIC_API_KEY:
+        prompt = DELIVERY_PROMPT.format(
+            title=job.get("title", ""),
+            category=job.get("category", ""),
+            total_rows=review_result.get("total_rows", "?"),
+            review_status=review_status,
+            filename=output_file.name,
+        )
+        try:
+            return call_claude(prompt)
+        except Exception:
+            pass  # API 失敗時はテンプレートにフォールバック
+    return _template_delivery_message(
+        job,
+        review_result.get("total_rows", "?"),
+        output_file.name,
+        bool(review_result.get("passed")),
+    )
+
+
 def run(job: dict, output_file: Path, review_result: dict) -> dict:
     # 納品パッケージフォルダを作成
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M")
@@ -70,16 +110,8 @@ def run(job: dict, output_file: Path, review_result: dict) -> dict:
     dest = pkg_dir / output_file.name
     shutil.copy2(output_file, dest)
 
-    # 納品メッセージを生成
-    review_status = "問題なし（全チェック通過）" if review_result.get("passed") else "要確認あり"
-    prompt = DELIVERY_PROMPT.format(
-        title=job.get("title", ""),
-        category=job.get("category", ""),
-        total_rows=review_result.get("total_rows", "?"),
-        review_status=review_status,
-        filename=output_file.name,
-    )
-    delivery_message = call_claude(prompt)
+    # 納品メッセージを生成（API → テンプレ フォールバック）
+    delivery_message = _generate_delivery_message(job, output_file, review_result)
 
     # サマリをJSONで保存
     summary = {
