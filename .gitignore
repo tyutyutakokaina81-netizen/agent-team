@@ -35,10 +35,11 @@ CSO/research/*
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
 
-# 公開自動化のセッション情報・プロファイル・公開URL
+# 公開自動化のセッション情報・プロファイル・公開URL・デバッグ
 projects/*/automation/.sessions/*
 projects/*/automation/.profiles/*
 projects/*/automation/.published_urls.json
+projects/*/automation/_debug/*
 
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*

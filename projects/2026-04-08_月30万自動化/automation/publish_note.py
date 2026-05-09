@@ -101,36 +101,73 @@ def open_note_editor(target: dict):
         print("[ERROR] pip install playwright && playwright install chromium")
         sys.exit(1)
 
+    debug_dir = Path(__file__).parent / "_debug"
+    debug_dir.mkdir(exist_ok=True)
+
     with sync_playwright() as p:
         ctx = open_browser(p)
         page = ctx.new_page()
-        page.goto("https://note.com/notes/new")
+        page.goto("https://note.com/notes/new", timeout=30000)
         try:
-            page.wait_for_load_state("domcontentloaded", timeout=15000)
+            page.wait_for_load_state("networkidle", timeout=10000)
         except Exception:
             pass
 
-        print(f"\n[note] エディタを開きました")
+        # 診断情報
+        print(f"\n[note] ページ遷移完了")
+        print(f"  現在 URL: {page.url}")
+        print(f"  タイトル: {page.title()}")
+
+        # ログイン要求にリダイレクトされていたら警告
+        if "login" in page.url.lower():
+            print("  ⚠️  ログインページにリダイレクトされました。")
+            print("     ブラウザでログインしてください（既ログインなら自動で進みます）")
+            print("     ログイン後、エディタが開いたらターミナルで Enter...")
+            input()
+
+        # エディタが開くのを待つ／ユーザーが手動で開くのを待つ
+        title_input = None
+        wait_total = 0
+        while wait_total < 60:
+            for sel in [
+                "textarea[placeholder*='タイトル']",
+                "input[placeholder*='タイトル']",
+                "[contenteditable='true'][data-placeholder*='タイトル']",
+            ]:
+                el = page.query_selector(sel)
+                if el and el.is_visible():
+                    title_input = el
+                    break
+            if title_input:
+                break
+            time.sleep(2)
+            wait_total += 2
+            if wait_total == 6:
+                print("\n  ⏳ エディタ画面が検出できません。")
+                print("     1. note にログインしてください（未ログインなら）")
+                print("     2. 「投稿」または「+」ボタンを押して新規記事画面を開いてください")
+                print("     3. エディタが表示されたら自動で続きを実行します（最大 60 秒待機）")
+
+        # 最終診断スクリーンショット
+        try:
+            page.screenshot(path=str(debug_dir / "note_pre_input.png"))
+        except Exception:
+            pass
+
+        print(f"\n[note] エディタ入力開始")
         print(f"  タイトル: {target['title']}")
         print(f"  価格: ¥{target['price_jpy']:,}")
         print(f"  タグ: {', '.join(target['tags'])}")
 
         # タイトル欄
         title_filled = False
-        for sel in [
-            "textarea[placeholder*='タイトル']",
-            "input[placeholder*='タイトル']",
-            "[contenteditable='true'][data-placeholder*='タイトル']",
-        ]:
+        if title_input:
             try:
-                el = page.query_selector(sel)
-                if el:
-                    el.fill(target["title"])
-                    title_filled = True
-                    break
-            except Exception:
-                continue
-        if not title_filled:
+                title_input.fill(target["title"])
+                title_filled = True
+            except Exception as e:
+                print(f"  ⚠️  タイトル fill 失敗: {e}")
+        else:
             print("  ⚠️  タイトル欄が見つかりません（手動で入力してください）")
 
         # 本文欄
