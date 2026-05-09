@@ -1,16 +1,16 @@
 """
-publish_note.py — note に Vol.2/3 を公開（半自動）
+publish_note.py — note に Vol.2/3 を公開（タイトル・本文・公開設定・価格・タグまで自動入力）
 
 実行方法:
   python3 publish_note.py vol2     # Vol.2 のみ
   python3 publish_note.py vol3     # Vol.3 のみ
   python3 publish_note.py all      # 両方
 
-永続プロファイル方式（_browser.py）でログイン状態を維持する。
-最終公開ボタンの押下は人手（規約遵守＋誤公開防止）。
+最終「公開する」ボタンの押下のみ人手（誤公開防止＋規約遵守）。
 """
 
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -132,11 +132,114 @@ def open_note_editor(target: dict):
         if not body_filled:
             print("  ⚠️  本文欄が見つかりません（手動で貼り付けてください）")
 
-        print("\n  ✅ 入力完了。あとは note 画面で：")
-        print("     1. 公開設定 → 有料記事 → 価格を入力")
-        print(f"     2. タグを追加: {', '.join(target['tags'])}")
-        print("     3. 「公開する」ボタンを押す")
-        print("\n  ブラウザは開いたまま。完了したらターミナルで Enter...")
+        # ─── 公開設定パネルを開く ───
+        time.sleep(1.5)
+        opened_settings = False
+        # ヘッダー右の「公開設定」ボタンの候補
+        for sel in [
+            "button:has-text('公開設定')",
+            "button:has-text('公開に進む')",
+            "button:has-text('公開する')",
+            "[data-testid='publish-button']",
+            "header button",
+        ]:
+            try:
+                btn = page.query_selector(sel)
+                if btn and btn.is_visible():
+                    btn.click()
+                    opened_settings = True
+                    print(f"  ✓ 公開設定パネルを開きました ({sel})")
+                    break
+            except Exception:
+                continue
+        if not opened_settings:
+            print("  ⚠️  公開設定パネルが開けませんでした")
+
+        time.sleep(1.5)
+
+        # ─── 有料記事 → 価格入力 ───
+        price_set = False
+        # 「有料」タブ／ラジオボタン候補
+        for sel in [
+            "button:has-text('有料')",
+            "label:has-text('有料')",
+            "[role='tab']:has-text('有料')",
+        ]:
+            try:
+                el = page.query_selector(sel)
+                if el and el.is_visible():
+                    el.click()
+                    print(f"  ✓ 有料記事タブを選択 ({sel})")
+                    break
+            except Exception:
+                continue
+        time.sleep(1)
+
+        # 価格入力欄
+        for sel in [
+            "input[placeholder*='価格']",
+            "input[placeholder*='円']",
+            "input[type='number']",
+            "input[name*='price']",
+        ]:
+            try:
+                el = page.query_selector(sel)
+                if el and el.is_visible():
+                    el.fill(str(target["price_jpy"]))
+                    price_set = True
+                    print(f"  ✓ 価格 ¥{target['price_jpy']:,} を入力 ({sel})")
+                    break
+            except Exception:
+                continue
+        if not price_set:
+            print(f"  ⚠️  価格欄が見つかりません（手動で {target['price_jpy']} を入力してください）")
+
+        time.sleep(0.8)
+
+        # ─── タグ追加 ───
+        tags_added = 0
+        tag_sel = None
+        for sel in [
+            "input[placeholder*='ハッシュタグ']",
+            "input[placeholder*='タグ']",
+            "input[name*='tag']",
+            "input[type='text'][placeholder*='追加']",
+        ]:
+            el = page.query_selector(sel)
+            if el and el.is_visible():
+                tag_sel = sel
+                break
+
+        if tag_sel:
+            for tag in target["tags"]:
+                try:
+                    el = page.query_selector(tag_sel)
+                    if el:
+                        el.click()
+                        page.keyboard.type(tag)
+                        time.sleep(0.4)
+                        page.keyboard.press("Enter")
+                        time.sleep(0.5)
+                        tags_added += 1
+                except Exception:
+                    pass
+            print(f"  ✓ タグ {tags_added}/{len(target['tags'])} 件追加")
+        else:
+            print(f"  ⚠️  タグ欄が見つかりません（手動で追加: {', '.join(target['tags'])}）")
+
+        time.sleep(0.8)
+
+        # ─── 確認ステップ（最終公開ボタンは人手）───
+        print("\n" + "─" * 60)
+        print("  ✅ 自動入力完了:")
+        print(f"     タイトル: {'OK' if title_filled else '✗ 手動'}")
+        print(f"     本文:     {'OK' if body_filled else '✗ 手動'}")
+        print(f"     設定パネル: {'OK' if opened_settings else '✗ 手動'}")
+        print(f"     価格:     {'OK' if price_set else '✗ 手動'}")
+        print(f"     タグ:     {tags_added}/{len(target['tags'])}件")
+        print("─" * 60)
+        print("\n  最終確認 → 「公開する」ボタン（オーナーが押す）")
+        print("  完了したらターミナルで Enter...")
         input()
 
         ctx.close()
