@@ -1,95 +1,44 @@
 """
-_browser.py — オーナーの普段使い Chrome プロファイルでブラウザを起動
+_browser.py — システム Chrome＋専用プロファイルでブラウザを起動
 
-Google 認証を通すために、Playwright バンドル Chromium ではなく
-オーナーの実 Chrome プロファイル（cookie・ログイン状態を含む）を直接使用する。
+Chrome は Default プロファイルに対して remote-debugging を許可しないため、
+専用プロファイル（automation/.profiles/chrome/）を作り、初回 1 回だけ
+そこに note と X をログインして永続化する。
 
-⚠️ 実行前に Chrome を完全終了すること（Chrome のプロファイルロックで起動失敗するため）
+Playwright バンドル Chromium ではなくシステム Chrome（channel="chrome"）を
+使用するため、Google OAuth も通る。
 
-OS 別 プロファイルパス：
-- macOS:  ~/Library/Application Support/Google/Chrome
-- Linux:  ~/.config/google-chrome
-- Windows: %LOCALAPPDATA%/Google/Chrome/User Data
+⚠️ 実行前に Chrome を完全終了する必要は **ありません**（プロファイルが分離されているため）
 """
 
-import os
 import platform
 import sys
 from pathlib import Path
 
-
-def _chrome_profile_root() -> Path:
-    """OS 別の Chrome User Data フォルダのパス"""
-    home = Path.home()
-    sysname = platform.system()
-    if sysname == "Darwin":  # macOS
-        return home / "Library" / "Application Support" / "Google" / "Chrome"
-    elif sysname == "Linux":
-        return home / ".config" / "google-chrome"
-    elif sysname == "Windows":
-        local = os.environ.get("LOCALAPPDATA", "")
-        return Path(local) / "Google" / "Chrome" / "User Data" if local else home
-    return home
+PROFILE_DIR = Path(__file__).parent / ".profiles" / "chrome"
+PROFILE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def _check_chrome_not_running():
-    """Chrome が起動中なら警告して中止"""
-    try:
-        import subprocess
-        if platform.system() == "Darwin":
-            r = subprocess.run(
-                ["pgrep", "-x", "Google Chrome"],
-                capture_output=True, text=True, timeout=5,
-            )
-        else:
-            r = subprocess.run(
-                ["pgrep", "-f", "google-chrome|chrome.exe"],
-                capture_output=True, text=True, timeout=5,
-            )
-        if r.returncode == 0 and r.stdout.strip():
-            print("=" * 60)
-            print("⚠️  Chrome が起動中です。完全に終了してから再実行してください。")
-            print("   (Chrome を終了 → Cmd+Q または右クリック → 終了)")
-            print("=" * 60)
-            sys.exit(1)
-    except Exception:
-        pass  # pgrep が無い環境などはチェックをスキップ
+    """互換のためのスタブ（専用プロファイル方式では不要）"""
+    return  # 専用プロファイルなので Chrome 起動中でも問題ない
 
 
-def open_browser(p, profile: str = "Default", headless: bool = False):
-    """オーナーの普段使い Chrome プロファイルで永続コンテキストを開く。
+def open_browser(p, headless: bool = False):
+    """専用プロファイルで Chrome を起動。
 
-    p: sync_playwright() コンテキストマネージャの戻り値
-    profile: 使用するプロファイルディレクトリ名（"Default"／"Profile 1"／"Profile 2"...）
-    返り値: BrowserContext
+    初回はログイン画面が出るので、ターミナルからの指示に従ってログインする。
+    2 回目以降は cookie が保持されているのでログイン不要。
     """
-    _check_chrome_not_running()
-
-    profile_root = _chrome_profile_root()
-    if not profile_root.exists():
-        print(f"[ERROR] Chrome User Data フォルダが見つかりません: {profile_root}")
-        print("        Chrome を一度起動してから再実行してください")
-        sys.exit(1)
-
-    if not (profile_root / profile).exists():
-        # Default が無ければ最初に見つけたプロファイルを使う
-        candidates = [d.name for d in profile_root.iterdir() if d.is_dir() and (d / "Cookies").exists()]
-        if not candidates:
-            print(f"[ERROR] 利用可能なプロファイルがありません: {profile_root}")
-            sys.exit(1)
-        profile = candidates[0]
-        print(f"[INFO] Default が無いため '{profile}' を使用します")
-
-    print(f"[ブラウザ] Chrome プロファイル: {profile_root / profile}")
+    print(f"[ブラウザ] 専用プロファイル: {PROFILE_DIR}")
 
     return p.chromium.launch_persistent_context(
-        user_data_dir=str(profile_root),
+        user_data_dir=str(PROFILE_DIR),
         channel="chrome",
         headless=headless,
         viewport={"width": 1280, "height": 900},
         slow_mo=80,
         args=[
-            f"--profile-directory={profile}",
             "--disable-blink-features=AutomationControlled",
         ],
     )
