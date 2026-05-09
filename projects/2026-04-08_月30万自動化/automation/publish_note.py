@@ -239,35 +239,85 @@ def open_note_editor(target: dict):
         except Exception:
             pass
 
-        # ─── 有料記事タブ（あれば） ───
+        # ─── 有料記事タブ（あれば、複数経路で）───
+        # 1) ボタン/role=button のテキスト
         _click_button_by_text(page, ["有料"])
-        time.sleep(1.2)
+        time.sleep(1.0)
+        # 2) ラジオ・ラベル系
+        try:
+            for sel in ["label", "span", "div"]:
+                for el in page.query_selector_all(sel):
+                    if not el.is_visible():
+                        continue
+                    txt = (el.inner_text() or "").strip()
+                    if txt == "有料" or txt == "有料記事":
+                        el.click()
+                        break
+        except Exception:
+            pass
+        time.sleep(2.5)
 
-        # ─── 価格入力 ───
+        # ─── 価格入力（多段階探索）───
         price_set = False
+
+        # (a) 属性キーワード探索
         price_el = _find_input_by_attr(
             page,
-            ["価格", "円", "price", "金額", "値段"],
+            ["価格", "円", "price", "金額", "値段", "料金", "amount"],
             "input",
         )
+        # (b) type=number で visible なもの
+        if not price_el:
+            try:
+                num_inputs = [e for e in page.query_selector_all("input[type='number']") if e.is_visible()]
+                if num_inputs:
+                    price_el = num_inputs[0]
+            except Exception:
+                pass
+        # (c) 価格/金額ラベル直後の input/textbox を特定
+        if not price_el:
+            try:
+                price_el = page.evaluate_handle("""() => {
+                    const all = Array.from(document.querySelectorAll('label, span, div, p'));
+                    for (const e of all) {
+                        const t = (e.innerText || '').trim();
+                        if (t === '価格' || t === '金額' || t === '料金') {
+                            // 親要素や近傍の input を探す
+                            let parent = e.parentElement;
+                            for (let i = 0; i < 4 && parent; i++) {
+                                const inp = parent.querySelector('input');
+                                if (inp) return inp;
+                                parent = parent.parentElement;
+                            }
+                            // 兄弟も
+                            let sib = e.nextElementSibling;
+                            while (sib) {
+                                const inp = sib.querySelector ? sib.querySelector('input') : null;
+                                if (inp) return inp;
+                                if (sib.tagName === 'INPUT') return sib;
+                                sib = sib.nextElementSibling;
+                            }
+                        }
+                    }
+                    return null;
+                }""").as_element()
+            except Exception:
+                pass
+
         if price_el:
             try:
                 price_el.click()
+                # 既存値クリア
+                try:
+                    price_el.fill("")
+                except Exception:
+                    pass
                 price_el.fill(str(target["price_jpy"]))
                 price_set = True
                 print(f"  ✓ 価格 ¥{target['price_jpy']:,} 入力")
             except Exception as e:
                 print(f"  ⚠️  価格入力失敗: {e}")
-        else:
-            # type=number 系を直接探す
-            try:
-                num_inputs = [e for e in page.query_selector_all("input[type='number']") if e.is_visible()]
-                if num_inputs:
-                    num_inputs[0].fill(str(target["price_jpy"]))
-                    price_set = True
-                    print(f"  ✓ 価格 ¥{target['price_jpy']:,} 入力（type=number）")
-            except Exception:
-                pass
+
         if not price_set:
             print(f"  ⚠️  価格欄が見つかりません（手動で {target['price_jpy']} を入力）")
 
