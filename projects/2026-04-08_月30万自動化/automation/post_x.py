@@ -1,13 +1,8 @@
 """
-post_x.py — X に告知ツイート 3 種を投稿（完全自動）
+post_x.py — X に告知ツイートを投稿（属性ベースの寛容なセレクタ）
 
 実行方法:
-  python3 post_x.py 1     # ツイート 1 のみ
-  python3 post_x.py all   # 3 つすべて
-
-note 公開時に保存された URL を自動的に [note URL を入れてください] へ置換。
-ポストボタンも自動クリック（5 秒カウントダウン後・Ctrl+C で中止可能）。
-連続投稿は 30 秒間隔。
+  python3 post_x.py 1 | 2 | 3 | all
 """
 
 import json
@@ -19,6 +14,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _browser import open_browser  # noqa: E402
 
 URL_STORE = Path(__file__).parent / ".published_urls.json"
+DEBUG_DIR = Path(__file__).parent / "_debug"
+DEBUG_DIR.mkdir(exist_ok=True)
 
 
 def _load_urls() -> dict:
@@ -31,9 +28,7 @@ def _load_urls() -> dict:
 
 
 def _profile_url(urls: dict) -> str:
-    """note クリエイターページ URL を URL ストアの note 記事 URL から推定"""
     for u in urls.values():
-        # https://note.com/<creator>/n/<id> から creator ページ URL を作る
         try:
             parts = u.replace("https://", "").replace("http://", "").split("/")
             if len(parts) >= 2 and parts[0] == "note.com":
@@ -43,7 +38,6 @@ def _profile_url(urls: dict) -> str:
     return "https://note.com/"
 
 
-# CMO の下書き
 TWEETS_TEMPLATE = [
     """SNSの投稿に毎日悩んでいませんか？
 
@@ -92,6 +86,63 @@ def _resolve_tweet(idx: int) -> str:
     )
 
 
+def _find_text_input(page) -> object | None:
+    """X のツイート入力欄を寛容に探す"""
+    candidates = [
+        "div[role='textbox'][contenteditable='true']",
+        "div[data-testid='tweetTextarea_0']",
+        "div[aria-label*='ポスト']",
+        "div[aria-label*='Post']",
+        "div[aria-label*='ツイート']",
+    ]
+    for sel in candidates:
+        try:
+            els = page.query_selector_all(sel)
+            for el in els:
+                if el.is_visible():
+                    return el
+        except Exception:
+            continue
+    # 最終手段：すべての contenteditable を探して最初の visible
+    try:
+        for el in page.query_selector_all("[contenteditable='true']"):
+            if el.is_visible():
+                return el
+    except Exception:
+        pass
+    return None
+
+
+def _click_post_button(page) -> str | None:
+    """X のポストボタンを寛容に探してクリック"""
+    candidates_attr = [
+        "[data-testid='tweetButton']",
+        "[data-testid='tweetButtonInline']",
+        "button[data-testid*='Button']",
+    ]
+    for sel in candidates_attr:
+        try:
+            for el in page.query_selector_all(sel):
+                if el.is_visible() and el.is_enabled():
+                    el.click()
+                    return f"{sel}"
+        except Exception:
+            continue
+    # テキストでも探す
+    for sel in ["button", "[role='button']"]:
+        try:
+            for el in page.query_selector_all(sel):
+                if not el.is_visible() or not el.is_enabled():
+                    continue
+                txt = (el.inner_text() or "").strip()
+                if txt in ("ポストする", "ポスト", "Post", "投稿する"):
+                    el.click()
+                    return f"{sel} [{txt}]"
+        except Exception:
+            continue
+    return None
+
+
 def post_one(text: str, idx: int):
     try:
         from playwright.sync_api import sync_playwright
@@ -102,73 +153,70 @@ def post_one(text: str, idx: int):
     with sync_playwright() as p:
         ctx = open_browser(p)
         page = ctx.new_page()
-        page.goto("https://x.com/compose/post")
+        page.goto("https://x.com/compose/post", timeout=30000)
         try:
-            page.wait_for_load_state("domcontentloaded", timeout=15000)
+            page.wait_for_load_state("networkidle", timeout=10000)
         except Exception:
             pass
 
-        print(f"\n[X] ツイート {idx} エディタを開きました")
-        print("─" * 50)
-        print(text)
-        print("─" * 50)
+        print(f"\n[X] ツイート {idx}")
+        print(f"     URL: {page.url}")
+        print(f"     title: {page.title()}")
 
-        # 入力欄に自動タイプ
-        typed = False
-        for sel in [
-            "div[role='textbox'][contenteditable='true']",
-            "div[data-testid='tweetTextarea_0']",
-        ]:
-            try:
-                el = page.query_selector(sel)
-                if el:
-                    el.click()
-                    page.keyboard.type(text)
-                    typed = True
-                    break
-            except Exception:
-                continue
+        # 入力欄を探す（最大 30 秒）
+        input_el = None
+        for _ in range(15):
+            input_el = _find_text_input(page)
+            if input_el:
+                break
+            time.sleep(2)
 
-        if not typed:
-            print("  ⚠️  入力欄が見つかりません（手動で貼り付けてください）")
-            print("  貼り付け＋ポスト後に Enter...")
+        try:
+            page.screenshot(path=str(DEBUG_DIR / f"x_{idx}_pre.png"))
+        except Exception:
+            pass
+
+        if not input_el:
+            print("  ⚠️  入力欄が見つかりません。ブラウザで手動投稿してから Enter...")
             input()
             ctx.close()
             return
 
-        time.sleep(1.5)
+        try:
+            input_el.click()
+            page.keyboard.type(text)
+            print(f"  ✓ 本文入力（{len(text)} 文字）")
+        except Exception as e:
+            print(f"  ⚠️  入力失敗: {e}")
+            input("  手動入力後 Enter...")
+            ctx.close()
+            return
 
-        # ─── 5 秒カウントダウン後にポストボタンをクリック ───
+        time.sleep(2)
+        try:
+            page.screenshot(path=str(DEBUG_DIR / f"x_{idx}_typed.png"))
+        except Exception:
+            pass
+
+        # 5 秒カウントダウン
         print("\n  ⏰ 5 秒後に「ポストする」を自動クリック（Ctrl+C で中止可）")
         for i in range(5, 0, -1):
             print(f"     {i}...", end="\r", flush=True)
             time.sleep(1)
         print("     ポスト実行  ")
 
-        posted = False
-        for sel in [
-            "[data-testid='tweetButton']",
-            "[data-testid='tweetButtonInline']",
-            "button:has-text('ポストする')",
-            "button:has-text('Post')",
-        ]:
+        result = _click_post_button(page)
+        if not result:
+            print("  ⚠️  ポストボタンが見つかりません。")
+            print(f"     ブラウザで「ポストする」を押してから Enter...")
             try:
-                btn = page.query_selector(sel)
-                if btn and btn.is_visible() and btn.is_enabled():
-                    btn.click()
-                    posted = True
-                    print(f"  ✓ ポストボタンをクリック ({sel})")
-                    break
+                page.screenshot(path=str(DEBUG_DIR / f"x_{idx}_no_button.png"))
             except Exception:
-                continue
-
-        if not posted:
-            print("  ⚠️  ポストボタンが見つかりません/押せません")
-            print("  手動でポストして Enter...")
+                pass
             input()
         else:
+            print(f"  ✓ クリック → {result}")
             time.sleep(4)
-            print("  ✅ ポスト完了")
 
         ctx.close()
 

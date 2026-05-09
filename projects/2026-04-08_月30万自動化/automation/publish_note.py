@@ -1,14 +1,11 @@
 """
-publish_note.py — note に Vol.2/3 を公開（完全自動）
+publish_note.py — note に Vol.2/3 を公開（属性ベースの寛容なセレクタ）
 
 実行方法:
-  python3 publish_note.py vol2     # Vol.2 のみ
-  python3 publish_note.py vol3     # Vol.3 のみ
-  python3 publish_note.py all      # 両方
+  python3 publish_note.py vol2 | vol3 | all
 
-タイトル・本文・公開設定パネル・価格・タグ・公開ボタンまで全自動。
-最終クリック前に 5 秒のカウントダウンを入れる（Ctrl+C で中止可能）。
-公開後の URL は .published_urls.json に保存され、post_x.py が自動参照する。
+注: note の DOM 構造変化に強くするため、固定セレクタでなく
+属性（placeholder / aria-label / name / テキスト）で全探索する方式。
 """
 
 import json
@@ -20,6 +17,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _browser import open_browser  # noqa: E402
 
 URL_STORE = Path(__file__).parent / ".published_urls.json"
+DEBUG_DIR = Path(__file__).parent / "_debug"
+DEBUG_DIR.mkdir(exist_ok=True)
 
 
 def _save_url(key: str, url: str):
@@ -32,12 +31,8 @@ def _save_url(key: str, url: str):
     data[key] = url
     URL_STORE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-# ─────────────────────────────────────────────
-# 公開コンテンツ定義
-# ─────────────────────────────────────────────
 
-VOL_KEY = "_key"  # internal
-
+VOL_KEY = "_key"
 
 VOL2 = {
     VOL_KEY: "vol2",
@@ -54,12 +49,10 @@ VOL2 = {
 ✅ 月別カレンダー形式で投稿を管理
 ✅ Instagram・X・Facebookを一括管理
 ✅ 投稿テーマ・ハッシュタグ・ステータスを一覧化
-✅ 月別の投稿数・エンゲージメントを記録
 
 ■ 内容
 ・Googleスプレッドシート（コピーして使用）
-・投稿テーマ案50個リスト付き（5カテゴリ×10個）
-・媒体別ハッシュタグ雛形
+・投稿テーマ案50個リスト付き
 
 ■ 価格：680円
 """,
@@ -83,16 +76,86 @@ AIに貼り付けるだけで投稿文が完成します。
 3. スタッフ紹介投稿
 （…20件すべて含まれます）
 
-■ 使い方
-ChatGPT・Claude・Geminiなど
-主要なAIすべてで使えます。
-[ ] 部分をお店の情報に書き換えて貼り付けるだけ。
-
 ■ 価格：1,980円
 一度購入すれば何度でも使えます。
 """,
 }
 
+
+# ─────────────────────────────────────────────
+# 寛容なエレメント探索ユーティリティ
+# ─────────────────────────────────────────────
+
+def _find_input_by_attr(page, keywords: list[str], input_type: str = "input") -> object | None:
+    """属性（placeholder/aria-label/name）に keyword を含む input/textarea を全探索"""
+    selectors = [input_type, "textarea", "[contenteditable='true']"]
+    for sel in selectors:
+        try:
+            elements = page.query_selector_all(sel)
+        except Exception:
+            continue
+        for el in elements:
+            try:
+                if not el.is_visible():
+                    continue
+                attrs = []
+                for attr in ["placeholder", "aria-label", "name", "data-placeholder"]:
+                    v = el.get_attribute(attr)
+                    if v:
+                        attrs.append(v)
+                combined = " ".join(attrs).lower()
+                if any(k.lower() in combined for k in keywords):
+                    return el
+            except Exception:
+                continue
+    return None
+
+
+def _click_button_by_text(page, texts: list[str]) -> str | None:
+    """ボタン（button/role=button/a）のテキストに texts のいずれかを含むものをクリック"""
+    selectors = ["button", "[role='button']", "a", "div[role='button']"]
+    for sel in selectors:
+        try:
+            elements = page.query_selector_all(sel)
+        except Exception:
+            continue
+        for el in elements:
+            try:
+                if not el.is_visible():
+                    continue
+                content = (el.inner_text() or "").strip()
+                if any(t in content for t in texts):
+                    el.click()
+                    return f"{sel} [{content[:30]}]"
+            except Exception:
+                continue
+    return None
+
+
+def _wait_for_editor(page, timeout: int = 60) -> object | None:
+    """タイトル欄が表示されるまで最大 timeout 秒待つ"""
+    waited = 0
+    hint_shown = False
+    while waited < timeout:
+        el = _find_input_by_attr(page, ["タイトル", "title"], "textarea")
+        if not el:
+            el = _find_input_by_attr(page, ["タイトル", "title"], "input")
+        if el:
+            return el
+        time.sleep(2)
+        waited += 2
+        if waited == 6 and not hint_shown:
+            print("\n  ⏳ エディタ画面が検出できません。")
+            print("     未ログインなら note にログインしてください")
+            print("     既ログインなら「投稿」「+」「書く」ボタンを押してエディタを開いてください")
+            print(f"     最大 {timeout} 秒待機します...")
+            hint_shown = True
+    return None
+
+
+# ─────────────────────────────────────────────
+# 公開フロー
+# ─────────────────────────────────────────────
 
 def open_note_editor(target: dict):
     try:
@@ -101,242 +164,187 @@ def open_note_editor(target: dict):
         print("[ERROR] pip install playwright && playwright install chromium")
         sys.exit(1)
 
-    debug_dir = Path(__file__).parent / "_debug"
-    debug_dir.mkdir(exist_ok=True)
-
     with sync_playwright() as p:
         ctx = open_browser(p)
         page = ctx.new_page()
+
+        # ─── エディタへ遷移 ───
         page.goto("https://note.com/notes/new", timeout=30000)
         try:
             page.wait_for_load_state("networkidle", timeout=10000)
         except Exception:
             pass
+        print(f"\n[note] URL: {page.url}")
+        print(f"        title: {page.title()}")
 
-        # 診断情報
-        print(f"\n[note] ページ遷移完了")
-        print(f"  現在 URL: {page.url}")
-        print(f"  タイトル: {page.title()}")
-
-        # ログイン要求にリダイレクトされていたら警告
-        if "login" in page.url.lower():
-            print("  ⚠️  ログインページにリダイレクトされました。")
-            print("     ブラウザでログインしてください（既ログインなら自動で進みます）")
-            print("     ログイン後、エディタが開いたらターミナルで Enter...")
-            input()
-
-        # エディタが開くのを待つ／ユーザーが手動で開くのを待つ
-        title_input = None
-        wait_total = 0
-        while wait_total < 60:
-            for sel in [
-                "textarea[placeholder*='タイトル']",
-                "input[placeholder*='タイトル']",
-                "[contenteditable='true'][data-placeholder*='タイトル']",
-            ]:
-                el = page.query_selector(sel)
-                if el and el.is_visible():
-                    title_input = el
-                    break
-            if title_input:
-                break
-            time.sleep(2)
-            wait_total += 2
-            if wait_total == 6:
-                print("\n  ⏳ エディタ画面が検出できません。")
-                print("     1. note にログインしてください（未ログインなら）")
-                print("     2. 「投稿」または「+」ボタンを押して新規記事画面を開いてください")
-                print("     3. エディタが表示されたら自動で続きを実行します（最大 60 秒待機）")
-
-        # 最終診断スクリーンショット
+        # エディタ要素を待つ
+        title_input = _wait_for_editor(page, timeout=60)
         try:
-            page.screenshot(path=str(debug_dir / "note_pre_input.png"))
+            page.screenshot(path=str(DEBUG_DIR / f"01_after_load_{target[VOL_KEY]}.png"))
         except Exception:
             pass
 
-        print(f"\n[note] エディタ入力開始")
-        print(f"  タイトル: {target['title']}")
-        print(f"  価格: ¥{target['price_jpy']:,}")
-        print(f"  タグ: {', '.join(target['tags'])}")
-
-        # タイトル欄
+        # ─── タイトル ───
         title_filled = False
         if title_input:
             try:
+                title_input.click()
+                title_input.fill("")
                 title_input.fill(target["title"])
                 title_filled = True
+                print(f"  ✓ タイトル入力")
             except Exception as e:
-                print(f"  ⚠️  タイトル fill 失敗: {e}")
+                print(f"  ⚠️  タイトル入力失敗: {e}")
         else:
-            print("  ⚠️  タイトル欄が見つかりません（手動で入力してください）")
+            print(f"  ⚠️  タイトル欄が見つかりません（手動で入力してください）")
 
-        # 本文欄
+        # ─── 本文（contenteditable をすべて探し、最後の visible なものに入力）───
         body_filled = False
-        for sel in [
-            "div.note-common-styles__textnote-body[contenteditable='true']",
-            "[role='textbox']",
-            "div[contenteditable='true']",
-        ]:
-            try:
-                els = page.query_selector_all(sel)
-                if els:
-                    target_el = els[-1] if len(els) > 1 else els[0]
-                    target_el.click()
-                    page.keyboard.type(target["body"])
-                    body_filled = True
-                    break
-            except Exception:
-                continue
+        try:
+            editables = page.query_selector_all("[contenteditable='true']")
+            visibles = [e for e in editables if e.is_visible()]
+            # 最後（タイトルの次）が本文と仮定
+            if len(visibles) >= 2:
+                body_el = visibles[-1]
+            elif visibles:
+                body_el = visibles[0]
+            else:
+                body_el = None
+            if body_el:
+                body_el.click()
+                page.keyboard.type(target["body"])
+                body_filled = True
+                print(f"  ✓ 本文入力")
+        except Exception as e:
+            print(f"  ⚠️  本文入力失敗: {e}")
         if not body_filled:
-            print("  ⚠️  本文欄が見つかりません（手動で貼り付けてください）")
-
-        # ─── 公開設定パネルを開く ───
-        time.sleep(1.5)
-        opened_settings = False
-        # ヘッダー右の「公開設定」ボタンの候補
-        for sel in [
-            "button:has-text('公開設定')",
-            "button:has-text('公開に進む')",
-            "button:has-text('公開する')",
-            "[data-testid='publish-button']",
-            "header button",
-        ]:
-            try:
-                btn = page.query_selector(sel)
-                if btn and btn.is_visible():
-                    btn.click()
-                    opened_settings = True
-                    print(f"  ✓ 公開設定パネルを開きました ({sel})")
-                    break
-            except Exception:
-                continue
-        if not opened_settings:
-            print("  ⚠️  公開設定パネルが開けませんでした")
+            print(f"  ⚠️  本文欄が見つかりません（手動で貼り付けてください）")
 
         time.sleep(1.5)
+        try:
+            page.screenshot(path=str(DEBUG_DIR / f"02_after_input_{target[VOL_KEY]}.png"))
+        except Exception:
+            pass
 
-        # ─── 有料記事 → 価格入力 ───
+        # ─── 公開設定パネルへ ───
+        clicked = _click_button_by_text(page, ["公開に進む", "公開設定", "公開する"])
+        opened_settings = bool(clicked)
+        if clicked:
+            print(f"  ✓ 公開設定 → {clicked}")
+        else:
+            print(f"  ⚠️  公開設定ボタンが見つかりません")
+        time.sleep(2.5)
+        try:
+            page.screenshot(path=str(DEBUG_DIR / f"03_settings_{target[VOL_KEY]}.png"))
+        except Exception:
+            pass
+
+        # ─── 有料記事タブ（あれば） ───
+        _click_button_by_text(page, ["有料"])
+        time.sleep(1.2)
+
+        # ─── 価格入力 ───
         price_set = False
-        # 「有料」タブ／ラジオボタン候補
-        for sel in [
-            "button:has-text('有料')",
-            "label:has-text('有料')",
-            "[role='tab']:has-text('有料')",
-        ]:
+        price_el = _find_input_by_attr(
+            page,
+            ["価格", "円", "price", "金額", "値段"],
+            "input",
+        )
+        if price_el:
             try:
-                el = page.query_selector(sel)
-                if el and el.is_visible():
-                    el.click()
-                    print(f"  ✓ 有料記事タブを選択 ({sel})")
-                    break
-            except Exception:
-                continue
-        time.sleep(1)
-
-        # 価格入力欄
-        for sel in [
-            "input[placeholder*='価格']",
-            "input[placeholder*='円']",
-            "input[type='number']",
-            "input[name*='price']",
-        ]:
+                price_el.click()
+                price_el.fill(str(target["price_jpy"]))
+                price_set = True
+                print(f"  ✓ 価格 ¥{target['price_jpy']:,} 入力")
+            except Exception as e:
+                print(f"  ⚠️  価格入力失敗: {e}")
+        else:
+            # type=number 系を直接探す
             try:
-                el = page.query_selector(sel)
-                if el and el.is_visible():
-                    el.fill(str(target["price_jpy"]))
+                num_inputs = [e for e in page.query_selector_all("input[type='number']") if e.is_visible()]
+                if num_inputs:
+                    num_inputs[0].fill(str(target["price_jpy"]))
                     price_set = True
-                    print(f"  ✓ 価格 ¥{target['price_jpy']:,} を入力 ({sel})")
-                    break
+                    print(f"  ✓ 価格 ¥{target['price_jpy']:,} 入力（type=number）")
             except Exception:
-                continue
+                pass
         if not price_set:
-            print(f"  ⚠️  価格欄が見つかりません（手動で {target['price_jpy']} を入力してください）")
+            print(f"  ⚠️  価格欄が見つかりません（手動で {target['price_jpy']} を入力）")
 
         time.sleep(0.8)
 
-        # ─── タグ追加 ───
+        # ─── タグ ───
         tags_added = 0
-        tag_sel = None
-        for sel in [
-            "input[placeholder*='ハッシュタグ']",
-            "input[placeholder*='タグ']",
-            "input[name*='tag']",
-            "input[type='text'][placeholder*='追加']",
-        ]:
-            el = page.query_selector(sel)
-            if el and el.is_visible():
-                tag_sel = sel
-                break
-
-        if tag_sel:
+        tag_el = _find_input_by_attr(
+            page,
+            ["ハッシュタグ", "タグ", "#", "hashtag", "tag"],
+            "input",
+        )
+        if tag_el:
             for tag in target["tags"]:
                 try:
-                    el = page.query_selector(tag_sel)
-                    if el:
-                        el.click()
-                        page.keyboard.type(tag)
-                        time.sleep(0.4)
-                        page.keyboard.press("Enter")
-                        time.sleep(0.5)
-                        tags_added += 1
+                    tag_el.click()
+                    page.keyboard.type(tag)
+                    time.sleep(0.4)
+                    page.keyboard.press("Enter")
+                    time.sleep(0.5)
+                    tags_added += 1
                 except Exception:
-                    pass
+                    continue
             print(f"  ✓ タグ {tags_added}/{len(target['tags'])} 件追加")
         else:
             print(f"  ⚠️  タグ欄が見つかりません（手動で追加: {', '.join(target['tags'])}）")
 
         time.sleep(0.8)
+        try:
+            page.screenshot(path=str(DEBUG_DIR / f"04_pre_publish_{target[VOL_KEY]}.png"))
+        except Exception:
+            pass
 
-        # ─── 確認ステップ（5 秒カウントダウン後に自動公開）───
+        # ─── 確認 + 自動公開 ───
         print("\n" + "─" * 60)
-        print("  ✅ 自動入力完了:")
-        print(f"     タイトル: {'OK' if title_filled else '✗ 手動'}")
-        print(f"     本文:     {'OK' if body_filled else '✗ 手動'}")
-        print(f"     設定パネル: {'OK' if opened_settings else '✗ 手動'}")
-        print(f"     価格:     {'OK' if price_set else '✗ 手動'}")
-        print(f"     タグ:     {tags_added}/{len(target['tags'])}件")
+        print(f"  自動入力結果 / {target['title'][:40]}")
+        print(f"     タイトル:   {'OK' if title_filled else '✗'}")
+        print(f"     本文:       {'OK' if body_filled else '✗'}")
+        print(f"     公開パネル: {'OK' if opened_settings else '✗'}")
+        print(f"     価格:       {'OK' if price_set else '✗'}")
+        print(f"     タグ:       {tags_added}/{len(target['tags'])}件")
         print("─" * 60)
-        print("\n  ⏰ 5 秒後に「公開する」を自動クリックします（Ctrl+C で中止可）")
-        for i in range(5, 0, -1):
-            print(f"     {i}...", end="\r", flush=True)
-            time.sleep(1)
-        print("     公開実行    ")
 
-        # ─── 「公開する」ボタンを自動クリック ───
-        published = False
-        for sel in [
-            "button:has-text('公開する')",
-            "button:has-text('投稿する')",
-            "[data-testid='publish-confirm']",
-            "footer button:has-text('公開')",
-        ]:
-            try:
-                btn = page.query_selector(sel)
-                if btn and btn.is_visible():
-                    btn.click()
-                    published = True
-                    print(f"  ✓ 公開ボタンをクリック ({sel})")
-                    break
-            except Exception:
-                continue
-
-        if not published:
-            print("  ⚠️  公開ボタンが見つかりません。手動で「公開する」を押してください。")
-            print("  押し終わったら Enter...")
+        # 入力が不十分な場合、手動補完を促してから公開
+        if not (title_filled and body_filled and price_set):
+            print("\n  ⚠️  自動入力が不十分です。ブラウザで足りない項目を手動入力してから、")
+            print("     「公開する」をオーナーが押してください。完了後、このターミナルで Enter。")
             input()
         else:
-            # 公開後の URL 取得（リダイレクトを待つ）
-            time.sleep(5)
-            try:
-                page.wait_for_url("**/n/**", timeout=15000)
-            except Exception:
-                pass
-            current_url = page.url
-            if "/n/" in current_url:
-                print(f"  ✅ 公開完了: {current_url}")
-                _save_url(target.get(VOL_KEY, "unknown"), current_url)
+            print("\n  ⏰ 5 秒後に「公開する」を自動クリックします（Ctrl+C で中止可）")
+            for i in range(5, 0, -1):
+                print(f"     {i}...", end="\r", flush=True)
+                time.sleep(1)
+            print("     公開実行    ")
+
+            published = _click_button_by_text(page, ["公開する", "投稿する", "公開"])
+            if not published:
+                print("  ⚠️  公開ボタンが見つかりません。手動で押してから Enter...")
+                input()
             else:
-                print(f"  公開後の URL を確認できませんでした（現在: {current_url}）")
+                print(f"  ✓ クリック → {published}")
+
+        # ─── URL 取得 ───
+        time.sleep(5)
+        try:
+            page.wait_for_url("**/n/**", timeout=15000)
+        except Exception:
+            pass
+        current_url = page.url
+        if "/n/" in current_url:
+            print(f"  ✅ 公開完了: {current_url}")
+            _save_url(target.get(VOL_KEY, "unknown"), current_url)
+        else:
+            print(f"  公開後の URL を取得できず（現在: {current_url}）")
+            url = input("  公開済みなら note 記事 URL を貼り付けてください（空 Enter でスキップ）: ").strip()
+            if url:
+                _save_url(target.get(VOL_KEY, "unknown"), url)
 
         ctx.close()
 
