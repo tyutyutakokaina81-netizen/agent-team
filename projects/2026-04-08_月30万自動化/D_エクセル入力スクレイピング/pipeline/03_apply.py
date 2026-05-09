@@ -15,6 +15,7 @@ OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
 # リポジトリルート上の scripts/notify.sh を呼び出すための解決
 REPO_ROOT = Path(__file__).resolve().parents[4]
+
 NOTIFY_SCRIPT = REPO_ROOT / "scripts" / "notify.sh"
 
 

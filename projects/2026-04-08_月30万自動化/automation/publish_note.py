@@ -132,6 +132,119 @@ def _click_button_by_text(page, texts: list[str]) -> str | None:
     return None
 
 
+def _enable_paid_mode(page) -> bool:
+    """有料記事モードを有効化する（複数経路）
+
+    note の publish settings は版によって UI が違うため：
+      1) ボタン/role=button のテキスト「有料」
+      2) ラベル/span/div で完全一致「有料」「有料記事」
+      3) input[type=radio][value*='paid' or 'pay']
+    のいずれかでクリックする。
+    """
+    clicked = False
+    # 1) button or role=button
+    if _click_button_by_text(page, ["有料"]):
+        clicked = True
+        time.sleep(0.6)
+
+    # 2) label / span / div で完全一致テキスト
+    try:
+        for sel in ["label", "span", "div"]:
+            for el in page.query_selector_all(sel):
+                try:
+                    if not el.is_visible():
+                        continue
+                    txt = (el.inner_text() or "").strip()
+                    if txt in ("有料", "有料記事"):
+                        el.click()
+                        clicked = True
+                        time.sleep(0.5)
+                        break
+                except Exception:
+                    continue
+    except Exception:
+        pass
+
+    # 3) ラジオボタン
+    try:
+        for el in page.query_selector_all("input[type='radio']"):
+            try:
+                if not el.is_visible():
+                    continue
+                value = (el.get_attribute("value") or "").lower()
+                aria = (el.get_attribute("aria-label") or "")
+                if any(k in value for k in ["paid", "pay", "fee"]) or "有料" in aria:
+                    el.click()
+                    clicked = True
+                    break
+            except Exception:
+                continue
+    except Exception:
+        pass
+
+    return clicked
+
+
+def _find_price_input(page) -> object | None:
+    """価格入力欄を多段階で探す。"""
+    # (a) placeholder/aria-label/name キーワード
+    el = _find_input_by_attr(
+        page,
+        ["価格", "円", "price", "金額", "値段", "料金", "amount"],
+        "input",
+    )
+    if el:
+        return el
+
+    # (b) type=number の visible なもの
+    try:
+        for e in page.query_selector_all("input[type='number']"):
+            if e.is_visible():
+                return e
+    except Exception:
+        pass
+
+    # (c) role=spinbutton
+    try:
+        for e in page.query_selector_all("[role='spinbutton']"):
+            if e.is_visible():
+                return e
+    except Exception:
+        pass
+
+    # (d) JS：価格/金額/料金 ラベルの近傍 input を探す
+    try:
+        handle = page.evaluate_handle("""() => {
+            const all = Array.from(document.querySelectorAll('label, span, div, p'));
+            for (const e of all) {
+                const t = (e.innerText || '').trim();
+                if (t === '価格' || t === '金額' || t === '料金' || t === '値段') {
+                    let parent = e.parentElement;
+                    for (let i = 0; i < 5 && parent; i++) {
+                        const inp = parent.querySelector('input, [role=spinbutton], [role=textbox]');
+                        if (inp) return inp;
+                        parent = parent.parentElement;
+                    }
+                    let sib = e.nextElementSibling;
+                    while (sib) {
+                        const inp = sib.querySelector ? sib.querySelector('input, [role=spinbutton], [role=textbox]') : null;
+                        if (inp) return inp;
+                        if (sib.tagName === 'INPUT') return sib;
+                        sib = sib.nextElementSibling;
+                    }
+                }
+            }
+            return null;
+        }""")
+        as_el = handle.as_element() if hasattr(handle, "as_element") else None
+        if as_el:
+            return as_el
+    except Exception:
+        pass
+
+    return None
+
+
 def _wait_for_editor(page, timeout: int = 60) -> object | None:
     """タイトル欄が表示されるまで最大 timeout 秒待つ"""
     waited = 0
@@ -239,70 +352,41 @@ def open_note_editor(target: dict):
         except Exception:
             pass
 
-        # ─── 有料記事タブ（あれば、複数経路で）───
-        # 1) ボタン/role=button のテキスト
-        _click_button_by_text(page, ["有料"])
-        time.sleep(1.0)
-        # 2) ラジオ・ラベル系
+        # ─── 有料記事タブ（複数経路で確実に切替）───
+        _enable_paid_mode(page)
+        time.sleep(3.0)  # 価格欄表示アニメーション待ち
         try:
-            for sel in ["label", "span", "div"]:
-                for el in page.query_selector_all(sel):
-                    if not el.is_visible():
-                        continue
-                    txt = (el.inner_text() or "").strip()
-                    if txt == "有料" or txt == "有料記事":
-                        el.click()
-                        break
+            page.screenshot(path=str(DEBUG_DIR / f"03b_after_paid_{target[VOL_KEY]}.png"))
         except Exception:
             pass
-        time.sleep(2.5)
+
+        # ─── DOM ダンプ：価格欄探索の前に visible な input を全列挙して保存 ───
+        try:
+            dump = page.evaluate("""() => {
+                const inputs = Array.from(document.querySelectorAll('input, textarea, [role=spinbutton], [role=textbox]'));
+                return inputs
+                    .filter(e => e.offsetParent !== null)
+                    .map(e => ({
+                        tag: e.tagName,
+                        type: e.type || e.getAttribute('type') || '',
+                        placeholder: e.placeholder || e.getAttribute('placeholder') || '',
+                        name: e.name || e.getAttribute('name') || '',
+                        ariaLabel: e.getAttribute('aria-label') || '',
+                        role: e.getAttribute('role') || '',
+                        value: e.value || '',
+                        id: e.id || '',
+                        className: (e.className || '').toString().slice(0, 80),
+                    }));
+            }""")
+            (DEBUG_DIR / f"03c_inputs_{target[VOL_KEY]}.json").write_text(
+                json.dumps(dump, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
+        except Exception:
+            pass
 
         # ─── 価格入力（多段階探索）───
         price_set = False
-
-        # (a) 属性キーワード探索
-        price_el = _find_input_by_attr(
-            page,
-            ["価格", "円", "price", "金額", "値段", "料金", "amount"],
-            "input",
-        )
-        # (b) type=number で visible なもの
-        if not price_el:
-            try:
-                num_inputs = [e for e in page.query_selector_all("input[type='number']") if e.is_visible()]
-                if num_inputs:
-                    price_el = num_inputs[0]
-            except Exception:
-                pass
-        # (c) 価格/金額ラベル直後の input/textbox を特定
-        if not price_el:
-            try:
-                price_el = page.evaluate_handle("""() => {
-                    const all = Array.from(document.querySelectorAll('label, span, div, p'));
-                    for (const e of all) {
-                        const t = (e.innerText || '').trim();
-                        if (t === '価格' || t === '金額' || t === '料金') {
-                            // 親要素や近傍の input を探す
-                            let parent = e.parentElement;
-                            for (let i = 0; i < 4 && parent; i++) {
-                                const inp = parent.querySelector('input');
-                                if (inp) return inp;
-                                parent = parent.parentElement;
-                            }
-                            // 兄弟も
-                            let sib = e.nextElementSibling;
-                            while (sib) {
-                                const inp = sib.querySelector ? sib.querySelector('input') : null;
-                                if (inp) return inp;
-                                if (sib.tagName === 'INPUT') return sib;
-                                sib = sib.nextElementSibling;
-                            }
-                        }
-                    }
-                    return null;
-                }""").as_element()
-            except Exception:
-                pass
+        price_el = _find_price_input(page)
 
         if price_el:
             try:
