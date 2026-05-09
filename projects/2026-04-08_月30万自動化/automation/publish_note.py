@@ -1,14 +1,17 @@
 """
-publish_note.py — note に Vol.2/3 を公開（タイトル・本文・公開設定・価格・タグまで自動入力）
+publish_note.py — note に Vol.2/3 を公開（完全自動）
 
 実行方法:
   python3 publish_note.py vol2     # Vol.2 のみ
   python3 publish_note.py vol3     # Vol.3 のみ
   python3 publish_note.py all      # 両方
 
-最終「公開する」ボタンの押下のみ人手（誤公開防止＋規約遵守）。
+タイトル・本文・公開設定パネル・価格・タグ・公開ボタンまで全自動。
+最終クリック前に 5 秒のカウントダウンを入れる（Ctrl+C で中止可能）。
+公開後の URL は .published_urls.json に保存され、post_x.py が自動参照する。
 """
 
+import json
 import sys
 import time
 from pathlib import Path
@@ -16,11 +19,28 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from _browser import open_browser  # noqa: E402
 
+URL_STORE = Path(__file__).parent / ".published_urls.json"
+
+
+def _save_url(key: str, url: str):
+    data = {}
+    if URL_STORE.exists():
+        try:
+            data = json.loads(URL_STORE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    data[key] = url
+    URL_STORE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
 # ─────────────────────────────────────────────
 # 公開コンテンツ定義
 # ─────────────────────────────────────────────
 
+VOL_KEY = "_key"  # internal
+
+
 VOL2 = {
+    VOL_KEY: "vol2",
     "title": "【コピーして使う】SNS投稿カレンダー｜月の投稿を30分で計画するスプレッドシート",
     "price_jpy": 680,
     "tags": ["SNS運用", "フリーランス", "テンプレート", "スプレッドシート", "副業"],
@@ -46,6 +66,7 @@ VOL2 = {
 }
 
 VOL3 = {
+    VOL_KEY: "vol3",
     "title": "【コピペで使える】飲食店オーナー向けChatGPT・Claudeプロンプト集20選｜SNS投稿文を30秒で生成",
     "price_jpy": 1980,
     "tags": ["飲食店", "AI", "プロンプト", "Instagram", "SNS集客"],
@@ -229,7 +250,7 @@ def open_note_editor(target: dict):
 
         time.sleep(0.8)
 
-        # ─── 確認ステップ（最終公開ボタンは人手）───
+        # ─── 確認ステップ（5 秒カウントダウン後に自動公開）───
         print("\n" + "─" * 60)
         print("  ✅ 自動入力完了:")
         print(f"     タイトル: {'OK' if title_filled else '✗ 手動'}")
@@ -238,9 +259,47 @@ def open_note_editor(target: dict):
         print(f"     価格:     {'OK' if price_set else '✗ 手動'}")
         print(f"     タグ:     {tags_added}/{len(target['tags'])}件")
         print("─" * 60)
-        print("\n  最終確認 → 「公開する」ボタン（オーナーが押す）")
-        print("  完了したらターミナルで Enter...")
-        input()
+        print("\n  ⏰ 5 秒後に「公開する」を自動クリックします（Ctrl+C で中止可）")
+        for i in range(5, 0, -1):
+            print(f"     {i}...", end="\r", flush=True)
+            time.sleep(1)
+        print("     公開実行    ")
+
+        # ─── 「公開する」ボタンを自動クリック ───
+        published = False
+        for sel in [
+            "button:has-text('公開する')",
+            "button:has-text('投稿する')",
+            "[data-testid='publish-confirm']",
+            "footer button:has-text('公開')",
+        ]:
+            try:
+                btn = page.query_selector(sel)
+                if btn and btn.is_visible():
+                    btn.click()
+                    published = True
+                    print(f"  ✓ 公開ボタンをクリック ({sel})")
+                    break
+            except Exception:
+                continue
+
+        if not published:
+            print("  ⚠️  公開ボタンが見つかりません。手動で「公開する」を押してください。")
+            print("  押し終わったら Enter...")
+            input()
+        else:
+            # 公開後の URL 取得（リダイレクトを待つ）
+            time.sleep(5)
+            try:
+                page.wait_for_url("**/n/**", timeout=15000)
+            except Exception:
+                pass
+            current_url = page.url
+            if "/n/" in current_url:
+                print(f"  ✅ 公開完了: {current_url}")
+                _save_url(target.get(VOL_KEY, "unknown"), current_url)
+            else:
+                print(f"  公開後の URL を確認できませんでした（現在: {current_url}）")
 
         ctx.close()
 
