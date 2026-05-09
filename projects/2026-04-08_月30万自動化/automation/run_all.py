@@ -24,6 +24,8 @@ import time
 from pathlib import Path
 
 HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE))
+from _browser import _check_chrome_not_running  # noqa: E402
 
 
 def run(cmd: list[str], label: str):
@@ -34,9 +36,8 @@ def run(cmd: list[str], label: str):
     result = subprocess.run(cmd, cwd=str(HERE))
     if result.returncode != 0:
         print(f"\n[ERROR] {label} 失敗（returncode={result.returncode}）")
-        ans = input("続行しますか？ (y/N): ").strip().lower()
-        if ans != "y":
-            sys.exit(1)
+        print("以降のステップも同じ原因で失敗する可能性が高いため、中止します。")
+        sys.exit(1)
 
 
 def main():
@@ -45,15 +46,13 @@ def main():
     print("  Vol.2/3 note 公開 → X 告知 3 ツイート")
     print("─" * 60)
 
+    # 起動チェックを最初に1回だけ行う
+    _check_chrome_not_running()
+
     py = sys.executable
 
-    # 1. Vol.2 公開
     run([py, "publish_note.py", "vol2"], "STEP 1/5: Vol.2 を note 公開")
-
-    # 2. Vol.3 公開
     run([py, "publish_note.py", "vol3"], "STEP 2/5: Vol.3 を note 公開")
-
-    # 3-5. ツイート 1-3
     for i in range(1, 4):
         run([py, "post_x.py", str(i)], f"STEP {2 + i}/5: X ツイート {i}")
         if i < 3:
