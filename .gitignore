@@ -41,6 +41,10 @@ projects/*/automation/.profiles/*
 projects/*/automation/.published_urls.json
 projects/*/automation/_debug/*
 
+# 通知ログ・apply.py バックアップ
+logs/notifications.log
+**/03_apply.py.bak
+
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
 context/ideas/*

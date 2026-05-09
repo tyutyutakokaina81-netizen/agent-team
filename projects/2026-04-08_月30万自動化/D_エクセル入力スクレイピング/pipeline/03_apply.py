@@ -7,11 +7,31 @@
 """
 
 import json
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
+# リポジトリルート上の scripts/notify.sh を呼び出すための解決
+REPO_ROOT = Path(__file__).resolve().parents[4]
+NOTIFY_SCRIPT = REPO_ROOT / "scripts" / "notify.sh"
+
+
+def _notify(status: str, message: str) -> None:
+    """Mac 通知を出してログに残す（notify.sh が無ければ静かにスキップ）"""
+    if not NOTIFY_SCRIPT.exists():
+        return
+    try:
+        subprocess.run(
+            ["bash", str(NOTIFY_SCRIPT), status, message],
+            check=False,
+            timeout=10,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass  # 通知の失敗で本処理を止めない
 
 
 def _template_application(job: dict) -> str:
@@ -68,8 +88,16 @@ def _template_application(job: dict) -> str:
 
 
 def generate_application(job: dict) -> dict:
-    text = _template_application(job)
-    return {**job, "application_text": text, "status": "template"}
+    title = job.get("title", "（タイトル不明）")
+    try:
+        text = _template_application(job)
+        if not text.strip():
+            raise ValueError("応募文が空です")
+        _notify("success", title)
+        return {**job, "application_text": text, "status": "template"}
+    except Exception as e:
+        _notify("failure", f"{title} - {e}")
+        raise
 
 
 def run(jobs: list[dict] | None = None):
