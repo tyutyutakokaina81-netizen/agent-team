@@ -21,6 +21,12 @@ case "$CMD" in
   session)
     bash "$AUTO_DIR/start.sh" setup
     ;;
+  session-note)
+    cd "$AUTO_DIR" && source .venv/bin/activate && python3 00_session_setup.py note
+    ;;
+  session-x)
+    cd "$AUTO_DIR" && source .venv/bin/activate && python3 00_session_setup.py x
+    ;;
   note)
     bash "$AUTO_DIR/start.sh" note
     ;;
@@ -28,7 +34,6 @@ case "$CMD" in
     bash "$AUTO_DIR/start.sh" x
     ;;
   all)
-    # venv なければセットアップから走る
     if [ ! -d "$AUTO_DIR/.venv" ]; then
       echo "[INFO] venv 未作成。セットアップから実行します。"
       bash "$AUTO_DIR/setup.sh"
@@ -36,7 +41,7 @@ case "$CMD" in
     bash "$AUTO_DIR/start.sh" all
     ;;
   *)
-    echo "使い方: bash go [setup|session|note|x|all]"
+    echo "使い方: bash go [setup|session|session-note|session-x|note|x|all]"
     exit 1
     ;;
 esac
