@@ -19,6 +19,7 @@
 | 2026-05-10 | 2026-05-10_日次改善_運用ルール.md | プロセス | 「毎日 1 件改善」運用ルール + 25 件のバックログ | 運用開始 |
 | 2026-05-10 | pipeline_server.mjs（v0.2.0） | コード改善 | `/health` `/version` エンドポイント追加（バックログ #1） | 完了 |
 | 2026-05-10 | pipeline_server.mjs（v0.3.0） | コード改善 | TOKEN クエリ deprecation warning（#2）+ 構造化 JSON ログ（#6） | 完了・要再起動 |
+| 2026-05-10 | smoke_test.sh | テストツール | server.mjs / pipeline_server.mjs の主要エンドポイント自動テスト | 完了 |
 
 ## 進行中タスク
 
