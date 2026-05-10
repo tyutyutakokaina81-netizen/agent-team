@@ -27,7 +27,8 @@ const __dir   = dirname(fileURLToPath(import.meta.url));
 const PIPELINE_DIR = join(__dir, 'projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline');
 const OUTPUT_DIR   = join(__dir, 'projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/outputs');
 const STARTED_AT   = Date.now();
-const VERSION      = '0.2.0';
+const VERSION      = '0.3.0';
+let queryTokenWarned = false;
 
 // ─────────────────────────────────────────────
 // 状態管理
@@ -108,7 +109,17 @@ function checkAuth(req, res) {
   if (!TOKEN) return true;                          // TOKEN未設定なら認証スキップ
   const auth = req.headers['authorization'] || '';
   const t    = new URL(`http://x${req.url}`).searchParams.get('token') || '';
-  if (auth === `Bearer ${TOKEN}` || t === TOKEN) return true;
+  if (auth === `Bearer ${TOKEN}`) return true;
+  if (t === TOKEN) {
+    if (!queryTokenWarned) {
+      console.warn(
+        '[deprecation] ?token=… でのトークン受け渡しは v0.4 以降で廃止予定。' +
+        'Authorization: Bearer <TOKEN> ヘッダーを使用してください。'
+      );
+      queryTokenWarned = true;
+    }
+    return true;
+  }
   json(res, 401, { error: 'Unauthorized' });
   return false;
 }
@@ -423,8 +434,15 @@ const server = createServer(async (req, res) => {
   const start = performance.now();
   try { await handleRequest(req, res); }
   catch (err) { json(res, 500, { error: 'Internal Server Error' }); }
-  const ms = (performance.now() - start).toFixed(2);
-  console.log(`${req.method} ${req.url} ${res.statusCode} ${ms}ms`);
+  const ms = +(performance.now() - start).toFixed(2);
+  // 構造化ログ（JSON 1 行）— ログ集約ツールで解析しやすい形式
+  console.log(JSON.stringify({
+    ts: new Date().toISOString(),
+    method: req.method,
+    path: new URL(`http://x${req.url}`).pathname,
+    status: res.statusCode,
+    ms,
+  }));
 });
 
 server.listen(PORT, HOST, () => {
