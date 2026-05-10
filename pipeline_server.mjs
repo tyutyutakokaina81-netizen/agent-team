@@ -26,6 +26,8 @@ const TOKEN   = process.env.PIPELINE_TOKEN || '';
 const __dir   = dirname(fileURLToPath(import.meta.url));
 const PIPELINE_DIR = join(__dir, 'projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline');
 const OUTPUT_DIR   = join(__dir, 'projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/outputs');
+const STARTED_AT   = Date.now();
+const VERSION      = '0.2.0';
 
 // ─────────────────────────────────────────────
 // 状態管理
@@ -333,6 +335,21 @@ async function handleRequest(req, res) {
   // HTML操作パネル
   if (method === 'GET' && path === '/') {
     return html(res, renderPanel());
+  }
+
+  // ヘルスチェック（認証不要・監視用）
+  if (method === 'GET' && path === '/health') {
+    return json(res, 200, {
+      ok: true,
+      time: new Date().toISOString(),
+      uptime_sec: Math.floor((Date.now() - STARTED_AT) / 1000),
+      status: state.status,
+    });
+  }
+
+  // バージョン（認証不要）
+  if (method === 'GET' && path === '/version') {
+    return json(res, 200, { name: 'pipeline-server', version: VERSION });
   }
 
   // 状態確認（認証不要）
