@@ -36,32 +36,50 @@ from pathlib import Path
 # ───────────────────────────────────────────────────────────────
 
 HIGH_KEYWORDS: dict[str, int] = {
-    # 地域固有（最強シグナル）
-    "富山": 5, "高岡": 5, "氷見": 4, "砺波": 4, "南砺": 4, "立山": 4,
-    "黒部": 4, "五箇山": 5, "雨晴": 4, "北陸": 3, "金沢": 2,
+    # 富山県・北陸の地名（最強シグナル）
+    "富山": 5, "高岡": 5, "氷見": 4, "砺波": 4, "南砺": 4, "立山": 5,
+    "黒部": 4, "五箇山": 5, "雨晴": 5, "北陸": 4, "金沢": 2,
+    "Takaoka": 5, "Toyama": 5, "Tateyama": 5, "Hokuriku": 4, "Kanazawa": 2,
+    "Alps": 3, "Toyama Bay": 5,
+    # 高岡・富山の具体的地名・固有名詞
+    "山町筋": 5, "金屋町": 5, "御車山": 5, "瑞龍寺": 5, "小矢部川": 5,
+    "おとぎの森": 4, "城端": 4, "井波": 4, "Yamachosuji": 5,
+    "Yamacho-suji": 5, "Yamacho": 4, "Kanayamachi": 5, "Mikurumayama": 5,
     # 伝統工芸・産業文化
     "伝統工芸": 5, "工芸": 3, "漆器": 4, "銅器": 4, "鋳物": 4,
     "高岡銅器": 5, "高岡漆器": 5, "井波彫刻": 5, "螺鈿": 4,
     "和紙": 3, "藍染": 3, "染物": 3, "陶器": 3, "焼物": 3, "焼き物": 3,
+    "青銅": 3, "鎚音": 4, "calligraphy": 4, "書道": 4,
     # 文化・歴史
-    "祭": 3, "祭り": 3, "神社": 3, "寺": 2, "御朱印": 3,
-    "曳山": 4, "獅子舞": 4, "民謡": 3, "古民家": 3,
+    "祭": 3, "祭り": 3, "神社": 3, "寺": 2, "梵鐘": 4, "御朱印": 3,
+    "曳山": 4, "獅子舞": 4, "民謡": 3, "古民家": 3, "大仏": 4,
+    "Buddha": 3, "shrine": 3, "temple": 3,
+    # 季節行事
+    "菖蒲湯": 4, "鯉のぼり": 3, "Golden Week": 3, "May Day": 2,
     # 生活・風景・自然
-    "風景": 2, "暮らし": 2, "生活": 1, "田舎": 2, "移住": 3,
-    "里山": 3, "雪景色": 3, "桜": 2, "紅葉": 2, "海": 1, "山": 1,
-    "四季": 2, "季節": 1, "自然": 1, "棚田": 3, "ホタルイカ": 4,
-    # 食文化
+    "風景": 2, "暮らし": 2, "田舎": 2, "移住": 3,
+    "里山": 3, "雪景色": 3, "桜": 3, "さくら": 3, "紅葉": 2,
+    "四季": 2, "棚田": 3, "ホタルイカ": 4, "ほたるいか": 4,
+    "蛍": 3, "蛙": 2, "蛙が鳴": 3, "梅雨": 2, "水鏡": 3,
+    "paddy": 3, "paddies": 3, "Hokuriku": 4,
+    # 食文化（ローカル）
     "郷土料理": 4, "地酒": 3, "ます寿司": 4, "白えび": 4, "寒ブリ": 4,
-    "昆布締め": 4, "ばい貝": 3,
-    # 形式・スタイル
-    "エッセイ": 3, "随筆": 3, "紀行": 4, "旅日記": 3, "雑記": 1,
+    "昆布締め": 4, "ばい貝": 3, "出汁": 3, "とうふ": 3, "豆腐": 3,
+    "そば": 2, "蕎麦": 2, "うどん": 2, "餃子": 2, "煮込む": 2,
+    "tofu": 3, "soba": 3, "udon": 3,
+    # 釣り・自然体験
+    "釣り": 2, "fishing": 3, "夜釣り": 3,
+    # 形式・スタイル（エッセイ特徴）
+    "エッセイ": 4, "随筆": 4, "紀行": 4, "旅日記": 3, "雑記": 2,
     "日記": 1, "コラム": 1,
+    # 文化アイコン（海外読者の興味）
+    "ドラえもん": 4, "Doraemon": 4,
 }
 
 MID_KEYWORDS: dict[str, int] = {
     # AI/DX
     "AI": 3, "ChatGPT": 4, "Claude": 4, "Gemini": 3, "LLM": 3,
-    "生成AI": 4, "プロンプト": 3, "RAG": 3,
+    "生成AI": 4, "プロンプト": 3, "RAG": 3, "HeyGen": 4, "Sora": 3,
     "DX": 3, "自動化": 3, "RPA": 3, "ノーコード": 2,
     # 副業・働き方（日本文脈）
     "副業": 3, "在宅ワーク": 3, "リモートワーク": 2,
@@ -115,16 +133,54 @@ class Classification:
 
 
 def _score(text: str, kws: dict[str, int]) -> tuple[int, list[str]]:
+    """キーワードでテキストをスコアリング。
+
+    純 ASCII キーワードは ASCII 単語境界を要求して、`AI` が `Rain` にヒットしたり
+    `ChatGPT副業` で境界判定が外れる問題を回避する（re.ASCII で \\b を
+    ASCII 単語境界に固定）。日本語混じりや日本語は単純部分一致。
+    """
     hits: list[str] = []
     total = 0
     for kw, w in kws.items():
-        # 英字キーワードは大文字小文字を無視
-        pattern = re.escape(kw)
-        flags = re.IGNORECASE if re.fullmatch(r"[A-Za-z0-9]+", kw) else 0
+        if re.fullmatch(r"[A-Za-z0-9\-]+", kw):
+            pattern = rf"\b{re.escape(kw)}\b"
+            flags = re.IGNORECASE | re.ASCII
+        elif re.fullmatch(r"[A-Za-z0-9\s\-]+", kw):
+            # スペース含む英語フレーズ（"Golden Week" 等）。前後の境界は弱め
+            # に判定するため部分一致のみ
+            pattern = re.escape(kw)
+            flags = re.IGNORECASE
+        else:
+            pattern = re.escape(kw)
+            flags = 0
         if re.search(pattern, text, flags):
             hits.append(kw)
             total += w
     return total, hits
+
+
+_BILINGUAL_SEP = re.compile(r"[—\-―]\s*(.+)$")
+_JP_CHARS = re.compile(r"[ぁ-んァ-ン一-龥]")
+
+
+def _is_bilingual(title: str) -> bool:
+    """日英併記タイトル（— で英訳が続く形）を検出する。
+
+    em-dash 以降に **英単語2語以上 / 合計10文字以上のラテン文字** を要求し、
+    `Claudeで…` のような英単語1個＋日本語の続きを誤検出しないようにする。
+    """
+    if not _JP_CHARS.search(title):
+        return False
+    m = _BILINGUAL_SEP.search(title)
+    if not m:
+        return False
+    after = m.group(1)
+    en_words = re.findall(r"[A-Za-z]{2,}", after)
+    if len(en_words) < 2:
+        return False
+    if sum(len(w) for w in en_words) < 10:
+        return False
+    return True
 
 
 def classify(title: str) -> Classification:
@@ -138,6 +194,12 @@ def classify(title: str) -> Classification:
         s, m = _score(title, kws)
         scores[bucket] = s
         matched[bucket] = m
+
+    # 日英併記タイトル（— で英訳が続く形）は海外読者を意識した essay と
+    # 解釈できるので High に大幅加点する。
+    if _is_bilingual(title):
+        scores["High"] += 4
+        matched["High"].append("__bilingual_title__")
 
     best_score = max(scores.values())
     if best_score == 0:

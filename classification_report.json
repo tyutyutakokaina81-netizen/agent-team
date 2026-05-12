@@ -1,0 +1,996 @@
+[
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/na2b7a82ef353",
+    "title": "五月、山町筋を歩く火曜日 — A Tuesday Walk Through Yamachosuji in May",
+    "scores": {
+      "High": 14,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "山町筋",
+        "Yamachosuji",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nea91a597436e",
+    "title": "月曜の朝、瑞龍寺に響く梵鐘",
+    "scores": {
+      "High": 11,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "瑞龍寺",
+        "寺",
+        "梵鐘"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n522e071910ba",
+    "title": "金屋町、母の日のカーネーション",
+    "scores": {
+      "High": 5,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "金屋町"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n00bd966d6295",
+    "title": "水鏡の五月、立山がふたつある",
+    "scores": {
+      "High": 8,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "立山",
+        "水鏡"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n763ed374f8c0",
+    "title": "金屋町、五月の鎚音 — Kanayamachi, the Hammer Sound of May",
+    "scores": {
+      "High": 18,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "金屋町",
+        "Kanayamachi",
+        "鎚音",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n9ab501425c27",
+    "title": "蛙が鳴き始めた木曜の夜 — The Thursday the Frogs Began",
+    "scores": {
+      "High": 9,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "蛙",
+        "蛙が鳴",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n783fc82ba60f",
+    "title": "月500円で「高岡リアル日記」を毎週読む方法",
+    "scores": {
+      "High": 6,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "日記"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nd9809c81c740",
+    "title": "連休明け、田に水が入る夕暮れ — After Golden Week, the Paddies Fill With Sky",
+    "scores": {
+      "High": 10,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Golden Week",
+        "paddies",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n61672c1aee87",
+    "title": "菖蒲湯の夜、五月五日の高岡 — A Sweet Flag Bath, the Evening of May 5th in Takaoka",
+    "scores": {
+      "High": 18,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "Takaoka",
+        "菖蒲湯",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n4f07a5e72088",
+    "title": "水鏡に立山が降りてくる五月 — The Day Tateyama Descends Into the Flooded Fields",
+    "scores": {
+      "High": 17,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "立山",
+        "Tateyama",
+        "水鏡",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nfb1780693884",
+    "title": "Beyond Kanazawa: Three Days in the Hokuriku Most Travelers Miss",
+    "scores": {
+      "High": 6,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Hokuriku",
+        "Kanazawa"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/ne7f0b9fd646b",
+    "title": "五月の高岡、青銅と若葉のあいだに",
+    "scores": {
+      "High": 8,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "青銅"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nc25ea86960bf",
+    "title": "祭の翌朝、山町筋の静けさ — The Quiet Morning After the Floats Are Gone",
+    "scores": {
+      "High": 12,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "山町筋",
+        "祭",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n5ef8bc0cfbff",
+    "title": "五月一日、御車山が街を轟かす ― May Day, When the Wheels Shake the Town",
+    "scores": {
+      "High": 11,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "御車山",
+        "May Day",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nfa038304a658",
+    "title": "雨上がりの山町筋、銅の匂い ― After the Rain on Yamacho-suji",
+    "scores": {
+      "High": 18,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "山町筋",
+        "Yamacho-suji",
+        "Yamacho",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nf8664b4a386e",
+    "title": "四月の終わり、夕方の高岡。— April Dusk in Takaoka",
+    "scores": {
+      "High": 14,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "Takaoka",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n12c6d3124d2a",
+    "title": "高岡から、世界へ手を伸ばした。— Reaching the World from Takaoka, with AI",
+    "scores": {
+      "High": 14,
+      "Mid": 3,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "Takaoka",
+        "__bilingual_title__"
+      ],
+      "Mid": [
+        "AI"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nd2a815903500",
+    "title": "おとぎの森に、ドラえもんがいた。— Doraemon Lives in Takaoka",
+    "scores": {
+      "High": 21,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Takaoka",
+        "おとぎの森",
+        "ドラえもん",
+        "Doraemon",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n7753ab3f8b2e",
+    "title": "筆を持つ。そして、値段を考えた。— On Selling Japanese Calligraphy from Takaoka",
+    "scores": {
+      "High": 13,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Takaoka",
+        "calligraphy",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n2022f40218db",
+    "title": "高岡から、世界へ。— Sending Takaoka to the World with AI",
+    "scores": {
+      "High": 14,
+      "Mid": 3,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡",
+        "Takaoka",
+        "__bilingual_title__"
+      ],
+      "Mid": [
+        "AI"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n8ed3ea4447a6",
+    "title": "大仏と、白鳥と。— Takaoka's Great Buddha & Castle Park",
+    "scores": {
+      "High": 16,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Takaoka",
+        "大仏",
+        "Buddha",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nf3a67389a0cb",
+    "title": "ボタンが多い。でも、なんかいい。 — Too Many Buttons, But Good Car",
+    "scores": {
+      "High": 4,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n7b223e685f18",
+    "title": "海と山が、同時に見える。 — Where the Sea Meets the Alps, Hokuriku",
+    "scores": {
+      "High": 11,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Hokuriku",
+        "Alps",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nbf4956be87e5",
+    "title": "奥とうふ店の、やわらかさ。 — A Hidden Tofu Shop in Takaoka",
+    "scores": {
+      "High": 15,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Takaoka",
+        "とうふ",
+        "tofu",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nda0c96e8e2c4",
+    "title": "今庄で、また迷った。 — Soba or Udon? Takaoka's Station Noodle Bar",
+    "scores": {
+      "High": 15,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Takaoka",
+        "soba",
+        "udon",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n3f425045d38f",
+    "title": "ウキが消えた夜 — Night Fishing in Toyama Bay",
+    "scores": {
+      "High": 17,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "Toyama",
+        "Toyama Bay",
+        "fishing",
+        "__bilingual_title__"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n53023bcac811",
+    "title": "小矢部川の、昼下がり",
+    "scores": {
+      "High": 5,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "小矢部川"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n299792e29ade",
+    "title": "雨上がりの、ほたるいか",
+    "scores": {
+      "High": 4,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "ほたるいか"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nb509185b5d98",
+    "title": "月曜日と、さくら",
+    "scores": {
+      "High": 3,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "さくら"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n869b950717fd",
+    "title": "餃子、みっちゃん",
+    "scores": {
+      "High": 2,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "餃子"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n864889b411c1",
+    "title": "高岡の道の駅の自販機は、午前中に売り切れる",
+    "scores": {
+      "High": 5,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "高岡"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nf9928f64b49d",
+    "title": "出汁のこと",
+    "scores": {
+      "High": 3,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "出汁"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/n593be597176e",
+    "title": "出汁はとった方がいい。でも、道の駅に素晴らしいパックがある。",
+    "scores": {
+      "High": 3,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "出汁"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/nb843217bc00e",
+    "title": "煮込む、ということ",
+    "scores": {
+      "High": 2,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "煮込む"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "High",
+    "url": "https://note.com/safe_canna441/n/necc225253c61",
+    "title": "富山からAmazonで注文した「キノコ入りコーヒー」、飲んでみた話",
+    "scores": {
+      "High": 5,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [
+        "富山"
+      ],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/n1b5d8638d00b",
+    "title": "「AI時代の50代からの個人収益」",
+    "scores": {
+      "High": 0,
+      "Mid": 3,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "AI"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/nc2c42ab847ec",
+    "title": "ChatGPT副業の最初の1ヶ月を生き延びる「コピペで使える5つのプロンプト」",
+    "scores": {
+      "High": 0,
+      "Mid": 10,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "ChatGPT",
+        "プロンプト",
+        "副業"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/n254f004fd0b3",
+    "title": "HeyGenという名前の、まだ入れていないドア。",
+    "scores": {
+      "High": 0,
+      "Mid": 4,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "HeyGen"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/n3ca56084c85e",
+    "title": "「苦労キャンセル界隈」の正体 — Claudeで週10時間が消えた話",
+    "scores": {
+      "High": 0,
+      "Mid": 4,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "Claude"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/n3bf4b952b71c",
+    "title": "Claude Opus 4.7は「使う」AIから「任せる」AIになった — 触って3日でわかった3つの変化",
+    "scores": {
+      "High": 0,
+      "Mid": 7,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "AI",
+        "Claude"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/nb66a84aa9786",
+    "title": "Claude Opus 4.7は「使う」AIから「任せる」AIになった — 触って3日でわかった3つの変化",
+    "scores": {
+      "High": 0,
+      "Mid": 7,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "AI",
+        "Claude"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/ncbca76d50c77",
+    "title": "Claude Opus 4.7は「使う」AIから「任せる」AIになった — 触って3日でわかった3つの変化",
+    "scores": {
+      "High": 0,
+      "Mid": 7,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "AI",
+        "Claude"
+      ],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Mid",
+    "url": "https://note.com/safe_canna441/n/n255880cbb8ae",
+    "title": "【無料より使いやすい】フリーランスの収支管理Googleスプレッドシート｜確定申告も怖くない",
+    "scores": {
+      "High": 0,
+      "Mid": 6,
+      "Low": 4
+    },
+    "matched": {
+      "High": [],
+      "Mid": [
+        "フリーランス",
+        "スプレッドシート"
+      ],
+      "Low": [
+        "確定申告"
+      ]
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n8f5bc9ff307b",
+    "title": "車の買い替え",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 3
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": [
+        "買い替え"
+      ]
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/na0ed3cb5415c",
+    "title": "光が、変わった。",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n478e510ab2ac",
+    "title": "金曜の夜、何を飲むか問題。",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nf579921b6007",
+    "title": "四月の朝、コーヒーを淹れた。",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nc9e6839f5fc6",
+    "title": "「座りすぎは早死に」はもう古い — 72,000人追跡研究が示した本当の正解",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n79eb68c3ec51",
+    "title": "湯気のこと",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nacfdb1a5b052",
+    "title": "信号待ちの、三分間",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n6d36e079de93",
+    "title": "雨の日の、ゆっくりした時間",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n41ff76b6d4bf",
+    "title": "テーブルの上にサンドイッチがあった朝",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/n4907d6b3ccd3",
+    "title": "荒野行動VTuber「白鷺 凪」、始動します。",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nf63bacd4ffd9",
+    "title": "知らないと損する、小さな習慣の話",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nf2120bfb4102",
+    "title": "毎週届く、ちょっとだけ得する話。",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  },
+  {
+    "bucket": "Low",
+    "url": "https://note.com/safe_canna441/n/nbf270f5e0a80",
+    "title": "コーヒーが教えてくれたこと",
+    "scores": {
+      "High": 0,
+      "Mid": 0,
+      "Low": 0
+    },
+    "matched": {
+      "High": [],
+      "Mid": [],
+      "Low": []
+    }
+  }
+]
