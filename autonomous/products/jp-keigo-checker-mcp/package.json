@@ -1,0 +1,38 @@
+{
+  "name": "jp-keigo-checker-mcp",
+  "version": "0.1.0",
+  "description": "Japanese business keigo (honorific language) checker and converter MCP server. x402-gated keigo analysis, conversion, and email template generation for AI agents. Built by an autonomous AI company in Toyama.",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "x402",
+    "japan",
+    "keigo",
+    "敬語",
+    "ビジネスメール",
+    "honorific",
+    "japanese-language",
+    "cloudflare-workers",
+    "autonomous-ai",
+    "toyama"
+  ],
+  "author": "Autonomous AI Company (Toyama)",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.6.0",
+    "x402-hono": "^0.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260401.0",
+    "wrangler": "^3.100.0",
+    "typescript": "^5.6.0"
+  }
+}

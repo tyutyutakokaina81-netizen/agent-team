@@ -1,0 +1,341 @@
+{
+  "_meta": {
+    "last_updated": "2026-05-13",
+    "source": "日本語ビジネス敬語の一般的な用法に基づく",
+    "disclaimer": "この情報は一般的な敬語用法の要約です。業界・組織特有の慣習がある場合は適宜調整してください。",
+    "count": 30,
+    "maintained_by": "Autonomous AI Company (Toyama)"
+  },
+  "rules": [
+    {
+      "id": "keigo-001",
+      "casual_form": "言う",
+      "keigo_form": "おっしゃる",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "部長が言っていました。",
+      "example_sentence_keigo": "部長がおっしゃっていました。",
+      "common_mistakes": ["「おっしゃられる」は二重敬語で誤り。「おっしゃる」が正しい。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-002",
+      "casual_form": "言う",
+      "keigo_form": "申す／申し上げる",
+      "category": "謙譲語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "私が言ったとおりです。",
+      "example_sentence_keigo": "私が申し上げたとおりでございます。",
+      "common_mistakes": ["社外の人に対して自社の人間の発言を「おっしゃる」と言うのは誤り。「申しておりました」が正しい。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-003",
+      "casual_form": "行く",
+      "keigo_form": "いらっしゃる／おいでになる",
+      "category": "尊敬語",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "お客様が行きます。",
+      "example_sentence_keigo": "お客様がいらっしゃいます。",
+      "common_mistakes": ["「行かれる」も尊敬語だが、「いらっしゃる」の方がより丁寧。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-004",
+      "casual_form": "行く",
+      "keigo_form": "参る／伺う",
+      "category": "謙譲語",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "明日そちらに行きます。",
+      "example_sentence_keigo": "明日そちらに伺います。",
+      "common_mistakes": ["「伺う」は相手のところに行く場合。単に移動する場合は「参る」を使う。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-005",
+      "casual_form": "見る",
+      "keigo_form": "ご覧になる",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "文書"],
+      "example_sentence_casual": "この資料を見てください。",
+      "example_sentence_keigo": "こちらの資料をご覧ください。",
+      "common_mistakes": ["「ご覧になられる」は二重敬語。「ご覧になる」が正しい。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-006",
+      "casual_form": "見る",
+      "keigo_form": "拝見する",
+      "category": "謙譲語",
+      "context": ["メール", "会議", "文書"],
+      "example_sentence_casual": "メールを見ました。",
+      "example_sentence_keigo": "メールを拝見いたしました。",
+      "common_mistakes": ["「拝見させていただきました」は過剰敬語。「拝見いたしました」で十分。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-007",
+      "casual_form": "食べる",
+      "keigo_form": "召し上がる",
+      "category": "尊敬語",
+      "context": ["会議", "電話"],
+      "example_sentence_casual": "お客様が食べました。",
+      "example_sentence_keigo": "お客様が召し上がりました。",
+      "common_mistakes": ["「お召し上がりになる」は二重敬語だが、慣用的に許容される場合がある。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-008",
+      "casual_form": "食べる",
+      "keigo_form": "いただく",
+      "category": "謙譲語",
+      "context": ["会議", "電話"],
+      "example_sentence_casual": "昼食を食べました。",
+      "example_sentence_keigo": "昼食をいただきました。",
+      "common_mistakes": ["「いただく」は自分の動作に使う。相手に対しては「召し上がる」を使う。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-009",
+      "casual_form": "知っている",
+      "keigo_form": "ご存じである",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "この件は知っていますか？",
+      "example_sentence_keigo": "この件はご存じでいらっしゃいますか？",
+      "common_mistakes": ["「ご存知」は当て字。正式には「ご存じ」と書く。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-010",
+      "casual_form": "知っている",
+      "keigo_form": "存じている／存じ上げている",
+      "category": "謙譲語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "はい、知っています。",
+      "example_sentence_keigo": "はい、存じております。",
+      "common_mistakes": ["人に対しては「存じ上げております」、事柄に対しては「存じております」と使い分ける。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-011",
+      "casual_form": "もらう",
+      "keigo_form": "いただく／頂戴する",
+      "category": "謙譲語",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "資料をもらいました。",
+      "example_sentence_keigo": "資料をいただきました。",
+      "common_mistakes": ["「もらっていただく」は誤り。「もらう」の謙譲語は「いただく」。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-012",
+      "casual_form": "あげる",
+      "keigo_form": "差し上げる",
+      "category": "謙譲語",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "サンプルをあげます。",
+      "example_sentence_keigo": "サンプルを差し上げます。",
+      "common_mistakes": ["目上の人に「あげる」は失礼。必ず「差し上げる」を使う。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-013",
+      "casual_form": "する",
+      "keigo_form": "なさる",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "社長が判断します。",
+      "example_sentence_keigo": "社長がご判断なさいます。",
+      "common_mistakes": ["「される」も尊敬語だが、「なさる」の方がより丁寧。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-014",
+      "casual_form": "する",
+      "keigo_form": "いたす",
+      "category": "謙譲語",
+      "context": ["メール", "会議", "電話", "文書"],
+      "example_sentence_casual": "確認します。",
+      "example_sentence_keigo": "確認いたします。",
+      "common_mistakes": ["「させていただく」の多用は「させていただく症候群」と呼ばれ、過剰敬語になりやすい。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-015",
+      "casual_form": "聞く",
+      "keigo_form": "お聞きになる",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "電話"],
+      "example_sentence_casual": "先方が聞いてきました。",
+      "example_sentence_keigo": "先方がお聞きになりました。",
+      "common_mistakes": ["「お聞きになられる」は二重敬語。「お聞きになる」が正しい。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-016",
+      "casual_form": "聞く",
+      "keigo_form": "伺う／拝聴する",
+      "category": "謙譲語",
+      "context": ["メール", "会議", "電話"],
+      "example_sentence_casual": "詳しく聞きたいです。",
+      "example_sentence_keigo": "詳しくお伺いしたく存じます。",
+      "common_mistakes": ["「お伺いいたします」は二重敬語だが、慣用的に許容される。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-017",
+      "casual_form": "わかりました",
+      "keigo_form": "承知いたしました／かしこまりました",
+      "category": "謙譲語",
+      "context": ["メール", "電話", "会議"],
+      "example_sentence_casual": "わかりました、対応します。",
+      "example_sentence_keigo": "承知いたしました。対応いたします。",
+      "common_mistakes": ["「了解しました」はビジネスでは不適切。「承知いたしました」が正しい。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-018",
+      "casual_form": "すみません",
+      "keigo_form": "申し訳ございません",
+      "category": "丁寧語",
+      "context": ["メール", "電話", "会議", "文書"],
+      "example_sentence_casual": "遅れてすみません。",
+      "example_sentence_keigo": "遅れまして申し訳ございません。",
+      "common_mistakes": ["「申し訳ありません」より「申し訳ございません」の方がより丁寧。ビジネス文書では後者を推奨。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-019",
+      "casual_form": "ちょっと待ってください",
+      "keigo_form": "少々お待ちいただけますでしょうか",
+      "category": "ビジネス慣用句",
+      "context": ["電話", "会議"],
+      "example_sentence_casual": "ちょっと待ってください、確認します。",
+      "example_sentence_keigo": "少々お待ちいただけますでしょうか。確認いたします。",
+      "common_mistakes": ["「お待ちください」だけでも丁寧だが、「いただけますでしょうか」とすると依頼形になりさらに丁寧。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-020",
+      "casual_form": "どうですか",
+      "keigo_form": "いかがでしょうか",
+      "category": "丁寧語",
+      "context": ["メール", "電話", "会議", "文書"],
+      "example_sentence_casual": "この案はどうですか？",
+      "example_sentence_keigo": "こちらの案はいかがでしょうか。",
+      "common_mistakes": ["「どうでしょうか」は丁寧だが、「いかがでしょうか」がビジネスではより適切。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-021",
+      "casual_form": "できません",
+      "keigo_form": "いたしかねます",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "その対応はできません。",
+      "example_sentence_keigo": "その対応はいたしかねます。",
+      "common_mistakes": ["「できかねます」も使われるが、「いたしかねます」の方がより丁寧。否定を柔らかく伝える表現。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-022",
+      "casual_form": "送る",
+      "keigo_form": "お送りする／送付する",
+      "category": "謙譲語",
+      "context": ["メール", "文書"],
+      "example_sentence_casual": "資料を送ります。",
+      "example_sentence_keigo": "資料をお送りいたします。",
+      "common_mistakes": ["「送らせていただきます」は過剰になりがち。「お送りいたします」が簡潔で適切。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-023",
+      "casual_form": "読む",
+      "keigo_form": "お読みになる",
+      "category": "尊敬語",
+      "context": ["メール", "会議", "文書"],
+      "example_sentence_casual": "報告書を読みましたか？",
+      "example_sentence_keigo": "報告書はお読みになりましたでしょうか。",
+      "common_mistakes": ["「お読みになられましたか」は二重敬語。「お読みになりましたか」が正しい。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-024",
+      "casual_form": "会う",
+      "keigo_form": "お目にかかる",
+      "category": "謙譲語",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "来週会えますか？",
+      "example_sentence_keigo": "来週お目にかかれますでしょうか。",
+      "common_mistakes": ["「お会いする」でも謙譲語だが、「お目にかかる」の方がさらに丁寧。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-025",
+      "casual_form": "考える",
+      "keigo_form": "ご検討いただく",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "会議", "文書"],
+      "example_sentence_casual": "考えてください。",
+      "example_sentence_keigo": "ご検討いただけますと幸いです。",
+      "common_mistakes": ["「考えてもらえますか」は丁寧さが不足。ビジネスでは「ご検討」を使う。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-026",
+      "casual_form": "教えてください",
+      "keigo_form": "ご教示いただけますでしょうか",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "文書"],
+      "example_sentence_casual": "やり方を教えてください。",
+      "example_sentence_keigo": "方法についてご教示いただけますでしょうか。",
+      "common_mistakes": ["「ご教授」は学問的な指導に使う。ビジネスの一般的な質問には「ご教示」が適切。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-027",
+      "casual_form": "忙しいところごめんなさい",
+      "keigo_form": "お忙しいところ恐れ入りますが",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "電話", "文書"],
+      "example_sentence_casual": "忙しいところごめんなさい、質問があります。",
+      "example_sentence_keigo": "お忙しいところ恐れ入りますが、ご質問がございます。",
+      "common_mistakes": ["「お忙しい中すみませんが」でも通じるが、「恐れ入りますが」がビジネスでは標準。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-028",
+      "casual_form": "よろしくお願いします",
+      "keigo_form": "何卒よろしくお願い申し上げます",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "文書"],
+      "example_sentence_casual": "よろしくお願いします。",
+      "example_sentence_keigo": "何卒よろしくお願い申し上げます。",
+      "common_mistakes": ["メール末尾では「よろしくお願いいたします」で十分な場合も多い。「何卒」は重要な依頼時に使う。"],
+      "difficulty": "beginner"
+    },
+    {
+      "id": "keigo-029",
+      "casual_form": "確認してほしい",
+      "keigo_form": "ご確認いただけますと幸いです",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "文書"],
+      "example_sentence_casual": "この内容を確認してほしいです。",
+      "example_sentence_keigo": "こちらの内容をご確認いただけますと幸いです。",
+      "common_mistakes": ["「確認してください」は指示的で強い。「いただけますと幸いです」は依頼形で柔らかい。"],
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "keigo-030",
+      "casual_form": "返事ください",
+      "keigo_form": "ご返信いただけますようお願い申し上げます",
+      "category": "ビジネス慣用句",
+      "context": ["メール", "文書"],
+      "example_sentence_casual": "早めに返事ください。",
+      "example_sentence_keigo": "お手数ですが、ご返信いただけますようお願い申し上げます。",
+      "common_mistakes": ["「返事をください」は直接的すぎる。「ご返信」「ご回答」とし、クッション言葉を添える。"],
+      "difficulty": "advanced"
+    }
+  ]
+}

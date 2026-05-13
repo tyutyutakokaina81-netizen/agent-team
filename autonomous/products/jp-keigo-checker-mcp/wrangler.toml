@@ -1,0 +1,18 @@
+name = "jp-keigo-checker-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers 無料枠で動作する前提の設定
+# deploy 後の URL: https://jp-keigo-checker-mcp.<your-subdomain>.workers.dev
+
+[vars]
+X402_NETWORK = "base"
+X402_PRICE_CHECK = "0.05"
+X402_PRICE_CONVERT = "0.08"
+X402_PRICE_TEMPLATE = "0.03"
+X402_CURRENCY = "USDC"
+X402_FACILITATOR = "https://x402.org/facilitator"
+
+# SERVER_ADDRESS（オーナーのウォレットアドレス）は secret として登録する:
+#   npx wrangler secret put SERVER_ADDRESS
