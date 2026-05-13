@@ -1,0 +1,12 @@
+name = "jp-business-docs-mcp"
+main = "src/index.ts"
+compatibility_date = "2025-05-13"
+
+[vars]
+FACILITY_ADDRESS = "0x742d35Cc6634C0532925a3b844Bc9e7595f5bA16"
+
+# 価格設定（USD）
+# POST /search   → $0.03
+# POST /generate → $0.15
+# POST /detail   → $0.02
+# POST /mcp      → $0.05
