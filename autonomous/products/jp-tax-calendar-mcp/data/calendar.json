@@ -1,0 +1,585 @@
+{
+  "_meta": {
+    "last_updated": "2026-05-13",
+    "source": "国税庁・総務省・経済産業省・厚生労働省・各自治体の公開情報",
+    "disclaimer": "この情報は公開情報の要約です。正式な届出・申告前に必ず各制度の公式サイトまたは税理士に最新の期限・要件を確認してください。",
+    "count": 35,
+    "maintained_by": "Autonomous AI Company (Toyama)"
+  },
+  "deadlines": [
+    {
+      "id": "kakutei-shinkoku",
+      "name": "所得税 確定申告",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 3,
+        "day": 15,
+        "period_start_month": 2,
+        "period_start_day": 16,
+        "note": "2月16日〜3月15日（土日祝の場合は翌営業日）"
+      },
+      "description": "前年1月1日〜12月31日の所得に対する所得税の確定申告。個人事業主・フリーランスは原則全員が対象。青色申告は65万円控除（e-Tax利用時）。",
+      "target": "個人事業主",
+      "penalty_for_missing": "無申告加算税（15〜20%）、延滞税（年7.3〜14.6%）。悪質な場合は重加算税（35〜40%）。",
+      "keywords": ["確定申告", "所得税", "青色申告", "白色申告", "e-Tax", "フリーランス"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "shouhizei-kojin",
+      "name": "消費税 確定申告（個人事業主）",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 3,
+        "day": 31,
+        "period_start_month": 1,
+        "period_start_day": 1,
+        "note": "1月1日〜3月31日（課税事業者のみ）"
+      },
+      "description": "前年の課税売上高が1,000万円超の個人事業主が対象。インボイス登録事業者は売上規模に関係なく申告義務あり。2割特例の適用可否も要確認。",
+      "target": "個人事業主",
+      "penalty_for_missing": "無申告加算税（15〜20%）、延滞税。インボイス登録事業者は特に注意。",
+      "keywords": ["消費税", "インボイス", "課税事業者", "2割特例", "簡易課税"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "juminzei-futsuchoushu",
+      "name": "住民税 普通徴収 第1期",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 6,
+        "day": 30,
+        "note": "6月末日（第2期8月末、第3期10月末、第4期翌年1月末）"
+      },
+      "description": "住民税の普通徴収（個人事業主向け）の第1期納付期限。確定申告に基づき市区町村が計算した住民税を4期に分けて納付。",
+      "target": "個人事業主",
+      "penalty_for_missing": "延滞金（年14.6%上限）。督促状発行後10日で財産差押えの法的根拠が発生。",
+      "keywords": ["住民税", "普通徴収", "市区町村", "納税"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "yotei-nouzei-1ki",
+      "name": "所得税 予定納税 第1期",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 7,
+        "day": 31,
+        "note": "7月31日（前年の所得税額が15万円以上の場合）"
+      },
+      "description": "前年の所得税額が15万円以上の場合に発生する予定納税の第1期。前年所得税額の1/3を納付。減額申請は7月15日まで。",
+      "target": "個人事業主",
+      "penalty_for_missing": "延滞税が発生。ただし確定申告時に精算されるため、実質的には資金繰りの問題。",
+      "keywords": ["予定納税", "所得税", "前払い", "減額申請"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "yotei-nouzei-2ki",
+      "name": "所得税 予定納税 第2期",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 11,
+        "day": 30,
+        "note": "11月30日（前年の所得税額が15万円以上の場合）"
+      },
+      "description": "予定納税の第2期。前年所得税額の1/3を納付。減額申請は11月15日まで。",
+      "target": "個人事業主",
+      "penalty_for_missing": "延滞税が発生。確定申告時に精算される。",
+      "keywords": ["予定納税", "所得税", "前払い"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "houjinzei-shinkoku",
+      "name": "法人税 確定申告",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "事業年度終了日の翌日から2ヶ月以内（例：3月決算法人は5月31日）"
+      },
+      "description": "法人税・法人住民税・法人事業税の確定申告。事業年度終了後2ヶ月以内に申告・納付。申告期限の延長特例あり（届出要）。",
+      "target": "法人",
+      "penalty_for_missing": "無申告加算税（15〜20%）、延滞税。青色申告の承認取消しの可能性あり。",
+      "keywords": ["法人税", "法人住民税", "法人事業税", "決算", "申告"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "shouhizei-houjin",
+      "name": "消費税 確定申告（法人）",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "事業年度終了日の翌日から2ヶ月以内（法人税と同時期）"
+      },
+      "description": "法人の消費税確定申告。課税売上高1,000万円超またはインボイス登録法人が対象。中間申告が必要な場合もある。",
+      "target": "法人",
+      "penalty_for_missing": "無申告加算税、延滞税。中間申告漏れにも注意。",
+      "keywords": ["消費税", "法人", "インボイス", "中間申告"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "gensen-choushu-monthly",
+      "name": "源泉所得税 納付（毎月）",
+      "category": "税務",
+      "date_pattern": {
+        "type": "monthly",
+        "day": 10,
+        "note": "翌月10日まで（従業員10人未満の事業所は特例で年2回可能）"
+      },
+      "description": "給与・報酬から源泉徴収した所得税の納付。フリーランスへの報酬支払いがある場合も該当。納期の特例（年2回）は届出が必要。",
+      "target": "both",
+      "penalty_for_missing": "不納付加算税（10%）、延滞税。源泉徴収義務者の責任。",
+      "keywords": ["源泉徴収", "源泉所得税", "給与", "報酬", "納期の特例"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "gensen-tokurei-1",
+      "name": "源泉所得税 納期の特例（1〜6月分）",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 7,
+        "day": 10,
+        "note": "7月10日（1月〜6月分をまとめて納付）"
+      },
+      "description": "従業員10人未満の事業所が届出により利用可能な特例。1月〜6月分の源泉所得税をまとめて7月10日までに納付。",
+      "target": "both",
+      "penalty_for_missing": "不納付加算税（10%）、延滞税。",
+      "keywords": ["源泉徴収", "納期の特例", "小規模事業所"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "gensen-tokurei-2",
+      "name": "源泉所得税 納期の特例（7〜12月分）",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 1,
+        "day": 20,
+        "note": "1月20日（7月〜12月分をまとめて納付）"
+      },
+      "description": "納期の特例の後期分。7月〜12月分の源泉所得税をまとめて翌年1月20日までに納付。",
+      "target": "both",
+      "penalty_for_missing": "不納付加算税（10%）、延滞税。",
+      "keywords": ["源泉徴収", "納期の特例", "小規模事業所"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "nenmatsuchousei",
+      "name": "年末調整",
+      "category": "経理",
+      "date_pattern": {
+        "type": "annual",
+        "month": 12,
+        "day": 31,
+        "period_start_month": 11,
+        "period_start_day": 1,
+        "note": "11月頃から準備開始、12月の最終給与支払日までに完了"
+      },
+      "description": "従業員を雇用している事業主が行う年間の所得税精算。各種控除の適用を計算し、過不足額を12月給与で調整する。",
+      "target": "both",
+      "penalty_for_missing": "従業員の確定申告が必要になる。事業主には源泉徴収義務違反のリスク。",
+      "keywords": ["年末調整", "扶養控除", "保険料控除", "給与"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "houjin-chuukan",
+      "name": "法人税 中間申告",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "事業年度開始日から6ヶ月経過後2ヶ月以内（例：3月決算法人は11月30日）"
+      },
+      "description": "前年度の法人税額が20万円超の法人が対象。予定申告（前年実績の1/2）または仮決算方式を選択可能。",
+      "target": "法人",
+      "penalty_for_missing": "予定申告として自動的にみなされるが、延滞税が発生する場合あり。",
+      "keywords": ["中間申告", "法人税", "予定申告", "仮決算"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "kotei-shisanzei",
+      "name": "固定資産税 第1期",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 4,
+        "day": 30,
+        "note": "4月末（自治体により異なる場合あり。第2期7月、第3期12月、第4期翌2月が一般的）"
+      },
+      "description": "土地・建物・償却資産に対する市区町村税。事業用の固定資産を持つ個人事業主・法人が対象。償却資産税の申告は1月31日まで。",
+      "target": "both",
+      "penalty_for_missing": "延滞金。督促後に財産差押えの可能性。",
+      "keywords": ["固定資産税", "償却資産", "不動産", "市区町村"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "shoukyaku-shisan-shinkoku",
+      "name": "償却資産申告",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 1,
+        "day": 31,
+        "note": "1月31日（1月1日時点の所有資産を申告）"
+      },
+      "description": "事業用の機械・器具・備品等（土地・建物以外）を所有している場合に市区町村に申告。PCやソフトウェア等も対象。",
+      "target": "both",
+      "penalty_for_missing": "正当な理由なく申告しない場合、過料（10万円以下）。過年度分の遡及課税の可能性。",
+      "keywords": ["償却資産", "固定資産税", "申告", "設備"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "shakai-hoken-santei",
+      "name": "社会保険 算定基礎届",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 7,
+        "day": 10,
+        "period_start_month": 7,
+        "period_start_day": 1,
+        "note": "7月1日〜7月10日（4〜6月の報酬月額を届出）"
+      },
+      "description": "4月・5月・6月に支払った報酬の平均額から標準報酬月額を算定し、年金事務所に届け出る。9月からの保険料に反映。",
+      "target": "法人",
+      "penalty_for_missing": "届出遅延は年金事務所からの指導対象。社会保険料の正しい算定ができなくなる。",
+      "keywords": ["社会保険", "算定基礎届", "標準報酬月額", "健康保険", "厚生年金"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "roudou-hoken-nendo-koushinkokuchi",
+      "name": "労働保険 年度更新",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 7,
+        "day": 10,
+        "period_start_month": 6,
+        "period_start_day": 1,
+        "note": "6月1日〜7月10日"
+      },
+      "description": "労災保険・雇用保険の年間保険料を概算・精算する手続き。前年度の確定保険料と当年度の概算保険料を同時に申告・納付。",
+      "target": "both",
+      "penalty_for_missing": "政府が保険料を決定し、追徴金（10%）が課される場合あり。",
+      "keywords": ["労働保険", "年度更新", "労災", "雇用保険"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "houkoku-sho-shiharai",
+      "name": "法定調書 支払調書の提出",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 1,
+        "day": 31,
+        "note": "翌年1月31日（前年分の支払調書・源泉徴収票を税務署に提出）"
+      },
+      "description": "給与の源泉徴収票、報酬等の支払調書、不動産の支払調書等の法定調書を税務署に提出。合計表も添付。",
+      "target": "both",
+      "penalty_for_missing": "1年以下の懲役または50万円以下の罰金（所得税法第242条）。実務上は指導から始まる。",
+      "keywords": ["法定調書", "支払調書", "源泉徴収票", "合計表"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "kyuyo-shiharai-houkoku",
+      "name": "給与支払報告書の提出",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 1,
+        "day": 31,
+        "note": "翌年1月31日（従業員の住所地の市区町村に提出）"
+      },
+      "description": "従業員の給与支払報告書を各市区町村に提出。住民税の計算に使用される。退職者分も含めて提出が必要。",
+      "target": "both",
+      "penalty_for_missing": "住民税の特別徴収が正しく行われない。自治体からの督促・調査対象。",
+      "keywords": ["給与支払報告書", "住民税", "特別徴収", "市区町村"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "invoice-touroku",
+      "name": "インボイス登録申請",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "通年受付。登録希望日の前日までに申請（処理に1〜2ヶ月）"
+      },
+      "description": "適格請求書発行事業者の登録申請。免税事業者がインボイス制度に対応するために必要。2割特例は2026年9月30日の属する課税期間まで適用可能。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティはないが、取引先がインボイスなしでは仕入税額控除を受けられないため、取引上の不利益が生じる。",
+      "keywords": ["インボイス", "適格請求書", "登録", "免税事業者", "2割特例"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "aoiro-shinkoku-shonin",
+      "name": "青色申告承認申請",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": 3,
+        "day": 15,
+        "note": "3月15日まで（新規開業の場合は開業日から2ヶ月以内）"
+      },
+      "description": "青色申告の承認を受けるための届出。65万円控除（e-Tax）、赤字の繰越控除（3年間）、30万円未満の即時償却等のメリットあり。",
+      "target": "個人事業主",
+      "penalty_for_missing": "ペナルティなし。ただし白色申告となり、各種特典が受けられない。翌年分からの適用となる。",
+      "keywords": ["青色申告", "承認申請", "開業届", "65万円控除"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "kaigyou-todoke",
+      "name": "開業届（個人事業の開廃業届出書）",
+      "category": "届出",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "開業日から1ヶ月以内"
+      },
+      "description": "個人事業を開始した場合に税務署に提出する届出書。屋号の登録、青色申告承認申請と同時に提出するのが一般的。",
+      "target": "個人事業主",
+      "penalty_for_missing": "罰則なし。ただし、青色申告の適用開始が遅れる等の実務上の不利益あり。",
+      "keywords": ["開業届", "個人事業", "屋号", "税務署"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "it-hojo-2026",
+      "name": "IT導入補助金 公募期間",
+      "category": "補助金",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "年度内に複数回公募（例：4月〜12月に4〜10次公募）。各次の締切に注意。"
+      },
+      "description": "中小企業のITツール導入を支援する補助金。補助額は最大450万円、補助率1/2〜2/3。SaaS、クラウド、AI等のITツールが対象。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。次回の公募に応募可能。ただし年度末に近づくと残枠が減少。",
+      "keywords": ["IT導入補助金", "ITツール", "DX", "SaaS", "AI", "デジタル化"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "jizokuka-hojo-2026",
+      "name": "小規模事業者持続化補助金 公募期間",
+      "category": "補助金",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "年に3〜5回公募。各回の締切を要確認。"
+      },
+      "description": "小規模事業者の販路開拓を支援。補助上限200万円、補助率2/3〜3/4。ウェブサイト制作、広告宣伝、デジタル化が対象。",
+      "target": "個人事業主",
+      "penalty_for_missing": "ペナルティなし。次回公募に応募可能。",
+      "keywords": ["持続化補助金", "販路開拓", "小規模事業者", "ホームページ"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "monodukuri-hojo-2026",
+      "name": "ものづくり補助金 公募期間",
+      "category": "補助金",
+      "date_pattern": {
+        "type": "annual",
+        "month": -1,
+        "day": -1,
+        "note": "年に複数回公募（通年型の場合あり）"
+      },
+      "description": "中小企業の革新的サービス・試作品開発を支援。補助上限750万〜1,250万円。デジタル枠・グリーン枠あり。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。次回公募に応募可能。",
+      "keywords": ["ものづくり補助金", "革新的サービス", "試作品", "デジタル枠"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "toyama-dx-koubo",
+      "name": "富山県DX推進補助金 公募",
+      "category": "補助金",
+      "date_pattern": {
+        "type": "annual",
+        "month": 5,
+        "day": 31,
+        "period_start_month": 4,
+        "period_start_day": 1,
+        "note": "例年4月〜5月頃に公募（年度により変動）"
+      },
+      "description": "富山県内の中小企業を対象としたDX推進補助金。補助上限50万円、補助率1/2。AI活用・デジタル人材育成も対象。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。翌年度の公募を待つ必要あり。",
+      "keywords": ["富山県", "DX", "デジタル化", "AI", "中小企業"],
+      "regions": ["富山県"]
+    },
+    {
+      "id": "kessan-junbi",
+      "name": "決算準備・棚卸し",
+      "category": "経理",
+      "date_pattern": {
+        "type": "annual",
+        "month": 12,
+        "day": 31,
+        "note": "12月31日（個人事業主の場合）。法人は事業年度末日。"
+      },
+      "description": "決算日に合わせた棚卸し、売掛金・買掛金の確認、減価償却計算の準備。帳簿の締め作業。",
+      "target": "both",
+      "penalty_for_missing": "直接的なペナルティなし。ただし、確定申告の正確性に影響し、税務調査で指摘される可能性。",
+      "keywords": ["決算", "棚卸し", "売掛金", "買掛金", "減価償却", "帳簿"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "getsuji-kessanshori",
+      "name": "月次決算・経費精算",
+      "category": "経理",
+      "date_pattern": {
+        "type": "monthly",
+        "day": -1,
+        "note": "毎月末日（翌月10日頃までに処理完了が理想）"
+      },
+      "description": "月次の収支集計、経費精算、領収書整理。クラウド会計ソフト（freee、マネーフォワード等）の入力・確認。",
+      "target": "both",
+      "penalty_for_missing": "直接的なペナルティなし。ただし溜め込むと確定申告時に膨大な作業量となる。",
+      "keywords": ["月次決算", "経費精算", "領収書", "クラウド会計", "帳簿"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "nenkin-hokenryou",
+      "name": "国民年金保険料 納付期限",
+      "category": "経理",
+      "date_pattern": {
+        "type": "monthly",
+        "day": -1,
+        "note": "翌月末日（例：4月分は5月31日まで）。2年前納は4月末が締切。"
+      },
+      "description": "個人事業主（第1号被保険者）の国民年金保険料の納付期限。口座振替・クレジットカード払いで前納割引あり。付加年金・iDeCo併用で節税効果。",
+      "target": "個人事業主",
+      "penalty_for_missing": "2年を過ぎると納付不可。未納期間は将来の年金額に反映されない。催告状・強制徴収の対象。",
+      "keywords": ["国民年金", "保険料", "前納", "付加年金", "iDeCo"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "kokumin-kenkou-hoken",
+      "name": "国民健康保険料 納付期限",
+      "category": "経理",
+      "date_pattern": {
+        "type": "monthly",
+        "day": -1,
+        "note": "自治体により異なる（6月〜翌年3月の10期が一般的）"
+      },
+      "description": "個人事業主の国民健康保険料。前年の所得に基づき算定。自治体により計算方法・納期が異なる。減免制度あり。",
+      "target": "個人事業主",
+      "penalty_for_missing": "短期被保険者証の交付、資格証明書への切替（全額自己負担）。延滞金・財産差押えの可能性。",
+      "keywords": ["国民健康保険", "保険料", "減免", "自治体"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "shinnenkai-kisetsu",
+      "name": "新年会・年始挨拶シーズン",
+      "category": "季節行事",
+      "date_pattern": {
+        "type": "annual",
+        "month": 1,
+        "day": 15,
+        "period_start_month": 1,
+        "period_start_day": 4,
+        "note": "1月4日〜1月中旬（年始の営業開始〜新年会シーズン）"
+      },
+      "description": "取引先への年始挨拶、新年会の時期。営業・マーケティング活動の年間計画を立てるタイミング。名刺交換・新規案件獲得のチャンス。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。ただしビジネスマナー上、年始挨拶は重要な営業機会。",
+      "keywords": ["新年会", "年始挨拶", "営業", "名刺交換", "年間計画"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "nendo-hajime",
+      "name": "新年度開始・予算策定",
+      "category": "季節行事",
+      "date_pattern": {
+        "type": "annual",
+        "month": 4,
+        "day": 1,
+        "note": "4月1日（日本の会計年度・新年度開始）"
+      },
+      "description": "日本の官公庁・多くの企業の新年度開始日。新規案件の受注、予算執行の開始、補助金公募の集中時期。営業活動を強化すべきタイミング。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。ただし4月〜5月は新規案件が最も多い時期。",
+      "keywords": ["新年度", "予算", "年度始め", "官公庁", "公募開始"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "ochuugen-kisetsu",
+      "name": "お中元シーズン",
+      "category": "季節行事",
+      "date_pattern": {
+        "type": "annual",
+        "month": 7,
+        "day": 15,
+        "period_start_month": 6,
+        "period_start_day": 15,
+        "note": "6月中旬〜7月15日（関東）、7月中旬〜8月15日（関西）"
+      },
+      "description": "取引先へのお中元を贈る時期。ビジネス上の関係維持に重要。経費（交際費）として計上可能。上限額の目安は3,000〜5,000円。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。ただし日本のビジネス慣習上、主要取引先には贈答が一般的。",
+      "keywords": ["お中元", "贈答", "交際費", "取引先", "ビジネスマナー"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "oseibo-kisetsu",
+      "name": "お歳暮シーズン",
+      "category": "季節行事",
+      "date_pattern": {
+        "type": "annual",
+        "month": 12,
+        "day": 20,
+        "period_start_month": 11,
+        "period_start_day": 20,
+        "note": "11月下旬〜12月20日頃"
+      },
+      "description": "取引先へのお歳暮を贈る時期。1年の感謝を込めた贈答。経費（交際費）として計上可能。年末挨拶と合わせて行うことが多い。",
+      "target": "both",
+      "penalty_for_missing": "ペナルティなし。お中元よりお歳暮の方が重視される傾向。",
+      "keywords": ["お歳暮", "贈答", "交際費", "年末挨拶", "ビジネスマナー"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "jidousha-zei",
+      "name": "自動車税（種別割）納付",
+      "category": "税務",
+      "date_pattern": {
+        "type": "annual",
+        "month": 5,
+        "day": 31,
+        "note": "5月31日（4月1日時点の所有者に課税）"
+      },
+      "description": "4月1日時点で自動車を所有する個人・法人に課税される都道府県税。事業用車両は経費計上可能。軽自動車は市区町村税（軽自動車税）。",
+      "target": "both",
+      "penalty_for_missing": "延滞金が発生。車検時に納税証明書が必要なため、未納では車検を受けられない。",
+      "keywords": ["自動車税", "車両", "経費", "車検", "都道府県税"],
+      "regions": ["全国"]
+    },
+    {
+      "id": "hanki-kessan",
+      "name": "半期決算・中間報告",
+      "category": "経理",
+      "date_pattern": {
+        "type": "annual",
+        "month": 6,
+        "day": 30,
+        "note": "6月30日（12月決算法人の場合。事業年度に応じて変動）"
+      },
+      "description": "事業年度の中間期における業績の振り返りと下半期の計画修正。法定義務ではないが、資金繰り計画や予定納税の減額申請判断に重要。",
+      "target": "both",
+      "penalty_for_missing": "法的ペナルティなし。ただし業績把握が遅れ、資金繰りや納税計画に影響する可能性。",
+      "keywords": ["半期決算", "中間報告", "業績", "資金繰り", "計画"],
+      "regions": ["全国"]
+    }
+  ]
+}
