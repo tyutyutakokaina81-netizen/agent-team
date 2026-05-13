@@ -5,7 +5,8 @@ node_modules/
 *.env.*
 
 # local-only / generated
-.claude/
+.claude/*
+!.claude/settings.json
 bin/
 md/
 ppt/
