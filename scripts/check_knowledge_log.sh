@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# 知恵帳 SessionStart リマインダー
+# 知恵帳 SessionStart リマインダー（API費用ゼロ運用）
 # 各役職フォルダ直下の 知恵帳.md を走査し、本日の日付 (### YYYY-MM-DD) が
-# まだ無い役職を列挙して Claude に additionalContext として渡す。
+# まだ無い役職を列挙して systemMessage でユーザー UI にのみ表示する。
+# - Claude のコンテキストには注入しない（API トークン消費 = 0）
+# - ユーザーが本日の追記をしたくなった時に手動で Claude に依頼する運用
 # CLAUDE.md「知恵帳の運用ルール（毎日ひとつ各自）」に対応。
 
 set -euo pipefail
@@ -27,8 +29,5 @@ jq -nc \
   --arg list "$list" \
   --arg today "$today" \
   '{
-    hookSpecificOutput: {
-      hookEventName: "SessionStart",
-      additionalContext: ("【知恵帳リマインド】本日（" + $today + "）まだ追記がない役職: " + $list + "。今日の会話の中で適切なタイミングで、CLAUDE.md「知恵帳の運用ルール」に従い、各役職フォルダ直下の 知恵帳.md に『学び/背景/示唆』を1件ずつ追記すること。書けない役職は無理に書かない。")
-    }
+    systemMessage: ("【知恵帳リマインド】本日（" + $today + "）未追記の役職: " + $list + "。追記したい時は Claude に依頼してください。")
   }'
