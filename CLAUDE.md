@@ -17,10 +17,12 @@ All documents and operational output are in Japanese.
 ├── CLAUDE.md              ← This file (Claude Code guidance)
 ├── README.md              ← agent-gateway server documentation
 ├── company.md             ← Core company rules, role definitions, governance (MUST READ)
-├── server.mjs             ← Zero-dependency Node.js JSON API server
+├── server.mjs             ← Zero-dependency Node.js JSON API server (agent-gateway)
+├── pipeline_server.mjs    ← iPhone-operable HTTP+HTML panel for the 柱D pipeline
 ├── team_prompt.txt        ← 4-role multi-agent document creation prompt
 ├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
 ├── team_show.sh           ← Print team_prompt.txt to stdout
+├── .gitignore             ← Excludes CFO/CSO outputs, 柱D outputs/.sessions, context/* (see below)
 │
 ├── CDO/                   ← Chief Digital Officer (systems, automation, tech, role management)
 │   ├── _index.md          ← Performance log & active tasks (台帳)
@@ -31,8 +33,8 @@ All documents and operational output are in Japanese.
 ├── CFO/                   ← Chief Financial Officer (finance, contracts, admin)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Contract/tax research drafts
-│   └── outputs/           ← Final: invoices, contracts, expense reports
+│   ├── research/          ← Contract/tax research drafts (gitignored)
+│   └── outputs/           ← Final: invoices, contracts, expense reports (gitignored)
 │
 ├── CMO/                   ← Chief Marketing Officer (content, SNS, LP, YouTube)
 │   ├── _index.md
@@ -49,19 +51,30 @@ All documents and operational output are in Japanese.
 ├── CSO/                   ← Chief Sales Officer (customer dialogue, proposals, pipeline)
 │   ├── _index.md
 │   ├── prompt.md
-│   ├── research/          ← Customer analysis, market research drafts
-│   └── outputs/           ← Final: proposals, dialog logs, FAQs
+│   ├── research/          ← Customer analysis, market research drafts (gitignored)
+│   └── outputs/           ← Final: proposals, dialog logs, FAQs (gitignored)
 │
 ├── context/               ← Owner's primary source of truth (read before any task)
-│   ├── diary/             ← Daily reflections and observations
-│   ├── ideas/             ← Concepts and strategic thinking
-│   └── references/        ← External materials and research
+│   ├── diary/             ← Daily reflections and observations (gitignored)
+│   ├── ideas/             ← Concepts and strategic thinking (gitignored)
+│   └── references/        ← External materials and research (gitignored)
 │
 └── projects/              ← Cross-functional work (multi-role collaboration)
     ├── _index.md          ← Master project registry
-    └── YYYY-MM-DD_プロジェクト名/
+    └── 2026-04-08_月30万自動化/
         ├── brief.md       ← Goal, timeline, roles involved, subfolder rationale
-        └── [サブフォルダ]/ ← 役職別（CMO/ CPO/）またはテーマ別（A_〇〇/ B_〇〇/）
+        ├── cashflow.md    ← Cash flow scenarios (realistic / pessimistic / optimistic)
+        ├── cost_breakdown.md ← Monthly cost breakdown per tool
+        ├── A_ライティング/        ← 柱A: SEO writing service
+        ├── B_SNS運用代行/         ← 柱B: SNS management service
+        ├── C_テンプレ販売/        ← 柱C: Template digital products (Vol.1〜4)
+        └── D_エクセル入力スクレイピング/  ← 柱D: Data-entry/scraping auto-pipeline
+            ├── brief.md
+            ├── risk_and_feasibility.md   ← TOS/feasibility research (must read before edits)
+            ├── pipeline/                  ← Python auto-pipeline (00〜06 + run_pipeline.py)
+            ├── templates/                 ← Profile bio, application templates
+            ├── outputs/                   ← Generated artifacts (gitignored)
+            └── .sessions/                 ← Playwright session cookies (gitignored)
 ```
 
 ---
@@ -278,27 +291,93 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 
 ---
 
+## pipeline_server.mjs（柱D 操作パネル）
+
+### 概要
+- 柱D「エクセル入力・Webスクレイピング自動受注パイプライン」を iPhone から操作するための
+  HTTP+HTML サーバー（標準モジュールのみ・依存ゼロ）
+- ホスト: `0.0.0.0`（同一LAN内の iPhone からアクセス可能）
+- 認証: `PIPELINE_TOKEN` 環境変数（Bearer ヘッダー or `?token=` クエリ）。未設定なら警告を出して認証スキップ
+
+### エンドポイント
+| メソッド | パス       | 説明 |
+|----------|-----------|------|
+| GET  | `/`        | iOS風 HTML 操作パネル（検索開始 / 納品開始 / 結果表示） |
+| GET  | `/status`  | 現在の状態（idle / running / done / error）と直近ログ |
+| POST | `/search`  | `run_pipeline.py search` をバックグラウンド起動 |
+| POST | `/deliver` | `run_pipeline.py deliver` をバックグラウンド起動 |
+| GET  | `/results` | `D_エクセル入力スクレイピング/outputs/` 直近 JSON を返す |
+
+### 起動
+```bash
+export PIPELINE_TOKEN=your-secret-token        # 本番では必須
+PIPELINE_PORT=3001 node pipeline_server.mjs    # デフォルト 3001
+```
+
+### 内部動作
+- `child_process.spawn('python3', ['run_pipeline.py', ...])` をワーキングディレクトリ
+  `projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline` で実行する
+- stdout/stderr の各行を `state.log`（最大200行）に追記し、HTML パネルが 5 秒ごとに `/status` をポーリング表示
+- 同時実行はブロック（既に running なら 409）
+
+### 運用ルール
+- `pipeline_server.mjs` の実行・パイプラインスクリプトの実行は「必ず事前承認」を取る
+- `PIPELINE_TOKEN` 未設定時の本番起動は禁止
+- 改修は柱D の `risk_and_feasibility.md`（規約調査結果）を踏まえて行う
+
+---
+
+## 柱D パイプライン（Python）
+
+`projects/2026-04-08_月30万自動化/D_エクセル入力スクレイピング/pipeline/`
+
+| スクリプト | 役割 |
+|-----------|------|
+| `00_session_setup.py` | Playwright でクラウドワークス・ランサーズに初回ログインし、セッションを `.sessions/` に保存 |
+| `01_search.py` | 保存セッションで案件を一覧検索・詳細取得 |
+| `02_evaluate.py` | 案件文をスコアリングし、`GO / CAUTION / NO-GO` を判定 |
+| `03_apply.py` | 応募文を生成し、上位案件のURLをブラウザで自動オープン（**送信は必ず人手**） |
+| `04_execute.py` | Excel入力 / スクレイピング作業を実行 |
+| `05_review.py` | 念査（品質チェック）。重大issueがあれば中断 |
+| `06_deliver.py` | 納品文を生成し、案件URLをブラウザで開く（添付・送信は人手） |
+| `run_pipeline.py` | 上記を `search` / `deliver` の2フェーズで統合実行 |
+
+### 人手が必要な操作
+1. 初回セッション設定（00_session_setup.py）
+2. 応募ボタンのクリック（03_apply.py が URL を自動オープン）
+3. 納品ファイル添付と送信ボタンのクリック（06_deliver.py が URL を自動オープン）
+
+### 規約準拠の前提（必読）
+- 自動応募・プラットフォーム本体へのスクレイピングは禁止 → 応募・納品の **送信は必ず人手**
+- AI使用はクライアントへ開示（プロフィールに「AI補助+人間確認」を明記）
+- 詳細は `D_エクセル入力スクレイピング/risk_and_feasibility.md` を参照
+
+---
+
 ## Active Project: 月30万自動化（¥300K/Month Automation）
 
 **目標**: 3ヶ月以内に月収¥300K達成（2026-04 〜 2026-06）  
-**ランニングコスト**: ¥5,800/月（Claude Pro ¥3K + Canva ¥1.5K + Microsoft 365 ¥1.3K）  
+**ランニングコスト**: ¥5,800/月（Claude Pro ¥3K + Canva ¥1.5K + Microsoft 365 ¥1.3K、最小構成では¥0〜¥3K）  
 **関与役職**: CMO, CPO, CSO, CDO  
-**フォルダ**: `projects/2026-04-08_月30万自動化/`
+**フォルダ**: `projects/2026-04-08_月30万自動化/`  
+**サブフォルダ構成**: テーマ別（A_/B_/C_/D_）
 
-### 3つの収益柱
+### 4つの収益柱
 
-| 柱 | サービス | 単価 | 目標 | 月収目標 |
-|----|---------|------|------|---------|
-| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K |
-| B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K |
-| C  | テンプレート販売 | ¥500〜¥10K | note/BOOTH販売 | ¥30K〜 |
+| 柱 | サービス | 単価 | 目標 | 月収目標 | 担当役職 |
+|----|---------|------|------|---------|---------|
+| A  | SEOライティング代行 | ¥15K/記事 | 20本/月 | ¥300K | CSO・CMO・CDO |
+| B  | SNS運用代行 | ¥50K/社 | 6社 | ¥300K | CMO・CSO・CDO |
+| C  | テンプレート販売（note/BOOTH） | ¥500〜¥10K | 自動販売 | ¥30K〜 | CPO・CMO・CDO |
+| D  | データ入力・スクレイピング代行 | ¥2K〜¥30K/件 | 10〜20件 | ¥50K〜¥250K | CDO・CSO |
 
-### 売上予測（リアルシナリオ）
+### 売上予測（リアルシナリオ・cashflow.md）
 - Month 1: ¥10K（テンプレ初動のみ）
-- Month 2: ¥155K（A・B契約開始）
+- Month 2: ¥155K（A・B契約開始）— **現時点（2026-05）**
 - Month 3: ¥330K（目標達成）
+- Month 4以降: ¥525K〜
 
-### テンプレート販売 — 進捗
+### テンプレート販売（柱C） — 進捗
 
 | Vol | タイトル | 価格 | ステータス |
 |-----|---------|------|----------|
@@ -306,6 +385,11 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 | Vol.2 | SNSコンテンツカレンダー | 設計済 | 制作中 |
 | Vol.3 | 飲食店向けプロンプト集 | 設計済 | 制作中 |
 | Vol.4 | バンドルパック | 設計済 | Vol.1-3完成後 |
+
+### 立ち上げ順序の考え方
+柱Dは即受注可能で立ち上げ最速 → Month 1〜2 の収益補完。
+柱A・Bは契約獲得に時間がかかる → Month 2 以降に貢献。
+柱Cは自動販売（一度作れば永久に売れる）→ ロングテール収益。
 
 ---
 
@@ -315,3 +399,12 @@ curl -s http://127.0.0.1:${PORT:-3000}/unknown | python3 -m json.tool
 - Shell scripts reference `$HOME/agent-team/` as the repo path (macOS `pbcopy` assumed)
 - All prompts and document output are in Japanese
 - Sensitive files (invoices, contracts, customer PII) must not be committed to Git
+- Node servers (`server.mjs`, `pipeline_server.mjs`) are dependency-free (Node 標準モジュールのみ)
+- 柱D pipeline requires Python3 + `playwright` (`pip install playwright && playwright install chromium`)
+- `.gitignore` excludes:
+  - `CFO/outputs/*`, `CFO/research/*`, `CSO/outputs/*`, `CSO/research/*`（機密ファイル）
+  - `projects/*/D_エクセル入力スクレイピング/outputs/*`（納品前成果物）
+  - `projects/*/D_エクセル入力スクレイピング/.sessions/*`（Playwrightセッション）
+  - `context/diary/*`, `context/ideas/*`, `context/references/*`（オーナー個人情報）
+  - `*_secret*`, `*_confidential*`, `*_機密*`, `*_秘密*`（汎用パターン）
+  - `.gitkeep` ファイルは除外対象外（フォルダ構造維持のため）
