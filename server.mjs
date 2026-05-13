@@ -1,7 +1,27 @@
 import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { extname, join, normalize, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
+
+const ROOT = fileURLToPath(new URL('.', import.meta.url));
+const DESKTOP_DIR = join(ROOT, 'desktop');
+
+const MIME = {
+  '.html': 'text/html; charset=utf-8',
+  '.css':  'text/css; charset=utf-8',
+  '.js':   'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.svg':  'image/svg+xml',
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif':  'image/gif',
+  '.ico':  'image/x-icon',
+  '.txt':  'text/plain; charset=utf-8',
+};
 
 /** JSON レスポンスを返すヘルパー */
 function json(res, status, body) {
@@ -23,9 +43,52 @@ function readBody(req) {
   });
 }
 
+/**
+ * 静的ファイルを desktop/ から安全に返す
+ * pathname: "/desktop/style.css" のような形式
+ */
+async function serveStatic(res, pathname) {
+  // "/desktop/" を取り除いて相対パスにする
+  const rel = pathname.replace(/^\/desktop\/?/, '');
+  const abs = normalize(join(DESKTOP_DIR, rel));
+
+  // ディレクトリトラバーサル防御：DESKTOP_DIR の外を指していないか
+  if (!abs.startsWith(DESKTOP_DIR + sep) && abs !== DESKTOP_DIR) {
+    return json(res, 403, { error: 'Forbidden' });
+  }
+
+  const target = abs === DESKTOP_DIR ? join(DESKTOP_DIR, 'index.html') : abs;
+
+  try {
+    const data = await readFile(target);
+    const type = MIME[extname(target).toLowerCase()] || 'application/octet-stream';
+    res.writeHead(200, {
+      'Content-Type': type,
+      'Content-Length': data.length,
+      'Cache-Control': 'no-cache',
+    });
+    res.end(data);
+  } catch (err) {
+    if (err.code === 'ENOENT' || err.code === 'EISDIR') {
+      return json(res, 404, { error: 'Not Found' });
+    }
+    throw err;
+  }
+}
+
 /** ルーティング */
 async function handleRequest(req, res) {
   const { method, url } = req;
+
+  // GET / → デスクトップUI
+  if (method === 'GET' && (url === '/' || url === '/index.html')) {
+    return serveStatic(res, '/desktop/index.html');
+  }
+
+  // GET /desktop/* → 静的ファイル
+  if (method === 'GET' && url.startsWith('/desktop')) {
+    return serveStatic(res, url.split('?')[0]);
+  }
 
   // GET /health
   if (method === 'GET' && url === '/health') {

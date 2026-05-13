@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>かいちのAI大学 — Desktop</title>
+  <link rel="stylesheet" href="/desktop/style.css" />
+</head>
+<body>
+  <!-- デスクトップ背景 -->
+  <div id="desktop">
+
+    <!-- デスクトップアイコン -->
+    <div class="desk-icons">
+      <div class="desk-icon" data-app="chat">
+        <div class="desk-icon-img icon-pc"></div>
+        <div class="desk-icon-label">マイコンピュータ</div>
+      </div>
+      <div class="desk-icon" data-app="syllabus">
+        <div class="desk-icon-img icon-book"></div>
+        <div class="desk-icon-label">シラバス</div>
+      </div>
+      <div class="desk-icon" data-app="readme">
+        <div class="desk-icon-img icon-note"></div>
+        <div class="desk-icon-label">README.txt</div>
+      </div>
+    </div>
+
+    <!-- メインウィンドウ -->
+    <div class="window main-window" id="mainWindow">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <span class="title-icon"></span>
+          <span>かいちのAI大学 — 講義室</span>
+        </div>
+        <div class="title-bar-buttons">
+          <button class="tb-btn" aria-label="最小化">_</button>
+          <button class="tb-btn" aria-label="最大化">□</button>
+          <button class="tb-btn" aria-label="閉じる">×</button>
+        </div>
+      </div>
+
+      <div class="menu-bar">
+        <span class="menu-item"><u>F</u>ile</span>
+        <span class="menu-item"><u>E</u>dit</span>
+        <span class="menu-item"><u>V</u>iew</span>
+        <span class="menu-item"><u>H</u>elp</span>
+      </div>
+
+      <div class="window-body">
+        <!-- 左：アニメキャラ -->
+        <div class="panel panel-left">
+          <div class="panel-title">教官</div>
+          <div class="char-stage">
+            <!-- SVGキャラ：呼吸＆瞬きアニメ -->
+            <svg class="character" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+              <!-- 影 -->
+              <ellipse cx="100" cy="230" rx="55" ry="6" fill="#000" opacity="0.18" />
+
+              <!-- 体（制服） -->
+              <g class="char-body">
+                <path d="M 60 200 Q 60 150 100 150 Q 140 150 140 200 L 140 225 L 60 225 Z"
+                      fill="#3a4a6b" stroke="#1d2840" stroke-width="2"/>
+                <!-- 襟 -->
+                <path d="M 85 150 L 100 170 L 115 150 L 115 165 L 100 178 L 85 165 Z"
+                      fill="#fff" stroke="#1d2840" stroke-width="1.5"/>
+                <!-- リボン -->
+                <path d="M 92 168 L 100 175 L 108 168 L 105 182 L 95 182 Z"
+                      fill="#d94545" stroke="#7a1f1f" stroke-width="1"/>
+              </g>
+
+              <!-- 首 -->
+              <rect x="93" y="138" width="14" height="18" fill="#f4d4b3" stroke="#a87444" stroke-width="1"/>
+
+              <!-- 髪後ろ -->
+              <path d="M 55 90 Q 50 145 70 155 Q 60 130 65 95 Z" fill="#3a2818" />
+              <path d="M 145 90 Q 150 145 130 155 Q 140 130 135 95 Z" fill="#3a2818" />
+
+              <!-- 顔 -->
+              <ellipse cx="100" cy="105" rx="38" ry="42" fill="#fde2c8" stroke="#a87444" stroke-width="1.5"/>
+
+              <!-- 髪前 -->
+              <path d="M 62 90 Q 70 60 100 55 Q 130 60 138 90 Q 130 75 118 82 Q 110 70 100 78 Q 90 70 82 82 Q 70 75 62 90 Z"
+                    fill="#3a2818"/>
+              <!-- 横髪 -->
+              <path d="M 62 90 Q 58 110 65 130 Q 70 115 70 100 Z" fill="#3a2818"/>
+              <path d="M 138 90 Q 142 110 135 130 Q 130 115 130 100 Z" fill="#3a2818"/>
+
+              <!-- 耳 -->
+              <ellipse cx="64" cy="108" rx="4" ry="6" fill="#fde2c8" stroke="#a87444" stroke-width="1"/>
+              <ellipse cx="136" cy="108" rx="4" ry="6" fill="#fde2c8" stroke="#a87444" stroke-width="1"/>
+
+              <!-- 眉 -->
+              <path d="M 78 92 Q 84 88 92 92" stroke="#2a1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 108 92 Q 116 88 122 92" stroke="#2a1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+              <!-- 目（瞬き対象） -->
+              <g class="eyes">
+                <g class="eye eye-left">
+                  <ellipse cx="85" cy="108" rx="6" ry="8" fill="#fff"/>
+                  <circle cx="85" cy="109" r="5" fill="#2a4a8a"/>
+                  <circle cx="85" cy="108" r="2.5" fill="#000"/>
+                  <circle cx="86.5" cy="106" r="1.2" fill="#fff"/>
+                </g>
+                <g class="eye eye-right">
+                  <ellipse cx="115" cy="108" rx="6" ry="8" fill="#fff"/>
+                  <circle cx="115" cy="109" r="5" fill="#2a4a8a"/>
+                  <circle cx="115" cy="108" r="2.5" fill="#000"/>
+                  <circle cx="116.5" cy="106" r="1.2" fill="#fff"/>
+                </g>
+              </g>
+
+              <!-- 頬 -->
+              <ellipse cx="78" cy="120" rx="5" ry="3" fill="#f5a8a8" opacity="0.7"/>
+              <ellipse cx="122" cy="120" rx="5" ry="3" fill="#f5a8a8" opacity="0.7"/>
+
+              <!-- 口 -->
+              <path class="mouth" d="M 95 128 Q 100 132 105 128" stroke="#7a3a30" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- セリフ吹き出し -->
+          <div class="speech-bubble" id="speechBubble">
+            ようこそ、かいちのAI大学へ。<br/>
+            講義を始めましょう。
+          </div>
+
+          <!-- ステータス -->
+          <div class="char-status">
+            <div class="status-line">名前: <b>かいち教官</b></div>
+            <div class="status-line">学部: <b>AI実践学部</b></div>
+            <div class="status-line">気分: <b id="mood">講義中</b></div>
+          </div>
+        </div>
+
+        <!-- 右：入力エリア -->
+        <div class="panel panel-right">
+          <div class="panel-title">対話ウィンドウ</div>
+
+          <div class="chat-log" id="chatLog">
+            <div class="chat-msg chat-msg-bot">
+              <div class="chat-from">かいち教官</div>
+              <div class="chat-body">こんにちは。今日は何を学びますか？</div>
+            </div>
+          </div>
+
+          <div class="chat-input-row">
+            <textarea id="chatInput" class="chat-input" placeholder="メッセージを入力（Enterで送信 / Shift+Enterで改行）" rows="3"></textarea>
+            <button id="sendBtn" class="retro-btn">送信</button>
+          </div>
+
+          <div class="quick-row">
+            <button class="retro-btn small quick" data-q="今日の講義は？">今日の講義は？</button>
+            <button class="retro-btn small quick" data-q="自己紹介して">自己紹介</button>
+            <button class="retro-btn small quick" data-q="AIで月30万稼ぐには？">月30万稼ぐには？</button>
+            <button class="retro-btn small" id="clearBtn">クリア</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ステータスバー -->
+      <div class="status-bar">
+        <span class="sb-cell">状態：準備完了</span>
+        <span class="sb-cell" id="msgCount">メッセージ: 1</span>
+        <span class="sb-cell sb-grow"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- タスクバー -->
+  <div class="taskbar">
+    <button class="start-btn">
+      <span class="start-flag"></span>
+      <span>スタート</span>
+    </button>
+    <div class="taskbar-item active">かいちのAI大学</div>
+    <div class="taskbar-spacer"></div>
+    <div class="tray">
+      <span class="tray-ico">♪</span>
+      <span class="tray-clock" id="clock">--:--</span>
+    </div>
+  </div>
+
+  <script src="/desktop/app.js"></script>
+</body>
+</html>
