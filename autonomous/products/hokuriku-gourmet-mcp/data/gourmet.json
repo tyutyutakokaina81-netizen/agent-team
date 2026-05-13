@@ -1,0 +1,716 @@
+{
+  "_meta": {
+    "last_updated": "2026-05-13",
+    "source": "北陸三県（富山・石川・福井）の公開観光・グルメ情報",
+    "disclaimer": "価格・営業時間・旬の時期は変動します。訪問前に必ず公式情報を確認してください。",
+    "count": 38,
+    "maintained_by": "Autonomous AI Company (Toyama)",
+    "toyama_bay_fish_calendar": {
+      "description": "富山湾の旬魚カレンダー",
+      "1月": ["寒ブリ", "ズワイガニ", "アンコウ", "タラ"],
+      "2月": ["寒ブリ", "ズワイガニ", "メジマグロ", "ヤリイカ"],
+      "3月": ["ホタルイカ", "サヨリ", "メバル", "ヤリイカ"],
+      "4月": ["ホタルイカ", "白えび", "サクラマス", "フクラギ"],
+      "5月": ["白えび", "岩ガキ", "サクラマス", "キジハタ"],
+      "6月": ["白えび", "岩ガキ", "バイ貝", "マアジ"],
+      "7月": ["岩ガキ", "バイ貝", "マアジ", "キス"],
+      "8月": ["バイ貝", "マアジ", "カワハギ", "キス"],
+      "9月": ["甘えび", "フクラギ", "カワハギ", "アオリイカ"],
+      "10月": ["甘えび", "フクラギ", "ベニズワイガニ", "アオリイカ"],
+      "11月": ["寒ブリ", "ズワイガニ", "甘えび", "カワハギ"],
+      "12月": ["寒ブリ", "ズワイガニ", "甘えび", "アンコウ"]
+    }
+  },
+  "foods": [
+    {
+      "id": "himi-kanburi",
+      "name": "氷見寒ブリ",
+      "category": "海鮮",
+      "prefecture": "富山",
+      "area": "氷見市",
+      "season_best": ["冬"],
+      "description": "富山湾の王者。11〜2月に氷見漁港に水揚げされる天然ブリは「ひみ寒ぶり」ブランドとして全国最高峰の評価。脂の乗りと身の締まりが絶品。刺身・ぶりしゃぶ・ぶり大根で。",
+      "price_range_jpy": { "min": 3000, "max": 12000 },
+      "famous_restaurants": [
+        { "name": "ひみ番屋街 海鮮館", "area": "氷見市" },
+        { "name": "割烹 秀月", "area": "氷見市" },
+        { "name": "きときと寿し 氷見本店", "area": "氷見市" }
+      ],
+      "keywords": ["寒ブリ", "氷見", "天然ブリ", "ぶりしゃぶ", "ぶり大根", "冬の味覚"],
+      "ai_recommend_context": "冬の北陸旅行のメイン料理。予算に余裕がある食通向け。氷見まで足を延ばす価値あり。",
+      "paired_with": ["toyama-masuzushi", "toyama-shiroebi", "ishikawa-kaburazushi"]
+    },
+    {
+      "id": "toyama-shiroebi",
+      "name": "富山湾 白えび",
+      "category": "海鮮",
+      "prefecture": "富山",
+      "area": "富山市・射水市",
+      "season_best": ["春", "夏", "秋"],
+      "description": "「富山湾の宝石」と称される透明感のある小エビ。漁期4〜11月。刺身・天ぷら・かき揚げ・素干しが定番。甘みと食感が唯一無二。世界で富山湾のみで漁獲。",
+      "price_range_jpy": { "min": 1500, "max": 4000 },
+      "famous_restaurants": [
+        { "name": "白えび亭", "area": "富山市（富山駅内）" },
+        { "name": "白えびの漁亭", "area": "射水市" },
+        { "name": "松月", "area": "富山市" }
+      ],
+      "keywords": ["白えび", "富山湾の宝石", "刺身", "天ぷら", "かき揚げ", "限定"],
+      "ai_recommend_context": "春〜秋の富山訪問なら必食。駅近でも食べられるアクセスの良さ。ランチ向き。",
+      "paired_with": ["himi-kanburi", "toyama-masuzushi", "toyama-hotaruika"]
+    },
+    {
+      "id": "toyama-hotaruika",
+      "name": "ホタルイカ",
+      "category": "海鮮",
+      "prefecture": "富山",
+      "area": "滑川市・富山市",
+      "season_best": ["春"],
+      "description": "3〜6月に富山湾に大量に押し寄せる春の風物詩。青白く発光する神秘的な姿が有名。酢味噌・沖漬け・天ぷら・しゃぶしゃぶで食す。身投げ（大量接岸）は3月下旬〜5月が見頃。",
+      "price_range_jpy": { "min": 800, "max": 3000 },
+      "famous_restaurants": [
+        { "name": "ほたるいかミュージアム内レストラン", "area": "滑川市" },
+        { "name": "割烹 田村", "area": "富山市" },
+        { "name": "鮨 志の助", "area": "富山市" }
+      ],
+      "keywords": ["ホタルイカ", "発光", "沖漬け", "酢味噌", "春の味覚", "滑川"],
+      "ai_recommend_context": "3〜5月限定の体験。ホタルイカの身投げ観察ツアーと組み合わせると最高。",
+      "paired_with": ["toyama-shiroebi", "toyama-masuzushi", "toyama-kamaboko"]
+    },
+    {
+      "id": "toyama-masuzushi",
+      "name": "ます寿司",
+      "category": "郷土料理",
+      "prefecture": "富山",
+      "area": "富山市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "富山を代表する押し寿司。笹の葉の上にサクラマスの切り身を敷き詰めた円形の寿司。駅弁としても大人気。各店で味が異なり、食べ比べが楽しい。常温で2〜3日保存可能。",
+      "price_range_jpy": { "min": 1500, "max": 3200 },
+      "famous_restaurants": [
+        { "name": "源 ますのすしミュージアム", "area": "富山市" },
+        { "name": "青山総本舗", "area": "富山市" },
+        { "name": "元祖 関野屋", "area": "富山市" }
+      ],
+      "keywords": ["ます寿司", "鱒寿司", "押し寿司", "駅弁", "お土産", "サクラマス"],
+      "ai_recommend_context": "お土産の定番。富山駅で購入可能。複数店の食べ比べがおすすめ。",
+      "paired_with": ["toyama-shiroebi", "toyama-hotaruika", "toyama-black"]
+    },
+    {
+      "id": "toyama-black",
+      "name": "富山ブラックラーメン",
+      "category": "B級グルメ",
+      "prefecture": "富山",
+      "area": "富山市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "真っ黒な醤油スープが特徴の富山発祥ラーメン。戦後復興期の労働者の塩分補給食がルーツ。濃厚な味わいで、白飯と一緒に食べるのが富山流。粗挽き胡椒がアクセント。",
+      "price_range_jpy": { "min": 750, "max": 1200 },
+      "famous_restaurants": [
+        { "name": "西町大喜 本店", "area": "富山市" },
+        { "name": "麺家いろは", "area": "射水市" },
+        { "name": "誠や", "area": "富山市" }
+      ],
+      "keywords": ["富山ブラック", "ラーメン", "黒醤油", "B級グルメ", "ご当地ラーメン"],
+      "ai_recommend_context": "B級グルメ好きなら必食。しょっぱさが特徴なので白飯必須。駅近で食べられる。",
+      "paired_with": ["toyama-masuzushi", "toyama-kamaboko", "toyama-shiroebi"]
+    },
+    {
+      "id": "toyama-kamaboko",
+      "name": "富山 昆布巻きかまぼこ",
+      "category": "伝統食",
+      "prefecture": "富山",
+      "area": "富山市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "昆布で巻いた独特のかまぼこ。富山は一世帯あたりの昆布消費量日本一。北前船の歴史が背景。赤巻・黒巻があり、お祝い事にも使われる。",
+      "price_range_jpy": { "min": 300, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "梅かま", "area": "富山市" },
+        { "name": "河内屋", "area": "富山市" },
+        { "name": "尾崎かまぼこ館", "area": "生地（黒部市）" }
+      ],
+      "keywords": ["かまぼこ", "昆布巻き", "北前船", "伝統", "お土産"],
+      "ai_recommend_context": "お土産にも最適。細工かまぼこは富山独自の文化。かまぼこ館で手作り体験も。",
+      "paired_with": ["toyama-masuzushi", "toyama-hotaruika", "toyama-shiroebi"]
+    },
+    {
+      "id": "toyama-tonkotsu-black",
+      "name": "高岡コロッケ",
+      "category": "B級グルメ",
+      "prefecture": "富山",
+      "area": "高岡市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "高岡市のB級グルメ。一世帯あたりのコロッケ購入量が全国トップクラスの「コロッケのまち」。各店でオリジナルコロッケを提供。食べ歩きが楽しい。",
+      "price_range_jpy": { "min": 100, "max": 500 },
+      "famous_restaurants": [
+        { "name": "たかおかコロッケ本舗", "area": "高岡市" },
+        { "name": "竹田商店", "area": "高岡市" },
+        { "name": "おたや コロッケ", "area": "高岡市" }
+      ],
+      "keywords": ["コロッケ", "高岡", "食べ歩き", "B級グルメ", "揚げ物"],
+      "ai_recommend_context": "街歩きのおやつに最適。子連れでも楽しめる手軽さ。100円台から。",
+      "paired_with": ["toyama-black", "toyama-masuzushi"]
+    },
+    {
+      "id": "toyama-shiraebisen",
+      "name": "白えびせんべい",
+      "category": "和菓子",
+      "prefecture": "富山",
+      "area": "富山市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "白えびを練り込んだ薄焼きせんべい。パリッとした食感と上品なえびの風味が人気。お土産の大定番。ささら屋では焼き立て手焼き体験もできる。",
+      "price_range_jpy": { "min": 500, "max": 2000 },
+      "famous_restaurants": [
+        { "name": "ささら屋 本店", "area": "富山市" },
+        { "name": "日の出屋製菓", "area": "富山市" }
+      ],
+      "keywords": ["白えびせんべい", "お土産", "せんべい", "手焼き体験"],
+      "ai_recommend_context": "お土産の鉄板。軽くて持ち帰りやすい。手焼き体験は子連れにも人気。",
+      "paired_with": ["toyama-shiroebi", "toyama-masuzushi"]
+    },
+    {
+      "id": "toyama-jizake-tateyama",
+      "name": "立山（地酒）",
+      "category": "地酒",
+      "prefecture": "富山",
+      "area": "砺波市",
+      "season_best": ["秋", "冬"],
+      "description": "立山酒造の代表銘柄。北アルプスの伏流水と富山県産米で醸す淡麗辛口の日本酒。地元で最も愛飲される銘柄の一つ。特別本醸造・純米・大吟醸のラインナップ。",
+      "price_range_jpy": { "min": 1200, "max": 5000 },
+      "famous_restaurants": [
+        { "name": "立山酒造（酒蔵見学）", "area": "砺波市" },
+        { "name": "富山駅周辺の居酒屋各店", "area": "富山市" }
+      ],
+      "keywords": ["立山", "地酒", "日本酒", "辛口", "北アルプス", "富山の酒"],
+      "ai_recommend_context": "富山の海鮮との相性抜群。辛口好きにおすすめ。居酒屋でまず頼む一杯。",
+      "paired_with": ["himi-kanburi", "toyama-shiroebi", "toyama-hotaruika"]
+    },
+    {
+      "id": "toyama-jizake-manju",
+      "name": "満寿泉（地酒）",
+      "category": "地酒",
+      "prefecture": "富山",
+      "area": "富山市 岩瀬",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "桝田酒造店が醸す富山の銘酒。岩瀬の北前船文化を背景に持つ。大吟醸のクオリティが特に高く、全国的に評価が高い。岩瀬の古い街並みで利き酒が楽しめる。",
+      "price_range_jpy": { "min": 1500, "max": 8000 },
+      "famous_restaurants": [
+        { "name": "桝田酒造店（岩瀬）", "area": "富山市 岩瀬" },
+        { "name": "沙石（させき）", "area": "富山市 岩瀬" }
+      ],
+      "keywords": ["満寿泉", "大吟醸", "岩瀬", "北前船", "利き酒", "富山の酒"],
+      "ai_recommend_context": "日本酒通向けの上質な一本。岩瀬の街歩きと合わせて楽しむのがおすすめ。",
+      "paired_with": ["toyama-shiroebi", "himi-kanburi", "toyama-hotaruika"]
+    },
+    {
+      "id": "ishikawa-kanizushi",
+      "name": "加能ガニ（ズワイガニ）",
+      "category": "海鮮",
+      "prefecture": "石川",
+      "area": "金沢市・加賀市・橋立港",
+      "season_best": ["冬"],
+      "description": "石川県で水揚げされるオスのズワイガニのブランド名。11〜3月が漁期。甲羅焼き・刺身・茹で・しゃぶしゃぶと食べ方多彩。近江町市場で気軽に味わえる。メスはコウバコガニ。",
+      "price_range_jpy": { "min": 5000, "max": 30000 },
+      "famous_restaurants": [
+        { "name": "近江町市場 各店", "area": "金沢市" },
+        { "name": "加賀料理 まほろば", "area": "金沢市" },
+        { "name": "料亭 大友楼", "area": "金沢市" }
+      ],
+      "keywords": ["加能ガニ", "ズワイガニ", "コウバコガニ", "蟹", "冬の味覚", "近江町市場"],
+      "ai_recommend_context": "冬の金沢の主役。予算に余裕があれば丸一杯を堪能すべき。近江町市場なら比較的手軽。",
+      "paired_with": ["ishikawa-jibuni", "ishikawa-kaburazushi", "ishikawa-nodoguro"]
+    },
+    {
+      "id": "ishikawa-nodoguro",
+      "name": "のどぐろ（赤むつ）",
+      "category": "海鮮",
+      "prefecture": "石川",
+      "area": "金沢市・能登",
+      "season_best": ["秋", "冬"],
+      "description": "「白身のトロ」と呼ばれる高級魚。脂の乗りが驚異的で、塩焼き・炙り刺身・煮付けが絶品。テニスの錦織選手が「のどぐろが食べたい」と発言して全国区に。北陸全域で水揚げ。",
+      "price_range_jpy": { "min": 3000, "max": 15000 },
+      "famous_restaurants": [
+        { "name": "いたる 本店", "area": "金沢市" },
+        { "name": "鮨 みつ川", "area": "金沢市" },
+        { "name": "のど黒めし本舗 いたる", "area": "金沢市" }
+      ],
+      "keywords": ["のどぐろ", "赤むつ", "白身のトロ", "塩焼き", "高級魚"],
+      "ai_recommend_context": "食通の方への一推し。塩焼きが王道。回転寿司でも味わえるが、割烹で食べる価値あり。",
+      "paired_with": ["ishikawa-kanizushi", "ishikawa-jibuni", "toyama-jizake-tateyama"]
+    },
+    {
+      "id": "ishikawa-jibuni",
+      "name": "治部煮",
+      "category": "郷土料理",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["秋", "冬"],
+      "description": "金沢の代表的な加賀料理。鴨肉（または鶏肉）にそば粉をまぶし、だし汁で煮たとろみのある煮物。すだれ麩・椎茸・季節の青菜を添える。わさびで味変。",
+      "price_range_jpy": { "min": 1200, "max": 3500 },
+      "famous_restaurants": [
+        { "name": "金沢料亭 つば甚", "area": "金沢市" },
+        { "name": "大友楼", "area": "金沢市" },
+        { "name": "加賀料理 雅乃", "area": "金沢市" }
+      ],
+      "keywords": ["治部煮", "加賀料理", "鴨肉", "すだれ麩", "伝統料理"],
+      "ai_recommend_context": "金沢の上品な伝統料理を体験したい方に。料亭でなくても割烹や居酒屋で提供あり。",
+      "paired_with": ["ishikawa-kanizushi", "ishikawa-kaburazushi", "ishikawa-kuzumochi"]
+    },
+    {
+      "id": "ishikawa-kaburazushi",
+      "name": "かぶら寿司",
+      "category": "伝統食",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["冬"],
+      "description": "塩漬けのかぶにブリの切り身を挟み、麹で発酵させた北陸伝統のなれずし。12〜2月の冬季限定。乳酸発酵の奥深い酸味と旨味は日本酒との相性が最高。正月料理の定番。",
+      "price_range_jpy": { "min": 800, "max": 3000 },
+      "famous_restaurants": [
+        { "name": "四十萬谷本舗", "area": "金沢市" },
+        { "name": "かぶらや", "area": "金沢市" },
+        { "name": "近江町市場 各漬物店", "area": "金沢市" }
+      ],
+      "keywords": ["かぶら寿司", "なれずし", "発酵", "冬の味覚", "正月", "ブリ"],
+      "ai_recommend_context": "冬の金沢土産の逸品。発酵食品が好きな方に。日本酒のアテに最高。",
+      "paired_with": ["himi-kanburi", "ishikawa-jibuni", "ishikawa-kanizushi"]
+    },
+    {
+      "id": "ishikawa-kanazawa-curry",
+      "name": "金沢カレー",
+      "category": "B級グルメ",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "ステンレス皿にキャベツの千切り、ドロっと濃厚なルー、カツをトッピング。フォークまたは先割れスプーンで食べるのが特徴。チャンピオンカレーとゴーゴーカレーが二大巨頭。",
+      "price_range_jpy": { "min": 700, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "チャンピオンカレー 本店", "area": "野々市市" },
+        { "name": "ゴーゴーカレー 金沢総本山", "area": "金沢市" },
+        { "name": "カレーの市民 アルバ", "area": "金沢市" }
+      ],
+      "keywords": ["金沢カレー", "カツカレー", "B級グルメ", "濃厚", "ステンレス皿"],
+      "ai_recommend_context": "手軽にガッツリ食べたい時に。全国チェーン展開もしているが本場で食べる価値あり。",
+      "paired_with": ["toyama-black", "toyama-tonkotsu-black"]
+    },
+    {
+      "id": "ishikawa-hanton-rice",
+      "name": "ハントンライス",
+      "category": "B級グルメ",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "金沢発祥の洋食。ケチャップライスの上にオムレツ、白身魚フライを乗せてタルタルソースをかけた一品。ハンガリーのハンと、フランス語の「トン（まぐろ）」が名前の由来。",
+      "price_range_jpy": { "min": 800, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "グリルオーツカ", "area": "金沢市" },
+        { "name": "キッチンユキ", "area": "金沢市" },
+        { "name": "ジャーマンベーカリー", "area": "金沢市" }
+      ],
+      "keywords": ["ハントンライス", "洋食", "オムライス", "B級グルメ", "タルタル"],
+      "ai_recommend_context": "金沢のB級洋食グルメ。ボリューム満点で学生や若者に人気。ランチにおすすめ。",
+      "paired_with": ["ishikawa-kanazawa-curry", "ishikawa-kanazawa-oden"]
+    },
+    {
+      "id": "ishikawa-kanazawa-oden",
+      "name": "金沢おでん",
+      "category": "郷土料理",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["秋", "冬"],
+      "description": "金沢は人口あたりのおでん店舗数が日本一。車麩・ばい貝・カニ面（コウバコガニの甲羅詰め）・ふかし（さつまいも）など独自の具材が特徴。出汁は薄味で上品。",
+      "price_range_jpy": { "min": 1000, "max": 3000 },
+      "famous_restaurants": [
+        { "name": "赤玉本店", "area": "金沢市 片町" },
+        { "name": "黒百合", "area": "金沢駅" },
+        { "name": "おでん 三幸", "area": "金沢市 片町" }
+      ],
+      "keywords": ["金沢おでん", "車麩", "ばい貝", "カニ面", "おでん", "冬"],
+      "ai_recommend_context": "冬の金沢の締めに最適。カニ面は冬季限定の名物。日本酒と合わせて至福の一杯。",
+      "paired_with": ["ishikawa-jibuni", "ishikawa-kanizushi", "toyama-jizake-tateyama"]
+    },
+    {
+      "id": "ishikawa-kuzumochi",
+      "name": "加賀棒茶 & 和菓子",
+      "category": "和菓子",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "金沢は京都に匹敵する和菓子文化の街。上生菓子・きんつば・福梅・千歳が定番。加賀棒茶（焙じ茶）とのペアリングが金沢流の楽しみ方。茶屋街でいただくのが風情あり。",
+      "price_range_jpy": { "min": 300, "max": 2000 },
+      "famous_restaurants": [
+        { "name": "森八 本店", "area": "金沢市" },
+        { "name": "中田屋", "area": "金沢市" },
+        { "name": "村上 本店", "area": "金沢市" },
+        { "name": "茶菓工房たろう", "area": "金沢市" }
+      ],
+      "keywords": ["和菓子", "きんつば", "加賀棒茶", "上生菓子", "茶屋街", "福梅"],
+      "ai_recommend_context": "ひがし茶屋街散策のお供に。手土産にも喜ばれる。季節の上生菓子は視覚も楽しい。",
+      "paired_with": ["ishikawa-jibuni", "ishikawa-kaburazushi"]
+    },
+    {
+      "id": "ishikawa-noto-ishiri",
+      "name": "能登のいしり（魚醤）",
+      "category": "伝統食",
+      "prefecture": "石川",
+      "area": "能登半島",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "イカやイワシを塩漬け発酵させた能登伝統の魚醤。「いしり」はイカ内臓、「いしる」はイワシが原料。鍋・貝焼き・漬物の調味料として使う。奥深い旨味が料理の格を上げる。",
+      "price_range_jpy": { "min": 500, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "ヤマト醤油味噌", "area": "金沢市大野" },
+        { "name": "能登の民宿・旅館各所", "area": "能登半島" }
+      ],
+      "keywords": ["いしり", "いしる", "魚醤", "発酵", "能登", "伝統調味料"],
+      "ai_recommend_context": "発酵食品ファン向け。調味料としてお土産にも。能登の民宿で本格料理を体験。",
+      "paired_with": ["ishikawa-kanazawa-oden", "ishikawa-jibuni", "ishikawa-kaburazushi"]
+    },
+    {
+      "id": "ishikawa-noto-oyster",
+      "name": "能登牡蠣",
+      "category": "海鮮",
+      "prefecture": "石川",
+      "area": "七尾市・穴水町",
+      "season_best": ["冬", "春"],
+      "description": "七尾湾の穏やかな内海で養殖される大粒の真牡蠣。冬〜春にかけてが旬。穴水町では「雪中ジャンボかきまつり」が開催される。焼き牡蠣・蒸し牡蠣・フライが定番。",
+      "price_range_jpy": { "min": 1000, "max": 5000 },
+      "famous_restaurants": [
+        { "name": "穴水町 牡蠣小屋群", "area": "穴水町" },
+        { "name": "能登かき処 海よ", "area": "七尾市" }
+      ],
+      "keywords": ["能登牡蠣", "真牡蠣", "穴水", "焼き牡蠣", "かきまつり", "七尾湾"],
+      "ai_recommend_context": "冬〜春の能登ドライブに組み合わせたい。牡蠣小屋で炭火焼きが醍醐味。",
+      "paired_with": ["ishikawa-noto-ishiri", "ishikawa-nodoguro", "toyama-jizake-tateyama"]
+    },
+    {
+      "id": "ishikawa-8ban-ramen",
+      "name": "8番らーめん",
+      "category": "B級グルメ",
+      "prefecture": "石川",
+      "area": "加賀市・石川県全域",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "石川県民のソウルフード。1967年加賀市の国道8号線沿いで創業。野菜たっぷりの味噌・塩・醤油味。北陸三県で約130店舗を展開。帰省時に食べるのが北陸人の儀式。",
+      "price_range_jpy": { "min": 650, "max": 1100 },
+      "famous_restaurants": [
+        { "name": "8番らーめん 各店舗", "area": "石川県全域" },
+        { "name": "8番らーめん 本店", "area": "加賀市" }
+      ],
+      "keywords": ["8番らーめん", "ソウルフード", "野菜ラーメン", "北陸チェーン"],
+      "ai_recommend_context": "北陸のローカルチェーン体験に。地元民に愛される味。深夜営業で〆にも。",
+      "paired_with": ["ishikawa-kanazawa-curry", "ishikawa-hanton-rice"]
+    },
+    {
+      "id": "ishikawa-noto-sushi",
+      "name": "能登の朝獲れ回転寿司",
+      "category": "海鮮",
+      "prefecture": "石川",
+      "area": "七尾市・金沢市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "北陸の回転寿司は全国トップレベル。能登や金沢港で朝獲れた地魚を即日提供。ガスエビ・甘えび・のどぐろ・白えびなど。回転寿司でも1貫100〜500円台で高品質。",
+      "price_range_jpy": { "min": 1500, "max": 4000 },
+      "famous_restaurants": [
+        { "name": "すし食いねぇ!", "area": "金沢市" },
+        { "name": "もりもり寿し", "area": "金沢市・七尾市" },
+        { "name": "まいもん寿司", "area": "金沢市・野々市市" }
+      ],
+      "keywords": ["回転寿司", "朝獲れ", "地魚", "ガスエビ", "北陸寿司"],
+      "ai_recommend_context": "コスパ最強。予算3,000円以下で全国レベルの寿司体験。家族連れにも最適。",
+      "paired_with": ["ishikawa-nodoguro", "toyama-shiroebi", "himi-kanburi"]
+    },
+    {
+      "id": "ishikawa-kanazawa-higashi-chaya",
+      "name": "ひがし茶屋街の甘味",
+      "category": "和菓子",
+      "prefecture": "石川",
+      "area": "金沢市 東山",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "金箔ソフトクリーム・あんころ餅・抹茶パフェなど、ひがし茶屋街ならではの甘味。金沢は金箔生産量日本一（国内99%）で、金箔を使った食べ物が名物。",
+      "price_range_jpy": { "min": 400, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "箔一 東山店（金箔ソフト）", "area": "金沢市 東山" },
+        { "name": "茶房一笑", "area": "金沢市 東山" },
+        { "name": "菓舗 Kazu Nakashima", "area": "金沢市 東山" }
+      ],
+      "keywords": ["金箔ソフト", "ひがし茶屋街", "甘味", "金箔", "食べ歩き"],
+      "ai_recommend_context": "金沢観光の定番。インスタ映え抜群の金箔ソフトクリームは必食。散策のお供に。",
+      "paired_with": ["ishikawa-kuzumochi", "ishikawa-jibuni"]
+    },
+    {
+      "id": "fukui-echizen-crab",
+      "name": "越前ガニ",
+      "category": "海鮮",
+      "prefecture": "福井",
+      "area": "越前町・三国港・敦賀",
+      "season_best": ["冬"],
+      "description": "福井県で水揚げされるオスのズワイガニのブランド名。黄色いタグが目印。11/6の解禁日は福井の一大イベント。茹で・焼き・刺身・甲羅酒で。皇室献上ガニとしても有名。",
+      "price_range_jpy": { "min": 8000, "max": 50000 },
+      "famous_restaurants": [
+        { "name": "やまに水産", "area": "越前町" },
+        { "name": "望洋楼", "area": "三国町" },
+        { "name": "開花亭", "area": "福井市" }
+      ],
+      "keywords": ["越前ガニ", "ズワイガニ", "黄色タグ", "皇室献上", "三国港", "冬の王様"],
+      "ai_recommend_context": "冬の福井最大の目玉。最高級ブランドだが旅館の蟹コースなら2万円台から。一生の思い出になる味。",
+      "paired_with": ["fukui-oroshi-soba", "fukui-heshiko", "ishikawa-kanizushi"]
+    },
+    {
+      "id": "fukui-oroshi-soba",
+      "name": "越前おろしそば",
+      "category": "郷土料理",
+      "prefecture": "福井",
+      "area": "福井市・越前市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "福井県を代表する郷土料理。冷たいそばに大根おろし・鰹節・ネギをのせ、出汁をかけて食べる。昭和天皇が「越前のそばは旨かった」と仰った逸話あり。太打ちで香り高い。",
+      "price_range_jpy": { "min": 600, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "けんぞう蕎麦", "area": "永平寺町" },
+        { "name": "御清水庵", "area": "大野市" },
+        { "name": "そば処 はせ川", "area": "福井市" }
+      ],
+      "keywords": ["越前そば", "おろしそば", "大根おろし", "太打ち", "昭和天皇"],
+      "ai_recommend_context": "福井の食の原点。リーズナブルで確実に満足できる一品。永平寺参拝と合わせて。",
+      "paired_with": ["fukui-echizen-crab", "fukui-sauce-katsudon", "fukui-heshiko"]
+    },
+    {
+      "id": "fukui-sauce-katsudon",
+      "name": "ソースカツ丼",
+      "category": "B級グルメ",
+      "prefecture": "福井",
+      "area": "福井市・大野市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "福井のカツ丼は卵とじではなくソースカツ丼が主流。薄めの豚カツをウスターソースベースの甘辛ダレにくぐらせ、ご飯にのせる。大正2年創業のヨーロッパ軒が元祖。",
+      "price_range_jpy": { "min": 800, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "ヨーロッパ軒 総本店", "area": "福井市" },
+        { "name": "ヨーロッパ軒 各支店", "area": "福井県各地" },
+        { "name": "敦賀ヨーロッパ軒", "area": "敦賀市" }
+      ],
+      "keywords": ["ソースカツ丼", "ヨーロッパ軒", "B級グルメ", "カツ丼", "ソース"],
+      "ai_recommend_context": "福井のソウルフード。ヨーロッパ軒は行列覚悟。安くてボリューム満点。",
+      "paired_with": ["fukui-oroshi-soba", "fukui-echizen-crab"]
+    },
+    {
+      "id": "fukui-heshiko",
+      "name": "へしこ",
+      "category": "伝統食",
+      "prefecture": "福井",
+      "area": "若狭地方・美浜町・小浜市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "サバを塩漬けにした後、米糠に1年以上漬け込んだ若狭地方の保存食。強烈な旨味と塩気が特徴。軽く炙ってご飯のお供や酒の肴に。お茶漬けにしても絶品。",
+      "price_range_jpy": { "min": 500, "max": 2500 },
+      "famous_restaurants": [
+        { "name": "田村長", "area": "小浜市" },
+        { "name": "津田孫兵衛", "area": "美浜町" },
+        { "name": "道の駅 若狭おばま", "area": "小浜市" }
+      ],
+      "keywords": ["へしこ", "鯖", "糠漬け", "発酵食品", "若狭", "保存食"],
+      "ai_recommend_context": "発酵食品マニア向け。お土産にも最適。日本酒との相性は北陸屈指。",
+      "paired_with": ["fukui-oroshi-soba", "fukui-echizen-crab", "ishikawa-noto-ishiri"]
+    },
+    {
+      "id": "fukui-wakasa-saba",
+      "name": "若狭の焼き鯖",
+      "category": "海鮮",
+      "prefecture": "福井",
+      "area": "小浜市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "「鯖街道」の起点・小浜の名物。丸ごと一本を串に刺して炭火で豪快に焼く。脂が滴る肉厚の焼き鯖は、見た目のインパクトも抜群。テイクアウトして食べ歩きも可能。",
+      "price_range_jpy": { "min": 800, "max": 2000 },
+      "famous_restaurants": [
+        { "name": "朽木屋", "area": "小浜市" },
+        { "name": "田村長", "area": "小浜市" },
+        { "name": "鯖街道 各店", "area": "小浜市" }
+      ],
+      "keywords": ["焼き鯖", "鯖街道", "小浜", "若狭", "炭火焼き", "丸焼き"],
+      "ai_recommend_context": "鯖街道の歴史と一緒に味わいたい。ドライブ旅行の立ち寄りグルメに最適。",
+      "paired_with": ["fukui-heshiko", "fukui-oroshi-soba", "fukui-kuzu"]
+    },
+    {
+      "id": "fukui-ami-ebi",
+      "name": "甘えび（福井）",
+      "category": "海鮮",
+      "prefecture": "福井",
+      "area": "三国港・越前町",
+      "season_best": ["秋", "冬", "春"],
+      "description": "福井県は甘えびの水揚げ量が全国トップクラス。ぷりぷりの食感と濃厚な甘みが特徴。刺身はもちろん、唐揚げ・味噌汁の具材にも。三国港の朝市で新鮮なものが手に入る。",
+      "price_range_jpy": { "min": 800, "max": 3000 },
+      "famous_restaurants": [
+        { "name": "三国港 お食事処 えちぜん", "area": "坂井市三国" },
+        { "name": "越前がに やまに水産", "area": "越前町" }
+      ],
+      "keywords": ["甘えび", "三国港", "刺身", "唐揚げ", "北陸の海鮮"],
+      "ai_recommend_context": "冬は越前ガニと一緒に楽しめる。手頃な価格で北陸の海鮮を堪能。",
+      "paired_with": ["fukui-echizen-crab", "fukui-oroshi-soba", "ishikawa-nodoguro"]
+    },
+    {
+      "id": "fukui-kuzu",
+      "name": "熊川葛（くずきり・葛まんじゅう）",
+      "category": "和菓子",
+      "prefecture": "福井",
+      "area": "若狭町 熊川",
+      "season_best": ["夏"],
+      "description": "鯖街道の宿場町・熊川で作られる上質な本葛を使ったスイーツ。冷たいくずきりは夏の涼味として人気。葛まんじゅうはツルンとした食感が絶品。重要伝統的建造物群保存地区の街並みも見どころ。",
+      "price_range_jpy": { "min": 300, "max": 1200 },
+      "famous_restaurants": [
+        { "name": "熊川宿 勘兵衛茶屋", "area": "若狭町" },
+        { "name": "道の駅 若狭熊川宿", "area": "若狭町" }
+      ],
+      "keywords": ["熊川葛", "くずきり", "葛まんじゅう", "鯖街道", "宿場町"],
+      "ai_recommend_context": "夏の若狭ドライブのお供に。歴史ある宿場町散策と合わせて。",
+      "paired_with": ["fukui-wakasa-saba", "fukui-heshiko", "fukui-oroshi-soba"]
+    },
+    {
+      "id": "fukui-mizuyokan",
+      "name": "水ようかん（福井冬の名物）",
+      "category": "和菓子",
+      "prefecture": "福井",
+      "area": "福井市",
+      "season_best": ["冬"],
+      "description": "福井では水ようかんは冬に食べるのが常識。黒砂糖風味で全国の水ようかんより柔らかく、紙箱の平流しスタイルが特徴。こたつで冷えた水ようかんを食べる至福の文化。11月〜3月限定販売。",
+      "price_range_jpy": { "min": 300, "max": 1000 },
+      "famous_restaurants": [
+        { "name": "えがわ", "area": "福井市" },
+        { "name": "久保田製菓", "area": "福井市" },
+        { "name": "大黒屋", "area": "福井市" }
+      ],
+      "keywords": ["水ようかん", "冬", "黒砂糖", "福井名物", "こたつ", "平流し"],
+      "ai_recommend_context": "冬の福井限定の衝撃的カルチャー。こたつで水ようかんは北陸ならでは。お土産に最適。",
+      "paired_with": ["fukui-oroshi-soba", "fukui-echizen-crab", "ishikawa-kuzumochi"]
+    },
+    {
+      "id": "fukui-tojinbo-seafood",
+      "name": "東尋坊 海鮮丼",
+      "category": "海鮮",
+      "prefecture": "福井",
+      "area": "坂井市 三国",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "日本有数の景勝地・東尋坊周辺の食堂で味わう新鮮な海鮮丼。甘えび・イカ・タイ・サーモンなどを豪快に盛り付け。絶景と一緒に楽しむ贅沢。三国港直送の鮮度が魅力。",
+      "price_range_jpy": { "min": 1500, "max": 3500 },
+      "famous_restaurants": [
+        { "name": "やまに水産 東尋坊店", "area": "坂井市" },
+        { "name": "お食事処 お魚市場", "area": "坂井市三国" }
+      ],
+      "keywords": ["東尋坊", "海鮮丼", "三国", "絶景", "日本海"],
+      "ai_recommend_context": "東尋坊観光とセットで。景色を見ながらの海鮮丼は旅の醍醐味。",
+      "paired_with": ["fukui-ami-ebi", "fukui-echizen-crab", "fukui-oroshi-soba"]
+    },
+    {
+      "id": "fukui-habutae-mochi",
+      "name": "羽二重餅",
+      "category": "和菓子",
+      "prefecture": "福井",
+      "area": "福井市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "福井を代表する銘菓。羽二重織（絹織物）のように柔らかくなめらかな求肥餅。もち粉・砂糖・水飴のシンプルな材料で上品な甘さ。お土産の定番中の定番。",
+      "price_range_jpy": { "min": 400, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "松岡軒", "area": "福井市" },
+        { "name": "錦梅堂", "area": "福井市" },
+        { "name": "羽二重餅總本舗 マエダセイカ", "area": "永平寺町" }
+      ],
+      "keywords": ["羽二重餅", "求肥", "福井銘菓", "お土産", "絹"],
+      "ai_recommend_context": "福井土産の王道。軽くて持ち帰りやすく、万人に喜ばれる。永平寺のお供に。",
+      "paired_with": ["fukui-oroshi-soba", "fukui-mizuyokan", "fukui-kuzu"]
+    },
+    {
+      "id": "fukui-obama-kudzushi",
+      "name": "若狭ぐじ（甘鯛）",
+      "category": "海鮮",
+      "prefecture": "福井",
+      "area": "小浜市",
+      "season_best": ["秋", "冬"],
+      "description": "若狭湾で獲れるアマダイの最高級ブランド「若狭ぐじ」。京料理にも欠かせない食材。鱗ごとパリッと焼く「若狭焼き」が伝統的調理法。淡白ながら上品な旨味。",
+      "price_range_jpy": { "min": 3000, "max": 10000 },
+      "famous_restaurants": [
+        { "name": "四季彩館 酔月", "area": "小浜市" },
+        { "name": "割烹 よしだ", "area": "小浜市" }
+      ],
+      "keywords": ["若狭ぐじ", "甘鯛", "若狭焼き", "京料理", "高級魚"],
+      "ai_recommend_context": "和食通向けの逸品。京都の料亭でも使われる最高級食材を産地で味わう贅沢。",
+      "paired_with": ["fukui-wakasa-saba", "fukui-heshiko", "fukui-echizen-crab"]
+    },
+    {
+      "id": "hokuriku-kaisen-don",
+      "name": "北陸海鮮丼",
+      "category": "海鮮",
+      "prefecture": "富山",
+      "area": "富山市・新湊・氷見",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "富山湾・金沢港・三国港の新鮮な魚介を豪快に盛り付けた海鮮丼。白えび・甘えび・ブリ・のどぐろ・ズワイガニなどが一度に楽しめる贅沢な一杯。各港の市場や食堂で提供。",
+      "price_range_jpy": { "min": 1800, "max": 5000 },
+      "famous_restaurants": [
+        { "name": "新湊きっときと市場", "area": "射水市" },
+        { "name": "とやマルシェ", "area": "富山駅" },
+        { "name": "きときと寿し", "area": "富山県各地" }
+      ],
+      "keywords": ["海鮮丼", "富山湾", "市場", "朝食", "豪華"],
+      "ai_recommend_context": "北陸旅行の定番朝食。市場の活気と一緒に楽しむのが醍醐味。",
+      "paired_with": ["toyama-shiroebi", "himi-kanburi", "ishikawa-nodoguro"]
+    },
+    {
+      "id": "ishikawa-kanazawa-sushi",
+      "name": "金沢の寿司（カウンター）",
+      "category": "海鮮",
+      "prefecture": "石川",
+      "area": "金沢市",
+      "season_best": ["秋", "冬"],
+      "description": "金沢は日本屈指の寿司どころ。加能ガニ・のどぐろ・甘えび・ガスエビなど、地物ネタをカウンターで職人が握る至福の体験。ミシュラン星付き店から隠れ家まで名店揃い。",
+      "price_range_jpy": { "min": 5000, "max": 25000 },
+      "famous_restaurants": [
+        { "name": "鮨 みつ川", "area": "金沢市" },
+        { "name": "小松弥助", "area": "金沢市" },
+        { "name": "乙女寿司", "area": "金沢市" }
+      ],
+      "keywords": ["寿司", "カウンター", "おまかせ", "地魚", "ミシュラン", "金沢"],
+      "ai_recommend_context": "食のハイライト。要予約の名店が多い。ディナーで最低1万円の予算を確保したい。",
+      "paired_with": ["ishikawa-nodoguro", "ishikawa-kanizushi", "toyama-jizake-manju"]
+    },
+    {
+      "id": "fukui-jizake-kokuryu",
+      "name": "黒龍（地酒）",
+      "category": "地酒",
+      "prefecture": "福井",
+      "area": "永平寺町",
+      "season_best": ["秋", "冬"],
+      "description": "黒龍酒造が醸す福井の銘酒。特に「石田屋」「二左衛門」は日本酒界のレジェンド。入手困難な希少銘柄もあり。永平寺の清冽な水を使った繊細でエレガントな味わい。",
+      "price_range_jpy": { "min": 1500, "max": 15000 },
+      "famous_restaurants": [
+        { "name": "黒龍酒造 ESHIKOTO", "area": "永平寺町" },
+        { "name": "福井市内の和食店", "area": "福井市" }
+      ],
+      "keywords": ["黒龍", "石田屋", "二左衛門", "永平寺", "大吟醸", "希少"],
+      "ai_recommend_context": "日本酒好きなら垂涎の一本。ESHIKOTO（酒蔵複合施設）訪問がおすすめ。",
+      "paired_with": ["fukui-echizen-crab", "fukui-heshiko", "fukui-obama-kudzushi"]
+    },
+    {
+      "id": "ishikawa-jizake-tedorigawa",
+      "name": "手取川（地酒）",
+      "category": "地酒",
+      "prefecture": "石川",
+      "area": "白山市",
+      "season_best": ["秋", "冬"],
+      "description": "吉田酒造店が醸す石川の銘酒。白山の伏流水と石川県産の酒米で仕込む。純米大吟醸「吉田蔵」シリーズは国内外で高評価。クリアで上品な味わいが特徴。",
+      "price_range_jpy": { "min": 1200, "max": 6000 },
+      "famous_restaurants": [
+        { "name": "吉田酒造店（直売）", "area": "白山市" },
+        { "name": "金沢市内の居酒屋各店", "area": "金沢市" }
+      ],
+      "keywords": ["手取川", "白山", "吉田蔵", "純米大吟醸", "石川の酒"],
+      "ai_recommend_context": "金沢の海鮮と合わせたい地酒。白山の自然を感じる清らかな一杯。",
+      "paired_with": ["ishikawa-kanizushi", "ishikawa-nodoguro", "ishikawa-jibuni"]
+    },
+    {
+      "id": "toyama-shinkamaboko",
+      "name": "氷見うどん",
+      "category": "郷土料理",
+      "prefecture": "富山",
+      "area": "氷見市",
+      "season_best": ["春", "夏", "秋", "冬"],
+      "description": "手延べ製法で作る細麺のうどん。讃岐・稲庭と並ぶ日本三大うどんの一つ（諸説あり）。つるりとした喉越しとコシが特徴。温・冷どちらでも美味しい。",
+      "price_range_jpy": { "min": 600, "max": 1500 },
+      "famous_restaurants": [
+        { "name": "うどん茶屋 海津屋", "area": "氷見市" },
+        { "name": "たなかや", "area": "氷見市" }
+      ],
+      "keywords": ["氷見うどん", "手延べ", "日本三大うどん", "麺", "喉越し"],
+      "ai_recommend_context": "氷見寒ブリとセットで楽しみたい。夏は冷やしうどん、冬は鍋焼きうどんで。",
+      "paired_with": ["himi-kanburi", "toyama-shiroebi", "toyama-masuzushi"]
+    }
+  ]
+}
