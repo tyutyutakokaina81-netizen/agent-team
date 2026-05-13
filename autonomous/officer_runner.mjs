@@ -23,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-const OFFICERS = ['CDO', 'CFO', 'CMO', 'CPO', 'CSO'];
+const OFFICERS = ['CDO', 'CFO', 'CMO', 'CPO', 'CSO', 'CXO'];
 
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 const DEFAULT_MAX_TOKENS = 2000;

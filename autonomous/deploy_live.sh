@@ -140,12 +140,17 @@ deploy_one() {
 
 # ── run ────────────────────────────────────────
 hdr "Autonomous AI Company - Live Deploy"
-log "Products: jp-subsidy-mcp, toyama-local-mcp"
+log "Products: 7 MCP servers"
 log "Mode: $([ "$USING_BURN" = "yes" ] && echo burn-address-test || echo live)"
 
 RESULT_URLS=()
-deploy_one jp-subsidy-mcp  || true
-deploy_one toyama-local-mcp || true
+deploy_one jp-subsidy-mcp      || true
+deploy_one toyama-local-mcp    || true
+deploy_one jp-business-docs-mcp || true
+deploy_one jp-tax-calendar-mcp  || true
+deploy_one jp-keigo-checker-mcp || true
+deploy_one jp-startup-legal-mcp || true
+deploy_one hokuriku-gourmet-mcp || true
 
 # ── revenue watcher setup (real wallet only) ───
 if [ "$USING_BURN" = "no" ]; then
