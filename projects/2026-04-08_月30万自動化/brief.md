@@ -29,4 +29,19 @@ AIを活用した合法的な収益自動化で月30万円を達成する
 - [ ] C：Vol.2 note公開（owner作業：スプレッドシート実物作成・PDF化）
 - [x] C：Vol.3 飲食店向けプロンプト集 制作完了（PDF化＆公開待ち）／`C_テンプレ販売/vol3_prompt_collection_restaurant.md`
 - [ ] C：Vol.3 note公開（owner作業：PDF化）
-- [ ] C：Vol.4 バンドルパック 設計（Vol.1〜3 完成後）
+- [x] C：Vol.4 バンドルパック 設計完了（特典3点・販売ページ・スケジュール）／`C_テンプレ販売/vol4_bundle_pack.md`
+- [ ] C：Vol.4 note公開（owner作業：特典PDF制作・スプレッドシート制作）
+
+## CDOツール整備
+- [x] 月次レポート自動生成スクリプト（`CDO/outputs/scripts/monthly_report.mjs`）
+- [x] A受注／B営業／経費 の3CSVを集計して月次サマリを生成
+
+## A 受注体制
+- [x] 受注運用ワークフロー v1（`A_ライティング/order_workflow.md`）
+- [x] 構成案プロンプト v2 実例付き（`A_ライティング/prompt_outline_v2.md`）
+- [ ] クラウドワークス／ランサーズで応募開始
+
+## B 営業体制
+- [x] 営業プレイブック（`B_SNS運用代行/sales_playbook.md`）
+- [x] 業種別ターゲットリスト50件作成ガイド（`B_SNS運用代行/target_list_50.md`）
+- [ ] CSO：50件の実データ収集（CSO/outputs/）
