@@ -31,6 +31,12 @@ AIを活用した合法的な収益自動化で月30万円を達成する
 - [ ] C：Vol.3 note公開（owner作業：PDF化）
 - [x] C：Vol.4 バンドルパック 設計完了（特典3点・販売ページ・スケジュール）／`C_テンプレ販売/vol4_bundle_pack.md`
 - [ ] C：Vol.4 note公開（owner作業：特典PDF制作・スプレッドシート制作）
+- [x] C：Vol.5 士業向けプロンプト集 制作完了（20プロンプト＋コンプラチェックリスト）／`vol5_prompt_collection_shigyo.md`
+- [x] C：Vol.6 美容院・ネイル・サロン向けプロンプト集 制作完了（20プロンプト＋撮影ガイド）／`vol6_prompt_collection_beauty.md`
+- [ ] C：Vol.5・Vol.6 note公開（owner作業：PDF化）
+- [x] CMO：Vol.1〜4 リリース告知SNS投稿セット（4波×3媒体）／`launch_sns_posts.md`
+- [x] CSO：業種別商談ヒアリングシート5業種版／`hearing_sheets_by_industry.md`
+- [x] CDO：月次レポート拡張（C連携・Slack通知・cron運用）／`CDO/outputs/scripts/monthly_report.mjs`
 
 ## CDOツール整備
 - [x] 月次レポート自動生成スクリプト（`CDO/outputs/scripts/monthly_report.mjs`）

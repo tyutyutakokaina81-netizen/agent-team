@@ -16,6 +16,9 @@
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol2_sns_calendar.md` | コピー | Vol.2 note販売ページ本文・使い方ガイド完成 | 制作完了 |
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol3_prompt_collection_restaurant.md` | コピー | Vol.3 note販売ページ本文・カバー画像案・20プロンプト最終調整 | 制作完了 |
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol4_bundle_pack.md` | コピー | Vol.4 バンドルパック note販売ページ・カバー画像案・FAQ | 制作完了 |
+| 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol5_prompt_collection_shigyo.md` | コピー | Vol.5 士業向け note販売ページ・20プロンプト最終調整 | 制作完了 |
+| 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol6_prompt_collection_beauty.md` | コピー | Vol.6 美容向け note販売ページ・20プロンプト最終調整 | 制作完了 |
+| 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/launch_sns_posts.md` | コピー | Vol.1〜4 リリース告知SNS投稿セット（4波×3媒体 Instagram/X/Facebook） | 完了 |
 
 ## 進行中タスク
 
