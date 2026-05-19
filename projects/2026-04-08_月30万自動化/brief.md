@@ -27,4 +27,6 @@ AIを活用した合法的な収益自動化で月30万円を達成する
 - [ ] B：1社目契約獲得（Month 2 目標：1社×¥50K）／`B_SNS運用代行/sales_playbook.md`
 - [x] C：Vol.2 SNSカレンダー 制作完了（note公開待ち）／`C_テンプレ販売/vol2_sns_calendar.md`
 - [ ] C：Vol.2 note公開（owner作業：スプレッドシート実物作成・PDF化）
-- [ ] C：Vol.3 飲食店向けプロンプト集 リリース（制作中）
+- [x] C：Vol.3 飲食店向けプロンプト集 制作完了（PDF化＆公開待ち）／`C_テンプレ販売/vol3_prompt_collection_restaurant.md`
+- [ ] C：Vol.3 note公開（owner作業：PDF化）
+- [ ] C：Vol.4 バンドルパック 設計（Vol.1〜3 完成後）
