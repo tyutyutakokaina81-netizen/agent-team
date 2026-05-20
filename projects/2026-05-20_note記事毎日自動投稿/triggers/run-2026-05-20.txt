@@ -1,0 +1,2 @@
+Trigger: 2026-05-20 初回 dry_run 起動
+このファイルが作成/更新されると GitHub Actions が dry_run モードで起動します。

@@ -20,6 +20,14 @@ on:
         description: "post_only時に指定する記事パス（空=最新の未投稿）"
         required: false
         default: ""
+  # Claudeがpush経由で自動起動できるようにする
+  # triggers/*.txt の作成/更新で起動。誤起動を防ぐためpaths限定。
+  push:
+    branches:
+      - claude/article-with-thumbnails-2q00y
+      - main
+    paths:
+      - "projects/2026-05-20_note記事毎日自動投稿/triggers/**"
 
 jobs:
   pipeline:
@@ -46,9 +54,22 @@ jobs:
           pip install -r requirements-image.txt
           playwright install --with-deps chromium
 
+      - name: Determine effective mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            EFFECTIVE_MODE="dry_run"
+          elif [ -n "${{ github.event.inputs.mode }}" ]; then
+            EFFECTIVE_MODE="${{ github.event.inputs.mode }}"
+          else
+            EFFECTIVE_MODE="full"
+          fi
+          echo "mode=$EFFECTIVE_MODE" >> $GITHUB_OUTPUT
+          echo "[INFO] Effective mode: $EFFECTIVE_MODE"
+
       - name: Generate article
         id: gen_article
-        if: ${{ github.event.inputs.mode != 'post_only' && github.event.inputs.mode != 'dry_run' }}
+        if: ${{ steps.mode.outputs.mode != 'post_only' && steps.mode.outputs.mode != 'dry_run' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
@@ -65,7 +86,7 @@ jobs:
           python generate_thumbnail.py "${{ github.workspace }}/${{ steps.gen_article.outputs.article_path }}" || echo "[WARN] サムネ生成に失敗、本文のみで投稿を継続"
 
       - name: Commit generated assets
-        if: ${{ github.event.inputs.mode != 'post_only' && github.event.inputs.mode != 'dry_run' }}
+        if: ${{ steps.mode.outputs.mode != 'post_only' && steps.mode.outputs.mode != 'dry_run' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -74,13 +95,13 @@ jobs:
           git push || true
 
       - name: Post to note.com
-        if: ${{ github.event.inputs.mode != 'generate_only' }}
+        if: ${{ steps.mode.outputs.mode != 'generate_only' }}
         env:
           NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
           NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
           ARTICLE_PATH: ${{ github.event.inputs.article_path || steps.gen_article.outputs.article_path }}
-          DRY_RUN: ${{ github.event.inputs.mode == 'dry_run' && 'true' || 'false' }}
+          DRY_RUN: ${{ steps.mode.outputs.mode == 'dry_run' && 'true' || 'false' }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: python post_to_note.py
 
