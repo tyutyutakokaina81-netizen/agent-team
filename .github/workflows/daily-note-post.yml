@@ -1,6 +1,5 @@
 name: daily-note-post
 
-# 毎朝07:00 JST (= 22:00 UTC前日) にフルパイプラインを起動する。
 # パイプライン: ①記事生成 → ②サムネ生成 → ③note投稿
 # 必要なSecrets:
 #   NOTE_EMAIL, NOTE_PASSWORD (または NOTE_SESSION_COOKIE)
@@ -13,15 +12,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "実行モード: full(全部) / generate_only(記事生成のみ) / post_only(投稿のみ) / dry_run(ログイン確認のみ)"
+        description: "full / generate_only / post_only / dry_run"
         required: false
         default: "full"
       article_path:
-        description: "post_only時に指定する記事パス（空=最新の未投稿）"
+        description: "post_only時に指定する記事パス"
         required: false
         default: ""
-  # Claudeがpush経由で自動起動できるようにする
-  # triggers/*.txt の作成/更新で起動。誤起動を防ぐためpaths限定。
   push:
     branches:
       - claude/article-with-thumbnails-2q00y
@@ -39,27 +36,52 @@ jobs:
 
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v4
 
       - name: Setup Python
+        id: setup_python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      - name: Check secrets presence
+        id: check_secrets
+        continue-on-error: true
+        env:
+          NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
+          NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          # Secretの存在チェック（値は出力しない、yes/noだけ）
+          echo "note_email=$([ -n "$NOTE_EMAIL" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+          echo "note_password=$([ -n "$NOTE_PASSWORD" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+          echo "note_session_cookie=$([ -n "$NOTE_SESSION_COOKIE" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+          echo "anthropic_api_key=$([ -n "$ANTHROPIC_API_KEY" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+          echo "openai_api_key=$([ -n "$OPENAI_API_KEY" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+          echo "[INFO] NOTE_EMAIL=$([ -n "$NOTE_EMAIL" ] && echo yes || echo no)"
+          echo "[INFO] NOTE_PASSWORD=$([ -n "$NOTE_PASSWORD" ] && echo yes || echo no)"
+          echo "[INFO] NOTE_SESSION_COOKIE=$([ -n "$NOTE_SESSION_COOKIE" ] && echo yes || echo no)"
+          echo "[INFO] ANTHROPIC_API_KEY=$([ -n "$ANTHROPIC_API_KEY" ] && echo yes || echo no)"
+          echo "[INFO] OPENAI_API_KEY=$([ -n "$OPENAI_API_KEY" ] && echo yes || echo no)"
+
       - name: Install dependencies
+        id: install
+        continue-on-error: true
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-image.txt
-          playwright install --with-deps chromium
+          pip install -r requirements.txt 2>&1 | tail -20
+          pip install -r requirements-image.txt 2>&1 | tail -10
+          playwright install --with-deps chromium 2>&1 | tail -20
 
       - name: Determine effective mode
         id: mode
+        continue-on-error: true
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            # トリガーファイル名でモード判定:
-            # triggers/run-*-full.txt -> full / -dry.txt -> dry_run / その他 -> dry_run
             if ls projects/2026-05-20_note記事毎日自動投稿/triggers/run-*-full.txt 2>/dev/null | head -1 | grep -q .; then
               EFFECTIVE_MODE="full"
             else
@@ -75,32 +97,40 @@ jobs:
 
       - name: Generate article
         id: gen_article
+        continue-on-error: true
         if: ${{ steps.mode.outputs.mode != 'post_only' && steps.mode.outputs.mode != 'dry_run' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: |
-          OUT=$(python generate_article.py | tee /dev/stderr | tail -1)
+          OUT=$(python generate_article.py 2>&1 | tee /dev/stderr | tail -1)
           echo "article_path=$OUT" >> $GITHUB_OUTPUT
 
       - name: Generate thumbnail
+        id: gen_thumb
+        continue-on-error: true
         if: ${{ steps.gen_article.outputs.article_path != '' && env.OPENAI_API_KEY != '' }}
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: |
-          python generate_thumbnail.py "${{ github.workspace }}/${{ steps.gen_article.outputs.article_path }}" || echo "[WARN] サムネ生成に失敗、本文のみで投稿を継続"
+          python generate_thumbnail.py "${{ github.workspace }}/${{ steps.gen_article.outputs.article_path }}"
 
       - name: Commit generated assets
+        id: commit_assets
+        continue-on-error: true
         if: ${{ steps.mode.outputs.mode != 'post_only' && steps.mode.outputs.mode != 'dry_run' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin ${{ github.ref_name }} || true
           git add CMO/outputs/ projects/2026-05-20_note記事毎日自動投稿/assets/ 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: 本日の記事とサムネを自動生成 [skip ci]"
-          git push || true
+          git push origin ${{ github.ref_name }} || true
 
       - name: Post to note.com
+        id: post
+        continue-on-error: true
         if: ${{ steps.mode.outputs.mode != 'generate_only' }}
         env:
           NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
@@ -111,11 +141,11 @@ jobs:
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: python post_to_note.py
 
-      - name: Upload debug artifacts on failure
-        if: failure()
+      - name: Upload debug artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: note-post-debug
+          name: note-post-debug-${{ github.run_number }}
           path: |
             projects/2026-05-20_note記事毎日自動投稿/scripts/debug_*.png
             projects/2026-05-20_note記事毎日自動投稿/scripts/debug_*.html
@@ -127,28 +157,57 @@ jobs:
         working-directory: projects/2026-05-20_note記事毎日自動投稿
         run: |
           mkdir -p runs
-          STATUS="${{ job.status }}"
-          MODE="${{ steps.mode.outputs.mode }}"
           cat > runs/latest.json <<EOF
           {
             "run_id": "${{ github.run_id }}",
             "run_number": "${{ github.run_number }}",
             "event": "${{ github.event_name }}",
-            "mode": "${MODE}",
-            "status": "${STATUS}",
-            "started_at": "$(date -u -d "@$(($(date +%s) - SECONDS))" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "mode": "${{ steps.mode.outputs.mode }}",
+            "job_status": "${{ job.status }}",
             "finished_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            "log_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "log_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "secrets": {
+              "NOTE_EMAIL": "${{ steps.check_secrets.outputs.note_email }}",
+              "NOTE_PASSWORD": "${{ steps.check_secrets.outputs.note_password }}",
+              "NOTE_SESSION_COOKIE": "${{ steps.check_secrets.outputs.note_session_cookie }}",
+              "ANTHROPIC_API_KEY": "${{ steps.check_secrets.outputs.anthropic_api_key }}",
+              "OPENAI_API_KEY": "${{ steps.check_secrets.outputs.openai_api_key }}"
+            },
+            "steps": {
+              "checkout": "${{ steps.checkout.outcome }}",
+              "setup_python": "${{ steps.setup_python.outcome }}",
+              "check_secrets": "${{ steps.check_secrets.outcome }}",
+              "install": "${{ steps.install.outcome }}",
+              "mode": "${{ steps.mode.outcome }}",
+              "gen_article": "${{ steps.gen_article.outcome }}",
+              "gen_thumb": "${{ steps.gen_thumb.outcome }}",
+              "commit_assets": "${{ steps.commit_assets.outcome }}",
+              "post": "${{ steps.post.outcome }}"
+            }
           }
           EOF
           cat runs/latest.json
+          # 履歴も追記
+          mkdir -p runs/history
+          cp runs/latest.json "runs/history/${{ github.run_number }}.json"
 
-      - name: Commit run result and state (always)
+      - name: Commit run result (always)
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin ${{ github.ref_name }} || true
           git add projects/2026-05-20_note記事毎日自動投稿/state/ projects/2026-05-20_note記事毎日自動投稿/runs/ 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "chore: ワークフロー実行結果を記録 [skip ci]"
+          git diff --cached --quiet || git commit -m "chore: ワークフロー実行結果を記録 (run ${{ github.run_number }}) [skip ci]"
           git push origin ${{ github.ref_name }} || true
+
+      - name: Set final status
+        if: always()
+        run: |
+          # postステップが成功（投稿モード）またはgenerate_only時はgen_article成功で全体成功とみなす
+          MODE="${{ steps.mode.outputs.mode }}"
+          if [ "$MODE" = "generate_only" ]; then
+            [ "${{ steps.gen_article.outcome }}" = "success" ] || exit 1
+          else
+            [ "${{ steps.post.outcome }}" = "success" ] || exit 1
+          fi
