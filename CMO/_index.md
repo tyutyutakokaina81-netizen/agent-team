@@ -19,6 +19,7 @@
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol5_prompt_collection_shigyo.md` | コピー | Vol.5 士業向け note販売ページ・20プロンプト最終調整 | 制作完了 |
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol6_prompt_collection_beauty.md` | コピー | Vol.6 美容向け note販売ページ・20プロンプト最終調整 | 制作完了 |
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/launch_sns_posts.md` | コピー | Vol.1〜4 リリース告知SNS投稿セット（4波×3媒体 Instagram/X/Facebook） | 完了 |
+| 2026-05-19 | `projects/2026-04-08_月30万自動化/C_テンプレ販売/vol4_landing_page.md` | LP設計 | Vol.4 バンドル独自LP構成（8セクション・FAQ・SEO・A/Bテスト案） | 完了 |
 
 ## 進行中タスク
 

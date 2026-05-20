@@ -20,6 +20,8 @@
 | 2026-05-19 | `projects/2026-04-08_月30万自動化/A_ライティング/prompt_outline_v2.md` | プロンプト設計 | A：SEO構成案プロンプト v2（実例付き・自己チェック5項目組込） | 完了 |
 | 2026-05-19 | `CDO/outputs/scripts/monthly_report.mjs` v2 | スクリプト | C テンプレ販売CSV対応・Slack Webhook通知・cron運用例を追加 | 完了 |
 | 2026-05-19 | `CDO/outputs/scripts/sample_c_sales.csv` | サンプル | C テンプレ販売の集計用CSVサンプル | 完了 |
+| 2026-05-19 | `CDO/outputs/scripts/payment_alerts.mjs` | スクリプト | 入金督促・契約更新45日以内・インボイス未登録の3軸アラート（依存ゼロ・Slack対応・終了コード設計済） | 完了 |
+| 2026-05-19 | `CDO/outputs/docs/2026-05-19_入金督促スクリプト.md` | ドキュメント | アラートツール運用ガイド（督促エスカレーション・cron例・メールテンプレ含む） | 完了 |
 
 ## 進行中タスク
 

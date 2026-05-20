@@ -37,6 +37,10 @@ AIを活用した合法的な収益自動化で月30万円を達成する
 - [x] CMO：Vol.1〜4 リリース告知SNS投稿セット（4波×3媒体）／`launch_sns_posts.md`
 - [x] CSO：業種別商談ヒアリングシート5業種版／`hearing_sheets_by_industry.md`
 - [x] CDO：月次レポート拡張（C連携・Slack通知・cron運用）／`CDO/outputs/scripts/monthly_report.mjs`
+- [x] CDO：入金督促・契約更新アラートスクリプト／`CDO/outputs/scripts/payment_alerts.mjs`
+- [x] CFO：取引先管理マスターテンプレ／`CFO/templates/2026-05-19_取引先管理マスター_テンプレ.md`
+- [x] CMO：Vol.4 バンドル LP構成（独自LP用）／`C_テンプレ販売/vol4_landing_page.md`
+- [x] CSO：失注分析テンプレ＋月次集計フロー／`B_SNS運用代行/loss_analysis_template.md`
 
 ## CDOツール整備
 - [x] 月次レポート自動生成スクリプト（`CDO/outputs/scripts/monthly_report.mjs`）
