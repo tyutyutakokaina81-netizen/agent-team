@@ -1,30 +1,33 @@
 name: daily-note-post
 
-# 毎朝07:00 JST (= 22:00 UTC前日) に起動して、その日のnote記事を自動投稿する。
-# 認証情報は GitHub repository Settings → Secrets で設定する。
-# 手動実行も可能 (workflow_dispatch)。
+# 毎朝07:00 JST (= 22:00 UTC前日) にフルパイプラインを起動する。
+# パイプライン: ①記事生成 → ②サムネ生成 → ③note投稿
+# 必要なSecrets:
+#   NOTE_EMAIL, NOTE_PASSWORD (または NOTE_SESSION_COOKIE)
+#   ANTHROPIC_API_KEY  (記事生成)
+#   OPENAI_API_KEY     (サムネ生成、なければスキップ)
 
 on:
   schedule:
-    - cron: "0 22 * * *"   # 22:00 UTC = 07:00 JST
+    - cron: "0 22 * * *"
   workflow_dispatch:
     inputs:
+      mode:
+        description: "実行モード: full(全部) / generate_only(記事生成のみ) / post_only(投稿のみ) / dry_run(ログイン確認のみ)"
+        required: false
+        default: "full"
       article_path:
-        description: "投稿する記事のリポジトリ内パス（空=最新の未投稿記事を自動選択）"
+        description: "post_only時に指定する記事パス（空=最新の未投稿）"
         required: false
         default: ""
-      dry_run:
-        description: "true=ログイン確認のみ、投稿はスキップ"
-        required: false
-        default: "false"
 
 jobs:
-  post:
+  pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     permissions:
-      contents: write   # 投稿状態をリポジトリにコミット
-      issues: write     # 失敗時にIssue起票
+      contents: write
+      issues: write
 
     steps:
       - name: Checkout
@@ -40,15 +43,44 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install -r requirements-image.txt
           playwright install --with-deps chromium
 
+      - name: Generate article
+        id: gen_article
+        if: ${{ github.event.inputs.mode != 'post_only' && github.event.inputs.mode != 'dry_run' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
+        run: |
+          OUT=$(python generate_article.py | tee /dev/stderr | tail -1)
+          echo "article_path=$OUT" >> $GITHUB_OUTPUT
+
+      - name: Generate thumbnail
+        if: ${{ steps.gen_article.outputs.article_path != '' && env.OPENAI_API_KEY != '' }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
+        run: |
+          python generate_thumbnail.py "${{ github.workspace }}/${{ steps.gen_article.outputs.article_path }}" || echo "[WARN] サムネ生成に失敗、本文のみで投稿を継続"
+
+      - name: Commit generated assets
+        if: ${{ github.event.inputs.mode != 'post_only' && github.event.inputs.mode != 'dry_run' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CMO/outputs/ projects/2026-05-20_note記事毎日自動投稿/assets/ 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: 本日の記事とサムネを自動生成 [skip ci]"
+          git push || true
+
       - name: Post to note.com
+        if: ${{ github.event.inputs.mode != 'generate_only' }}
         env:
           NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
           NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
-          ARTICLE_PATH: ${{ github.event.inputs.article_path }}
-          DRY_RUN: ${{ github.event.inputs.dry_run }}
+          ARTICLE_PATH: ${{ github.event.inputs.article_path || steps.gen_article.outputs.article_path }}
+          DRY_RUN: ${{ github.event.inputs.mode == 'dry_run' && 'true' || 'false' }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: python post_to_note.py
 

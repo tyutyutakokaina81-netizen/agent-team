@@ -186,7 +186,29 @@ cookieは1〜2週間で失効するので、月次でリフレッシュ運用を
 
 ## 9. このプロジェクトの保留事項
 
-- [ ] 過去サムネ画像 or 過去記事URLの受領
-- [ ] 画像生成APIキーの発行（オーナー側でアカウント作成）
-- [ ] GitHub Secrets への認証情報セット
-- [ ] note利用規約の最終確認（CFO）
+- [x] スクリプト群とGitHub Actionsの実装（CDO完了）
+- [ ] **オーナー作業**：GitHub Secrets に最低限の認証情報をセット
+  - `NOTE_EMAIL` + `NOTE_PASSWORD`（or `NOTE_SESSION_COOKIE`）
+  - `ANTHROPIC_API_KEY`
+  - `OPENAI_API_KEY`（任意）
+- [ ] **オーナー作業**：Actions → daily-note-post → Run workflow で初回 dry_run 実行
+- [ ] **CDO作業**：初回実行でセレクタが壊れていたら、デバッグスクリーンショットから修正
+- [ ] **CFO作業**：note利用規約の最終確認
+
+## 10. 実装完了したファイル（2026-05-20時点）
+
+```
+.github/workflows/daily-note-post.yml         ← cron + 手動実行のエントリポイント
+projects/2026-05-20_note記事毎日自動投稿/
+├── README.md                                 ← オーナー向けセットアップ手順
+├── brief.md                                  ← 本ファイル（全体設計）
+├── assets/                                   ← 過去サムネ参照・文体ガイド
+├── state/posted.json                         ← 投稿履歴
+└── scripts/
+    ├── requirements.txt                      ← playwright + anthropic
+    ├── requirements-image.txt                ← openai（DALL-E用）
+    ├── generate_article.py                   ← Claudeで記事生成
+    ├── generate_thumbnail.py                 ← DALL-E 3でサムネ生成
+    ├── fetch_past_thumbnails.py              ← 過去サムネ取得＆スタイル分析
+    └── post_to_note.py                       ← note.comに自動投稿
+```

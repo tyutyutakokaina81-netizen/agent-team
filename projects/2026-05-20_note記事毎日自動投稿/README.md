@@ -90,15 +90,48 @@ Run workflow
 
 ---
 
-## 次フェーズの予定
+## 実装状況
 
-| Phase | 内容 |
-|-------|------|
-| P1（完了） | 記事生成 + 手動投稿 |
-| **P2（本ファイル）** | **GitHub Actions 自動投稿（本文のみ）** |
-| P3 | サムネ自動生成（DALL-E 3 / Imagen） |
-| P4 | 文体ガイド自動更新（過去投稿スクレイピング） |
-| P5 | 失敗時のSlack通知・自動Issue起票 |
+| Phase | 内容 | 状態 | スクリプト |
+|-------|------|------|----------|
+| P1 | 記事の手動執筆 | 完了 | （CMO作業） |
+| P2 | GitHub Actions 自動投稿 | 完了 | `post_to_note.py` |
+| P3 | 記事自動生成（Claude） | 完了 | `generate_article.py` |
+| P4 | サムネ自動生成（DALL-E 3） | 完了 | `generate_thumbnail.py` |
+| P5 | 過去サムネ取得・文体ガイド自動化 | 完了（要cookie） | `fetch_past_thumbnails.py` |
+| P6 | 失敗時のSlack通知・自動Issue起票 | 未実装 | — |
+
+## 必要なGitHub Secrets（全部入り）
+
+| Secret名 | 必須 | 用途 |
+|---------|------|-----|
+| `NOTE_EMAIL` | 必須(A) | noteログイン用メール |
+| `NOTE_PASSWORD` | 必須(A) | noteログイン用パスワード |
+| `NOTE_SESSION_COOKIE` | 必須(B) | 上記の代替（cookie方式・2FA回避） |
+| `ANTHROPIC_API_KEY` | 必須 | Claudeで記事生成 |
+| `OPENAI_API_KEY` | 任意 | DALL-E 3でサムネ生成（なければ本文のみ投稿） |
+
+(A) と (B) はどちらか一方でOK。両方あればcookieを優先。
+
+## 手動実行のモード
+
+GitHub Actions の **Run workflow** ボタンで以下を選べます：
+
+- `full`: 記事生成 → サムネ生成 → 投稿（本番運用と同じ）
+- `generate_only`: 記事生成のみ（投稿はせず、リポジトリにコミットだけ）
+- `post_only`: 既存記事を投稿のみ（`article_path` も指定）
+- `dry_run`: ログイン確認のみ、投稿なし
+
+## 過去サムネを取得して文体・スタイルガイドを生成
+
+```bash
+NOTE_SESSION_COOKIE='[{"name":"...","value":"...",...}]' \
+  python projects/2026-05-20_note記事毎日自動投稿/scripts/fetch_past_thumbnails.py
+```
+
+実行後、`assets/thumbnail_reference/` に過去サムネ画像が保存され、
+`assets/style_guide.md` が過去タイトル一覧から自動生成されます。
+以降の記事生成・サムネ生成はこれを参照してスタイルを寄せます。
 
 ---
 
