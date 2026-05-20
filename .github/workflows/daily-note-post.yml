@@ -58,7 +58,13 @@ jobs:
         id: mode
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            EFFECTIVE_MODE="dry_run"
+            # トリガーファイル名でモード判定:
+            # triggers/run-*-full.txt -> full / -dry.txt -> dry_run / その他 -> dry_run
+            if ls projects/2026-05-20_note記事毎日自動投稿/triggers/run-*-full.txt 2>/dev/null | head -1 | grep -q .; then
+              EFFECTIVE_MODE="full"
+            else
+              EFFECTIVE_MODE="dry_run"
+            fi
           elif [ -n "${{ github.event.inputs.mode }}" ]; then
             EFFECTIVE_MODE="${{ github.event.inputs.mode }}"
           else
@@ -116,11 +122,33 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-      - name: Commit posted state
-        if: success()
+      - name: Save run result (always)
+        if: always()
+        working-directory: projects/2026-05-20_note記事毎日自動投稿
+        run: |
+          mkdir -p runs
+          STATUS="${{ job.status }}"
+          MODE="${{ steps.mode.outputs.mode }}"
+          cat > runs/latest.json <<EOF
+          {
+            "run_id": "${{ github.run_id }}",
+            "run_number": "${{ github.run_number }}",
+            "event": "${{ github.event_name }}",
+            "mode": "${MODE}",
+            "status": "${STATUS}",
+            "started_at": "$(date -u -d "@$(($(date +%s) - SECONDS))" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "finished_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "log_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+          cat runs/latest.json
+
+      - name: Commit run result and state (always)
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add projects/2026-05-20_note記事毎日自動投稿/state/ 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "chore: note投稿状態を更新 [skip ci]"
-          git push || true
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git add projects/2026-05-20_note記事毎日自動投稿/state/ projects/2026-05-20_note記事毎日自動投稿/runs/ 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: ワークフロー実行結果を記録 [skip ci]"
+          git push origin ${{ github.ref_name }} || true
