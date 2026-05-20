@@ -19,13 +19,25 @@ SESSION_DIR = Path(__file__).parent.parent / ".sessions"
 OUTPUT_DIR = Path(__file__).parent.parent / "outputs"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-KEYWORDS = [
-    "データ入力",
-    "エクセル入力",
-    "スクレイピング",
-    "データ収集",
-    "CSV作成",
-]
+KEYWORDS_BY_CATEGORY = {
+    "data_entry": [
+        "データ入力",
+        "エクセル入力",
+        "スクレイピング",
+        "データ収集",
+        "CSV作成",
+    ],
+    "writing": [
+        "SEO記事",
+        "ライティング",
+        "Webライター",
+        "ブログ記事",
+        "記事執筆",
+    ],
+}
+
+# 後方互換：既存呼び出しでは data_entry を使う
+KEYWORDS = KEYWORDS_BY_CATEGORY["data_entry"]
 
 # ─────────────────────────────────────────────
 # クラウドワークス
@@ -213,7 +225,7 @@ def _random_wait(min_sec=1.5, max_sec=3.5):
 # メイン
 # ─────────────────────────────────────────────
 
-def run(platforms: list[str] | None = None) -> list[dict]:
+def run(platforms: list[str] | None = None, category: str = "data_entry") -> list[dict]:
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -222,6 +234,12 @@ def run(platforms: list[str] | None = None) -> list[dict]:
 
     if platforms is None:
         platforms = ["crowdworks", "lancers"]
+
+    if category not in KEYWORDS_BY_CATEGORY:
+        print(f"[ERROR] 未対応カテゴリ: {category}（対応: {list(KEYWORDS_BY_CATEGORY)}）")
+        return []
+    keywords = KEYWORDS_BY_CATEGORY[category]
+    print(f"[カテゴリ] {category}（キーワード: {', '.join(keywords)}）")
 
     all_jobs = []
 
@@ -253,7 +271,7 @@ def run(platforms: list[str] | None = None) -> list[dict]:
 
             raw_jobs = []
             first_kw = True
-            for kw in KEYWORDS:
+            for kw in keywords:
                 print(f"  検索: 「{kw}」", end=" ", flush=True)
                 try:
                     if platform == "crowdworks":
@@ -289,6 +307,9 @@ def run(platforms: list[str] | None = None) -> list[dict]:
                     pass
                 _random_wait(1.0, 2.0)
 
+            # category情報を各jobに付与（後段の評価・応募で使用）
+            for j in unique[:20]:
+                j["search_category"] = category
             all_jobs.extend(unique[:20])
             context.close()
             print(f"[{platform}] {len(unique[:20])}件取得完了")
@@ -297,12 +318,19 @@ def run(platforms: list[str] | None = None) -> list[dict]:
     seen = set()
     final = [j for j in all_jobs if not (j["url"] in seen or seen.add(j["url"]))]
 
-    out = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M')}_jobs.json"
+    out = OUTPUT_DIR / f"{datetime.now().strftime('%Y-%m-%d_%H%M')}_{category}_jobs.json"
     out.write_text(json.dumps(final, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n[完了] {len(final)}件 → {out}")
     return final
 
 
 if __name__ == "__main__":
-    targets = sys.argv[1:] if len(sys.argv) > 1 else None
-    run(targets)
+    # CLI: python 01_search.py [platform...] [--category writing|data_entry]
+    args = sys.argv[1:]
+    category = "data_entry"
+    if "--category" in args:
+        idx = args.index("--category")
+        category = args[idx + 1]
+        args = args[:idx] + args[idx + 2:]
+    targets = args if args else None
+    run(targets, category=category)

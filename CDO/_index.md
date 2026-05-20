@@ -19,6 +19,10 @@
 | 2026-05-20 | projects/.../A_ライティング/samples/README.md | 索引 | サンプル記事フォルダ運用説明 | 完了 |
 | 2026-05-20 | research/2026-05-20_D_パイプライン進捗点検.md | 点検 | Dパイプライン進捗・A連携ポイント整理 | 完了 |
 | 2026-05-20 | outputs/2026-05-20_D_試行運用手順書.md | 手順書 | D 1週間試行の日次手順・ログ・評価 | 完了 |
+| 2026-05-20 | pipeline/01_search.py | コード | KEYWORDS_BY_CATEGORY 化・writing 対応・--category 引数 | 完了 |
+| 2026-05-20 | pipeline/02_evaluate.py | コード | 応募禁止ルール検出・writing 向け4軸ルール評価追加 | 完了 |
+| 2026-05-20 | pipeline/03_apply.py | コード | writing カテゴリ向け5テンプレ応募文生成 | 完了 |
+| 2026-05-20 | pipeline/run_pipeline.py | コード | --category writing 引数対応 | 完了 |
 
 ## 進行中タスク
 

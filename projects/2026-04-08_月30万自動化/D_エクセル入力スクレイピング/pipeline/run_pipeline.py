@@ -32,13 +32,13 @@ SESSION_DIR = Path(__file__).parent.parent / ".sessions"
 # フェーズ1：検索 → 評価 → 応募文生成
 # ─────────────────────────────────────────────
 
-def phase1_search_to_apply():
+def phase1_search_to_apply(category: str = "data_entry"):
     search   = import_module("01_search")
     evaluate = import_module("02_evaluate")
     apply_   = import_module("03_apply")
 
     print("\n" + "━"*60)
-    print("  PHASE 1: 案件検索 → 評価 → 応募文生成")
+    print(f"  PHASE 1: 案件検索 → 評価 → 応募文生成（category={category}）")
     print("━"*60)
 
     # セッション確認
@@ -55,7 +55,7 @@ def phase1_search_to_apply():
 
     # 検索
     print("\n[STEP 1/3] 案件検索中...")
-    jobs = search.run(sessions_ok)
+    jobs = search.run(sessions_ok, category=category)
     if not jobs:
         print("[中断] 案件が見つかりませんでした")
         return
@@ -185,13 +185,20 @@ def phase2_execute_to_deliver(job: dict | None = None, output_file: str | None =
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    cmd = sys.argv[1] if len(sys.argv) > 1 else "search"
+    # CLI 引数を分解：[cmd] [--category writing|data_entry] [その他]
+    raw_args = sys.argv[1:]
+    category = "data_entry"
+    if "--category" in raw_args:
+        idx = raw_args.index("--category")
+        category = raw_args[idx + 1]
+        raw_args = raw_args[:idx] + raw_args[idx + 2:]
+    cmd = raw_args[0] if raw_args else "search"
 
     if cmd == "search":
-        phase1_search_to_apply()
+        phase1_search_to_apply(category=category)
     elif cmd == "deliver":
-        job_file = sys.argv[2] if len(sys.argv) > 2 else None
-        out_file = sys.argv[3] if len(sys.argv) > 3 else None
+        job_file = raw_args[1] if len(raw_args) > 1 else None
+        out_file = raw_args[2] if len(raw_args) > 2 else None
         job = json.loads(Path(job_file).read_text()) if job_file else None
         phase2_execute_to_deliver(job, out_file)
     elif cmd == "setup":
@@ -199,6 +206,7 @@ if __name__ == "__main__":
         setup.check_sessions()
     else:
         print("使い方:")
-        print("  python run_pipeline.py setup    # セッション状態確認")
-        print("  python run_pipeline.py search   # 検索→評価→応募文生成")
-        print("  python run_pipeline.py deliver  # 受注後の実行→納品")
+        print("  python run_pipeline.py setup                       # セッション状態確認")
+        print("  python run_pipeline.py search                      # 検索→評価→応募文生成（D：データ入力）")
+        print("  python run_pipeline.py search --category writing   # 検索→評価→応募文生成（A：ライティング）")
+        print("  python run_pipeline.py deliver                     # 受注後の実行→納品")

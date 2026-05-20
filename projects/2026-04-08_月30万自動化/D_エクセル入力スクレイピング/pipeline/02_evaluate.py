@@ -120,6 +120,195 @@ def call_claude(prompt: str, model: str = "claude-haiku-4-5-20251001") -> str:
 # ルールベース評価（APIキー不要のフォールバック）
 # ─────────────────────────────────────────────
 
+# 応募禁止ルール（/応募禁止ルール.md ⑥ より抜粋）
+PROHIBITION_KEYWORDS = {
+    "ymyl": ["医療", "薬機", "投資勧誘", "病気", "症状", "金融商品", "クレジットカード審査"],
+    "adult": ["アダルト", "成人向け", "風俗", "出会い系"],
+    "scam": ["着手金", "先払い", "暗号資産", "ビットコイン", "海外在住", "受け取り代行", "LINE登録"],
+    "personal_info": ["個人情報リスト", "顧客名簿", "電話番号リスト", "住所リスト"],
+    "rights_transfer": ["著作権譲渡＋身分証", "著作権完全譲渡", "全権譲渡"],
+    "physical": ["対面必須", "出張あり", "現地", "通勤"],
+    "plagiarism": ["既存記事リライト", "コピー記事", "他サイト記事を書き換え"],
+    "overseas": ["海外発注", "海外クライアント", "english only"],
+}
+
+
+def _check_prohibition(text: str, title: str) -> list[str]:
+    """応募禁止ルールに該当するかチェック"""
+    combined = (text + " " + title).lower()
+    violations = []
+    for category, kws in PROHIBITION_KEYWORDS.items():
+        for kw in kws:
+            if kw.lower() in combined:
+                violations.append(f"{category}: 「{kw}」検出")
+                break
+    return violations
+
+
+def _rule_based_evaluate_writing(job_text: str, meta: dict | None = None) -> dict:
+    """ライティング案件向けのルールベース評価"""
+    import re
+    text = job_text.lower()
+    title = (meta or {}).get("title", "").lower()
+    budget_text = (meta or {}).get("budget_text", "")
+    combined = text + " " + title
+
+    # 応募禁止ルール該当チェック（即 NO-GO）
+    violations = _check_prohibition(job_text, (meta or {}).get("title", ""))
+    if violations:
+        result = {
+            "category": "writing",
+            "scores": {"theme": 0, "trust": 0, "profitability": 0, "clarity": 0},
+            "total": 0,
+            "verdict": "NO-GO",
+            "estimated_price_jpy": 0,
+            "estimated_work_hours": 0,
+            "hourly_rate_jpy": 0,
+            "red_flags": violations,
+            "green_flags": [],
+            "questions_to_ask": [],
+            "reason": "応募禁止ルール該当: " + "; ".join(violations),
+            "evaluated_by": "rule_based_writing",
+        }
+        if meta:
+            result = {**meta, **result}
+        result["evaluated_at"] = datetime.now().isoformat()
+        return result
+
+    # --- 軸1: テーマ適合性（0-25） ---
+    theme = 15
+    if any(k in combined for k in ["seo", "オウンドメディア", "ブログ記事", "コラム", "解説記事"]):
+        theme = 25
+    if any(k in combined for k in ["初心者歓迎", "未経験ok", "未経験可"]):
+        theme = max(theme, 20)
+    if any(k in combined for k in ["専門", "高度", "経験者のみ"]):
+        theme = max(theme - 5, 5)
+
+    # --- 軸2: 発注者信用性（0-25） ---
+    trust = 10  # 不明時のデフォルト
+    if any(k in combined for k in ["継続発注", "長期", "定期発注", "リピート"]):
+        trust = 25
+    elif "本人確認済" in combined or "本人確認済み" in combined:
+        trust = 20
+    if any(k in combined for k in ["dmで詳細", "詳しくはdm", "lineで連絡"]):
+        trust = max(trust - 15, 0)
+
+    # --- 軸3: 採算性（0-25・文字単価ベース） ---
+    profitability = 10
+    # 文字単価抽出
+    char_rate_match = re.search(r'(\d+(?:\.\d+)?)\s*円?\s*/\s*(?:字|文字)', combined)
+    char_count_match = re.search(r'(\d[\d,]*)\s*(?:字|文字)', combined)
+    char_rate = 0.0
+    if char_rate_match:
+        char_rate = float(char_rate_match.group(1))
+    if char_rate >= 2.0:
+        profitability = 25
+    elif char_rate >= 1.5:
+        profitability = 20
+    elif char_rate >= 1.0:
+        profitability = 15
+    elif char_rate >= 0.5:
+        profitability = 5
+    elif char_rate > 0:
+        profitability = 0  # 0.5未満は禁止ルール
+
+    char_count = 0
+    if char_count_match:
+        try:
+            char_count = int(char_count_match.group(1).replace(",", ""))
+        except Exception:
+            pass
+    estimated_price = int(char_rate * char_count) if char_rate and char_count else 0
+
+    # --- 軸4: 要件明確性（0-25） ---
+    clarity = 10
+    has_keyword = any(k in combined for k in ["キーワード", "テーマ", "ジャンル"])
+    has_persona = any(k in combined for k in ["読者", "ターゲット", "ペルソナ"])
+    has_deadline = any(k in combined for k in ["納期", "期限", "までに", "日以内"])
+    has_format = any(k in combined for k in ["構成案", "見出し", "h2", "h3", "メタディスクリプション"])
+    clarity += (5 if has_keyword else 0) + (5 if has_persona else 0) + (3 if has_deadline else 0) + (2 if has_format else 0)
+    clarity = min(clarity, 25)
+
+    total = theme + trust + profitability + clarity
+
+    # 推奨テンプレ判定（CSO 5テンプレ準拠）
+    recommended_template = "①SEO汎用"
+    if any(k in combined for k in ["継続", "月10本", "週2本", "長期"]):
+        recommended_template = "②継続"
+    elif any(k in combined for k in ["初心者歓迎", "未経験"]):
+        recommended_template = "③初心者歓迎"
+    elif any(k in combined for k in ["it", "ガジェット", "比較記事", "レビュー"]):
+        recommended_template = "④専門"
+    elif any(k in combined for k in ["ai可", "ai執筆可", "ai活用"]):
+        recommended_template = "⑤AI可"
+
+    # 競争性チェック
+    red_flags = []
+    apply_count_match = re.search(r'応募.*?(\d+)\s*(?:名|人|件)', combined)
+    if apply_count_match:
+        try:
+            apply_count = int(apply_count_match.group(1))
+            if apply_count > 30:
+                red_flags.append(f"応募人数{apply_count}名（30名超で読まれない可能性）")
+                total = max(total - 10, 0)
+        except Exception:
+            pass
+
+    if char_rate and char_rate < 0.5:
+        red_flags.append(f"文字単価{char_rate}円（0.5円未満は禁止ルール）")
+        total = 0
+    elif char_rate and char_rate < 1.0:
+        red_flags.append(f"文字単価{char_rate}円（実績作り期1.0円以上推奨）")
+
+    if any(k in combined for k in ["テストライティング無償", "無償テスト"]):
+        red_flags.append("テストライティング無償（応募禁止）")
+        total = 0
+
+    green_flags = []
+    if "継続" in combined or "長期" in combined:
+        green_flags.append("継続案件の可能性")
+    if has_persona:
+        green_flags.append("読者像が明示されている")
+    if char_rate >= 1.5:
+        green_flags.append(f"文字単価{char_rate}円（相場以上）")
+
+    if total >= 70:
+        verdict = "GO"
+    elif total >= 50:
+        verdict = "CAUTION"
+    else:
+        verdict = "NO-GO"
+
+    result = {
+        "category": "writing",
+        "scores": {
+            "theme": theme,
+            "trust": trust,
+            "profitability": profitability,
+            "clarity": clarity,
+        },
+        "total": total,
+        "verdict": verdict,
+        "estimated_price_jpy": estimated_price,
+        "char_rate": char_rate,
+        "char_count": char_count,
+        "recommended_template": recommended_template,
+        "red_flags": red_flags,
+        "green_flags": green_flags,
+        "questions_to_ask": [
+            "ターゲット読者の年代・属性を教えてください",
+            "参考にしたい記事のURLはありますか？",
+        ],
+        "reason": f"ライティング評価: テーマ{theme}+信用{trust}+採算{profitability}+明確{clarity}={total}点 / テンプレ{recommended_template}",
+        "evaluated_by": "rule_based_writing",
+    }
+    if meta:
+        result = {**meta, **result}
+    result["evaluated_at"] = datetime.now().isoformat()
+    result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+    return result
+
+
 def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
     """APIキーなしで動くルールベース評価"""
     import re
@@ -221,7 +410,15 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
 # ─────────────────────────────────────────────
 
 def evaluate(job_text: str, meta: dict | None = None) -> dict:
-    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック）"""
+    """案件テキストを評価して結果dictを返す（API→ルールベース フォールバック）
+
+    meta["search_category"] が "writing" なら writing 向けルール評価を行う。
+    """
+    # category 分岐（ライティング案件専用評価）
+    category = (meta or {}).get("search_category", "data_entry")
+    if category == "writing":
+        return _rule_based_evaluate_writing(job_text, meta)
+
     if ANTHROPIC_API_KEY:
         prompt = EVAL_PROMPT.format(job_text=job_text.strip())
         try:
