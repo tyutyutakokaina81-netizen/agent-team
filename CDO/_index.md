@@ -22,7 +22,8 @@
 | 2026-05-20 | pipeline/01_search.py | コード | KEYWORDS_BY_CATEGORY 化・writing 対応・--category 引数 | 完了 |
 | 2026-05-20 | pipeline/02_evaluate.py | コード | 応募禁止ルール検出・writing 向け4軸ルール評価追加 | 完了 |
 | 2026-05-20 | pipeline/03_apply.py | コード | writing カテゴリ向け5テンプレ応募文生成 | 完了 |
-| 2026-05-20 | pipeline/run_pipeline.py | コード | --category writing 引数対応 | 完了 |
+| 2026-05-20 | pipeline/run_pipeline.py | コード | --category writing 引数対応・--no-autofill 引数追加・autofill 連携 | 完了 |
+| 2026-05-20 | pipeline/03b_autofill.py | コード | 応募フォーム本文の自動入力（送信は人手） | 完了 |
 
 ## 進行中タスク
 

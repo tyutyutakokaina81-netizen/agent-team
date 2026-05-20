@@ -1,21 +1,25 @@
 """
 run_pipeline.py — パイプライン統合実行
 
-【人手が必要なのは2回だけ】
+【人手が必要なステップ】
   ① 初回セットアップ時のログイン（00_session_setup.py）
-  ② 応募ボタンのクリック（案件ページを自動で開くので押すだけ）
-  ③ 納品ボタンのクリック（納品ファイルを添付して押すだけ）
+  ② 「応募する」ボタンのクリック（案件ページを自動で開くので押すだけ）
+  ③ 応募内容確認 → 応募確定ボタンのクリック（フォーム本文は自動入力済み）
+  ④ 納品ボタンのクリック（納品ファイルを添付して押すだけ）
 
 【自動で実行されること】
   - 案件検索・詳細取得（01_search.py）
   - 案件評価・スコアリング（02_evaluate.py）
-  - 応募文生成・ブラウザ表示（03_apply.py）
+  - 応募文生成（03_apply.py）
+  - 応募フォーム本文の自動入力（03b_autofill.py）※送信は人手
   - 作業実行（04_execute.py）
   - 念査（05_review.py）
   - 納品文生成・ブラウザ表示（06_deliver.py）
 
 使い方:
-  python run_pipeline.py search      # 検索→評価→応募文生成まで
+  python run_pipeline.py search                       # 検索→評価→応募文生成→フォーム自動入力
+  python run_pipeline.py search --category writing    # ライティング案件で実行
+  python run_pipeline.py search --no-autofill         # フォーム自動入力をスキップ
   python run_pipeline.py deliver <job_json> <output_file>  # 受注後の実行→納品
 """
 
@@ -32,7 +36,7 @@ SESSION_DIR = Path(__file__).parent.parent / ".sessions"
 # フェーズ1：検索 → 評価 → 応募文生成
 # ─────────────────────────────────────────────
 
-def phase1_search_to_apply(category: str = "data_entry"):
+def phase1_search_to_apply(category: str = "data_entry", autofill: bool = True):
     search   = import_module("01_search")
     evaluate = import_module("02_evaluate")
     apply_   = import_module("03_apply")
@@ -99,15 +103,41 @@ def phase1_search_to_apply(category: str = "data_entry"):
         for line in app.get("application_text", "").split("\n"):
             print(f"       {line}")
 
-    # ブラウザで上位3件を自動オープン
+    # 応募フォーム自動入力モード（規約遵守：送信は人手）
+    if autofill:
+        try:
+            autofill_mod = import_module("03b_autofill")
+            print("\n" + "━" * 60)
+            print("  応募フォーム自動入力モードを開始します")
+            print("━" * 60)
+            print("  各案件で「応募する」を押すと、フォーム本文が自動入力されます。")
+            print("  内容を確認し、応募確定ボタンを押してください（送信は手動）。")
+            try:
+                resp = input("\n  続けますか？ (y/n): ").strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                resp = "n"
+            if resp == "y":
+                autofill_mod.run(applications)
+            else:
+                print("  [スキップ] フォーム自動入力をスキップしました")
+                _fallback_open_in_browser(applications)
+        except Exception as e:
+            print(f"  [WARN] 自動入力モード起動失敗（{e}）→ ブラウザ表示にフォールバック")
+            _fallback_open_in_browser(applications)
+    else:
+        _fallback_open_in_browser(applications)
+
+    print("\n  応募完了後、受注したら以下を実行してください:")
+    print("  python run_pipeline.py deliver")
+
+
+def _fallback_open_in_browser(applications: list[dict]):
+    """フォーム自動入力をしない場合のフォールバック：ブラウザで上位3件を開く"""
     top = sorted(applications, key=lambda x: x.get("total", 0), reverse=True)[:3]
     print(f"\n  上位{len(top)}件のURLをブラウザで開きます...")
     for app in top:
         if app.get("url"):
             webbrowser.open(app["url"])
-
-    print("\n  応募完了後、受注したら以下を実行してください:")
-    print("  python run_pipeline.py deliver")
 
 
 # ─────────────────────────────────────────────
@@ -185,17 +215,21 @@ def phase2_execute_to_deliver(job: dict | None = None, output_file: str | None =
 # ─────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # CLI 引数を分解：[cmd] [--category writing|data_entry] [その他]
+    # CLI 引数を分解：[cmd] [--category writing|data_entry] [--no-autofill] [その他]
     raw_args = sys.argv[1:]
     category = "data_entry"
+    autofill = True
     if "--category" in raw_args:
         idx = raw_args.index("--category")
         category = raw_args[idx + 1]
         raw_args = raw_args[:idx] + raw_args[idx + 2:]
+    if "--no-autofill" in raw_args:
+        autofill = False
+        raw_args.remove("--no-autofill")
     cmd = raw_args[0] if raw_args else "search"
 
     if cmd == "search":
-        phase1_search_to_apply(category=category)
+        phase1_search_to_apply(category=category, autofill=autofill)
     elif cmd == "deliver":
         job_file = raw_args[1] if len(raw_args) > 1 else None
         out_file = raw_args[2] if len(raw_args) > 2 else None
@@ -206,7 +240,8 @@ if __name__ == "__main__":
         setup.check_sessions()
     else:
         print("使い方:")
-        print("  python run_pipeline.py setup                       # セッション状態確認")
-        print("  python run_pipeline.py search                      # 検索→評価→応募文生成（D：データ入力）")
-        print("  python run_pipeline.py search --category writing   # 検索→評価→応募文生成（A：ライティング）")
-        print("  python run_pipeline.py deliver                     # 受注後の実行→納品")
+        print("  python run_pipeline.py setup                                       # セッション状態確認")
+        print("  python run_pipeline.py search                                      # 検索→評価→応募文→自動入力（D：データ入力）")
+        print("  python run_pipeline.py search --category writing                   # 検索→評価→応募文→自動入力（A：ライティング）")
+        print("  python run_pipeline.py search --category writing --no-autofill     # 自動入力スキップ（手動コピペ用）")
+        print("  python run_pipeline.py deliver                                     # 受注後の実行→納品")
