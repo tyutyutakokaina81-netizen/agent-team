@@ -195,12 +195,25 @@ def _rule_based_evaluate_writing(job_text: str, meta: dict | None = None) -> dic
 
     # --- 軸3: 採算性（0-25・文字単価ベース） ---
     profitability = 10
-    # 文字単価抽出
-    char_rate_match = re.search(r'(\d+(?:\.\d+)?)\s*円?\s*/\s*(?:字|文字)', combined)
-    char_count_match = re.search(r'(\d[\d,]*)\s*(?:字|文字)', combined)
+    # 文字単価抽出（複数パターン対応）
     char_rate = 0.0
-    if char_rate_match:
-        char_rate = float(char_rate_match.group(1))
+    # パターン1: 「文字単価X.X円」「字単価X.X円」「単価X.X円/字」
+    # パターン2: 「X.X円／字」「X.X円/文字」
+    rate_patterns = [
+        r'(?:文字)?単価\s*(\d+(?:\.\d+)?)\s*円',     # 単価1.5円 / 文字単価1.5円
+        r'(\d+(?:\.\d+)?)\s*円\s*[／/]\s*(?:字|文字)',  # 1.5円/字
+        r'(\d+(?:\.\d+)?)\s*円\s*[／/]\s*\d*\s*字',    # 1.5円/1字
+    ]
+    for pat in rate_patterns:
+        m = re.search(pat, combined)
+        if m:
+            try:
+                char_rate = float(m.group(1))
+                break
+            except Exception:
+                pass
+
+    char_count_match = re.search(r'(\d[\d,]*)\s*(?:字|文字)', combined)
     if char_rate >= 2.0:
         profitability = 25
     elif char_rate >= 1.5:
@@ -263,6 +276,11 @@ def _rule_based_evaluate_writing(job_text: str, meta: dict | None = None) -> dic
     if any(k in combined for k in ["テストライティング無償", "無償テスト"]):
         red_flags.append("テストライティング無償（応募禁止）")
         total = 0
+
+    # 怪しい副業・大量募集パターン
+    if any(k in combined for k in ["簡単に稼", "誰でも歓迎", "大量募集", "副業歓迎", "スキマ時間で稼"]):
+        red_flags.append("怪しい副業・大量募集パターン")
+        total = max(total - 25, 0)
 
     green_flags = []
     if "継続" in combined or "長期" in combined:
