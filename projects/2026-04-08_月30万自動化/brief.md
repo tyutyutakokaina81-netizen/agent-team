@@ -41,6 +41,10 @@ AIを活用した合法的な収益自動化で月30万円を達成する
 - [x] CFO：取引先管理マスターテンプレ／`CFO/templates/2026-05-19_取引先管理マスター_テンプレ.md`
 - [x] CMO：Vol.4 バンドル LP構成（独自LP用）／`C_テンプレ販売/vol4_landing_page.md`
 - [x] CSO：失注分析テンプレ＋月次集計フロー／`B_SNS運用代行/loss_analysis_template.md`
+- [x] CDO：契約書自動生成スクリプト（CSV差し込み・HTML→PDF動線）／`CDO/outputs/scripts/contract_generator.mjs`
+- [x] CMO：YouTube台本テンプレ4カテゴリ＋運用ガイド／`CMO/templates/2026-05-19_YouTube台本テンプレ.md`
+- [x] CPO：Vol.7 業種特化3点バンドル設計／`C_テンプレ販売/vol7_industry_specialized_bundle.md`
+- [x] 全社：2026-06 月次計画書（Month 3 目標¥355K）／`monthly_plan_2026-06.md`
 
 ## CDOツール整備
 - [x] 月次レポート自動生成スクリプト（`CDO/outputs/scripts/monthly_report.mjs`）

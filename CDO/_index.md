@@ -22,6 +22,8 @@
 | 2026-05-19 | `CDO/outputs/scripts/sample_c_sales.csv` | サンプル | C テンプレ販売の集計用CSVサンプル | 完了 |
 | 2026-05-19 | `CDO/outputs/scripts/payment_alerts.mjs` | スクリプト | 入金督促・契約更新45日以内・インボイス未登録の3軸アラート（依存ゼロ・Slack対応・終了コード設計済） | 完了 |
 | 2026-05-19 | `CDO/outputs/docs/2026-05-19_入金督促スクリプト.md` | ドキュメント | アラートツール運用ガイド（督促エスカレーション・cron例・メールテンプレ含む） | 完了 |
+| 2026-05-19 | `CDO/outputs/scripts/contract_generator.mjs` | スクリプト | 取引先マスターCSV→契約書md/html一括生成（OS標準フォントでブラウザ印刷PDF化） | 完了 |
+| 2026-05-19 | `CDO/outputs/docs/2026-05-19_契約書自動生成スクリプト.md` | ドキュメント | 契約書生成ツール運用ガイド | 完了 |
 
 ## 進行中タスク
 
