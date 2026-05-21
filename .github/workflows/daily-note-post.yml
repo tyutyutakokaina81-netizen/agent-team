@@ -184,7 +184,7 @@ jobs:
         run: |
           mkdir -p ../runs
           # まず必ずファイルを作って、step が動いていることを記録
-          LOG_FILE="../runs/last_post.log"
+          LOG_FILE="../runs/last_post.txt"
           {
             echo "[STEP START] $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo "[ENV] PWD=$(pwd)"
