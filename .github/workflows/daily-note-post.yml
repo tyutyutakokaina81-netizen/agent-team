@@ -181,7 +181,16 @@ jobs:
           ARTICLE_PATH: ${{ github.event.inputs.article_path || steps.gen_article.outputs.article_path }}
           DRY_RUN: ${{ steps.mode.outputs.mode == 'dry_run' && 'true' || 'false' }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
-        run: python post_to_note.py
+        run: |
+          mkdir -p ../runs
+          set +e
+          python -u post_to_note.py 2>&1 | tee ../runs/last_post.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "[INFO] post_to_note.py exit code: $EXIT_CODE"
+          # スクリーンショットもrunsに退避（log_url不要でリポジトリから直接見える）
+          cp debug_*.png ../runs/ 2>/dev/null || true
+          cp debug_*.html ../runs/ 2>/dev/null || true
+          exit $EXIT_CODE
 
       - name: Upload debug artifacts
         if: always()

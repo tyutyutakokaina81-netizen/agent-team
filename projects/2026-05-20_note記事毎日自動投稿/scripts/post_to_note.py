@@ -276,11 +276,28 @@ def post_article(page, title: str, body: str) -> str:
 
 
 def main() -> int:
+    import traceback
+    try:
+        return _main()
+    except SystemExit:
+        raise
+    except Exception as e:
+        print(f"[FATAL] Uncaught exception: {type(e).__name__}: {e}")
+        traceback.print_exc()
+        return 99
+
+
+def _main() -> int:
     email = os.environ.get("NOTE_EMAIL", "").strip()
     password = os.environ.get("NOTE_PASSWORD", "").strip()
     cookie_json = os.environ.get("NOTE_SESSION_COOKIE", "").strip()
     explicit = os.environ.get("ARTICLE_PATH", "").strip()
     dry_run = os.environ.get("DRY_RUN", "").lower() == "true"
+    print(f"[INFO] NOTE_EMAIL set: {bool(email)}")
+    print(f"[INFO] NOTE_PASSWORD set: {bool(password)}")
+    print(f"[INFO] NOTE_SESSION_COOKIE set: {bool(cookie_json)} (length={len(cookie_json)})")
+    print(f"[INFO] ARTICLE_PATH: {explicit or '(auto)'}")
+    print(f"[INFO] DRY_RUN: {dry_run}")
 
     if not (email and password) and not cookie_json:
         print("[ERROR] 認証情報が設定されていません。")
