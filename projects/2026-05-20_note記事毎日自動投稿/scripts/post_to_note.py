@@ -299,21 +299,31 @@ def upload_thumbnail(page, image_path: Path) -> bool:
         print("[INFO] thumbnail file set")
 
         # ④ 画像トリミング/プレビューモーダルの「保存」を押す
+        # 「下書き保存」（右上の別UI）と区別するため、dialog内に絞る
         for sel in [
-            'button:has-text("保存")',
-            'button:has-text("適用")',
-            'button:has-text("決定")',
-            'button:has-text("画像を保存")',
-            'button:has-text("OK")',
+            'div[role="dialog"] button:has-text("保存")',
+            '[role="dialog"] button:has-text("保存")',
+            'div[class*="modal"] button:has-text("保存")',
+            'button:has-text("保存"):not(:has-text("下書き"))',
+            'div[role="dialog"] button:has-text("適用")',
+            'div[role="dialog"] button:has-text("決定")',
         ]:
             if page.locator(sel).count():
                 try:
-                    page.locator(sel).first.click()
-                    page.wait_for_timeout(2500)
+                    page.locator(sel).first.click(timeout=5000)
+                    page.wait_for_timeout(3000)
                     print(f"[INFO] confirmed crop modal with: {sel}")
                     break
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"[WARN] crop save click failed for {sel}: {e}")
+        else:
+            # それでも見つからない場合は Enter キーで決定を試みる
+            try:
+                page.keyboard.press("Enter")
+                page.wait_for_timeout(2000)
+                print("[INFO] sent Enter to confirm crop modal")
+            except Exception:
+                pass
         return True
     except Exception as e:
         print(f"[WARN] thumbnail upload failed: {e}")
