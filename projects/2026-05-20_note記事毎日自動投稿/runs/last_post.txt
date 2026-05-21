@@ -1,28 +1,362 @@
-[STEP START] 2026-05-21T10:54:13Z
+[STEP START] 2026-05-21T10:56:00Z
 [ENV] PWD=/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts
 [ENV] PYTHON=/opt/hostedtoolcache/Python/3.11.15/x64/bin/python Python 3.11.15
 [ENV] NOTE_SESSION_COOKIE length: 2602
 [ENV] NOTE_EMAIL set: no
 [ENV] NOTE_PASSWORD set: no
 [ENV] DRY_RUN: false
-[ENV] ARTICLE_PATH: [ERROR] ANTHROPIC_API_KEY が未設定
+[ENV] ARTICLE_PATH: 
 ----- python output below -----
 [INFO] NOTE_EMAIL set: False
 [INFO] NOTE_PASSWORD set: False
 [INFO] NOTE_SESSION_COOKIE set: True (length=2602)
-[INFO] ARTICLE_PATH: [ERROR] ANTHROPIC_API_KEY が未設定
+[INFO] ARTICLE_PATH: (auto)
 [INFO] DRY_RUN: False
-[FATAL] Uncaught exception: FileNotFoundError: 指定された記事が見つかりません: /home/runner/work/agent-team/agent-team/[ERROR] ANTHROPIC_API_KEY が未設定
+[INFO] 投稿対象: CMO/outputs/2026-05-20_高岡を世界へ_note記事.md
+[INFO] タイトル: 鋳物の街から、世界へ。高岡発・小さな誘客スキームを真面目に考えてみた
+[INFO] 本文長: 2759 文字
+[INFO] 8件のcookieを注入しました
+[INFO] After goto, URL = https://editor.note.com/notes/n5c8b62210dec/edit/
+[INFO] cookieログイン成功（投稿画面に直接アクセスできました）
+[FATAL] Uncaught exception: TimeoutError: Locator.type: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.ProseMirror").last
+  -     - locator resolved to <div translate="no" role="textbox" aria-multiline="true" contenteditable="true" class="ProseMirror note-common-styles__textnote-body ProseMirror-focused">…</div>
+  -   - elementHandle.type("平日の夕方、ふらっと山町筋を歩いていると、ふと思ったのです。  
+この街、外から見たらどう映るんだろう、と。
+
+土蔵造りの黒い壁、瓦の色、夕方の光。  
+住んでいるとあたりまえの景色なんですが、たぶん、海の向こうの誰かにとっては「一度は見てみたい場所」だったりするわけです。
+
+問題は、その「誰か」に、まだ届いていないこと。
+
+---
+
+## なぜ今、高岡を「世界に」発信する話なのか
+
+最近のインバウンドは、ゴールデンルート（東京〜京都〜大阪）に飽きた層が、北陸新幹線で金沢にまで足を伸ばしてきています。  
+ここまでは多くの人が知っている話。
+
+そこから先、新高岡で降りる人はまだ少ない。  
+ということは、伸びしろがある、ということでもある。
+
+【事実】高岡には、世界に対して「これは独特だよ」と胸を張れるものが、思ったよりたくさんあります。
+
+- 高岡銅器（400年の伝統、日本の銅器シェア95%）
+- 国宝・瑞龍寺
+- 雨晴海岸からの立山連峰
+- 山町筋・金屋町の歴史的町並み
+- ドラえもんを生んだ街（藤子・F・不二雄）
+
+【考察】これは「素材」としては十分すぎる。足りないのは、たぶん**届け方**と**体験への変換**だけだと思うのです。
+
+---
+
+## どこに、誰に届けるのか
+
+「世界」と一括りにすると何も決まらないので、最初にターゲットを3つに絞ります。
+
+### ターゲットA：欧米のクラフトツーリスト（30〜50代）
+本物の職人技、手仕事、アート寄りの旅を好む層。  
+金沢に来た人を、もう一駅延ばす相手。
+
+### ターゲットB：台湾・香港・シンガポールのリピーター（25〜45代）
+日本に何度も来ていて、京都・東京は卒業した層。  
+SNSでマイナーで美しい場所を探している人たち。
+
+### ターゲットC：ドラえもん／日本アニメ文化に憧れる海外Z世代
+韓国・タイ・インドネシア・北米。  
+聖地巡礼として「藤子・F・不二雄ふるさとギャラリー」が刺さる層。
+
+【提案】この3つに**コンテンツも体験も、明確に出し分ける**。  
+万人に届くものは誰にも届かない、というのは肌感覚としてそうだなと思います。
+
+---
+
+## どう届けるか（チャネル戦略）
+
+### 1. 多言語ショートムービー（縦型・60秒以内）
+
+- Instagram Reels／TikTok／YouTube Shortsへ同時配信
+- ナレーションは英語、字幕は英・繁体字・タイ語の3言語
+- 1本につき1テーマ（例：「This 400-year-old workshop made your grandmother's teapot」）
+
+ショートは「説明」ではなく「驚き」を見せる場所。  
+鋳物が冷めて固まる瞬間、お寺の鐘の余韻、雨晴の朝焼け。**動詞で見せる**のが鉄則だと思っています。
+
+### 2. 英語ブログ＋構造化データ（SEO土台）
+
+ショートで興味を持った人が「Takaoka travel」で検索したときに、ちゃんと辿り着ける場所を用意する。  
+- 1記事あたり1500〜2500語の英語コンテンツ
+- 体験プログラムへの導線を必ず1つ以上設置
+- Google Mapsレビューとの相互リンク
+
+【事実】英語で検索しても、現状は公式観光サイトの一部しかヒットしません。ここはガラ空き。
+
+### 3. クリエイター招聘（年4回）
+
+- 海外の旅系YouTuber／フォトグラファーを年4回招く（春・初夏・秋・冬）
+- 滞在費・体験費は市・観光協会・参加事業者で分担
+- 「PR記事」ではなく**滞在記**として自由に書いてもらう
+
+---
+
+## 売るものは「観光」じゃなくて「体験」
+
+切符と宿だけ売っても、人はもう動きません。
+
+体験商品を3階建てで設計します。
+
+| 層 | 価格帯 | 例 | 滞在時間 |
+|----|-------|-----|---------|
+| ライト | ¥3,000〜¥8,000 | 鋳物コースター制作、瑞龍寺早朝拝観＋朝食 | 2〜3時間 |
+| ミドル | ¥15,000〜¥30,000 | 1日鋳物職人体験＋夕食、雨晴フォトツアー | 半日〜1日 |
+| プレミアム | ¥80,000〜 | 2泊3日・職人工房巡り＋オーダーメイド銅器制作 | 2〜3日 |
+
+ライトは「金沢から日帰り」で取りに行く。  
+プレミアムは「年に10組でいい」と割り切る。  
+**全層フル稼働ではなく、ピラミッドで考える**のが肝かなと。
+
+---
+
+## どう測るか（KPI）
+
+数字を持たない発信は、続かないので。
+
+- 多言語ショートの累計再生数（月次）
+- 英語ブログの月間オーガニック流入
+- 体験予約数（チャネル別／国別）
+- 1人あたり消費単価
+- リピート率（2回目以降の来訪）
+
+【提案】特に**国別予約数**は最重要KPIに置いたほうがいい。  
+「どの国の、どんな媒体が、いくらの体験に紐づいたか」が見えると、来年の予算配分の精度が変わります。
+
+---
+
+## 実装ロードマップ（小さく始める版）
+
+いきなり全部やろうとすると死ぬので、3ヶ月単位で区切ります。
+
+### Phase 1（M1〜M3）：素材を作る
+- ショートムービー10本制作（テーマ別）
+- 英語LP公開（体験5本のみ掲載）
+- 既存の体験事業者3社と連携合意
+
+### Phase 2（M4〜M6）：流す
+- SNS同時運用開始（週3本ペース）
+- 1組目のクリエイター招聘
+- 体験プログラム実販売開始
+
+### Phase 3（M7〜M12）：磨く
+- 反応のいいテーマだけ深掘り
+- プレミアム体験のローンチ
+- 翌年度の予算と座組みの見直し
+
+【考察】最初の3ヶ月で「全部やる」と決めない。  
+小さく出して、反応のいいものだけ太らせるほうが、たぶん遠回りに見えて一番速い。
+
+---
+
+## 結びに
+
+工房の前を通ると、今でも金属を打つ音が響いてくる日があります。  
+カン、カン、カン、と。
+
+その音は、たぶん400年前と同じ音なんですよね。
+
+その同じ音を、地球の反対側の誰かのスマホから鳴らせるかどうか。  
+たぶん、それが「世界に発信する」ということなのだと思います。
+
+派手なキャンペーンじゃなくて、ちゃんと届くところに、ちゃんと届ける。  
+それだけの話を、もう少し真面目にやっていきたいなと、夕方の山町筋を歩きながら考えたのでした。
+
+---
+
+*※本記事に出てくる施策は、筆者個人の構想です。実装には関係各所との連携が必要です。*")
+
 Traceback (most recent call last):
   File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 281, in main
     return _main()
            ^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 307, in _main
-    article_path = pick_article_to_post(explicit or None)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 58, in pick_article_to_post
-    raise FileNotFoundError(f"指定された記事が見つかりません: {p}")
-FileNotFoundError: 指定された記事が見つかりません: /home/runner/work/agent-team/agent-team/[ERROR] ANTHROPIC_API_KEY が未設定
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 371, in _main
+    url = post_article(page, title, body)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 244, in post_article
+    body_locator.type(body, delay=5)
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/sync_api/_generated.py", line 17637, in type
+    self._sync(
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/_impl/_locator.py", line 630, in type
+    return await self._frame.type(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 718, in type
+    await self._channel.send("type", locals_to_params(locals()))
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 61, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 528, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Locator.type: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.ProseMirror").last
+  -     - locator resolved to <div translate="no" role="textbox" aria-multiline="true" contenteditable="true" class="ProseMirror note-common-styles__textnote-body ProseMirror-focused">…</div>
+  -   - elementHandle.type("平日の夕方、ふらっと山町筋を歩いていると、ふと思ったのです。  
+この街、外から見たらどう映るんだろう、と。
+
+土蔵造りの黒い壁、瓦の色、夕方の光。  
+住んでいるとあたりまえの景色なんですが、たぶん、海の向こうの誰かにとっては「一度は見てみたい場所」だったりするわけです。
+
+問題は、その「誰か」に、まだ届いていないこと。
+
+---
+
+## なぜ今、高岡を「世界に」発信する話なのか
+
+最近のインバウンドは、ゴールデンルート（東京〜京都〜大阪）に飽きた層が、北陸新幹線で金沢にまで足を伸ばしてきています。  
+ここまでは多くの人が知っている話。
+
+そこから先、新高岡で降りる人はまだ少ない。  
+ということは、伸びしろがある、ということでもある。
+
+【事実】高岡には、世界に対して「これは独特だよ」と胸を張れるものが、思ったよりたくさんあります。
+
+- 高岡銅器（400年の伝統、日本の銅器シェア95%）
+- 国宝・瑞龍寺
+- 雨晴海岸からの立山連峰
+- 山町筋・金屋町の歴史的町並み
+- ドラえもんを生んだ街（藤子・F・不二雄）
+
+【考察】これは「素材」としては十分すぎる。足りないのは、たぶん**届け方**と**体験への変換**だけだと思うのです。
+
+---
+
+## どこに、誰に届けるのか
+
+「世界」と一括りにすると何も決まらないので、最初にターゲットを3つに絞ります。
+
+### ターゲットA：欧米のクラフトツーリスト（30〜50代）
+本物の職人技、手仕事、アート寄りの旅を好む層。  
+金沢に来た人を、もう一駅延ばす相手。
+
+### ターゲットB：台湾・香港・シンガポールのリピーター（25〜45代）
+日本に何度も来ていて、京都・東京は卒業した層。  
+SNSでマイナーで美しい場所を探している人たち。
+
+### ターゲットC：ドラえもん／日本アニメ文化に憧れる海外Z世代
+韓国・タイ・インドネシア・北米。  
+聖地巡礼として「藤子・F・不二雄ふるさとギャラリー」が刺さる層。
+
+【提案】この3つに**コンテンツも体験も、明確に出し分ける**。  
+万人に届くものは誰にも届かない、というのは肌感覚としてそうだなと思います。
+
+---
+
+## どう届けるか（チャネル戦略）
+
+### 1. 多言語ショートムービー（縦型・60秒以内）
+
+- Instagram Reels／TikTok／YouTube Shortsへ同時配信
+- ナレーションは英語、字幕は英・繁体字・タイ語の3言語
+- 1本につき1テーマ（例：「This 400-year-old workshop made your grandmother's teapot」）
+
+ショートは「説明」ではなく「驚き」を見せる場所。  
+鋳物が冷めて固まる瞬間、お寺の鐘の余韻、雨晴の朝焼け。**動詞で見せる**のが鉄則だと思っています。
+
+### 2. 英語ブログ＋構造化データ（SEO土台）
+
+ショートで興味を持った人が「Takaoka travel」で検索したときに、ちゃんと辿り着ける場所を用意する。  
+- 1記事あたり1500〜2500語の英語コンテンツ
+- 体験プログラムへの導線を必ず1つ以上設置
+- Google Mapsレビューとの相互リンク
+
+【事実】英語で検索しても、現状は公式観光サイトの一部しかヒットしません。ここはガラ空き。
+
+### 3. クリエイター招聘（年4回）
+
+- 海外の旅系YouTuber／フォトグラファーを年4回招く（春・初夏・秋・冬）
+- 滞在費・体験費は市・観光協会・参加事業者で分担
+- 「PR記事」ではなく**滞在記**として自由に書いてもらう
+
+---
+
+## 売るものは「観光」じゃなくて「体験」
+
+切符と宿だけ売っても、人はもう動きません。
+
+体験商品を3階建てで設計します。
+
+| 層 | 価格帯 | 例 | 滞在時間 |
+|----|-------|-----|---------|
+| ライト | ¥3,000〜¥8,000 | 鋳物コースター制作、瑞龍寺早朝拝観＋朝食 | 2〜3時間 |
+| ミドル | ¥15,000〜¥30,000 | 1日鋳物職人体験＋夕食、雨晴フォトツアー | 半日〜1日 |
+| プレミアム | ¥80,000〜 | 2泊3日・職人工房巡り＋オーダーメイド銅器制作 | 2〜3日 |
+
+ライトは「金沢から日帰り」で取りに行く。  
+プレミアムは「年に10組でいい」と割り切る。  
+**全層フル稼働ではなく、ピラミッドで考える**のが肝かなと。
+
+---
+
+## どう測るか（KPI）
+
+数字を持たない発信は、続かないので。
+
+- 多言語ショートの累計再生数（月次）
+- 英語ブログの月間オーガニック流入
+- 体験予約数（チャネル別／国別）
+- 1人あたり消費単価
+- リピート率（2回目以降の来訪）
+
+【提案】特に**国別予約数**は最重要KPIに置いたほうがいい。  
+「どの国の、どんな媒体が、いくらの体験に紐づいたか」が見えると、来年の予算配分の精度が変わります。
+
+---
+
+## 実装ロードマップ（小さく始める版）
+
+いきなり全部やろうとすると死ぬので、3ヶ月単位で区切ります。
+
+### Phase 1（M1〜M3）：素材を作る
+- ショートムービー10本制作（テーマ別）
+- 英語LP公開（体験5本のみ掲載）
+- 既存の体験事業者3社と連携合意
+
+### Phase 2（M4〜M6）：流す
+- SNS同時運用開始（週3本ペース）
+- 1組目のクリエイター招聘
+- 体験プログラム実販売開始
+
+### Phase 3（M7〜M12）：磨く
+- 反応のいいテーマだけ深掘り
+- プレミアム体験のローンチ
+- 翌年度の予算と座組みの見直し
+
+【考察】最初の3ヶ月で「全部やる」と決めない。  
+小さく出して、反応のいいものだけ太らせるほうが、たぶん遠回りに見えて一番速い。
+
+---
+
+## 結びに
+
+工房の前を通ると、今でも金属を打つ音が響いてくる日があります。  
+カン、カン、カン、と。
+
+その音は、たぶん400年前と同じ音なんですよね。
+
+その同じ音を、地球の反対側の誰かのスマホから鳴らせるかどうか。  
+たぶん、それが「世界に発信する」ということなのだと思います。
+
+派手なキャンペーンじゃなくて、ちゃんと届くところに、ちゃんと届ける。  
+それだけの話を、もう少し真面目にやっていきたいなと、夕方の山町筋を歩きながら考えたのでした。
+
+---
+
+*※本記事に出てくる施策は、筆者個人の構想です。実装には関係各所との連携が必要です。*")
+
 ----- python output above -----
-[STEP END] exit_code=99 2026-05-21T10:54:13Z
-ls: cannot access 'debug_*': No such file or directory
+[STEP END] exit_code=99 2026-05-21T10:56:39Z
+-rw-r--r-- 1 runner runner 50008 May 21 10:56 debug_after_cookie_login.html
+-rw-r--r-- 1 runner runner 21651 May 21 10:56 debug_after_cookie_login.png
