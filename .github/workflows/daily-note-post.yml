@@ -183,11 +183,27 @@ jobs:
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: |
           mkdir -p ../runs
+          # まず必ずファイルを作って、step が動いていることを記録
+          LOG_FILE="../runs/last_post.log"
+          {
+            echo "[STEP START] $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "[ENV] PWD=$(pwd)"
+            echo "[ENV] PYTHON=$(which python) $(python --version 2>&1)"
+            echo "[ENV] NOTE_SESSION_COOKIE length: ${#NOTE_SESSION_COOKIE}"
+            echo "[ENV] NOTE_EMAIL set: $([ -n "$NOTE_EMAIL" ] && echo yes || echo no)"
+            echo "[ENV] NOTE_PASSWORD set: $([ -n "$NOTE_PASSWORD" ] && echo yes || echo no)"
+            echo "[ENV] DRY_RUN: $DRY_RUN"
+            echo "[ENV] ARTICLE_PATH: $ARTICLE_PATH"
+            echo "----- python output below -----"
+          } > "$LOG_FILE"
           set +e
-          python -u post_to_note.py 2>&1 | tee ../runs/last_post.log
+          python -u post_to_note.py 2>&1 | tee -a "$LOG_FILE"
           EXIT_CODE=${PIPESTATUS[0]}
-          echo "[INFO] post_to_note.py exit code: $EXIT_CODE"
-          # スクリーンショットもrunsに退避（log_url不要でリポジトリから直接見える）
+          {
+            echo "----- python output above -----"
+            echo "[STEP END] exit_code=$EXIT_CODE $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            ls -la debug_* 2>&1 | head -10
+          } >> "$LOG_FILE"
           cp debug_*.png ../runs/ 2>/dev/null || true
           cp debug_*.html ../runs/ 2>/dev/null || true
           exit $EXIT_CODE
