@@ -1,4 +1,4 @@
-[STEP START] 2026-05-21T11:09:54Z
+[STEP START] 2026-05-21T11:13:23Z
 [ENV] PWD=/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts
 [ENV] PYTHON=/opt/hostedtoolcache/Python/3.11.15/x64/bin/python Python 3.11.15
 [ENV] NOTE_SESSION_COOKIE length: 2602
@@ -17,14 +17,14 @@
 [INFO] 本文長: 1477 文字
 [INFO] サムネ: CMO/outputs/2026-05-20_珈琲一杯ぶんの平日午後_thumb.jpg
 [INFO] 8件のcookieを注入しました
-[INFO] After goto, URL = https://editor.note.com/notes/n29abcbd20d38/edit/
+[INFO] After goto, URL = https://editor.note.com/notes/n2429aabdfe40/edit/
 [INFO] cookieログイン成功（投稿画面に直接アクセスできました）
-[INFO] editor URL: https://editor.note.com/notes/n71daf19c722d/edit/
+[INFO] editor URL: https://editor.note.com/notes/n47fdb9f43c1e/edit/
 [INFO] uploading thumbnail: /home/runner/work/agent-team/agent-team/CMO/outputs/2026-05-20_珈琲一杯ぶんの平日午後_thumb.jpg
-[INFO] found 0 file input(s)
-[INFO] clicked image button: button[aria-label*="画像"]
-[INFO] after click, 0 file input(s)
-[WARN] file input not found; skipping thumbnail upload
+[INFO] opened image menu via: button[aria-label*="画像を追加"]
+[INFO] clicked '画像をアップロード' via: text=画像をアップロード
+[INFO] file inputs found: 1
+[INFO] thumbnail file set
 [INFO] title selector: textarea[placeholder*="タイトル"]
 [FATAL] Uncaught exception: TimeoutError: Locator.click: Timeout 30000ms exceeded.
 Call log:
@@ -35,36 +35,64 @@ Call log:
   -       - element is visible, enabled and stable
   -       - scrolling into view if needed
   -       - done scrolling
-  -       - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -       - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -     - retrying click action
   -     - waiting 20ms
   -     2 × waiting for element to be visible, enabled and stable
   -       - element is visible, enabled and stable
   -       - scrolling into view if needed
   -       - done scrolling
-  -       - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -       - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -     - retrying click action
   -       - waiting 100ms
   -     - waiting for element to be visible, enabled and stable
   -     - element is not stable
-  -   57 × retrying click action
+  -   14 × retrying click action
   -        - waiting 500ms
   -        - waiting for element to be visible, enabled and stable
   -        - element is visible, enabled and stable
   -        - scrolling into view if needed
   -        - done scrolling
-  -        - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -        - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -   - retrying click action
+  -     - waiting 500ms
+  -     - waiting for element to be visible, enabled and stable
+  -     - element is visible, enabled and stable
+  -     - scrolling into view if needed
+  -     - done scrolling
+  -     - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -   - retrying click action
   -     - waiting 500ms
 
 Traceback (most recent call last):
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 407, in main
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 448, in main
     return _main()
            ^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 499, in _main
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 540, in _main
     url = post_article(page, title, body, thumbnail_path=thumbnail_path)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 314, in post_article
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 355, in post_article
     title_locator.click()
   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/playwright/sync_api/_generated.py", line 15450, in click
     self._sync(
@@ -90,30 +118,58 @@ Call log:
   -       - element is visible, enabled and stable
   -       - scrolling into view if needed
   -       - done scrolling
-  -       - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -       - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -     - retrying click action
   -     - waiting 20ms
   -     2 × waiting for element to be visible, enabled and stable
   -       - element is visible, enabled and stable
   -       - scrolling into view if needed
   -       - done scrolling
-  -       - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -       - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -     - retrying click action
   -       - waiting 100ms
   -     - waiting for element to be visible, enabled and stable
   -     - element is not stable
-  -   57 × retrying click action
+  -   14 × retrying click action
   -        - waiting 500ms
   -        - waiting for element to be visible, enabled and stable
   -        - element is visible, enabled and stable
   -        - scrolling into view if needed
   -        - done scrolling
-  -        - <button class="sc-131cded0-7 kwxNSB">…</button> from <div data-dragging="false" data-disabled="false" class="sc-131cded0-0 doUWus">…</div> subtree intercepts pointer events
+  -        - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="cropper" class="reactEasyCrop_CropArea reactEasyCrop_CropAreaGrid"></div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -      - retrying click action
+  -        - waiting 500ms
+  -        - waiting for element to be visible, enabled and stable
+  -        - element is visible, enabled and stable
+  -        - scrolling into view if needed
+  -        - done scrolling
+  -        - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
+  -   - retrying click action
+  -     - waiting 500ms
+  -     - waiting for element to be visible, enabled and stable
+  -     - element is visible, enabled and stable
+  -     - scrolling into view if needed
+  -     - done scrolling
+  -     - <div data-testid="container" class="reactEasyCrop_Container">…</div> from <div class="ReactModalPortal">…</div> subtree intercepts pointer events
   -   - retrying click action
   -     - waiting 500ms
 
 ----- python output above -----
-[STEP END] exit_code=99 2026-05-21T11:10:36Z
--rw-r--r-- 1 runner runner 50008 May 21 11:09 debug_after_cookie_login.html
--rw-r--r-- 1 runner runner 21648 May 21 11:09 debug_after_cookie_login.png
--rw-r--r-- 1 runner runner 38789 May 21 11:10 debug_thumbnail_input_not_found.png
+[STEP END] exit_code=99 2026-05-21T11:14:42Z
+-rw-r--r-- 1 runner runner  50008 May 21 11:13 debug_after_cookie_login.html
+-rw-r--r-- 1 runner runner  21648 May 21 11:13 debug_after_cookie_login.png
+-rw-r--r-- 1 runner runner 393810 May 21 11:13 debug_after_thumb_upload.png
