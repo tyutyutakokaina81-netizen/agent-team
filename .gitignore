@@ -22,6 +22,10 @@ CSO/research/*
 !CFO/research/.gitkeep
 !CSO/outputs/.gitkeep
 !CSO/research/.gitkeep
+# 実データを含まないテンプレート・ペルソナ集は共有（仮称・プレースホルダのみ）
+!CFO/outputs/*テンプレ*.md
+!CSO/outputs/*テンプレ*.md
+!CSO/outputs/ペルソナ集.md
 *_secret*
 *_confidential*
 *_機密*
