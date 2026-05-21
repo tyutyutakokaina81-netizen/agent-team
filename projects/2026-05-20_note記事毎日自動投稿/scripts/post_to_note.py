@@ -289,6 +289,7 @@ def post_article(page, title: str, body: str) -> str:
     # === 最終公開ボタン ===
     final_clicked = False
     for sel in [
+        'button:has-text("投稿する")',
         'button:has-text("公開する")',
         'button:has-text("無料で公開")',
         'button:has-text("有料公開")',
