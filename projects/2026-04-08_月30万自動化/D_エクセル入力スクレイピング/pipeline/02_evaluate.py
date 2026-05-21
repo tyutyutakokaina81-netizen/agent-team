@@ -84,7 +84,147 @@ EVAL_PROMPT = """
 - GO     : total >= 70（積極的に応募）
 - CAUTION: total 50〜69（質問して判断）
 - NO-GO  : total < 50（見送り推奨）
+
+## 追加：法務フラグ（CLO観点）
+案件文を読み、以下の法務フラグも判定してください。
+これらは法務上のレッドラインであり、該当した場合は verdict を NO-GO に強制してください。
+
+{{
+  "legal_flags": {{
+    "requires_login_bypass": <bool>,         # ID/PW突破・パラメータ改竄を求めているか
+    "contains_personal_info": <bool>,        # 個人情報の収集を含むか
+    "purpose_clarified": <bool>,             # 発注目的が明確か
+    "database_copyright_risk": <bool>,       # 編集著作物（食べログ・タウンページ等）の大量複製か
+    "target_terms_known": <bool>,            # 対象サイトの規約・robots.txt が明示／確認可能か
+    "violates_law_suspected": <bool>         # 違法目的の疑いがあるか
+  }},
+  "legal_verdict": "OK" | "保留" | "辞退",
+  "legal_reason": "判定の主理由（1文）"
+}}
 """
+
+# ─────────────────────────────────────────────
+# 法務フラグ判定（CLO観点）
+# 参照：CLO/outputs/2026-05-21_D_受注前チェックリスト.md
+# ─────────────────────────────────────────────
+
+# 編集著作物リスクの高い代表サイト（データベース著作権 要注意）
+DB_COPYRIGHT_SITES = [
+    "tabelog", "食べlog", "食べログ",
+    "gurunavi", "ぐるなび",
+    "townpage", "タウンページ", "iタウンページ",
+    "hotpepper", "hot pepper", "ホットペッパー",
+    "ekiten", "エキテン",
+    "homes", "suumo", "athome", "アットホーム",
+    "indeed", "rikunabi", "リクナビ", "mynavi", "マイナビ",
+]
+
+
+def _legal_check(job_text: str, meta: dict | None = None) -> dict:
+    """CLOチェックリストに沿った法務フラグ判定（ルールベース）"""
+    text_lc = (job_text + " " + (meta or {}).get("title", "")).lower()
+
+    flags = {
+        "requires_login_bypass": any(
+            k in text_lc
+            for k in [
+                "ログイン突破", "パスワード突破", "認証突破",
+                "id/pw", "id・pw", "id pw",
+                "会員限定", "ログイン必須",
+                "captcha", "キャプチャ",
+            ]
+        ),
+        "contains_personal_info": any(
+            k in text_lc
+            for k in [
+                "個人情報", "個人名", "氏名",
+                "メールアドレス収集", "メール収集",
+                "電話番号収集", "電話収集",
+                "個人住所", "個人連絡先",
+                "名簿", "リスト販売", "営業リスト",
+            ]
+        ),
+        "purpose_clarified": any(
+            k in text_lc
+            for k in ["目的", "用途", "利用先", "活用", "使用先"]
+        ),
+        "database_copyright_risk": any(s in text_lc for s in DB_COPYRIGHT_SITES),
+        "target_terms_known": any(
+            k in text_lc
+            for k in [
+                "自社サイト", "公開api", "オープンデータ",
+                "許可", "オーナー", "委託元のサイト",
+                "規約確認済", "robots", "robots.txt",
+            ]
+        ),
+        "violates_law_suspected": any(
+            k in text_lc
+            for k in [
+                "違法", "誹謗中傷", "競合つぶし",
+                "嫌がらせ", "迷惑メール", "spam",
+                "他人になりすま", "アカウント乗っ取り",
+            ]
+        ),
+    }
+
+    if flags["requires_login_bypass"]:
+        return {
+            "legal_flags": flags,
+            "legal_verdict": "辞退",
+            "legal_reason": "不正アクセス禁止法違反のおそれ（ログイン突破要求）",
+        }
+    if flags["violates_law_suspected"]:
+        return {
+            "legal_flags": flags,
+            "legal_verdict": "辞退",
+            "legal_reason": "違法目的の疑い",
+        }
+
+    pending_reasons = []
+    if flags["contains_personal_info"] and not flags["purpose_clarified"]:
+        pending_reasons.append("個人情報を含むが利用目的が不明")
+    if flags["database_copyright_risk"]:
+        pending_reasons.append("編集著作物（データベース著作権）リスクのある対象サイト")
+    if not flags["target_terms_known"]:
+        pending_reasons.append("対象サイトの規約・robots.txt 未確認")
+
+    if pending_reasons:
+        return {
+            "legal_flags": flags,
+            "legal_verdict": "保留",
+            "legal_reason": " / ".join(pending_reasons),
+        }
+
+    return {
+        "legal_flags": flags,
+        "legal_verdict": "OK",
+        "legal_reason": "重大な法務リスクは検出されず",
+    }
+
+
+def _apply_legal_check_to_result(result: dict, legal: dict) -> dict:
+    """法務チェック結果を評価結果に反映する（verdictを必要に応じてオーバーライド）"""
+    result["legal_flags"] = legal["legal_flags"]
+    result["legal_verdict"] = legal["legal_verdict"]
+    result["legal_reason"] = legal["legal_reason"]
+
+    red_flags = list(result.get("red_flags", []))
+    if legal["legal_verdict"] == "辞退":
+        red_flags.append(f"【法務辞退】{legal['legal_reason']}")
+        result["verdict"] = "NO-GO"
+        result["total"] = min(result.get("total", 0), 40)
+        if "scores" in result:
+            result["scores"]["legal"] = 0
+    elif legal["legal_verdict"] == "保留":
+        red_flags.append(f"【法務保留】{legal['legal_reason']}")
+        if result.get("verdict") == "GO":
+            result["verdict"] = "CAUTION"
+        if "scores" in result:
+            result["scores"]["legal"] = min(result["scores"].get("legal", 15), 10)
+
+    result["red_flags"] = red_flags
+    return result
+
 
 # ─────────────────────────────────────────────
 # Claude API 呼び出し
@@ -213,6 +353,7 @@ def _rule_based_evaluate(job_text: str, meta: dict | None = None) -> dict:
         result = {**meta, **result}
     result["evaluated_at"] = datetime.now().isoformat()
     result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+    result = _apply_legal_check_to_result(result, _legal_check(job_text, meta))
     return result
 
 
@@ -233,6 +374,15 @@ def evaluate(job_text: str, meta: dict | None = None) -> dict:
                 result = {**meta, **result}
             result["evaluated_at"] = datetime.now().isoformat()
             result["job_text_preview"] = job_text[:100] + ("..." if len(job_text) > 100 else "")
+            # API出力に法務フラグがなければルールベースで補完。あっても上書きは行わずレッドラインのみ反映
+            api_legal = {
+                "legal_flags": result.get("legal_flags"),
+                "legal_verdict": result.get("legal_verdict"),
+                "legal_reason": result.get("legal_reason"),
+            }
+            if not api_legal["legal_verdict"]:
+                api_legal = _legal_check(job_text, meta)
+            result = _apply_legal_check_to_result(result, api_legal)
             return result
         except Exception:
             pass  # API失敗時はルールベースにフォールバック
@@ -269,6 +419,12 @@ def print_result(result: dict) -> None:
 
     # 判定理由
     print(f"\n  【判定理由】{result.get('reason', '')}")
+
+    # 法務フラグ（CLO観点）
+    legal_verdict = result.get("legal_verdict")
+    if legal_verdict:
+        legal_icons = {"OK": "✅", "保留": "⚠️ ", "辞退": "🚫"}
+        print(f"\n  【法務判定】{legal_icons.get(legal_verdict, '')} {legal_verdict} — {result.get('legal_reason', '')}")
 
     # 優良点
     greens = result.get("green_flags", [])
