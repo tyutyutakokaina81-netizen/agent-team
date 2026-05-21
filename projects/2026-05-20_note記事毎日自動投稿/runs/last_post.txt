@@ -1,4 +1,4 @@
-[STEP START] 2026-05-21T10:59:14Z
+[STEP START] 2026-05-21T11:01:06Z
 [ENV] PWD=/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts
 [ENV] PYTHON=/opt/hostedtoolcache/Python/3.11.15/x64/bin/python Python 3.11.15
 [ENV] NOTE_SESSION_COOKIE length: 2602
@@ -16,29 +16,21 @@
 [INFO] タイトル: 鋳物の街から、世界へ。高岡発・小さな誘客スキームを真面目に考えてみた
 [INFO] 本文長: 2759 文字
 [INFO] 8件のcookieを注入しました
-[INFO] After goto, URL = https://editor.note.com/notes/nd3eb5ce636dd/edit/
+[INFO] After goto, URL = https://editor.note.com/notes/ndb9e95d18649/edit/
 [INFO] cookieログイン成功（投稿画面に直接アクセスできました）
-[INFO] editor URL: https://editor.note.com/notes/n32b6dfea1368/edit/
+[INFO] editor URL: https://editor.note.com/notes/n0f6059251ac4/edit/
 [INFO] title selector: textarea[placeholder*="タイトル"]
 [INFO] title entered: 鋳物の街から、世界へ。高岡発・小さな誘客スキームを真面目に考...
 [INFO] body selector: div.ProseMirror
 [INFO] body entered via insert_text
 [INFO] publish setting button: button:has-text("公開に進む")
-[FATAL] Uncaught exception: RuntimeError: 「公開する」ボタンが見つかりません
-Traceback (most recent call last):
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 320, in main
-    return _main()
-           ^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 410, in _main
-    url = post_article(page, title, body)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 303, in post_article
-    raise RuntimeError("「公開する」ボタンが見つかりません")
-RuntimeError: 「公開する」ボタンが見つかりません
+[INFO] final publish button: button:has-text("投稿する")
+[WARN] no expected redirect; current URL: https://editor.note.com/notes/n0f6059251ac4/publish/
+[OK] 投稿完了: https://editor.note.com/notes/n0f6059251ac4/publish/
 ----- python output above -----
-[STEP END] exit_code=99 2026-05-21T10:59:31Z
--rw-r--r-- 1 runner runner  50008 May 21 10:59 debug_after_cookie_login.html
--rw-r--r-- 1 runner runner  21651 May 21 10:59 debug_after_cookie_login.png
--rw-r--r-- 1 runner runner  58852 May 21 10:59 debug_before_publish.png
--rw-r--r-- 1 runner runner 127102 May 21 10:59 debug_final_publish_not_found.png
--rw-r--r-- 1 runner runner   5671 May 21 10:59 debug_publish_modal.png
+[STEP END] exit_code=0 2026-05-21T11:02:02Z
+-rw-r--r-- 1 runner runner  50008 May 21 11:01 debug_after_cookie_login.html
+-rw-r--r-- 1 runner runner  21651 May 21 11:01 debug_after_cookie_login.png
+-rw-r--r-- 1 runner runner  58852 May 21 11:01 debug_before_publish.png
+-rw-r--r-- 1 runner runner 127986 May 21 11:01 debug_publish_modal.png
+-rw-r--r-- 1 runner runner 135649 May 21 11:01 debug_publish_no_redirect.png
