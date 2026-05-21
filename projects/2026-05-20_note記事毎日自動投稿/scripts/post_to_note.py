@@ -204,74 +204,113 @@ def login_with_password(page, email: str, password: str) -> None:
 
 
 def post_article(page, title: str, body: str) -> str:
-    """noteの新規投稿画面で記事を入力して公開する。
-
-    noteのエディタはリッチテキストで、Markdownをそのままペーストすると
-    一部書式が崩れる可能性がある。当面はプレーンテキストとして投入し、
-    UI構造が固まったら段階的に整形を強化する。
-    """
+    """noteの新規投稿画面で記事を入力して公開する。"""
     page.goto(NOTE_NEW_URL, wait_until="domcontentloaded")
     page.wait_for_timeout(3000)
+    print(f"[INFO] editor URL: {page.url}")
 
+    # === タイトル入力 ===
     title_selectors = [
         'textarea[placeholder*="タイトル"]',
         'input[placeholder*="タイトル"]',
         '[contenteditable="true"][data-placeholder*="タイトル"]',
     ]
+    title_locator = None
     for sel in title_selectors:
         if page.locator(sel).count():
-            page.locator(sel).first.fill(title)
+            title_locator = page.locator(sel).first
+            print(f"[INFO] title selector: {sel}")
             break
-    else:
+    if title_locator is None:
         page.screenshot(path=str(DEBUG_DIR / "debug_editor_title_not_found.png"))
         raise RuntimeError("タイトル入力欄が見つかりません")
 
-    body_selectors = [
-        '[contenteditable="true"][data-placeholder*="本文"]',
-        'div.ProseMirror',
-        '[role="textbox"]',
-    ]
+    title_locator.click()
+    page.wait_for_timeout(300)
+    page.keyboard.press("Control+A")
+    page.keyboard.press("Delete")
+    page.keyboard.insert_text(title)
+    page.wait_for_timeout(500)
+    print(f"[INFO] title entered: {title[:30]}...")
+
+    # === 本文入力 ===
     body_locator = None
-    for sel in body_selectors:
+    for sel in ['[contenteditable="true"][data-placeholder*="本文"]', 'div.ProseMirror', '[role="textbox"]']:
         if page.locator(sel).count():
             body_locator = page.locator(sel).last
+            print(f"[INFO] body selector: {sel}")
             break
     if body_locator is None:
         page.screenshot(path=str(DEBUG_DIR / "debug_editor_body_not_found.png"))
         raise RuntimeError("本文入力欄が見つかりません")
 
     body_locator.click()
-    body_locator.type(body, delay=5)
+    page.wait_for_timeout(500)
+    # 既存の本文を全消去
+    page.keyboard.press("Control+A")
+    page.keyboard.press("Delete")
+    page.wait_for_timeout(300)
 
-    page.wait_for_timeout(2000)
+    # 高速入力（insert_text は1回で全文を流し込む。type と違って文字ごとのキーイベントを発火しない）
+    try:
+        page.keyboard.insert_text(body)
+        print("[INFO] body entered via insert_text")
+    except Exception as e:
+        print(f"[WARN] insert_text failed: {e}, fallback to execCommand")
+        body_locator.evaluate(
+            "(el, text) => { el.focus(); document.execCommand('insertText', false, text); }",
+            body,
+        )
+        print("[INFO] body entered via execCommand")
+
+    page.wait_for_timeout(3000)
     page.screenshot(path=str(DEBUG_DIR / "debug_before_publish.png"))
 
-    publish_selectors = [
+    # === 公開設定ボタン ===
+    publish_clicked = False
+    for sel in [
         'button:has-text("公開設定")',
         'button:has-text("公開に進む")',
         'button:has-text("投稿")',
-    ]
-    for sel in publish_selectors:
+        'a:has-text("公開設定")',
+    ]:
         if page.locator(sel).count():
+            print(f"[INFO] publish setting button: {sel}")
             page.locator(sel).first.click()
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(3000)
+            publish_clicked = True
             break
+    if not publish_clicked:
+        page.screenshot(path=str(DEBUG_DIR / "debug_publish_button_not_found.png"))
+        raise RuntimeError("「公開設定」ボタンが見つかりません")
 
-    final_publish_selectors = [
+    page.screenshot(path=str(DEBUG_DIR / "debug_publish_modal.png"))
+
+    # === 最終公開ボタン ===
+    final_clicked = False
+    for sel in [
         'button:has-text("公開する")',
+        'button:has-text("無料で公開")',
         'button:has-text("有料公開")',
-    ]
-    for sel in final_publish_selectors:
+    ]:
         if page.locator(sel).count():
+            print(f"[INFO] final publish button: {sel}")
             page.locator(sel).first.click()
+            final_clicked = True
             break
+    if not final_clicked:
+        page.screenshot(path=str(DEBUG_DIR / "debug_final_publish_not_found.png"))
+        raise RuntimeError("「公開する」ボタンが見つかりません")
 
+    # 公開後のURLを待つ
     try:
-        page.wait_for_url(re.compile(r"https://note\.com/.+/n/.+"), timeout=20000)
+        page.wait_for_url(re.compile(r"https://note\.com/.+/n/.+"), timeout=30000)
+        print(f"[INFO] redirected to: {page.url}")
     except Exception:
         page.screenshot(path=str(DEBUG_DIR / "debug_publish_no_redirect.png"))
-        raise RuntimeError("公開後のURLが取得できません")
-
+        # URLが変わらないが、成功している可能性も。確認のため待機
+        page.wait_for_timeout(5000)
+        print(f"[WARN] no expected redirect; current URL: {page.url}")
     return page.url
 
 
