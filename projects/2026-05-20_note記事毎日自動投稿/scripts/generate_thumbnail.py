@@ -1,26 +1,27 @@
 """
-generate_thumbnail.py — DALL-E 3でサムネ画像を自動生成
+generate_thumbnail.py — Pollinations.ai（無料）でサムネ画像を自動生成
 
 実行：
-    OPENAI_API_KEY=... python generate_thumbnail.py <article_path>
+    python generate_thumbnail.py <article_path>
 
 入力：
 - 記事Markdown（タイトル+本文）
 
 出力：
-- 記事と同じディレクトリに <stem>_thumb.png を保存
+- 記事と同じディレクトリに <stem>_thumb.jpg を保存
 
-ロジック：
-- 記事タイトル+冒頭500字をClaudeに渡して、画像プロンプトを生成
-- そのプロンプトをDALL-E 3に投げて画像生成
-- 過去サムネ参照ファイル (assets/thumbnail_reference/) があればスタイルを寄せる
+特徴：
+- APIキー不要・完全無料（Pollinations.ai のflux モデル）
+- 記事タイトル+冒頭から英訳プロンプトを生成
+- 過去サムネ参照ファイル（assets/thumbnail_reference/style_summary.txt）があれば
+  スタイルヒントを上書き
 """
 
 from __future__ import annotations
 
-import base64
-import os
+import re
 import sys
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -28,67 +29,89 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 REFERENCE_DIR = PROJECT_DIR / "assets" / "thumbnail_reference"
 
-DEFAULT_STYLE_HINT = (
-    "natural light, photorealistic, slightly desaturated, Fuji film color tones, "
-    "no people in close shot, no text overlay, casual everyday Japanese local scene"
+DEFAULT_STYLE = (
+    "natural soft afternoon light, photorealistic, cinematic, "
+    "slightly desaturated Fuji film color tones, casual everyday Japanese local scene, "
+    "Takaoka Toyama Japan, no people in close shot, no text overlay, "
+    "Kodak Portra color tones, shot on Fujifilm GFX, shallow depth of field"
 )
 
 
-def derive_prompt_from_article(article_md: str) -> str:
-    """記事冒頭の情景描写を元に画像プロンプトを組み立てる。
+KEYWORD_TO_SCENE = {
+    "鋳物": "a traditional Japanese bronze casting workshop with glowing molten metal",
+    "山町筋": "Yamachomachi historic street with black-walled kura warehouses",
+    "雨晴": "Amaharashi coast with the Tateyama mountain range visible across the bay",
+    "瑞龍寺": "Zuiryu-ji temple wooden corridor with paper shoji screens at dawn",
+    "田んぼ": "newly water-filled rice paddies reflecting the spring sky",
+    "喫茶店": "a quiet small Japanese cafe interior with warm afternoon light",
+    "夕方": "soft golden hour evening light over a Japanese street",
+    "新緑": "fresh spring greenery and young rice seedlings",
+    "ホタルイカ": "Toyama Bay shoreline at twilight, late spring",
+    "金屋町": "Kanayamachi old foundry district with cobblestone street",
+    "高岡": "Takaoka city Toyama Japan",
+    "海": "Toyama Bay calm sea with Tateyama mountains in distance",
+    "朝": "early morning soft light over a Japanese local scene",
+    "夜": "Japanese local street at night with warm streetlights",
+    "雨": "a quiet rainy day in a Japanese town, wet stone pavement reflecting light",
+}
 
-    本来はClaudeに要約させる方が品質が高いが、依存を減らすため
-    記事の最初の段落を抜き出して英訳テンプレートに埋め込む簡易版。
-    APIキーが余れば claude_summarize() に差し替え可能。
-    """
-    lines = [ln.strip() for ln in article_md.splitlines() if ln.strip() and not ln.startswith("#")]
-    intro = " ".join(lines[:3])[:300]
 
-    style_hint = DEFAULT_STYLE_HINT
-    style_file = REFERENCE_DIR / "style_summary.txt"
-    if style_file.exists():
-        style_hint = style_file.read_text(encoding="utf-8").strip() or DEFAULT_STYLE_HINT
+def load_style_hint() -> str:
+    f = REFERENCE_DIR / "style_summary.txt"
+    if f.exists():
+        text = f.read_text(encoding="utf-8").strip()
+        if text:
+            return text
+    return DEFAULT_STYLE
 
-    prompt = (
-        "A daily-life photograph from Takaoka, Toyama, Japan, depicting the following scene: "
-        f"{intro}. "
-        f"Style: {style_hint}. "
-        "Composition: wide angle, the scene speaks for itself. "
-        "No text, no logo, no watermark. Aspect ratio 16:9."
+
+def extract_scene_from_article(article_md: str) -> str:
+    """記事タイトル+冒頭から、視覚化しやすいシーン描写を組み立てる。"""
+    title = ""
+    body_lines: list[str] = []
+    for line in article_md.splitlines():
+        if not title and line.startswith("# "):
+            title = line[2:].strip()
+        elif line.strip() and not line.startswith("#"):
+            body_lines.append(line.strip())
+
+    intro = " ".join(body_lines[:5])
+    combined = title + " " + intro
+
+    matched_scenes: list[str] = []
+    for kw, scene in KEYWORD_TO_SCENE.items():
+        if kw in combined and scene not in matched_scenes:
+            matched_scenes.append(scene)
+        if len(matched_scenes) >= 2:
+            break
+
+    if not matched_scenes:
+        matched_scenes = ["a quiet everyday scene in Takaoka, Toyama, Japan"]
+
+    scene = ", ".join(matched_scenes)
+    return scene
+
+
+def build_prompt(article_md: str) -> str:
+    scene = extract_scene_from_article(article_md)
+    style = load_style_hint()
+    prompt = f"{scene}. {style}. 16:9 widescreen composition."
+    # 短すぎず長すぎず（Pollinationsの推奨は500字以内）
+    return prompt[:480]
+
+
+def call_pollinations(prompt: str, out_path: Path) -> None:
+    encoded = urllib.parse.quote(prompt, safe="")
+    url = (
+        f"https://image.pollinations.ai/prompt/{encoded}"
+        "?width=1280&height=720&model=flux&nologo=true&private=true&enhance=true"
     )
-    return prompt
-
-
-def call_dalle(prompt: str) -> bytes:
-    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY が未設定")
-
-    import json
-    import urllib.request
-
-    req = urllib.request.Request(
-        "https://api.openai.com/v1/images/generations",
-        data=json.dumps(
-            {
-                "model": "dall-e-3",
-                "prompt": prompt,
-                "n": 1,
-                "size": "1792x1024",
-                "quality": "hd",
-                "response_format": "b64_json",
-            }
-        ).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        body = json.loads(resp.read().decode("utf-8"))
-    b64 = body["data"][0]["b64_json"]
-    return base64.b64decode(b64)
+    print(f"[INFO] Pollinations URL: {url[:150]}...")
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"})
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        data = resp.read()
+    out_path.write_bytes(data)
+    print(f"[OK] saved: {out_path} ({len(data)} bytes)")
 
 
 def main(argv: list[str]) -> int:
@@ -97,17 +120,19 @@ def main(argv: list[str]) -> int:
         return 1
     article_path = Path(argv[1]).resolve()
     if not article_path.exists():
-        print(f"[ERROR] 記事が見つかりません: {article_path}")
+        print(f"[ERROR] not found: {article_path}")
         return 2
 
     article_md = article_path.read_text(encoding="utf-8")
-    prompt = derive_prompt_from_article(article_md)
-    print(f"[INFO] 生成プロンプト:\n{prompt}\n")
+    prompt = build_prompt(article_md)
+    print(f"[INFO] prompt: {prompt}")
 
-    image_bytes = call_dalle(prompt)
-    out_path = article_path.with_name(article_path.stem.replace("_note記事", "") + "_thumb.png")
-    out_path.write_bytes(image_bytes)
-    print(f"[OK] サムネを保存: {out_path.relative_to(REPO_ROOT)}")
+    stem = article_path.stem.replace("_note記事", "")
+    out_path = article_path.with_name(f"{stem}_thumb.jpg")
+    call_pollinations(prompt, out_path)
+
+    # post_to_note.py が article_path から自動で thumb path を解決できるよう、
+    # 同じディレクトリに固定名で出力（_thumb.jpg）
     print(str(out_path.relative_to(REPO_ROOT)))
     return 0
 

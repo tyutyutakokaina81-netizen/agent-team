@@ -163,15 +163,56 @@ jobs:
             echo "[INFO] generate failed, post step will pick latest unposted article from CMO/outputs/"
           fi
 
-      - name: Generate thumbnail
+      - name: Pick article path for thumbnail
+        id: pick_for_thumb
+        if: ${{ steps.mode.outputs.mode != 'dry_run' && steps.mode.outputs.mode != 'post_only' }}
+        run: |
+          # generate_articleで出力されたパスがあればそれを使う。
+          # なければ post_to_note.py と同じロジックで CMO/outputs から最新の未投稿を選ぶ。
+          if [ -n "${{ steps.gen_article.outputs.article_path }}" ]; then
+            P="${{ steps.gen_article.outputs.article_path }}"
+          else
+            # 投稿済みリストを読んで、未投稿の最新を選択
+            POSTED_FILE="projects/2026-05-20_note記事毎日自動投稿/state/posted.json"
+            CANDIDATES=$(ls -1r CMO/outputs/*_note記事.md 2>/dev/null)
+            P=""
+            for cand in $CANDIDATES; do
+              if [ -f "$POSTED_FILE" ] && grep -q "$cand" "$POSTED_FILE"; then
+                continue
+              fi
+              P="$cand"; break
+            done
+          fi
+          echo "article_path=$P" >> $GITHUB_OUTPUT
+          echo "[INFO] article for thumbnail: $P"
+
+      - name: Generate thumbnail (free via Pollinations.ai)
         id: gen_thumb
         continue-on-error: true
-        if: ${{ steps.gen_article.outputs.article_path != '' && env.OPENAI_API_KEY != '' }}
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        if: ${{ steps.pick_for_thumb.outputs.article_path != '' }}
         working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
         run: |
-          python generate_thumbnail.py "${{ github.workspace }}/${{ steps.gen_article.outputs.article_path }}"
+          python generate_thumbnail.py "${{ github.workspace }}/${{ steps.pick_for_thumb.outputs.article_path }}"
+
+      - name: Fetch past thumbnails (style reference, once a week)
+        id: fetch_past
+        continue-on-error: true
+        if: ${{ steps.mode.outputs.mode == 'full' }}
+        env:
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+        working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
+        run: |
+          # 過去取得から7日以上経っていたら再取得
+          STAMP="../assets/.last_fetched"
+          if [ -f "$STAMP" ]; then
+            AGE=$(( ($(date +%s) - $(date -r "$STAMP" +%s)) / 86400 ))
+            if [ "$AGE" -lt 7 ]; then
+              echo "[INFO] past thumbnails fetched $AGE days ago, skipping"
+              exit 0
+            fi
+          fi
+          python fetch_past_thumbnails.py || echo "[WARN] fetch failed"
+          touch "$STAMP" 2>/dev/null || true
 
       - name: Commit generated assets
         id: commit_assets

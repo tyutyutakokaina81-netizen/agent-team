@@ -203,11 +203,97 @@ def login_with_password(page, email: str, password: str) -> None:
         raise RuntimeError("ログイン後のリダイレクトが確認できません（2FA/CAPTCHAの可能性）")
 
 
-def post_article(page, title: str, body: str) -> str:
+def find_thumbnail(article_path: Path) -> Path | None:
+    """記事に紐づくサムネ画像ファイル（同じディレクトリ・同stem + _thumb.jpg/.png）を探す。"""
+    stem = article_path.stem.replace("_note記事", "")
+    for ext in (".jpg", ".jpeg", ".png", ".webp"):
+        candidate = article_path.with_name(f"{stem}_thumb{ext}")
+        if candidate.exists():
+            return candidate
+    # CMO/assets/thumbnails/ 配下も探す
+    fallback_dir = REPO_ROOT / "CMO" / "assets" / "thumbnails"
+    if fallback_dir.exists():
+        for ext in (".jpg", ".jpeg", ".png", ".webp"):
+            candidate = fallback_dir / f"{stem}_thumb{ext}"
+            if candidate.exists():
+                return candidate
+    return None
+
+
+def upload_thumbnail(page, image_path: Path) -> bool:
+    """note エディタの見出し画像にサムネを設定する。
+
+    noteの編集画面では、本文上部に「画像をアップロード」エリアがあり、
+    隠れた input[type=file] にファイルをセットすればアップロードが走る。
+    UI仕様変更に強くするため、複数のセレクタを試す。
+    """
+    print(f"[INFO] uploading thumbnail: {image_path}")
+    # noteのhero image用のinputを探す
+    inputs = page.locator('input[type="file"]')
+    count = inputs.count()
+    print(f"[INFO] found {count} file input(s)")
+    if count == 0:
+        # 「画像を追加」ボタンを先にクリックして input を出現させる
+        for sel in [
+            'button:has-text("見出し画像を追加")',
+            'button:has-text("画像を追加")',
+            'button[aria-label*="画像"]',
+        ]:
+            if page.locator(sel).count():
+                try:
+                    page.locator(sel).first.click()
+                    page.wait_for_timeout(1500)
+                    print(f"[INFO] clicked image button: {sel}")
+                    break
+                except Exception as e:
+                    print(f"[WARN] click failed for {sel}: {e}")
+        inputs = page.locator('input[type="file"]')
+        count = inputs.count()
+        print(f"[INFO] after click, {count} file input(s)")
+
+    if count == 0:
+        page.screenshot(path=str(DEBUG_DIR / "debug_thumbnail_input_not_found.png"))
+        print("[WARN] file input not found; skipping thumbnail upload")
+        return False
+
+    # 最初のfile input にファイルをセット
+    try:
+        inputs.first.set_input_files(str(image_path))
+        page.wait_for_timeout(5000)  # アップロード完了待ち
+        page.screenshot(path=str(DEBUG_DIR / "debug_after_thumb_upload.png"))
+        print("[INFO] thumbnail upload triggered")
+        # 「画像トリミング/確定」モーダルが出る場合、確定ボタンを押す
+        for sel in [
+            'button:has-text("保存")',
+            'button:has-text("適用")',
+            'button:has-text("決定")',
+            'button:has-text("画像を保存")',
+        ]:
+            if page.locator(sel).count():
+                try:
+                    page.locator(sel).first.click()
+                    page.wait_for_timeout(2500)
+                    print(f"[INFO] confirmed image crop with: {sel}")
+                    break
+                except Exception:
+                    pass
+        return True
+    except Exception as e:
+        print(f"[WARN] thumbnail upload failed: {e}")
+        page.screenshot(path=str(DEBUG_DIR / "debug_thumb_upload_error.png"))
+        return False
+
+
+def post_article(page, title: str, body: str, thumbnail_path: Path | None = None) -> str:
     """noteの新規投稿画面で記事を入力して公開する。"""
     page.goto(NOTE_NEW_URL, wait_until="domcontentloaded")
     page.wait_for_timeout(3000)
     print(f"[INFO] editor URL: {page.url}")
+
+    # === サムネ画像アップロード（本文入力の前にやる）===
+    if thumbnail_path and thumbnail_path.exists():
+        upload_thumbnail(page, thumbnail_path)
+        page.wait_for_timeout(2000)
 
     # === タイトル入力 ===
     title_selectors = [
@@ -346,9 +432,11 @@ def _main() -> int:
 
     article_path = pick_article_to_post(explicit or None)
     title, body = parse_article(article_path)
+    thumbnail_path = find_thumbnail(article_path)
     print(f"[INFO] 投稿対象: {article_path.relative_to(REPO_ROOT)}")
     print(f"[INFO] タイトル: {title}")
     print(f"[INFO] 本文長: {len(body)} 文字")
+    print(f"[INFO] サムネ: {thumbnail_path.relative_to(REPO_ROOT) if thumbnail_path else '(なし)'}")
 
     try:
         from playwright.sync_api import sync_playwright
@@ -408,7 +496,7 @@ def _main() -> int:
             print("[INFO] DRY_RUN: ログイン確認OK、投稿はスキップします")
             return 0
 
-        url = post_article(page, title, body)
+        url = post_article(page, title, body, thumbnail_path=thumbnail_path)
         print(f"[OK] 投稿完了: {url}")
 
         state = load_posted_state()
