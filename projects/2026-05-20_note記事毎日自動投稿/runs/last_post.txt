@@ -1,0 +1,28 @@
+[STEP START] 2026-05-21T10:54:13Z
+[ENV] PWD=/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts
+[ENV] PYTHON=/opt/hostedtoolcache/Python/3.11.15/x64/bin/python Python 3.11.15
+[ENV] NOTE_SESSION_COOKIE length: 2602
+[ENV] NOTE_EMAIL set: no
+[ENV] NOTE_PASSWORD set: no
+[ENV] DRY_RUN: false
+[ENV] ARTICLE_PATH: [ERROR] ANTHROPIC_API_KEY が未設定
+----- python output below -----
+[INFO] NOTE_EMAIL set: False
+[INFO] NOTE_PASSWORD set: False
+[INFO] NOTE_SESSION_COOKIE set: True (length=2602)
+[INFO] ARTICLE_PATH: [ERROR] ANTHROPIC_API_KEY が未設定
+[INFO] DRY_RUN: False
+[FATAL] Uncaught exception: FileNotFoundError: 指定された記事が見つかりません: /home/runner/work/agent-team/agent-team/[ERROR] ANTHROPIC_API_KEY が未設定
+Traceback (most recent call last):
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 281, in main
+    return _main()
+           ^^^^^^^
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 307, in _main
+    article_path = pick_article_to_post(explicit or None)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/agent-team/agent-team/projects/2026-05-20_note記事毎日自動投稿/scripts/post_to_note.py", line 58, in pick_article_to_post
+    raise FileNotFoundError(f"指定された記事が見つかりません: {p}")
+FileNotFoundError: 指定された記事が見つかりません: /home/runner/work/agent-team/agent-team/[ERROR] ANTHROPIC_API_KEY が未設定
+----- python output above -----
+[STEP END] exit_code=99 2026-05-21T10:54:13Z
+ls: cannot access 'debug_*': No such file or directory
