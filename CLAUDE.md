@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Purpose
 
 AI-operated multi-officer company framework for building a ¥300K/month automated business.  
-Five C?O roles (CDO/CFO/CMO/CPO/CSO) each maintain their own work log, research, and outputs.  
+Six C?O roles (CDO/CFO/CMO/CPO/CSO/CLO) each maintain their own work log, research, and outputs.  
 All documents and operational output are in Japanese.
 
 ---
@@ -51,6 +51,12 @@ All documents and operational output are in Japanese.
 │   ├── prompt.md
 │   ├── research/          ← Customer analysis, market research drafts
 │   └── outputs/           ← Final: proposals, dialog logs, FAQs
+│
+├── CLO/                   ← Chief Legal Officer (contracts, ToS, compliance, IP)
+│   ├── _index.md
+│   ├── prompt.md
+│   ├── research/          ← Contract/regulation research drafts
+│   └── outputs/           ← Final: contracts, ToS, privacy policy, checklists
 │
 ├── context/               ← Owner's primary source of truth (read before any task)
 │   ├── diary/             ← Daily reflections and observations
@@ -143,6 +149,7 @@ projects/YYYY-MM-DD_プロジェクト名/
 | CMO | マーケティング・コンテンツ企画・集客 | YouTube台本、SNS投稿、LP |
 | CPO | 教育コンテンツ・プロダクト設計 | スライド、テンプレート、手順書 |
 | CSO | 顧客対話・営業・パイプライン管理 | 提案書、対話ログ、FAQ |
+| CLO | 契約・規約・コンプラ・著作権/景表法/特商法チェック | 契約書、利用規約、プライバシーポリシー、リスクチェックリスト |
 
 ### 役職間の情報フロー
 
@@ -157,8 +164,12 @@ projects/YYYY-MM-DD_プロジェクト名/
     │       └─→ CFO：価格・契約条件と整合
     ├─→ CFO：財務・事務管理
     │       └─→ CSO：見積・契約書を提供
-    └─→ CDO：全役職のツール・プロンプト整備
-            └─→ 全役職：効率化・自動化を支援
+    ├─→ CDO：全役職のツール・プロンプト整備
+    │       └─→ 全役職：効率化・自動化を支援
+    └─→ CLO：契約・規約・コンプラの法務観点チェック
+            ├─→ CSO/CFO：契約書・取引条件のリスク確認
+            ├─→ CMO：景表法・ステマ規制・著作権チェック
+            └─→ CPO：販売規約・返金規程・ライセンス整備
 ```
 
 ### 新役職の自動生成ルール（CDO 権限）
