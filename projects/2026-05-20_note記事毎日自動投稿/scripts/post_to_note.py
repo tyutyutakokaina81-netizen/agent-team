@@ -223,57 +223,94 @@ def find_thumbnail(article_path: Path) -> Path | None:
 def upload_thumbnail(page, image_path: Path) -> bool:
     """note エディタの見出し画像にサムネを設定する。
 
-    noteの編集画面では、本文上部に「画像をアップロード」エリアがあり、
-    隠れた input[type=file] にファイルをセットすればアップロードが走る。
-    UI仕様変更に強くするため、複数のセレクタを試す。
+    note の編集画面では、本文上部にある画像アイコン（写真＋プラス風）をクリック →
+    開いたメニューから「画像をアップロード」を選択すると input[type=file] が出現する。
     """
     print(f"[INFO] uploading thumbnail: {image_path}")
-    # noteのhero image用のinputを探す
-    inputs = page.locator('input[type="file"]')
-    count = inputs.count()
-    print(f"[INFO] found {count} file input(s)")
-    if count == 0:
-        # 「画像を追加」ボタンを先にクリックして input を出現させる
-        for sel in [
-            'button:has-text("見出し画像を追加")',
-            'button:has-text("画像を追加")',
-            'button[aria-label*="画像"]',
-        ]:
-            if page.locator(sel).count():
-                try:
-                    page.locator(sel).first.click()
-                    page.wait_for_timeout(1500)
-                    print(f"[INFO] clicked image button: {sel}")
-                    break
-                except Exception as e:
-                    print(f"[WARN] click failed for {sel}: {e}")
-        inputs = page.locator('input[type="file"]')
-        count = inputs.count()
-        print(f"[INFO] after click, {count} file input(s)")
 
-    if count == 0:
-        page.screenshot(path=str(DEBUG_DIR / "debug_thumbnail_input_not_found.png"))
-        print("[WARN] file input not found; skipping thumbnail upload")
+    # ① 画像挿入アイコンをクリックしてメニューを開く
+    icon_clicked = False
+    for sel in [
+        'button[aria-label*="画像をアップロード"]',
+        'button[aria-label*="画像を追加"]',
+        'button[aria-label*="見出し画像"]',
+        'button[aria-label*="画像"]',
+        # アイコン形式（svgのみのボタン）。タイトル上部にある最初のbutton
+        'div[class*="header"] button:has(svg)',
+    ]:
+        if page.locator(sel).count():
+            try:
+                page.locator(sel).first.click()
+                page.wait_for_timeout(1500)
+                print(f"[INFO] opened image menu via: {sel}")
+                icon_clicked = True
+                break
+            except Exception as e:
+                print(f"[WARN] click failed for {sel}: {e}")
+    if not icon_clicked:
+        page.screenshot(path=str(DEBUG_DIR / "debug_thumb_icon_not_found.png"))
+        print("[WARN] image insertion icon not found; skipping thumbnail")
         return False
 
-    # 最初のfile input にファイルをセット
+    # ② 開いたメニューから「画像をアップロード」を選ぶ
+    menu_clicked = False
+    for sel in [
+        'text=画像をアップロード',
+        'button:has-text("画像をアップロード")',
+        '[role="menuitem"]:has-text("画像をアップロード")',
+        'li:has-text("画像をアップロード")',
+    ]:
+        if page.locator(sel).count():
+            try:
+                page.locator(sel).first.click()
+                page.wait_for_timeout(1500)
+                print(f"[INFO] clicked '画像をアップロード' via: {sel}")
+                menu_clicked = True
+                break
+            except Exception as e:
+                print(f"[WARN] menu click failed for {sel}: {e}")
+    if not menu_clicked:
+        page.screenshot(path=str(DEBUG_DIR / "debug_thumb_menu_not_found.png"))
+        # メニューが既に消えた等。ESCで閉じて続行
+        try:
+            page.keyboard.press("Escape")
+        except Exception:
+            pass
+        print("[WARN] '画像をアップロード' menu item not found; skipping thumbnail")
+        return False
+
+    # ③ input[type="file"] にファイルをセット
+    inputs = page.locator('input[type="file"]')
+    count = inputs.count()
+    print(f"[INFO] file inputs found: {count}")
+    if count == 0:
+        page.screenshot(path=str(DEBUG_DIR / "debug_thumb_input_still_missing.png"))
+        try:
+            page.keyboard.press("Escape")
+        except Exception:
+            pass
+        print("[WARN] file input not appearing after menu click")
+        return False
+
     try:
         inputs.first.set_input_files(str(image_path))
-        page.wait_for_timeout(5000)  # アップロード完了待ち
+        page.wait_for_timeout(6000)
         page.screenshot(path=str(DEBUG_DIR / "debug_after_thumb_upload.png"))
-        print("[INFO] thumbnail upload triggered")
-        # 「画像トリミング/確定」モーダルが出る場合、確定ボタンを押す
+        print("[INFO] thumbnail file set")
+
+        # ④ 画像トリミング/プレビューモーダルの「保存」を押す
         for sel in [
             'button:has-text("保存")',
             'button:has-text("適用")',
             'button:has-text("決定")',
             'button:has-text("画像を保存")',
+            'button:has-text("OK")',
         ]:
             if page.locator(sel).count():
                 try:
                     page.locator(sel).first.click()
                     page.wait_for_timeout(2500)
-                    print(f"[INFO] confirmed image crop with: {sel}")
+                    print(f"[INFO] confirmed crop modal with: {sel}")
                     break
                 except Exception:
                     pass
@@ -281,6 +318,10 @@ def upload_thumbnail(page, image_path: Path) -> bool:
     except Exception as e:
         print(f"[WARN] thumbnail upload failed: {e}")
         page.screenshot(path=str(DEBUG_DIR / "debug_thumb_upload_error.png"))
+        try:
+            page.keyboard.press("Escape")
+        except Exception:
+            pass
         return False
 
 
