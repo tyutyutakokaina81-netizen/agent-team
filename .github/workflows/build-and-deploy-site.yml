@@ -1,0 +1,63 @@
+name: build-and-deploy-site
+
+on:
+  schedule:
+    - cron: "30 22 * * *"   # 07:30 JST（投稿ワークフローの30分後）
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/article-with-thumbnails-2q00y
+      - main
+    paths:
+      - "CMO/outputs/**"
+      - "projects/2026-05-20_note記事毎日自動投稿/scripts/build_site.py"
+      - "projects/2026-05-20_note記事毎日自動投稿/scripts/translate.py"
+      - ".github/workflows/build-and-deploy-site.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build static site (日 + 英)
+        env:
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
+        working-directory: projects/2026-05-20_note記事毎日自動投稿/scripts
+        run: |
+          python build_site.py
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
