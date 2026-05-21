@@ -1,0 +1,8 @@
+Trigger: 2026-05-21 サムネ付き投稿テスト
+タイムスタンプ: 2026-05-21T11:30Z
+
+サムネ機能 (generate_thumbnail.py via Pollinations.ai + upload_thumbnail)
+を組み込んだ初回 full モード実行。
+- 投稿対象: CMO/outputs/2026-05-20_五月の高岡から_note記事.md (未投稿)
+- サムネ: 自動生成 → 同stem の _thumb.jpg
+- post時にアップロード → 投稿
