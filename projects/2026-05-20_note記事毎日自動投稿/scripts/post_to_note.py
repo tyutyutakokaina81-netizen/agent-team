@@ -314,15 +314,32 @@ def main() -> int:
         if cookie_json:
             logged_in = login_with_cookie(context, cookie_json)
             if logged_in:
-                page.goto("https://note.com/", wait_until="domcontentloaded")
-                # ログイン済み判定: ログインリンクが見えないこと
-                page.wait_for_timeout(2000)
-                has_login_link = page.locator('a[href*="/login"]').count() > 0
-                if has_login_link:
-                    print("[WARN] cookie注入したがログイン状態が確認できません（cookie期限切れの可能性）")
+                # 投稿画面に直接遷移してリダイレクトされなければログイン済み
+                try:
+                    page.goto(NOTE_NEW_URL, wait_until="domcontentloaded", timeout=15000)
+                    page.wait_for_timeout(2500)
+                except Exception as e:
+                    print(f"[WARN] 投稿画面遷移エラー: {e}")
+                    page.screenshot(path=str(DEBUG_DIR / "debug_cookie_goto_error.png"))
                     logged_in = False
-                else:
-                    print("[INFO] cookieログイン成功")
+
+                if logged_in:
+                    current_url = page.url
+                    print(f"[INFO] After goto, URL = {current_url}")
+                    page.screenshot(path=str(DEBUG_DIR / "debug_after_cookie_login.png"))
+                    try:
+                        page.content_html = page.content()
+                        with open(DEBUG_DIR / "debug_after_cookie_login.html", "w", encoding="utf-8") as f:
+                            f.write(page.content_html[:50000])
+                    except Exception:
+                        pass
+
+                    # ログイン画面に飛ばされていたら失敗
+                    if "/login" in current_url or "/signin" in current_url:
+                        print("[WARN] 投稿画面アクセス時にログイン画面へリダイレクトされました（cookie失効か無効）")
+                        logged_in = False
+                    else:
+                        print("[INFO] cookieログイン成功（投稿画面に直接アクセスできました）")
 
         if not logged_in:
             if not (email and password):
