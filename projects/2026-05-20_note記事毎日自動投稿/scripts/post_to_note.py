@@ -88,14 +88,67 @@ def parse_article(article_path: Path) -> tuple[str, str]:
     return title, body
 
 
+def normalize_cookie(c: dict) -> dict | None:
+    """Chrome拡張「EditThisCookie」やDevToolsからエクスポートしたcookieを
+    playwright の add_cookies が受け取れる形に正規化する。
+    """
+    if "name" not in c or "value" not in c:
+        return None
+    out: dict = {
+        "name": c["name"],
+        "value": c["value"],
+        "path": c.get("path", "/"),
+    }
+    if "domain" in c and c["domain"]:
+        out["domain"] = c["domain"]
+    elif "url" in c:
+        out["url"] = c["url"]
+    else:
+        out["domain"] = ".note.com"
+    if "expirationDate" in c:
+        try:
+            out["expires"] = float(c["expirationDate"])
+        except (TypeError, ValueError):
+            pass
+    elif "expires" in c:
+        try:
+            out["expires"] = float(c["expires"])
+        except (TypeError, ValueError):
+            pass
+    if "httpOnly" in c:
+        out["httpOnly"] = bool(c["httpOnly"])
+    if "secure" in c:
+        out["secure"] = bool(c["secure"])
+    if "sameSite" in c and c["sameSite"]:
+        ss = str(c["sameSite"]).strip()
+        ss_lower = ss.lower()
+        if ss_lower in ("strict", "lax", "none"):
+            out["sameSite"] = ss.capitalize() if ss_lower != "none" else "None"
+        elif ss_lower in ("no_restriction", "unspecified"):
+            out["sameSite"] = "None"
+    return out
+
+
 def login_with_cookie(context, cookie_json: str) -> bool:
     """事前取得済みのセッションcookieでログイン状態を再現する。"""
     try:
-        cookies = json.loads(cookie_json)
+        raw = json.loads(cookie_json)
     except json.JSONDecodeError:
         print("[WARN] NOTE_SESSION_COOKIE がJSON parseできません。パスワードログインにフォールバックします。")
         return False
-    context.add_cookies(cookies)
+    if not isinstance(raw, list):
+        print("[WARN] NOTE_SESSION_COOKIE は配列形式である必要があります")
+        return False
+    normalized = [c for c in (normalize_cookie(c) for c in raw) if c]
+    if not normalized:
+        print("[WARN] 有効なcookieが0件です")
+        return False
+    try:
+        context.add_cookies(normalized)
+    except Exception as e:
+        print(f"[WARN] cookie注入に失敗: {e}")
+        return False
+    print(f"[INFO] {len(normalized)}件のcookieを注入しました")
     return True
 
 
@@ -260,9 +313,16 @@ def main() -> int:
         logged_in = False
         if cookie_json:
             logged_in = login_with_cookie(context, cookie_json)
-            page.goto("https://note.com/", wait_until="domcontentloaded")
-            if "ログイン" in (page.title() or ""):
-                logged_in = False
+            if logged_in:
+                page.goto("https://note.com/", wait_until="domcontentloaded")
+                # ログイン済み判定: ログインリンクが見えないこと
+                page.wait_for_timeout(2000)
+                has_login_link = page.locator('a[href*="/login"]').count() > 0
+                if has_login_link:
+                    print("[WARN] cookie注入したがログイン状態が確認できません（cookie期限切れの可能性）")
+                    logged_in = False
+                else:
+                    print("[INFO] cookieログイン成功")
 
         if not logged_in:
             if not (email and password):
