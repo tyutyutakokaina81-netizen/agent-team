@@ -1,7 +1,5 @@
-Trigger: 2026-05-20 cookie登録後の再実行
-タイムスタンプ: 2026-05-20T22:30Z
+Trigger: 2026-05-20 secret検出強化版での再実行（5回目）
+タイムスタンプ: 2026-05-21T09:50Z
 
-Secret NOTE_SESSION_COOKIE が登録された前提で full モードを実行。
-- ANTHROPIC_API_KEY が未登録の場合、記事生成はスキップされるが
-  CMO/outputs/ の既存記事から最新の未投稿記事を選んで投稿される
-- 投稿成功すれば state/posted.json に記録される
+検出名のバリエーション（typo候補）も含めて、何かが登録されていれば
+runs/latest.json の secrets.detected_names に表示される。

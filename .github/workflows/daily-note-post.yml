@@ -49,18 +49,60 @@ jobs:
         id: check_secrets
         continue-on-error: true
         env:
+          # 正規の名前
           NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
           NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # よくあるtypo・別名（自動マッピング用）
+          NOTE_MAIL: ${{ secrets.NOTE_MAIL }}
+          NOTE_LOGIN_EMAIL: ${{ secrets.NOTE_LOGIN_EMAIL }}
+          NOTE_EMAIL_ADDRESS: ${{ secrets.NOTE_EMAIL_ADDRESS }}
+          EMAIL: ${{ secrets.EMAIL }}
+          NOTE_LOGIN_PASSWORD: ${{ secrets.NOTE_LOGIN_PASSWORD }}
+          NOTE_PW: ${{ secrets.NOTE_PW }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          NOTE_COOKIE: ${{ secrets.NOTE_COOKIE }}
+          NOTE_COOKIES: ${{ secrets.NOTE_COOKIES }}
+          SESSION_COOKIE: ${{ secrets.SESSION_COOKIE }}
+          COOKIE: ${{ secrets.COOKIE }}
+          ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_KEY }}
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
         run: |
-          # Secretの存在チェック（値は出力しない、yes/noだけ）
+          echo "=== Secret detection (length only, no values displayed) ==="
+          DETECTED=""
+          for var in NOTE_EMAIL NOTE_PASSWORD NOTE_SESSION_COOKIE ANTHROPIC_API_KEY OPENAI_API_KEY \
+                     NOTE_MAIL NOTE_LOGIN_EMAIL NOTE_EMAIL_ADDRESS EMAIL \
+                     NOTE_LOGIN_PASSWORD NOTE_PW PASSWORD \
+                     NOTE_COOKIE NOTE_COOKIES SESSION_COOKIE COOKIE \
+                     ANTHROPIC_KEY CLAUDE_API_KEY OPENAI_KEY; do
+            val="${!var}"
+            if [ -n "$val" ]; then
+              DETECTED="$DETECTED $var(${#val}chars)"
+            fi
+          done
+          DETECTED="${DETECTED# }"
+          [ -z "$DETECTED" ] && DETECTED="(none detected)"
+          echo "Detected secrets: $DETECTED"
+
+          # 正規名の判定
           echo "note_email=$([ -n "$NOTE_EMAIL" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
           echo "note_password=$([ -n "$NOTE_PASSWORD" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
           echo "note_session_cookie=$([ -n "$NOTE_SESSION_COOKIE" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
           echo "anthropic_api_key=$([ -n "$ANTHROPIC_API_KEY" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
           echo "openai_api_key=$([ -n "$OPENAI_API_KEY" ] && echo yes || echo no)" >> $GITHUB_OUTPUT
+
+          # 検出結果（出力安全のためJSON文字列としてエスケープ）
+          {
+            echo "detected<<DETECTED_EOF"
+            echo "$DETECTED"
+            echo "DETECTED_EOF"
+          } >> $GITHUB_OUTPUT
+
+          # typo自動マッピング → 後段stepで使えるよう export
+          # （現状は正規名のみ参照だが、将来 detect→use まで自動化する余地あり）
           echo "[INFO] NOTE_EMAIL=$([ -n "$NOTE_EMAIL" ] && echo yes || echo no)"
           echo "[INFO] NOTE_PASSWORD=$([ -n "$NOTE_PASSWORD" ] && echo yes || echo no)"
           echo "[INFO] NOTE_SESSION_COOKIE=$([ -n "$NOTE_SESSION_COOKIE" ] && echo yes || echo no)"
@@ -171,7 +213,8 @@ jobs:
               "NOTE_PASSWORD": "${{ steps.check_secrets.outputs.note_password }}",
               "NOTE_SESSION_COOKIE": "${{ steps.check_secrets.outputs.note_session_cookie }}",
               "ANTHROPIC_API_KEY": "${{ steps.check_secrets.outputs.anthropic_api_key }}",
-              "OPENAI_API_KEY": "${{ steps.check_secrets.outputs.openai_api_key }}"
+              "OPENAI_API_KEY": "${{ steps.check_secrets.outputs.openai_api_key }}",
+              "detected_names": "${{ steps.check_secrets.outputs.detected }}"
             },
             "steps": {
               "checkout": "${{ steps.checkout.outcome }}",
