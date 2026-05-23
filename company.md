@@ -10,10 +10,14 @@ agent-team/
 │   └── references/           ← 参考資料・外部情報
 ├── projects/                 ← 役職横断プロジェクト
 │   └── _index.md             ← プロジェクト一覧
+├── COO/                      ← 最高執行責任者（主導権・独断執行）
+│   ├── _index.md             ← 意思決定ログ・進行タスク
+│   ├── research/             ← 検討メモ
+│   └── outputs/              ← 日次意思決定ログ
 ├── CMO/                      ← マーケティング責任者
 │   ├── _index.md             ← 成果物ログ・進行タスク
 │   ├── research/             ← 調査・リサーチ
-│   └── outputs/              ← 台本・投稿文・LP
+│   └── outputs/              ← 台本・投稿文・LP（媒体別サブディレクトリ可）
 ├── CPO/                      ← プロダクト責任者
 │   ├── _index.md
 │   ├── research/             ← 教材調査・セミナー準備
@@ -25,11 +29,12 @@ agent-team/
 ├── CSO/                      ← 営業責任者
 │   ├── _index.md
 │   ├── research/             ← 顧客分析・市場調査
-│   └── outputs/              ← 商談記録・提案書
+│   ├── templates/            ← 公開可能テンプレ（git追跡）
+│   └── outputs/              ← 商談記録・提案書（機密・gitignore対象）
 └── CDO/                      ← 技術責任者
     ├── _index.md
     ├── research/             ← プロンプト検証・ツール調査
-    └── outputs/              ← プロンプト集・活用ガイド
+    └── outputs/              ← プロンプト集・活用ガイド・skills/
 ```
 
 ---
@@ -47,11 +52,12 @@ agent-team/
 
 | 役割 | 調査・リサーチ | 最終成果物 |
 |------|--------------|-----------|
+| COO（最高執行責任者） | `COO/research/` | `COO/outputs/`（日次意思決定ログ） |
 | CMO（マーケティング） | `CMO/research/` | `CMO/outputs/` |
 | CPO（プロダクト） | `CPO/research/` | `CPO/outputs/` |
 | CFO（財務・事務） | `CFO/research/` | `CFO/outputs/` |
-| CSO（営業） | `CSO/research/` | `CSO/outputs/` |
-| CDO（技術） | `CDO/research/` | `CDO/outputs/` |
+| CSO（営業） | `CSO/research/` | `CSO/outputs/`（機密）／`CSO/templates/`（公開可） |
+| CDO（技術） | `CDO/research/` | `CDO/outputs/`（含む `skills/`） |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
@@ -189,8 +195,19 @@ projects/YYYY-MM-DD_プロジェクト名/
 
 ## 10. 各役割の担当領域
 
+- **COO**：日次タスクの優先順位決定、各役職への指示出し、micro判断の独断執行、停滞除去（CPOメソッド「人間が握る3判断」以外は独断で前進）
 - **CMO**：YouTube台本、SNS投稿、LP作成、マーケティング戦略
 - **CPO**：教材スライド作成、セミナー構成、プロダクト改善
 - **CFO**：請求書発行、契約書管理、経費管理、事務全般
 - **CSO**：顧客との対話記録、営業提案、商談管理
 - **CDO**：プロンプト管理、Claude Code活用、技術検証、新役職生成
+
+### COOの主導権と境界
+
+| 独断執行可（オーナー決済不要） | エスカレ必須（オーナー決済要） |
+|--------------------------|----------------------------|
+| 日次タスクの優先順位決定 | 売上¥10K超の支出・契約締結 |
+| 各役職への指示出し | ブランド名・サービス名の最終決定 |
+| 既存方針内のmicro判断（文面・公開タイミング等） | Go/No-Go の最終判断 |
+| スキル起動（`/business`等） | 外部送信（請求書・公式メール・SNS本投稿） |
+| 下書きの段階管理 | 新規役職追加（CDOと協議） |
