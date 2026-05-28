@@ -5,7 +5,12 @@ node_modules/
 *.env.*
 
 # local-only / generated
-.claude/
+# .claude: 共有設定(settings.json)とフック(hooks/)は追跡。ローカル設定は除外。
+.claude/*
+!.claude/settings.json
+!.claude/hooks
+!.claude/hooks/*
+.claude/settings.local.json
 bin/
 md/
 ppt/
