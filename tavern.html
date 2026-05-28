@@ -252,6 +252,7 @@ function blip(freq=660, dur=0.06){
     o.start(); o.stop(actx.currentTime+dur);
   }catch(e){}
 }
+function fanfare(){ [523,659,784,1047].forEach((f,i)=>setTimeout(()=>blip(f,0.13), i*90)); }
 
 // ── なかまリスト描画 ────────────────────────────────────────
 function renderParty(){
@@ -346,7 +347,14 @@ function renderQuests(){
     el.onclick=()=>{
       const id=el.dataset.id;
       if(el.dataset.act==='del'){ quests=quests.filter(q=>q.id!==id); blip(300); }
-      else { const q=quests.find(x=>x.id===id); if(q){ q.status=NEXT[q.status]; blip(820); } }
+      else {
+        const q=quests.find(x=>x.id===id);
+        if(q){
+          q.status=NEXT[q.status];
+          if(q.status==='done'){ fanfare(); toast(`${q.of} は しごとを やりとげた！`); }
+          else blip(820);
+        }
+      }
       save(); renderQuests();
     };
   });
