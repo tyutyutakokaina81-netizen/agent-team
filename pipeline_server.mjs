@@ -183,6 +183,7 @@ function renderPanel() {
   <div class="header">
     <h1>🤖 パイプライン操作</h1>
     <p>データ入力・スクレイピング自動化</p>
+    <p style="margin-top:6px"><a href="/tavern" style="color:#0a84ff;font-size:13px;text-decoration:none">🍺 ルイーダの酒場（役員に仕事をたのむ）›</a></p>
   </div>
 
   <div class="status-bar" id="statusBar">
@@ -333,6 +334,15 @@ async function handleRequest(req, res) {
   // HTML操作パネル
   if (method === 'GET' && path === '/') {
     return html(res, renderPanel());
+  }
+
+  // ルイーダの酒場（役員ダッシュボード）
+  if (method === 'GET' && path === '/tavern') {
+    try {
+      return html(res, readFileSync(join(__dir, 'tavern.html'), 'utf-8'));
+    } catch {
+      return json(res, 404, { error: 'tavern.html not found' });
+    }
   }
 
   // 状態確認（認証不要）
