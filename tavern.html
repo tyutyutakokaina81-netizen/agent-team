@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>ルイーダの酒場 — AIエージェント会社</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+  :root{
+    --ink:#ffffff;
+    --gold:#f8e000;
+    --hp:#39d353;
+    --mp:#4ab8ff;
+    --win:#000814;
+    --cursor:#f8e000;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    font-family:'DotGothic16','MS Gothic',monospace;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 50% -10%, #15234a 0%, #0a1024 45%, #05060f 100%);
+    background-attachment:fixed;
+    -webkit-text-size-adjust:100%;
+    line-height:1.6;
+    padding:14px;
+    min-height:100%;
+  }
+  /* ドラクエ風のメッセージウィンドウ（黒地・白い角丸2重枠） */
+  .window{
+    background:var(--win);
+    border:3px solid var(--ink);
+    border-radius:12px;
+    box-shadow:0 0 0 3px var(--win), 0 4px 0 3px rgba(0,0,0,.6);
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .window > h2{
+    font-size:15px;
+    color:var(--gold);
+    letter-spacing:1px;
+    margin-bottom:10px;
+    border-bottom:2px dotted #34406a;
+    padding-bottom:6px;
+  }
+  .wrap{ max-width:1000px; margin:0 auto; }
+  .title{
+    text-align:center;
+  }
+  .title h1{
+    font-size:22px;
+    color:var(--gold);
+    text-shadow:2px 2px 0 #000, 0 0 12px rgba(248,224,0,.35);
+    letter-spacing:2px;
+  }
+  .title p{ font-size:12px; color:#9fb0d6; margin-top:6px; }
+  .title .gold{ color:var(--gold); }
+
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
+  @media(max-width:760px){ .grid{ grid-template-columns:1fr; } }
+
+  /* なかまリスト */
+  .party li{
+    list-style:none;
+    display:flex; align-items:center; gap:10px;
+    padding:9px 8px;
+    cursor:pointer;
+    border-radius:6px;
+  }
+  .party li:hover{ background:#0e1b3a; }
+  .party li.sel{ background:#0e1b3a; }
+  .party .cursor{ color:var(--cursor); width:16px; visibility:hidden; }
+  .party li.sel .cursor{ visibility:visible; }
+  .party .nm{ font-size:15px; }
+  .party .jb{ font-size:11px; color:#9fb0d6; }
+  .party .lv{ margin-left:auto; font-size:12px; color:var(--gold); white-space:nowrap; }
+  .party .st{ font-size:10px; padding:1px 7px; border-radius:10px; border:1px solid #34406a; color:#9fb0d6; }
+  .party .st.busy{ color:var(--gold); border-color:var(--gold); }
+
+  /* ステータス詳細 */
+  .detail .nmline{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
+  .detail .nmline b{ font-size:18px; }
+  .detail .ttl{ color:var(--gold); font-size:12px; }
+  .detail .jobline{ font-size:12px; color:#9fb0d6; margin-bottom:10px; }
+  .bar{ display:flex; align-items:center; gap:8px; font-size:12px; margin:3px 0; }
+  .bar .lbl{ width:42px; color:#9fb0d6; }
+  .bar .track{ flex:1; height:10px; background:#0c1530; border:1px solid #2a355c; border-radius:5px; overflow:hidden; }
+  .bar .fill{ height:100%; border-radius:4px; }
+  .bar .num{ width:54px; text-align:right; }
+  .skills{ margin-top:10px; }
+  .skills .h{ color:var(--gold); font-size:12px; margin-bottom:4px; }
+  .skills ul{ list-style:none; display:flex; flex-wrap:wrap; gap:6px; }
+  .skills li{ font-size:11px; border:1px solid #34406a; border-radius:6px; padding:3px 8px; background:#0c1530; }
+  .seikaku{ font-size:11px; color:#9fb0d6; margin-top:10px; border-top:2px dotted #34406a; padding-top:8px; }
+
+  /* しごとを たのむ */
+  label.h{ display:block; color:var(--gold); font-size:12px; margin-bottom:6px; }
+  textarea{
+    width:100%; min-height:96px; resize:vertical;
+    background:#0c1530; color:var(--ink);
+    border:2px solid #2a355c; border-radius:8px;
+    font-family:inherit; font-size:13px; padding:10px;
+  }
+  textarea:focus{ outline:none; border-color:var(--gold); }
+  .who{ font-size:12px; color:#9fb0d6; margin-bottom:8px; }
+  .who b{ color:var(--ink); }
+  .btnrow{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+  button.cmd{
+    font-family:inherit; font-size:13px; cursor:pointer;
+    background:var(--win); color:var(--ink);
+    border:2px solid var(--ink); border-radius:8px;
+    padding:9px 16px;
+    box-shadow:0 3px 0 0 rgba(0,0,0,.6);
+  }
+  button.cmd:hover{ color:var(--gold); border-color:var(--gold); }
+  button.cmd:active{ transform:translateY(2px); box-shadow:none; }
+  button.cmd.primary{ background:#102a14; border-color:var(--hp); color:var(--hp); }
+  button.cmd.primary:hover{ color:#fff; }
+
+  /* クエストボード */
+  .quests li{ list-style:none; border-bottom:1px dotted #34406a; padding:9px 2px; font-size:12px; }
+  .quests li:last-child{ border-bottom:none; }
+  .quests .top{ display:flex; align-items:center; gap:8px; }
+  .quests .qof{ color:var(--gold); }
+  .quests .qtx{ margin-top:3px; color:#cdd7f0; white-space:pre-wrap; word-break:break-word; }
+  .badge{ font-size:10px; padding:1px 8px; border-radius:10px; border:1px solid; cursor:pointer; white-space:nowrap; }
+  .badge.todo{ color:#9fb0d6; border-color:#34406a; }
+  .badge.doing{ color:var(--mp); border-color:var(--mp); }
+  .badge.done{ color:var(--hp); border-color:var(--hp); }
+  .qdel{ margin-left:auto; color:#6b7699; cursor:pointer; font-size:14px; background:none; border:none; }
+  .qdel:hover{ color:#ff6b6b; }
+  .empty{ color:#6b7699; font-size:12px; }
+
+  /* トースト（○○は しごとを ひきうけた！） */
+  #toast{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    background:var(--win); border:3px solid var(--ink); border-radius:10px;
+    color:var(--ink); padding:12px 22px; font-size:14px;
+    opacity:0; transition:.25s; pointer-events:none; z-index:50;
+    box-shadow:0 0 0 3px var(--win);
+  }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .blink{ animation:bl 1s steps(1) infinite; }
+  @keyframes bl{ 50%{ opacity:0; } }
+  .foot{ text-align:center; font-size:10px; color:#566980; margin-top:4px; }
+  .sound{ position:fixed; top:10px; right:12px; font-size:18px; cursor:pointer; opacity:.7; }
+  .sound:hover{ opacity:1; }
+</style>
+</head>
+<body>
+<div class="sound" id="soundBtn" title="こうかおん">🔊</div>
+<div class="wrap">
+
+  <div class="window title">
+    <h1>★ ルイーダの酒場 ★</h1>
+    <p>めざせ <span class="gold">月30万ゴールド</span> の冒険 ─ なかまに しごとを たのもう</p>
+  </div>
+
+  <div class="grid">
+    <!-- 左：なかま＋ステータス -->
+    <div>
+      <div class="window">
+        <h2>なかまをえらぶ</h2>
+        <ul class="party" id="party"></ul>
+      </div>
+      <div class="window detail" id="detail"></div>
+    </div>
+
+    <!-- 右：依頼＋クエストボード -->
+    <div>
+      <div class="window">
+        <h2>しごとを たのむ</h2>
+        <div class="who">いま えらんでいる なかま：<b id="whoName">―</b></div>
+        <label class="h">▼ たのみたいこと を かいてください</label>
+        <textarea id="task" placeholder="れい：来月のYouTube台本を3本ぶん 考えてほしい"></textarea>
+        <div class="btnrow">
+          <button class="cmd primary" id="assignBtn">▶ この なかまに たのむ</button>
+          <button class="cmd" id="copyBtn">指示文だけ コピー</button>
+        </div>
+        <p class="empty" style="margin-top:8px">「たのむ」を押すと、Claudeに貼るだけの<span style="color:var(--gold)">指示文</span>を作って自動でコピーします。</p>
+      </div>
+
+      <div class="window">
+        <h2>クエストボード <span class="blink" style="color:var(--gold);font-size:11px">▼</span></h2>
+        <ul class="quests" id="quests"></ul>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot">状態はこの端末のブラウザに保存されます（localStorage）。</p>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── なかま（5人の役員）データ ───────────────────────────────
+const OFFICERS = [
+  { id:'CDO', title:'仕組みの賢者', job:'けんじゃ（自動化魔法）', lv:15,
+    color:'#a98bff', hp:120, hpmax:140, mp:220, mpmax:220,
+    stats:[['自動化',95],['再現性',92],['シンプル',88],['記録力',80]],
+    skills:['プロンプト錬成','ツール召喚','新役職を生む','自動化のじゅもん'],
+    seikaku:'全体最適と再現性が起点。複雑さを嫌い、誰でも使える仕組みを好む。',
+    duty:'自動化・プロンプト設計・技術検証・役職管理' },
+
+  { id:'CFO', title:'数字の守護者', job:'パラディン（まもりの盾）', lv:14,
+    color:'#ffd24a', hp:180, hpmax:180, mp:70, mpmax:90,
+    stats:[['正確さ',98],['しゅび',95],['冷静さ',90],['スピード',55]],
+    skills:['請求書づくり','契約チェックの盾','経費かんり','リスクを みやぶる'],
+    seikaku:'正確さとリスク回避が起点。曖昧を嫌い、明確な数字・期日・条件を求める。',
+    duty:'財務・契約・経費・事務全般' },
+
+  { id:'CMO', title:'言葉の魔術師', job:'ぎんゆうしじん（集客の歌）', lv:13,
+    color:'#ff7ab0', hp:110, hpmax:130, mp:160, mpmax:160,
+    stats:[['みりょく',96],['ひらめき',90],['共感力',88],['正確さ',60]],
+    skills:['YouTube台本','SNS投稿','LP作成','心を動かす歌'],
+    seikaku:'起点は常に顧客の感情。「読まれる文章」を目指し、世界観を崩さない。',
+    duty:'マーケティング・コンテンツ企画・集客' },
+
+  { id:'CPO', title:'教えの設計士', job:'けんちくし（構造の魔法）', lv:13,
+    color:'#5fe0a0', hp:130, hpmax:140, mp:130, mpmax:140,
+    stats:[['構造力',95],['わかりやすさ',93],['再現性',90],['ひらめき',70]],
+    skills:['教材スライド','セミナー構成','テンプレ設計','むずかしいを やさしく'],
+    seikaku:'受講者の「わかった・できた」が起点。複雑をシンプルに伝える。',
+    duty:'教育コンテンツ・プロダクト設計' },
+
+  { id:'CSO', title:'傾聴の戦士', job:'せんし（交渉のわざ）', lv:12,
+    color:'#ff9f5a', hp:150, hpmax:160, mp:90, mpmax:100,
+    stats:[['共感力',97],['信頼',93],['交渉力',88],['しゅび',70]],
+    skills:['商談','提案書づくり','顧客との対話','傾聴のかまえ'],
+    seikaku:'起点は顧客の課題と感情。売るより「問題が解決されるか」を優先。',
+    duty:'営業・顧客対話・パイプライン管理' },
+];
+
+const QKEY = 'sakaba_quests_v1';
+let current = OFFICERS[0];
+let quests = load();
+let soundOn = true;
+
+// ── 効果音（ピッ）─────────────────────────────────────────
+let actx;
+function blip(freq=660, dur=0.06){
+  if(!soundOn) return;
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.type='square'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.06, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime+dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime+dur);
+  }catch(e){}
+}
+
+// ── なかまリスト描画 ────────────────────────────────────────
+function renderParty(){
+  const busy = new Set(quests.filter(q=>q.status!=='done').map(q=>q.of));
+  document.getElementById('party').innerHTML = OFFICERS.map(o=>`
+    <li class="${o.id===current.id?'sel':''}" data-id="${o.id}">
+      <span class="cursor">▶</span>
+      <span>
+        <span class="nm" style="color:${o.color}">${o.id}</span>
+        <span class="jb">${o.title}</span>
+      </span>
+      <span class="lv">Lv.${o.lv}</span>
+      <span class="st ${busy.has(o.id)?'busy':''}">${busy.has(o.id)?'冒険中':'たいき中'}</span>
+    </li>`).join('');
+  document.querySelectorAll('.party li').forEach(li=>{
+    li.onclick = ()=>{ blip(700); select(li.dataset.id); };
+  });
+}
+
+function bar(label,val,color){
+  return `<div class="bar"><span class="lbl">${label}</span>
+    <span class="track"><span class="fill" style="width:${val}%;background:${color}"></span></span>
+    <span class="num">${val}</span></div>`;
+}
+
+function select(id){
+  current = OFFICERS.find(o=>o.id===id);
+  renderParty();
+  document.getElementById('whoName').textContent = `${current.id} ─ ${current.title}`;
+  document.getElementById('detail').innerHTML = `
+    <div class="nmline"><b style="color:${current.color}">${current.id}</b>
+      <span class="ttl">「${current.title}」</span>
+      <span class="lv" style="margin-left:auto;color:var(--gold)">Lv.${current.lv}</span></div>
+    <div class="jobline">しょくぎょう：${current.job}</div>
+    ${bar('HP', Math.round(current.hp/current.hpmax*100), 'var(--hp)')}
+    ${bar('MP', Math.round(current.mp/current.mpmax*100), 'var(--mp)')}
+    <div style="margin-top:8px">${current.stats.map(s=>bar(s[0],s[1],current.color)).join('')}</div>
+    <div class="skills"><div class="h">とくぎ</div>
+      <ul>${current.skills.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+    <div class="seikaku"><b style="color:var(--ink)">せいかく：</b>${current.seikaku}<br>
+      <b style="color:var(--ink)">たんとう：</b>${current.duty}</div>`;
+}
+
+// ── 指示文の生成（Claudeに貼るだけ）─────────────────────────
+function buildOrder(o, task){
+  return `【${o.id}への依頼】\n${task}\n\n`+
+    `ルール: CLAUDE.md と company.md に従い、${o.id}/prompt.md の役割・人格（${o.title}）で対応すること。`+
+    `成果物は ${o.id}/outputs/（下書きは ${o.id}/research/）に保存し、${o.id}/_index.md に記録すること。`+
+    `完了時は「要点→詳細→次アクション」で報告し、レビュー承認を求めること。`;
+}
+
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=t;
+    ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+    ta.select(); let ok=false; try{ ok=document.execCommand('copy'); }catch(_){}
+    document.body.removeChild(ta); return ok;
+  }
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+// ── クエスト保存・描画 ──────────────────────────────────────
+function load(){ try{ return JSON.parse(localStorage.getItem(QKEY))||[]; }catch(e){ return []; } }
+function save(){ localStorage.setItem(QKEY, JSON.stringify(quests)); }
+
+const STATUS = { todo:['依頼中','todo'], doing:['進行中','doing'], done:['完了','done'] };
+const NEXT  = { todo:'doing', doing:'done', done:'todo' };
+
+function renderQuests(){
+  const ul=document.getElementById('quests');
+  if(!quests.length){ ul.innerHTML=`<li class="empty">まだ依頼はありません。なかまに しごとを たのもう。</li>`; renderParty(); return; }
+  ul.innerHTML = quests.map(q=>{
+    const o=OFFICERS.find(x=>x.id===q.of);
+    const [lbl,cls]=STATUS[q.status];
+    return `<li>
+      <div class="top">
+        <span class="qof" style="color:${o?o.color:'#fff'}">${q.of}</span>
+        <span class="badge ${cls}" data-act="status" data-id="${q.id}">${lbl}</span>
+        <button class="qdel" data-act="del" data-id="${q.id}" title="削除">×</button>
+      </div>
+      <div class="qtx">${escapeHtml(q.text)}</div>
+    </li>`;
+  }).join('');
+  ul.querySelectorAll('[data-act]').forEach(el=>{
+    el.onclick=()=>{
+      const id=el.dataset.id;
+      if(el.dataset.act==='del'){ quests=quests.filter(q=>q.id!==id); blip(300); }
+      else { const q=quests.find(x=>x.id===id); if(q){ q.status=NEXT[q.status]; blip(820); } }
+      save(); renderQuests();
+    };
+  });
+  renderParty();
+}
+
+function escapeHtml(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+// ── 依頼アクション ─────────────────────────────────────────
+async function assign(copyOnly){
+  const task=document.getElementById('task').value.trim();
+  if(!task){ blip(200); toast('たのみたいこと を かいてください。'); return; }
+  const order=buildOrder(current, task);
+  const ok=await copyText(order);
+  if(!copyOnly){
+    quests.unshift({ id:Date.now().toString(36), of:current.id, text:task, status:'todo', at:Date.now() });
+    save(); renderQuests();
+    document.getElementById('task').value='';
+    blip(990);
+    toast(`${current.id} は しごとを ひきうけた！` + (ok?' 📋指示文をコピー':''));
+  }else{
+    blip(880);
+    toast(ok?'📋 指示文をコピーしました':'コピーに失敗しました');
+  }
+}
+
+// ── 初期化 ────────────────────────────────────────────────
+document.getElementById('assignBtn').onclick = ()=>assign(false);
+document.getElementById('copyBtn').onclick   = ()=>assign(true);
+document.getElementById('soundBtn').onclick  = (e)=>{
+  soundOn=!soundOn; e.target.textContent=soundOn?'🔊':'🔇'; if(soundOn) blip(660);
+};
+select('CDO');
+renderQuests();
+</script>
+</body>
+</html>
