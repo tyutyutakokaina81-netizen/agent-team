@@ -14,21 +14,21 @@
     --mp:#4ab8ff;
     --win:#000814;
     --cursor:#f8e000;
+    --line:#34406a;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   html,body{ height:100%; }
   body{
     font-family:'DotGothic16','MS Gothic',monospace;
     color:var(--ink);
-    background:
-      radial-gradient(circle at 50% -10%, #15234a 0%, #0a1024 45%, #05060f 100%);
+    background:radial-gradient(circle at 50% -10%, #15234a 0%, #0a1024 45%, #05060f 100%);
     background-attachment:fixed;
     -webkit-text-size-adjust:100%;
     line-height:1.6;
     padding:14px;
     min-height:100%;
   }
-  /* ドラクエ風のメッセージウィンドウ（黒地・白い角丸2重枠） */
+  /* ドラクエ風ウィンドウ（黒地・白い角丸枠） */
   .window{
     background:var(--win);
     border:3px solid var(--ink);
@@ -38,115 +38,104 @@
     margin-bottom:14px;
   }
   .window > h2{
-    font-size:15px;
-    color:var(--gold);
-    letter-spacing:1px;
-    margin-bottom:10px;
-    border-bottom:2px dotted #34406a;
-    padding-bottom:6px;
+    font-size:14px; color:var(--gold); letter-spacing:1px;
+    margin-bottom:10px; border-bottom:2px dotted var(--line); padding-bottom:6px;
   }
-  .wrap{ max-width:1000px; margin:0 auto; }
-  .title{
-    text-align:center;
-  }
-  .title h1{
-    font-size:22px;
-    color:var(--gold);
-    text-shadow:2px 2px 0 #000, 0 0 12px rgba(248,224,0,.35);
-    letter-spacing:2px;
-  }
+  .wrap{ max-width:1080px; margin:0 auto; }
+  .title{ text-align:center; }
+  .title h1{ font-size:22px; color:var(--gold); text-shadow:2px 2px 0 #000,0 0 12px rgba(248,224,0,.35); letter-spacing:2px; }
   .title p{ font-size:12px; color:#9fb0d6; margin-top:6px; }
   .title .gold{ color:var(--gold); }
 
-  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; }
-  @media(max-width:760px){ .grid{ grid-template-columns:1fr; } }
+  /* 左=酒場 / 右=入力画面 の2ペイン */
+  .stage{ display:grid; grid-template-columns:340px 1fr; gap:14px; align-items:start; }
+  @media(max-width:780px){ .stage{ grid-template-columns:1fr; } }
 
-  /* なかまリスト */
-  .party li{
-    list-style:none;
-    display:flex; align-items:center; gap:10px;
-    padding:9px 8px;
-    cursor:pointer;
-    border-radius:6px;
-  }
-  .party li:hover{ background:#0e1b3a; }
-  .party li.sel{ background:#0e1b3a; }
-  .party .cursor{ color:var(--cursor); width:16px; visibility:hidden; }
+  /* なかまリスト（酒場） */
+  .party li{ list-style:none; display:flex; align-items:center; gap:9px; padding:8px 6px; cursor:pointer; border-radius:6px; }
+  .party li:hover, .party li.sel{ background:#0e1b3a; }
+  .party .cursor{ color:var(--cursor); width:14px; visibility:hidden; }
   .party li.sel .cursor{ visibility:visible; }
-  .party .nm{ font-size:15px; }
-  .party .jb{ font-size:11px; color:#9fb0d6; }
-  .party .lv{ margin-left:auto; font-size:12px; color:var(--gold); white-space:nowrap; }
-  .party .st{ font-size:10px; padding:1px 7px; border-radius:10px; border:1px solid #34406a; color:#9fb0d6; }
+  .party .nm{ font-size:14px; }
+  .party .jb{ font-size:10px; color:#9fb0d6; }
+  .party .lv{ margin-left:auto; font-size:11px; color:var(--gold); white-space:nowrap; }
+  .party .st{ font-size:9px; padding:1px 6px; border-radius:10px; border:1px solid var(--line); color:#9fb0d6; }
   .party .st.busy{ color:var(--gold); border-color:var(--gold); }
 
   /* ステータス詳細 */
   .detail .nmline{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
-  .detail .nmline b{ font-size:18px; }
-  .detail .ttl{ color:var(--gold); font-size:12px; }
-  .detail .jobline{ font-size:12px; color:#9fb0d6; margin-bottom:10px; }
-  .bar{ display:flex; align-items:center; gap:8px; font-size:12px; margin:3px 0; }
-  .bar .lbl{ width:42px; color:#9fb0d6; }
-  .bar .track{ flex:1; height:10px; background:#0c1530; border:1px solid #2a355c; border-radius:5px; overflow:hidden; }
+  .detail .nmline b{ font-size:17px; }
+  .detail .ttl{ color:var(--gold); font-size:11px; }
+  .detail .jobline{ font-size:11px; color:#9fb0d6; margin-bottom:10px; }
+  .bar{ display:flex; align-items:center; gap:8px; font-size:11px; margin:3px 0; }
+  .bar .lbl{ width:54px; color:#9fb0d6; }
+  .bar .track{ flex:1; height:9px; background:#0c1530; border:1px solid #2a355c; border-radius:5px; overflow:hidden; }
   .bar .fill{ height:100%; border-radius:4px; }
-  .bar .num{ width:54px; text-align:right; }
+  .bar .num{ width:30px; text-align:right; }
   .skills{ margin-top:10px; }
-  .skills .h{ color:var(--gold); font-size:12px; margin-bottom:4px; }
+  .skills .h{ color:var(--gold); font-size:11px; margin-bottom:4px; }
   .skills ul{ list-style:none; display:flex; flex-wrap:wrap; gap:6px; }
-  .skills li{ font-size:11px; border:1px solid #34406a; border-radius:6px; padding:3px 8px; background:#0c1530; }
-  .seikaku{ font-size:11px; color:#9fb0d6; margin-top:10px; border-top:2px dotted #34406a; padding-top:8px; }
+  .skills li{ font-size:10px; border:1px solid var(--line); border-radius:6px; padding:3px 7px; background:#0c1530; }
+  .seikaku{ font-size:10px; color:#9fb0d6; margin-top:10px; border-top:2px dotted var(--line); padding-top:8px; }
 
-  /* しごとを たのむ */
-  label.h{ display:block; color:var(--gold); font-size:12px; margin-bottom:6px; }
-  textarea{
-    width:100%; min-height:96px; resize:vertical;
-    background:#0c1530; color:var(--ink);
-    border:2px solid #2a355c; border-radius:8px;
-    font-family:inherit; font-size:13px; padding:10px;
-  }
-  textarea:focus{ outline:none; border-color:var(--gold); }
-  .who{ font-size:12px; color:#9fb0d6; margin-bottom:8px; }
-  .who b{ color:var(--ink); }
-  .btnrow{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-  button.cmd{
-    font-family:inherit; font-size:13px; cursor:pointer;
-    background:var(--win); color:var(--ink);
-    border:2px solid var(--ink); border-radius:8px;
-    padding:9px 16px;
-    box-shadow:0 3px 0 0 rgba(0,0,0,.6);
-  }
-  button.cmd:hover{ color:var(--gold); border-color:var(--gold); }
-  button.cmd:active{ transform:translateY(2px); box-shadow:none; }
-  button.cmd.primary{ background:#102a14; border-color:var(--hp); color:var(--hp); }
-  button.cmd.primary:hover{ color:#fff; }
+  /* 右：入力画面（はなす＝チャット） */
+  .chat{ display:flex; flex-direction:column; height:72vh; min-height:460px; }
+  .chat > h2{ flex:0 0 auto; }
+  .chat .who{ flex:0 0 auto; font-size:11px; color:#9fb0d6; margin:-4px 0 8px; }
+  .chat .who b{ color:var(--ink); }
+  .msgs{ flex:1 1 auto; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding:4px 2px 8px; }
+  .msgs::-webkit-scrollbar{ width:8px; }
+  .msgs::-webkit-scrollbar-thumb{ background:#22315c; border-radius:4px; }
+  .hint{ color:#6b7699; font-size:11px; text-align:center; margin:auto 0; }
 
-  /* クエストボード */
-  .quests li{ list-style:none; border-bottom:1px dotted #34406a; padding:9px 2px; font-size:12px; }
-  .quests li:last-child{ border-bottom:none; }
-  .quests .top{ display:flex; align-items:center; gap:8px; }
-  .quests .qof{ color:var(--gold); }
-  .quests .qtx{ margin-top:3px; color:#cdd7f0; white-space:pre-wrap; word-break:break-word; }
-  .badge{ font-size:10px; padding:1px 8px; border-radius:10px; border:1px solid; cursor:pointer; white-space:nowrap; }
-  .badge.todo{ color:#9fb0d6; border-color:#34406a; }
+  .msg{ max-width:88%; }
+  .msg .who2{ font-size:10px; color:#9fb0d6; margin-bottom:3px; }
+  .bubble{ border:2px solid var(--line); border-radius:10px; padding:9px 11px; font-size:13px; white-space:pre-wrap; word-break:break-word; }
+  .msg.me{ align-self:flex-end; text-align:right; }
+  .msg.me .who2{ color:var(--gold); }
+  .msg.me .bubble{ background:#13203f; border-color:#2c4a86; }
+  .msg.npc{ align-self:flex-start; }
+  .msg.npc .bubble{ background:#0c1530; }
+  .msg.npc .reply{ margin-bottom:7px; }
+  .msg.npc .task{ color:#cdd7f0; border-top:1px dotted var(--line); padding-top:7px; font-size:12px; }
+  .acts{ display:flex; align-items:center; gap:8px; margin-top:6px; font-size:10px; }
+  .badge{ padding:1px 8px; border-radius:10px; border:1px solid; cursor:pointer; white-space:nowrap; }
+  .badge.todo{ color:#9fb0d6; border-color:var(--line); }
   .badge.doing{ color:var(--mp); border-color:var(--mp); }
   .badge.done{ color:var(--hp); border-color:var(--hp); }
-  .qdel{ margin-left:auto; color:#6b7699; cursor:pointer; font-size:14px; background:none; border:none; }
-  .qdel:hover{ color:#ff6b6b; }
-  .empty{ color:#6b7699; font-size:12px; }
+  .mini{ background:none; border:none; color:#6b7699; cursor:pointer; font-size:11px; font-family:inherit; }
+  .mini:hover{ color:var(--gold); }
+  .mini.del:hover{ color:#ff6b6b; }
 
-  /* トースト（○○は しごとを ひきうけた！） */
+  /* 入力バー */
+  .inputbar{ flex:0 0 auto; display:flex; gap:8px; align-items:flex-end; border-top:2px dotted var(--line); padding-top:10px; margin-top:4px; }
+  textarea{
+    flex:1; min-height:48px; max-height:140px; resize:vertical;
+    background:#0c1530; color:var(--ink);
+    border:2px solid #2a355c; border-radius:8px;
+    font-family:inherit; font-size:13px; padding:9px;
+  }
+  textarea:focus{ outline:none; border-color:var(--gold); }
+  button.send{
+    flex:0 0 auto; font-family:inherit; font-size:13px; cursor:pointer;
+    background:#102a14; color:var(--hp);
+    border:2px solid var(--hp); border-radius:8px; padding:11px 16px;
+    box-shadow:0 3px 0 0 rgba(0,0,0,.6);
+  }
+  button.send:hover{ color:#fff; }
+  button.send:active{ transform:translateY(2px); box-shadow:none; }
+
+  /* トースト */
   #toast{
     position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
     background:var(--win); border:3px solid var(--ink); border-radius:10px;
     color:var(--ink); padding:12px 22px; font-size:14px;
-    opacity:0; transition:.25s; pointer-events:none; z-index:50;
-    box-shadow:0 0 0 3px var(--win);
+    opacity:0; transition:.25s; pointer-events:none; z-index:50; box-shadow:0 0 0 3px var(--win);
   }
   #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
-  .blink{ animation:bl 1s steps(1) infinite; }
-  @keyframes bl{ 50%{ opacity:0; } }
-  .foot{ text-align:center; font-size:10px; color:#566980; margin-top:4px; }
-  .sound{ position:fixed; top:10px; right:12px; font-size:18px; cursor:pointer; opacity:.7; }
+  .sound{ position:fixed; top:10px; right:12px; font-size:18px; cursor:pointer; opacity:.7; z-index:40; }
   .sound:hover{ opacity:1; }
+  .foot{ text-align:center; font-size:10px; color:#566980; margin-top:4px; }
 </style>
 </head>
 <body>
@@ -155,41 +144,34 @@
 
   <div class="window title">
     <h1>★ ルイーダの酒場 ★</h1>
-    <p>めざせ <span class="gold">月30万ゴールド</span> の冒険 ─ なかまに しごとを たのもう</p>
+    <p>めざせ <span class="gold">月30万ゴールド</span> ─ なかまに はなしかけて しごとを たのもう</p>
   </div>
 
-  <div class="grid">
-    <!-- 左：なかま＋ステータス -->
+  <div class="stage">
+    <!-- 左：酒場（なかま＋ステータス） -->
     <div>
       <div class="window">
-        <h2>なかまをえらぶ</h2>
+        <h2>酒場のなかま</h2>
         <ul class="party" id="party"></ul>
       </div>
       <div class="window detail" id="detail"></div>
     </div>
 
-    <!-- 右：依頼＋クエストボード -->
+    <!-- 右：入力画面（はなす） -->
     <div>
-      <div class="window">
-        <h2>しごとを たのむ</h2>
-        <div class="who">いま えらんでいる なかま：<b id="whoName">―</b></div>
-        <label class="h">▼ たのみたいこと を かいてください</label>
-        <textarea id="task" placeholder="れい：来月のYouTube台本を3本ぶん 考えてほしい"></textarea>
-        <div class="btnrow">
-          <button class="cmd primary" id="assignBtn">▶ この なかまに たのむ</button>
-          <button class="cmd" id="copyBtn">指示文だけ コピー</button>
+      <div class="window chat">
+        <h2>はなす</h2>
+        <div class="who">あいて：<b id="chatWho">―</b></div>
+        <div class="msgs" id="msgs"></div>
+        <div class="inputbar">
+          <textarea id="task" placeholder="しごとの内容を入力（例：来月のYouTube台本を3本ぶん 考えてほしい）"></textarea>
+          <button class="send" id="sendBtn">▶ はなす</button>
         </div>
-        <p class="empty" style="margin-top:8px">「たのむ」を押すと、Claudeに貼るだけの<span style="color:var(--gold)">指示文</span>を作って自動でコピーします。</p>
-      </div>
-
-      <div class="window">
-        <h2>クエストボード <span class="blink" style="color:var(--gold);font-size:11px">▼</span></h2>
-        <ul class="quests" id="quests"></ul>
       </div>
     </div>
   </div>
 
-  <p class="foot">状態はこの端末のブラウザに保存されます（localStorage）。</p>
+  <p class="foot">会話と状態はこの端末のブラウザに保存されます（localStorage）。</p>
 </div>
 
 <div id="toast"></div>
@@ -197,48 +179,53 @@
 <script>
 // ── なかま（5人の役員）データ ───────────────────────────────
 const OFFICERS = [
-  { id:'CDO', title:'仕組みの賢者', job:'けんじゃ（自動化魔法）', lv:15,
-    color:'#a98bff', hp:120, hpmax:140, mp:220, mpmax:220,
+  { id:'CDO', title:'仕組みの賢者', job:'けんじゃ（自動化魔法）', lv:15, color:'#a98bff',
+    hp:120, hpmax:140, mp:220, mpmax:220,
     stats:[['自動化',95],['再現性',92],['シンプル',88],['記録力',80]],
     skills:['プロンプト錬成','ツール召喚','新役職を生む','自動化のじゅもん'],
     seikaku:'全体最適と再現性が起点。複雑さを嫌い、誰でも使える仕組みを好む。',
-    duty:'自動化・プロンプト設計・技術検証・役職管理' },
+    duty:'自動化・プロンプト設計・技術検証・役職管理',
+    reply:'ふむ、仕組み化できそうだ。さっそく組み上げよう。' },
 
-  { id:'CFO', title:'数字の守護者', job:'パラディン（まもりの盾）', lv:14,
-    color:'#ffd24a', hp:180, hpmax:180, mp:70, mpmax:90,
+  { id:'CFO', title:'数字の守護者', job:'パラディン（まもりの盾）', lv:14, color:'#ffd24a',
+    hp:180, hpmax:180, mp:70, mpmax:90,
     stats:[['正確さ',98],['しゅび',95],['冷静さ',90],['スピード',55]],
     skills:['請求書づくり','契約チェックの盾','経費かんり','リスクを みやぶる'],
     seikaku:'正確さとリスク回避が起点。曖昧を嫌い、明確な数字・期日・条件を求める。',
-    duty:'財務・契約・経費・事務全般' },
+    duty:'財務・契約・経費・事務全般',
+    reply:'数字に狂いなく対応する。期日と条件を確認しておこう。' },
 
-  { id:'CMO', title:'言葉の魔術師', job:'ぎんゆうしじん（集客の歌）', lv:13,
-    color:'#ff7ab0', hp:110, hpmax:130, mp:160, mpmax:160,
+  { id:'CMO', title:'言葉の魔術師', job:'ぎんゆうしじん（集客の歌）', lv:13, color:'#ff7ab0',
+    hp:110, hpmax:130, mp:160, mpmax:160,
     stats:[['みりょく',96],['ひらめき',90],['共感力',88],['正確さ',60]],
     skills:['YouTube台本','SNS投稿','LP作成','心を動かす歌'],
     seikaku:'起点は常に顧客の感情。「読まれる文章」を目指し、世界観を崩さない。',
-    duty:'マーケティング・コンテンツ企画・集客' },
+    duty:'マーケティング・コンテンツ企画・集客',
+    reply:'心を動かす言葉にしてみせる！まかせて。' },
 
-  { id:'CPO', title:'教えの設計士', job:'けんちくし（構造の魔法）', lv:13,
-    color:'#5fe0a0', hp:130, hpmax:140, mp:130, mpmax:140,
+  { id:'CPO', title:'教えの設計士', job:'けんちくし（構造の魔法）', lv:13, color:'#5fe0a0',
+    hp:130, hpmax:140, mp:130, mpmax:140,
     stats:[['構造力',95],['わかりやすさ',93],['再現性',90],['ひらめき',70]],
     skills:['教材スライド','セミナー構成','テンプレ設計','むずかしいを やさしく'],
     seikaku:'受講者の「わかった・できた」が起点。複雑をシンプルに伝える。',
-    duty:'教育コンテンツ・プロダクト設計' },
+    duty:'教育コンテンツ・プロダクト設計',
+    reply:'わかりやすく形にする。構造から考えよう。' },
 
-  { id:'CSO', title:'傾聴の戦士', job:'せんし（交渉のわざ）', lv:12,
-    color:'#ff9f5a', hp:150, hpmax:160, mp:90, mpmax:100,
+  { id:'CSO', title:'傾聴の戦士', job:'せんし（交渉のわざ）', lv:12, color:'#ff9f5a',
+    hp:150, hpmax:160, mp:90, mpmax:100,
     stats:[['共感力',97],['信頼',93],['交渉力',88],['しゅび',70]],
     skills:['商談','提案書づくり','顧客との対話','傾聴のかまえ'],
     seikaku:'起点は顧客の課題と感情。売るより「問題が解決されるか」を優先。',
-    duty:'営業・顧客対話・パイプライン管理' },
+    duty:'営業・顧客対話・パイプライン管理',
+    reply:'顧客の気持ちで受け止める。さっそく動くよ。' },
 ];
 
 const QKEY = 'sakaba_quests_v1';
 let current = OFFICERS[0];
-let quests = load();
+let log = load();
 let soundOn = true;
 
-// ── 効果音（ピッ）─────────────────────────────────────────
+// ── 効果音 ────────────────────────────────────────────────
 let actx;
 function blip(freq=660, dur=0.06){
   if(!soundOn) return;
@@ -254,9 +241,9 @@ function blip(freq=660, dur=0.06){
 }
 function fanfare(){ [523,659,784,1047].forEach((f,i)=>setTimeout(()=>blip(f,0.13), i*90)); }
 
-// ── なかまリスト描画 ────────────────────────────────────────
+// ── 左：なかまリスト ────────────────────────────────────────
 function renderParty(){
-  const busy = new Set(quests.filter(q=>q.status!=='done').map(q=>q.of));
+  const busy = new Set(log.filter(q=>q.status!=='done').map(q=>q.of));
   document.getElementById('party').innerHTML = OFFICERS.map(o=>`
     <li class="${o.id===current.id?'sel':''}" data-id="${o.id}">
       <span class="cursor">▶</span>
@@ -281,7 +268,8 @@ function bar(label,val,color){
 function select(id){
   current = OFFICERS.find(o=>o.id===id);
   renderParty();
-  document.getElementById('whoName').textContent = `${current.id} ─ ${current.title}`;
+  document.getElementById('chatWho').textContent = `${current.id} ─ ${current.title}`;
+  document.getElementById('task').setAttribute('placeholder', `${current.id}（${current.title}）に たのむ内容を入力…`);
   document.getElementById('detail').innerHTML = `
     <div class="nmline"><b style="color:${current.color}">${current.id}</b>
       <span class="ttl">「${current.title}」</span>
@@ -296,7 +284,7 @@ function select(id){
       <b style="color:var(--ink)">たんとう：</b>${current.duty}</div>`;
 }
 
-// ── 指示文の生成（Claudeに貼るだけ）─────────────────────────
+// ── 指示文（Claudeに貼るだけ）───────────────────────────────
 function buildOrder(o, task){
   return `【${o.id}への依頼】\n${task}\n\n`+
     `ルール: CLAUDE.md と company.md に従い、${o.id}/prompt.md の役割・人格（${o.title}）で対応すること。`+
@@ -321,74 +309,90 @@ function toast(msg){
   toast._t=setTimeout(()=>t.classList.remove('show'), 2600);
 }
 
-// ── クエスト保存・描画 ──────────────────────────────────────
+// ── 保存・会話描画 ──────────────────────────────────────────
 function load(){ try{ return JSON.parse(localStorage.getItem(QKEY))||[]; }catch(e){ return []; } }
-function save(){ localStorage.setItem(QKEY, JSON.stringify(quests)); }
+function save(){ localStorage.setItem(QKEY, JSON.stringify(log)); }
 
 const STATUS = { todo:['依頼中','todo'], doing:['進行中','doing'], done:['完了','done'] };
 const NEXT  = { todo:'doing', doing:'done', done:'todo' };
 
-function renderQuests(){
-  const ul=document.getElementById('quests');
-  if(!quests.length){ ul.innerHTML=`<li class="empty">まだ依頼はありません。なかまに しごとを たのもう。</li>`; renderParty(); return; }
-  ul.innerHTML = quests.map(q=>{
-    const o=OFFICERS.find(x=>x.id===q.of);
+function escapeHtml(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function renderChat(scroll){
+  const box=document.getElementById('msgs');
+  const items=[...log].sort((a,b)=>a.at-b.at);
+  if(!items.length){
+    box.innerHTML=`<div class="hint">なかまをえらんで、しごとを はなしかけよう。<br>「はなす」を押すと、Claudeに貼るだけの指示文をコピーします。</div>`;
+    renderParty(); return;
+  }
+  box.innerHTML=items.map(q=>{
+    const o=OFFICERS.find(x=>x.id===q.of) || {color:'#fff', reply:'うけたまわった！'};
     const [lbl,cls]=STATUS[q.status];
-    return `<li>
-      <div class="top">
-        <span class="qof" style="color:${o?o.color:'#fff'}">${q.of}</span>
-        <span class="badge ${cls}" data-act="status" data-id="${q.id}">${lbl}</span>
-        <button class="qdel" data-act="del" data-id="${q.id}" title="削除">×</button>
+    return `
+      <div class="msg me">
+        <div class="who2">あなた → ${q.of}</div>
+        <div class="bubble">${escapeHtml(q.text)}</div>
       </div>
-      <div class="qtx">${escapeHtml(q.text)}</div>
-    </li>`;
+      <div class="msg npc">
+        <div class="who2" style="color:${o.color}">${q.of}「${o.title||''}」</div>
+        <div class="bubble">
+          <div class="reply" style="color:${o.color}">${escapeHtml(o.reply)}</div>
+          <div class="task">📜 ${escapeHtml(q.text)}</div>
+          <div class="acts">
+            <span class="badge ${cls}" data-act="status" data-id="${q.id}">${lbl}</span>
+            <button class="mini" data-act="copy" data-id="${q.id}">📋 指示文コピー</button>
+            <button class="mini del" data-act="del" data-id="${q.id}">× 削除</button>
+          </div>
+        </div>
+      </div>`;
   }).join('');
-  ul.querySelectorAll('[data-act]').forEach(el=>{
-    el.onclick=()=>{
-      const id=el.dataset.id;
-      if(el.dataset.act==='del'){ quests=quests.filter(q=>q.id!==id); blip(300); }
-      else {
-        const q=quests.find(x=>x.id===id);
-        if(q){
-          q.status=NEXT[q.status];
-          if(q.status==='done'){ fanfare(); toast(`${q.of} は しごとを やりとげた！`); }
-          else blip(820);
-        }
+
+  box.querySelectorAll('[data-act]').forEach(el=>{
+    el.onclick=async ()=>{
+      const id=el.dataset.id, q=log.find(x=>x.id===id); if(!q) return;
+      const act=el.dataset.act;
+      if(act==='del'){ log=log.filter(x=>x.id!==id); blip(300); save(); renderChat(); }
+      else if(act==='copy'){
+        const o=OFFICERS.find(x=>x.id===q.of);
+        const ok=await copyText(buildOrder(o,q.text)); blip(880);
+        toast(ok?'📋 指示文をコピーしました':'コピーに失敗しました');
       }
-      save(); renderQuests();
+      else{ // status
+        q.status=NEXT[q.status];
+        if(q.status==='done'){ fanfare(); toast(`${q.of} は しごとを やりとげた！`); }
+        else blip(820);
+        save(); renderChat();
+      }
     };
   });
   renderParty();
+  if(scroll) box.scrollTop=box.scrollHeight;
 }
 
-function escapeHtml(s){ return s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
-
-// ── 依頼アクション ─────────────────────────────────────────
-async function assign(copyOnly){
-  const task=document.getElementById('task').value.trim();
-  if(!task){ blip(200); toast('たのみたいこと を かいてください。'); return; }
-  const order=buildOrder(current, task);
-  const ok=await copyText(order);
-  if(!copyOnly){
-    quests.unshift({ id:Date.now().toString(36), of:current.id, text:task, status:'todo', at:Date.now() });
-    save(); renderQuests();
-    document.getElementById('task').value='';
-    blip(990);
-    toast(`${current.id} は しごとを ひきうけた！` + (ok?' 📋指示文をコピー':''));
-  }else{
-    blip(880);
-    toast(ok?'📋 指示文をコピーしました':'コピーに失敗しました');
-  }
+// ── はなす（送信）──────────────────────────────────────────
+async function send(){
+  const ta=document.getElementById('task');
+  const task=ta.value.trim();
+  if(!task){ blip(200); toast('しごとの内容を入力してください。'); return; }
+  log.push({ id:Date.now().toString(36), of:current.id, text:task, status:'todo', at:Date.now() });
+  save();
+  ta.value='';
+  renderChat(true);
+  const ok=await copyText(buildOrder(current, task));
+  blip(990);
+  toast(`${current.id} は しごとを ひきうけた！` + (ok?' 📋指示文をコピー':''));
 }
 
 // ── 初期化 ────────────────────────────────────────────────
-document.getElementById('assignBtn').onclick = ()=>assign(false);
-document.getElementById('copyBtn').onclick   = ()=>assign(true);
-document.getElementById('soundBtn').onclick  = (e)=>{
+document.getElementById('sendBtn').onclick = send;
+document.getElementById('task').addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); send(); }
+});
+document.getElementById('soundBtn').onclick = (e)=>{
   soundOn=!soundOn; e.target.textContent=soundOn?'🔊':'🔇'; if(soundOn) blip(660);
 };
 select('CDO');
-renderQuests();
+renderChat(true);
 </script>
 </body>
 </html>
