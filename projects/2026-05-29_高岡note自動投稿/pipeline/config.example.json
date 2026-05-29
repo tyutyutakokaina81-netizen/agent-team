@@ -1,0 +1,6 @@
+{
+  "image_provider": "openai",
+  "image_size": "1536x640",
+  "articles_per_day": 3,
+  "_note": "config.json にコピーして使う。APIキーは .env / 環境変数で渡す（ここには書かない）。"
+}

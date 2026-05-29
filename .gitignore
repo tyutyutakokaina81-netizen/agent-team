@@ -31,6 +31,13 @@ CSO/research/*
 projects/*/D_エクセル入力スクレイピング/outputs/*
 projects/*/D_エクセル入力スクレイピング/.sessions/*
 
+# 高岡note自動投稿：生成サムネ・noteセッション・ローカル設定（認証情報を含みうる）
+projects/*/thumbnails/*
+!projects/*/thumbnails/.gitkeep
+projects/*/pipeline/.sessions/*
+projects/*/pipeline/config.json
+projects/*/pipeline/state.json
+
 # オーナー個人情報（日記・アイデア・参考資料）
 context/diary/*
 context/ideas/*

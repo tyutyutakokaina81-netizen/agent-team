@@ -1,0 +1,4 @@
+anthropic>=0.40.0
+playwright>=1.45.0
+# 画像生成はOpenAI画像APIを標準HTTP(urllib)で呼ぶため追加依存なし
+# 初回のみ: python -m playwright install chromium
