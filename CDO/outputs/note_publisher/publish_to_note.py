@@ -92,24 +92,33 @@ def load_context(playwright):
 
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
 
+def _count_photo_placeholders(md_path: Path) -> int:
+    """本文ブロック内の [写真X] placeholder の個数を返す"""
+    text = md_path.read_text(encoding="utf-8")
+    body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
+    if not body_m:
+        return 0
+    return len(re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]", body_m.group(1)))
+
+
 def find_latest_article(require_photos: bool = False):
-    """CMO/outputs/ 配下の最新note記事mdを返す。
-    require_photos=True なら、写真placeholderを含む記事を優先的に選ぶ。"""
-    candidates = sorted(
-        ARTICLES_DIR.glob("*_note記事_*.md"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
+    """CMO/outputs/ 配下のnote記事mdを返す。
+    require_photos=True なら、写真placeholder「多い順 → 新しい順」で選ぶ。
+    （同テーマで3点版/5点版が並存している場合、最新の充実版を自動採用）"""
+    candidates = list(ARTICLES_DIR.glob("*_note記事_*.md"))
     if not candidates:
         sys.exit(f"記事が見つかりません: {ARTICLES_DIR}/*_note記事_*.md")
     if require_photos:
-        for c in candidates:
-            text = c.read_text(encoding="utf-8")
-            # 本文ブロック内に [写真X] があるか
-            body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
-            if body_m and re.search(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]", body_m.group(1)):
-                return c
-    return candidates[0]
+        with_photos = [
+            (_count_photo_placeholders(c), c.stat().st_mtime, c)
+            for c in candidates
+        ]
+        with_photos = [t for t in with_photos if t[0] > 0]
+        if with_photos:
+            with_photos.sort(key=lambda x: (-x[0], -x[1]))   # 写真多い順→新しい順
+            return with_photos[0][2]
+    # 単純に最新（mtime降順）
+    return sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
 
 def parse_article(md_path: Path):
