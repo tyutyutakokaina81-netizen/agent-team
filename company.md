@@ -26,10 +26,15 @@ agent-team/
 │   ├── _index.md
 │   ├── research/             ← 顧客分析・市場調査
 │   └── outputs/              ← 商談記録・提案書
-└── CDO/                      ← 技術責任者
+├── CDO/                      ← 技術責任者
+│   ├── _index.md
+│   ├── research/             ← プロンプト検証・ツール調査
+│   └── outputs/              ← プロンプト集・活用ガイド
+└── CAO/                      ← 分析責任者（2026-05-30 新設）
     ├── _index.md
-    ├── research/             ← プロンプト検証・ツール調査
-    └── outputs/              ← プロンプト集・活用ガイド
+    ├── prompt.md
+    ├── research/             ← データ取得・前処理
+    └── outputs/              ← 分析レポート・仮説まとめ
 ```
 
 ---
@@ -52,6 +57,7 @@ agent-team/
 | CFO（財務・事務） | `CFO/research/` | `CFO/outputs/` |
 | CSO（営業） | `CSO/research/` | `CSO/outputs/` |
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
+| CAO（分析） | `CAO/research/` | `CAO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
