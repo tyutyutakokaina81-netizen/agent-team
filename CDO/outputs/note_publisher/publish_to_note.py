@@ -40,41 +40,47 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 ARTICLES_DIR = REPO_ROOT / "CMO" / "outputs"
-SESSION_FILE = Path.home() / ".note_publisher_session.json"
+PROFILE_DIR = Path.home() / ".note_publisher_profile"   # 永続プロファイル（OAuth状態も含めて全部保存）
 NOTE_LOGIN_URL = "https://note.com/login"
 NOTE_NEW_URL = "https://note.com/notes/new"
 
 
-# ---------- セッション管理 ----------
+# ---------- セッション管理（persistent profile方式） ----------
 
 def login():
-    """初回のみ。Chromiumを立ち上げてオーナーが手動ログイン→セッション保存"""
+    """初回のみ。Chromiumを永続プロファイル付きで起動→オーナーが手動ログイン。
+    永続プロファイルはOAuth(Google経由)状態も含めてまるごと保存される。"""
     print("Chromium を起動します。表示されたウィンドウで note にログインしてください。")
-    print("ログイン完了後、このターミナルで Enter を押すとセッションを保存します。")
+    print("ログイン完了後（noteのダッシュボードが見えたら）、このターミナルで Enter を押してください。")
+    PROFILE_DIR.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        ctx = browser.new_context()
-        page = ctx.new_page()
+        ctx = p.chromium.launch_persistent_context(
+            user_data_dir=str(PROFILE_DIR),
+            headless=False,
+        )
+        page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(NOTE_LOGIN_URL)
         input("ログインが完了したら Enter ...")
-        ctx.storage_state(path=str(SESSION_FILE))
-        print(f"✅ セッションを保存しました: {SESSION_FILE}")
-        browser.close()
+        ctx.close()  # persistent_context は close 時に自動でディスクへ反映される
+        print(f"✅ プロファイルを保存しました: {PROFILE_DIR}")
 
 
 def load_context(playwright):
-    """保存済みセッションでブラウザコンテキストを作る"""
-    if not SESSION_FILE.exists():
-        sys.exit("初回ログインがまだです。 `python publish_to_note.py --login` を実行してください。")
-    browser = playwright.chromium.launch(headless=False)  # 進捗が見えるようheaded
-    ctx = browser.new_context(storage_state=str(SESSION_FILE))
-    return browser, ctx
+    """保存済み永続プロファイルでブラウザコンテキストを起動"""
+    if not PROFILE_DIR.exists() or not any(PROFILE_DIR.iterdir()):
+        sys.exit("初回ログインがまだです。 `python3 publish_to_note.py --login` を実行してください。")
+    ctx = playwright.chromium.launch_persistent_context(
+        user_data_dir=str(PROFILE_DIR),
+        headless=False,  # まずは見える状態で
+    )
+    return ctx
 
 
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
 
-def find_latest_article():
-    """CMO/outputs/ 配下の最新note記事mdを返す"""
+def find_latest_article(require_photos: bool = False):
+    """CMO/outputs/ 配下の最新note記事mdを返す。
+    require_photos=True なら、写真placeholderを含む記事を優先的に選ぶ。"""
     candidates = sorted(
         ARTICLES_DIR.glob("*_note記事_*.md"),
         key=lambda p: p.stat().st_mtime,
@@ -82,6 +88,13 @@ def find_latest_article():
     )
     if not candidates:
         sys.exit(f"記事が見つかりません: {ARTICLES_DIR}/*_note記事_*.md")
+    if require_photos:
+        for c in candidates:
+            text = c.read_text(encoding="utf-8")
+            # 本文ブロック内に [写真X] があるか
+            body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
+            if body_m and re.search(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]", body_m.group(1)):
+                return c
     return candidates[0]
 
 
@@ -151,16 +164,18 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool):
     print(f"🖼️  実写ファイル: {len(photos)} 枚 ({photo_dir})")
 
     if placeholders and not photos:
-        print("⚠️  写真placeholderはあるが、写真ファイルが見つかりません。")
-        print("    --photos でディレクトリを指定するか、photo_01.jpg を配置してください。")
-    if len(photos) < len(placeholders):
-        print(f"⚠️  写真が不足: {len(placeholders)}枚必要 / {len(photos)}枚しかない")
+        sys.exit("✗ 写真placeholderはあるが --photos に写真がありません。中断します。")
+    if photos and len(photos) < len(placeholders):
+        sys.exit(f"✗ 写真不足: {len(placeholders)}枚必要 / {len(photos)}枚しかない。中断します。")
 
     with sync_playwright() as p:
-        browser, ctx = load_context(p)
-        page = ctx.new_page()
+        ctx = load_context(p)
+        page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(NOTE_NEW_URL)
         page.wait_for_load_state("networkidle", timeout=20000)
+        # 認証チェック：Googleログイン画面にいるなら中断
+        if "accounts.google.com" in page.url or "login" in page.url:
+            sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
 
         # タイトル入力（noteのエディタはplaceholderに「タイトル」を含む）
         title_input = page.locator(
@@ -239,7 +254,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool):
                 print("    画面で「公開」ボタンを手動で押してください。")
                 input("公開を確認したら Enter ...")
 
-        browser.close()
+        ctx.close()
 
 
 # ---------- CLI ----------
@@ -256,7 +271,8 @@ def main():
         login()
         return
 
-    md_path = Path(args.article) if args.article else find_latest_article()
+    # --photos 指定時は、写真placeholderのある記事を優先選択
+    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos))
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
