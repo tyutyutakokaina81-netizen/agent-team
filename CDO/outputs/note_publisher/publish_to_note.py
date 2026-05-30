@@ -304,8 +304,9 @@ def main():
         login()
         return
 
-    # --photos 指定時は、写真placeholderのある記事を優先選択（text-onlyでも本文の充実度で同じ基準）
-    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos) or args.text_only)
+    # --photos 指定時のみ、写真placeholderのある記事を優先選択。
+    # --text-only や指定なしの場合は単純に最新(mtime降順)。
+    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos))
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
