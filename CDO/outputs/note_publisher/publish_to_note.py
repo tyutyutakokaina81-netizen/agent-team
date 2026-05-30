@@ -45,35 +45,49 @@ NOTE_LOGIN_URL = "https://note.com/login"
 NOTE_NEW_URL = "https://note.com/notes/new"
 
 
-# ---------- セッション管理（persistent profile方式） ----------
+# ---------- セッション管理（persistent profile方式 ＋ 本物Chrome優先） ----------
+
+def _launch_with_chrome_then_chromium(playwright):
+    """本物Chrome(channel='chrome')を優先、失敗時はChromiumにフォールバック。
+    Google OAuth が Playwright/Chromium の自動化を検知するのを回避するため。"""
+    try:
+        ctx = playwright.chromium.launch_persistent_context(
+            user_data_dir=str(PROFILE_DIR),
+            channel="chrome",   # 本物のGoogle Chromeを使う(macOS既存インストール想定)
+            headless=False,
+            args=["--disable-blink-features=AutomationControlled"],  # webdriver検知も最小限抑制
+        )
+        print("🌐 本物のGoogle Chrome を使用しています")
+        return ctx
+    except Exception as e:
+        print(f"⚠️  Chrome起動失敗 → Chromiumにフォールバック: {e}")
+        return playwright.chromium.launch_persistent_context(
+            user_data_dir=str(PROFILE_DIR),
+            headless=False,
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+
 
 def login():
-    """初回のみ。Chromiumを永続プロファイル付きで起動→オーナーが手動ログイン。
-    永続プロファイルはOAuth(Google経由)状態も含めてまるごと保存される。"""
-    print("Chromium を起動します。表示されたウィンドウで note にログインしてください。")
+    """初回のみ。本物Chromeを永続プロファイル付きで起動→手動ログイン。
+    プロファイルにOAuth(Google経由)状態も含めて保存される。"""
+    print("ブラウザを起動します。表示されたウィンドウで note にログインしてください。")
     print("ログイン完了後（noteのダッシュボードが見えたら）、このターミナルで Enter を押してください。")
     PROFILE_DIR.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
-        ctx = p.chromium.launch_persistent_context(
-            user_data_dir=str(PROFILE_DIR),
-            headless=False,
-        )
+        ctx = _launch_with_chrome_then_chromium(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(NOTE_LOGIN_URL)
         input("ログインが完了したら Enter ...")
-        ctx.close()  # persistent_context は close 時に自動でディスクへ反映される
+        ctx.close()
         print(f"✅ プロファイルを保存しました: {PROFILE_DIR}")
 
 
 def load_context(playwright):
-    """保存済み永続プロファイルでブラウザコンテキストを起動"""
+    """保存済み永続プロファイルでブラウザを起動（本物Chrome優先）"""
     if not PROFILE_DIR.exists() or not any(PROFILE_DIR.iterdir()):
         sys.exit("初回ログインがまだです。 `python3 publish_to_note.py --login` を実行してください。")
-    ctx = playwright.chromium.launch_persistent_context(
-        user_data_dir=str(PROFILE_DIR),
-        headless=False,  # まずは見える状態で
-    )
-    return ctx
+    return _launch_with_chrome_then_chromium(playwright)
 
 
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
