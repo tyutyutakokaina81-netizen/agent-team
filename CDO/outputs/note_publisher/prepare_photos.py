@@ -16,11 +16,24 @@ import sys
 from datetime import date
 from pathlib import Path
 
-try:
-    import tkinter as tk
-    from tkinter import filedialog
-except ImportError:
-    sys.exit("tkinterが必要（標準ライブラリのはず）。pythonインストールを確認してください。")
+
+def pick_file_macos(prompt: str) -> str | None:
+    """macOS の osascript でファイル選択ダイアログを開き、選ばれたパスを返す。
+    キャンセル時は None。tkinter不要なのでHomebrew Pythonでも動く。"""
+    safe_prompt = prompt.replace('"', "'")
+    script = (
+        f'POSIX path of (choose file with prompt "{safe_prompt}" '
+        'of type {"public.image", "public.heic", "public.jpeg", "public.png"})'
+    )
+    result = subprocess.run(
+        ["osascript", "-e", script],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        return None  # ユーザーがキャンセル or エラー
+    path = result.stdout.strip()
+    return path or None
+
 
 LABELS = [
     "① 広場の集合（ドラえもん中央／のび太・しずか・ジャイアン）= サムネ",
@@ -44,17 +57,12 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"📁 保存先: {out_dir}")
 
-    root = tk.Tk()
-    root.withdraw()
-
     saved = []
     for i in range(1, args.count + 1):
         label = LABELS[i - 1] if i <= len(LABELS) else f"写真{i}"
         print(f"\n→ {label}")
-        path = filedialog.askopenfilename(
-            title=f"写真{i:02d} を選択 — {label}",
-            filetypes=[("画像", "*.jpg *.jpeg *.png *.heic *.HEIC *.JPG *.JPEG *.PNG")],
-        )
+        print(f"  ダイアログで「{label}」の写真を選択してください...")
+        path = pick_file_macos(f"写真{i:02d} を選択 — {label}")
         if not path:
             print(f"⚠️ 写真{i} がキャンセルされました。中断します。")
             return 1
