@@ -121,6 +121,33 @@ def find_latest_article(require_photos: bool = False):
     return sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
 
+def find_article_by_date(target_date_str: str | None = None):
+    """ファイル名の日付(YYYY-MM-DD)が target_date と一致するものを返す。
+    無ければ target_date 以降の最も早い未来日付の記事を返す。
+    全て過去なら最も新しい過去日付。CAO日次運用ではこちらをデフォルトに使う。"""
+    from datetime import date
+    if target_date_str is None:
+        target_date_str = date.today().isoformat()
+    dated = []
+    for p in ARTICLES_DIR.glob("*_note記事_*.md"):
+        m = re.match(r"(\d{4}-\d{2}-\d{2})_", p.name)
+        if m:
+            dated.append((m.group(1), p))
+    if not dated:
+        sys.exit(f"記事が見つかりません: {ARTICLES_DIR}/*_note記事_*.md")
+    dated.sort()
+    # exact match
+    for d, p in dated:
+        if d == target_date_str:
+            return p
+    # next future
+    for d, p in dated:
+        if d > target_date_str:
+            return p
+    # fallback: most recent past
+    return dated[-1][1]
+
+
 def parse_article(md_path: Path):
     """記事mdから タイトル・本文・写真placeholderの順序を取り出す"""
     text = md_path.read_text(encoding="utf-8")
@@ -298,15 +325,29 @@ def main():
     ap.add_argument("--photos", type=str, help="写真ディレクトリ（photo_01.jpg, photo_02.jpg, ...）")
     ap.add_argument("--draft", action="store_true", help="公開ボタンを押さずに止める（最終確認用）")
     ap.add_argument("--text-only", action="store_true", help="写真placeholderを除去してテキストのみで公開（写真ファイル不要）")
+    ap.add_argument("--by-date", default=None, metavar="YYYY-MM-DD",
+                    help="ファイル名日付指定で選択。省略時は本日。--photos と排他")
+    ap.add_argument("--latest-mtime", action="store_true",
+                    help="ファイル名日付ではなくmtime最新を選択（旧デフォルト）")
     args = ap.parse_args()
 
     if args.login:
         login()
         return
 
-    # --photos 指定時のみ、写真placeholderのある記事を優先選択。
-    # --text-only や指定なしの場合は単純に最新(mtime降順)。
-    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos))
+    # 記事選択ロジック：
+    #  --article 指定 → そのファイル
+    #  --photos 指定 → 写真placeholderある記事優先（旧仕様、写真投稿向け）
+    #  --latest-mtime → mtime最新
+    #  デフォルト → ファイル名日付=本日 or 次の未来日付（CAO日次運用）
+    if args.article:
+        md_path = Path(args.article)
+    elif args.photos:
+        md_path = find_latest_article(require_photos=True)
+    elif args.latest_mtime:
+        md_path = find_latest_article(require_photos=False)
+    else:
+        md_path = find_article_by_date(args.by_date)
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
