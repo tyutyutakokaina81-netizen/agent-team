@@ -177,7 +177,7 @@ def collect_photos(photo_dir: Path):
 
 # ---------- 投稿フロー（note UI操作） ----------
 
-def publish(md_path: Path, photo_dir: Path | None, draft: bool):
+def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False):
     title, body, placeholders = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
 
@@ -185,11 +185,20 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool):
     print(f"🏷️  タイトル: {title}")
     print(f"📸 写真placeholder: {len(placeholders)} 個")
     print(f"🖼️  実写ファイル: {len(photos)} 枚 ({photo_dir})")
+    if text_only:
+        print("📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します")
 
-    if placeholders and not photos:
-        sys.exit("✗ 写真placeholderはあるが --photos に写真がありません。中断します。")
-    if photos and len(photos) < len(placeholders):
-        sys.exit(f"✗ 写真不足: {len(placeholders)}枚必要 / {len(photos)}枚しかない。中断します。")
+    if text_only:
+        # placeholder行を消す（前後の空行も整える）
+        body = re.sub(r"\n?\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d][^\]]*\]\n?", "\n\n", body)
+        body = re.sub(r"\n{3,}", "\n\n", body).strip()
+        placeholders = []  # 以後の写真処理を全部スキップ
+        photos = []
+    else:
+        if placeholders and not photos:
+            sys.exit("✗ 写真placeholderはあるが --photos に写真がありません。--text-onlyで写真無し公開も可。")
+        if photos and len(photos) < len(placeholders):
+            sys.exit(f"✗ 写真不足: {len(placeholders)}枚必要 / {len(photos)}枚しかない。中断します。")
 
     with sync_playwright() as p:
         ctx = load_context(p)
@@ -288,19 +297,20 @@ def main():
     ap.add_argument("--article", type=str, help="記事mdのパス（省略時は最新を自動選択）")
     ap.add_argument("--photos", type=str, help="写真ディレクトリ（photo_01.jpg, photo_02.jpg, ...）")
     ap.add_argument("--draft", action="store_true", help="公開ボタンを押さずに止める（最終確認用）")
+    ap.add_argument("--text-only", action="store_true", help="写真placeholderを除去してテキストのみで公開（写真ファイル不要）")
     args = ap.parse_args()
 
     if args.login:
         login()
         return
 
-    # --photos 指定時は、写真placeholderのある記事を優先選択
-    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos))
+    # --photos 指定時は、写真placeholderのある記事を優先選択（text-onlyでも本文の充実度で同じ基準）
+    md_path = Path(args.article) if args.article else find_latest_article(require_photos=bool(args.photos) or args.text_only)
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
     photo_dir = Path(args.photos).expanduser() if args.photos else None
-    publish(md_path, photo_dir, draft=args.draft)
+    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only)
 
 
 if __name__ == "__main__":
