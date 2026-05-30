@@ -13,12 +13,12 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
-| — | — | — | — | — |
+| 2026-05-28 | outputs/note_publisher/ | 自動化ツール | note自動公開ヘルパー(Playwright・柱Dと同じ初回ログインのみ手動モデル)。オーナーのMacで実行 | MVP完成 |
 
 ## 進行中タスク
 
-- （なし）
+- note_publisher: 初回運用後にUIセレクタ調整が必要な可能性（noteのDOM変更追従）
 
 ## メモ・引き継ぎ事項
 
-- （なし）
+- note_publisherはCMO/outputs/の最新記事を自動選択。写真は ~/Pictures/note/YYYY-MM-DD/photo_NN.jpg 命名規則。
