@@ -86,17 +86,27 @@ def generate_with_gemini(prompt: str, api_key: str) -> bytes:
     return base64.b64decode(b64)
 
 
+def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
+    """Pollinations.ai: APIキー不要・無料の画像生成サービス。"""
+    import urllib.parse
+    # FLUX.1ベースのモデル。16:9近似（width=1280, height=720）
+    encoded = urllib.parse.quote(prompt[:1900])  # URL長制限の安全圏
+    url = (
+        f"https://image.pollinations.ai/prompt/{encoded}"
+        f"?width=1280&height=720&nologo=true&model=flux&enhance=true"
+    )
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        return resp.read()
+
+
 def pick_backend():
     if os.environ.get("OPENAI_API_KEY"):
         return "openai", os.environ["OPENAI_API_KEY"]
     if os.environ.get("GEMINI_API_KEY"):
         return "gemini", os.environ["GEMINI_API_KEY"]
-    sys.exit(
-        "API キーが未設定。OpenAI なら:\n"
-        "  export OPENAI_API_KEY=sk-...\n"
-        "Gemini なら（Google AI Studio で取得）:\n"
-        "  export GEMINI_API_KEY=...\n"
-    )
+    # キー無しでも動く Pollinations をデフォルトに
+    return "pollinations", ""
 
 
 def main():
@@ -140,8 +150,10 @@ def main():
         try:
             if backend == "openai":
                 data = generate_with_openai(prompt, key)
-            else:
+            elif backend == "gemini":
                 data = generate_with_gemini(prompt, key)
+            else:
+                data = generate_with_pollinations(prompt)
             out.write_bytes(data)
             print(f"  ✓ {out.name}  ({len(data)//1024} KB)")
             ok += 1

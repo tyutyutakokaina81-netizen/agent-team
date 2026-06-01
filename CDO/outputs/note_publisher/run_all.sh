@@ -34,13 +34,14 @@ done
 
 banner() { print -P "\n%F{cyan}========== $* ==========%f"; }
 
-# --- API キーの事前確認 ---
+# --- 画像生成バックエンド情報 ---
 if (( ! SKIP_GEN )); then
-  if [[ -z "${OPENAI_API_KEY:-}" && -z "${GEMINI_API_KEY:-}" ]]; then
-    print -P "%F{yellow}⚠  画像生成APIキーが未設定。サムネ生成を飛ばします（--skip-gen 相当）%f"
-    print -P "    export OPENAI_API_KEY=sk-..."
-    print -P "    または export GEMINI_API_KEY=..."
-    SKIP_GEN=1
+  if [[ -n "${OPENAI_API_KEY:-}" ]]; then
+    print -P "%F{cyan}画像生成: OpenAI gpt-image-1 (有料)%f"
+  elif [[ -n "${GEMINI_API_KEY:-}" ]]; then
+    print -P "%F{cyan}画像生成: Google Imagen 3 (有料)%f"
+  else
+    print -P "%F{cyan}画像生成: Pollinations.ai (キー不要・無料・FLUX)%f"
   fi
 fi
 
