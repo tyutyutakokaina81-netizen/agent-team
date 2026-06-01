@@ -149,7 +149,7 @@ def find_article_by_date(target_date_str: str | None = None):
 
 
 def parse_article(md_path: Path):
-    """記事mdから タイトル・本文・写真placeholderの順序を取り出す"""
+    """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す"""
     text = md_path.read_text(encoding="utf-8")
 
     # タイトル：「メイン：」直下の最初の ``` コードブロック
@@ -169,7 +169,24 @@ def parse_article(md_path: Path):
 
     # 写真placeholderの個数（[写真①]〜⑩、または[ここに写真...]）
     placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
-    return title, body, placeholders
+
+    # ハッシュタグ：「## ハッシュタグ」直下の ``` コードブロック → "#xxx" を抽出
+    tags = []
+    tag_m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
+    if tag_m:
+        tags = [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
+
+    return title, body, placeholders, tags
+
+
+def find_thumbnail_for(md_path: Path) -> Path | None:
+    """thumbnails/{記事stem}.{jpg|png|webp} があれば返す。"""
+    thumbs = Path(__file__).resolve().parent / "thumbnails"
+    for ext in ("jpg", "jpeg", "png", "webp", "JPG", "PNG"):
+        p = thumbs / f"{md_path.stem}.{ext}"
+        if p.exists():
+            return p
+    return None
 
 
 def split_body_by_photo_placeholders(body: str):
@@ -205,13 +222,18 @@ def collect_photos(photo_dir: Path):
 # ---------- 投稿フロー（note UI操作） ----------
 
 def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False):
-    title, body, placeholders = parse_article(md_path)
+    title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
+
+    # thumbnails/{stem}.jpg があれば自動でサムネ＆--photos未指定時の見出し画像に使う
+    auto_thumb = find_thumbnail_for(md_path)
 
     print(f"📝 記事: {md_path.name}")
     print(f"🏷️  タイトル: {title}")
     print(f"📸 写真placeholder: {len(placeholders)} 個")
     print(f"🖼️  実写ファイル: {len(photos)} 枚 ({photo_dir})")
+    print(f"🖼️  自動サムネ候補: {auto_thumb.name if auto_thumb else 'なし'}")
+    print(f"🔖 ハッシュタグ: {len(tags)} 個 ({', '.join(tags[:5])}{'…' if len(tags) > 5 else ''})")
     if text_only:
         print("📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します")
 
@@ -249,11 +271,18 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         editor.click()
 
         # 本文を写真placeholderで分割しながら、テキスト→写真→テキスト... で挿入
+        # 改行を確実に保持するため、段落ごとに insert_text → Enter
         segments = split_body_by_photo_placeholders(body)
         for kind, val in segments:
             if kind == "text":
-                # 段落ごとに改行を保ちながら挿入
-                page.keyboard.insert_text(val)
+                # \n\n で段落に分け、各段落ごとに insert_text → Enter
+                paragraphs = val.split("\n")
+                for i, para in enumerate(paragraphs):
+                    if para:
+                        page.keyboard.insert_text(para)
+                    if i < len(paragraphs) - 1:
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(30)
             elif kind == "photo":
                 idx = val - 1
                 if idx < len(photos):
@@ -278,19 +307,55 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
-        # サムネ（見出し画像）：写真① をアップロード
-        if photos:
+        # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
+        thumb_to_use = photos[0] if photos else auto_thumb
+        if thumb_to_use:
             try:
                 # 「見出し画像」エリアを開く（noteは設定パネルにある）
                 page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"]').first.click()
                 page.wait_for_timeout(500)
                 with page.expect_file_chooser() as fc:
                     page.locator('input[type="file"]').first.click()
-                fc.value.set_files(str(photos[0]))
+                fc.value.set_files(str(thumb_to_use))
                 page.wait_for_timeout(1500)
-                print(f"✅ サムネ(見出し画像)に {photos[0].name} を設定")
+                # 「適用」「保存」「決定」ボタンがあれば押す
+                for label in ("適用", "決定", "保存", "完了"):
+                    try:
+                        btn = page.locator(f'button:has-text("{label}")').first
+                        if btn.is_visible(timeout=400):
+                            btn.click()
+                            page.wait_for_timeout(600)
+                            break
+                    except Exception:
+                        continue
+                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
             except Exception as e:
-                print(f"⚠️  サムネ自動設定に失敗: {e}（手動で写真①をサムネに）")
+                print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
+
+        # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
+        if tags:
+            try:
+                tag_input = page.locator(
+                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
+                ).first
+                # 公開設定パネルを開く必要がある場合の保険
+                if not tag_input.is_visible(timeout=1500):
+                    try:
+                        page.locator('button:has-text("公開設定"), button:has-text("公開に進む")').first.click()
+                        page.wait_for_timeout(800)
+                    except Exception:
+                        pass
+                    tag_input = page.locator(
+                        'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
+                    ).first
+                for t in tags[:10]:
+                    tag_input.click()
+                    page.keyboard.type(t)
+                    page.keyboard.press("Enter")
+                    page.wait_for_timeout(200)
+                print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
+            except Exception as e:
+                print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
 
         # 公開 or 下書き
         if draft:
