@@ -46,3 +46,5 @@ context/references/*
 !context/references/.gitkeep
 *.pyc
 __pycache__/
+CDO/outputs/note_publisher/.published.log
+CDO/outputs/note_publisher/.published.log.bak.*
