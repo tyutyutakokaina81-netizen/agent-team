@@ -32,7 +32,7 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO = SCRIPT_DIR.parents[2]
 ARTICLES_DIR = REPO / "CMO" / "outputs"
-PROFILE_DIR = SCRIPT_DIR / ".browser_profile"
+PROFILE_DIR = Path.home() / ".note_publisher_profile"  # publish_to_note.py と統一
 THUMB_DIR = SCRIPT_DIR / "thumbnails"
 
 NOTE_MY_NOTES_URL = "https://note.com/notes"
@@ -40,15 +40,23 @@ LOG_FILE = SCRIPT_DIR / ".thumbnail_attached.log"
 
 
 def load_context(playwright):
-    if not PROFILE_DIR.exists():
+    if not PROFILE_DIR.exists() or not any(PROFILE_DIR.iterdir()):
         sys.exit("初回ログインがまだです。 `python3 publish_to_note.py --login` を実行してください。")
-    return playwright.chromium.launch_persistent_context(
-        str(PROFILE_DIR),
-        headless=False,
-        channel="chrome",
-        viewport={"width": 1280, "height": 900},
-        args=["--disable-blink-features=AutomationControlled"],
-    )
+    try:
+        return playwright.chromium.launch_persistent_context(
+            str(PROFILE_DIR),
+            headless=False,
+            channel="chrome",
+            viewport={"width": 1280, "height": 900},
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+    except Exception:
+        return playwright.chromium.launch_persistent_context(
+            str(PROFILE_DIR),
+            headless=False,
+            viewport={"width": 1280, "height": 900},
+            args=["--disable-blink-features=AutomationControlled"],
+        )
 
 
 def extract_title(md_path: Path) -> str:

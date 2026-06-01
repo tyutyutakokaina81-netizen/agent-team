@@ -89,11 +89,13 @@ def generate_with_gemini(prompt: str, api_key: str) -> bytes:
 def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
     """Pollinations.ai: APIキー不要・無料の画像生成サービス。"""
     import urllib.parse
-    # FLUX.1ベースのモデル。16:9近似（width=1280, height=720）
-    encoded = urllib.parse.quote(prompt[:1900])  # URL長制限の安全圏
+    # プロンプトを短くしないと URL 長で 404 になる。最初の300字程度に切る。
+    short = prompt[:300].rsplit(" ", 1)[0]  # 単語途中で切らない
+    encoded = urllib.parse.quote(short, safe="")
+    # safe=""でスラッシュも%2Fに。FLUXモデル、16:9近似
     url = (
         f"https://image.pollinations.ai/prompt/{encoded}"
-        f"?width=1280&height=720&nologo=true&model=flux&enhance=true"
+        f"?width=1280&height=720&nologo=true&model=flux"
     )
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=180) as resp:
