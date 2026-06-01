@@ -4,7 +4,42 @@
 私のクラウドコンテナはnoteに接続できない（ネット遮断＋ログイン非共有）ため、
 **あなたのMac上で**Playwrightを使い、保存済みセッションでnoteに自動投稿する。
 
-## 後追いサムネ添付（attach_thumbnails.py）
+## エンドツーエンド完全自動化（run_all.sh）
+
+サムネ生成→公開→サムネ添付を1コマンドで：
+
+```
+export OPENAI_API_KEY=sk-...        # または GEMINI_API_KEY
+cd ~/agent-team/CDO/outputs/note_publisher
+./run_all.sh                         # 全工程
+./run_all.sh --filter 2026-06-01     # 指定日のみ
+./run_all.sh --skip-gen              # 画像生成を飛ばす
+```
+
+工程:
+1. `generate_thumbnails.py` で各記事のサムネプロンプトから画像生成 → `thumbnails/`
+2. `publish_all.sh` で未公開記事を text-only 公開
+3. `attach_thumbnails.py` で公開済み記事に画像を後追い添付
+
+各工程は独立して実行可能（下記参照）。
+
+---
+
+## 個別ツール
+
+### サムネ画像生成（generate_thumbnails.py）
+
+OpenAI gpt-image-1 または Gemini Imagen 3 で各記事のサムネを一括生成。
+
+```
+export OPENAI_API_KEY=sk-...
+python3 generate_thumbnails.py --dry-run        # 対象確認
+python3 generate_thumbnails.py                  # 全件生成
+python3 generate_thumbnails.py --filter 2026-06-01
+python3 generate_thumbnails.py --max 5          # 先頭5本だけテスト
+```
+
+### 後追いサムネ添付（attach_thumbnails.py）
 
 公開済みの記事に、あとからヘッダー画像（サムネ）を一括添付するツール。
 
