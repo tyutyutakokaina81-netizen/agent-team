@@ -17,6 +17,14 @@
 > クラウド処理が最適なものだけ cowork。全部 Claude Code に引き継ぎ」。
 > 旧案（PR #12 の「執筆=cowork」案、cowork の co-equal 案）はこの確定で上書き。
 
+### cowork = ミラー環境（2026-06-07 オーナー指示・最重要）
+
+- **指示は基本ここ（code＝このセッション）で受ける**。オーナー → code が唯一の指示ライン。
+- **cowork は「ミラー環境」**：canonical（＝`main` のリポジトリ状態）を**複製して同期し、実行する手**。
+  - **頭脳は code 一本**。cowork は独自に企画・執筆・判断・**独自ブランチ/ドキュメントの新規作成をしない**（過去の並行作成が重複の原因だった）。
+  - cowork の仕事＝(1) canonical を mirror（pull で同期）、(2) ブラウザ/ネット実行（note公開・X/Reddit・解析）を canonical の中身（`drafts/queue/`・`ops/inbox/`）に従って行う。
+- **canonical = `main`**。code が `main` を更新 → cowork が mirror。これで「2つの頭が別々に動く」状態を解消。
+
 ### 「全部引き継ぎ」の正確な意味（違和感の解消）
 
 物理制約上、「全部」には1点だけ例外がある：
