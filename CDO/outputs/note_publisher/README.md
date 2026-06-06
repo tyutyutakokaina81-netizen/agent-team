@@ -4,6 +4,83 @@
 私のクラウドコンテナはnoteに接続できない（ネット遮断＋ログイン非共有）ため、
 **あなたのMac上で**Playwrightを使い、保存済みセッションでnoteに自動投稿する。
 
+## エンドツーエンド完全自動化（run_all.sh）
+
+サムネ生成→公開→サムネ添付を1コマンドで：
+
+```
+export OPENAI_API_KEY=sk-...        # または GEMINI_API_KEY
+cd ~/agent-team/CDO/outputs/note_publisher
+./run_all.sh                         # 全工程
+./run_all.sh --filter 2026-06-01     # 指定日のみ
+./run_all.sh --skip-gen              # 画像生成を飛ばす
+```
+
+工程:
+1. `generate_thumbnails.py` で各記事のサムネプロンプトから画像生成 → `thumbnails/`
+2. `publish_all.sh` で未公開記事を text-only 公開
+3. `attach_thumbnails.py` で公開済み記事に画像を後追い添付
+
+各工程は独立して実行可能（下記参照）。
+
+---
+
+## 個別ツール
+
+### サムネ画像生成（generate_thumbnails.py）
+
+OpenAI gpt-image-1 または Gemini Imagen 3 で各記事のサムネを一括生成。
+
+```
+export OPENAI_API_KEY=sk-...
+python3 generate_thumbnails.py --dry-run        # 対象確認
+python3 generate_thumbnails.py                  # 全件生成
+python3 generate_thumbnails.py --filter 2026-06-01
+python3 generate_thumbnails.py --max 5          # 先頭5本だけテスト
+```
+
+### 後追いサムネ添付（attach_thumbnails.py）
+
+公開済みの記事に、あとからヘッダー画像（サムネ）を一括添付するツール。
+
+1. `thumbnails/` フォルダを作って、ChatGPT/Midjourney 等で生成した画像を置く
+   - 命名規則（どれかにマッチすればOK）:
+     - `2026-06-01.jpg`（その日付の任意1本）
+     - `2026-06-01_富山ブラック.jpg`（タイトルにキーワード含むものに紐づく）
+     - `2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給.jpg`（記事ファイル名と同じstem）
+2. 実行:
+   ```
+   python3 attach_thumbnails.py --dry-run        # マッピング確認のみ
+   python3 attach_thumbnails.py --skip-existing  # 既にサムネある記事は飛ばす
+   python3 attach_thumbnails.py --confirm        # 1件ずつ目視確認
+   python3 attach_thumbnails.py --filter 2026-06-01  # 指定日のみ
+   ```
+3. `.thumbnail_attached.log` で二重添付を防止
+
+サムネ画像の生成プロンプトは `CMO/outputs/_thumbnail_prompts_index.md` に全82本ぶん集約済み。
+
+## クイック使用（推奨）
+
+未公開記事を1コマンドで全部公開：
+
+```
+cd ~/agent-team/CDO/outputs/note_publisher
+./publish_all.sh
+```
+
+`publish_all.sh` がやること：
+- `index.lock` の自動解除
+- `git pull` を最大4回リトライ（2/4/8/16秒）
+- 未公開記事を `.published.log` で管理（二重投稿防止）
+- 1本ずつ `publish_to_note.py --text-only` で投稿
+- 失敗しても止まらず次へ進む。最後にサマリ表示
+
+オプション：
+- `--date 2026-06-01`：その日付の記事だけ
+- `--max 3`：先頭N本だけ
+- `--dry-run`：何を投稿するか表示のみ
+- `--reset`：公開済みログをクリア（再投稿用）
+
 柱D（エクセル入力スクレイピング）と同じ「**初回ログインのみ手動、以後は再利用**」モデル。
 
 ---

@@ -46,3 +46,7 @@ context/references/*
 !context/references/.gitkeep
 *.pyc
 __pycache__/
+CDO/outputs/note_publisher/.published.log
+CDO/outputs/note_publisher/.published.log.bak.*
+CDO/outputs/note_publisher/.thumbnail_attached.log
+CDO/outputs/note_publisher/thumbnails/
