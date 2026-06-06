@@ -189,8 +189,112 @@ status: open           # open / in-progress / done
 
 ---
 
-## 5. 次のステップ
+## 5. 記事執筆担当の決定（2026-06-07 確定）
 
-1. このドキュメントを PR #12 にコメントで要約投稿（合意形成）
-2. オーナー承認後、`ops/inbox/` ディレクトリを切って初回の往復を試す
-3. 2週間運用してインターフェースを見直す（KPI: PR コメント数の減少／指示の取りこぼし数）
+PR #12 の旧案は「執筆 = Cowork／整理 = Claude Code」だったが、**実測ベースで覆す**。
+
+### 実績比較
+
+| 観点 | Claude Code（現状） | Cowork |
+|---|---|---|
+| 現状の執筆実績 | 72本以上（全 `CMO/outputs/` の本文） | 0本 |
+| ファイル直書き | ✅ Write/Edit ツール | ❌ ブラウザ経由でしか書けない |
+| `_index.md` 同時更新 | ✅ 1ターンで両方 | ❌ 別タスクが必要 |
+| 重複検知・テンプレ感チェック | ✅ ファイル横断 grep 即実行 | ❌ ブラウザでは非効率 |
+| 英語要約の様式管理 | ✅ 全記事の英語末尾を即監査 | ❌ |
+| 並列バッチ（5本/日） | ⚠️ 順次（1セッション内） | ✅ 並列可能 |
+| 外部情報取得（最新トレンド） | ❌ ネット遮断 | ✅ Chrome で取得可能 |
+
+### 結論：**執筆は Claude Code 担当（CMO 役職）で確定**
+
+理由：
+
+1. **ファイル整合性が圧倒的に有利**：本文と `_index.md` と `STATE.md` を 1 ターンで同期更新できる
+2. **既往実績 72 本**：文体・住人視点・英語要約多様性が学習済み
+3. **重複/テンプレ感セルフチェック**：全 outputs を即 grep できる
+4. **Cowork の強みはブラウザ系**：執筆に振ると稼働率が下がる
+
+### Cowork に残す執筆周辺タスク
+
+- **トレンドリサーチ**：海外の note 類似サービスで何が読まれているか
+- **競合観察**：富山・北陸ジャンルの他クリエイターの反応
+- **公開後の反応取得**：PV・コメント・国別セッション数を週次でリポジトリに書き戻す
+
+→ Cowork は **執筆前のインプット**と**執筆後の計測**を担当する。本文生成は Claude Code に集約。
+
+---
+
+## 6. note.com 公開の Cowork 移譲
+
+### 6-1. 物理的制約
+
+Claude Code 側からは **note.com に到達できない**（HTTP 403、外部ネット遮断）。
+さらに：
+
+- ブラウザがない → Playwright/Chrome での DOM 操作不可
+- セッション Cookie/2FA を保持する仕組みがない
+- 画像アップロード API も叩けない
+
+つまり **note への公開は Cowork（Chrome 拡張・ブラウザセッション保持）にしか基本できない**。
+オーナー Mac 上の既存 `CDO/outputs/note_publisher/publish_to_note.py` は Playwright を使うが、
+これも Cowork から呼び出すか、オーナーが手動で叩くかのいずれか。
+
+### 6-2. `drafts/` 受け渡しワークフロー
+
+公開可能になった記事を Claude Code が `drafts/queue/` に staging し、
+Cowork が pickup して note 公開後 `drafts/published/` に移す。
+
+```
+drafts/
+├── README.md             ← ワークフロー手順書
+├── queue/                ← 公開待ち（Code が staging）
+│   └── 2026-06-14_note記事_*.md   ← CMO/outputs/ からコピー
+├── published/            ← 公開済み（Cowork が移動）
+│   └── 2026-06-14_note記事_*.md
+└── stage_for_publish.py  ← CMO/outputs/ → drafts/queue/ コピーヘルパー
+```
+
+### 6-3. パイプライン
+
+| ステップ | 担当 | 内容 |
+|---|---|---|
+| 1. 執筆 | Claude Code | `CMO/outputs/YYYY-MM-DD_*.md` 作成 |
+| 2. 品質検品 | Claude Code | 重複/テンプレ感/英語要約多様性チェック |
+| 3. staging | Claude Code | `python3 drafts/stage_for_publish.py <file>` で queue に投入 |
+| 4. pickup | Cowork | `drafts/queue/*.md` を全件読む |
+| 5. 公開 | Cowork | Chrome で note.com にログイン済セッションで投稿 |
+| 6. 移動 | Cowork | `drafts/queue/X.md` → `drafts/published/X.md` |
+| 7. 報告 | Cowork | `ops/inbox/` に「N件公開完了」レポートを投函 |
+| 8. 台帳更新 | Claude Code | `ops/inbox/` のレポートを読み `_index.md` のステータスを「公開済」に更新 |
+
+### 6-4. 失敗時のリカバリ
+
+- Cowork が公開失敗 → `drafts/queue/` に残したまま `ops/inbox/` にエラー報告
+- Claude Code が原因切り分け（記事側の問題なら修正、note 側の問題なら次回リトライ指示）
+- **`drafts/published/` に入った時点で「公開済」扱い**（巻き戻しはオーナー手動）
+
+---
+
+## 7. 衝突回避ルール（更新）
+
+| 領域 | 正本 | 編集可能 |
+|---|---|---|
+| `CMO/outputs/*.md`（記事本文） | Claude Code | Claude Code（執筆担当に確定） |
+| `CMO/_index.md`（台帳） | Claude Code | Claude Code のみ |
+| `context/STATE.md`（メモリ） | 手動マージ | 両方（追記式） |
+| `CDO/outputs/note_publisher/`（公開ツール） | Claude Code | Claude Code |
+| `drafts/queue/`（公開待ち） | Claude Code | Code: 投入／Cowork: pickup後削除 |
+| `drafts/published/`（公開済） | Cowork | Cowork のみ書き込み |
+| `ops/inbox/`（指示・報告） | なし | 両方 |
+| `ops/processed/`（処理済） | なし | 処理側が移動 |
+
+---
+
+## 8. 次のステップ
+
+1. ✅ `ops/inbox/` `ops/processed/` `ops/README.md` `ops/process_inbox.py` 作成（このコミット）
+2. ✅ `drafts/queue/` `drafts/published/` `drafts/README.md` `drafts/stage_for_publish.py` 作成（このコミット）
+3. ✅ サンプル指示 `ops/inbox/sample-task.yaml` 投入
+4. PR #12 にこのドキュメントとツールを報告
+5. Cowork 側に「`drafts/queue/` を監視して note 公開せよ」と初回指示を投函
+6. 2週間運用後に KPI レビュー（公開件数／公開失敗率／PR コメント数）
