@@ -189,6 +189,8 @@
 
 ## ★連携運用ルール（cowork × Claude Code）2026-06-06 確定・PR #12 で合意
 
+- **詳細版**：`CDO/outputs/2026-06-06_役割分担_cowork×ClaudeCode.md`（パイプライン/所有マトリクス/RACI/衝突ルール）。以下は要約。
+- **基本原則**：生成（cowork）と検品・整合（Claude Code）を分離し、同一ファイルを同時に書かない。判断基準は North Star（海外読者）。
 - **指示チャネル**：PR **#12**（`claude/optimistic-gates-oqMRK`）のコメント欄。Claude Code が購読中。
 - **Claude Code の作業ブランチ**：原則 `claude/optimistic-gates-oqMRK` に**積み増し**（コメント指示→このブランチにcommit→PR #12のdiffが育つ）。
   - 担当：台帳同期/重複監査/記事間調整/英語サブタイトル・Travel CTA等の海外導線横展開/STATE更新/その他「整理・監査・横展開」系（**執筆以外**）。
