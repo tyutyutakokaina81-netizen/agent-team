@@ -216,3 +216,5 @@
 | 2026-05-30 | オーナー指摘「分析担当いたんじゃない？」→ CDO権限でCAO（Chief Analytics Officer・分析責任者）を新設。CAO初回分析（ローカル食×海外発信の有効性）→ CMOが高岡ローカル食3本（白えび/昆布じめ/高岡コロッケ、6/10-12）を執筆。サムネは実写プロンプト同梱方式（既往制約遵守）。 |
 | 2026-05-31 | 実写サムネ付きnote自動公開、初成功。細工かまぼこ(6/01)記事に鯛のかまぼこ実写を `prepare_photos.py --then-publish --count 1 --date 2026-06-01` で投入→自動投稿完了。「写真placeholderあり記事を優先選択」ロジックが期待通り動作。 |
 | 2026-05-31 | CAOが全39記事監査＋海外アクセス強化戦略策定。Tier 1是正(6本)＋クロスポストツール3本(Reddit/X/EN記事下地)＋51件の素材一括生成。EN/outputs/, EN/research/ に格納。 |
+| 2026-06-07 | Cowork × Code 役割分担を `docs/role-division.md` に確定。執筆=Code（実績72本）/ note公開=Cowork独占（ネット遮断のため）。連絡チャネルとして `ops/inbox/` YAMLキュー＋ `drafts/queue/→published/` ステージングを実装。 |
+| 2026-06-07 | Cowork セッションから一括引き継ぎ受領。`docs/cowork-handoff.md` 参照。オーナー=てつ(@safe_canna441)、主戦場=note.com/safe_canna441、フェーズ2(国際SEO)。英語は翻訳でなく travel writing(150-250w, "from Kanazawa" フレーム)で書く方針。じゃらんアフィリ稼働中(a8mat=1CCUH0+929KAA+14CS+64RJ5)。本日note9本公開済(うち5本にじゃらんリンク付与)。 |
