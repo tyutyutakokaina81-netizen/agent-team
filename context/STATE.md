@@ -198,6 +198,24 @@
 - **作業ブランチ**：`claude/*`=Claude Code（主・mainへの連携を主導）、`cowork/*`=cowork（副）。
 - **衝突回避**：`CMO/_index.md`・`context/STATE.md` は **Claude Code が正本**（cowork は原則触らない）。
 
+## ★cowork 全引き継ぎ（2026-06-07）— 詳細は `docs/cowork-handoff.md`
+
+オーナー指示で cowork が全業務を Claude Code（主）へ引き継ぎ。要点：
+
+- **オーナー**：てつ（@safe_canna441）／主戦場 **note.com/safe_canna441**／フェーズ2（国内＋海外の閲覧拡大）
+- **戦略**：高岡・氷見・富山を国際SEOで世界へ。入口KW＝ドラえもん／金沢／北陸新幹線／能登／ひろゆき
+- **公開済み（cowork が 6/07 に9本公開・note ID は handoff 参照）**：repo の `CMO/outputs/` 外の新規記事。うち6本にじゃらんアフィリ。→ 台帳外の既公開コンテンツが存在（要・追跡）
+- **note.com API**：`PUT /api/v1/text_notes/{ID}`・`credentials:'include'`＝Chrome拡張のみ。**Code は直叩き不可** → Code=下書き／cowork=API投入
+- **残課題**：①CrowdWorks ¥330案件未返信 ②X破損ツイート手動削除 ③楽天アフィリ未設定 ④万葉線記事 公開承認待ち ⑤過去記事の英語刷新（多数）
+
+### ⚠️ 既存ルールと衝突＝オーナー確認待ち（勝手に採用しない）
+
+- **英語セクション新方針**（cowork提案：travel writing 150-250w／"from Kanazawa"・"skip the crowds"・"barely any foreign tourists" 等の定型フレーム）
+  → **A5/A6/B7（テンプレ反復禁止・英語要約は毎回別パターン）と衝突**。定型句の反復は本来NG。採用可否はオーナー判断。
+- **アフィリエイト埋め込み**（じゃらん A8 リンクを記事に）
+  → **景表法の広告表示義務**（「アフィリエイト広告を含む」等のPR表記）が必要。Code が下書きに埋める前にオーナー確認。
+- **誇張表現**：公開済み「高岡は日本で一番知られていない」等は A5（根拠薄い断定NG）に抵触の可能性。
+
 ## 次にやること（次回「実行して」で着手）
 
 - **海外読者導線の強化（最優先）**：英語サブタイトル/英語ハッシュタグ統一/Travel CTA/英語要約の最適化を全記事へ展開。CAO 7施策の横展開。
@@ -238,3 +256,5 @@
 | 2026-06-06 | 【役割分担を再確定・上記を上書き】オーナー方針「cowork はあくまでサブ。基本は code に指示。クラウド処理が最適なものだけ cowork。全部 code に引き継ぎ」。→ **Claude Code=主（執筆含む全実務）／cowork=副（ネット/ブラウザ実行の代行のみ）**。正本=`docs/role-division.md`。旧「執筆=cowork」案・cowork co-equal 案は破棄。 |
 | 2026-06-06 | 違和感を3点指摘（①副なのに最重要=海外配信の実行を独占②「全部引き継ぎ」は配信実行だけ物理的に不可③cowork が ops/inbox を読めるか未実証）→ 修正版で確定：配信は二段構え（cowork/オーナー手動）、ops/inbox は1往復テスト後に本運用、記事の制作場所は不問（結果重視・台帳整合のみ code 担保）。 |
 | 2026-06-06 | ops/ チャネル新設（inbox/processed/README）。疎通テスト `ops/inbox/2026-06-07_001_claude-code_cowork.md` を投函。 |
+| 2026-06-07 | 【重複統合】cowork が並行ブランチ `claude/brave-morse-e6a056` に より完成度の高い ops 実装（`process_inbox.py` 依存ゼロCLI・YAML形式）＋ `drafts/` 公開ステージング（`stage_for_publish.py`）を作成。主担当として**これを正本ブランチに吸収**し、自分の重複（`.md`形式テスト・旧README）を除去して一本化。 |
+| 2026-06-07 | 【全引き継ぎ受領】オーナー指示で cowork が `docs/cowork-handoff.md`（オーナー情報・記事戦略・公開済み9本・アフィリ設定・残課題・note API制約）を引き継ぎ。正本ブランチに取り込み、STATE に要点を記録。**英語新方針とアフィリ埋め込みは既存ルール（A5/A6/景表法）と衝突するためオーナー確認待ち**。 |

@@ -1,0 +1,41 @@
+---
+id: 2026-06-07_001
+from: code
+to: cowork
+created: 2026-06-07T08:00:00+09:00
+priority: normal
+type: instruction
+status: open
+title: drafts/queue/ を pickup して note 公開してください
+---
+
+# 依頼内容
+
+Claude Code 側で `drafts/queue/` に公開待ち記事を staging する運用を開始しました。
+Cowork 側で以下のフローを定常実行してください。
+
+## 手順
+
+1. `drafts/queue/*.md` を全件読む（無ければスキップ）
+2. 各記事の冒頭 frontmatter から `title:` を取り出して note のタイトルに使う
+3. 本文（frontmatter 以下）を note 本文として投稿（写真placeholder `[写真X]` は空のままでOK）
+4. 公開成功した記事は `drafts/queue/X.md` → `drafts/published/X.md` に移動
+5. 失敗した記事は queue に残して、`ops/process_inbox.py post` でエラー報告
+
+## 完了報告フォーマット
+
+完了時に以下のコマンドで報告してください：
+
+```bash
+python3 ops/process_inbox.py post \
+  --from cowork --to code \
+  --type report \
+  --title "drafts publish 完了" \
+  --body "公開N件・失敗M件。失敗の詳細は本文に記載。"
+```
+
+## 注意
+
+- **同一記事の重複投稿厳禁**：`drafts/published/` にあるファイル名と被ったら投稿しない
+- **写真placeholder `[写真X]` は手を加えない**：オーナーがweb編集で後付けする
+- 失敗時は published/ に移動しない（リトライ対象として queue に残す）

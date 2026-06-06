@@ -81,40 +81,16 @@
 
 ```
 ops/
-├── inbox/        ← 未処理の依頼（YAML frontmatter + 本文）
-├── processed/    ← 処理済み（消さず移動・結果サマリ追記）
-└── README.md
+├── inbox/            ← 未処理の依頼（YAML frontmatter + Markdown 本文）
+├── processed/        ← 処理済み（消さず移動・結果サマリ追記）
+├── process_inbox.py  ← 依存ゼロ CLI（list / show / take / done / post）
+└── README.md         ← フォーマット仕様・CLI 使い方（正本）
 ```
 
-### ファイル形式
-
-```markdown
----
-id: 2026-06-07_001
-from: claude-code        # claude-code / cowork
-to: cowork
-created: 2026-06-07T09:00:00+09:00
-priority: normal         # urgent / normal / low
-type: instruction        # instruction / report / question
-status: open             # open / in-progress / done
----
-
-# （タイトル：依頼内容）
-
-本文。対象ファイルのパス・条件を具体的に。
-```
-
-### 運用ルール
-
-| アクション | 誰が | やり方 |
-|---|---|---|
-| 依頼を出す | 主に Claude Code → cowork | `ops/inbox/` に新規ファイル commit |
-| 引き受ける | cowork | `status: open → in-progress` に編集 + commit |
-| 完了する | cowork | `ops/processed/` に移動 + 結果サマリを末尾追記 |
-| 未処理確認 | どちらも | `ls ops/inbox/` |
-
-- **PR #12 コメント**：オーナー向け・方針議論
-- **`ops/inbox/`**：エージェント間の機械的な依頼・報告（主に主→副の実行依頼）
+- **フォーマットと CLI の詳細は `ops/README.md`**（cowork 実装を採用）。形式は **YAML frontmatter + Markdown 本文の `.yaml`**。
+- 依頼: `python3 ops/process_inbox.py post --from code --to cowork --title ... --body ...`
+- 受領→完了: `take <id>` → `done <id> --result "..."`（自動で `processed/` へ移動）
+- **PR #12 コメント**：オーナー向け・方針議論／**`ops/inbox/`**：エージェント間の機械的な依頼・報告（主に主→副の実行依頼）
 
 ---
 
@@ -131,19 +107,23 @@ status: open             # open / in-progress / done
 
 ---
 
-## 5. 公開フロー（主→副の代表例）
+## 5. 公開フロー（主→副）＝ `drafts/` ステージング
 
-1. **Claude Code**：記事完成 → 公開可否・順を判断 → `ops/inbox/` に「公開依頼」（記事パス・写真有無・対象日）
-2. **cowork**：note 公開を実行 → 結果（URL 等）を `ops/processed/` に書き戻し
-3. **Claude Code**：`STATE.md`・台帳を更新
+詳細手順は `drafts/README.md`（正本）。要約：
 
-> 公開の最終 go/no-go はオーナー（外向き・センシティブのため）。cowork は承認後に実行する。
+1. **Claude Code**：執筆 → `CMO/outputs/` → 公開可否・順を判断 → `python3 drafts/stage_for_publish.py --date YYYY-MM-DD` で `drafts/queue/` へ staging
+2. **Claude Code**：`ops/process_inbox.py post` で cowork へ公開依頼
+3. **cowork**：`drafts/queue/*.md` を pickup → note 公開 → `drafts/published/` へ移動 → `ops/inbox/` に完了レポート
+4. **Claude Code**：レポートを読み `CMO/_index.md` を「公開済」に更新
+
+> 公開の最終 go/no-go はオーナー（外向き・センシティブ）。配信は二段構え（cowork／不調時オーナー手動 `publish_to_note.py`）。
 
 ---
 
 ## 6. 次のステップ
 
 1. 本ドキュメントを正本化（`docs/role-division.md`）。旧案（CDO の役割分担メモ、cowork の co-equal 案）は本書に統合。
-2. **`ops/inbox/` はいきなり本運用しない**。まず `ops/inbox/2026-06-07_001_claude-code_cowork.md`（往復テスト）を1件投げ、
-   cowork が「読む→`in-progress`→`processed/` に書き戻し」できるか**実証してから**本運用に移す。
+2. `ops/inbox/` は cowork 実装（CLI＋YAML）を採用。疎通は `sample-task.yaml` で確認可。
 3. 2 週間運用し見直す（KPI：海外読者の流入、指示の取りこぼし数）。
+
+> 関連：業務の全体引き継ぎは `docs/cowork-handoff.md`（オーナー情報・記事戦略・公開済み記事・アフィリ・残課題）。
