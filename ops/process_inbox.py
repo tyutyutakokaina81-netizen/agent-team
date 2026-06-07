@@ -16,7 +16,9 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
 INBOX = ROOT / "inbox"
+OUTBOX = ROOT / "outbox"
 PROCESSED = ROOT / "processed"
+QUEUE_DIRS = (INBOX, OUTBOX)
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n(.*)$", re.DOTALL)
 KV_RE = re.compile(r"^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$")
@@ -44,14 +46,14 @@ def render_frontmatter(fm: dict[str, str], body: str) -> str:
 
 
 def find_file(task_id: str) -> pathlib.Path:
-    for d in (INBOX, PROCESSED):
+    for d in (INBOX, OUTBOX, PROCESSED):
         for p in d.glob(f"*{task_id}*.yaml"):
             return p
     raise SystemExit(f"task not found: {task_id}")
 
 
 def cmd_list(args: argparse.Namespace) -> None:
-    files = sorted(INBOX.glob("*.yaml"))
+    files = sorted(list(INBOX.glob("*.yaml")) + list(OUTBOX.glob("*.yaml")))
     if not files:
         print("(inbox is empty)")
         return
@@ -106,13 +108,14 @@ def cmd_done(args: argparse.Namespace) -> None:
 
 
 def cmd_post(args: argparse.Namespace) -> None:
-    INBOX.mkdir(parents=True, exist_ok=True)
+    target_dir = OUTBOX if args.type == "report" else INBOX
+    target_dir.mkdir(parents=True, exist_ok=True)
     today = dt.date.today().isoformat()
     seq = 1
     while True:
         seq_str = f"{seq:03d}"
         name = f"{today}_{seq_str}_{args.from_}_{args.to}.yaml"
-        path = INBOX / name
+        path = target_dir / name
         if not path.exists():
             break
         seq += 1
