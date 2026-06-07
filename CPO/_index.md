@@ -29,3 +29,6 @@
 | 日付 | 上げた能力 | 成果物 |
 |------|-----------|--------|
 | 2026-06-07 | 有料noteの最小設計 | CPO/outputs/2026-06-07_有料note最小設計チェックリスト.md |
+
+### 成果(2026-06-07)
+- 有料コンテンツ第1弾を制作：`CPO/outputs/2026-06-07_有料ガイド第1弾_Doraemon_Day_Trip_from_Kanazawa.md`（英語ファースト・無料/有料分割・じゃらん実リンク＋Klook/Booking placeholder・note¥980/Gumroad$6）。出品はcowork/オーナー。
