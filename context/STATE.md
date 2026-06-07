@@ -458,3 +458,9 @@
 - 二層:①note有料(無料ハブ→有料ガイド) ②海外Gumroad/Rexby英語PDF($6)中にアフィリ=ダブル収益。
 - 第1弾=『The Doraemon Day Trip from Kanazawa Complete Guide』(英語ファースト・note¥980/Gumroad$6)制作中。
 - 今日実行=第1弾本文制作。設定/出品はcowork/オーナー。CFO=Klook登録。
+
+## ★公開の役割分担 確定（2026-06-07・「それこそ役割分担」）
+- **cowork＝実行担当（ブラウザ必須の全部）**：note公開＋**サムネ添付**＋X/Reddit/Pinterest拡散＋解析取得。
+  → オーナー要件「サムネ入り・各種媒体まで」を満たせるのは cowork **だけ**。公開は cowork が本筋。
+- **code＝それ以外全部**：企画・執筆・整理・台帳・戦略・**実行命令の発行(ops/inbox)**・素材生成。公開は物理的に不可。
+- `ops/cowork_run.sh`＝**テキストのみの保険**（cowork不在時の露出確保用・サムネ無し）。本筋ではない。
