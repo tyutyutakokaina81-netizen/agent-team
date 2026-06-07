@@ -380,3 +380,8 @@
 - 英語は要約でなく**海外読者に刺さる/シェアされる/検索で見つかる**記事にする。基準=CMO/outputs/2026-06-07_英語travelwriting執筆テンプレ.md「世界に刺さる英語」5条件。
 - 入口語(Doraemon/Kanazawa/Hokuriku Shinkansen/Noto/hidden)を自然に含める。1行目フック＋引用したい1文を必須。
 - backfillも新規もこの基準。cowork にも同基準を適用。
+
+## ★明日の記事（2026-06-08〜・ドラえもん海外戦略）
+- 根拠：CAO/outputs/2026-06-07_高岡ドラえもん_海外発見経路の深掘りと戦略.md
+- 英語ファースト5本：①本物の故郷(川崎でなく) ②ドラえもんトラム(どこでもドア) ③金沢からの日帰り ④『ドラえもんで育った君へ、ここが生誕地』⑤穴場ドラえもん
+- 需要源=ベトナム/インド/中国/スペイン語圏。誘因=authenticity。入口語=Doraemon/Fujiko F Fujio/Kanazawa/Hokuriku Shinkansen/hidden。
