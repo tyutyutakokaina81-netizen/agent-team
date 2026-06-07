@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-07T08:00:00+09:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: drafts/queue/ を pickup して note 公開してください
 ---
 
@@ -39,3 +39,10 @@ python3 ops/process_inbox.py post \
 - **同一記事の重複投稿厳禁**：`drafts/published/` にあるファイル名と被ったら投稿しない
 - **写真placeholder `[写真X]` は手を加えない**：オーナーがweb編集で後付けする
 - 失敗時は published/ に移動しない（リトライ対象として queue に残す）
+
+
+---
+
+## 結果 (2026-06-07T02:30:17+00:00)
+
+007(本日全媒体公開)に統合。重複クローズ。

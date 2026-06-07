@@ -5,7 +5,7 @@ to: code
 created: 2026-06-07T09:00:00+09:00
 priority: low
 type: instruction
-status: open
+status: done
 title: サンプル指示（フォーマット確認用）
 ---
 
@@ -31,3 +31,10 @@ python3 ops/process_inbox.py done sample-task --result "サンプル動作確認
 ```
 
 `done` するとこのファイルは `ops/processed/` に移動します。
+
+
+---
+
+## 結果 (2026-06-07T02:30:17+00:00)
+
+サンプル・疎通確認済。クローズ。
