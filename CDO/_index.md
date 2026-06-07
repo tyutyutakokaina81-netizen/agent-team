@@ -29,3 +29,10 @@
 ## メモ・引き継ぎ事項
 
 - note_publisherはCMO/outputs/の最新記事を自動選択。写真は ~/Pictures/note/YYYY-MM-DD/photo_NN.jpg 命名規則。
+
+
+## 能力向上ログ
+
+| 日付 | 上げた能力 | 成果物 |
+|------|-----------|--------|
+| 2026-06-07 | 記事品質の自動監査 | tools/audit_articles.py（英語/PR表記/事実検証ノート/文字数を一括点検する依存ゼロCLI） |
