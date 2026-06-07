@@ -362,3 +362,8 @@
 - オーナー→code（主・6役員を運用）→cowork（副・実行ユニット=配信のみ・役員ではない）。
 - cowork評価：実行能力は代替不能で維持。ただし queue 未消化（8 open/0処理）が最大の停滞。不調時はオーナー手動公開(二段構え)。
 - 役員人事は code 統括。新役職不要。全役員フル稼働（idle禁止）。
+
+## ★自動化 承認済（2026-06-07）
+- オーナー承認：①GitHub Actions監査(無人) ②cowork配信デーモン ops/cowork_run.sh を cron 化(Mac・初回のみ)。
+- 運用：code が drafts/queue に記事staging → 翌朝 cron で自動公開→published→outbox報告→push、監査はpush毎に自動。
+- 残る人手＝Macで cron を一度仕込むのみ：`0 8 * * * cd ~/agent-team && bash ops/cowork_run.sh >> ops/logs/cron.log 2>&1`
