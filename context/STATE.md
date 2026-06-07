@@ -452,3 +452,9 @@
 - ミックス:A海外アフィリ¥20-40K + B note有料/メンバーシップ¥30-50K + C国内アフィリ/テンプレ¥10-30K=¥100K射程。前提=海外トラフィック。
 - 作戦:SEO英語(済)+クロスポスト(Reddit/X/Pinterest/ファン圏=cowork)+ハブ&スポーク。Phase1認知→Phase2収益。
 - 次:CFO=Klook登録 / CPO=有料note第1弾リリース / cowork=クロスポスト開始 / CAO=海外PV計測。
+
+## ★有料化戦略(2026-06-07・CAO/outputs/2026-06-07_有料化戦略_国内note＋海外.md)
+- note有料は海外もPayPalで購入可(販売はオーナーJP住所でOK)。手数料~14.5%。価格帯¥300-1万。
+- 二層:①note有料(無料ハブ→有料ガイド) ②海外Gumroad/Rexby英語PDF($6)中にアフィリ=ダブル収益。
+- 第1弾=『The Doraemon Day Trip from Kanazawa Complete Guide』(英語ファースト・note¥980/Gumroad$6)制作中。
+- 今日実行=第1弾本文制作。設定/出品はcowork/オーナー。CFO=Klook登録。
