@@ -446,3 +446,9 @@
 ## ★外国人が読む理由=5興味ドライバー(2026-06-07 調査・全記事に反映)
 1.驚き/へぇ 2.住人の日常(what locals do) 3.アニメ/ポップ(Doraemon) 4.穴場/本物(no crowds) 5.背景の物語+心が動く瞬間。
 式=great attraction × backstory(why) × no crowds。各note記事は最低2つ満たす。基準=CMO英語テンプレ。
+
+## ★月10万円 収益戦略(2026-06-07・CAO/outputs/2026-06-07_海外認知と月10万円_収益戦略.md)
+- 訂正:noteに広告収入メニューは無い(収益=有料/メンバーシップ/サポート/EC)。じゃらん=国内→海外はKlook(8%)/Agoda/Booking。
+- ミックス:A海外アフィリ¥20-40K + B note有料/メンバーシップ¥30-50K + C国内アフィリ/テンプレ¥10-30K=¥100K射程。前提=海外トラフィック。
+- 作戦:SEO英語(済)+クロスポスト(Reddit/X/Pinterest/ファン圏=cowork)+ハブ&スポーク。Phase1認知→Phase2収益。
+- 次:CFO=Klook登録 / CPO=有料note第1弾リリース / cowork=クロスポスト開始 / CAO=海外PV計測。
