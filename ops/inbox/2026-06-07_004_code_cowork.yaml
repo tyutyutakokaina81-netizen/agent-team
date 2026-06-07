@@ -1,0 +1,12 @@
+---
+id: 2026-06-07_004
+from: code
+to: cowork
+created: 2026-06-07T00:53:58+00:00
+priority: high
+type: instruction
+status: open
+title: 予告: 冬大根を6/13→6/20へ移動済み＋共有手順のお願い
+---
+
+【済】6/13が6本(過剰)だったので冬大根を6/20へ移動しました(push済・全ref)。作業前に必ず git pull してから是正(003)を続けてください(非FF回避)。【今後ルール】CMO/outputs の記事・公開スケジュールの変更は、双方とも ops/inbox で予告してから行います(共有領域のため)。
