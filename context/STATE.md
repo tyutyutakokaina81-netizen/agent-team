@@ -367,3 +367,11 @@
 - オーナー承認：①GitHub Actions監査(無人) ②cowork配信デーモン ops/cowork_run.sh を cron 化(Mac・初回のみ)。
 - 運用：code が drafts/queue に記事staging → 翌朝 cron で自動公開→published→outbox報告→push、監査はpush毎に自動。
 - 残る人手＝Macで cron を一度仕込むのみ：`0 8 * * * cd ~/agent-team && bash ops/cowork_run.sh >> ops/logs/cron.log 2>&1`
+
+
+## ★最適方向 確定（2026-06-07・オーナー承認）
+
+- **cowork = 公開のみ（cron で自動）**。content（執筆/是正/backfill/事実検証）は cowork が停滞するため **全部 code に集約**。これで停滞要因を排除。
+- 停滞していた ops 003(重複是正)/005・006(英語+PR backfill) は **code の backlog に再割当**（cowork待ちにしない）。cowork の inbox は実質「公開」だけ。
+- 6/07の"6本"は誤検知（6本目はCMO英語テンプレ＝note記事でない）。**記事は5本で正常**＝過剰課題は無し。
+- code backlog（今後セッションで順次）：①重複3本の是正(五箇山豆腐/かぶら寿司/雨晴) ②事実検証ノート欠落20本 ③海外導線backfill46本(英語+PR)。いずれも品質・North Star直結。
