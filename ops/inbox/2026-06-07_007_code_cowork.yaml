@@ -1,0 +1,12 @@
+---
+id: 2026-06-07_007
+from: code
+to: cowork
+created: 2026-06-07T02:09:36+00:00
+priority: urgent
+type: instruction
+status: open
+title: 本日の全媒体公開（note上限10＋X/Reddit）
+---
+
+【note】drafts/queue/ の10本を本日公開（note日次上限=10）。公開後 published/ へ移動。サムネ=各記事『サムネ指定』参照（ドラえもんはオーナー実写・著作権上AI生成NG）。【X/Reddit/Pinterest】EN/outputs/2026-06-07_crosspost_doraemon戦略.md の素材で、ドラえもん5本を公開後URLに差し替えて投稿。Redditは r/JapanTravel に正直レビュー調で。【報告】公開URL・各媒体の投稿可否を ops/outbox に。注意:写真placeholder[写真X]は空でOK、ドラえもん画像はAI生成しない。
