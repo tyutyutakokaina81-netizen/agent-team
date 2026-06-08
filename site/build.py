@@ -45,6 +45,45 @@ SITE_TAGLINE = "Takaoka, Toyama & the real hometown of Doraemon — day trips fr
 BASE_URL = (os.environ.get("SITE_BASE_URL") or "https://example.github.io").rstrip("/")
 AUTHOR = "A Takaoka resident"
 
+# ---- 収益化・計測・拡散の設定（env で差し替え可。未設定なら安全に省略/プレースホルダ） ----
+PAID_GUIDE_URL = os.environ.get("PAID_GUIDE_URL", "")        # 有料ガイド(note/Gumroad)のURL
+NEWSLETTER_URL = os.environ.get("NEWSLETTER_URL", "")        # メール登録(Substack/Buttondown)
+ANALYTICS_DOMAIN = os.environ.get("ANALYTICS_DOMAIN", "")    # Plausible のドメイン
+AFFIL = {  # 旅行アフィリ（登録後にenvで実URLへ差替。未設定はリンクなしで文だけ）
+    "klook": os.environ.get("KLOOK_URL", ""),
+    "booking": os.environ.get("BOOKING_URL", ""),
+    "jalan": os.environ.get("JALAN_URL",
+        "https://px.a8.net/svt/ejp?a8mat=1CCUH0+929KAA+14CS+64RJ5&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2Fken%2Fjapan_160000%2F"),
+}
+
+
+def analytics_tag() -> str:
+    if not ANALYTICS_DOMAIN:
+        return ""
+    return (f'<script defer data-domain="{html.escape(ANALYTICS_DOMAIN)}" '
+            'src="https://plausible.io/js/script.js"></script>')
+
+
+def cta_block() -> str:
+    """各記事末尾の収益化＋メール登録ブロック（景表法のPR表記つき）。"""
+    links = []
+    if AFFIL["klook"]:
+        links.append(f'<a href="{AFFIL["klook"]}" rel="sponsored nofollow">JR passes & tours (Klook)</a>')
+    if AFFIL["booking"]:
+        links.append(f'<a href="{AFFIL["booking"]}" rel="sponsored nofollow">Hotels (Booking.com)</a>')
+    if AFFIL["jalan"]:
+        links.append(f'<a href="{AFFIL["jalan"]}" rel="sponsored nofollow">Stay near Takaoka (Jalan)</a>')
+    paid = (f'<p><a class="cta" href="{PAID_GUIDE_URL}">Get the complete day-trip guide →</a></p>'
+            if PAID_GUIDE_URL else "")
+    mail = (f'<p>Like quiet corners of Japan? <a href="{NEWSLETTER_URL}">Get new stories by email →</a></p>'
+            if NEWSLETTER_URL else "")
+    plan = (f'<p class="plan">Plan the trip: {" · ".join(links)}</p>' if links else "")
+    if not (paid or mail or plan):
+        return ""
+    disc = '<p class="disc">Some links are affiliate links; bookings help support this site at no cost to you.</p>'
+    return f'<div class="cta-box">{paid}{plan}{mail}{disc}</div>'
+
+
 # 分類用キーワード
 FOOD_KW = ["寿司", "ブラック", "かまぼこ", "ホタルイカ", "へしこ", "豆腐", "地酒", "和菓子",
            "黒造り", "うどん", "地ビール", "昆布", "わかめ", "おでん", "干物", "せんべい",
@@ -204,10 +243,15 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0;color:var
 .hero{margin:26px 0 30px;padding:22px;background:#f6f8fc;border:1px solid var(--line);border-radius:10px}
 .hero p{margin:0 0 12px;font-size:16px}
 .hero a.cta{display:inline-block;background:var(--accent);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+.cta-box{margin:36px 0 8px;padding:18px;background:#f6f8fc;border:1px solid var(--line);border-radius:10px}
+.cta-box a.cta{display:inline-block;background:var(--accent);color:#fff;padding:9px 15px;border-radius:8px;text-decoration:none;font-weight:600}
+.cta-box .plan a{color:var(--accent);text-decoration:none}.cta-box .disc{color:var(--muted);font-size:12px;margin:8px 0 0}
+.hubnav{margin:10px 0 0;font-size:14px}.hubnav a{color:var(--accent);text-decoration:none;margin-right:14px}
+.langnav{margin:14px 0;font-size:14px;color:var(--muted)}.langnav a{color:var(--accent);text-decoration:none;margin-right:10px}
 """
 
 
-def page_head(title, desc, url, is_article, image=None):
+def page_head(title, desc, url, is_article, image=None, lang="en", extra_head=""):
     t = html.escape(title)
     d = html.escape(desc)
     og_type = "article" if is_article else "website"
@@ -215,7 +259,7 @@ def page_head(title, desc, url, is_article, image=None):
     if image:
         img_tags = (f'<meta property="og:image" content="{image}">'
                     f'<meta name="twitter:image" content="{image}">')
-    return f"""<!doctype html><html lang="en"><head>
+    return f"""<!doctype html><html lang="{lang}"><head>{extra_head}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t}</title>
 <meta name="description" content="{d}">
@@ -227,6 +271,7 @@ def page_head(title, desc, url, is_article, image=None):
 <meta property="og:site_name" content="{html.escape(SITE_NAME)}">
 {img_tags}
 <meta name="twitter:card" content="summary_large_image">
+{analytics_tag()}
 <style>{CSS}</style>
 </head><body>
 <header class="site"><div class="wrap"><a href="{BASE_URL}/">{html.escape(SITE_NAME)}</a>
@@ -260,7 +305,7 @@ def render_article(a, related=None):
             f'<span class="cat">{html.escape(a["cat"])}</span>'
             f'<h1>{html.escape(a["title"])}</h1>'
             f'<div class="meta">{a["date"]} · {html.escape(SITE_NAME)}</div>'
-            f'<article>{body}</article>' + rel_html +
+            f'<article>{body}</article>' + cta_block() + rel_html +
             f'<a class="back" href="{BASE_URL}/">← All stories</a>' + FOOT)
 
 
