@@ -243,35 +243,51 @@ def find_article_by_date(target_date_str: str | None = None):
     return dated[-1][1]
 
 
+def _extract_tags(text: str) -> list[str]:
+    """## ハッシュタグ 直下の ``` から #xxx を取り出す（無ければ空）。"""
+    tag_m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
+    if not tag_m:
+        return []
+    return [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
+
+
 def parse_article(md_path: Path):
-    """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す"""
+    """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す。
+    2書式に対応：
+      (A) 旧書式: 「## タイトル」「## 本文」「## ハッシュタグ」の ``` コードブロック方式
+      (B) 英語ファースト書式: 先頭H1=タイトル、「## English」「## 日本語版」の ``` を本文に
+    """
     text = md_path.read_text(encoding="utf-8")
 
-    # タイトル：「メイン：」直下の最初の ``` コードブロック
-    title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S)
-    if not title_m:
-        # フォールバック：「## タイトル」直下
-        title_m = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
-    if not title_m:
-        sys.exit("タイトルブロックがmdから抽出できませんでした。")
-    title = title_m.group(1).strip().splitlines()[0].strip()
-
-    # 本文：「## 本文」直下の ``` コードブロック
+    # --- (A) 旧書式（タイトル＋本文の両コードブロックが揃う時のみ採用） ---
+    title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S) \
+        or re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
     body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
-    if not body_m:
-        sys.exit("本文ブロック（## 本文 直下の ```）がmdから抽出できませんでした。")
-    body = body_m.group(1).strip()
+    if title_m and body_m:
+        title = title_m.group(1).strip().splitlines()[0].strip()
+        body = body_m.group(1).strip()
+        placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
+        return title, body, placeholders, _extract_tags(text)
 
-    # 写真placeholderの個数（[写真①]〜⑩、または[ここに写真...]）
+    # --- (B) 英語ファースト等の別書式：H1＝タイトル、見出し別コードブロックを本文に連結 ---
+    h1 = re.search(r"^#\s+(.+)$", text, re.M)
+    if not h1:
+        sys.exit("タイトル(H1 '# ...')も タイトルブロックも見つかりませんでした。")
+    title = re.sub(r"^note記事[：:]\s*", "", h1.group(1).strip())
+
+    body_parts: list[str] = []
+    # "## " で章に分割し、English/日本語/本文 を含む章の最初の ``` を本文とする（出現順＝英語→日本語）
+    for sec in re.split(r"^##\s+", text, flags=re.M)[1:]:
+        head_line = sec.splitlines()[0] if sec.strip() else ""
+        if re.search(r"English|日本語|本文", head_line, re.I):
+            cb = re.search(r"```\n(.+?)\n```", sec, re.S)
+            if cb:
+                body_parts.append(cb.group(1).strip())
+    if not body_parts:
+        sys.exit("本文が抽出できませんでした（## English / ## 日本語版 / ## 本文 の ``` が必要）。")
+    body = "\n\n".join(body_parts)
     placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
-
-    # ハッシュタグ：「## ハッシュタグ」直下の ``` コードブロック → "#xxx" を抽出
-    tags = []
-    tag_m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
-    if tag_m:
-        tags = [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
-
-    return title, body, placeholders, tags
+    return title, body, placeholders, _extract_tags(text)
 
 
 def find_thumbnail_for(md_path: Path) -> Path | None:
