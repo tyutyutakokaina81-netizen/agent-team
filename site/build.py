@@ -26,9 +26,9 @@ SRC = ROOT / "CMO" / "outputs"
 OUT = ROOT / "site" / "public"
 
 # ---- サイト設定（オーナーは独自ドメインに差し替え可） ----
-SITE_NAME = os.environ.get("SITE_NAME", "Hidden Hokuriku")
+SITE_NAME = os.environ.get("SITE_NAME") or "Hidden Hokuriku"
 SITE_TAGLINE = "Takaoka, Toyama & the real hometown of Doraemon — day trips from Kanazawa"
-BASE_URL = os.environ.get("SITE_BASE_URL", "https://example.github.io").rstrip("/")
+BASE_URL = (os.environ.get("SITE_BASE_URL") or "https://example.github.io").rstrip("/")
 AUTHOR = "A Takaoka resident"
 
 # 分類用キーワード
@@ -237,6 +237,13 @@ def main():
         f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n", encoding="utf-8")
     # .nojekyll（GitHub PagesでJekyll処理を無効化）
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
+    # 既存の tavern.html を /tavern/ に退避して共存（オーナー指示：英語=トップ／tavern=/tavern）
+    tavern = ROOT / "tavern.html"
+    if tavern.exists():
+        td = OUT / "tavern"
+        td.mkdir(parents=True, exist_ok=True)
+        (td / "index.html").write_text(tavern.read_text(encoding="utf-8"), encoding="utf-8")
+        print("preserved tavern.html → /tavern/")
     print(f"built {len(arts)} pages → {OUT}")
     print(f"BASE_URL = {BASE_URL}（独自ドメインは SITE_BASE_URL で上書き）")
 
