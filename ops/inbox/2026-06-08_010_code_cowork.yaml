@@ -12,7 +12,9 @@ title: ドラえもん5本の海外配信（Pinterest/Reddit/X/IG）
 公開済みドラえもん5本(6/20-24)を海外へ届ける。コピーは作成済＝
 EN/outputs/2026-06-08_配信パッケージ_ドラえもん5本.md（そのまま投下可）。
 
-【前提】各記事の note 公開URLを確定し、配信パッケージ内の {URL} を実URLへ差し替える。
+【前提】誘導先＝英語SEOサイト（自前・安定URL）。配信パッケージ内のURLマップを使う。
+note公開を待つ必要なし。被リンクでサイトのSEOが育つのが狙い。
+base = https://tyutyutakokaina81-netizen.github.io/agent-team
 
 【実行順（到達メカニズム準拠・スパム厳禁）】
 1. Pinterest: ボード作成→5ピン投入（最優先・検索資産）。説明に入口語。
