@@ -90,6 +90,29 @@ def load_context(playwright):
     return _launch_with_chrome_then_chromium(playwright)
 
 
+# ---------- UI操作ヘルパー（noteのUI変更に強くする） ----------
+
+def _try_click(page, candidates, timeout=3000):
+    """candidates を順に試し、最初に見えたボタンをクリックして True を返す。
+    candidates の要素:
+      - 文字列 → CSS/text セレクタ（例 'button:has-text("投稿する")'）
+      - ("role", "名前") → get_by_role("button", name="名前")
+    どれも押せなければ False（呼び出し側で手動フォールバック）。
+    """
+    for sel in candidates:
+        try:
+            if isinstance(sel, tuple) and sel[0] == "role":
+                loc = page.get_by_role("button", name=sel[1]).first
+            else:
+                loc = page.locator(sel).first
+            loc.wait_for(state="visible", timeout=timeout)
+            loc.click()
+            return True
+        except Exception:
+            continue
+    return False
+
+
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
 
 def _count_photo_placeholders(md_path: Path) -> int:
@@ -307,12 +330,34 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
+        # 【重要】noteの公開は2段階：エディタ右上「公開に進む」→ 設定画面 →「投稿する」。
+        # 見出し画像・ハッシュタグは "公開に進む" を押した後の設定画面にしか出ない。
+        # よって先に設定画面へ遷移してから、サムネ/タグ/投稿を行う。
+        if not draft:
+            if _try_click(page, [
+                'button:has-text("公開に進む")',
+                ('role', '公開に進む'),
+                'button:has-text("公開設定")',
+                ('role', '公開設定'),
+            ], timeout=5000):
+                print("✅ 公開設定画面へ遷移")
+                page.wait_for_timeout(1500)
+            else:
+                print("⚠️  「公開に進む」が見つからず（UI変更の可能性）。現画面のまま続行を試みます")
+
         # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
         thumb_to_use = photos[0] if photos else auto_thumb
         if thumb_to_use:
             try:
-                # 「見出し画像」エリアを開く（noteは設定パネルにある）
-                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"]').first.click()
+                # 「見出し画像」エリアを開く（公開設定画面にある）
+                if not _try_click(page, [
+                    'button:has-text("見出し画像")',
+                    ('role', '見出し画像'),
+                    '[aria-label*="見出し画像"]',
+                    'button:has-text("画像を追加")',
+                    'button:has-text("記事を装飾")',
+                ], timeout=2500):
+                    raise RuntimeError("見出し画像ボタンが見つからない")
                 page.wait_for_timeout(500)
                 with page.expect_file_chooser() as fc:
                     page.locator('input[type="file"]').first.click()
@@ -357,28 +402,39 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             except Exception as e:
                 print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
 
-        # 公開 or 下書き
+        # 公開 or 下書き（全自動：手動Enterは廃止。失敗時は非ゼロ終了でキューに残す）
+        publish_failed = False
         if draft:
-            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
+            print("\n📋 ドラフトモード：投稿ボタンは押しません。画面で内容確認してください。")
             input("Enterで閉じる ...")
         else:
-            print("\n🚀 公開ボタンを押します（3秒後）...")
-            page.wait_for_timeout(3000)
-            try:
-                page.locator('button:has-text("公開")').last.click()
+            print("\n🚀 投稿ボタンを押します（全自動）...")
+            page.wait_for_timeout(1500)
+            posted = _try_click(page, [
+                'button:has-text("投稿する")',
+                ('role', '投稿する'),
+                'button:has-text("公開する")',
+                ('role', '公開する'),
+                'button:has-text("公開")',
+                ('role', '公開'),
+            ], timeout=5000)
+            if posted:
                 page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
+                # 確認ダイアログ（モーダル）が出る場合に備え、最終ボタンをもう一度だけ試す
+                _try_click(page, [
+                    'button:has-text("投稿する")',
+                    'button:has-text("公開する")',
+                ], timeout=2000)
                 page.wait_for_timeout(3000)
                 print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
-            except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
-                print("    画面で「公開」ボタンを手動で押してください。")
-                input("公開を確認したら Enter ...")
+            else:
+                print("⚠️  投稿ボタンを自動で見つけられませんでした（noteのUI変更の可能性）。")
+                print("    この記事はキューに残します（公開済み扱いにしません）。")
+                publish_failed = True
 
         ctx.close()
+        if publish_failed:
+            sys.exit(1)
 
 
 # ---------- CLI ----------
