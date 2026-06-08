@@ -454,7 +454,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             if set_eyecatch_from_gallery(page, kw):
                 print(f"✅ サムネをみんなのフォトギャラリーから自動選択（検索語: {kw[0] if kw else '-'}）")
             else:
-                print("⚠️  ギャラリーからのサムネ自動選択に失敗（UI変更の可能性）。サムネ無しで続行")
+                print("ℹ️  写真サムネは未設定（noteの既定サムネ=タイトル画像が自動適用されます）")
 
         # 【公開は2段階】エディタ「公開に進む」→ 設定画面 →「投稿する」。
         # ハッシュタグ・投稿ボタンは "公開に進む" 後の設定画面にある。
