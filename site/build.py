@@ -145,6 +145,12 @@ article p{margin:0 0 18px}
 .group h3{margin:34px 0 8px;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0;color:var(--muted);font-size:14px}
 .back{display:inline-block;margin:24px 0;color:var(--accent);text-decoration:none}
+.related{margin:40px 0 8px;padding-top:20px;border-top:1px solid var(--line)}
+.related h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.related .rel{display:block;padding:8px 0;color:var(--accent);text-decoration:none;font-size:16px}
+.hero{margin:26px 0 30px;padding:22px;background:#f6f8fc;border:1px solid var(--line);border-radius:10px}
+.hero p{margin:0 0 12px;font-size:16px}
+.hero a.cta{display:inline-block;background:var(--accent);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
 """
 
 
@@ -174,9 +180,15 @@ FOOT = f"""</div><footer><div class="wrap">© {datetime.date.today().year} {html
 Day trips to Takaoka & Toyama from Kanazawa (Hokuriku Shinkansen).</div></footer></body></html>"""
 
 
-def render_article(a):
+def render_article(a, related=None):
     url = f"{BASE_URL}/{a['slug']}/"
     body = "\n".join(f"<p>{html.escape(p)}</p>" for p in a["paras"])
+    rel_html = ""
+    if related:
+        cards = "".join(
+            f'<a class="rel" href="{BASE_URL}/{r["slug"]}/">{html.escape(r["title"])}</a>'
+            for r in related)
+        rel_html = f'<div class="related"><h3>Related stories</h3>{cards}</div>'
     ld = (
         '<script type="application/ld+json">{'
         '"@context":"https://schema.org","@type":"Article",'
@@ -190,7 +202,7 @@ def render_article(a):
             f'<span class="cat">{html.escape(a["cat"])}</span>'
             f'<h1>{html.escape(a["title"])}</h1>'
             f'<div class="meta">{a["date"]} · {html.escape(SITE_NAME)}</div>'
-            f'<article>{body}</article>'
+            f'<article>{body}</article>' + rel_html +
             f'<a class="back" href="{BASE_URL}/">← All stories</a>' + FOOT)
 
 
@@ -213,6 +225,13 @@ def render_index(arts):
     parts.append(f"<h1>{html.escape(SITE_NAME)}</h1>")
     parts.append(f'<p class="meta">{html.escape(SITE_TAGLINE)}. '
                  'Fifteen minutes from Kanazawa by Hokuriku Shinkansen — and almost no crowds.</p>')
+    lead = next((a for a in arts if a["slug"].startswith("skip-shirakawa-go")), None)
+    if lead:
+        parts.append(
+            '<div class="hero"><p><strong>Staying in Kanazawa?</strong> Most travelers spend day two '
+            "on the packed bus to Shirakawa-go. There's an easier trip almost no guide writes about: "
+            'the real hometown of Doraemon, 15 minutes away by Shinkansen — no reservation, almost no crowds.</p>'
+            f'<a class="cta" href="{BASE_URL}/{lead["slug"]}/">Start here → the Doraemon day trip</a></div>')
     for cat in order:
         items = groups.get(cat, [])
         if not items:
@@ -244,11 +263,18 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     # index
     (OUT / "index.html").write_text(render_index(arts), encoding="utf-8")
-    # articles（/slug/index.html でクリーンURL）
+    # articles（/slug/index.html でクリーンURL）＋同カテゴリの関連記事リンク（内部SEO/回遊）
+    by_cat = {}
     for a in arts:
+        by_cat.setdefault(a["cat"], []).append(a)
+    for a in arts:
+        siblings = by_cat[a["cat"]]
+        i = siblings.index(a)
+        rest = [x for x in (siblings[i + 1:] + siblings[:i]) if x["slug"] != a["slug"]]
+        related = rest[:3]
         d = OUT / a["slug"]
         d.mkdir(parents=True, exist_ok=True)
-        (d / "index.html").write_text(render_article(a), encoding="utf-8")
+        (d / "index.html").write_text(render_article(a, related), encoding="utf-8")
     # sitemap / robots
     (OUT / "sitemap.xml").write_text(render_sitemap(arts), encoding="utf-8")
     (OUT / "robots.txt").write_text(
