@@ -25,6 +25,19 @@ import datetime
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "CMO" / "outputs"
 OUT = ROOT / "site" / "public"
+OG_SRC = ROOT / "site" / "og"          # OG画像の置き場（コミット対象・フリー画像を配置）
+OG_EXTS = (".jpg", ".jpeg", ".png", ".webp")
+
+
+def og_image_for(slug: str):
+    """site/og/<slug>.* があればそのURL、無ければ default.*、それも無ければ None。"""
+    if not OG_SRC.exists():
+        return None
+    for stem in (slug, "default"):
+        for ext in OG_EXTS:
+            if (OG_SRC / f"{stem}{ext}").exists():
+                return f"{BASE_URL}/og/{stem}{ext}"
+    return None
 
 # ---- サイト設定（オーナーは独自ドメインに差し替え可） ----
 SITE_NAME = os.environ.get("SITE_NAME") or "Hidden Hokuriku"
@@ -194,10 +207,14 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0;color:var
 """
 
 
-def page_head(title, desc, url, is_article):
+def page_head(title, desc, url, is_article, image=None):
     t = html.escape(title)
     d = html.escape(desc)
     og_type = "article" if is_article else "website"
+    img_tags = ""
+    if image:
+        img_tags = (f'<meta property="og:image" content="{image}">'
+                    f'<meta name="twitter:image" content="{image}">')
     return f"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t}</title>
@@ -208,6 +225,7 @@ def page_head(title, desc, url, is_article):
 <meta property="og:description" content="{d}">
 <meta property="og:url" content="{url}">
 <meta property="og:site_name" content="{html.escape(SITE_NAME)}">
+{img_tags}
 <meta name="twitter:card" content="summary_large_image">
 <style>{CSS}</style>
 </head><body>
@@ -238,7 +256,7 @@ def render_article(a, related=None):
         f'"mainEntityOfPage":{_j(url)}'
         '}</script>'
     )
-    return (page_head(a["title"], a["desc"], url, True) + ld +
+    return (page_head(a["title"], a["desc"], url, True, og_image_for(a["slug"])) + ld +
             f'<span class="cat">{html.escape(a["cat"])}</span>'
             f'<h1>{html.escape(a["title"])}</h1>'
             f'<div class="meta">{a["date"]} · {html.escape(SITE_NAME)}</div>'
@@ -261,7 +279,7 @@ def render_index(arts):
         f"{SITE_NAME} — {SITE_TAGLINE}",
         "Hidden day trips to Takaoka and Toyama from Kanazawa: the real hometown of Doraemon, "
         "craft towns, World Heritage villages, and the food of the Sea of Japan.",
-        url, False)]
+        url, False, og_image_for("default"))]
     parts.append(f"<h1>{html.escape(SITE_NAME)}</h1>")
     parts.append(f'<p class="meta">{html.escape(SITE_TAGLINE)}. '
                  'Fifteen minutes from Kanazawa by Hokuriku Shinkansen — and almost no crowds.</p>')
@@ -318,6 +336,16 @@ def main():
         d = OUT / a["slug"]
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(render_article(a, related), encoding="utf-8")
+    # OG画像（site/og/*.jpg|png|webp）を公開ディレクトリへコピー
+    if OG_SRC.exists():
+        dst = OUT / "og"
+        dst.mkdir(parents=True, exist_ok=True)
+        n = 0
+        for f in OG_SRC.iterdir():
+            if f.suffix.lower() in OG_EXTS:
+                shutil.copy2(f, dst / f.name); n += 1
+        if n:
+            print(f"copied {n} OG image(s) → /og/")
     # sitemap / robots
     (OUT / "sitemap.xml").write_text(render_sitemap(arts), encoding="utf-8")
     (OUT / "robots.txt").write_text(
