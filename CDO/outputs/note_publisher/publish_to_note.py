@@ -251,6 +251,27 @@ def _extract_tags(text: str) -> list[str]:
     return [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
 
 
+def _affiliate_block(text: str) -> str:
+    """じゃらん等のPR表記＋アフィリリンク行を取り出す（コードブロック外にあっても拾う）。
+    景表法のPR表記と収益リンクは必ず本文に含める必要があるため。"""
+    out, seen = [], set()
+    for ln in text.splitlines():
+        s = re.sub(r"^[-*]\s*", "", ln.strip())
+        if ("アフィリエイト広告" in s) or ("px.a8.net" in s) or ("a8mat=" in s):
+            if s and s not in seen:
+                seen.add(s); out.append(s)
+    return "\n".join(out)
+
+
+def _finalize(title: str, body: str, text: str):
+    """本文末に取りこぼしがちな PR/アフィリ行を補完し、placeholder/タグを揃えて返す。"""
+    aff = _affiliate_block(text)
+    if aff and "px.a8.net" not in body and "a8mat=" not in body:
+        body = body.rstrip() + "\n\n" + aff
+    placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
+    return title, body, placeholders, _extract_tags(text)
+
+
 def parse_article(md_path: Path):
     """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す。
     2書式に対応：
@@ -266,8 +287,7 @@ def parse_article(md_path: Path):
     if title_m and body_m:
         title = title_m.group(1).strip().splitlines()[0].strip()
         body = body_m.group(1).strip()
-        placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
-        return title, body, placeholders, _extract_tags(text)
+        return _finalize(title, body, text)
 
     # --- (B) 英語ファースト等の別書式：H1＝タイトル、見出し別コードブロックを本文に連結 ---
     h1 = re.search(r"^#\s+(.+)$", text, re.M)
@@ -286,8 +306,7 @@ def parse_article(md_path: Path):
     if not body_parts:
         sys.exit("本文が抽出できませんでした（## English / ## 日本語版 / ## 本文 の ``` が必要）。")
     body = "\n\n".join(body_parts)
-    placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
-    return title, body, placeholders, _extract_tags(text)
+    return _finalize(title, body, text)
 
 
 def find_thumbnail_for(md_path: Path) -> Path | None:
