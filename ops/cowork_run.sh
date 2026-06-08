@@ -3,7 +3,9 @@
 # 「note公開」を自動化する。canonical(main)を pull → 公開キュー処理 → 報告 → push。
 set -euo pipefail
 cd "$(dirname "$0")/.."
-git pull --rebase origin main || git pull origin main
+# 現在チェックアウト中のブランチで動く（main固定をやめ、作業ブランチでも公開できる）
+BR="$(git rev-parse --abbrev-ref HEAD)"
+git pull --rebase origin "$BR" || git pull origin "$BR" || true
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
 shopt -s nullglob
 published=0
@@ -20,5 +22,5 @@ python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "auto-publish 結果 ${ts}" --body "公開 ${published} 件（drafts/queue→published）。" || true
 git add -A
 git commit -m "cowork auto: publish ${published} from queue (${ts})" || true
-git push origin main || true
+git push origin "$BR" || true
 echo "done. published=${published}"
