@@ -46,23 +46,10 @@ def slugify(s: str) -> str:
     return s[:70] or "article"
 
 
-def extract_english(text: str):
-    """## English ブロックの (title, [paragraphs]) を返す。無ければ None。"""
-    m = re.search(r"^##\s*English[^\n]*\n+```\n(.+?)\n```", text, re.S | re.M)
-    if not m:
-        return None
-    block = m.group(1).strip()
-    lines = [ln.rstrip() for ln in block.splitlines()]
-    # 先頭の非空行をタイトル、残りを本文段落に
-    title = ""
-    rest_start = 0
-    for i, ln in enumerate(lines):
-        if ln.strip():
-            title = ln.strip()
-            rest_start = i + 1
-            break
+def _paragraphs(block: str):
+    """空行区切りで段落配列にする。"""
     paras, cur = [], []
-    for ln in lines[rest_start:]:
+    for ln in block.splitlines():
         if ln.strip():
             cur.append(ln.strip())
         else:
@@ -70,7 +57,38 @@ def extract_english(text: str):
                 paras.append(" ".join(cur)); cur = []
     if cur:
         paras.append(" ".join(cur))
-    return title, paras
+    return paras
+
+
+def extract_english(text: str):
+    """note記事から英語の (title, [paragraphs]) を返す。2書式に対応。無ければ None。
+    (A) 「## English」コードブロック：先頭行=タイトル、残り=本文。
+    (B) 「(🌏) For English readers」：以降〜コードブロック閉じ までを英語本文とし、
+        英語タイトルが無いので先頭文からタイトルを生成。
+    """
+    # (A) ## English ブロック
+    m = re.search(r"^##\s*English[^\n]*\n+```\n(.+?)\n```", text, re.S | re.M)
+    if m:
+        lines = [ln.rstrip() for ln in m.group(1).strip().splitlines()]
+        title, rest = "", 0
+        for i, ln in enumerate(lines):
+            if ln.strip():
+                title, rest = ln.strip(), i + 1
+                break
+        paras = _paragraphs("\n".join(lines[rest:]))
+        if title and paras:
+            return title, paras
+        return None
+    # (B) For English readers 形式（本文コードブロック内に英語が混在）
+    m2 = re.search(r"(?:🌏\s*)?For English readers\b", text)
+    if m2:
+        tail = text[m2.end():].split("\n```")[0]  # 本文ブロックの閉じ ``` まで
+        paras = _paragraphs(tail)
+        if paras:
+            first = paras[0]
+            title = re.split(r"(?<=[.!?])\s", first)[0].strip()[:70] or first[:60]
+            return title, paras
+    return None
 
 
 def category_of(name: str) -> str:
