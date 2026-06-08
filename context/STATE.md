@@ -324,6 +324,7 @@
 | 2026-06-07 | 【重複統合】cowork が並行ブランチ `claude/brave-morse-e6a056` に より完成度の高い ops 実装（`process_inbox.py` 依存ゼロCLI・YAML形式）＋ `drafts/` 公開ステージング（`stage_for_publish.py`）を作成。主担当として**これを正本ブランチに吸収**し、自分の重複（`.md`形式テスト・旧README）を除去して一本化。 |
 | 2026-06-07 | 【全引き継ぎ受領】オーナー指示で cowork が `docs/cowork-handoff.md`（オーナー情報・記事戦略・公開済み9本・アフィリ設定・残課題・note API制約）を引き継ぎ。正本ブランチに取り込み、STATE に要点を記録。 |
 | 2026-06-07 | 【執筆仕様 確定】オーナー判断：①英語セクションは travel writing 新方針を**そのまま採用**（A6 を英語に限り緩和・定型フレーム可）②じゃらんアフィリは**埋め込む＋PR表記必須**（景表法対応）。今後の執筆はこの仕様に従う。日本語側 A5（誇張NG）は継続。 |
+| 2026-06-08 | 【班1継続を完了】「到達メカニズム」を策定（CAO/outputs/2026-06-08_..._配信プレイブック.md）。note海外SEO弱点を前提に、Push(Reddit/ファン圏)→Pull(Pinterest/検索)→Viral(IG映え)の3経路＋ハブ&スポーク＋1記事=配信パッケージ運用＋立ち上げ2週シーケンスを定義。班2(富裕層再設計)は前回commitで保全済。 |
 
 
 ## ★能力向上 MUST（2026-06-07〜・オーナー指示・毎日必須）
@@ -458,6 +459,13 @@
 - 二層:①note有料(無料ハブ→有料ガイド) ②海外Gumroad/Rexby英語PDF($6)中にアフィリ=ダブル収益。
 - 第1弾=『The Doraemon Day Trip from Kanazawa Complete Guide』(英語ファースト・note¥980/Gumroad$6)制作中。
 - 今日実行=第1弾本文制作。設定/出品はcowork/オーナー。CFO=Klook登録。
+
+## ★到達メカニズム 確定（2026-06-08・班1継続を完了）正本=CAO/outputs/2026-06-08_海外読者への到達メカニズム_配信プレイブック.md
+- 課題：英語の良記事を note 公開しても、**note は海外Google検索に弱い**→「待ち（SEO頼み）」では届かない。**能動的にPushする配信設計が必須**。
+- 解＝**Push→Pull の橋渡し**を3経路で合算：A)Pull=検索面に入口を置く(**Pinterest最優先**/YouTube/note最低限SEO) B)Push=コミュニティに差す(**Reddit**/越印中西ファン圏/FBグループ・スパム厳禁) C)Viral=映えを記事に仕込む(IG/TikTok・UGCループ)。
+- 構造＝**ハブ&スポーク**：note=ハブ（価値本体・CTA）、各SNS=スポーク（入口・送客）。スポークで出し切らずnoteへ。
+- 運用＝**1記事=配信パッケージ**（code が英語本文＋Pinterest/Reddit/IG文面＋入口語を同梱→ops/inboxでcoworkへ→cowork公開+ピン+Reddit+IG）。リード記事(Skip Shirakawa-go)から厚く。
+- 律速＝①公開3本で停滞（ハブ未建設）②note解析がcoworkブラウザ依存（KPI未回収）。取得不能時は**先行指標(ピン保存/Reddit upvote/外部リファラ)で代替判定**。
 
 ## ★公開の役割分担 確定（2026-06-07・「それこそ役割分担」）
 - **cowork＝実行担当（ブラウザ必須の全部）**：note公開＋**サムネ添付**＋X/Reddit/Pinterest拡散＋解析取得。
