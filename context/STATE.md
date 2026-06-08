@@ -379,6 +379,13 @@
 - 6/07の"6本"は誤検知（6本目はCMO英語テンプレ＝note記事でない）。**記事は5本で正常**＝過剰課題は無し。
 - code backlog（今後セッションで順次）：①重複3本の是正(五箇山豆腐/かぶら寿司/雨晴) ②事実検証ノート欠落20本 ③海外導線backfill46本(英語+PR)。いずれも品質・North Star直結。
 
+## ★OG画像の自動化（2026-06-08・GitHub Actions＝ネット可を活用）
+- **発想**：code のコンテナはネット遮断だが **Actions はネット可**。これまで cowork/オーナー手作業だった「フリー画像手配」をクラウドで自動化。
+- **実装**：`site/fetch_og_images.py`（Pexels無料APIから各記事のOG画像を検索・取得→`site/og/`へ）＋ `.github/workflows/og-images.yml`（週次＋手動・不足分だけ取得→commit→自動デプロイ）。
+- **検索語**：場所/食で写真風を引く（ドラえもん等キャラ語は使わない＝著作権）。スラッグ部分一致ルール＋カテゴリ既定。
+- **オーナー一度きり**：無料の Pexels APIキー取得（pexels.com/api）→ リポジトリ Settings→Secrets に `PEXELS_API_KEY` 登録→ Actions で og-images を1回 dispatch。以後は自動。
+- **SNS投稿は自動化しない（意図的）**：X API=有料／Pinterest=審査／Reddit=BANリスク＋各々オーナーのアカウント認証が必要。配信パッケージ(コピペ即投下)＋cowork/オーナー手動が現実解。無理に自動化しない。
+
 ## ★英語SEOサイト 公開（2026-06-08・LIVE）— もっと良い方法＝note依存をやめる
 - **決定**：note は海外Google検索に弱い→所有・高速・meta制御できる英語面を持つ（オーナー選択）。
 - **実装**：`site/build.py`（依存ゼロ）が CMO/outputs の `## English` から静的HTML43本＋index/sitemap/robots/JSON-LD/OG を生成。`.github/workflows/pages.yml` で GitHub Pages に自動デプロイ（main push で発火、Pagesの実URLを自動採用）。
