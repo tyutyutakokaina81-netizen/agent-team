@@ -379,6 +379,14 @@
 - 6/07の"6本"は誤検知（6本目はCMO英語テンプレ＝note記事でない）。**記事は5本で正常**＝過剰課題は無し。
 - code backlog（今後セッションで順次）：①重複3本の是正(五箇山豆腐/かぶら寿司/雨晴) ②事実検証ノート欠落20本 ③海外導線backfill46本(英語+PR)。いずれも品質・North Star直結。
 
+## ★英語SEOサイト 公開（2026-06-08・LIVE）— もっと良い方法＝note依存をやめる
+- **決定**：note は海外Google検索に弱い→所有・高速・meta制御できる英語面を持つ（オーナー選択）。
+- **実装**：`site/build.py`（依存ゼロ）が CMO/outputs の `## English` から静的HTML43本＋index/sitemap/robots/JSON-LD/OG を生成。`.github/workflows/pages.yml` で GitHub Pages に自動デプロイ（main push で発火、Pagesの実URLを自動採用）。
+- **共存**：英語サイト=ルート、`tavern.html`=`/tavern/`（消さず退避）。
+- **LIVE URL**：英語=https://tyutyutakokaina81-netizen.github.io/agent-team/ ／ tavern=/agent-team/tavern/ 。初回デプロイ成功(run 27148612016)。
+- **運用**：今後は記事を足して main に入れば自動で増える（cowork不要・codeのcommitで更新）。独自ドメインは Settings→Pages で設定すれば canonical も自動追従。
+- **次の効き筋**：配信パッケージ(Pinterest/Reddit/X)のリンク先を note→本サイトに向けると被リンクでSEOが育つ。
+
 ## ★配信パッケージ作成（2026-06-08・到達メカニズムの実行弾）
 - ドラえもん5本(公開済)の海外配信コピーを作成＝`EN/outputs/2026-06-08_配信パッケージ_ドラえもん5本.md`。
 - 内容: Pinterest 5ピン／Reddit リード1本(一次観察フック)／X 5本／IG 3本＋実行順＋スパム厳禁ルール。{URL}差し替えで即投下可。
