@@ -113,6 +113,78 @@ def _try_click(page, candidates, timeout=3000):
     return False
 
 
+def set_eyecatch_from_gallery(page, keywords):
+    """note の『みんなのフォトギャラリー』(無料素材)から見出し画像を自動選択する。
+    keywords: 検索語の候補リスト（先頭から試し、結果が出たものを使う）。
+    UI変更に備え全ステップ多候補＋非ブロッキング。失敗時 False（公開は継続）。
+    """
+    try:
+        # 1) エディタ上部の「見出し画像を追加」エリアを開く
+        if not _try_click(page, [
+            'button:has-text("見出し画像を追加")',
+            'button:has-text("記事に画像を追加")',
+            'button:has-text("画像を追加")',
+            'button:has-text("見出し画像")',
+            ('role', '見出し画像を追加'),
+            '[aria-label*="見出し画像"]',
+        ], timeout=3000):
+            return False
+        page.wait_for_timeout(800)
+        # 2) 「みんなのフォトギャラリー」を選ぶ
+        if not _try_click(page, [
+            'button:has-text("みんなのフォトギャラリー")',
+            'a:has-text("みんなのフォトギャラリー")',
+            'button:has-text("フォトギャラリー")',
+            ('role', 'みんなのフォトギャラリー'),
+        ], timeout=3000):
+            return False
+        page.wait_for_timeout(1200)
+        # 3) キーワード検索（候補を順に試す）。検索欄が無ければデフォルト表示から選ぶ
+        for kw in keywords:
+            try:
+                search = page.locator(
+                    'input[type="search"], input[placeholder*="検索"], input[placeholder*="キーワード"]'
+                ).first
+                search.wait_for(state="visible", timeout=2500)
+                search.click()
+                search.fill(kw)
+                page.keyboard.press("Enter")
+                page.wait_for_timeout(1800)
+                # 検索結果に画像があれば break（無ければ次のキーワード）
+                imgs = page.locator(
+                    'div[role="dialog"] img, [class*="modal"] img, [class*="gallery"] img'
+                )
+                if imgs.count() > 0:
+                    break
+            except Exception:
+                continue
+        # 4) 最初の画像を選択（モーダル内に限定）
+        if not _try_click(page, [
+            'div[role="dialog"] img',
+            '[class*="modal"] img',
+            '[class*="gallery"] img',
+            '[class*="Gallery"] img',
+        ], timeout=4000):
+            return False
+        page.wait_for_timeout(800)
+        # 5) 「この画像を見出し画像にする」/適用/保存/決定
+        if not _try_click(page, [
+            'button:has-text("この画像を見出し画像にする")',
+            'button:has-text("見出し画像にする")',
+            'button:has-text("この画像を挿入")',
+            'button:has-text("保存")',
+            'button:has-text("適用")',
+            'button:has-text("決定")',
+            'button:has-text("完了")',
+            ('role', '保存'),
+        ], timeout=4000):
+            return False
+        page.wait_for_timeout(1000)
+        return True
+    except Exception:
+        return False
+
+
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
 
 def _count_photo_placeholders(md_path: Path) -> int:
@@ -330,9 +402,46 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
-        # 【重要】noteの公開は2段階：エディタ右上「公開に進む」→ 設定画面 →「投稿する」。
-        # 見出し画像・ハッシュタグは "公開に進む" を押した後の設定画面にしか出ない。
-        # よって先に設定画面へ遷移してから、サムネ/タグ/投稿を行う。
+        # 【見出し画像（サムネ）】noteではエディタ画面で設定する（「公開に進む」より前）。
+        # 優先順位: ①用意した画像ファイル(--photos / thumbnails/{stem}.jpg)があればアップロード
+        #           ②無ければ『みんなのフォトギャラリー』(無料素材)からキーワードで自動選択
+        thumb_to_use = photos[0] if photos else auto_thumb
+        if thumb_to_use and Path(str(thumb_to_use)).exists():
+            try:
+                if not _try_click(page, [
+                    'button:has-text("見出し画像を追加")',
+                    'button:has-text("画像を追加")',
+                    'button:has-text("見出し画像")',
+                    '[aria-label*="見出し画像"]',
+                ], timeout=2500):
+                    raise RuntimeError("見出し画像ボタンが見つからない")
+                page.wait_for_timeout(500)
+                # アップロードを選ぶ（ギャラリーと選択肢が並ぶ場合）
+                _try_click(page, [
+                    'button:has-text("画像をアップロード")',
+                    'button:has-text("アップロード")',
+                ], timeout=1500)
+                with page.expect_file_chooser() as fc:
+                    page.locator('input[type="file"]').first.click()
+                fc.value.set_files(str(thumb_to_use))
+                page.wait_for_timeout(1500)
+                _try_click(page, [
+                    'button:has-text("保存")', 'button:has-text("適用")',
+                    'button:has-text("決定")', 'button:has-text("完了")',
+                ], timeout=1500)
+                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
+            except Exception as e:
+                print(f"⚠️  サムネ(ファイル)設定に失敗: {e}")
+        else:
+            # 画像ファイルが無い → note標準ギャラリーから自動選択
+            kw = [t for t in (tags[:3] if tags else [])] + ["富山", "日本", "風景"]
+            if set_eyecatch_from_gallery(page, kw):
+                print(f"✅ サムネをみんなのフォトギャラリーから自動選択（検索語: {kw[0] if kw else '-'}）")
+            else:
+                print("⚠️  ギャラリーからのサムネ自動選択に失敗（UI変更の可能性）。サムネ無しで続行")
+
+        # 【公開は2段階】エディタ「公開に進む」→ 設定画面 →「投稿する」。
+        # ハッシュタグ・投稿ボタンは "公開に進む" 後の設定画面にある。
         if not draft:
             if _try_click(page, [
                 'button:has-text("公開に進む")',
@@ -344,38 +453,6 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 page.wait_for_timeout(1500)
             else:
                 print("⚠️  「公開に進む」が見つからず（UI変更の可能性）。現画面のまま続行を試みます")
-
-        # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
-        thumb_to_use = photos[0] if photos else auto_thumb
-        if thumb_to_use:
-            try:
-                # 「見出し画像」エリアを開く（公開設定画面にある）
-                if not _try_click(page, [
-                    'button:has-text("見出し画像")',
-                    ('role', '見出し画像'),
-                    '[aria-label*="見出し画像"]',
-                    'button:has-text("画像を追加")',
-                    'button:has-text("記事を装飾")',
-                ], timeout=2500):
-                    raise RuntimeError("見出し画像ボタンが見つからない")
-                page.wait_for_timeout(500)
-                with page.expect_file_chooser() as fc:
-                    page.locator('input[type="file"]').first.click()
-                fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(1500)
-                # 「適用」「保存」「決定」ボタンがあれば押す
-                for label in ("適用", "決定", "保存", "完了"):
-                    try:
-                        btn = page.locator(f'button:has-text("{label}")').first
-                        if btn.is_visible(timeout=400):
-                            btn.click()
-                            page.wait_for_timeout(600)
-                            break
-                    except Exception:
-                        continue
-                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
-            except Exception as e:
-                print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
 
         # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
         if tags:
