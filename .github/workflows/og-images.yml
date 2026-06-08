@@ -1,0 +1,34 @@
+name: Fetch OG images (Pexels)
+
+# OG画像（SNSシェアサムネ）のフリー素材を Pexels API から自動取得して site/og/ にコミットする。
+# GitHub Actions はネット可なので、code が物理的にできない「フリー画像の手配」を自動化できる。
+# 必要: リポジトリ Secrets に PEXELS_API_KEY（無料・https://www.pexels.com/api/）。
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 3 * * 1"   # 毎週月曜（新規記事ぶんの不足画像だけ取得）
+
+permissions:
+  contents: write
+
+concurrency:
+  group: og-images
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch missing OG images
+        run: python3 site/fetch_og_images.py
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      - name: Commit new images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/og
+          git diff --cached --quiet || git commit -m "auto: fetch OG images from Pexels"
+          git push
