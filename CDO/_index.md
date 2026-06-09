@@ -22,6 +22,7 @@
 | 2026-06-09 | site/i18n/doraemon-hometown.{fr,de}.md | 多言語 | リード記事 仏・独版(Issue#14)。外部AI接続が各社ブラウザ認証で止まるため私が直接実行=ゼロ操作自動化。9言語化(+fr/de)→/fr//de/自動描画+hreflang | 運用 |
 | 2026-06-09 | site/i18n/doraemon-hometown.{ko,it}.md | 多言語/自動化実証 | **Julesが自動生成→worker-integrateが許可領域検査→main自動マージ→自動公開**(完全自動ループ初成功)。10言語化(+ko/it) | 運用 |
 | 2026-06-09 | site/i18n/doraemon-hometown.{hi,ar}.md + build.py RTL | 多言語 | ChatGPT組込(B型ペーストブリッジ)でヒンディー・アラビア語(印度・中東=ドラえもん巨大市場)。build.pyにRTL(ar/he/fa/ur=dir=rtl)追加。12言語化 | 運用 |
+| 2026-06-09 | site/i18n/doraemon-hometown.{tl,ru}.md | 多言語 | Gemini組込(B型ペーストブリッジ)でフィリピン語・ロシア語(比=ドラえもん人気+訪日多/露=大規模)。14言語化 | 運用 |
 | 2026-06-07 | tools/audit_articles.py | 監査ツール | 記事の英語/PR表記/事実検証ノート/文字数を一括点検する依存ゼロCLI(--gaps/--overseas) | 運用 |
 | 2026-06-07 | docs/cowork-handoff.md | 引き継ぎ | cowork→code 全業務引き継ぎ（オーナー情報・戦略・公開済み・アフィリ・残課題） | 受領・取込済 |
 | 2026-06-07 | ops/（inbox/processed/README） | 連携基盤 | code↔cowork の機械向け指示チャネル。疎通テスト001投函済 | 運用開始（疎通確認中） |
