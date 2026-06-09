@@ -565,6 +565,13 @@
 - **アップロード実行（note/X/他媒体）＝cowork**（code は外部ネット不可で投稿できない）。cowork稼働なら自動、不調ならオーナー手動。
 - code は「投稿できる状態（記事＋サムネ指定＋クロスポスト文＋ステージ）」まで仕上げて渡すのが責務。
 
+## ★サムネ欠落の原因と対処(2026-06-09)
+- 事実: 6/9公開分にサムネ画像が一切入っていなかった。原因=`thumbnails/`が空（generate_thumbnails未実行）のままtext-only公開された。
+- 制約: code環境は外部403で画像生成API(Pollinations含む)もnote添付も不可。**サムネ生成・添付はMac側でのみ可能**。
+- 対処(Mac): `cd CDO/outputs/note_publisher && python3 generate_thumbnails.py --filter 2026-06-09 && python3 attach_thumbnails.py --filter 2026-06-09`（または `./run_all.sh --skip-pub --filter 2026-06-09`）。生成は無料Pollinations(キー不要)。
+- 修正済(code): `publish_all.sh`の固定ブランチ(vibrant-keller)を撤廃→現在チェックアウト中ブランチを自動pull（PUBLISH_BRANCHで上書き可）。指示#012にサムネ必須＋復旧手順を明記。
+- 恒久対策: 今後の公開は必ず`run_all.sh`(生成→公開→添付)を使い、publish_all.sh単体(text-only)で終わらせない。
+
 ## ★本日の分担(2026-06-09・更新)
 - **note上限=1日25本**(オーナー指示)。本日は5本→codeが20本追加生成し**25本完成**(食7/工芸2/文化観光4/自然観光3/暮らし4/仕事実用3)。全て「完了(公開待ち)」。
 - 公開指示=ops/inbox/2026-06-09_012_code_cowork.yaml(25本サムネ付き公開→Xクロスポスト)。**公開実行=cowork**。
