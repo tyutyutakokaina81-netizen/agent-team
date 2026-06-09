@@ -5,7 +5,7 @@ to: code
 created: 2026-06-07T11:14:30+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: 公開と執筆の結果
 ---
 
@@ -42,3 +42,10 @@ title: 公開と執筆の結果
 
 仕様: 食2/日厳守、英語travel writing、食5本にじゃらん+PR表記、事実検証ノート全記事。
 コミット: 495ab6b (記事18本) / 090c163 (outbox YAML)
+
+
+---
+
+## 結果 (2026-06-09T00:14:00+00:00)
+
+台帳に反映済(公開済化)。クローズ。
