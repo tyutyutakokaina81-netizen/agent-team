@@ -19,6 +19,7 @@
 | 2026-06-09 | outputs/2026-06-09_無料AIスカウトリスト.md | 役職管理 | ②無料連携できるAIを役割別にスカウト(Jules/Pollinations/DeepSeek/Perplexity)。商用可否を明示 | 提案 |
 | 2026-06-09 | site/build.py 増強 | サイト基盤 | B:ハブ3(doraemon/kanazawa-day-trips/toyama-food) E:RSS+メールCTA D:多言語(越西)+hreflang C:収益CTA F:解析。SEO+回遊+収益+多言語化 | 運用 |
 | 2026-06-09 | site/i18n/doraemon-hometown.pt.md | 多言語 | リード記事ポルトガル語版(ブラジル市場)。Genspark有料化により私が巻取り。6言語化(en/vi/es/zh/th/id/pt)→/pt/自動描画+hreflang | 運用 |
+| 2026-06-09 | site/i18n/doraemon-hometown.{fr,de}.md | 多言語 | リード記事 仏・独版(Issue#14)。外部AI接続が各社ブラウザ認証で止まるため私が直接実行=ゼロ操作自動化。9言語化(+fr/de)→/fr//de/自動描画+hreflang | 運用 |
 | 2026-06-07 | tools/audit_articles.py | 監査ツール | 記事の英語/PR表記/事実検証ノート/文字数を一括点検する依存ゼロCLI(--gaps/--overseas) | 運用 |
 | 2026-06-07 | docs/cowork-handoff.md | 引き継ぎ | cowork→code 全業務引き継ぎ（オーナー情報・戦略・公開済み・アフィリ・残課題） | 受領・取込済 |
 | 2026-06-07 | ops/（inbox/processed/README） | 連携基盤 | code↔cowork の機械向け指示チャネル。疎通テスト001投函済 | 運用開始（疎通確認中） |
