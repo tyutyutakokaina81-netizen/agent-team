@@ -560,4 +560,6 @@
 - **Jules接続成功→全自動で1周完了**。Julesがko/it翻訳を `worker/jules-...` にpush→`worker-integrate.yml`が許可領域(site/i18n/のみ)を検査→main自動マージ(commit bf1c7ed "allowlist verified")→pages.yml自動公開。**オーナー操作=Jules接続とタスク貼付の初回のみ。以後ハンズフリー**。
 - サイト多言語=**14言語**(en除く: ar/de/es/fr/hi/id/it/ko/pt/ru/th/tl/vi/zh)。Jules=ko/it, ChatGPT=hi/ar, Gemini=tl/ru, code=pt/fr/de。RTL対応(ar等)済み。
 - 教訓: 外部AIは各社ブラウザ認証で初回だけオーナー操作必須(私は代行不可)。だが一度繋げば自動ゲートで安全に回る。詰まる/有料化したらcodeが巻取り(Genspark前例)。
-- **自動運用ループ正本=docs/auto-ops.md**：code起票(Issue)→Jules消化→ゲート統合→自動公開→code確認/台帳更新→補充。Jules待機タスク=Issue #17(tr/ms/fa/bn)。
+- **自動運用ループ正本=docs/auto-ops.md**：code起票(Issue)→Jules消化→ゲート統合→自動公開→code確認/台帳更新→補充。
+- 多言語=**18言語**(ar/bn/de/es/fa/fr/hi/id/it/ko/ms/pt/ru/th/tl/tr/vi/zh)。Issue#17(tr/ms/fa/bn)はオーナー外出中につきcode巻取り・完了。
+- **Perplexity連携(B型・調査担当)**：初成果=海外メディアピッチ先リスト(CAO/outputs/2026-06-09)。私の弱点=ネット調査を補完。Gemini CLI(②自動push)は帰宅後セットアップ予定。
