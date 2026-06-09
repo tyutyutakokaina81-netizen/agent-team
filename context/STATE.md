@@ -522,3 +522,7 @@
 - コンテンツ：藤子ユニバース拡張(F=パーマン/Fワールド・Ⓐ=忍者ハットリ/喪黒福造)=「高岡F×氷見Ⓐ 2人の藤子」面。クロスポスト素材=EN/outputs/2026-06-09_藤子ユニバース。
 - 富裕層：off-note実行パック(CAO/outputs/2026-06-09)=高級メディアピッチ4軸+ターゲット+アングル5本。送付はcowork/オーナー。
 - 残(オーナー領域)：env実値(Klook/Booking/有料/Newsletter/Plausible)、ピッチ送付、サムネ実写、SNS投稿。
+
+## ★多AIワーカー対応(2026-06-09・②方式・無料)
+- `AGENTS.md` を新設：ChatGPT/Gemini等のAIが repo+ops/inbox で無料協働できる共通オンボーディング。
+- 参加手順=STATE読む→outboxで能力申告→inbox自分宛を実行→報告→pull/push。台帳/STATEはcode専任(ワーカーは触らない)。per-token課金なし。
