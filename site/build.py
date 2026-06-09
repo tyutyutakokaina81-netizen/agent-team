@@ -259,7 +259,8 @@ def page_head(title, desc, url, is_article, image=None, lang="en", extra_head=""
     if image:
         img_tags = (f'<meta property="og:image" content="{image}">'
                     f'<meta name="twitter:image" content="{image}">')
-    return f"""<!doctype html><html lang="{lang}"><head>{extra_head}
+    dir_attr = ' dir="rtl"' if lang.split("-")[0] in ("ar", "he", "fa", "ur") else ""
+    return f"""<!doctype html><html lang="{lang}"{dir_attr}><head>{extra_head}
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{t}</title>
 <meta name="description" content="{d}">
