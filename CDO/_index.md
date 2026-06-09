@@ -16,6 +16,7 @@
 | 2026-06-07 | docs/role-division.md | 役職管理 | 役割分担の正本。Claude Code=主(執筆含む全実務)／cowork=副(ネット/ブラウザ実行の代行)。ops/inbox連携・配信二段構え | 確定 |
 | 2026-06-07 | ops/（process_inbox.py・README・inbox/processed） | 連携基盤 | code↔cowork 指示キュー。cowork実装(依存ゼロCLI・YAML)を吸収して一本化 | 運用 |
 | 2026-06-07 | drafts/（stage_for_publish.py・queue・published・README） | 公開基盤 | CMO/outputs→queue→cowork公開→published。cowork実装を吸収 | 運用 |
+| 2026-06-09 | outputs/2026-06-09_無料AIスカウトリスト.md | 役職管理 | ②無料連携できるAIを役割別にスカウト(Jules/Pollinations/DeepSeek/Perplexity)。商用可否を明示 | 提案 |
 | 2026-06-09 | site/build.py 増強 | サイト基盤 | B:ハブ3(doraemon/kanazawa-day-trips/toyama-food) E:RSS+メールCTA D:多言語(越西)+hreflang C:収益CTA F:解析。SEO+回遊+収益+多言語化 | 運用 |
 | 2026-06-07 | tools/audit_articles.py | 監査ツール | 記事の英語/PR表記/事実検証ノート/文字数を一括点検する依存ゼロCLI(--gaps/--overseas) | 運用 |
 | 2026-06-07 | docs/cowork-handoff.md | 引き継ぎ | cowork→code 全業務引き継ぎ（オーナー情報・戦略・公開済み・アフィリ・残課題） | 受領・取込済 |
