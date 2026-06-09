@@ -530,3 +530,9 @@
 ## ★安全体制(2026-06-09・最優先)
 - 多AI拡張は安全第一：docs/agent-governance.md 制定。最小権限(allowlist)/main保護(worker→codeレビュー→main)/秘密遮断/プロンプトインジェクション拒否/商用OK画像のみ/監査(ops+git)。
 - code=門番。正本(main/STATE/台帳/秘密)はcodeが握る。外部AIは提案・実行のみ。
+
+## ★ワーカー招聘: Genspark(2026-06-09 招聘・接続待ち)
+- 役割(副): GitHub連携=②repoワーカー / Claw=第2のブラウザ実行(note公開・X/Reddit冗長化) / 画像・調査。無料~100-150cr/日。
+- 受入: ops/inbox に onboarding投函済(--to genspark)。安全規程準拠(最小権限/main保護/worker/gensparkブランチ/秘密遮断)。
+- 要確認: 生成画像の商用可否(確認まで本番画像に使わない)・キャラAI画像NG。
+- オーナー作業: Genspark を repo に GitHub連携で接続→AGENTS.md を指す。接続後 outbox に能力申告が来たら code が小タスクから委任。
