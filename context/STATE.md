@@ -536,3 +536,8 @@
 - 受入: ops/inbox に onboarding投函済(--to genspark)。安全規程準拠(最小権限/main保護/worker/gensparkブランチ/秘密遮断)。
 - 要確認: 生成画像の商用可否(確認まで本番画像に使わない)・キャラAI画像NG。
 - オーナー作業: Genspark を repo に GitHub連携で接続→AGENTS.md を指す。接続後 outbox に能力申告が来たら code が小タスクから委任。
+
+## ★完全自動化(2026-06-09・実装＋設定待ち)
+- 実装済(code): .github/workflows/worker-integrate.yml=ワーカーpush→許可領域だけか検査→安全ならmain自動統合→pages.ymlで自動公開。allowlist=CMO/outputs,site/og,site/i18n,ops/outbox,ops/processed,drafts。
+- 残=オーナー一度きり: ①fine-grained PAT(agent-teamのみ・Contents R/W)作成 ②Gensparkに設定(=ペーストブリッジ不要) ③(任意)cowork cron。手順=docs/full-automation-setup.md。
+- 設定後は手放しで回る。安全は allowlist が技術強制(正本/秘密は守られる)。
