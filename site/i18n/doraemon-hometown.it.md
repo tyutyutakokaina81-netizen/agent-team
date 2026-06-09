@@ -6,9 +6,9 @@ Ecco il viaggio che quasi nessun viaggiatore straniero conosce. A quindici minut
 
 Non il museo vicino a Tokyo. La città natale.
 
-Nel Otogi-no-Mori Park troverete Doraemon, Nobita, Shizuka, Gian e Suneo riuniti su un prato aperto, proprio come il campo vuoto della serie. L'ingresso è gratuito. Abito qui vicino e, in un normale fine settimana, la vista singolare non sono le statue: è la fila silenziosa di visitatori stranieri che aspettano il loro turno per fotografarle. Persone cresciute con questo gatto blu a Hanoi, Delhi, Guangzhou o Madrid, finalmente in piedi nel luogo in cui è nato.
+Nel parco Otogi-no-Mori troverete Doraemon, Nobita, Shizuka, Gian e Suneo riuniti su un prato aperto, proprio come il campo vuoto della serie. L'ingresso è gratuito. Abito qui vicino e, in un normale fine settimana, la vista singolare non sono le statue: è la fila silenziosa di visitatori stranieri che aspettano il loro turno per fotografarle. Persone cresciute con questo gatto blu a Hanoi, Delhi, Guangzhou o Madrid, finalmente in piedi nel luogo in cui è nato.
 
-C'è dell'altro, se lo desiderate: un tram rosa "Porta Magica" sulla Manyo Line, dodici personaggi di bronzo in una via pedonale gratuita aperta 24 ore su 24 vicino alla stazione, e una galleria dedicata alla sua città natale con i suoi disegni originali.
+C’è dell’altro, se lo desiderate: un tram rosa "Porta Magica" sulla linea Manyo, dodici personaggi di bronzo in una via pedonale gratuita aperta 24 ore su 24 vicino alla stazione, e una galleria dedicata alla sua città natale con i suoi disegni originali.
 
 Potete farlo in una tranquilla mezza giornata e tornare a Kanazawa per cena. Oppure proseguire per Gokayama, un villaggio gassho Patrimonio dell'Umanità molto più tranquillo di Shirakawa-go.
 
