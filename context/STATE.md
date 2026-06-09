@@ -551,3 +551,8 @@
 - 真の自動接続=**Jules**(Google・無料・GitHub直結→Issueで指示)＋**Gemini CLI**(Mac上・無料)だけ。
 - ChatGPT/Gemini web/DeepSeek/Perplexity=B型(構造上ペースト中継)。docs/workers-connect.md に翻訳/調査パケット常備=「1回1ペースト」で回す。
 - 推奨次手: Jules接続(jules.google→agent-teamのみ許可)→codeがIssueで翻訳/調査を委任。
+
+## ★【実証】完全自動ループ成功(2026-06-09)
+- **Jules接続成功→全自動で1周完了**。Julesがko/it翻訳を `worker/jules-...` にpush→`worker-integrate.yml`が許可領域(site/i18n/のみ)を検査→main自動マージ(commit bf1c7ed "allowlist verified")→pages.yml自動公開。**オーナー操作=Jules接続とタスク貼付の初回のみ。以後ハンズフリー**。
+- サイト多言語=**10言語**(en除く: de/es/fr/id/it/ko/pt/th/vi/zh)。en含め11言語面。
+- 教訓: 外部AIは各社ブラウザ認証で初回だけオーナー操作必須(私は代行不可)。だが一度繋げば自動ゲートで安全に回る。詰まる/有料化したらcodeが巻取り(Genspark前例)。
