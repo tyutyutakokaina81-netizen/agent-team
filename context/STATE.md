@@ -558,5 +558,6 @@
 
 ## ★【実証】完全自動ループ成功(2026-06-09)
 - **Jules接続成功→全自動で1周完了**。Julesがko/it翻訳を `worker/jules-...` にpush→`worker-integrate.yml`が許可領域(site/i18n/のみ)を検査→main自動マージ(commit bf1c7ed "allowlist verified")→pages.yml自動公開。**オーナー操作=Jules接続とタスク貼付の初回のみ。以後ハンズフリー**。
-- サイト多言語=**10言語**(en除く: de/es/fr/id/it/ko/pt/th/vi/zh)。en含め11言語面。
+- サイト多言語=**14言語**(en除く: ar/de/es/fr/hi/id/it/ko/pt/ru/th/tl/vi/zh)。Jules=ko/it, ChatGPT=hi/ar, Gemini=tl/ru, code=pt/fr/de。RTL対応(ar等)済み。
 - 教訓: 外部AIは各社ブラウザ認証で初回だけオーナー操作必須(私は代行不可)。だが一度繋げば自動ゲートで安全に回る。詰まる/有料化したらcodeが巻取り(Genspark前例)。
+- **自動運用ループ正本=docs/auto-ops.md**：code起票(Issue)→Jules消化→ゲート統合→自動公開→code確認/台帳更新→補充。Jules待機タスク=Issue #17(tr/ms/fa/bn)。

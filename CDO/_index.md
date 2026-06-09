@@ -43,3 +43,5 @@
 | 日付 | 上げた能力 | 成果物 |
 |------|-----------|--------|
 | 2026-06-07 | 記事品質の自動監査 | tools/audit_articles.py（英語/PR表記/事実検証ノート/文字数を一括点検する依存ゼロCLI） |
+| 2026-06-09 | 外部AIの安全な自動連携基盤を構築・実証 | worker-integrate.yml（許可領域検査→main自動統合の安全ゲート）＋Jules直接push型を実稼働（ko/it自動公開）＋docs/auto-ops.md（自動運用ループ正本） |
+| 2026-06-09 | 多AIオーケストレーション＋サイト多言語化 | Jules/ChatGPT/Gemini を役割別に起用しサイトを14言語化（+RTL対応 ar/he/fa/ur）。docs/workers-connect.md（接続正本） |
