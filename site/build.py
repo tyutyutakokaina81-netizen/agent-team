@@ -283,8 +283,10 @@ FOOT = f"""</div><footer><div class="wrap">© {datetime.date.today().year} {html
 Day trips to Takaoka & Toyama from Kanazawa (Hokuriku Shinkansen).</div></footer></body></html>"""
 
 
-def render_article(a, related=None):
+def render_article(a, related=None, alts=None):
     url = f"{BASE_URL}/{a['slug']}/"
+    eh = hreflang_links(alts) if alts else ""
+    ln = langnav_html(alts, "en") if alts else ""
     body = "\n".join(f"<p>{html.escape(p)}</p>" for p in a["paras"])
     rel_html = ""
     if related:
@@ -301,10 +303,10 @@ def render_article(a, related=None):
         f'"mainEntityOfPage":{_j(url)}'
         '}</script>'
     )
-    return (page_head(a["title"], a["desc"], url, True, og_image_for(a["slug"])) + ld +
+    return (page_head(a["title"], a["desc"], url, True, og_image_for(a["slug"]), extra_head=eh) + ld +
             f'<span class="cat">{html.escape(a["cat"])}</span>'
             f'<h1>{html.escape(a["title"])}</h1>'
-            f'<div class="meta">{a["date"]} · {html.escape(SITE_NAME)}</div>'
+            f'<div class="meta">{a["date"]} · {html.escape(SITE_NAME)}</div>' + ln +
             f'<article>{body}</article>' + cta_block() + rel_html +
             f'<a class="back" href="{BASE_URL}/">← All stories</a>' + FOOT)
 
@@ -328,6 +330,10 @@ def render_index(arts):
     parts.append(f"<h1>{html.escape(SITE_NAME)}</h1>")
     parts.append(f'<p class="meta">{html.escape(SITE_TAGLINE)}. '
                  'Fifteen minutes from Kanazawa by Hokuriku Shinkansen — and almost no crowds.</p>')
+    parts.append('<p class="hubnav"><strong>Guides:</strong> '
+                 f'<a href="{BASE_URL}/doraemon/">Doraemon &amp; Fujiko</a>'
+                 f'<a href="{BASE_URL}/kanazawa-day-trips/">Day trips from Kanazawa</a>'
+                 f'<a href="{BASE_URL}/toyama-food/">Toyama food</a></p>')
     lead = next((a for a in arts if a["slug"].startswith("skip-shirakawa-go")), None)
     if lead:
         parts.append(
@@ -351,14 +357,111 @@ def render_index(arts):
     return "".join(parts)
 
 
-def render_sitemap(arts):
+def render_sitemap(arts, extra=None):
     today = datetime.date.today().isoformat()
-    urls = [f"{BASE_URL}/"] + [f"{BASE_URL}/{a['slug']}/" for a in arts]
+    urls = [f"{BASE_URL}/"] + [f"{BASE_URL}/{a['slug']}/" for a in arts] + list(extra or [])
     body = "".join(
         f"<url><loc>{u}</loc><lastmod>{today}</lastmod></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
             f"{body}</urlset>")
+
+
+# ---- ハブページ（入口キーワード別の集約LP・内部SEO） ----
+HUBS = [
+    ("doraemon", "Doraemon's Hometown & the Fujiko Universe — Takaoka and Himi",
+     "The real hometown of Doraemon's creator and the 'other' Fujiko in Himi: statues, a tram and two manga towns, 15 minutes from Kanazawa.",
+     lambda a: a["cat"] == "Doraemon & Fujiko"),
+    ("kanazawa-day-trips", "Day Trips from Kanazawa — Hidden Hokuriku",
+     "Skip the Shirakawa-go crowds. Quieter day trips to Takaoka, Himi and Toyama, 15 minutes by Hokuriku Shinkansen.",
+     lambda a: True),
+    ("toyama-food", "Toyama Food — White Shrimp, Black Ramen & the Sea of Japan",
+     "The rare seafood and everyday dishes of Toyama Bay, written from a resident's table.",
+     lambda a: a["cat"] == "Food & Drink"),
+]
+
+
+def render_hub(slug, title, desc, items):
+    url = f"{BASE_URL}/{slug}/"
+    parts = [page_head(title, desc, url, False, og_image_for("default")),
+             f'<p class="hubnav"><a href="{BASE_URL}/">← Home</a></p>',
+             f"<h1>{html.escape(title)}</h1>", f'<p class="meta">{html.escape(desc)}</p>']
+    for a in items:
+        parts.append(
+            f'<a class="card" href="{BASE_URL}/{a["slug"]}/">'
+            f'<span class="cat">{html.escape(a["cat"])}</span>'
+            f'<h2>{html.escape(a["title"])}</h2>'
+            f'<p>{html.escape(a["desc"])}</p></a>')
+    parts.append(FOOT)
+    return "".join(parts)
+
+
+def render_rss(arts):
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+    items = []
+    for a in arts[:30]:
+        link = f"{BASE_URL}/{a['slug']}/"
+        items.append(
+            f"<item><title>{html.escape(a['title'])}</title><link>{link}</link>"
+            f"<guid>{link}</guid><description>{html.escape(a['desc'])}</description></item>")
+    return ('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel>'
+            f"<title>{html.escape(SITE_NAME)}</title><link>{BASE_URL}/</link>"
+            f"<description>{html.escape(SITE_TAGLINE)}</description><lastBuildDate>{now}</lastBuildDate>"
+            f"{''.join(items)}</channel></rss>")
+
+
+# ---- 多言語（D）：site/i18n/<slug>.<lang>.md を読み、hreflang付きで描画 ----
+I18N_SRC = ROOT / "site" / "i18n"
+LANG_LABEL = {"vi": "Tiếng Việt", "es": "Español", "en": "English"}
+
+
+def collect_i18n():
+    """{slug: {lang: (title, paras)}} を返す。"""
+    out = {}
+    if not I18N_SRC.exists():
+        return out
+    for p in sorted(I18N_SRC.glob("*.*.md")):
+        m = re.match(r"(.+)\.([a-z]{2})\.md$", p.name)
+        if not m:
+            continue
+        base, lang = m.group(1), m.group(2)
+        lines = [ln.rstrip() for ln in p.read_text(encoding="utf-8").strip().splitlines()]
+        title, rest = "", 0
+        for i, ln in enumerate(lines):
+            if ln.strip():
+                title, rest = ln.strip(), i + 1
+                break
+        paras = _paragraphs("\n".join(lines[rest:]))
+        if title and paras:
+            out.setdefault(base, {})[lang] = (title, paras)
+    return out
+
+
+def hreflang_links(alts):
+    """alts: {lang: url}. <link rel=alternate hreflang> 群を返す。"""
+    tags = "".join(f'<link rel="alternate" hreflang="{l}" href="{u}">' for l, u in alts.items())
+    if "en" in alts:
+        tags += f'<link rel="alternate" hreflang="x-default" href="{alts["en"]}">'
+    return tags
+
+
+def langnav_html(alts, current):
+    out = []
+    for l, u in alts.items():
+        lbl = LANG_LABEL.get(l, l)
+        out.append(lbl if l == current else f'<a href="{u}">{lbl}</a>')
+    return f'<p class="langnav">Read in: {" · ".join(out)}</p>'
+
+
+def render_i18n_page(lang, slug, title, paras, alts):
+    url = alts[lang]
+    desc = re.sub(r"\s+", " ", paras[0])[:155]
+    body = "\n".join(f"<p>{html.escape(p)}</p>" for p in paras)
+    head = page_head(title, desc, url, True, og_image_for("default"),
+                     lang=lang, extra_head=hreflang_links(alts))
+    return (head + f"<h1>{html.escape(title)}</h1>" + langnav_html(alts, lang) +
+            f"<article>{body}</article>" + cta_block() +
+            f'<a class="back" href="{BASE_URL}/">← All stories (English)</a>' + FOOT)
 
 
 def main():
@@ -367,6 +470,15 @@ def main():
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir(parents=True, exist_ok=True)
+    extra_urls = []
+    # 多言語(D)：翻訳 base「doraemon-hometown」はリード記事(skip-shirakawa-go…)の訳
+    i18n = collect_i18n()
+    lead = next((a for a in arts if a["slug"].startswith("skip-shirakawa-go")), None)
+    lead_alts = None
+    if lead and "doraemon-hometown" in i18n:
+        lead_alts = {"en": f"{BASE_URL}/{lead['slug']}/"}
+        for lang in i18n["doraemon-hometown"]:
+            lead_alts[lang] = f"{BASE_URL}/{lang}/doraemon-hometown/"
     # index
     (OUT / "index.html").write_text(render_index(arts), encoding="utf-8")
     # articles（/slug/index.html でクリーンURL）＋同カテゴリの関連記事リンク（内部SEO/回遊）
@@ -380,7 +492,32 @@ def main():
         related = rest[:3]
         d = OUT / a["slug"]
         d.mkdir(parents=True, exist_ok=True)
-        (d / "index.html").write_text(render_article(a, related), encoding="utf-8")
+        alts = lead_alts if (lead and a["slug"] == lead["slug"]) else None
+        (d / "index.html").write_text(render_article(a, related, alts), encoding="utf-8")
+    # ハブページ(B)
+    for slug, title, desc, pred in HUBS:
+        items = [a for a in arts if pred(a)]
+        if not items:
+            continue
+        hd = OUT / slug
+        hd.mkdir(parents=True, exist_ok=True)
+        (hd / "index.html").write_text(render_hub(slug, title, desc, items), encoding="utf-8")
+        extra_urls.append(f"{BASE_URL}/{slug}/")
+    # 多言語ページ(D)：/<lang>/<base>/
+    for base, langs in i18n.items():
+        alts = {}
+        if base == "doraemon-hometown" and lead:
+            alts["en"] = f"{BASE_URL}/{lead['slug']}/"
+        for lang in langs:
+            alts[lang] = f"{BASE_URL}/{lang}/{base}/"
+        for lang, (title, paras) in langs.items():
+            ld = OUT / lang / base
+            ld.mkdir(parents=True, exist_ok=True)
+            (ld / "index.html").write_text(
+                render_i18n_page(lang, base, title, paras, alts), encoding="utf-8")
+            extra_urls.append(f"{BASE_URL}/{lang}/{base}/")
+    # RSS(E)
+    (OUT / "feed.xml").write_text(render_rss(arts), encoding="utf-8")
     # OG画像（site/og/*.jpg|png|webp）を公開ディレクトリへコピー
     if OG_SRC.exists():
         dst = OUT / "og"
@@ -392,7 +529,7 @@ def main():
         if n:
             print(f"copied {n} OG image(s) → /og/")
     # sitemap / robots
-    (OUT / "sitemap.xml").write_text(render_sitemap(arts), encoding="utf-8")
+    (OUT / "sitemap.xml").write_text(render_sitemap(arts, extra_urls), encoding="utf-8")
     (OUT / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}/sitemap.xml\n", encoding="utf-8")
     # .nojekyll（GitHub PagesでJekyll処理を無効化）
