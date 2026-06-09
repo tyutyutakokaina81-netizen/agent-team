@@ -539,5 +539,15 @@
 
 ## ★完全自動化(2026-06-09・実装＋設定待ち)
 - 実装済(code): .github/workflows/worker-integrate.yml=ワーカーpush→許可領域だけか検査→安全ならmain自動統合→pages.ymlで自動公開。allowlist=CMO/outputs,site/og,site/i18n,ops/outbox,ops/processed,drafts。
-- 残=オーナー一度きり: ①fine-grained PAT(agent-teamのみ・Contents R/W)作成 ②Gensparkに設定(=ペーストブリッジ不要) ③(任意)cowork cron。手順=docs/full-automation-setup.md。
+- 残=オーナー一度きり: ①fine-grained PAT(agent-teamのみ・Contents R/W)作成 ②各ワーカーに設定(=ペーストブリッジ不要) ③(任意)cowork cron。手順=docs/full-automation-setup.md。
 - 設定後は手放しで回る。安全は allowlist が技術強制(正本/秘密は守られる)。
+
+## ★Genspark→有料化で離脱(2026-06-09)
+- Gensparkが無料枠で詰まり有料の壁。**課金しない方針**→Gensparkの担当(翻訳)はcodeが巻取り。
+- 成果: リード記事pt(ポルトガル/ブラジル)をcodeが追加→7言語化(en/vi/es/zh/th/id/pt)。PATはオーナーがRevoke予定(未使用=最小権限)。
+
+## ★外部AI接続の正本(2026-06-09)= docs/workers-connect.md
+- 接続は2型のみ: **A=直接push型**(GitHub接続→worker/*にpush→自動ゲート), **B=ペーストブリッジ型**(無料チャットのみ→オーナー中継→codeがcommit)。
+- 真の自動接続=**Jules**(Google・無料・GitHub直結→Issueで指示)＋**Gemini CLI**(Mac上・無料)だけ。
+- ChatGPT/Gemini web/DeepSeek/Perplexity=B型(構造上ペースト中継)。docs/workers-connect.md に翻訳/調査パケット常備=「1回1ペースト」で回す。
+- 推奨次手: Jules接続(jules.google→agent-teamのみ許可)→codeがIssueで翻訳/調査を委任。
