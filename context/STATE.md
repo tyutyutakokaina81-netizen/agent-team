@@ -563,3 +563,4 @@
 - **自動運用ループ正本=docs/auto-ops.md**：code起票(Issue)→Jules消化→ゲート統合→自動公開→code確認/台帳更新→補充。
 - 多言語=**18言語**(ar/bn/de/es/fa/fr/hi/id/it/ko/ms/pt/ru/th/tl/tr/vi/zh)。Issue#17(tr/ms/fa/bn)はオーナー外出中につきcode巻取り・完了。
 - **Perplexity連携(B型・調査担当)**：初成果=海外メディアピッチ先リスト(CAO/outputs/2026-06-09)。私の弱点=ネット調査を補完。Gemini CLI(②自動push)は帰宅後セットアップ予定。
+- **サムネAI生成ルール(2026-06-09承認)**：写真風／著作権キャラ無し／商用OK なものは **AI生成(Gemini/ChatGPT)で運用**。ドラえもん・銅像・キャラ装飾=実写のみ。図表/文字デザイン不可。プロンプト集=CDO/outputs/2026-06-09_サムネ生成プロンプト集_写真風キャラ無し.md。サイトog:imageはPollinations自動。
