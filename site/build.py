@@ -413,7 +413,8 @@ def render_rss(arts):
 
 # ---- 多言語（D）：site/i18n/<slug>.<lang>.md を読み、hreflang付きで描画 ----
 I18N_SRC = ROOT / "site" / "i18n"
-LANG_LABEL = {"vi": "Tiếng Việt", "es": "Español", "en": "English"}
+LANG_LABEL = {"vi": "Tiếng Việt", "es": "Español", "en": "English",
+              "ru": "Русский", "tl": "Filipino"}
 
 
 def collect_i18n():
