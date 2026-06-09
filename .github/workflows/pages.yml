@@ -39,6 +39,14 @@ jobs:
           # Pages の実URL（プロジェクトサブパス/独自ドメイン）を自動採用＝内部リンク/canonicalが崩れない
           SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
           SITE_NAME: ${{ vars.SITE_NAME }}
+          # 以下は repo Variables(Settings→Secrets and variables→Actions→Variables)に入れれば有効化。
+          # 未設定なら build.py が安全に省略。詳細は docs/site-setup.md。
+          PAID_GUIDE_URL: ${{ vars.PAID_GUIDE_URL }}     # 有料ガイド(note/Gumroad)のURL
+          NEWSLETTER_URL: ${{ vars.NEWSLETTER_URL }}     # メール登録(Substack/Buttondown)
+          KLOOK_URL: ${{ vars.KLOOK_URL }}               # Klookアフィリ(登録後)
+          BOOKING_URL: ${{ vars.BOOKING_URL }}           # Booking.com/Agodaアフィリ(登録後)
+          ANALYTICS_DOMAIN: ${{ vars.ANALYTICS_DOMAIN }} # Plausibleドメイン
+          JALAN_URL: ${{ vars.JALAN_URL }}               # 任意(未設定でも build.py 既定の実リンクを使用)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/public
