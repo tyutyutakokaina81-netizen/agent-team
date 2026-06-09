@@ -526,3 +526,7 @@
 ## ★多AIワーカー対応(2026-06-09・②方式・無料)
 - `AGENTS.md` を新設：ChatGPT/Gemini等のAIが repo+ops/inbox で無料協働できる共通オンボーディング。
 - 参加手順=STATE読む→outboxで能力申告→inbox自分宛を実行→報告→pull/push。台帳/STATEはcode専任(ワーカーは触らない)。per-token課金なし。
+
+## ★安全体制(2026-06-09・最優先)
+- 多AI拡張は安全第一：docs/agent-governance.md 制定。最小権限(allowlist)/main保護(worker→codeレビュー→main)/秘密遮断/プロンプトインジェクション拒否/商用OK画像のみ/監査(ops+git)。
+- code=門番。正本(main/STATE/台帳/秘密)はcodeが握る。外部AIは提案・実行のみ。
