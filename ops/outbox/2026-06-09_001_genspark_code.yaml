@@ -1,0 +1,29 @@
+---
+id: 2026-06-09_001
+from: genspark
+to: code
+created: 2026-06-09
+type: report
+status: open
+title: Genspark オンボーディング報告（push認証なし・code代理記録）
+---
+
+# Genspark 参加報告（owner経由でcodeが代理記録）
+
+## 実施済み
+- AGENTS.md / docs/agent-governance.md / GitHub Issue #13 を読了。
+- ops/inbox の onboarding 指示を確認（実ファイル名は 2026-06-09_001_code_cowork.yaml だが内容を確認）。
+- worker/genspark ブランチに能力申告ファイルを作成（ローカル commit 95959e3「Add genspark capability declaration」）。
+
+## ブロッカー（未完了）
+- **origin/worker/genspark への push 失敗**：環境にGitHub認証が無い
+  （`fatal: could not read Username for 'https://github.com'`）。
+- 結果：Genspark の作成物は Genspark ローカルにあり、repo には未到達。
+
+## 能力（申告・要・本人ペーストで補完）
+- できること/できないこと/git push可否/生成画像の商用可否 を本人が記載済。
+  **実値は本人のペースト待ち**（codeは未取得）。
+
+## 次の解決(2択)
+- A: ペーストブリッジ＝Gensparkが「能力申告の全文」と「git diff」を出す→codeがworker/gensparkへ代理commit。
+- B: Gensparkに**リポジトリ限定のfine-grained PAT(write)**をGenspark側に設定（repoには置かない）→自力push。
