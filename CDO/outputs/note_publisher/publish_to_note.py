@@ -504,26 +504,48 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 # ★ファイル選択後に出る「トリミング/位置調整」ダイアログを確定保存する。
                 #   ここを押さないと“表示だけ”で記事に反映されない（保存されない）。
                 #   ダイアログは描画に時間差があるので、数回・候補を変えて確定を試みる。
-                # トリミング画面の確定は「保存」(右上)。button以外の可能性もあるため text=/role= も併用。
-                CONFIRM = [
-                    'button:has-text("保存")', 'text=保存',
-                    '[role="button"]:has-text("保存")',
-                    'button:has-text("この画像を見出し画像にする")',
-                    'button:has-text("見出し画像にする")',
-                    'button:has-text("適用")', 'text=適用',
-                    'button:has-text("確定")', 'button:has-text("決定")',
-                    'button:has-text("完了")', 'button:has-text("挿入")',
-                    'button:has-text("追加")', 'button:has-text("OK")',
-                ]
+                # トリミング画面の確定＝右上「保存」。
+                #  ・「下書き保存」を誤爆しないよう “完全一致” の保存を最優先。
+                #  ・note のトリミングUIが iframe 内の可能性があるため、全フレームを探索。
+                CONFIRM_EXACT = ["保存", "適用", "完了", "決定", "確定", "OK",
+                                 "この画像を見出し画像にする", "見出し画像にする"]
+
+                def _click_confirm():
+                    contexts = [page] + list(page.frames)
+                    for ctx in contexts:
+                        for label in CONFIRM_EXACT:
+                            try:
+                                loc = ctx.get_by_text(label, exact=True)
+                                cnt = loc.count()
+                            except Exception:
+                                cnt = 0
+                            for i in range(min(cnt, 3)):
+                                try:
+                                    el = loc.nth(i)
+                                    if el.is_visible(timeout=600):
+                                        el.click(timeout=1500)
+                                        return True
+                                except Exception:
+                                    continue
+                        # role=button でも完全一致テキストを試す
+                        for label in CONFIRM_EXACT:
+                            try:
+                                loc = ctx.get_by_role("button", name=label, exact=True)
+                                if loc.count() and loc.first.is_visible(timeout=600):
+                                    loc.first.click(timeout=1500)
+                                    return True
+                            except Exception:
+                                continue
+                    return False
+
                 confirmed = False
-                for _ in range(4):
+                for _ in range(5):
                     page.wait_for_timeout(1200)
-                    if _try_click(page, CONFIRM, timeout=2000):
+                    if _click_confirm():
                         confirmed = True
-                        page.wait_for_timeout(1000)
+                        page.wait_for_timeout(1200)
                         break
                 if not confirmed:
-                    # 保存ボタンが拾えない時はEnterで確定を試す
                     try:
                         page.keyboard.press("Enter")
                         page.wait_for_timeout(800)
