@@ -1,0 +1,66 @@
+name: Generate note thumbnails
+
+# note記事のサムネ画像をクラウド(ネット可)で生成し、thumbnails/ にコミットする。
+# code はネット遮断・オーナーのMacはキー貼り間違いが起きるため、ここで一括生成する。
+#
+# 画像ソース（優先順）:
+#  1. Gemini (Imagen 3)  … GEMINI_API_KEY があれば、各記事の「サムネ用プロンプト」からAI生成
+#  2. Pexels (無料素材)  … PEXELS_API_KEY があれば、Geminiで埋まらなかった分をフリー写真で補完
+#
+# キーは リポジトリ Settings > Secrets and variables > Actions に登録（ターミナルに貼らない）。
+#  - GEMINI_API_KEY : https://aistudio.google.com/apikey （無料枠）
+#  - PEXELS_API_KEY : https://www.pexels.com/api/ （無料）
+#
+# 実行: Actions タブ → "Generate note thumbnails" → Run workflow（手動）
+
+on:
+  workflow_dispatch:
+    inputs:
+      filter:
+        description: "対象を絞る日付など (例 2026-06-09)。空なら全記事の不足分。"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: note-thumbnails
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      FILTER: ${{ github.event.inputs.filter }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate with Gemini (Imagen)
+        if: ${{ env.GEMINI_API_KEY != '' }}
+        run: |
+          cd CDO/outputs/note_publisher
+          if [ -n "$FILTER" ]; then
+            python3 generate_thumbnails.py --filter "$FILTER" || true
+          else
+            python3 generate_thumbnails.py || true
+          fi
+
+      - name: Fill remaining with Pexels (free)
+        if: ${{ env.PEXELS_API_KEY != '' }}
+        run: |
+          if [ -n "$FILTER" ]; then
+            python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py --filter "$FILTER" || true
+          else
+            python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
+          fi
+
+      - name: Commit thumbnails
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
+          git diff --cached --quiet || git commit -m "auto: generate note thumbnails (Gemini/Pexels)"
+          git push
