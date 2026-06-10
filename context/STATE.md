@@ -585,6 +585,14 @@
 - 公開指示=ops/inbox/2026-06-09_012_code_cowork.yaml(25本サムネ付き公開→Xクロスポスト)。**公開実行=cowork**。
 - code担当=執筆/台帳/多言語/富裕層/基盤。サムネはAI生成OK(キャラ無し記事)。
 
+## ★本日(2026-06-10)の分担・引き取り体制(オーナー指示「coworkが反応しないならcodeがひきとって」)
+- **6/10記事=14本に拡充**（既存6＋code追加8）。追加8本=白えび素揚げ/氷見うどん/赤巻きかまぼこ（食）/五箇山合掌造り/万葉線ドラえもんトラム/富岩運河環水公園/高岡で鋳物に触れる/地方から世界へ書く。重複回避・食5本・North Star導線厚め。全て「完了(公開待ち)」。
+- **引き取りの線引き（重要）**：code は **content全工程を引き取り済**（執筆/台帳/STATE/サムネプロンプト/クロスポスト文・ステージ）。**外部公開(note/X)とサムネ画像生成だけは code 環境が外部403で物理的に不可** → ここのみ二段構え＝(1)cowork、(2)不調時オーナー手動。
+- **cowork不在時のオーナー手動公開**（Macで・サムネ込み）：
+  `cd ~/agent-team/CDO/outputs/note_publisher && git pull origin "$(git -C ~/agent-team rev-parse --abbrev-ref HEAD)" && ./run_all.sh --filter 2026-06-10`（生成→公開→サムネ添付を一括・無料Pollinations）。
+- 指示=`ops/inbox/2026-06-10_001_code_cowork.yaml`（公開→サムネ→クロスポスト→outbox報告）。万葉線のみサムネ実写指定（ドラえもんキャラAI不可）。
+- 残=25本上限まであと11本（次「続けて」でcodeが追加生成）。公開URLが返り次第 code が台帳「公開済」反映。
+
 ## ★【実証】完全自動ループ成功(2026-06-09)
 - **Jules接続成功→全自動で1周完了**。Julesがko/it翻訳を `worker/jules-...` にpush→`worker-integrate.yml`が許可領域(site/i18n/のみ)を検査→main自動マージ(commit bf1c7ed "allowlist verified")→pages.yml自動公開。**オーナー操作=Jules接続とタスク貼付の初回のみ。以後ハンズフリー**。
 - サイト多言語=**14言語**(en除く: ar/de/es/fr/hi/id/it/ko/pt/ru/th/tl/vi/zh)。Jules=ko/it, ChatGPT=hi/ar, Gemini=tl/ru, code=pt/fr/de。RTL対応(ar等)済み。
