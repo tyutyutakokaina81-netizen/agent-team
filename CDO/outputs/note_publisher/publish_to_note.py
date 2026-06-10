@@ -455,23 +455,38 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 ], timeout=3000)
                 if not opened:
                     raise RuntimeError("見出し画像エリア(aria『画像を追加』)が見つからない")
-                page.wait_for_timeout(800)
-                # サブメニュー「画像をアップロード」を選ぶ（出る場合）
-                _try_click(page, [
-                    'button:has-text("画像をアップロード")',
-                    'text=画像をアップロード',
-                    'button:has-text("アップロード")',
-                ], timeout=1500)
-                page.wait_for_timeout(500)
-                # ファイル選択（input[type=file] にそのまま set_files / 無ければチューザー経由）
+                page.wait_for_timeout(1000)
+                # ★重要: 「画像をアップロード」を押すとOSのファイル選択が開く。
+                #   これを Playwright が横取り(expect_file_chooser)して自動でファイルを渡す。
+                #   枠の外で押すとネイティブダイアログが出て人間待ちになる（従来のバグ）。
+                set_ok = False
+                # (a) まず隠しinputへ直接set（ダイアログを出さない最短ルート）
                 try:
-                    page.locator('input[type="file"]').first.set_input_files(str(thumb_to_use), timeout=4000)
+                    fin = page.locator('input[type="file"]')
+                    if fin.count() > 0:
+                        fin.first.set_input_files(str(thumb_to_use), timeout=3000)
+                        set_ok = True
                 except Exception:
-                    with page.expect_file_chooser(timeout=4000) as fc:
-                        _try_click(page, ['button:has-text("画像をアップロード")',
-                                          'button:has-text("アップロード")',
-                                          'input[type="file"]'], timeout=2000)
-                    fc.value.set_files(str(thumb_to_use))
+                    set_ok = False
+                # (b) ダメなら「画像をアップロード」クリックを file_chooser で受ける
+                if not set_ok:
+                    try:
+                        with page.expect_file_chooser(timeout=6000) as fc:
+                            _try_click(page, [
+                                'button:has-text("画像をアップロード")',
+                                'text=画像をアップロード',
+                                'button:has-text("アップロード")',
+                                'text=アップロード',
+                            ], timeout=3000)
+                        fc.value.set_files(str(thumb_to_use))
+                        set_ok = True
+                    except Exception:
+                        # (c) メニューを開いた直後に現れる隠しinputへ再トライ
+                        try:
+                            page.locator('input[type="file"]').first.set_input_files(str(thumb_to_use), timeout=3000)
+                            set_ok = True
+                        except Exception:
+                            set_ok = False
                 page.wait_for_timeout(2000)
                 # トリミング/確定ダイアログがあれば確定
                 _try_click(page, [
@@ -480,7 +495,10 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                     'button:has-text("挿入")', 'button:has-text("追加")',
                 ], timeout=2000)
                 page.wait_for_timeout(800)
-                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定（試行）")
+                if set_ok:
+                    print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
+                else:
+                    print("⚠️  サムネのファイル受け渡しに失敗（ダイアログを横取りできず）")
             except Exception as e:
                 print(f"⚠️  サムネ(ファイル)設定に失敗: {e}")
         else:
