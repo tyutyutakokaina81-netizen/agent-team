@@ -38,8 +38,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate with Gemini (Imagen)
-        if: ${{ env.GEMINI_API_KEY != '' }}
+      # 1) AI生成: GEMINI_API_KEYがあればImagen、無ければ generate_thumbnails.py 既定の
+      #    Pollinations(キー不要)で生成を試みる。どちらも失敗は次段で補完。
+      - name: Generate (Gemini or keyless Pollinations)
         run: |
           cd CDO/outputs/note_publisher
           if [ -n "$FILTER" ]; then
@@ -48,13 +49,23 @@ jobs:
             python3 generate_thumbnails.py || true
           fi
 
-      - name: Fill remaining with Pexels (free)
+      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるときだけ・relevantな写真）
+      - name: Fill remaining with Pexels (free, if key)
         if: ${{ env.PEXELS_API_KEY != '' }}
         run: |
           if [ -n "$FILTER" ]; then
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py --filter "$FILTER" || true
           else
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
+          fi
+
+      # 3) 最終フォールバック: キー不要のPicsumで、まだ無い記事を必ず1枚埋める
+      - name: Fill remaining with Picsum (keyless, guaranteed)
+        run: |
+          if [ -n "$FILTER" ]; then
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py --filter "$FILTER" || true
+          else
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py || true
           fi
 
       - name: Commit thumbnails
