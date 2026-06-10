@@ -444,49 +444,48 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         if thumb_to_use and Path(str(thumb_to_use)).exists():
             try:
                 # note新UI: 見出し画像は編集画面トップの aria-label「画像を追加」。
-                # （「見出し画像」という語は廃止。本文用とは別に最上部にある。）
-                # まずファイルチューザーを待ち受けつつ、見出し画像エリアを開く。
-                opened = _try_click(page, [
+                # このボタンを押した“瞬間”にOSのファイル選択が開くため、
+                # 押下そのものを expect_file_chooser で囲んで Playwright に横取りさせる。
+                # （囲まずに押すとネイティブダイアログが出て人間待ち＝従来の「フォルダ選択で止まる」）
+                EYE = [
                     '[aria-label="画像を追加"]',
                     '[aria-label*="画像を追加"]',
                     'button:has-text("見出し画像を追加")',
                     'button:has-text("見出し画像")',
                     '[aria-label*="見出し画像"]',
-                ], timeout=3000)
-                if not opened:
-                    raise RuntimeError("見出し画像エリア(aria『画像を追加』)が見つからない")
-                page.wait_for_timeout(1000)
-                # ★重要: 「画像をアップロード」を押すとOSのファイル選択が開く。
-                #   これを Playwright が横取り(expect_file_chooser)して自動でファイルを渡す。
-                #   枠の外で押すとネイティブダイアログが出て人間待ちになる（従来のバグ）。
+                ]
+                UPLOAD = [
+                    'button:has-text("画像をアップロード")', 'text=画像をアップロード',
+                    'button:has-text("アップロード")', 'text=アップロード',
+                ]
                 set_ok = False
-                # (a) まず隠しinputへ直接set（ダイアログを出さない最短ルート）
+                # (1) 見出し画像エリアの押下自体がチューザーを出す場合
                 try:
-                    fin = page.locator('input[type="file"]')
-                    if fin.count() > 0:
-                        fin.first.set_input_files(str(thumb_to_use), timeout=3000)
-                        set_ok = True
+                    with page.expect_file_chooser(timeout=5000) as fc:
+                        if not _try_click(page, EYE, timeout=3000):
+                            raise RuntimeError("見出し画像エリアが見つからない")
+                    fc.value.set_files(str(thumb_to_use))
+                    set_ok = True
                 except Exception:
                     set_ok = False
-                # (b) ダメなら「画像をアップロード」クリックを file_chooser で受ける
+                # (2) 押下でメニューが出る場合は「画像をアップロード」をチューザーで受ける
                 if not set_ok:
                     try:
                         with page.expect_file_chooser(timeout=6000) as fc:
-                            _try_click(page, [
-                                'button:has-text("画像をアップロード")',
-                                'text=画像をアップロード',
-                                'button:has-text("アップロード")',
-                                'text=アップロード',
-                            ], timeout=3000)
+                            _try_click(page, UPLOAD, timeout=3000)
                         fc.value.set_files(str(thumb_to_use))
                         set_ok = True
                     except Exception:
-                        # (c) メニューを開いた直後に現れる隠しinputへ再トライ
-                        try:
-                            page.locator('input[type="file"]').first.set_input_files(str(thumb_to_use), timeout=3000)
+                        set_ok = False
+                # (3) 隠しinputへ直接set（チューザーを出さないUIの場合）
+                if not set_ok:
+                    try:
+                        fin = page.locator('input[type="file"]')
+                        if fin.count() > 0:
+                            fin.first.set_input_files(str(thumb_to_use), timeout=3000)
                             set_ok = True
-                        except Exception:
-                            set_ok = False
+                    except Exception:
+                        set_ok = False
                 page.wait_for_timeout(2000)
                 # トリミング/確定ダイアログがあれば確定
                 _try_click(page, [
