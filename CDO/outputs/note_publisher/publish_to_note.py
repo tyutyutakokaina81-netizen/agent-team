@@ -443,28 +443,44 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         thumb_to_use = photos[0] if photos else auto_thumb
         if thumb_to_use and Path(str(thumb_to_use)).exists():
             try:
-                if not _try_click(page, [
+                # note新UI: 見出し画像は編集画面トップの aria-label「画像を追加」。
+                # （「見出し画像」という語は廃止。本文用とは別に最上部にある。）
+                # まずファイルチューザーを待ち受けつつ、見出し画像エリアを開く。
+                opened = _try_click(page, [
+                    '[aria-label="画像を追加"]',
+                    '[aria-label*="画像を追加"]',
                     'button:has-text("見出し画像を追加")',
-                    'button:has-text("画像を追加")',
                     'button:has-text("見出し画像")',
                     '[aria-label*="見出し画像"]',
-                ], timeout=2500):
-                    raise RuntimeError("見出し画像ボタンが見つからない")
-                page.wait_for_timeout(500)
-                # アップロードを選ぶ（ギャラリーと選択肢が並ぶ場合）
+                ], timeout=3000)
+                if not opened:
+                    raise RuntimeError("見出し画像エリア(aria『画像を追加』)が見つからない")
+                page.wait_for_timeout(800)
+                # サブメニュー「画像をアップロード」を選ぶ（出る場合）
                 _try_click(page, [
                     'button:has-text("画像をアップロード")',
+                    'text=画像をアップロード',
                     'button:has-text("アップロード")',
                 ], timeout=1500)
-                with page.expect_file_chooser() as fc:
-                    page.locator('input[type="file"]').first.click()
-                fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(1500)
+                page.wait_for_timeout(500)
+                # ファイル選択（input[type=file] にそのまま set_files / 無ければチューザー経由）
+                try:
+                    page.locator('input[type="file"]').first.set_input_files(str(thumb_to_use), timeout=4000)
+                except Exception:
+                    with page.expect_file_chooser(timeout=4000) as fc:
+                        _try_click(page, ['button:has-text("画像をアップロード")',
+                                          'button:has-text("アップロード")',
+                                          'input[type="file"]'], timeout=2000)
+                    fc.value.set_files(str(thumb_to_use))
+                page.wait_for_timeout(2000)
+                # トリミング/確定ダイアログがあれば確定
                 _try_click(page, [
                     'button:has-text("保存")', 'button:has-text("適用")',
                     'button:has-text("決定")', 'button:has-text("完了")',
-                ], timeout=1500)
-                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
+                    'button:has-text("挿入")', 'button:has-text("追加")',
+                ], timeout=2000)
+                page.wait_for_timeout(800)
+                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定（試行）")
             except Exception as e:
                 print(f"⚠️  サムネ(ファイル)設定に失敗: {e}")
         else:
@@ -489,28 +505,29 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             else:
                 print("⚠️  「公開に進む」が見つからず（UI変更の可能性）。現画面のまま続行を試みます")
 
-        # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
+        # ハッシュタグ入力（公開設定画面・placeholder「ハッシュタグを追加する」）
         if tags:
             try:
+                # 「ハッシュタグ」セクションを開く必要がある場合に備え一度押す（無ければ無視）
+                _try_click(page, ['button:has-text("ハッシュタグ")'], timeout=1500)
+                page.wait_for_timeout(400)
                 tag_input = page.locator(
-                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
+                    'input[placeholder*="ハッシュタグ"], textarea[placeholder*="ハッシュタグ"], '
+                    'input[placeholder*="タグ"]'
                 ).first
-                # 公開設定パネルを開く必要がある場合の保険
-                if not tag_input.is_visible(timeout=1500):
-                    try:
-                        page.locator('button:has-text("公開設定"), button:has-text("公開に進む")').first.click()
-                        page.wait_for_timeout(800)
-                    except Exception:
-                        pass
-                    tag_input = page.locator(
-                        'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                    ).first
+                if tag_input.count() == 0 or not tag_input.is_visible(timeout=2000):
+                    raise RuntimeError("タグ入力欄が見つからない")
+                done = 0
                 for t in tags[:10]:
-                    tag_input.click()
-                    page.keyboard.type(t)
-                    page.keyboard.press("Enter")
-                    page.wait_for_timeout(200)
-                print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
+                    try:
+                        tag_input.click(timeout=3000)
+                        page.keyboard.type(t.lstrip("#"))
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(200)
+                        done += 1
+                    except Exception:
+                        break
+                print(f"✅ ハッシュタグ {done} 個を入力")
             except Exception as e:
                 print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
 
