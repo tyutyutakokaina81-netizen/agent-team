@@ -1,0 +1,62 @@
+---
+id: 2026-06-10_001
+from: code
+to: cowork
+created: 2026-06-10T00:00:00+09:00
+priority: urgent
+type: instruction
+status: open
+title: 【START HERE・2026-06-10】cowork 着手手順（公開→サムネ→クロスポスト→報告）
+---
+
+> 🚦 **これが本日の起点です。** open が溜まっているので、まずこの1枚だけ読めば動けます。
+> 古い 007〜011 は下の「② 積み残し」に統合済み。**①から順に着手**してください。
+> 完了・進捗は必ず `ops/outbox/2026-06-10_NNN_cowork_code.yaml` に返すこと（code が台帳・STATE を更新します）。
+
+## 0. 最初に（オンボーディング・5分）
+1. `context/STATE.md` を読む（North Star＝**海外読者に届ける**。これが全判断基準）
+2. `AGENTS.md` と `docs/agent-governance.md` を読む（安全規程・最小権限）
+3. **作業前に `git pull`、作業後すぐ `commit & push`**（差分を溜めない＝過去の最大事故の再発防止）
+4. 触らない領域：`context/STATE.md` / `CMO/_index.md` / 秘密情報（これらは code 正本）
+
+## ① 最優先：本日(6/10)とバックログの note 公開（サムネ必須）
+**コストはかけない（無料ツールのみ）。サムネ生成を飛ばさない。**
+
+- **6/9 の25本** … サムネ付き公開＋既公開分のサムネ後追い添付（詳細＝`ops/inbox/2026-06-09_012`）。
+  既に公開済みなら**再公開せず**サムネ添付のみ：
+  ```
+  cd ~/agent-team/CDO/outputs/note_publisher
+  git pull origin "$(git -C ~/agent-team rev-parse --abbrev-ref HEAD)"
+  python3 generate_thumbnails.py --filter 2026-06-09   # thumbnails/ に生成（無料Pollinations・キー不要）
+  python3 attach_thumbnails.py  --filter 2026-06-09     # 公開済み記事へ後追い添付
+  ```
+- **6/10 の記事**（`CMO/outputs/2026-06-10_note記事_*.md`・現在6本、code が後ほど追加生成）…
+  揃い次第サムネ付きで公開：
+  ```
+  cd ~/agent-team/CDO/outputs/note_publisher
+  git pull origin "$(git -C ~/agent-team rev-parse --abbrev-ref HEAD)"
+  ./run_all.sh --filter 2026-06-10                      # 生成→公開→サムネ添付を一括
+  ```
+- サムネ・ルール：**写真風／著作権キャラ無し／文字・イラスト・図表NG／商用可ツール**。
+  各記事内「## サムネ用プロンプト」をそのまま画像生成に貼る。ドラえもん・銅像等は実写のみ（AI生成NG）。
+
+## ② 積み残し（007〜011 の統合・①の後に）
+- **009**：公開済み記事へのサムネ遡及添付（6/8の10本）→ 上の `attach_thumbnails.py --filter 2026-06-08` で実施。
+- **010**：ドラえもん5本の海外配信（`EN/outputs/2026-06-08_配信パッケージ_ドラえもん5本.md`）。
+  公開URL確定後 → Pinterest 5ピン → Reddit リード1本 → X/IG 分散。**スパム厳禁**（1コミュニティ1投稿）。
+- **008/011**：内容を確認し、未了なら実施。重複・不要と判断したら outbox に「skip理由」を一言返す。
+
+## ③ クロスポスト（note公開の後・海外導線＝North Star直結）
+- **X 中心**：各記事の `## English` を核に、英語を厚めに短文投稿。
+  タグ＝ `#Toyama #Takaoka #Himi #Japan`（誇張なし）。入口語（Doraemon / Kanazawa / Hokuriku Shinkansen / hidden）を自然に。
+- 余力で Reddit / Pinterest。リンク先は note ハブへ集約。
+
+## ④ 報告（必須）
+`ops/outbox/2026-06-10_001_cowork_code.yaml` に返す：
+- note 公開数 ＋ **各記事の公開URL一覧**
+- サムネ添付の成否（成功N件 / 差し替えた画像があれば一言）
+- クロスポストの有無（媒体・件数）
+- 詰まった点（エラー・要オーナー判断）があれば明記
+
+> 公開URLが返ってくれば、code が台帳「公開済」反映・英語SEOサイト連携・KPI測定段取りまで引き取ります。
+> 不明点・判断が要る箇所は **勝手に決めず** outbox に `type: question` で返してください。
