@@ -458,35 +458,49 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                     'button:has-text("画像をアップロード")', 'text=画像をアップロード',
                     'button:has-text("アップロード")', 'text=アップロード',
                 ]
-                set_ok = False
-                # (1) 見出し画像エリアの押下自体がチューザーを出す場合
+                UPLOAD += [
+                    'text=ファイルを選択', 'text=画像を選択', 'text=ファイルから選択',
+                    'text=デバイスからアップロード', 'text=コンピュータ', 'button:has-text("選択")',
+                ]
+                # ★常駐ファイルチューザーハンドラ:
+                #   いつ・どのクリックでファイル選択が開いても、自動でファイルを渡す。
+                #   これがあるとネイティブの選択ダイアログは表示されず、人間操作が不要になる。
+                set_state = {"ok": False}
+
+                def _on_chooser(chooser):
+                    try:
+                        chooser.set_files(str(thumb_to_use))
+                        set_state["ok"] = True
+                    except Exception:
+                        pass
+
+                page.on("filechooser", _on_chooser)
                 try:
-                    with page.expect_file_chooser(timeout=5000) as fc:
-                        if not _try_click(page, EYE, timeout=3000):
-                            raise RuntimeError("見出し画像エリアが見つからない")
-                    fc.value.set_files(str(thumb_to_use))
-                    set_ok = True
-                except Exception:
-                    set_ok = False
-                # (2) 押下でメニューが出る場合は「画像をアップロード」をチューザーで受ける
-                if not set_ok:
+                    # 見出し画像エリアを開く（直後にチューザーが開けばハンドラが処理）
+                    _try_click(page, EYE, timeout=3000)
+                    page.wait_for_timeout(1200)
+                    # メニューが出る型: アップロード系を順に押す（チューザーはハンドラが処理）
+                    for _ in range(2):
+                        if set_state["ok"]:
+                            break
+                        _try_click(page, UPLOAD, timeout=2000)
+                        page.wait_for_timeout(1500)
+                    # チューザーを出さず隠しinputに入れる型のフォールバック
+                    if not set_state["ok"]:
+                        try:
+                            fin = page.locator('input[type="file"]')
+                            if fin.count() > 0:
+                                fin.first.set_input_files(str(thumb_to_use), timeout=3000)
+                                set_state["ok"] = True
+                        except Exception:
+                            pass
+                    page.wait_for_timeout(2500)
+                finally:
                     try:
-                        with page.expect_file_chooser(timeout=6000) as fc:
-                            _try_click(page, UPLOAD, timeout=3000)
-                        fc.value.set_files(str(thumb_to_use))
-                        set_ok = True
+                        page.remove_listener("filechooser", _on_chooser)
                     except Exception:
-                        set_ok = False
-                # (3) 隠しinputへ直接set（チューザーを出さないUIの場合）
-                if not set_ok:
-                    try:
-                        fin = page.locator('input[type="file"]')
-                        if fin.count() > 0:
-                            fin.first.set_input_files(str(thumb_to_use), timeout=3000)
-                            set_ok = True
-                    except Exception:
-                        set_ok = False
-                page.wait_for_timeout(2000)
+                        pass
+                set_ok = set_state["ok"]
                 # トリミング/確定ダイアログがあれば確定
                 _try_click(page, [
                     'button:has-text("保存")', 'button:has-text("適用")',
