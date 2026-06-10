@@ -20,6 +20,15 @@ on:
         description: "対象を絞る日付など (例 2026-06-09)。空なら全記事の不足分。"
         required: false
         default: ""
+  # 記事が追加/更新されたら自動でサムネ生成（不足分のみ取得＝既存はスキップ）。
+  # bot のコミットは thumbnails/ のみ触るため push ループにはならない。
+  push:
+    branches: [main]
+    paths:
+      - "CMO/outputs/**"
+      - ".github/workflows/note-thumbnails.yml"
+      - "CDO/outputs/note_publisher/fetch_*.py"
+      - "CDO/outputs/note_publisher/generate_thumbnails.py"
 
 permissions:
   contents: write
