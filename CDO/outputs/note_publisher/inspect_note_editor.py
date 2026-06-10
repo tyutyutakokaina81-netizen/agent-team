@@ -75,15 +75,27 @@ def main():
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(NEW_POST)
         page.wait_for_timeout(6000)
-        dump(page, "新規投稿エディタ (初期)")
-        # 本文に少し入力してから（ボタンが増える場合がある）再ダンプ
+        # タイトルと本文を仮入力（「公開に進む」を押せる状態にする）
         try:
-            page.keyboard.type("テスト")
-            page.wait_for_timeout(1500)
-        except Exception:
-            pass
-        dump(page, "本文入力後")
-        print("\n--- ここまで。上の出力を全部コピーして貼ってください ---")
+            page.locator('[placeholder*="タイトル"]').first.click()
+            page.keyboard.type("診断テスト")
+            page.wait_for_timeout(500)
+            page.keyboard.press("Tab")
+            page.keyboard.type("diagnostic body")
+            page.wait_for_timeout(1000)
+        except Exception as e:
+            print("入力スキップ:", e)
+        dump(page, "編集画面")
+
+        # 「公開に進む」を押して“公開設定画面”へ → ここがサムネ/タグ/公開ボタンの本拠地
+        try:
+            page.locator('button:has-text("公開に進む")').first.click()
+            page.wait_for_timeout(4000)
+            dump(page, "公開設定画面 (公開に進む の後)")
+        except Exception as e:
+            print("『公開に進む』クリック失敗:", e)
+
+        print("\n--- ここまで。上の出力を全部コピーして貼ってください（※公開はしていません） ---")
         page.wait_for_timeout(1500)
         ctx.close()
 
