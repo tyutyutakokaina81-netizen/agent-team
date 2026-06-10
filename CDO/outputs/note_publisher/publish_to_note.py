@@ -501,17 +501,40 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                     except Exception:
                         pass
                 set_ok = set_state["ok"]
-                # トリミング/確定ダイアログがあれば確定
-                _try_click(page, [
+                # ★ファイル選択後に出る「トリミング/位置調整」ダイアログを確定保存する。
+                #   ここを押さないと“表示だけ”で記事に反映されない（保存されない）。
+                #   ダイアログは描画に時間差があるので、数回・候補を変えて確定を試みる。
+                CONFIRM = [
+                    'button:has-text("この画像を見出し画像にする")',
+                    'button:has-text("見出し画像にする")',
                     'button:has-text("保存")', 'button:has-text("適用")',
-                    'button:has-text("決定")', 'button:has-text("完了")',
-                    'button:has-text("挿入")', 'button:has-text("追加")',
-                ], timeout=2000)
+                    'button:has-text("確定")', 'button:has-text("決定")',
+                    'button:has-text("完了")', 'button:has-text("挿入")',
+                    'button:has-text("追加")', 'button:has-text("トリミング")',
+                    'button:has-text("OK")', 'button:has-text("する")',
+                ]
+                confirmed = False
+                for _ in range(4):
+                    page.wait_for_timeout(1200)
+                    if _try_click(page, CONFIRM, timeout=2000):
+                        confirmed = True
+                        page.wait_for_timeout(1000)
+                        break
+                if not confirmed:
+                    # 保存ボタンが拾えない時はEnterで確定を試す
+                    try:
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(800)
+                    except Exception:
+                        pass
                 page.wait_for_timeout(800)
-                if set_ok:
-                    print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
+                if set_ok and confirmed:
+                    print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定・確定")
+                elif set_ok and not confirmed:
+                    print("⚠️  画像は選択できたが“確定(保存)ボタン”が押せず（表示だけの可能性）。"
+                          "画面に出ている確定ボタンの文言を教えてください")
                 else:
-                    print("⚠️  サムネのファイル受け渡しに失敗（ダイアログを横取りできず）")
+                    print("⚠️  サムネのファイル受け渡しに失敗（選択ダイアログを横取りできず）")
             except Exception as e:
                 print(f"⚠️  サムネ(ファイル)設定に失敗: {e}")
         else:
