@@ -1,0 +1,41 @@
+---
+id: 2026-06-11_001
+from: code
+to: cowork
+created: 2026-06-11T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 投稿済みnote記事にサムネを後追いで挿入（attach_thumbnails.py・新UI対応版）
+---
+
+## 作業指示（下請=cowork／Macで実行）
+投稿済み（公開済み）のnote記事に、見出し画像（サムネ）を後追いで挿入する。
+`attach_thumbnails.py` を note 新UI対応に更新済み（見出し画像=aria『画像を追加』／
+トリミング確定=完全一致『保存』全フレーム／編集後=公開に進む→投稿する/更新する）。
+
+手順（Macのターミナル・1行ずつでも可）:
+```
+pkill -f note_publisher_profile; rm -f ~/.note_publisher_profile/Singleton*
+cd ~/agent-team && find .git -name '*.lock' -delete && git fetch origin main && git reset --hard origin/main
+cd CDO/outputs/note_publisher
+python3 publish_to_note.py --login          # セッション切れ時のみ
+python3 attach_thumbnails.py --filter 2026-06-09 --skip-existing --dry-run   # 対象確認
+python3 attach_thumbnails.py --filter 2026-06-09 --skip-existing             # 実行
+```
+- `thumbnails/{記事stem}.jpg` を各記事の見出し画像に設定 →「投稿する/更新する」で保存。
+- 1日分ずつ（--filter 2026-06-09 → 2026-06-10 …）。
+
+## 完了条件
+- 対象記事に見出し画像が付いて保存される。
+- 最後の `成功: N / スキップ / 失敗` を ops/outbox に報告。
+
+## 詰まり時（要判断は元請=codeへ）
+- `URL_NOT_FOUND`：note上で記事が見つからない→記事一覧の見え方（タイトル断片）を報告。
+- `UPLOAD_FAIL/UPDATE_FAIL`：その画面の文言・エラーをそのまま報告（codeがセレクタ修正）。
+
+## 補足（重要・画像の質）
+- 現在の `thumbnails/` は**ランダムなサンプル写真(Picsum)**。記事に合った写真にするには、
+  GitHub の Secrets に無料キーを1個（`PEXELS_API_KEY` 推奨）登録 → ワークフロー
+  `note-thumbnails.yml` がクラウドで関連画像へ自動差し替え → そのうえで本作業を実行。
+- キー登録は Web画面のみ（ターミナル不要）。判断はオーナー/元請。
