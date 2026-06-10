@@ -6,104 +6,170 @@ created: 2026-06-10T00:00:00+09:00
 priority: urgent
 type: instruction
 status: open
-title: 【Gemini/Imagen】6/10 note記事14本のサムネ画像を生成（写真風・キャラ無し・商用OK）
+title: 【Gemini/Imagen】6/10 note記事25本のサムネ画像を生成（写真風・キャラ無し・商用OK）
 ---
 
 ## やること
-下の各プロンプトを Gemini（Imagen）に1本ずつ貼って **写真風の画像**を生成し、**指定ファイル名で保存**してください。
+下の各プロンプトを Gemini（Imagen）に1本ずつ貼って **写真風の画像**を生成し、**指定ファイル名で保存**してください（全25本）。
 
 ## ルール（厳守）
 - 写真風（フォトリアル）のみ。**文字・イラスト・図表・ロゴNG**。
 - 商用利用OKの生成物のみ使用（Geminiの利用規約に従う）。
-- **著作権キャラは生成しない**（ドラえもん等）。**万葉線の記事はAI生成せず実写写真を使う**（下記でスキップ指定）。
+- **著作権キャラは生成しない**（ドラえもん等）。**万葉線の記事はAI生成せず実写写真**（下記スキップ指定）。
 - 縦横比 16:9。実在スポットの捏造はしない（雰囲気で可）。
 
 ## 保存先（重要）
-生成画像は `CDO/outputs/note_publisher/thumbnails/` に **下記のファイル名（記事stem.jpg）** で保存。
-→ その後 Mac で `python3 attach_thumbnails.py --filter 2026-06-10` を実行すると公開済み記事へ自動添付されます。
-（Gemini CLIでrepoに書ける場合は worker/gemini ブランチへ push。web版なら画像を保存してオーナーが配置）
+生成画像は `CDO/outputs/note_publisher/thumbnails/` に **下記ファイル名（記事stem.jpg）** で保存。
+→ その後 Mac で `python3 attach_thumbnails.py --filter 2026-06-10` で公開済み記事へ自動添付。
+（Gemini CLIでrepoに書ける場合は worker/gemini ブランチへ push。web版は保存してオーナーが配置）
 
-### 1. 富山の朝は、とろろ昆布で始まる。— 万能調味料の使い方5つ
+### 1. AIに任せること、任せないこと。— ひとりで仕事を回す線引き
+- 保存ファイル名: `2026-06-10_note記事_AIに任せることと任せないこと.jpg`
+```
+Photorealistic shot of a tidy single-person work desk: a laptop, a notebook with handwritten notes, a pen, and a cup of coffee, by a window with soft daylight in a calm home office. A sense of a human reviewing and deciding. Documentary lifestyle photography, no visible faces, no readable screen text, no logos. Shallow depth of field. 16:9 aspect ratio.
+```
+
+### 2. 田んぼの中に、家が点々と散らばっている。— となみ平野の散居村
+- 保存ファイル名: `2026-06-10_note記事_となみ平野の散居村.jpg`
+```
+Photorealistic aerial-style wide view of a Japanese rural plain in early summer, individual farmhouses scattered far apart across green rice paddies, each house surrounded by a cluster of tall windbreak trees, soft hazy light, peaceful pastoral landscape stretching to distant mountains. Documentary travel photography, calm mood. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 3. 富山の朝は、とろろ昆布で始まる。— 万能調味料の使い方5つ
 - 保存ファイル名: `2026-06-10_note記事_とろろ昆布の使い方.jpg`
 ```
 Photorealistic close-up of shaved tororo kombu seaweed in a small ceramic bowl beside a rice bowl, served on a simple ceramic or wooden plate in a humble Japanese home kitchen setting. Natural window light from the side, soft shadows, slight steam if the dish is hot. Authentic everyday Japanese food photography style — not styled restaurant glamour, more like a careful family meal documented with care. Shallow depth of field, top-down 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 2. 高岡の路面電車には、どこでもドアが走っている。— 万葉線
+### 4. ばい貝は、富山の晩酌の相棒だ。— つまようじで、くるりと
+- 保存ファイル名: `2026-06-10_note記事_ばい貝.jpg`
+```
+Photorealistic close-up of simmered Japanese whelk (baigai) cooked in sweet soy sauce, served in a small ceramic bowl with a wooden toothpick stuck in one shell, alongside a small cup of sake, in a humble Japanese home or izakaya setting. Warm evening light, cozy drinking mood. Authentic everyday food photography, not restaurant glamour. Shallow depth of field. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 5. ひとりの仕事は、月6千円で始められる。— 固定費を小さく保つ
+- 保存ファイル名: `2026-06-10_note記事_ひとり会社の固定費.jpg`
+```
+Photorealistic flat-lay of a minimal freelancer's desk: a laptop, a small notebook, a coffee cup, and a single potted plant, on a clean wooden table in soft natural daylight. A sense of lightness and simplicity. Documentary lifestyle photography. No people, no readable text, no logos. Shallow depth of field, top-down angle. 16:9 aspect ratio.
+```
+
+### 6. 富山は、ガラスの街でもある。— 銅器の次に選んだ素材
+- 保存ファイル名: `2026-06-10_note記事_ガラスの街とやま.jpg`
+```
+Photorealistic close-up of colorful handmade glass art objects glowing as light passes through them, displayed in a bright modern museum interior with wood and stone textures, soft natural light from a skylight, elegant calm atmosphere. Authentic documentary photography of craft. Shallow depth of field. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 7. 高岡の路面電車には、どこでもドアが走っている。— 万葉線
 - 保存ファイル名: `2026-06-10_note記事_万葉線とドラえもんトラム.jpg`
-- ⚠️ **この記事はサムネをAI生成しない**（ドラえもん=著作権）。オーナー撮影の実物トラム写真、またはキャラ無しの一般路面電車の実写を使う。AI生成するなら下記キャラ無しプロンプトのみ可。
+- ⚠️ **AI生成しない**（ドラえもん=著作権）。実物トラム写真 or キャラ無し一般路面電車の実写を使う。
 ```
 [実写推奨] ドラえもんトラムは著作権キャラのためAI生成しない。サムネはオーナー撮影の実物トラム写真 [写真1] を使用。
 代替AI（キャラ無し）：Photorealistic shot of a single-car Japanese light-rail streetcar (generic tram, no characters, no logos) running on street tracks through a quiet regional Japanese town under soft daylight, retro local atmosphere, no people prominent. No text. 16:9 aspect ratio.
 ```
 
-### 3. 白川郷の混雑が苦手なら、五箇山がいい。— 高岡から山へ入る
+### 8. 白川郷の混雑が苦手なら、五箇山がいい。— 高岡から山へ入る
 - 保存ファイル名: `2026-06-10_note記事_五箇山の合掌造り.jpg`
 ```
 Photorealistic wide shot of traditional Japanese gassho-zukuri thatched-roof farmhouses nestled in a quiet green mountain valley in early summer, soft mist, lush forested slopes behind, no crowds, peaceful rural atmosphere. Natural overcast daylight, authentic documentary travel photography style. No people in frame, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 4. 地方に住んだまま、世界に向けて書く。— 一次情報という武器
+### 9. 地方に住んだまま、世界に向けて書く。— 一次情報という武器
 - 保存ファイル名: `2026-06-10_note記事_地方から世界へ書く.jpg`
 ```
 Photorealistic shot of a person's desk by a window in a quiet regional Japanese home, a laptop open, a cup of tea, a notebook, soft morning light, a glimpse of a calm small-town or rural view outside the window. Calm, focused, independent-work mood. Authentic documentary style, no visible faces, no readable screen text. No logos. 16:9 aspect ratio.
 ```
 
-### 5. 家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる
+### 10. 丸まげみたいに巻かれた素麺がある。— 富山・大門素麺
+- 保存ファイル名: `2026-06-10_note記事_大門素麺.jpg`
+```
+Photorealistic close-up of coiled handmade Japanese somen noodles formed into round swirl bundles (like spiral knots), arranged neatly on a wooden surface, with one bundle partly unrolled, in a humble Japanese home kitchen. Cool natural daylight, clean summer mood. Authentic everyday food photography, not restaurant glamour. Shallow depth of field, slight top-down angle. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 11. 家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる
 - 保存ファイル名: `2026-06-10_note記事_家庭の富山ブラック.jpg`
 ```
 Photorealistic close-up of a bowl of dark soy-broth Japanese ramen with chashu and green onions, served on a simple ceramic or wooden plate in a humble Japanese home kitchen setting. Natural window light from the side, soft shadows, slight steam if the dish is hot. Authentic everyday Japanese food photography style — not styled restaurant glamour, more like a careful family meal documented with care. Shallow depth of field, top-down 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 6. 世界一きれいなスタバ、と呼ばれる公園がある。— 富岩運河環水公園
+### 12. 富山には、ラグビーボールみたいな西瓜がある。— 夏の贈り物
+- 保存ファイル名: `2026-06-10_note記事_富山のジャンボ西瓜.jpg`
+```
+Photorealistic shot of an unusually long, oval (rugby-ball shaped) large green watermelon resting on a wooden table in a humble Japanese home in summer, a few cut red slices beside it on a plate. Bright natural daylight, fresh refreshing summer mood, condensation on the chilled slices. Authentic everyday food photography. Shallow depth of field. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 13. 世界一きれいなスタバ、と呼ばれる公園がある。— 富岩運河環水公園
 - 保存ファイル名: `2026-06-10_note記事_富岩運河環水公園.jpg`
 ```
 Photorealistic wide shot of a serene urban canal-side park at golden hour, glassy water reflecting the sky, a modern glass cafe building glowing softly by the waterfront, green lawns and walking paths, peaceful early-summer evening, a few distant silhouettes. Warm natural light, calm reflective mood, travel photography style. No text, no logos, no prominent brand signage. 16:9 aspect ratio.
 ```
 
-### 7. 「水曜の壁」を、昼休みの設計で乗り越える。
+### 14. 夏の富山湾は、岩がきの季節になる。— 殻を開けると海が入っている
+- 保存ファイル名: `2026-06-10_note記事_岩がき.jpg`
+```
+Photorealistic close-up of a freshly shucked large summer rock oyster (iwagaki) on the half shell, plump glistening flesh with seawater, a lemon wedge beside it, on a bed of crushed ice on a simple plate. Cool natural daylight, fresh seafood mood, water droplets. Authentic everyday food photography, not restaurant glamour. Shallow depth of field, 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 15. エメラルド色の谷を、船で奥へ進む。— 庄川峡
+- 保存ファイル名: `2026-06-10_note記事_庄川峡の遊覧船.jpg`
+```
+Photorealistic view from a sightseeing boat moving up a narrow river gorge with deep emerald-green water, steep forested mountain slopes rising straight from the waterline on both sides, fresh early-summer greenery reflected in the calm surface, soft misty light. Serene, immersive travel photography. No people prominent, no text, no logos. 16:9 aspect ratio.
+```
+
+### 16. 「水曜の壁」を、昼休みの設計で乗り越える。
 - 保存ファイル名: `2026-06-10_note記事_水曜の壁ひとり仕事の昼休み再設計.jpg`
 ```
 Photorealistic candid lifestyle photo capturing a quiet domestic moment in a Japanese home: soft natural light through a window, a simple wooden table, a paper notebook, a ceramic mug. Mood: a midweek lunch break in a small Japanese park with a homemade bento on a bench. Calm, slightly contemplative, documentary feel rather than staged. No people in focus (hands at most). No text, no logos. 16:9 aspect ratio.
 ```
 
-### 8. 夏は、氷見うどんを冷やして食べる。— 細いのにコシがある手延べ
+### 17. 夏は、氷見うどんを冷やして食べる。— 細いのにコシがある手延べ
 - 保存ファイル名: `2026-06-10_note記事_氷見うどん.jpg`
 ```
 Photorealistic close-up of thin handmade Japanese udon noodles served cold on a bamboo zaru basket with a small cup of dipping sauce and grated ginger, in a humble Japanese home setting on a hot summer day. Cool natural daylight, water droplets on the noodles, fresh and refreshing mood. Authentic everyday food photography — not restaurant glamour. Shallow depth of field, slight top-down angle. No people, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 9. 国宝のなかで、職人は祈っていた。— 富山・高岡『瑞龍寺』
+### 18. 国宝のなかで、職人は祈っていた。— 富山・高岡『瑞龍寺』
 - 保存ファイル名: `2026-06-10_note記事_瑞龍寺_国宝のなかで職人は祈っていた.jpg`
 ```
 Photorealistic image evoking the wide stone-paved courtyard of Zuiryuji Zen temple in Takaoka, quiet morning — a traditional Japanese cultural element from Toyama / Hokuriku region. Focus on craft, texture, and material — wood, metal, paper, fabric, food, or stone as appropriate. Warm directional lighting that emphasizes surface detail. Documentary craft photography style. No people in focus, no readable text, no logos. 16:9 aspect ratio.
 ```
 
-### 10. 白えびは、丼より素揚げが好きだ。— 富山湾の初夏の食べ方
+### 19. 白えびは、丼より素揚げが好きだ。— 富山湾の初夏の食べ方
 - 保存ファイル名: `2026-06-10_note記事_白えびの素揚げ.jpg`
 ```
 Photorealistic close-up of deep-fried tiny white shrimp (shiroebi kakiage style, whole small translucent shrimp) piled on a simple ceramic plate with a small mound of salt, in a humble Japanese home kitchen. Warm evening light, faint steam, golden crisp texture visible. Authentic everyday Japanese food photography — not restaurant glamour, a careful family dinner documented with care. Shallow depth of field, 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 11. 計算した時給を、実際に上げるためにやったこと。
+### 20. 計算した時給を、実際に上げるためにやったこと。
 - 保存ファイル名: `2026-06-10_note記事_計算した時給を実際に上げるためにやったこと.jpg`
 ```
 Photorealistic overhead photo of a tidy desk: a notebook with a simple handwritten list (text illegible/blurred), a pen laid across it, a laptop slightly open, and a cup of coffee, lit by soft natural side light. Calm, decisive, grounded mood suggesting someone reorganizing their work and pricing. No people visible (a hand at most), no logos, no readable text. 16:9 aspect ratio.
 ```
 
-### 12. 富山のかまぼこは、渦を巻いて赤い。— 祝いの席の細工
+### 21. 富山のかまぼこは、渦を巻いて赤い。— 祝いの席の細工
 - 保存ファイル名: `2026-06-10_note記事_赤巻きかまぼこ.jpg`
 ```
 Photorealistic close-up of sliced Japanese kamaboko fish cake with a red spiral pattern (red and white swirl rolls) arranged on a simple plate in a humble Japanese home kitchen, a few slices showing the swirl cross-section clearly. Natural soft daylight, everyday food photography style, not restaurant glamour. Shallow depth of field, slight top-down angle. No people, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 13. 自分で曲げられる金属の器がある。— 高岡の鋳物に触れる
+### 22. 通勤がない、という地方暮らしの贅沢。— 取り戻した1日2時間
+- 保存ファイル名: `2026-06-10_note記事_通勤のない地方暮らし.jpg`
+```
+Photorealistic morning scene of a calm home workspace by a window, a cup of coffee steaming, soft early light, and a distant view of mountains and open sky outside the window. A peaceful, unhurried mood of working from a quiet regional home. Documentary lifestyle photography. No people, no readable text, no logos. Shallow depth of field. 16:9 aspect ratio.
+```
+
+### 23. 自分で曲げられる金属の器がある。— 高岡の鋳物に触れる
 - 保存ファイル名: `2026-06-10_note記事_高岡で鋳物に触れる.jpg`
 ```
 Photorealistic close-up of handcrafted metal tableware — a flexible tin (pewter-like) basket and small cups with a soft matte sheen — displayed on a wooden workbench in a traditional Japanese metal-casting workshop, warm workshop light, tools blurred in background. Authentic craft documentary photography, tactile and human. Shallow depth of field. No people's faces, no text, no logos. 16:9 aspect ratio.
 ```
 
-### 14. 城跡が、町の散歩道になっている。— 高岡古城公園
+### 24. 高岡には、黒い土蔵の通りがある。— 商人の町の名残
+- 保存ファイル名: `2026-06-10_note記事_高岡の土蔵造りの町並み.jpg`
+```
+Photorealistic street view of a row of traditional Japanese black-plastered storehouse-style merchant houses (dozo-zukuri) lining a quiet old-town street, heavy dark walls, tiled roofs, soft daylight, a calm preserved historic district that is still lived in. Documentary travel photography. No prominent people, no text, no logos. 16:9 aspect ratio.
+```
+
+### 25. 城跡が、町の散歩道になっている。— 高岡古城公園
 - 保存ファイル名: `2026-06-10_note記事_高岡古城公園を歩く.jpg`
 ```
 Photorealistic landscape photograph of the moats and stone walls of Takaoka Castle Park with cherry blossoms in Toyama Prefecture, Japan. Capture a quiet, lived-in atmosphere — locals going about ordinary life rather than tourist crowds. Natural daylight, slight overcast or golden-hour warmth. Documentary travel photography style, balanced composition, sense of place. No recognizable individual faces, no text, no logos. 16:9 aspect ratio.
