@@ -601,3 +601,15 @@
 - 多言語=**18言語**(ar/bn/de/es/fa/fr/hi/id/it/ko/ms/pt/ru/th/tl/tr/vi/zh)。Issue#17(tr/ms/fa/bn)はオーナー外出中につきcode巻取り・完了。
 - **Perplexity連携(B型・調査担当)**：初成果=海外メディアピッチ先リスト(CAO/outputs/2026-06-09)。私の弱点=ネット調査を補完。Gemini CLI(②自動push)は帰宅後セットアップ予定。
 - **サムネAI生成ルール(2026-06-09承認)**：写真風／著作権キャラ無し／商用OK なものは **AI生成(Gemini/ChatGPT)で運用**。ドラえもん・銅像・キャラ装飾=実写のみ。図表/文字デザイン不可。プロンプト集=CDO/outputs/2026-06-09_サムネ生成プロンプト集_写真風キャラ無し.md。サイトog:imageはPollinations自動。
+
+## ★2026-06-11 note公開完了（cowork実行）
+
+- **本日5本を公開済**。記事の選定・序列（カテゴリ多様性・食2本・連続回避）を遵守。
+- 公開URL一覧：
+  1. 実績ゼロでも、信頼をつくる方法。→ https://note.com/safe_canna441/n/n47b5c8364a4f
+  2. ばい貝は、富山の晩酌の相棒。→ https://note.com/safe_canna441/n/n9e28533d5d29
+  3. 立山連峰が、毎日見える暮らし。→ https://note.com/safe_canna441/n/nb853cb3bb763
+  4. 氷見牛は、地元でもめったに食べられない。→ https://note.com/safe_canna441/n/nccce1e10499a
+  5. 路面電車が、まだ町の真ん中を走っている。— 高岡の万葉線 → https://note.com/safe_canna441/n/nbbf919d803b6
+- CMO/_index.md の各行のステータスを「公開済」に更新済み。
+- 次の公開対象日：CMO/outputs/ の未公開5本未満の最も近い日（6/12以降）。
