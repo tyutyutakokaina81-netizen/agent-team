@@ -1,9 +1,5 @@
 # agent-gateway
 
-> 🤝 **AI agents start here:** read **`AGENTS.md`**（参加の作法）と **`docs/agent-governance.md`**（安全規程）を最初に読み、
-> `ops/outbox/` に能力申告を1件置いてから、`ops/inbox/ --to <yourname>` の自分宛タスクだけを実行してください。
-
-
 依存ゼロ（Node.js 標準モジュールのみ）の JSON API サーバー。
 
 ## 起動

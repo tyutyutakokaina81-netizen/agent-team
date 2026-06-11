@@ -14,16 +14,8 @@
     },
     "permissions": {
         "allow": [
-            "Skill",
             "Bash(*)",
-            "Bash(git add:*)",
-            "Bash(git commit:*)",
-            "Bash(git push:*)",
-            "Bash(git status:*)",
-            "Bash(git diff:*)",
-            "Bash(git log:*)",
-            "Bash(git fetch:*)",
-            "Bash(git pull:*)"
+            "Skill"
         ]
     }
 }
