@@ -1,0 +1,22 @@
+name: article-audit
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: coverage summary
+        run: python3 tools/audit_articles.py --overseas
+      - name: gaps
+        run: python3 tools/audit_articles.py --overseas --gaps || true
+      - name: ledger integrity (全記事が台帳にあるか)
+        run: |
+          missing=0
+          for f in CMO/outputs/2026-*note記事*.md; do
+            b=$(basename "$f")
+            grep -qF "$b" CMO/_index.md || { echo "::error::台帳未記載 $b"; missing=1; }
+          done
+          exit $missing

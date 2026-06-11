@@ -1,0 +1,55 @@
+node_modules/
+.DS_Store
+*.log
+.env
+*.env.*
+
+# local-only / generated
+# .claude: 共有設定(settings.json)とフック(hooks/)は追跡。ローカル設定は除外。
+.claude/*
+!.claude/settings.json
+!.claude/hooks
+!.claude/hooks/*
+.claude/settings.local.json
+bin/
+md/
+ppt/
+claude_copy.sh
+claude_team_v0.txt
+
+# 機密ファイル（請求書・契約書・個人情報）
+CFO/outputs/*
+CFO/research/*
+CSO/outputs/*
+CSO/research/*
+# フォルダ構造維持のため .gitkeep は除外しない
+!CFO/outputs/.gitkeep
+!CFO/research/.gitkeep
+!CSO/outputs/.gitkeep
+!CSO/research/.gitkeep
+*_secret*
+*_confidential*
+*_機密*
+*_秘密*
+
+# 柱D：納品前成果物・セッション情報
+projects/*/D_エクセル入力スクレイピング/outputs/*
+projects/*/D_エクセル入力スクレイピング/.sessions/*
+
+# オーナー個人情報（日記・アイデア・参考資料）
+context/diary/*
+context/ideas/*
+context/references/*
+# フォルダ構造維持のため .gitkeep は除外しない
+!context/diary/.gitkeep
+!context/ideas/.gitkeep
+!context/references/.gitkeep
+*.pyc
+__pycache__/
+CDO/outputs/note_publisher/.published.log
+CDO/outputs/note_publisher/.published.log.bak.*
+CDO/outputs/note_publisher/.thumbnail_attached.log
+CDO/outputs/note_publisher/thumbnails/
+
+# 英語SEOサイトの生成物（site/build.py で再生成可）
+site/public/
