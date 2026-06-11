@@ -103,7 +103,6 @@ function readBody(req) {
 }
 
 function checkAuth(req, res) {
-  if (!TOKEN) return true;                          // TOKEN未設定なら認証スキップ
   const auth = req.headers['authorization'] || '';
   const t    = new URL(`http://x${req.url}`).searchParams.get('token') || '';
   if (auth === `Bearer ${TOKEN}` || t === TOKEN) return true;
@@ -408,8 +407,10 @@ async function handleRequest(req, res) {
 // 起動
 // ─────────────────────────────────────────────
 if (!TOKEN) {
-  console.warn('⚠️  PIPELINE_TOKEN が未設定です。本番環境では必ず設定してください。');
-  console.warn('   export PIPELINE_TOKEN=your-secret-token');
+  console.error('❌ PIPELINE_TOKEN が未設定です。起動を中止します。');
+  console.error('   export PIPELINE_TOKEN=your-secret-token');
+  console.error('   ※ 0.0.0.0 バインドでセッション情報を扱うため、認証は必須です。');
+  process.exit(1);
 }
 
 const server = createServer(async (req, res) => {
@@ -424,5 +425,5 @@ server.listen(PORT, HOST, () => {
   console.log(`\n🤖 パイプラインサーバー起動`);
   console.log(`   http://localhost:${PORT}  （ローカル）`);
   console.log(`   http://[サーバーIP]:${PORT}  （iPhone からアクセス）`);
-  if (TOKEN) console.log(`   トークン認証: 有効`);
+  console.log(`   トークン認証: 有効`);
 });
