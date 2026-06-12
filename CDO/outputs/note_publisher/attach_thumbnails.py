@@ -61,6 +61,10 @@ def load_context(playwright):
 
 def extract_title(md_path: Path) -> str:
     text = md_path.read_text(encoding="utf-8")
+    # publish_to_note.py の parse_article と同じ優先順位：「メイン：」→「## タイトル」→ H1
+    m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.DOTALL)
+    if m:
+        return m.group(1).strip().splitlines()[0].strip()
     m = re.search(r"^## タイトル\s*\n```\s*\n(.+?)\n```", text, re.MULTILINE | re.DOTALL)
     if m:
         return m.group(1).strip().splitlines()[0]

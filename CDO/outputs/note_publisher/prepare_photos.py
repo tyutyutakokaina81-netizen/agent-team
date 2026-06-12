@@ -77,13 +77,16 @@ def main():
     if args.then_publish:
         print("\n🚀 続けて publish_to_note.py を実行します...")
         publisher = Path(__file__).parent / "publish_to_note.py"
+        # --by-date を渡し、--date で指定した日付の記事に写真が付くことを保証する
+        # （以前は --photos のみで「placeholder最多→mtime最新」選択になり、別日の記事に付くリスクがあった）
         result = subprocess.run(
-            [sys.executable, str(publisher), "--photos", str(out_dir)],
+            [sys.executable, str(publisher),
+             "--photos", str(out_dir), "--by-date", args.date],
         )
         return result.returncode
 
     print("\n次のコマンドで公開：")
-    print(f"   python3 publish_to_note.py --photos {out_dir}/")
+    print(f"   python3 publish_to_note.py --photos {out_dir}/ --by-date {args.date}")
     return 0
 
 
