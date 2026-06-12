@@ -18,6 +18,8 @@ All documents and operational output are in Japanese.
 ├── README.md              ← agent-gateway server documentation
 ├── company.md             ← Core company rules, role definitions, governance (MUST READ)
 ├── server.mjs             ← Zero-dependency Node.js JSON API server
+├── pipeline_server.mjs    ← 柱D操作パネルサーバー（iPhone対応・PIPELINE_TOKEN必須）
+├── tavern.html            ← pipeline_server.mjs の /tavern が配信する役員ダッシュボード
 ├── team_prompt.txt        ← 4-role multi-agent document creation prompt
 ├── team_copy.sh           ← Copy team_prompt.txt to clipboard (zsh/macOS)
 ├── team_show.sh           ← Print team_prompt.txt to stdout
@@ -27,6 +29,18 @@ All documents and operational output are in Japanese.
 │   ├── prompt.md          ← Role definition, personality, workflow, boundaries
 │   ├── research/          ← Drafts, prototypes, investigations
 │   └── outputs/           ← Final deliverables: prompts, tools, guides
+│       ├── note_publisher/ ← note自動公開ツール群（publish_to_note.py 等・オーナーMacで実行）
+│       └── cross_post/     ← Reddit/X/EN記事のクロスポスト素材生成ツール
+│
+├── CAO/                   ← Chief Analytics Officer (反響分析・トレンド・A/Bテスト設計)
+│   ├── _index.md
+│   ├── prompt.md
+│   ├── research/
+│   └── outputs/
+│
+├── EN/                    ← 海外発信用素材（cross_post生成物の格納先）
+│   ├── research/
+│   └── outputs/
 │
 ├── CFO/                   ← Chief Financial Officer (finance, contracts, admin)
 │   ├── _index.md

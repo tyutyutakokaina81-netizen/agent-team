@@ -41,8 +41,23 @@ except ImportError:
 REPO_ROOT = Path(__file__).resolve().parents[3]
 ARTICLES_DIR = REPO_ROOT / "CMO" / "outputs"
 PROFILE_DIR = Path.home() / ".note_publisher_profile"   # 永続プロファイル（OAuth状態も含めて全部保存）
+PUBLISHED_LOG = Path(__file__).resolve().parent / ".published.log"   # publish_all.sh と共有の公開済みログ
 NOTE_LOGIN_URL = "https://note.com/login"
 NOTE_NEW_URL = "https://note.com/notes/new"
+
+# 写真placeholderの正規表現（[写真①]〜[写真⑩]、[写真1]、[ここに写真...]）
+# ※ count / split / 除去 で同一パターンを使う（以前は微妙に異なり数え漏れがあった）
+PLACEHOLDER_RE = r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d][^\]]*\]"
+
+
+def _ask(prompt: str) -> str | None:
+    """対話可能なときだけ input() する。バッチ実行（stdin非TTY/EOF）では None を返して止めない。"""
+    if not sys.stdin.isatty():
+        return None
+    try:
+        return input(prompt)
+    except EOFError:
+        return None
 
 
 # ---------- セッション管理（persistent profile方式 ＋ 本物Chrome優先） ----------
@@ -98,7 +113,7 @@ def _count_photo_placeholders(md_path: Path) -> int:
     body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
     if not body_m:
         return 0
-    return len(re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]", body_m.group(1)))
+    return len(re.findall(PLACEHOLDER_RE, body_m.group(1)))
 
 
 def find_latest_article(require_photos: bool = False):
@@ -121,10 +136,10 @@ def find_latest_article(require_photos: bool = False):
     return sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
 
-def find_article_by_date(target_date_str: str | None = None):
-    """ファイル名の日付(YYYY-MM-DD)が target_date と一致するものを返す。
-    無ければ target_date 以降の最も早い未来日付の記事を返す。
-    全て過去なら最も新しい過去日付。CAO日次運用ではこちらをデフォルトに使う。"""
+def find_articles_by_date(target_date_str: str | None = None) -> list[Path]:
+    """ファイル名の日付(YYYY-MM-DD)が target_date と一致する記事を【全件】返す（5本/日運用対応）。
+    無ければ target_date 以降の最も早い未来日付の全記事。全て過去なら最も新しい過去日付の全記事。
+    CAO日次運用ではこちらをデフォルトに使う。"""
     from datetime import date
     if target_date_str is None:
         target_date_str = date.today().isoformat()
@@ -136,16 +151,26 @@ def find_article_by_date(target_date_str: str | None = None):
     if not dated:
         sys.exit(f"記事が見つかりません: {ARTICLES_DIR}/*_note記事_*.md")
     dated.sort()
-    # exact match
-    for d, p in dated:
-        if d == target_date_str:
-            return p
-    # next future
-    for d, p in dated:
-        if d > target_date_str:
-            return p
-    # fallback: most recent past
-    return dated[-1][1]
+    dates = sorted({d for d, _ in dated})
+    if target_date_str in dates:
+        chosen = target_date_str
+    else:
+        future = [d for d in dates if d > target_date_str]
+        chosen = future[0] if future else dates[-1]   # 未来日があれば最も近い未来、無ければ最新の過去
+    return [p for d, p in dated if d == chosen]
+
+
+def is_published(md_path: Path) -> bool:
+    """publish_all.sh と共有の .published.log に記録済みか"""
+    if not PUBLISHED_LOG.exists():
+        return False
+    return any(line.strip() == md_path.name
+               for line in PUBLISHED_LOG.read_text(encoding="utf-8").splitlines())
+
+
+def mark_published(md_path: Path):
+    with PUBLISHED_LOG.open("a", encoding="utf-8") as f:
+        f.write(md_path.name + "\n")
 
 
 def parse_article(md_path: Path):
@@ -168,7 +193,7 @@ def parse_article(md_path: Path):
     body = body_m.group(1).strip()
 
     # 写真placeholderの個数（[写真①]〜⑩、または[ここに写真...]）
-    placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
+    placeholders = re.findall(PLACEHOLDER_RE, body)
 
     # ハッシュタグ：「## ハッシュタグ」直下の ``` コードブロック → "#xxx" を抽出
     tags = []
@@ -191,7 +216,7 @@ def find_thumbnail_for(md_path: Path) -> Path | None:
 
 def split_body_by_photo_placeholders(body: str):
     """本文を写真placeholderで分割し、[テキスト断片, 写真index, テキスト断片, ...] のリストを返す"""
-    parts = re.split(r"(\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\])", body)
+    parts = re.split(f"({PLACEHOLDER_RE})", body)
     out = []
     i_photo = 0
     for p in parts:
@@ -221,7 +246,8 @@ def collect_photos(photo_dir: Path):
 
 # ---------- 投稿フロー（note UI操作） ----------
 
-def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False):
+def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False) -> bool:
+    """1記事を投稿する。公開操作が完了したら True、失敗（要手動対応）なら False を返す。"""
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
 
@@ -239,7 +265,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
     if text_only:
         # placeholder行を消す（前後の空行も整える）
-        body = re.sub(r"\n?\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d][^\]]*\]\n?", "\n\n", body)
+        body = re.sub(f"\n?{PLACEHOLDER_RE}\n?", "\n\n", body)
         body = re.sub(r"\n{3,}", "\n\n", body).strip()
         placeholders = []  # 以後の写真処理を全部スキップ
         photos = []
@@ -358,9 +384,10 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
 
         # 公開 or 下書き
+        ok = True
         if draft:
             print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
-            input("Enterで閉じる ...")
+            _ask("Enterで閉じる ...")
         else:
             print("\n🚀 公開ボタンを押します（3秒後）...")
             page.wait_for_timeout(3000)
@@ -375,10 +402,12 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
             except Exception as e:
                 print(f"⚠️  公開ボタン自動クリック失敗: {e}")
-                print("    画面で「公開」ボタンを手動で押してください。")
-                input("公開を確認したら Enter ...")
+                if _ask("画面で「公開」を手動で押し、確認したら Enter（中断は Ctrl-C）...") is None:
+                    # バッチ実行時はここで止めず「失敗」として返す（再実行で拾い直す）
+                    ok = False
 
         ctx.close()
+        return ok
 
 
 # ---------- CLI ----------
@@ -391,7 +420,7 @@ def main():
     ap.add_argument("--draft", action="store_true", help="公開ボタンを押さずに止める（最終確認用）")
     ap.add_argument("--text-only", action="store_true", help="写真placeholderを除去してテキストのみで公開（写真ファイル不要）")
     ap.add_argument("--by-date", default=None, metavar="YYYY-MM-DD",
-                    help="ファイル名日付指定で選択。省略時は本日。--photos と排他")
+                    help="ファイル名日付指定で選択。省略時は本日。--photos と併用時はその日付の写真付き記事を選ぶ")
     ap.add_argument("--latest-mtime", action="store_true",
                     help="ファイル名日付ではなくmtime最新を選択（旧デフォルト）")
     args = ap.parse_args()
@@ -400,24 +429,52 @@ def main():
         login()
         return
 
-    # 記事選択ロジック：
-    #  --article 指定 → そのファイル
-    #  --photos 指定 → 写真placeholderある記事優先（旧仕様、写真投稿向け）
-    #  --latest-mtime → mtime最新
-    #  デフォルト → ファイル名日付=本日 or 次の未来日付（CAO日次運用）
-    if args.article:
-        md_path = Path(args.article)
-    elif args.photos:
-        md_path = find_latest_article(require_photos=True)
-    elif args.latest_mtime:
-        md_path = find_latest_article(require_photos=False)
-    else:
-        md_path = find_article_by_date(args.by_date)
-    if not md_path.exists():
-        sys.exit(f"記事が見つかりません: {md_path}")
-
     photo_dir = Path(args.photos).expanduser() if args.photos else None
-    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only)
+
+    # 記事選択ロジック：
+    #  --article 指定 → そのファイル（1本）
+    #  --photos + --by-date → その日付の記事のうち写真placeholder最多の1本（prepare_photos.py 経由）
+    #  --photos のみ → 写真placeholderある記事優先（旧仕様、写真投稿向け）
+    #  --latest-mtime → mtime最新（1本）
+    #  デフォルト → ファイル名日付=本日 or 次の未来日付の【全記事】を順次公開（5本/日運用）
+    targets: list[Path]
+    if args.article:
+        targets = [Path(args.article)]
+    elif args.photos and args.by_date:
+        dated = find_articles_by_date(args.by_date)
+        dated.sort(key=lambda p: -_count_photo_placeholders(p))
+        targets = [dated[0]]
+    elif args.photos:
+        targets = [find_latest_article(require_photos=True)]
+    elif args.latest_mtime:
+        targets = [find_latest_article(require_photos=False)]
+    else:
+        # 公開済みログ（publish_all.sh と共有）に載っている記事はスキップ → 二重投稿防止
+        targets = [p for p in find_articles_by_date(args.by_date) if not is_published(p)]
+        if not targets:
+            print("✅ 対象日の記事はすべて公開済みです（.published.log 参照）")
+            return
+
+    for md_path in targets:
+        if not md_path.exists():
+            sys.exit(f"記事が見つかりません: {md_path}")
+
+    print(f"📚 公開対象: {len(targets)} 本")
+    failed = []
+    for i, md_path in enumerate(targets, 1):
+        print(f"\n──── [{i}/{len(targets)}] {md_path.name} ────")
+        if publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only):
+            if not args.draft:
+                mark_published(md_path)
+        else:
+            failed.append(md_path.name)
+
+    if failed:
+        print(f"\n✗ 失敗 {len(failed)} 本（公開済みログには記録していないので再実行で拾えます）:")
+        for name in failed:
+            print(f"  - {name}")
+        sys.exit(1)
+    print(f"\n✅ 全 {len(targets)} 本の公開処理が完了")
 
 
 if __name__ == "__main__":

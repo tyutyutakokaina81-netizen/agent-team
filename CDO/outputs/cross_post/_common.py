@@ -44,7 +44,9 @@ def find_article(arg: str | None) -> Path:
         p = Path(arg).expanduser()
         if p.is_absolute() or p.exists():
             return p
-        return ARTICLES_DIR / arg
+        # 相対パスが cwd から見つからない場合はファイル名だけ取り出して記事ディレクトリ直下を探す
+        # （旧実装は ARTICLES_DIR / "CMO/outputs/x.md" のような二重パスを作っていた）
+        return ARTICLES_DIR / Path(arg).name
     candidates = sorted(ARTICLES_DIR.glob("*_note記事_*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
     if not candidates:
         raise SystemExit("記事が見つかりません")

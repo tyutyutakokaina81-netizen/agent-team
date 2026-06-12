@@ -17,13 +17,14 @@
 #  ./publish_all.sh --reset        # 公開済みログを消す（再投稿したいとき）
 
 set -u
+set -o pipefail   # パイプ中の publish_to_note.py の失敗を正しく検知する（tee の成功で上書きさせない）
 
 # ---- 設定 ----
 SCRIPT_DIR="${0:A:h}"
 REPO_DIR="${SCRIPT_DIR}/../../.."
 ARTICLES_DIR="${REPO_DIR}/CMO/outputs"
 PUBLISHED_LOG="${SCRIPT_DIR}/.published.log"
-BRANCH="claude/vibrant-keller-XRLES"
+BRANCH="${PUBLISH_BRANCH:-main}"   # 旧: セッションブランチ直書き → 消滅済みで pull が必ず失敗していた
 SLEEP_BETWEEN=10
 
 DATE_FILTER=""
@@ -136,7 +137,8 @@ for f in "${queue[@]}"; do
   base="${f:t}"
   log "公開開始: $base"
 
-  if python3 publish_to_note.py --article "$f" --text-only 2>&1 | tee "/tmp/note_publish_last.log"; then
+  # stdin を切ってバッチ中の対話プロンプト（input待ち）でループが止まらないようにする
+  if python3 publish_to_note.py --article "$f" --text-only </dev/null 2>&1 | tee "/tmp/note_publish_last.log"; then
     print "$base" >> "$PUBLISHED_LOG"
     ok "完了: $base"
     success+=1

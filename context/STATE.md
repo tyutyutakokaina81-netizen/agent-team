@@ -230,3 +230,4 @@
 | 2026-05-30 | オーナー指摘「分析担当いたんじゃない？」→ CDO権限でCAO（Chief Analytics Officer・分析責任者）を新設。CAO初回分析（ローカル食×海外発信の有効性）→ CMOが高岡ローカル食3本（白えび/昆布じめ/高岡コロッケ、6/10-12）を執筆。サムネは実写プロンプト同梱方式（既往制約遵守）。 |
 | 2026-05-31 | 実写サムネ付きnote自動公開、初成功。細工かまぼこ(6/01)記事に鯛のかまぼこ実写を `prepare_photos.py --then-publish --count 1 --date 2026-06-01` で投入→自動投稿完了。「写真placeholderあり記事を優先選択」ロジックが期待通り動作。 |
 | 2026-05-31 | CAOが全39記事監査＋海外アクセス強化戦略策定。Tier 1是正(6本)＋クロスポストツール3本(Reddit/X/EN記事下地)＋51件の素材一括生成。EN/outputs/, EN/research/ に格納。 |
+| 2026-06-12 | プログラム監査→検出した綻びを一括修正。①publish_all.sh：pull先が消滅済みセッションブランチ直書きで全停止していた→main化(PUBLISH_BRANCHで変更可)＋pipefailで「失敗を公開済み扱い」を是正 ②publish_to_note.py：デフォルトを「対象日の全記事(5本)を順次公開・.published.logで二重投稿防止」に変更、バッチ時のinput()待ち解消 ③prepare_photos.py --then-publish が --by-date を引き継ぐように（指定日と別の記事に写真が付くリスク解消） ④pipeline_server.mjs：PIPELINE_TOKEN必須化・全ルート認証・案件タイトルXSS対策 ⑤使い捨てのinject_js/34本を削除（git履歴には残存）。 |

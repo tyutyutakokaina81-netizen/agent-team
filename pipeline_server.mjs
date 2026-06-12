@@ -103,7 +103,6 @@ function readBody(req) {
 }
 
 function checkAuth(req, res) {
-  if (!TOKEN) return true;                          // TOKEN未設定なら認証スキップ
   const auth = req.headers['authorization'] || '';
   const t    = new URL(`http://x${req.url}`).searchParams.get('token') || '';
   if (auth === `Bearer ${TOKEN}` || t === TOKEN) return true;
@@ -240,6 +239,16 @@ function renderPanel() {
       ? { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN }
       : { 'Content-Type': 'application/json' };
 
+    // 案件タイトル等は外部サイト由来の文字列なので、innerHTMLに入れる前に必ずエスケープする
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+      }[c]));
+    }
+    function safeUrl(u) {
+      try { return /^https?:$/.test(new URL(u).protocol) ? u : ''; } catch { return ''; }
+    }
+
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg; t.classList.add('show');
@@ -298,15 +307,16 @@ function renderPanel() {
         list.innerHTML = jobs.slice(0,20).map(j => {
           const v = j.verdict || 'NO-GO';
           const cls = v === 'GO' ? 'go' : v === 'CAUTION' ? 'caution' : 'nogo';
-          const price = j.estimated_price_jpy ? '¥' + j.estimated_price_jpy.toLocaleString() : '';
+          const price = j.estimated_price_jpy ? '¥' + Number(j.estimated_price_jpy).toLocaleString() : '';
+          const url = safeUrl(j.url);
           return \`<div class="job-card">
-            <div class="job-title">\${j.title || ''}</div>
+            <div class="job-title">\${esc(j.title)}</div>
             <div class="job-meta">
-              <span class="badge \${cls}">\${v} \${j.total||0}点</span>
-              \${price ? '<span>' + price + '</span>' : ''}
-              <span> · \${j.platform||''}</span>
+              <span class="badge \${cls}">\${esc(v)} \${Number(j.total)||0}点</span>
+              \${price ? '<span>' + esc(price) + '</span>' : ''}
+              <span> · \${esc(j.platform)}</span>
             </div>
-            \${j.url ? '<div style="margin-top:8px"><a href="' + j.url + '" style="font-size:12px;color:#007aff">案件ページを開く ›</a></div>' : ''}
+            \${url ? '<div style="margin-top:8px"><a href="' + esc(url) + '" style="font-size:12px;color:#007aff">案件ページを開く ›</a></div>' : ''}
           </div>\`;
         }).join('');
         sec.style.display = 'block';
@@ -331,6 +341,10 @@ async function handleRequest(req, res) {
   const urlObj = new URL(`http://x${req.url}`);
   const path   = urlObj.pathname;
 
+  // 全ルート認証必須。
+  // 以前は / がトークン平文入りHTMLを未認証で返しており、LAN上の誰でも認証を突破できた。
+  if (!checkAuth(req, res)) return;
+
   // HTML操作パネル
   if (method === 'GET' && path === '/') {
     return html(res, renderPanel());
@@ -345,7 +359,7 @@ async function handleRequest(req, res) {
     }
   }
 
-  // 状態確認（認証不要）
+  // 状態確認
   if (method === 'GET' && path === '/status') {
     return json(res, 200, {
       status: state.status,
@@ -355,8 +369,6 @@ async function handleRequest(req, res) {
       log: state.log.slice(-50),
     });
   }
-
-  if (!checkAuth(req, res)) return;
 
   // 案件検索フェーズ開始
   if (method === 'POST' && path === '/search') {
@@ -408,8 +420,10 @@ async function handleRequest(req, res) {
 // 起動
 // ─────────────────────────────────────────────
 if (!TOKEN) {
-  console.warn('⚠️  PIPELINE_TOKEN が未設定です。本番環境では必ず設定してください。');
-  console.warn('   export PIPELINE_TOKEN=your-secret-token');
+  // 0.0.0.0 で待ち受けるため、トークン無し起動は許可しない（ヘッダどおり「認証: 必須」）
+  console.error('✗ PIPELINE_TOKEN が未設定のため起動できません。');
+  console.error('  export PIPELINE_TOKEN=your-secret-token を設定してから再起動してください。');
+  process.exit(1);
 }
 
 const server = createServer(async (req, res) => {

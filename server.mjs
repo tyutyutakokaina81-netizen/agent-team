@@ -3,8 +3,11 @@ import { createServer } from 'node:http';
 const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
 
+const MAX_BODY_BYTES = 1024 * 1024; // 1MB
+
 /** JSON レスポンスを返すヘルパー */
 function json(res, status, body) {
+  if (res.headersSent) return; // 送信済みなら二重レスポンスを試みない
   const payload = JSON.stringify(body);
   res.writeHead(status, {
     'Content-Type': 'application/json',
@@ -13,11 +16,22 @@ function json(res, status, body) {
   res.end(payload);
 }
 
-/** リクエストボディを読み取る */
+/** リクエストボディを読み取る（上限超過は 413 用のエラー） */
 function readBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on('data', (c) => chunks.push(c));
+    let size = 0;
+    req.on('data', (c) => {
+      size += c.length;
+      if (size > MAX_BODY_BYTES) {
+        req.destroy();
+        const err = new Error('Payload Too Large');
+        err.statusCode = 413;
+        reject(err);
+        return;
+      }
+      chunks.push(c);
+    });
     req.on('end', () => resolve(Buffer.concat(chunks).toString()));
     req.on('error', reject);
   });
@@ -39,7 +53,13 @@ async function handleRequest(req, res) {
 
   // POST /echo
   if (method === 'POST' && url === '/echo') {
-    const body = await readBody(req);
+    let body;
+    try {
+      body = await readBody(req);
+    } catch (err) {
+      return json(res, err.statusCode === 413 ? 413 : 500,
+        { error: err.statusCode === 413 ? 'Payload Too Large' : 'Internal Server Error' });
+    }
     let parsed;
     try {
       parsed = JSON.parse(body);
