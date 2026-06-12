@@ -23,7 +23,9 @@ SCRIPT_DIR="${0:A:h}"
 REPO_DIR="${SCRIPT_DIR}/../../.."
 ARTICLES_DIR="${REPO_DIR}/CMO/outputs"
 PUBLISHED_LOG="${SCRIPT_DIR}/.published.log"
-BRANCH="claude/vibrant-keller-XRLES"
+# 既定=Macで現在チェックアウト中のブランチをそのままpull（固定ブランチの取り残し防止）。
+# 固定したい場合は環境変数 PUBLISH_BRANCH で上書き。
+BRANCH="${PUBLISH_BRANCH:-$(cd "${REPO_DIR}" && git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)}"
 SLEEP_BETWEEN=10
 
 DATE_FILTER=""
