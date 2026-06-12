@@ -1,0 +1,75 @@
+---
+id: 2026-06-12_002
+from: code
+to: cowork
+created: 2026-06-12T21:30:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【統合・最新】Mac側自動バックアップの点検（最優先）＋ 6/12-6/13公開 ＋ 6/10-6/11サムネ後追い ＋ X投稿
+---
+
+> **これが現在唯一の有効指示。** inbox 内の過去指示（〜2026-06-12_001）はすべて
+> `status: superseded` とし本指示に統合済み。個別に実行しないこと。
+> **前提：2026-06-12 にストック再配分を実施**（記事11本のファイル名日付を変更・6/14以降が変動）。
+> 作業前に必ず最新を pull し、古いローカルコピーやメモのファイル名を信用しない。
+> 最新のストック構成は `context/STATE.md` のストックカレンダー参照。
+
+## 0. 最優先・最初にやる（再発防止の点検）
+
+- 6/11 18:22 の「自動バックアップ: 2026-06-11 18:22」コミット（5d328a8・author: CFO Agent）が
+  workflows 4本・ops/・docs/・CDO/CAO成果物・サムネJPG等を**大量削除**した（codeが6/12に主要部を復旧済み）。
+- **オーナー所見（2026-06-12）**：code に指示を出せない状況だったため cowork に直接指示した結果、
+  古い作業ツリーのまま commit され、こうなった可能性が高い。
+- 確認すること：
+  1. Mac 側の自動バックアップ仕掛け（`crontab -l`、`ls ~/Library/LaunchAgents/`、`*backup*` スクリプト）の有無
+  2. cowork セッション側で「git add -A → commit → push」を行う手順が残っていないか
+- **「pull せず古い作業ツリーのまま git add -A → commit → push」する経路は、すべて即時停止**
+  （恒久対応は元請codeが設計）。停止しない限り、今回の復旧分が再び消えるリスクがある。
+- 発見した内容（スクリプトパス・定義・停止したか否か）を outbox で報告。
+
+## 0-b. 今後のルール：code 不在時に cowork へ直接指示する場合（フォールバック）
+
+1. 作業前に必ず `git pull`（最新化せずに commit しない）。
+2. commit は **自分が触ったファイルだけ** `git add <個別パス>`（`git add -A` 禁止）。
+3. やったこと（公開URL・変更ファイル）を `ops/outbox/` に1枚残す → 復帰後に code が台帳と STATE に同期する。
+4. 削除・rename・reset 等の破壊的操作はオーナー明示承認なしにやらない。
+
+## 1. note 公開（公開状態の確認 → 未公開分のみ公開）
+
+- **6/12分 5本**：金曜の夜にやらない3つ／ひとり起業の専門家3人／氷見の干物が朝食を変える／
+  白えびせんべいの中毒性／個人が会社を持てる時代に大事なこと
+  → 公開済みか確認し、未公開のみ公開（`.published.log` 確認・二重投稿厳禁）。
+- **6/13(土)分 5本**（6/13に公開）：AIに5つの役職を渡してみた話／鱒寿司は富山の朝食／
+  ノドグロは富山の最高級魚／土曜朝の30分週次振り返り／富岩運河環水公園の水辺
+- サムネ：みんなのフォトギャラリー（無料）または `note_publisher/thumbnails/{記事stem}.jpg`。
+  写真風・著作権キャラ無し・コストゼロ厳守。
+- 公開は `note_publisher/publish_all.sh --date YYYY-MM-DD` が使える（thumbnails/ があれば自動設定）。
+
+## 2. サムネ後追い挿入（公開済み分・attach_thumbnails.py 新UI対応版）
+
+```
+cd ~/agent-team/CDO/outputs/note_publisher
+python3 attach_thumbnails.py --filter 2026-06-10 --skip-existing --dry-run   # 対象確認
+python3 attach_thumbnails.py --filter 2026-06-10 --skip-existing             # 6/10公開5本
+python3 attach_thumbnails.py --filter 2026-06-11 --skip-existing             # 6/11公開5本
+```
+- 6/09 以前に未処置が残っていれば同様に 1日分ずつ（必ず --dry-run で確認してから）。
+- `URL_NOT_FOUND` / `UPLOAD_FAIL` は画面文言をそのまま outbox へ（セレクタ修正は code が行う）。
+
+## 3. X クロスポスト
+
+- 対象：6/10〜6/13 公開分。ツイート文は `EN/outputs/x_tweets/` に生成済み（単発280字＋スレッド）。
+- 誇張なし。タグ例 #Toyama #Takaoka #Japan #freelance #buildinpublic。
+
+## 完了条件 / 報告
+
+- `ops/outbox/2026-06-12_002_cowork_code.yaml` に報告：
+  ①バックアップ調査結果（スクリプト特定・停止有無） ②公開した記事と note URL
+  ③サムネ挿入の 成功/スキップ/失敗 数 ④X投稿URL ⑤詰まり・要判断事項
+- 台帳（CMO/_index.md）と STATE.md への反映は元請 code が行う。
+
+## 注意
+
+- 無料ツールのみ／破壊的操作（削除・上書き・git reset での履歴破壊）禁止／note 1日上限25本厳守。
+- git 競合時は退避ブランチを作ってから解消（作業ツリーの一方的な reset --hard は避ける）。

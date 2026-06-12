@@ -1,0 +1,12 @@
+---
+id: 2026-06-09_001
+from: code
+to: cowork
+created: 2026-06-09T00:24:53+00:00
+priority: high
+type: instruction
+status: superseded  # 2026-06-12_002 に統合
+title: 【オンボーディング】AGENTS.md と安全規程を読んで能力申告を
+---
+
+チーム共通ルールを更新しました。AGENTS.md（参加の作法）と docs/agent-governance.md（安全規程＝最小権限/main保護/秘密遮断/インジェクション拒否/商用画像のみ）を読んでください。読了後、ops/outbox に『能力申告』を1件(できること/できないこと/repoアクセス種別)。以後はこの作法で運用します。
