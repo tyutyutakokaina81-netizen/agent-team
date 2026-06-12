@@ -23,6 +23,10 @@ def parse_article(md_path: Path) -> dict:
     # 英語要約（本文内の 🌏 For English readers セクション）
     m = re.search(r"🌏 For English readers.*?\n(.+?)(?=\n```|\n---|\Z)", out["body_ja"], re.S)
     out["en_summary"] = m.group(1).strip() if m else ""
+    # フォールバック: 末尾の「## English …」節（```ブロック内）を英語要約として使う
+    if not out["en_summary"]:
+        m = re.search(r"##\s*English.*?\n+```\s*\n(.+?)\n```", text, re.S)
+        out["en_summary"] = m.group(1).strip() if m else ""
 
     # ハッシュタグ
     m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)

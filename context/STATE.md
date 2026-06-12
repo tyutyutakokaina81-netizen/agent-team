@@ -159,3 +159,4 @@
 | 2026-06-12 | プロトコル v1（1本/日）の記述を撤去し v2（5本/日・食2）に一本化。STATE.md内の矛盾を解消。 |
 | 2026-06-12 | オーナー指示「coworkと連携して最適化」→ 6/11削除で消えていた cowork 連携基盤（ops/キュー・docs/cowork-handoff.md・設計書3本・サムネ生成マスター）を 14f4eda から復旧。過去のopen指示を superseded 化し、統合指示 `ops/inbox/2026-06-12_002_code_cowork.yaml` を発行。 |
 | 2026-06-12 | オーナー所見：6/11の大量削除は「codeに指示できない状態で coworkへ直接指示→古い作業ツリーのままcommit」が原因の可能性大。再発防止として**直接指示フォールバック規程**を制定（①必ずpull ②git add -A禁止 ③ops/outboxに記録 ④破壊的操作は明示承認）。Mac側バックアップ経路の点検を cowork に発注（2026-06-12_002 の項目0）。 |
+| 2026-06-12 | 6/11削除の残り分も復旧：CAO成果物（監査・海外戦略等）・docs/全部・AGENTS.md・CDO成果物・**note_publisher最新版（新UI対応attach/find_article_by_date付きpublish）**・**記事対応サムネ169枚（Gemini/Pexels生成済）**・note-thumbnails.yml ワークフロー・.gitignore。再配分11本のサムネは新日付にリネーム。**未復旧（意図的に除外）**：audit.yml / og-images.yml / worker-integrate.yml / .claude/settings.json の差分（要オーナー判断・`git checkout 14f4eda -- <path>` で随時可）。 |

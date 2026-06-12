@@ -90,6 +90,101 @@ def load_context(playwright):
     return _launch_with_chrome_then_chromium(playwright)
 
 
+# ---------- UI操作ヘルパー（noteのUI変更に強くする） ----------
+
+def _try_click(page, candidates, timeout=3000):
+    """candidates を順に試し、最初に見えたボタンをクリックして True を返す。
+    candidates の要素:
+      - 文字列 → CSS/text セレクタ（例 'button:has-text("投稿する")'）
+      - ("role", "名前") → get_by_role("button", name="名前")
+    どれも押せなければ False（呼び出し側で手動フォールバック）。
+    """
+    for sel in candidates:
+        try:
+            if isinstance(sel, tuple) and sel[0] == "role":
+                loc = page.get_by_role("button", name=sel[1]).first
+            else:
+                loc = page.locator(sel).first
+            loc.wait_for(state="visible", timeout=timeout)
+            loc.click()
+            return True
+        except Exception:
+            continue
+    return False
+
+
+def set_eyecatch_from_gallery(page, keywords):
+    """note の『みんなのフォトギャラリー』(無料素材)から見出し画像を自動選択する。
+    keywords: 検索語の候補リスト（先頭から試し、結果が出たものを使う）。
+    UI変更に備え全ステップ多候補＋非ブロッキング。失敗時 False（公開は継続）。
+    """
+    try:
+        # 1) エディタ上部の「見出し画像を追加」エリアを開く
+        if not _try_click(page, [
+            'button:has-text("見出し画像を追加")',
+            'button:has-text("記事に画像を追加")',
+            'button:has-text("画像を追加")',
+            'button:has-text("見出し画像")',
+            ('role', '見出し画像を追加'),
+            '[aria-label*="見出し画像"]',
+        ], timeout=3000):
+            return False
+        page.wait_for_timeout(800)
+        # 2) 「みんなのフォトギャラリー」を選ぶ
+        if not _try_click(page, [
+            'button:has-text("みんなのフォトギャラリー")',
+            'a:has-text("みんなのフォトギャラリー")',
+            'button:has-text("フォトギャラリー")',
+            ('role', 'みんなのフォトギャラリー'),
+        ], timeout=3000):
+            return False
+        page.wait_for_timeout(1200)
+        # 3) キーワード検索（候補を順に試す）。検索欄が無ければデフォルト表示から選ぶ
+        for kw in keywords:
+            try:
+                search = page.locator(
+                    'input[type="search"], input[placeholder*="検索"], input[placeholder*="キーワード"]'
+                ).first
+                search.wait_for(state="visible", timeout=2500)
+                search.click()
+                search.fill(kw)
+                page.keyboard.press("Enter")
+                page.wait_for_timeout(1800)
+                # 検索結果に画像があれば break（無ければ次のキーワード）
+                imgs = page.locator(
+                    'div[role="dialog"] img, [class*="modal"] img, [class*="gallery"] img'
+                )
+                if imgs.count() > 0:
+                    break
+            except Exception:
+                continue
+        # 4) 最初の画像を選択（モーダル内に限定）
+        if not _try_click(page, [
+            'div[role="dialog"] img',
+            '[class*="modal"] img',
+            '[class*="gallery"] img',
+            '[class*="Gallery"] img',
+        ], timeout=4000):
+            return False
+        page.wait_for_timeout(800)
+        # 5) 「この画像を見出し画像にする」/適用/保存/決定
+        if not _try_click(page, [
+            'button:has-text("この画像を見出し画像にする")',
+            'button:has-text("見出し画像にする")',
+            'button:has-text("この画像を挿入")',
+            'button:has-text("保存")',
+            'button:has-text("適用")',
+            'button:has-text("決定")',
+            'button:has-text("完了")',
+            ('role', '保存'),
+        ], timeout=4000):
+            return False
+        page.wait_for_timeout(1000)
+        return True
+    except Exception:
+        return False
+
+
 # ---------- 記事mdから タイトル/本文/写真placeholder を抽出 ----------
 
 def _count_photo_placeholders(md_path: Path) -> int:
@@ -148,35 +243,70 @@ def find_article_by_date(target_date_str: str | None = None):
     return dated[-1][1]
 
 
+def _extract_tags(text: str) -> list[str]:
+    """## ハッシュタグ 直下の ``` から #xxx を取り出す（無ければ空）。"""
+    tag_m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
+    if not tag_m:
+        return []
+    return [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
+
+
+def _affiliate_block(text: str) -> str:
+    """じゃらん等のPR表記＋アフィリリンク行を取り出す（コードブロック外にあっても拾う）。
+    景表法のPR表記と収益リンクは必ず本文に含める必要があるため。"""
+    out, seen = [], set()
+    for ln in text.splitlines():
+        s = re.sub(r"^[-*]\s*", "", ln.strip())
+        if ("アフィリエイト広告" in s) or ("px.a8.net" in s) or ("a8mat=" in s):
+            if s and s not in seen:
+                seen.add(s); out.append(s)
+    return "\n".join(out)
+
+
+def _finalize(title: str, body: str, text: str):
+    """本文末に取りこぼしがちな PR/アフィリ行を補完し、placeholder/タグを揃えて返す。"""
+    aff = _affiliate_block(text)
+    if aff and "px.a8.net" not in body and "a8mat=" not in body:
+        body = body.rstrip() + "\n\n" + aff
+    placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
+    return title, body, placeholders, _extract_tags(text)
+
+
 def parse_article(md_path: Path):
-    """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す"""
+    """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す。
+    2書式に対応：
+      (A) 旧書式: 「## タイトル」「## 本文」「## ハッシュタグ」の ``` コードブロック方式
+      (B) 英語ファースト書式: 先頭H1=タイトル、「## English」「## 日本語版」の ``` を本文に
+    """
     text = md_path.read_text(encoding="utf-8")
 
-    # タイトル：「メイン：」直下の最初の ``` コードブロック
-    title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S)
-    if not title_m:
-        # フォールバック：「## タイトル」直下
-        title_m = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
-    if not title_m:
-        sys.exit("タイトルブロックがmdから抽出できませんでした。")
-    title = title_m.group(1).strip().splitlines()[0].strip()
-
-    # 本文：「## 本文」直下の ``` コードブロック
+    # --- (A) 旧書式（タイトル＋本文の両コードブロックが揃う時のみ採用） ---
+    title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S) \
+        or re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
     body_m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
-    if not body_m:
-        sys.exit("本文ブロック（## 本文 直下の ```）がmdから抽出できませんでした。")
-    body = body_m.group(1).strip()
+    if title_m and body_m:
+        title = title_m.group(1).strip().splitlines()[0].strip()
+        body = body_m.group(1).strip()
+        return _finalize(title, body, text)
 
-    # 写真placeholderの個数（[写真①]〜⑩、または[ここに写真...]）
-    placeholders = re.findall(r"\[(?:ここに)?写真[①②③④⑤⑥⑦⑧⑨⑩\d]+[^\]]*\]", body)
+    # --- (B) 英語ファースト等の別書式：H1＝タイトル、見出し別コードブロックを本文に連結 ---
+    h1 = re.search(r"^#\s+(.+)$", text, re.M)
+    if not h1:
+        sys.exit("タイトル(H1 '# ...')も タイトルブロックも見つかりませんでした。")
+    title = re.sub(r"^note記事[：:]\s*", "", h1.group(1).strip())
 
-    # ハッシュタグ：「## ハッシュタグ」直下の ``` コードブロック → "#xxx" を抽出
-    tags = []
-    tag_m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
-    if tag_m:
-        tags = [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
-
-    return title, body, placeholders, tags
+    body_parts: list[str] = []
+    # "## " で章に分割し、English/日本語/本文 を含む章の最初の ``` を本文とする（出現順＝英語→日本語）
+    for sec in re.split(r"^##\s+", text, flags=re.M)[1:]:
+        head_line = sec.splitlines()[0] if sec.strip() else ""
+        if re.search(r"English|日本語|本文", head_line, re.I):
+            cb = re.search(r"```\n(.+?)\n```", sec, re.S)
+            if cb:
+                body_parts.append(cb.group(1).strip())
+    if not body_parts:
+        sys.exit("本文が抽出できませんでした（## English / ## 日本語版 / ## 本文 の ``` が必要）。")
+    body = "\n\n".join(body_parts)
+    return _finalize(title, body, text)
 
 
 def find_thumbnail_for(md_path: Path) -> Path | None:
@@ -307,78 +437,211 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
-        # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
+        # 【見出し画像（サムネ）】noteではエディタ画面で設定する（「公開に進む」より前）。
+        # 優先順位: ①用意した画像ファイル(--photos / thumbnails/{stem}.jpg)があればアップロード
+        #           ②無ければ『みんなのフォトギャラリー』(無料素材)からキーワードで自動選択
         thumb_to_use = photos[0] if photos else auto_thumb
-        if thumb_to_use:
+        if thumb_to_use and Path(str(thumb_to_use)).exists():
             try:
-                # 「見出し画像」エリアを開く（noteは設定パネルにある）
-                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"]').first.click()
-                page.wait_for_timeout(500)
-                with page.expect_file_chooser() as fc:
-                    page.locator('input[type="file"]').first.click()
-                fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(1500)
-                # 「適用」「保存」「決定」ボタンがあれば押す
-                for label in ("適用", "決定", "保存", "完了"):
-                    try:
-                        btn = page.locator(f'button:has-text("{label}")').first
-                        if btn.is_visible(timeout=400):
-                            btn.click()
-                            page.wait_for_timeout(600)
-                            break
-                    except Exception:
-                        continue
-                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
-            except Exception as e:
-                print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
+                # note新UI: 見出し画像は編集画面トップの aria-label「画像を追加」。
+                # このボタンを押した“瞬間”にOSのファイル選択が開くため、
+                # 押下そのものを expect_file_chooser で囲んで Playwright に横取りさせる。
+                # （囲まずに押すとネイティブダイアログが出て人間待ち＝従来の「フォルダ選択で止まる」）
+                EYE = [
+                    '[aria-label="画像を追加"]',
+                    '[aria-label*="画像を追加"]',
+                    'button:has-text("見出し画像を追加")',
+                    'button:has-text("見出し画像")',
+                    '[aria-label*="見出し画像"]',
+                ]
+                UPLOAD = [
+                    'button:has-text("画像をアップロード")', 'text=画像をアップロード',
+                    'button:has-text("アップロード")', 'text=アップロード',
+                ]
+                UPLOAD += [
+                    'text=ファイルを選択', 'text=画像を選択', 'text=ファイルから選択',
+                    'text=デバイスからアップロード', 'text=コンピュータ', 'button:has-text("選択")',
+                ]
+                # ★常駐ファイルチューザーハンドラ:
+                #   いつ・どのクリックでファイル選択が開いても、自動でファイルを渡す。
+                #   これがあるとネイティブの選択ダイアログは表示されず、人間操作が不要になる。
+                set_state = {"ok": False}
 
-        # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
-        if tags:
-            try:
-                tag_input = page.locator(
-                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                ).first
-                # 公開設定パネルを開く必要がある場合の保険
-                if not tag_input.is_visible(timeout=1500):
+                def _on_chooser(chooser):
                     try:
-                        page.locator('button:has-text("公開設定"), button:has-text("公開に進む")').first.click()
+                        chooser.set_files(str(thumb_to_use))
+                        set_state["ok"] = True
+                    except Exception:
+                        pass
+
+                page.on("filechooser", _on_chooser)
+                try:
+                    # 見出し画像エリアを開く（直後にチューザーが開けばハンドラが処理）
+                    _try_click(page, EYE, timeout=3000)
+                    page.wait_for_timeout(1200)
+                    # メニューが出る型: アップロード系を順に押す（チューザーはハンドラが処理）
+                    for _ in range(2):
+                        if set_state["ok"]:
+                            break
+                        _try_click(page, UPLOAD, timeout=2000)
+                        page.wait_for_timeout(1500)
+                    # チューザーを出さず隠しinputに入れる型のフォールバック
+                    if not set_state["ok"]:
+                        try:
+                            fin = page.locator('input[type="file"]')
+                            if fin.count() > 0:
+                                fin.first.set_input_files(str(thumb_to_use), timeout=3000)
+                                set_state["ok"] = True
+                        except Exception:
+                            pass
+                    page.wait_for_timeout(2500)
+                finally:
+                    try:
+                        page.remove_listener("filechooser", _on_chooser)
+                    except Exception:
+                        pass
+                set_ok = set_state["ok"]
+                # ★ファイル選択後に出る「トリミング/位置調整」ダイアログを確定保存する。
+                #   ここを押さないと“表示だけ”で記事に反映されない（保存されない）。
+                #   ダイアログは描画に時間差があるので、数回・候補を変えて確定を試みる。
+                # トリミング画面の確定＝右上「保存」。
+                #  ・「下書き保存」を誤爆しないよう “完全一致” の保存を最優先。
+                #  ・note のトリミングUIが iframe 内の可能性があるため、全フレームを探索。
+                CONFIRM_EXACT = ["保存", "適用", "完了", "決定", "確定", "OK",
+                                 "この画像を見出し画像にする", "見出し画像にする"]
+
+                def _click_confirm():
+                    contexts = [page] + list(page.frames)
+                    for ctx in contexts:
+                        for label in CONFIRM_EXACT:
+                            try:
+                                loc = ctx.get_by_text(label, exact=True)
+                                cnt = loc.count()
+                            except Exception:
+                                cnt = 0
+                            for i in range(min(cnt, 3)):
+                                try:
+                                    el = loc.nth(i)
+                                    if el.is_visible(timeout=600):
+                                        el.click(timeout=1500)
+                                        return True
+                                except Exception:
+                                    continue
+                        # role=button でも完全一致テキストを試す
+                        for label in CONFIRM_EXACT:
+                            try:
+                                loc = ctx.get_by_role("button", name=label, exact=True)
+                                if loc.count() and loc.first.is_visible(timeout=600):
+                                    loc.first.click(timeout=1500)
+                                    return True
+                            except Exception:
+                                continue
+                    return False
+
+                confirmed = False
+                for _ in range(5):
+                    page.wait_for_timeout(1200)
+                    if _click_confirm():
+                        confirmed = True
+                        page.wait_for_timeout(1200)
+                        break
+                if not confirmed:
+                    try:
+                        page.keyboard.press("Enter")
                         page.wait_for_timeout(800)
                     except Exception:
                         pass
-                    tag_input = page.locator(
-                        'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                    ).first
+                page.wait_for_timeout(800)
+                if set_ok and confirmed:
+                    print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定・確定")
+                elif set_ok and not confirmed:
+                    print("⚠️  画像は選択できたが“確定(保存)ボタン”が押せず（表示だけの可能性）。"
+                          "画面に出ている確定ボタンの文言を教えてください")
+                else:
+                    print("⚠️  サムネのファイル受け渡しに失敗（選択ダイアログを横取りできず）")
+            except Exception as e:
+                print(f"⚠️  サムネ(ファイル)設定に失敗: {e}")
+        else:
+            # 画像ファイルが無い → note標準ギャラリーから自動選択
+            kw = [t for t in (tags[:3] if tags else [])] + ["富山", "日本", "風景"]
+            if set_eyecatch_from_gallery(page, kw):
+                print(f"✅ サムネをみんなのフォトギャラリーから自動選択（検索語: {kw[0] if kw else '-'}）")
+            else:
+                print("ℹ️  写真サムネは未設定（noteの既定サムネ=タイトル画像が自動適用されます）")
+
+        # 【公開は2段階】エディタ「公開に進む」→ 設定画面 →「投稿する」。
+        # ハッシュタグ・投稿ボタンは "公開に進む" 後の設定画面にある。
+        if not draft:
+            if _try_click(page, [
+                'button:has-text("公開に進む")',
+                ('role', '公開に進む'),
+                'button:has-text("公開設定")',
+                ('role', '公開設定'),
+            ], timeout=5000):
+                print("✅ 公開設定画面へ遷移")
+                page.wait_for_timeout(1500)
+            else:
+                print("⚠️  「公開に進む」が見つからず（UI変更の可能性）。現画面のまま続行を試みます")
+
+        # ハッシュタグ入力（公開設定画面・placeholder「ハッシュタグを追加する」）
+        if tags:
+            try:
+                # 「ハッシュタグ」セクションを開く必要がある場合に備え一度押す（無ければ無視）
+                _try_click(page, ['button:has-text("ハッシュタグ")'], timeout=1500)
+                page.wait_for_timeout(400)
+                tag_input = page.locator(
+                    'input[placeholder*="ハッシュタグ"], textarea[placeholder*="ハッシュタグ"], '
+                    'input[placeholder*="タグ"]'
+                ).first
+                if tag_input.count() == 0 or not tag_input.is_visible(timeout=2000):
+                    raise RuntimeError("タグ入力欄が見つからない")
+                done = 0
                 for t in tags[:10]:
-                    tag_input.click()
-                    page.keyboard.type(t)
-                    page.keyboard.press("Enter")
-                    page.wait_for_timeout(200)
-                print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
+                    try:
+                        tag_input.click(timeout=3000)
+                        page.keyboard.type(t.lstrip("#"))
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(200)
+                        done += 1
+                    except Exception:
+                        break
+                print(f"✅ ハッシュタグ {done} 個を入力")
             except Exception as e:
                 print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
 
-        # 公開 or 下書き
+        # 公開 or 下書き（全自動：手動Enterは廃止。失敗時は非ゼロ終了でキューに残す）
+        publish_failed = False
         if draft:
-            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
+            print("\n📋 ドラフトモード：投稿ボタンは押しません。画面で内容確認してください。")
             input("Enterで閉じる ...")
         else:
-            print("\n🚀 公開ボタンを押します（3秒後）...")
-            page.wait_for_timeout(3000)
-            try:
-                page.locator('button:has-text("公開")').last.click()
+            print("\n🚀 投稿ボタンを押します（全自動）...")
+            page.wait_for_timeout(1500)
+            posted = _try_click(page, [
+                'button:has-text("投稿する")',
+                ('role', '投稿する'),
+                'button:has-text("公開する")',
+                ('role', '公開する'),
+                'button:has-text("公開")',
+                ('role', '公開'),
+            ], timeout=5000)
+            if posted:
                 page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
+                # 確認ダイアログ（モーダル）が出る場合に備え、最終ボタンをもう一度だけ試す
+                _try_click(page, [
+                    'button:has-text("投稿する")',
+                    'button:has-text("公開する")',
+                ], timeout=2000)
                 page.wait_for_timeout(3000)
                 print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
-            except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
-                print("    画面で「公開」ボタンを手動で押してください。")
-                input("公開を確認したら Enter ...")
+            else:
+                print("⚠️  投稿ボタンを自動で見つけられませんでした（noteのUI変更の可能性）。")
+                print("    この記事はキューに残します（公開済み扱いにしません）。")
+                publish_failed = True
 
         ctx.close()
+        if publish_failed:
+            sys.exit(1)
 
 
 # ---------- CLI ----------
