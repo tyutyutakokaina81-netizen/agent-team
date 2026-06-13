@@ -50,6 +50,3 @@ CDO/outputs/note_publisher/.published.log
 CDO/outputs/note_publisher/.published.log.bak.*
 CDO/outputs/note_publisher/.thumbnail_attached.log
 CDO/outputs/note_publisher/thumbnails/
-
-# 英語SEOサイトの生成物（site/build.py で再生成可）
-site/public/

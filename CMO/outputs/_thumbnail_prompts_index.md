@@ -1009,8 +1009,8 @@ Photorealistic candid lifestyle photo capturing a quiet domestic moment in a Jap
 
 ---
 
-## [2026-06-15] 最初の有料記事を出す前に、自分に問うべき3つのこと。
-_ファイル: `2026-06-15_note記事_最初の有料記事を出す前の3つの問い.md`_
+## [2026-06-13] 最初の有料記事を出す前に、自分に問うべき3つのこと。
+_ファイル: `2026-06-13_note記事_最初の有料記事を出す前の3つの問い.md`_
 
 ```
 Photorealistic close-up of a solo worker's desk in a small home office: laptop slightly open, notebook with handwritten lines, a mug of coffee or tea, a window letting in soft natural light. Theme: a writer's quiet desk with a laptop showing a generic editor (no readable text), morning coffee. Calm, candid, lived-in atmosphere — not a stock photo staged scene. Shallow depth of field. No readable text, no logos, no faces visible. 16:9 aspect ratio.
@@ -1027,8 +1027,8 @@ Photorealistic close-up of a circular wooden frame of pink trout pressed sushi w
 
 ---
 
-## [2026-06-17] 富山では、ブリより先に「フクラギ」を食べる。
-_ファイル: `2026-06-17_note記事_富山のフクラギ.md`_
+## [2026-06-14] 富山では、ブリより先に「フクラギ」を食べる。
+_ファイル: `2026-06-14_note記事_富山のフクラギ.md`_
 
 ```
 Photorealistic close-up of a clay pot of slow-simmered yellowtail and daikon in dark broth, served on a simple ceramic or wooden plate in a humble Japanese home kitchen setting. Natural window light from the side, soft shadows, slight steam if the dish is hot. Authentic everyday Japanese food photography style — not styled restaurant glamour, more like a careful family meal documented with care. Shallow depth of field, top-down 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
@@ -1036,8 +1036,8 @@ Photorealistic close-up of a clay pot of slow-simmered yellowtail and daikon in 
 
 ---
 
-## [2026-06-18] 北前船が運んだ昆布が、高岡の食卓にいまも残っている。
-_ファイル: `2026-06-18_note記事_高岡の昆布消費量_北前船の名残.md`_
+## [2026-06-14] 北前船が運んだ昆布が、高岡の食卓にいまも残っている。
+_ファイル: `2026-06-14_note記事_高岡の昆布消費量_北前船の名残.md`_
 
 ```
 Photorealistic close-up of shaved tororo kombu seaweed in a small ceramic bowl beside a rice bowl, served on a simple ceramic or wooden plate in a humble Japanese home kitchen setting. Natural window light from the side, soft shadows, slight steam if the dish is hot. Authentic everyday Japanese food photography style — not styled restaurant glamour, more like a careful family meal documented with care. Shallow depth of field, top-down 3/4 angle. No people, no text, no logos. 16:9 aspect ratio.
@@ -1045,8 +1045,8 @@ Photorealistic close-up of shaved tororo kombu seaweed in a small ceramic bowl b
 
 ---
 
-## [2026-06-16] 高岡の隣には、もうひとりの藤子がいる。— 氷見『潮風ギャラリー』
-_ファイル: `2026-06-16_note記事_氷見潮風ギャラリー_もうひとりの藤子.md`_
+## [2026-06-15] 高岡の隣には、もうひとりの藤子がいる。— 氷見『潮風ギャラリー』
+_ファイル: `2026-06-15_note記事_氷見潮風ギャラリー_もうひとりの藤子.md`_
 
 ```
 Photorealistic image evoking a small mid-century Showa-era Japanese parlor scene evoking the world of Warau Salesman manga — a traditional Japanese cultural element from Toyama / Hokuriku region. Focus on craft, texture, and material — wood, metal, paper, fabric, food, or stone as appropriate. Warm directional lighting that emphasizes surface detail. Documentary craft photography style. No people in focus, no readable text, no logos. 16:9 aspect ratio.
@@ -1054,8 +1054,8 @@ Photorealistic image evoking a small mid-century Showa-era Japanese parlor scene
 
 ---
 
-## [2026-06-18] 子どもの頃、ちょっと怖かった。— 大人になって会いに行った『笑ゥせぇるすまん』
-_ファイル: `2026-06-18_note記事_笑ゥせぇるすまん_大人になって会いに行く.md`_
+## [2026-06-16] 子どもの頃、ちょっと怖かった。— 大人になって会いに行った『笑ゥせぇるすまん』
+_ファイル: `2026-06-16_note記事_笑ゥせぇるすまん_大人になって会いに行く.md`_
 
 ```
 Photorealistic image evoking a small mid-century Showa-era Japanese parlor scene evoking the world of Warau Salesman manga — a traditional Japanese cultural element from Toyama / Hokuriku region. Focus on craft, texture, and material — wood, metal, paper, fabric, food, or stone as appropriate. Warm directional lighting that emphasizes surface detail. Documentary craft photography style. No people in focus, no readable text, no logos. 16:9 aspect ratio.

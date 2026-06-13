@@ -119,42 +119,24 @@ def mark_done(article_stem: str):
 
 
 def find_note_edit_url_by_title(page, title: str) -> str | None:
-    """マイページから該当タイトルの記事URLを探す（複数の見出し断片で部分一致を試す）。"""
+    """マイページから該当タイトルの記事URLを探す。"""
     page.goto(NOTE_MY_NOTES_URL)
-    try:
-        page.wait_for_load_state("networkidle", timeout=20000)
-    except Exception:
-        page.wait_for_timeout(4000)
-    # タイトルの候補断片（句読点で切る/先頭十数文字/「」内）を順に試す
-    cands = []
-    head = title.split("。")[0].split("—")[0].strip()
-    for n in (30, 20, 12, 8):
-        if len(head) >= 4:
-            cands.append(head[:n])
-    import re as _re
-    m = _re.search(r"「(.+?)」", title)
-    if m:
-        cands.append(m.group(1))
-    seen = set()
-    for frag in cands:
-        if not frag or frag in seen:
-            continue
-        seen.add(frag)
-        try:
-            links = page.locator(f'a:has-text("{frag}")')
-            if links.count() == 0:
-                continue
-            href = links.first.get_attribute("href") or ""
-            if not href:
-                continue
-            if href.startswith("/"):
-                href = "https://note.com" + href
-            if "/edit" not in href:
-                href = href.rstrip("/") + "/edit"
-            return href
-        except Exception:
-            continue
-    return None
+    page.wait_for_load_state("networkidle", timeout=20000)
+    # タイトルを部分一致で検索
+    title_short = title.split("。")[0][:30]
+    links = page.locator(f'a:has-text("{title_short}")')
+    n = links.count()
+    if n == 0:
+        return None
+    href = links.first.get_attribute("href") or ""
+    if not href:
+        return None
+    if href.startswith("/"):
+        href = "https://note.com" + href
+    # 編集URL: /n/{id}/edit が標準パターン
+    if "/edit" not in href:
+        href = href.rstrip("/") + "/edit"
+    return href
 
 
 def attach_thumbnail(page, edit_url: str, image_path: Path, skip_existing: bool) -> str:
@@ -173,101 +155,45 @@ def attach_thumbnail(page, edit_url: str, image_path: Path, skip_existing: bool)
         except Exception:
             pass
 
-    # --- ヘルパー（note新UI対応・publish_to_note.py と同じ考え方） ---
-    def _click_any(selectors, timeout=2500):
-        for sel in selectors:
-            try:
-                loc = page.locator(sel).first
-                if loc.count() and loc.is_visible(timeout=timeout):
-                    loc.click(timeout=timeout)
-                    return True
-            except Exception:
-                continue
-        return False
-
-    def _click_exact_all_frames(labels):
-        for ctx in [page] + list(page.frames):
-            for label in labels:
-                try:
-                    loc = ctx.get_by_text(label, exact=True)
-                    if loc.count() and loc.first.is_visible(timeout=600):
-                        loc.first.click(timeout=1500)
-                        return True
-                except Exception:
-                    pass
-                try:
-                    loc = ctx.get_by_role("button", name=label, exact=True)
-                    if loc.count() and loc.first.is_visible(timeout=600):
-                        loc.first.click(timeout=1500)
-                        return True
-                except Exception:
-                    pass
-        return False
-
-    # 見出し画像エリア（新UI: aria『画像を追加』）を開き、ファイル選択を常駐ハンドラで自動投入
-    state = {"ok": False}
-
-    def _on_chooser(ch):
-        try:
-            ch.set_files(str(image_path)); state["ok"] = True
-        except Exception:
-            pass
-
-    page.on("filechooser", _on_chooser)
+    # 見出し画像エリアを開く
     try:
-        _click_any([
-            '[aria-label="画像を追加"]', '[aria-label*="画像を追加"]',
-            'button:has-text("見出し画像を追加")', 'button:has-text("見出し画像")',
-            '[aria-label*="見出し画像"]',
-        ], timeout=3000)
-        page.wait_for_timeout(1200)
-        for _ in range(2):
-            if state["ok"]:
+        page.locator(
+            'button:has-text("見出し画像"), [aria-label*="見出し画像"], button:has-text("画像を追加")'
+        ).first.click()
+        page.wait_for_timeout(800)
+    except Exception:
+        pass
+
+    # ファイル選択
+    try:
+        with page.expect_file_chooser() as fc:
+            page.locator('input[type="file"]').first.click()
+        fc.value.set_files(str(image_path))
+        page.wait_for_timeout(2500)
+    except Exception as e:
+        return f"UPLOAD_FAIL:{e}"
+
+    # 「適用」「決定」「保存」等のボタンがあれば押す
+    for label in ("適用", "決定", "保存", "完了", "Done", "Apply"):
+        try:
+            btn = page.locator(f'button:has-text("{label}")').first
+            if btn.is_visible(timeout=500):
+                btn.click()
+                page.wait_for_timeout(800)
                 break
-            _click_any([
-                'button:has-text("画像をアップロード")', 'text=画像をアップロード',
-                'button:has-text("アップロード")', 'text=アップロード',
-                'text=ファイルを選択', 'text=画像を選択',
-            ], timeout=2000)
-            page.wait_for_timeout(1500)
-        if not state["ok"]:
-            try:
-                fin = page.locator('input[type="file"]')
-                if fin.count() > 0:
-                    fin.first.set_input_files(str(image_path), timeout=3000)
-                    state["ok"] = True
-            except Exception:
-                pass
-        page.wait_for_timeout(2000)
-    finally:
-        try:
-            page.remove_listener("filechooser", _on_chooser)
         except Exception:
-            pass
-    if not state["ok"]:
-        return "UPLOAD_FAIL:chooser"
+            continue
 
-    # トリミング確定（右上「保存」＝完全一致・全フレーム）
-    confirmed = False
-    for _ in range(5):
-        page.wait_for_timeout(1000)
-        if _click_exact_all_frames(["保存", "適用", "完了", "決定", "確定", "OK"]):
-            confirmed = True
-            page.wait_for_timeout(1000)
-            break
-    if not confirmed:
-        try:
-            page.keyboard.press("Enter"); page.wait_for_timeout(600)
-        except Exception:
-            pass
-
-    # 公開済み記事の編集後の保存：公開に進む → 投稿する/更新する
-    page.wait_for_timeout(1200)
+    # 公開済み記事の編集後は「更新」ボタン（または公開設定→更新）
+    page.wait_for_timeout(1500)
     try:
-        _click_any(['button:has-text("公開に進む")', 'button:has-text("公開設定")'], timeout=4000)
+        update_btn = page.locator('button:has-text("更新"), button:has-text("公開設定")').last
+        update_btn.click()
         page.wait_for_timeout(1500)
-        if not _click_exact_all_frames(["投稿する", "更新する", "更新", "公開する", "保存"]):
-            return "UPDATE_FAIL:no_button"
+        # ダイアログがあれば再度押す
+        confirm = page.locator('button:has-text("更新"), button:has-text("公開する")').last
+        if confirm.is_visible(timeout=2000):
+            confirm.click()
         page.wait_for_timeout(2500)
     except Exception as e:
         return f"UPDATE_FAIL:{e}"
