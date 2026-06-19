@@ -35,6 +35,8 @@ PROFILE_DIR = Path.home() / ".note_publisher_profile"
 EXPORT_TSV = HERE / "note_published_export.tsv"
 REPORT_MD = HERE / "reconcile_report.md"
 TITLE_MANIFEST = HERE / "published_titles_manifest.txt"
+DEDUP_TSV = HERE / "dedup_unpublish_list.tsv"     # 重複の非公開化リスト（keep/unpublish）
+LEDGER_TSV = HERE / "ledger_sync.tsv"             # ソース記事↔note_id↔公開状態（台帳再同期用）
 
 # 自分の記事管理ページのみ（note.com/ は他人記事混入の全体フィードなので使わない）
 LIST_URLS = ["https://note.com/notes"]
@@ -287,7 +289,37 @@ def main():
         TITLE_MANIFEST.write_text(header + "\n".join(titles) + "\n", encoding="utf-8")
         print(f"🗂️  manifest: {TITLE_MANIFEST}（{len(titles)}件）")
 
-    print("\n次：レポートを確認 →（掃除後）STATE.md にホールド解除を明記 → 公開再開")
+    # 5) 重複の非公開化リスト（各グループの先頭をkeep、残りをunpublish）
+    dups = {k: v for k, v in by_norm.items() if len(v) > 1}
+    d_lines = ["action\tnote_id\ttitle"]
+    n_unpub = 0
+    for k in sorted(dups, key=lambda x: -len(dups[x])):
+        members = dups[k]
+        d_lines.append(f"keep\t{members[0][0]}\t{members[0][1]}")
+        for nid, t in members[1:]:
+            d_lines.append(f"unpublish\t{nid}\t{t}")
+            n_unpub += 1
+    DEDUP_TSV.write_text("\n".join(d_lines) + "\n", encoding="utf-8")
+    print(f"🧹 非公開化リスト: {DEDUP_TSV}（unpublish {n_unpub}本 / keep {len(dups)}本）")
+
+    # 6) 台帳同期表（ソース記事 ↔ note_id ↔ 公開状態）
+    src = source_titles()
+    l_lines = ["status\tsource_file\ttitle\tnote_ids"]
+    pub = unpub = 0
+    for nk in sorted(src):
+        disp, fname = src[nk][0]
+        ids = [nid for nid, _ in by_norm.get(nk, []) if nid]
+        if ids:
+            pub += 1
+            l_lines.append(f"公開済\t{fname}\t{disp}\t{','.join(ids)}")
+        else:
+            unpub += 1
+            l_lines.append(f"未公開\t{fname}\t{disp}\t")
+    LEDGER_TSV.write_text("\n".join(l_lines) + "\n", encoding="utf-8")
+    print(f"📚 台帳同期表: {LEDGER_TSV}（公開済 {pub} / 未公開 {unpub}）")
+
+    print("\n次：①非公開化リストで重複を消す ②台帳同期表で _index を直す "
+          "→（掃除後）STATE.md にホールド解除を明記 → 公開再開")
 
 
 if __name__ == "__main__":
