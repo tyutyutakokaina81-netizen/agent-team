@@ -23,7 +23,9 @@ SCRIPT_DIR="${0:A:h}"
 REPO_DIR="${SCRIPT_DIR}/../../.."
 ARTICLES_DIR="${REPO_DIR}/CMO/outputs"
 PUBLISHED_LOG="${SCRIPT_DIR}/.published.log"
-BRANCH="claude/vibrant-keller-XRLES"
+PUBLISHED_TITLES="${SCRIPT_DIR}/.published_titles.log"
+# 現在チェックアウト中のブランチを自動採用（旧: 固定ブランチ名をハードコードしていてpull失敗の原因だった）
+BRANCH="$(git -C "${REPO_DIR}" rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"
 SLEEP_BETWEEN=10
 
 DATE_FILTER=""
@@ -49,6 +51,16 @@ ok()   { print -P "%F{green}✓%f $*"; }
 warn() { print -P "%F{yellow}⚠%f  $*"; }
 fail() { print -P "%F{red}✗%f $*"; }
 
+# 記事mdからタイトル（メイン:／## タイトル 直下の```ブロック先頭行）を取り出す
+article_title() {
+  python3 - "$1" <<'PY'
+import re, sys
+t = open(sys.argv[1], encoding="utf-8").read()
+m = re.search(r"メイン.*?\n```\n(.+?)\n```", t, re.S) or re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", t, re.S)
+print(m.group(1).strip().splitlines()[0].strip() if m else "")
+PY
+}
+
 # ---- reset ----
 if (( RESET )); then
   if [[ -f "$PUBLISHED_LOG" ]]; then
@@ -58,6 +70,8 @@ if (( RESET )); then
   else
     ok "公開済みログは元々空"
   fi
+  [[ -f "$PUBLISHED_TITLES" ]] && : > "$PUBLISHED_TITLES"
+  ok "タイトル重複ログもリセット"
   exit 0
 fi
 
@@ -91,7 +105,7 @@ done
 ok "pull 完了"
 
 # ---- 未公開記事を収集 ----
-touch "$PUBLISHED_LOG"
+touch "$PUBLISHED_LOG" "$PUBLISHED_TITLES"
 
 typeset -a candidates
 if [[ -n "$DATE_FILTER" ]]; then
@@ -101,11 +115,20 @@ else
 fi
 
 typeset -a queue
+typeset -A seen_titles
 for f in "${candidates[@]}"; do
   base="${f:t}"
-  if ! grep -qxF "$base" "$PUBLISHED_LOG"; then
-    queue+="$f"
+  grep -qxF "$base" "$PUBLISHED_LOG" && continue        # ファイル名で既公開ならスキップ
+  title="$(article_title "$f")"
+  if [[ -n "$title" ]]; then
+    # タイトルが既公開 or 同一runで既出 → 重複公開（6/12インシデント）を防ぐ
+    if grep -qxF "$title" "$PUBLISHED_TITLES" || [[ -n "${seen_titles[$title]:-}" ]]; then
+      warn "重複タイトルをスキップ: ${base}（同題: ${title}）"
+      continue
+    fi
+    seen_titles[$title]=1
   fi
+  queue+="$f"
 done
 
 if (( ${#queue[@]} == 0 )); then
@@ -138,6 +161,8 @@ for f in "${queue[@]}"; do
 
   if python3 publish_to_note.py --article "$f" --text-only 2>&1 | tee "/tmp/note_publish_last.log"; then
     print "$base" >> "$PUBLISHED_LOG"
+    title="$(article_title "$f")"
+    [[ -n "$title" ]] && print "$title" >> "$PUBLISHED_TITLES"
     ok "完了: $base"
     success+=1
   else
