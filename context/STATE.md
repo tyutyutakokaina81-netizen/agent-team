@@ -218,6 +218,16 @@
 - **cowork指示発行**：`ops/inbox/2026-06-19_001_code_cowork.yaml`（公開面の復旧／PV棚卸し／サムネ後付け／日次再開／X再開）。note側の作業はオーナー/coworkが実行。
 - 残ブロッカー：再開条件①（note側の重複/テスト/未来日付の最終棚卸し）と③（台帳とnote実態の再同期）はnote側作業のため未完。cowork報告待ち。
 
+### ★日次自動公開「安全ゲート付き」セットアップ（2026-06-19・オーナー承認＝推奨案）
+- `ops/cowork_run.sh` に **3段の安全装置**を実装：
+  - ①本番公開ゲート：`ops/PUBLISH_ENABLED` が**無ければ全件 --draft（本番公開しない）**。棚卸し完了後にオーナーが `touch` でON。
+  - ②未来日付ガード：ファイル名日付が未来のキューは自動スキップ。
+  - ③冪等化：`published_log.tsv` で二重公開防止。
+- `ops/install_publish_schedule.sh`：launchdで毎朝08:00起動（朝7-9時の初速ウィンドウ）。**既定は安全＝本番公開OFF**。
+- **オーナーがMacで実行する導入手順**：`bash ops/install_publish_schedule.sh` → note棚卸し確認後に `touch ops/PUBLISH_ENABLED` で本番ON。
+- 私（コンテナ）はlaunchd登録もnote公開も不可。スクリプト整備とドキュメント化までが私の担当範囲。
+- 公開元は `drafts/queue/*.md`（現在未作成＝自然な安全状態）。再開時はCMOストックをqueueへ投入する運用。
+
 ## 次にやること（次回「実行して」で着手）
 
 - **6/10 X投稿**：5本×2ツイート（日本語+英語）= 10ツイート（手動 or Cowork Chrome対応）
