@@ -1,0 +1,90 @@
+name: note auto publish
+
+# クラウド完全無人公開（オーナー判断 2026-06-19）。
+# Mac不要で、GitHub上のスケジュールでnoteに公開する。
+#
+# ★事前準備（一度だけ・GitHubのSettings > Secrets and variables > Actions）:
+#   - NOTE_EMAIL    : note のログインメール
+#   - NOTE_PASSWORD : note のログインパスワード
+#   （任意）GEMINI_API_KEY / PEXELS_API_KEY : サムネ品質を上げたい場合。無くてもキー不要で生成される。
+#
+# ⚠️ 注意: note 側の bot 検知 / captcha / 2段階認証 が出ると、CIからは突破できず失敗する。
+#          その場合は Mac 版（launchd）に切り替えるのが確実。
+
+on:
+  schedule:
+    - cron: "30 22 * * *"   # 07:30 JST（UTC+9）。noteは朝の初速が乗りやすい
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "対象日 YYYY-MM-DD（空なら当日）"
+        required: false
+        default: ""
+      max:
+        description: "公開する最大本数"
+        required: false
+        default: "5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: note-auto-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/note-view-count-qjcegz
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright + Chromium
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: 新規記事を台帳へ自動登録
+        run: python3 CDO/outputs/note_publisher/register_articles.py || true
+
+      - name: サムネ生成（不足分・キー不要フォールバックあり）
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          FILTER: ${{ github.event.inputs.date }}
+        run: |
+          cd CDO/outputs/note_publisher
+          if [ -n "$FILTER" ]; then
+            python3 generate_thumbnails.py --filter "$FILTER" || true
+            python3 fetch_thumbnails_picsum.py --filter "$FILTER" || true
+          else
+            python3 generate_thumbnails.py || true
+            python3 fetch_thumbnails_picsum.py || true
+          fi
+
+      - name: note へ公開
+        env:
+          NOTE_CI: "1"
+          NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
+          NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
+        run: |
+          cd CDO/outputs/note_publisher
+          bash ci_publish.sh "${{ github.event.inputs.date }}" "${{ github.event.inputs.max || '5' }}"
+
+      - name: 公開状態・台帳・サムネをコミット
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f \
+            CDO/outputs/note_publisher/published_manifest.txt \
+            CDO/outputs/note_publisher/published_titles_manifest.txt \
+            CDO/outputs/note_publisher/thumbnails/*.jpg \
+            CMO/_index.md || true
+          git diff --cached --quiet || git commit -m "ci: note公開と状態更新 [skip ci]"
+          git push origin claude/note-view-count-qjcegz || true

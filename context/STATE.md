@@ -243,6 +243,7 @@
 | 2026-06-19 | オーナーが「無人スケジューラを組む」を選択（過去決定『無人スケジュール禁止』を本人判断で上書き）。launchd方式の無人公開を実装：daily_auto_publish.sh（未来日付公開禁止/1日5本上限/重複ガード/ログ/失敗時macOS通知）＋ plistテンプレ＋ install_scheduler.sh / uninstall_scheduler.sh。既定は毎朝7:30。インストールは `./install_scheduler.sh`、初回のみ note --login 必須。 |
 | 2026-06-19 | 「重複記事削除」発令 → タイトル単位で全在庫精査し、重複9本を削除（本文が充実した版を残す）。残109本すべてタイトル一意。 |
 | 2026-06-19 | 「新しい記事は自動登録」発令 → register_articles.py を新設（CMO/outputs を走査し未登録記事を CMO/_index.md の『自動登録ログ』へ冪等追記）。65件を初回登録。日次無人ジョブの STEP0 に組込済み。 |
+| 2026-06-19 | オーナーが「クラウドで無人（GitHub Actions）」を選択。Mac不要のクラウド公開を実装：.github/workflows/note-auto-publish.yml（毎朝7:30 JST + 手動dispatch）、ci_publish.sh（manifest方式で公開状態をgit追跡・最大5本・重複/未来日付ガード）、publish_to_note.py にCIヘッドレス＋メール/PW自動ログイン（NOTE_CI/NOTE_EMAIL/NOTE_PASSWORD）。★未完の前提：(1) GitHub Secrets に NOTE_EMAIL/NOTE_PASSWORD 登録（私には不可・オーナー作業）、(2) workflow_dispatch/scheduleはデフォルトブランチ(main)に載って初めて有効。(3) note側bot検知/2段階認証で失敗する可能性大→その時はMac版(launchd)が確実。 |
 | 2026-05-28 | 記憶永続化のため SessionStart フック＋ context/STATE.md を導入。 |
 | 2026-05-28 | 「実行」発令→高岡をテーマに採用（高岡=富山県高岡市/高岡銅器と解釈）。記事「高岡の職人に学ぶ個人で稼ぐ力」を作成。 |
 | 2026-05-28 | オーナーが高岡記事のサムネ（デザイン版）を却下。サムネは実写必須、デザインモックNGと確定。 |
