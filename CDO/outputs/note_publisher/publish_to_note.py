@@ -46,6 +46,9 @@ NOTE_NEW_URL = "https://note.com/notes/new"
 
 # 公開済みログ（冪等化＝同一記事の二重公開防止・2026-06-12 インシデント再発防止）
 PUBLISH_LOG = Path(__file__).resolve().parent / "published_log.tsv"
+# note 実態のタイトル一覧（オーナー/coworkが note のダッシュボードから書き出す・1行1タイトル）
+#   → コンテナは note に到達できないため、note実態の重複判定はこのファイルで担保する。
+TITLE_MANIFEST = Path(__file__).resolve().parent / "published_titles_manifest.txt"
 
 
 # ---------- 冪等化（重複公開防止） ----------
@@ -64,6 +67,37 @@ def _published_stems() -> set[str]:
 
 def already_published(md_path: Path) -> bool:
     return md_path.stem in _published_stems()
+
+
+def _normalize_title(t: str) -> str:
+    """タイトル完全一致判定用の正規化：前後空白除去＋全空白除去＋末尾「。」除去。
+    （表記ゆれの軽微な差を吸収しつつ『ほぼ完全一致』で重複を捕まえる）"""
+    t = t.strip().rstrip("。")
+    return re.sub(r"\s+", "", t)
+
+
+def _published_titles() -> set[str]:
+    """既公開タイトルの正規化集合を返す。
+    ソース＝(1) published_log.tsv の title列 ＋ (2) published_titles_manifest.txt（note実態）。"""
+    titles = set()
+    if PUBLISH_LOG.exists():
+        for line in PUBLISH_LOG.read_text(encoding="utf-8").splitlines():
+            line = line.rstrip("\n")
+            if line and not line.startswith("#"):
+                cols = line.split("\t")
+                if len(cols) >= 2 and cols[1].strip():
+                    titles.add(_normalize_title(cols[1]))
+    if TITLE_MANIFEST.exists():
+        for line in TITLE_MANIFEST.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                titles.add(_normalize_title(line))
+    return titles
+
+
+def title_already_published(title: str) -> bool:
+    """タイトル完全一致（正規化後）で既公開かどうか。6/14重複インシデントの再発防止。"""
+    return _normalize_title(title) in _published_titles()
 
 
 def record_published(md_path: Path, title: str):
@@ -271,11 +305,21 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
 
-    # 冪等化：既に公開済みの記事は二重公開しない（--force で明示解除・--draft時は対象外）
+    # 冪等化(1)：ファイル単位。同一ファイルの二重公開を防ぐ（--force で解除・--draft時は対象外）
     if not draft and not force and already_published(md_path):
         sys.exit(
             f"✗ この記事は既に公開済みとして記録されています: {md_path.name}\n"
             f"  二重公開を防止するため中断しました（published_log.tsv）。\n"
+            f"  意図的に再公開する場合のみ --force を付けてください。"
+        )
+
+    # 冪等化(2)：タイトル完全一致。別ファイル/別日付でも同タイトルなら重複公開を防ぐ。
+    #   （6/14インシデント＝同タイトルを別ファイルで再生成・再公開 の再発防止）
+    if not draft and not force and title_already_published(title):
+        sys.exit(
+            f"✗ 同じタイトルが既に公開済みです（タイトル完全一致）: 「{title}」\n"
+            f"  別ファイルでも重複公開を防ぐため中断しました\n"
+            f"  （照合元: published_log.tsv ＋ published_titles_manifest.txt）。\n"
             f"  意図的に再公開する場合のみ --force を付けてください。"
         )
 

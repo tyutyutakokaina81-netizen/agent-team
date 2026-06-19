@@ -14,6 +14,7 @@
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
 | 2026-06-19 | ops/cowork_run.sh, ops/install_publish_schedule.sh | 自動化設定 | 日次自動公開を「安全ゲート付き」で設定。①本番公開ゲート（ops/PUBLISH_ENABLED無ければ--draft）②未来日付スキップ③冪等化。既定は本番公開OFF。launchd毎朝08:00。導入はオーナーがMacで実行 | 完了 |
+| 2026-06-20 | outputs/note_publisher/publish_to_note.py + published_titles_manifest.txt | ツール強化 | 再開条件③を充足。タイトル完全一致の冪等ガードを追加（別ファイル/別日付でも同タイトルなら公開ブロック・--forceで解除）。照合元=published_log.tsv＋published_titles_manifest.txt（note実態タイトルをMac側で維持）。6/14重複インシデント再発防止。単体検証ALL PASS | 完了 |
 | 2026-06-19 | outputs/note_publisher/publish_to_note.py | ツール強化 | 閲覧数回復策の一環。未来日付ガード（未来日付記事の自動公開を既定で禁止・--allow-futureで解除）＋冪等化（published_log.tsvで二重公開防止・--forceで解除）を実装。6/12インシデント再発防止＝再開条件②を充足 | 完了 |
 | 2026-05-28 | outputs/note_publisher/ | 自動化ツール | note自動公開ヘルパー(Playwright・柱Dと同じ初回ログインのみ手動モデル)。オーナーのMacで実行 | MVP完成 |
 
