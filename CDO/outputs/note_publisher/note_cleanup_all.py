@@ -36,7 +36,8 @@ EXPORT_TSV = HERE / "note_published_export.tsv"
 REPORT_MD = HERE / "reconcile_report.md"
 TITLE_MANIFEST = HERE / "published_titles_manifest.txt"
 
-LIST_URLS = ["https://note.com/notes", "https://note.com/"]
+# 自分の記事管理ページのみ（note.com/ は他人記事混入の全体フィードなので使わない）
+LIST_URLS = ["https://note.com/notes"]
 NOTE_ID_RE = re.compile(r"/(n[0-9a-f]{8,})")
 
 
@@ -50,6 +51,42 @@ def normalize_title(t: str) -> str:
 
 # ---------- 1) note一覧の取得（スクレイプ or 既存ファイル） ----------
 
+def _extract_title_status(payload) -> tuple[str, str]:
+    """noteのnote API JSONから (title, status) を防御的に取り出す。"""
+    if not isinstance(payload, dict):
+        return "", ""
+    d = payload.get("data", payload)
+    if isinstance(d, dict) and "data" in d and isinstance(d["data"], dict):
+        d = d["data"]
+    title = ""
+    for k in ("name", "title"):
+        v = d.get(k) if isinstance(d, dict) else None
+        if isinstance(v, str) and v.strip():
+            title = v.strip()
+            break
+    status = ""
+    for k in ("status", "type", "publishAt", "publish_at"):
+        v = d.get(k) if isinstance(d, dict) else None
+        if v:
+            status = str(v)
+            break
+    return title, status
+
+
+def _fetch_title(req, note_id: str) -> tuple[str, str]:
+    """ログイン済みCookieを共有する APIRequestContext で note のタイトルを取得。"""
+    for ver in ("v2", "v3", "v1"):
+        try:
+            r = req.get(f"https://note.com/api/{ver}/notes/{note_id}", timeout=15000)
+            if r.ok:
+                t, s = _extract_title_status(r.json())
+                if t:
+                    return t, s
+        except Exception:
+            continue
+    return "", ""
+
+
 def scrape_note_list(max_scroll: int) -> list[tuple[str, str]]:
     try:
         from playwright.sync_api import sync_playwright
@@ -60,7 +97,9 @@ def scrape_note_list(max_scroll: int) -> list[tuple[str, str]]:
         sys.exit("✗ 初回ログイン未了。 `python3 publish_to_note.py --login` を先に。"
                  "（または --note-export で手動一覧を渡してください）")
 
-    found: dict[str, str] = {}
+    ids: list[str] = []
+    seen: set[str] = set()
+    rows: list[tuple[str, str]] = []
     with sync_playwright() as p:
         ctx = None
         for kw in ({"channel": "chrome"}, {}):
@@ -75,6 +114,8 @@ def scrape_note_list(max_scroll: int) -> list[tuple[str, str]]:
         if ctx is None:
             sys.exit("✗ ブラウザ起動に失敗しました。")
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
+
+        # 1) 自分の記事管理ページから note_id を総ざらい（DOMはidの発見だけに使う）
         for url in LIST_URLS:
             try:
                 page.goto(url, timeout=30000)
@@ -87,29 +128,36 @@ def scrape_note_list(max_scroll: int) -> list[tuple[str, str]]:
                 sys.exit("✗ 未ログイン状態です。 `python3 publish_to_note.py --login` を再実行してください。")
             stable = 0
             for _ in range(max_scroll):
-                anchors = page.eval_on_selector_all(
-                    "a",
-                    "els => els.map(e => ({h: e.getAttribute('href')||'', t:(e.innerText||'').trim()}))",
-                )
-                before = len(found)
-                for a in anchors:
-                    m = NOTE_ID_RE.search(a["h"])
-                    if not m:
-                        continue
-                    nid = m.group(1)
-                    title = a["t"].splitlines()[0].strip() if a["t"] else ""
-                    if title and (nid not in found or len(found[nid]) < len(title)):
-                        found[nid] = title
-                    else:
-                        found.setdefault(nid, "")
+                hrefs = page.eval_on_selector_all(
+                    "a", "els => els.map(e => e.getAttribute('href')||'')")
+                before = len(seen)
+                for h in hrefs:
+                    m = NOTE_ID_RE.search(h)
+                    if m and m.group(1) not in seen:
+                        seen.add(m.group(1))
+                        ids.append(m.group(1))
                 page.mouse.wheel(0, 4000)
                 page.wait_for_timeout(700)
-                stable = stable + 1 if len(found) == before else 0
-                if stable >= 4:
+                stable = stable + 1 if len(seen) == before else 0
+                if stable >= 5:
                     break
-            print(f"  {url} → 記事リンク {len(found)} 件（累計）")
+            print(f"  {url} → note_id {len(ids)} 件")
+
+        # 2) タイトルは note API（ログイン済みCookie共有）から確実に取得
+        print(f"🔎 タイトルをAPIから取得します（{len(ids)}件）…")
+        req = ctx.request
+        miss = 0
+        for i, nid in enumerate(ids, 1):
+            title, _status = _fetch_title(req, nid)
+            if not title:
+                miss += 1
+            rows.append((nid, title))
+            if i % 50 == 0:
+                print(f"   {i}/{len(ids)} 取得（タイトル空 {miss}）")
+            page.wait_for_timeout(120)   # 軽いレート制御
+        print(f"   完了：{len(rows)}件（タイトル取得失敗 {miss}件）")
         ctx.close()
-    return list(found.items())
+    return rows
 
 
 def load_export_file(path: Path) -> list[tuple[str, str]]:
@@ -147,21 +195,27 @@ def source_titles() -> dict[str, list[tuple[str, str]]]:
 
 
 def build_report(note_rows: list[tuple[str, str]]) -> tuple[str, dict]:
+    # タイトル空（API取得失敗等）は集計から除外し、別途カウント
+    titled = [(nid, t) for nid, t in note_rows if t.strip()]
+    blank_ids = [nid for nid, t in note_rows if not t.strip()]
+
     by_norm = defaultdict(list)
-    for nid, t in note_rows:
+    for nid, t in titled:
         by_norm[normalize_title(t)].append((nid, t))
-    counts = Counter(normalize_title(t) for _, t in note_rows)
     dups = {k: v for k, v in by_norm.items() if len(v) > 1}
 
     src = source_titles()
-    note_set, src_set = set(counts), set(src)
+    note_set, src_set = set(by_norm), set(src)
     matched = sorted(note_set & src_set)
     note_only = sorted(note_set - src_set)
     src_only = sorted(src_set - note_set)
 
     L = ["# note 掃除レポート（重複検出＋台帳突合）", ""]
-    L.append(f"- note 取得タイトル: **{len(note_rows)}** / ユニーク **{len(note_set)}**")
+    L.append(f"- note 取得: **{len(note_rows)}** 件（タイトル有 **{len(titled)}** / 取得失敗 **{len(blank_ids)}**）")
+    L.append(f"- note ユニークタイトル: **{len(note_set)}**")
     L.append(f"- ソース記事(CMO/outputs): **{sum(len(v) for v in src.values())}** / ユニーク **{len(src_set)}**")
+    if blank_ids:
+        L.append(f"- ⚠️ タイトル取得失敗 {len(blank_ids)}件は集計から除外（note_idは export TSV に保存済）")
     L.append("")
     L.append("## 1. note側の重複（各1本残して他を非公開化）")
     if not dups:
