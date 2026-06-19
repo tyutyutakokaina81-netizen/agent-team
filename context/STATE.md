@@ -226,7 +226,14 @@
 - `ops/install_publish_schedule.sh`：launchdで毎朝08:00起動（朝7-9時の初速ウィンドウ）。**既定は安全＝本番公開OFF**。
 - **オーナーがMacで実行する導入手順**：`bash ops/install_publish_schedule.sh` → note棚卸し確認後に `touch ops/PUBLISH_ENABLED` で本番ON。
 - 私（コンテナ）はlaunchd登録もnote公開も不可。スクリプト整備とドキュメント化までが私の担当範囲。
-- 公開元は `drafts/queue/*.md`（現在未作成＝自然な安全状態）。再開時はCMOストックをqueueへ投入する運用。
+- 公開元は `drafts/queue/*.md`。再開時はCMOストックをqueueへ投入する運用。
+
+### ★「公開して」対応（2026-06-19）
+- code（コンテナ）は外部ネット遮断でnote直接公開不可。**できるのはキュー投入＋手順提示まで**。
+- `drafts/queue/` に **6/11バッチ5本**を投入（食2＝冬おでん/冬大根、場所=万葉線、実用=メール整理、bip=失敗ログ）。全5本パース検証済・写真ゼロでtext-only即公開可。
+- cowork指示 `ops/inbox/2026-06-19_002` 発行。**本番公開はオーナーがMacで**：①note棚卸し完了確認→②`touch ops/PUBLISH_ENABLED`→③`bash ops/cowork_run.sh`。
+- ゲート未設定の間は --draft 動作で本番公開されない（安全）。公開後はnote IDをoutbox報告→code が台帳/STATE更新。
+- ⚠️ 再開条件①③（note側棚卸し・台帳再同期）は**未確認のまま**。ゲートを開ける前に必ず確認すること。
 
 ## 次にやること（次回「実行して」で着手）
 

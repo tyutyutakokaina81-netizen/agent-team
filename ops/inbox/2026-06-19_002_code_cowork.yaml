@@ -1,0 +1,55 @@
+---
+id: 2026-06-19_002
+from: code
+to: cowork
+created: 2026-06-19T00:30:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開キュー投入済み】6/11バッチ5本を本番公開（安全ゲート解除が前提）
+---
+
+> オーナー指示「公開して」に対応。code（コンテナ）は外部ネット遮断でnote公開不可のため、
+> 公開キューに6/11バッチを投入した。**本番公開はオーナーのMacで実行**する。
+
+## 投入済みキュー（drafts/queue/）
+
+| # | ファイル | カテゴリ | 写真 |
+|---|---|---|---|
+| 1 | 2026-06-11_note記事_越中富山の冬のおでん.md | 食 | なし(text-only可) |
+| 2 | 2026-06-11_note記事_越中富山の冬大根.md | 食 | なし(text-only可) |
+| 3 | 2026-06-11_note記事_高岡万葉線_路面電車が日常.md | 場所 | なし(text-only可) |
+| 4 | 2026-06-11_note記事_木曜午後のメール整理タイム.md | 実用 | なし(text-only可) |
+| 5 | 2026-06-11_note記事_1ヶ月で失敗したこと全部書きます.md | bip | なし(text-only可) |
+
+- 5本厳守・食2本・写真placeholderゼロ（全てtext-onlyで即公開可能）。
+- 全5本 publish_to_note.py のパース検証済み（タイトル/本文抽出OK）。
+
+## 公開手順（オーナーのMacで）
+
+```bash
+# 0) 前提：note側の棚卸し（再開条件①③）が完了していること
+#    まだなら本番公開せず、まず ops/inbox/2026-06-19_001 を先に処理する
+
+# 1) 本番公開ゲートを開ける（棚卸し完了後のみ）
+touch ops/PUBLISH_ENABLED
+
+# 2) キューを公開（launchd待ちなら即時実行）
+bash ops/cowork_run.sh
+#    or 1本ずつ： python3 CDO/outputs/note_publisher/publish_to_note.py \
+#                  --article drafts/queue/<ファイル名> --text-only
+```
+
+- ゲート未設定（PUBLISH_ENABLED 無し）の場合、cowork_run.sh は **--draft（下書き保存のみ）** で動作し本番公開しない＝動作確認に使える。
+- 公開できた記事は自動で drafts/published/ へ移動し、outbox に結果報告＋push される。
+- 冪等化により二重公開はブロック。再公開時のみ --force。
+
+## 公開後
+
+- 公開時刻は朝7〜9時を推奨（初速ウィンドウ）。
+- 各記事の本文1段落を引用してXへクロスポスト（「続きはnoteに」）。
+- note ID を outbox で報告 → code が台帳（_index）と STATE を更新する。
+
+## 注意
+
+- 無料のみ／破壊的操作禁止／棚卸し未完なら本番公開しない（ゲートで担保）。
