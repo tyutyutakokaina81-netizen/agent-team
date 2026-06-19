@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.agentteam.notepublish</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>__SCRIPT_DIR__/daily_auto_publish.sh</string>
+  </array>
+
+  <!-- 毎日 __HOUR__:__MIN__ に起動（noteのおすすめは朝の初速が乗りやすい） -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>__HOUR__</integer>
+    <key>Minute</key><integer>__MIN__</integer>
+  </dict>
+
+  <!-- ログイン直後の即時実行はしない（意図しない公開を防ぐ） -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>__SCRIPT_DIR__/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__SCRIPT_DIR__/logs/launchd.err.log</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+</dict>
+</plist>
