@@ -83,56 +83,103 @@ def _click_target_if_present(page) -> bool:
     return False
 
 
-def _dump_debug(page, nid):
-    DEBUG_DIR.mkdir(exist_ok=True)
+def _scan(page):
     try:
-        items = page.eval_on_selector_all(
-            'button, a, [role="button"], [role="menuitem"], [role="menuitemradio"]',
+        return page.eval_on_selector_all(
+            'button, a, [role="button"], [role="menuitem"], [role="menuitemradio"], [role="link"]',
             "els => els.map(e => ({t:(e.innerText||'').trim().slice(0,40),"
             "a:(e.getAttribute('aria-label')||''),"
             "d:(e.getAttribute('data-testid')||'')})).filter(x=>x.t||x.a||x.d)",
         )
     except Exception as e:
-        items = [{"t": f"(dump失敗:{e})", "a": "", "d": ""}]
-    lines = [f"URL: {page.url}", f"clickable要素 {len(items)}件:"]
+        return [{"t": f"(scan失敗:{e})", "a": "", "d": ""}]
+
+
+def _append_dump(nid, label, page):
+    DEBUG_DIR.mkdir(exist_ok=True)
+    items = _scan(page)
+    lines = [f"\n===== {label} =====", f"URL: {page.url}", f"clickable要素 {len(items)}件:"]
     for x in items:
         lines.append(f"  text='{x['t']}' aria='{x['a']}' testid='{x['d']}'")
-    (DEBUG_DIR / f"{nid}.txt").write_text("\n".join(lines), encoding="utf-8")
+    with (DEBUG_DIR / f"{nid}.txt").open("a", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
     try:
-        page.screenshot(path=str(DEBUG_DIR / f"{nid}.png"), full_page=True)
+        page.screenshot(path=str(DEBUG_DIR / f"{nid}_{label}.png"), full_page=True)
     except Exception:
         pass
 
 
-def revert_one(page, nid) -> str:
-    page.goto(f"https://note.com/notes/{nid}/edit", timeout=30000)
-    page.wait_for_load_state("networkidle", timeout=20000)
-    if "login" in page.url or "accounts.google.com" in page.url:
-        return "not_logged_in"
-    # 1) まず素で対象ラベルが見えるか
+def _try_unpublish_on_page(page) -> bool:
+    """今のページで 下書きに戻す/公開停止 を探して押す。SPA描画を待ってから。"""
+    page.wait_for_timeout(4500)   # SPA描画待ち
     if _click_target_if_present(page):
-        return "ok"
-    # 2) メニュー候補を順に開いて、その都度対象ラベルを探す
+        return True
     for sel in MENU_SELECTORS:
         try:
             locs = page.locator(sel)
-            n = min(locs.count(), 6)
+            n = min(locs.count(), 8)
             for i in range(n):
                 try:
                     b = locs.nth(i)
                     if not b.is_visible(timeout=300):
                         continue
                     b.click()
-                    page.wait_for_timeout(500)
+                    page.wait_for_timeout(600)
                     if _click_target_if_present(page):
-                        return "ok"
+                        return True
                     page.keyboard.press("Escape")
                 except Exception:
                     continue
         except Exception:
             continue
-    # 3) 見つからない → 診断材料を保存
-    _dump_debug(page, nid)
+    return False
+
+
+def _get_urlname(ctx, nid) -> str:
+    for ver in ("v2", "v3", "v1"):
+        try:
+            r = ctx.request.get(f"https://note.com/api/{ver}/notes/{nid}", timeout=15000)
+            if r.ok:
+                j = r.json()
+                d = j.get("data", j)
+                if isinstance(d, dict) and isinstance(d.get("data"), dict):
+                    d = d["data"]
+                u = (d.get("user") or {}) if isinstance(d, dict) else {}
+                for k in ("urlname", "url_name", "key"):
+                    if u.get(k):
+                        return u[k]
+        except Exception:
+            continue
+    return ""
+
+
+def revert_one(page, nid, ctx) -> str:
+    # 試行A：エディタ（公開設定）画面
+    try:
+        page.goto(f"https://note.com/notes/{nid}/edit", timeout=30000)
+        page.wait_for_load_state("load", timeout=20000)
+    except Exception:
+        pass
+    if "accounts.google.com" in page.url or page.url.endswith("note.com/login"):
+        return "not_logged_in"
+    if _try_unpublish_on_page(page):
+        return "ok"
+    _append_dump(nid, "editor", page)
+
+    # 試行B：自分の記事公開ページの「…」メニュー（urlname を API から取得）
+    urlname = _get_urlname(ctx, nid)
+    if urlname:
+        try:
+            page.goto(f"https://note.com/{urlname}/n/{nid}", timeout=30000)
+            page.wait_for_load_state("load", timeout=20000)
+            if _try_unpublish_on_page(page):
+                return "ok"
+            _append_dump(nid, "article", page)
+        except Exception:
+            pass
+    else:
+        with (DEBUG_DIR / f"{nid}.txt").open("a", encoding="utf-8") as f:
+            f.write("\n(urlname 取得失敗：記事ページ試行スキップ)\n")
     return "manual"
 
 
@@ -178,7 +225,7 @@ def main():
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         for i, (nid, t) in enumerate(targets, 1):
             try:
-                r = revert_one(page, nid)
+                r = revert_one(page, nid, ctx)
             except Exception as e:
                 r = f"error:{e}"
             ok += r == "ok"; manual += r == "manual"; fail += r not in ("ok", "manual")
