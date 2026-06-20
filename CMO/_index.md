@@ -17,7 +17,7 @@
 | 2026-06-20 | 2026-06-20_Gumroad出品コピー_SoloCEO_OS_EN.md | 出品コピー(EN) | Gumroad英語版リスティング完成稿（海外決済向け）。価格はCFOメモ参照 | 完了 |
 | 2026-06-20 | 2026-06-20_note末尾CTA_SoloCEO_OS送客.md | CTA素材 | 無料note末尾→Gumroad「Solo CEO OS」送客スニペット集（A〜E＋英語）。リンク差替えで使用 | 完了 |
 | 2026-06-20 | 2026-06-20_SoloCEO_OS価格メモ_CFO作成.md | 価格設計(CFO) | Gumroad初期価格の根拠（国内¥1,980／海外$12／ローンチ割）。CFO作成・CMO出品パッケージ内に格納 | 完了 |
-| 2026-06-20 | （全note記事117本）末尾Solo CEO OS送客CTA挿入 | CTA一括挿入 | 食・場所含む全note記事117本の末尾にテーマ別CTA（A5/C15/D22/E75）を挿入。URL=gumroad.com/l/olkujo（要検証）。マーカー`<!-- SOLOCEO_CTA -->`で一括置換可。スクリプト:CDO/research/insert_soloceo_cta.py | 完了 |
+| 2026-06-20 | （全note記事117本）末尾Solo CEO OS送客CTA挿入 | CTA一括挿入 | 食・場所含む全note記事117本の末尾にテーマ別CTA（A5/C15/D22/E75）を挿入。URL=https://gumroad.com/l/olkujo（Gumroad公開短縮リンク形式・確定）。マーカー`<!-- SOLOCEO_CTA -->`で一括置換可。スクリプト:CDO/research/insert_soloceo_cta.py | 完了 |
 | 2026-06-08 | 2026-06-08_note記事_月曜朝最初に開くファイル.md | note記事 | 6/08-⑤ 実用。月曜朝の最初の10分=今週やる3つを開く | 完了 |
 | 2026-06-13 | 2026-06-13_note記事_note爆上がり戦略.md | note記事 | 6/13 特別依頼。noteの閲覧数を伸ばす8つの実践戦略（タイトル/サムネ/X連携/SEO/英語要約/有料導線）。事実検証ノート付き | 完了 |
 | 2026-06-13 | 2026-06-13_note記事_最初の有料記事を出す前の3つの問い.md | note記事 | 6/13-⑤ マーケ。有料化前の3つの問い | 完了 |

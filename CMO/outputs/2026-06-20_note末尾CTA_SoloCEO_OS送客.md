@@ -1,7 +1,7 @@
 # note末尾CTA — Solo CEO OS への送客スニペット
 
 > 用途：無料note記事の末尾に貼って、Gumroad商品「Solo CEO OS」へ送客するためのCTA文。
-> リンクは出品後に `PAID_GUIDE_URL` 相当（GumroadのURL）へ差し替える。`[商品リンク]` がプレースホルダ。
+> リンクは出品後に `PAID_GUIDE_URL` 相当（GumroadのURL）へ差し替える。公開URL=`https://gumroad.com/l/olkujo`（確定）。
 > 作成：CMO / 2026-06-20
 
 ---
@@ -10,7 +10,7 @@
 
 - 1記事につき **CTAは1つだけ**（複数貼ると弱くなる）。
 - 記事テーマに近いパターンを選ぶ（AI活用系→A/B、ひとり起業の悩み系→C、仕組み化系→D）。
-- 押し売り感を避けるため、記事本文の結論と地続きにする。`[商品リンク]` を実URLに置換。
+- 押し売り感を避けるため、記事本文の結論と地続きにする。公開URLは `https://gumroad.com/l/olkujo`（確定済み）。
 
 ---
 
@@ -21,7 +21,7 @@
 
 毎回ゼロからAIに指示するのをやめて、「役員チーム」として役割を固定する方法を
 一式にまとめました。6人のAI役員（CDO/CFO/CMO/CPO/CSO/CAO）のプロンプトと、
-記憶・自動実行の仕組みつき。→ Solo CEO OS：[商品リンク]
+記憶・自動実行の仕組みつき。→ Solo CEO OS：https://gumroad.com/l/olkujo
 ```
 
 ## パターンB（AI活用記事／実利フック）
@@ -31,7 +31,7 @@
 
 「AIは使っているのに、作業が積み上がらない」——その原因はだいたい、
 役割が分かれていないことです。一人を社長にして、実務を6人のAI役員に渡す
-テンプレート一式 → Solo CEO OS：[商品リンク]
+テンプレート一式 → Solo CEO OS：https://gumroad.com/l/olkujo
 ```
 
 ## パターンC（ひとり起業の悩み記事の末尾／共感トーン）
@@ -40,7 +40,7 @@
 ---
 
 企画も数字も営業も全部自分、という状態を「会社のように」分けるための運営OSを
-作りました。ひとりでも、役員チームがいる前提で回せます。→ [商品リンク]
+作りました。ひとりでも、役員チームがいる前提で回せます。→ https://gumroad.com/l/olkujo
 ```
 
 ## パターンD（仕組み化・効率化記事の末尾）
@@ -49,7 +49,7 @@
 ---
 
 この「仕組みで回す」考え方を、6役員ぶんのプロンプトと運営ルールにまとめたのが
-Solo CEO OS です。今日から各役員に仕事を振れます。→ [商品リンク]
+Solo CEO OS です。今日から各役員に仕事を振れます。→ https://gumroad.com/l/olkujo
 ```
 
 ## パターンE（短い・記事を選ばない汎用）
@@ -57,7 +57,7 @@ Solo CEO OS です。今日から各役員に仕事を振れます。→ [商品
 ```
 ---
 
-▶ ひとりで会社のように回す運営キット「Solo CEO OS」：[商品リンク]
+▶ ひとりで会社のように回す運営キット「Solo CEO OS」：https://gumroad.com/l/olkujo
 ```
 
 ---
@@ -69,7 +69,7 @@ Solo CEO OS です。今日から各役員に仕事を振れます。→ [商品
 
 If you use AI but nothing compounds, the problem is usually that no roles are
 divided. Solo CEO OS hands each role to an AI executive — six prompts, plus a
-memory and auto-run system. → [product link]
+memory and auto-run system. → https://gumroad.com/l/olkujo
 ```
 
 ---
