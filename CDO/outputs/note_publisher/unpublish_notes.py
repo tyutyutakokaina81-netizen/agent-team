@@ -1,104 +1,146 @@
 #!/usr/bin/env python3
 """
-重複noteを「下書きに戻す」補助ツール（オーナーのMacで実行）。
+重複noteを「下書きに戻す／公開停止」する（v2・自己診断つき）。
 
-dedup_unpublish_list.tsv の action=unpublish 行を読み、各記事を
-note 上で「下書きに戻す（=公開停止）」する。**削除ではなく下書き化＝復元可能**。
+v1 は note のUIでボタンを見つけられず 74/74 manual だった。v2 は
+1) より広いセレクタでメニュー/ボタンを探して **実際にクリック** し、
+2) 見つからなければ **その記事のボタン一覧テキストとスクショを保存** する。
+→ 1回 --execute --limit 1 を回せば、「成功」か「実DOM情報（code が直せる材料）」が必ず得られる。
 
-⚠️ 公開状態を変える操作。既定は dry-run（何もしない）。実行は --execute が必要。
-   まず `--execute --limit 1` で1本だけ試し、UIの流れが合っているか確認してから全件へ。
+⚠️ 公開状態を変える操作。既定 dry-run。実行は --execute。まず --execute --limit 1 で1本。
+　削除（取り消し不可）は自動では押さない。下書き化/公開停止のみ自動。削除しか無い場合は manual 報告。
 
-前提: publish_to_note.py --login 済み（~/.note_publisher_profile）。
-
+前提: publish_to_note.py --login 済み。
 使い方:
-  python3 unpublish_notes.py                      # dry-run：対象一覧とURLを表示するだけ
-  python3 unpublish_notes.py --execute --limit 1  # 1本だけ実際に下書きへ（動作確認）
-  python3 unpublish_notes.py --execute            # 全unpublish対象を下書きへ
-  python3 unpublish_notes.py --list FILE          # 別の非公開化リストを使う
-
-各記事で下書き化に失敗した場合は、その edit URL をログに残すので手動で対応できる。
+  python3 unpublish_notes.py                      # dry-run（対象表示）
+  python3 unpublish_notes.py --execute --limit 1  # 1本だけ実行（まずこれ）
+  python3 unpublish_notes.py --execute            # 全部
+失敗時の材料: CDO/outputs/note_publisher/unpublish_debug/<note_id>.txt / .png
 """
 from __future__ import annotations
 import argparse
 import sys
+import time
 from pathlib import Path
 from datetime import datetime, timezone
 
 HERE = Path(__file__).resolve().parent
 DEDUP_TSV = HERE / "dedup_unpublish_list.tsv"
 LOG = HERE / "unpublish_log.tsv"
+DEBUG_DIR = HERE / "unpublish_debug"
 PROFILE_DIR = Path.home() / ".note_publisher_profile"
 
+# 自動で押してよい（復元可能な）操作のラベル。削除は含めない。
+TARGET_LABELS = ["下書きに戻す", "下書きに変更", "公開を停止", "公開停止", "非公開にする", "下書きにする"]
+# メニューを開くトリガー候補
+MENU_SELECTORS = [
+    'button[aria-label*="メニュー"]', 'button[aria-label*="設定"]', 'button[aria-label*="その他"]',
+    'button[aria-haspopup]', '[data-testid*="menu"]', '[data-testid*="option"]',
+    'button:has-text("…")', 'button:has-text("⋯")', 'button:has-text("︙")',
+    'header button', 'nav button',
+]
 
-def load_targets(list_path: Path) -> list[tuple[str, str]]:
-    """action=unpublish の (note_id, title) を返す。"""
-    if not list_path.exists():
-        sys.exit(f"✗ リストが見つかりません: {list_path}\n"
-                 f"  先に note_cleanup_all.py を実行して生成してください。")
+
+def load_targets(p: Path):
+    if not p.exists():
+        sys.exit(f"✗ {p} が無い。先に note_cleanup_all.py を実行。")
     out = []
-    for raw in list_path.read_text(encoding="utf-8").splitlines():
-        line = raw.rstrip("\n")
+    for line in p.read_text(encoding="utf-8").splitlines():
         if not line.strip() or line.startswith("action") or line.startswith("#"):
             continue
-        cols = line.split("\t")
-        if len(cols) >= 2 and cols[0].strip() == "unpublish":
-            out.append((cols[1].strip(), cols[2].strip() if len(cols) >= 3 else ""))
+        c = line.split("\t")
+        if len(c) >= 2 and c[0].strip() == "unpublish":
+            out.append((c[1].strip(), c[2].strip() if len(c) >= 3 else ""))
     return out
 
 
-def _record(note_id: str, title: str, result: str):
+def _record(nid, title, result):
     new = not LOG.exists()
     with LOG.open("a", encoding="utf-8") as f:
         if new:
             f.write("# note_id\ttitle\tresult\tat(UTC)\n")
-        f.write(f"{note_id}\t{title}\t{result}\t{datetime.now(timezone.utc).isoformat()}\n")
+        f.write(f"{nid}\t{title}\t{result}\t{datetime.now(timezone.utc).isoformat()}\n")
 
 
-def revert_one(page, note_id: str) -> str:
-    """1記事を下書きに戻す。成功なら 'ok'、UIで見つからなければ 'manual'。"""
-    url = f"https://note.com/notes/{note_id}/edit"
-    page.goto(url, timeout=30000)
+def _click_target_if_present(page) -> bool:
+    """画面内に下書き化/公開停止ラベルがあれば押して確定。押せたら True。"""
+    for label in TARGET_LABELS:
+        try:
+            el = page.locator(f'text="{label}"').first
+            if el.count() and el.is_visible(timeout=500):
+                el.click()
+                page.wait_for_timeout(600)
+                for ok in ("戻す", "停止", "変更", "非公開", "はい", "OK", "実行", "確定"):
+                    try:
+                        b = page.locator(f'button:has-text("{ok}")').last
+                        if b.is_visible(timeout=400):
+                            b.click(); page.wait_for_timeout(800); break
+                    except Exception:
+                        continue
+                return True
+        except Exception:
+            continue
+    return False
+
+
+def _dump_debug(page, nid):
+    DEBUG_DIR.mkdir(exist_ok=True)
+    try:
+        items = page.eval_on_selector_all(
+            'button, a, [role="button"], [role="menuitem"], [role="menuitemradio"]',
+            "els => els.map(e => ({t:(e.innerText||'').trim().slice(0,40),"
+            "a:(e.getAttribute('aria-label')||''),"
+            "d:(e.getAttribute('data-testid')||'')})).filter(x=>x.t||x.a||x.d)",
+        )
+    except Exception as e:
+        items = [{"t": f"(dump失敗:{e})", "a": "", "d": ""}]
+    lines = [f"URL: {page.url}", f"clickable要素 {len(items)}件:"]
+    for x in items:
+        lines.append(f"  text='{x['t']}' aria='{x['a']}' testid='{x['d']}'")
+    (DEBUG_DIR / f"{nid}.txt").write_text("\n".join(lines), encoding="utf-8")
+    try:
+        page.screenshot(path=str(DEBUG_DIR / f"{nid}.png"), full_page=True)
+    except Exception:
+        pass
+
+
+def revert_one(page, nid) -> str:
+    page.goto(f"https://note.com/notes/{nid}/edit", timeout=30000)
     page.wait_for_load_state("networkidle", timeout=20000)
     if "login" in page.url or "accounts.google.com" in page.url:
         return "not_logged_in"
-    # メニュー（…）を開く → 「下書きに戻す」「公開を停止」等を探す
-    for opener in ('button[aria-label*="メニュー"]', 'button[aria-label*="設定"]',
-                   'button:has-text("…")', '[data-testid*="menu"]'):
+    # 1) まず素で対象ラベルが見えるか
+    if _click_target_if_present(page):
+        return "ok"
+    # 2) メニュー候補を順に開いて、その都度対象ラベルを探す
+    for sel in MENU_SELECTORS:
         try:
-            btn = page.locator(opener).first
-            if btn.is_visible(timeout=800):
-                btn.click()
-                page.wait_for_timeout(500)
-                break
-        except Exception:
-            continue
-    for label in ("下書きに戻す", "公開を停止", "公開停止", "非公開にする", "下書きにする"):
-        try:
-            item = page.locator(f'text="{label}"').first
-            if item.is_visible(timeout=800):
-                item.click()
-                page.wait_for_timeout(600)
-                # 確認ダイアログ
-                for ok in ("戻す", "停止", "はい", "OK", "実行"):
-                    try:
-                        c = page.locator(f'button:has-text("{ok}")').last
-                        if c.is_visible(timeout=500):
-                            c.click()
-                            page.wait_for_timeout(800)
-                            break
-                    except Exception:
+            locs = page.locator(sel)
+            n = min(locs.count(), 6)
+            for i in range(n):
+                try:
+                    b = locs.nth(i)
+                    if not b.is_visible(timeout=300):
                         continue
-                return "ok"
+                    b.click()
+                    page.wait_for_timeout(500)
+                    if _click_target_if_present(page):
+                        return "ok"
+                    page.keyboard.press("Escape")
+                except Exception:
+                    continue
         except Exception:
             continue
+    # 3) 見つからない → 診断材料を保存
+    _dump_debug(page, nid)
     return "manual"
 
 
 def main():
-    ap = argparse.ArgumentParser(description="重複noteを下書きに戻す（既定dry-run）")
+    ap = argparse.ArgumentParser()
     ap.add_argument("--list", default=str(DEDUP_TSV))
-    ap.add_argument("--execute", action="store_true", help="実際に下書き化する（無指定はdry-run）")
-    ap.add_argument("--limit", type=int, default=0, help="先頭N件だけ処理（0=全件）")
+    ap.add_argument("--execute", action="store_true")
+    ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
 
     targets = load_targets(Path(args.list))
@@ -107,10 +149,9 @@ def main():
     print(f"対象（unpublish）: {len(targets)} 件")
 
     if not args.execute:
-        print("【dry-run】実行しません。--execute で初めて下書き化します。\n")
+        print("【dry-run】--execute で実行。まず --execute --limit 1 推奨。\n")
         for nid, t in targets:
             print(f"  - {nid}  https://note.com/notes/{nid}/edit  「{t}」")
-        print(f"\n確認後の実行例: python3 {Path(__file__).name} --execute --limit 1")
         return
 
     try:
@@ -118,7 +159,7 @@ def main():
     except ImportError:
         sys.exit("✗ Playwright未インストール。setup.sh を先に。")
     if not PROFILE_DIR.exists() or not any(PROFILE_DIR.iterdir()):
-        sys.exit("✗ 初回ログイン未了。 `python3 publish_to_note.py --login` を先に。")
+        sys.exit("✗ 初回ログイン未了。 publish_to_note.py --login を先に。")
 
     ok = manual = fail = 0
     with sync_playwright() as p:
@@ -133,30 +174,25 @@ def main():
             except Exception:
                 continue
         if ctx is None:
-            sys.exit("✗ ブラウザ起動に失敗しました。")
+            sys.exit("✗ ブラウザ起動失敗")
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         for i, (nid, t) in enumerate(targets, 1):
             try:
                 r = revert_one(page, nid)
             except Exception as e:
                 r = f"error:{e}"
-            if r == "ok":
-                ok += 1
-            elif r == "manual":
-                manual += 1
-            else:
-                fail += 1
+            ok += r == "ok"; manual += r == "manual"; fail += r not in ("ok", "manual")
             _record(nid, t, r)
-            print(f"  [{i}/{len(targets)}] {r}  {nid}  「{t}」")
+            print(f"  [{i}/{len(targets)}] {r}  {nid}  「{t[:30]}」")
             if r == "not_logged_in":
-                print("✗ 未ログインのため中断します。 publish_to_note.py --login を再実行。")
-                break
+                print("✗ 未ログイン。publish_to_note.py --login を再実行。"); break
             page.wait_for_timeout(400)
         ctx.close()
 
     print(f"\n完了：下書き化 {ok} / 要手動 {manual} / 失敗 {fail}（ログ: {LOG}）")
-    if manual or fail:
-        print("  'manual'/'失敗' は上のedit URLを開いて手動で下書きに戻してください。")
+    if manual:
+        print(f"  ⚠️ manual の記事は {DEBUG_DIR}/<note_id>.txt にボタン一覧、.png にスクショを保存。")
+        print("     その .txt の中身（1本ぶんでOK）を貼ってくれれば、セレクタを直して完全自動化する。")
 
 
 if __name__ == "__main__":
