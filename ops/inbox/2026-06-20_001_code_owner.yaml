@@ -1,0 +1,66 @@
+---
+id: 2026-06-20_001
+from: code
+to: owner
+created: 2026-06-20T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: note公開「Mac版に一本化」確定 → 再開までの実行手順（掃除が先）
+---
+
+> オーナー承認「そうする」に基づく確定方針と手順。
+> 公開はMac版（launchd・安全ゲート付き）に一本化。クラウドは前処理のみ。
+> **着手順序：まずnote掃除 → ホールド解除 → 公開再開**。掃除前は公開しない。
+
+## A. いま公開しない（再確認）
+
+- `touch ops/PUBLISH_ENABLED` や `cowork_run.sh` の本番公開は **まだ実行しない**。
+- 理由：note 394本・大量重複＋台帳が信頼不可。今公開すると重複が増えるだけ。
+
+## B. note掃除（オーナーのMacでのみ可能・公開以外に到達できるのはMacだけ）
+
+1. **重複/テスト/未来日付記事の棚卸し**：note 394本 → ソース約110本へ。
+   - 既知の二重公開（手がかり）：`薄氷`(6/03 & 6/14)、`庄川の鮎`(6/09 & 6/12)。同タイトル/類似タイトルを非公開化 or 削除。
+2. **台帳の再同期**：note の実態（公開済み/未公開）に合わせて `CMO/_index.md` を作り直す。
+   - 既知のズレ：`辞める基準` は台帳「未公開」だが実際は6/03公開済。
+   - **自動化ツールあり**：note公開一覧（記事一覧からタイトル or note_id+title をコピペ保存）を渡すと、
+     重複検出＋ソース突合＋manifest生成を自動でやる：
+     ```
+     python3 CDO/outputs/note_publisher/reconcile_ledger.py --note-export <貼り付けたファイル> --out reconcile_report.md
+     # 掃除後の正一覧を重複ガードに反映：
+     python3 CDO/outputs/note_publisher/reconcile_ledger.py --note-export <ファイル> --write-manifest
+     ```
+     → レポートに「重複（非公開化候補）/ note のみ / 未公開」が一覧で出る。これを見ながら掃除すると速い。
+3. **タイトル冪等ガード**：公開前にタイトル完全一致で重複チェック（再発防止）。
+   - 注：Mac版 publish_to_note.py には stem 単位の冪等化＋未来日付ガードを実装済み（2026-06-19）。
+     これに「タイトル完全一致」チェックも足すと万全（必要なら code が実装）。
+
+## C. 機構の一本化（確定方針）
+
+- **公開＝Mac版（launchd）**：`bash ops/install_publish_schedule.sh` で毎朝08:00（既定は安全＝本番公開OFF）。
+- **クラウド（GitHub Actions）**：
+  - `note-thumbnails.yml`（サムネ生成・公開不要）は main に在り、存置OK。
+  - `note-auto-publish.yml`（クラウド公開）は **qjcegz ブランチ限定。main に merge しない**。
+    （scheduleはデフォルトブランチからのみ発火するため、mainに出さなければ無人公開は起きない＝現状安全）
+  - GitHub Secrets に NOTE_EMAIL / NOTE_PASSWORD を **登録しない**（漏洩・bot検知リスク回避）。
+
+## D. 再開のトリガー
+
+- B の3点が完了したら、`context/STATE.md` に **「ホールド解除（YYYY-MM-DD）」を明記**する。
+- その後、Mac版で公開再開：
+  ```
+  cd ~/agent-team
+  touch ops/PUBLISH_ENABLED
+  bash ops/cowork_run.sh
+  ```
+
+## E. 完了報告
+
+- B の各項の結果（整理後の公開本数・台帳の再同期状況）を `ops/outbox/` か STATE.md に記載。
+- 公開再開後は note ID を控えて報告 → code が台帳を正に保つ。
+
+## 注意
+
+- 破壊的操作（削除）はnote側のみオーナー判断で。リポジトリ側の一括削除は行わない。
+- 並行セッションが複数動いているため、本ファイルの確定方針を正とする。

@@ -95,6 +95,29 @@ python3 ops/process_inbox.py post \
 - **`status` フィールドは編集する**：取り組み中は `in-progress` にして衝突回避
 - **削除はしない**：`processed/` に残して履歴として保持
 
+## 日次自動公開と安全ゲート（2026-06-19 確定）
+
+オーナーのMacで launchd により `cowork_run.sh` を毎朝実行する自動公開系。
+6/12インシデント（無人公開で81本の重複/未来日付が公開）の再発防止として
+**3段の安全装置**を備える。
+
+| 装置 | 役割 | 解除方法 |
+|---|---|---|
+| 本番公開ゲート | `ops/PUBLISH_ENABLED` が無ければ全件 `--draft`（下書きのみ・本番公開しない） | `touch ops/PUBLISH_ENABLED` で本番ON／`rm` でOFF |
+| 未来日付ガード | ファイル名日付が今日より未来のキューはスキップ | （自動・解除不要） |
+| 冪等化 | `published_log.tsv` で同一記事の二重公開を防止 | 再公開時のみ `publish_to_note.py --force` |
+
+### 導入手順（オーナーのMacで一度だけ）
+
+```bash
+bash ops/install_publish_schedule.sh        # 既定 08:00。--draft で安全起動（本番公開しない）
+# note側の棚卸し（再開条件①③）完了を確認してから：
+touch ops/PUBLISH_ENABLED                    # 本番公開を有効化
+```
+
+> **既定は安全（本番公開OFF）**。フラグを立てるまで何回起動しても下書き保存に留まる。
+> 公開対象は `drafts/queue/*.md`。公開できたものは `drafts/published/` へ移動。
+
 ## PR コメントとの使い分け
 
 - **PR コメント**：人間（オーナー）が読む議論・方針確認
