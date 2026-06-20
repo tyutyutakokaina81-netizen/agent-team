@@ -31,7 +31,7 @@ DEBUG_DIR = HERE / "unpublish_debug"
 PROFILE_DIR = Path.home() / ".note_publisher_profile"
 
 # 自動で押してよい（復元可能な）操作のラベル。削除は含めない。
-TARGET_LABELS = ["下書きに戻す", "下書きに変更", "公開を停止", "公開停止", "非公開にする", "下書きにする"]
+TARGET_LABELS = ["下書き保存", "下書きに戻す", "下書きに変更", "公開を停止", "公開停止", "非公開にする", "下書きにする"]
 # メニューを開くトリガー候補
 MENU_SELECTORS = [
     'button[aria-label*="メニュー"]', 'button[aria-label*="設定"]', 'button[aria-label*="その他"]',
@@ -66,10 +66,14 @@ def _click_target_if_present(page) -> bool:
     """画面内に下書き化/公開停止ラベルがあれば押して確定。押せたら True。"""
     for label in TARGET_LABELS:
         try:
-            el = page.locator(f'text="{label}"').first
+            el = page.locator(f'button:has-text("{label}")').first
             if el.count() and el.is_visible(timeout=500):
                 el.click()
-                page.wait_for_timeout(600)
+                page.wait_for_timeout(1000)
+                # 「下書き保存」の場合は確認ダイアログなく即実行される可能性
+                if label == "下書き保存":
+                    return True
+                # その他のラベルは確認ボタンを探す
                 for ok in ("戻す", "停止", "変更", "非公開", "はい", "OK", "実行", "確定"):
                     try:
                         b = page.locator(f'button:has-text("{ok}")').last
@@ -111,7 +115,7 @@ def _append_dump(nid, label, page):
 
 def _try_unpublish_on_page(page) -> bool:
     """今のページで 下書きに戻す/公開停止 を探して押す。SPA描画を待ってから。"""
-    page.wait_for_timeout(4500)   # SPA描画待ち
+    page.wait_for_timeout(10000)   # SPA描画待ち（エディタページは10秒必要）
     if _click_target_if_present(page):
         return True
     for sel in MENU_SELECTORS:
