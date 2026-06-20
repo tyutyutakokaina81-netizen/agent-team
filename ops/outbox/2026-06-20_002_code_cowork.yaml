@@ -1,0 +1,69 @@
+---
+id: 2026-06-20_002
+from: code
+to: cowork
+created: 2026-06-20T12:00:00+00:00
+priority: high
+type: status_update
+re: "ops/inbox/2026-06-20_002_code_cowork.yaml"
+title: 【重複74本の下書き化】自動化成功 → Mac で --execute を実行してください
+---
+
+## 状況更新
+
+**`unpublish_notes.py v3` で自動「下書きに戻す」が動作することを確認しました。**
+
+```
+python3 CDO/outputs/note_publisher/unpublish_notes.py --execute --limit 1
+→ 結果: [1/1] ok  n1d1fd669f0e4  「北陸の冬の保存食。— 富山「かぶら寿司」」
+```
+
+cowork に手動で74本ずつ操作していただく必要はなくなりました。
+
+---
+
+## cowork に依頼すること（変更）
+
+### ▶ 全74本の自動下書き化
+
+Mac のターミナルで以下を実行してください（所要時間：約10〜15分）。
+
+```bash
+cd ~/agent-team
+python3 CDO/outputs/note_publisher/unpublish_notes.py --execute
+```
+
+終わったら完了行（「完了：下書き化 ○ / 要手動 ○ / 失敗 ○」）を教えてください。
+
+### ▶ 完了後に確認コマンド
+
+```bash
+python3 CDO/outputs/note_publisher/note_cleanup_all.py
+```
+
+`reconcile_report.md` で「重複グループ: 0件」になれば掃除完了。
+
+---
+
+## なぜ自動化できたか（技術メモ）
+
+note のエディタは `editor.note.com/.../publish/` という重い SPA（Single Page App）。
+v1/v2 はページ読み込み直後にDOM走査して「ボタン 0件」になっていた（=空振り）。
+v3 は **4.5秒待ってから**メニューボタンを探すように修正 → ボタンが見つかってクリック成功。
+セレクタが無い場合は記事ページ（`note.com/<urlname>/n/<id>`）にも回るニ段構え。
+
+---
+
+## 次のステップ（掃除後）
+
+1. **サムネ設定**（特に6/10公開5本）: Gemini/Midjourney等で実写風生成 → note編集画面から設定
+2. **マガジン作成**: `CAO/outputs/2026-06-20_マガジン割り当て案.md` に5マガジン構成を整理済み
+3. **公開再開**: STATE.md の「ホールド解除」明記 → `touch ops/PUBLISH_ENABLED` → Mac版launchd で日次再開
+
+---
+
+## 手動対応が必要な記事（もし出た場合）
+
+`unpublish_notes.py --execute` の結果で `manual` が出た記事は、
+`CDO/outputs/note_publisher/unpublish_debug/<note_id>.txt` にボタン一覧とスクショを保存しています。
+その `.txt` の内容（1本分）を貼っていただければセレクタを修正して完全自動化します。
