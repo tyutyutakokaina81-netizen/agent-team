@@ -1,0 +1,3922 @@
+[
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 157149007,
+          "key": "nbf4956be87e5",
+          "name": "奥とうふ店の、やわらかさ。 — A Hidden Tofu Shop in Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 92,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157018663,
+          "key": "n3f425045d38f",
+          "name": "ウキが消えた夜 — Night Fishing in Toyama Bay",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 60,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156946738,
+          "key": "nf579921b6007",
+          "name": "四月の朝、コーヒーを淹れた。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 52,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 165079646,
+          "key": "n597f3fdec20d",
+          "name": "氷見の朝市は、観光客より先に地元が来る。— Himi Morning Market, Where Locals Come First",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 41,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164997310,
+          "key": "n4567ced71cbc",
+          "name": "noteの閲覧数が伸びない本当の理由と、今日から変えられる8つのこと",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 40,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157091986,
+          "key": "nda0c96e8e2c4",
+          "name": "今庄で、また迷った。 — Soba or Udon? Takaoka's Station Noodle Bar",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 39,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113611,
+          "key": "n5c03e875a37e",
+          "name": "富山のお土産は、白えびせんべいで失敗しない。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 37,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161529001,
+          "key": "na65de7b300ac",
+          "name": "きつねでもかけでもない、第三の選択肢があった。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 36,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161590654,
+          "key": "n32d9a4a9e920",
+          "name": "射水のがってんで、醤油を飲んだ。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 36,
+          "like_count": 4,
+          "comment_count": 2,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157448913,
+          "key": "n8f5bc9ff307b",
+          "name": "車の買い替え",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 34,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156209641,
+          "key": "nbf270f5e0a80",
+          "name": "コーヒーが教えてくれたこと",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 33,
+          "like_count": 5,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157272554,
+          "key": "nf3a67389a0cb",
+          "name": "ボタンが多い。でも、なんかいい。 — Too Many Buttons, But Good Car",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 33,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 165255741,
+          "key": "n6019205822d9",
+          "name": "金屋町で、鎚音に足を止めた。— Kanayamachi, Where the Hammer Still Rings",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 33,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157195458,
+          "key": "n478e510ab2ac",
+          "name": "金曜の夜、何を飲むか問題。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 32,
+          "like_count": 5,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159353445,
+          "key": "n763ed374f8c0",
+          "name": "金屋町、五月の鎚音 — Kanayamachi, the Hammer Sound of May",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 32,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162005512,
+          "key": "ne69fdaf99f2e",
+          "name": "金ちゃんヌードルをめぐる考察 ―「特徴がない」という個性",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 32,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157222386,
+          "key": "n7b223e685f18",
+          "name": "海と山が、同時に見える。 — Where the Sea Meets the Alps, Hokuriku",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 31,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160755117,
+          "key": "n3437bf24415f",
+          "name": "五月の日曜、雨が来る前の高岡",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 31,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161531469,
+          "key": "ndb86b15948e2",
+          "name": "雨晴海岸は、晴れじゃなくてもよかった。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 31,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161815887,
+          "key": "na83ebaa98680",
+          "name": "富山「お食事処 ポーク」名物ポーク風ライスと、とん汁。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 31,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159199353,
+          "key": "n9ab501425c27",
+          "name": "蛙が鳴き始めた木曜の夜 — The Thursday the Frogs Began",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 29,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161533390,
+          "key": "n7a18e6233dd8",
+          "name": "水を張った田に、立山が裏返しに立つ｜When the mountains lay down in the rice fields",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 29,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163847473,
+          "key": "n0b839094efd9",
+          "name": "去年、YouTubeのリハック（ReHacQ）で、ひろゆきさんが富山を旅する動画が公開された。なんか氷見に行ったらしい、というのは、知り合いから聞いていた。「あの民宿サウナ、ひろゆきが泊まって話題になってるって」と。民宿あおまさ。氷見市の松田江浜に面した、小さな宿だ。ぼくは、その名前をずっと前から知っていた。氷見の地元の人間なら、あそこの飯がうまいことは知っている。ブリしゃぶ、氷見うどん、朝採れの鮮魚。あの宿の料理を食べると、ここが本物の漁師町だということを体で感じる。でも、最近のあおまさは変わった。砂浜",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 29,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157445862,
+          "key": "nd2a815903500",
+          "name": "おとぎの森に、ドラえもんがいた。— Doraemon Lives in Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 28,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 161589555,
+          "key": "neba543d54264",
+          "name": "山町筋を、ただ歩いた。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 28,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160655897,
+          "key": "n92cb6b78e48c",
+          "name": "木曜の魚屋、ホタルイカ最後の夜",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 27,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161739961,
+          "key": "nc090f8994cc8",
+          "name": "奥の豆腐屋で、油揚げを買った話。— The Tofu Shop Around the Corner and Its Golden Fried Tofu",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 27,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170340,
+          "key": "n25ec8d9c0e89",
+          "name": "家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 27,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160913542,
+          "key": "n7391b76df24f",
+          "name": "月曜、五月の銅の街に — Monday in the Copper Town of May",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161526112,
+          "key": "nd5a630fb0220",
+          "name": "高岡の朝、駅そばで迷う話。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161526797,
+          "key": "n5d6fe04b8b57",
+          "name": "瑞龍寺に、平日ひとりで行ってきた。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 2,
+          "comment_count": 1,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162693772,
+          "key": "nb53fbf98fbe3",
+          "name": "光でできた建物。— 富山市ガラス美術館・TOYAMAキラリ",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 165143032,
+          "key": "nda50d4e3f2c8",
+          "name": "営業しないで、仕事が来る仕組みは作れるのか。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 165143378,
+          "key": "n504a2879d6a0",
+          "name": "日本でいちばん高いところから、水が落ちている。— 富山「称名滝」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 26,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157445812,
+          "key": "n12c6d3124d2a",
+          "name": "高岡から、世界へ手を伸ばした。— Reaching the World from Takaoka, with AI",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158733674,
+          "key": "n4f07a5e72088",
+          "name": "水鏡に立山が降りてくる五月 — The Day Tateyama Descends Into the Flooded Fields",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 158932868,
+          "key": "nc2c42ab847ec",
+          "name": "ChatGPT副業の最初の1ヶ月を生き延びる「コピペで使える5つのプロンプト」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159889092,
+          "key": "nea91a597436e",
+          "name": "月曜の朝、瑞龍寺に響く梵鐘",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160501785,
+          "key": "n573859cf0e42",
+          "name": "田植えから一週間、苗が立った",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160556029,
+          "key": "nc5a32490a631",
+          "name": "一杯のコーヒーと、高岡という街",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 165143212,
+          "key": "n5361df3b0d10",
+          "name": "富山には、雪を割ったような形の和菓子がある。— 薄氷",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 25,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156441572,
+          "key": "n864889b411c1",
+          "name": "高岡の道の駅の自販機は、午前中に売り切れる",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 24,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157296810,
+          "key": "n8ed3ea4447a6",
+          "name": "大仏と、白鳥と。— Takaoka's Great Buddha & Castle Park",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 24,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156441733,
+          "key": "n869b950717fd",
+          "name": "餃子、みっちゃん",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161380512,
+          "key": "n3c12b85d2d73",
+          "name": "珈琲一杯ぶんの、平日午後",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161888587,
+          "key": "nc9a88eb604b7",
+          "name": "富山ポークの豚汁を、昼に食べた。— A Bowl of Toyama Pork Tonjiru at Midday",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162320908,
+          "key": "ndb81f2481f7a",
+          "name": "鱒の寿しを、買った。— Buying Masu-zushi, Toyama's Soul Food",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162693283,
+          "key": "naa1d29fe25da",
+          "name": "海越しに立山を望む場所。— 雨晴海岸",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163012431,
+          "key": "n2919fbf46b0b",
+          "name": "ファミリーレストラン堀井という洋食屋があった。高岡で48年、腹いっぱいの幸せをくれた老夫婦への手向け",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 23,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170093,
+          "key": "n17baed73f9c9",
+          "name": "朝5時から夜10時まで、AIと働く1日の中身。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 23,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156801699,
+          "key": "n299792e29ade",
+          "name": "雨上がりの、ほたるいか",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157257764,
+          "key": "na0ed3cb5415c",
+          "name": "光が、変わった。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157806741,
+          "key": "nf8664b4a386e",
+          "name": "四月の終わり、夕方の高岡。— April Dusk in Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159775991,
+          "key": "n00bd966d6295",
+          "name": "水鏡の五月、立山がふたつある",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160504373,
+          "key": "ndbfd8df93f09",
+          "name": "古城公園、堀のほとりで五月の本を読む — Reading May by the Castle Moat",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160578216,
+          "key": "n1c07930d4c43",
+          "name": "冷や奴という、夏のちいさな贅沢",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162319463,
+          "key": "n5affb53633a8",
+          "name": "富山湾の白エビを、食べた。— Eating Shiro-ebi, the Jewel of Toyama Bay",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162321956,
+          "key": "n6625caf4eb90",
+          "name": "万葉線に、乗った。— A Slow Ride on Takaoka's Old Tram",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164482060,
+          "key": "n1629380dd522",
+          "name": "新湊内川は、「日本のヴェネツィア」ではなく、今も漁師の川だ。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 165142467,
+          "key": "n192b7f156f9e",
+          "name": "請求書を3分で作る、AIへのプロンプト。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 165142689,
+          "key": "ndd4f8479c1cd",
+          "name": "フリーランス収支管理スプレッドシートを売って、分かったこと。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 22,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156631011,
+          "key": "nb509185b5d98",
+          "name": "月曜日と、さくら",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 21,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156946252,
+          "key": "n53023bcac811",
+          "name": "小矢部川の、昼下がり",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 21,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157444510,
+          "key": "n7753ab3f8b2e",
+          "name": "筆を持つ。そして、値段を考えた。— On Selling Japanese Calligraphy from Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 21,
+          "like_count": 7,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160503912,
+          "key": "n40aa363f3e2c",
+          "name": "万葉線、ことこと走って越ノ潟へ — Manyō Line, the Slow Train to Koshinokata",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 21,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162691981,
+          "key": "ne694d0f8972a",
+          "name": "光を集める建物の中で。— Inside the Building That Collects Light, Toyama",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 21,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 154821218,
+          "key": "n255880cbb8ae",
+          "name": "【無料より使いやすい】フリーランスの収支管理Googleスプレッドシート｜確定申告も怖くない",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157300160,
+          "key": "n2022f40218db",
+          "name": "高岡から、世界へ。— Sending Takaoka to the World with AI",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159088257,
+          "key": "n783fc82ba60f",
+          "name": "月500円で「高岡リアル日記」を毎週読む方法",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160459743,
+          "key": "nee3e844ab8c7",
+          "name": "雨晴の朝、海の向こうに山がある — Morning at Amaharashi, Where Sea Meets Alps",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162691820,
+          "key": "nf308211b17c3",
+          "name": "田んぼの中に、家が点在する。— Scattered Farmhouses of Tonami",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163511590,
+          "key": "nf2d6b151f02b",
+          "name": "朝市の鮮魚コーナーで、地元のおじさんに話しかけられた。— A Local Guy Talked to Me at the Fish Counter",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163513236,
+          "key": "n4d88d01550f5",
+          "name": "古城公園の夏、アジサイと地元の人の歩き方。— Summer at Kojō Park: Hydrangeas and the Way Locals Walk",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 20,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157970973,
+          "key": "nfa038304a658",
+          "name": "雨上がりの山町筋、銅の匂い ― After the Rain on Yamacho-suji",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158671999,
+          "key": "nfb1780693884",
+          "name": "Beyond Kanazawa: Three Days in the Hokuriku Most Travelers Miss",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160037589,
+          "key": "ne943fc382f75",
+          "name": "月3万円稼げる人の1日のスケジュール — A Day in the Life of a ¥30K Side Hustler",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160597493,
+          "key": "n7c7b6c63718f",
+          "name": "五月、田に水が満ちる夜 — The Night When the Rice Paddies Fill With Water",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161658092,
+          "key": "n173acc3d9329",
+          "name": "奥の豆腐屋で、油揚げを買った話。— The Tofu Shop Around the Corner and Its Golden Fried Tofu",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162853076,
+          "key": "na9b99bd03e92",
+          "name": "黒部峡谷の玄関口、宇奈月温泉。富山県最大の温泉郷でとろりとした湯と渓谷美を堪能する",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169124,
+          "key": "n4e1e1c624ba8",
+          "name": "自分の時給を、ちゃんと計算したことはありますか。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 17,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163625667,
+          "key": "nf376c726fac8",
+          "name": "Claude Codeを使い続けるなら、6月15日までに確認すること。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 19,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159776204,
+          "key": "n522e071910ba",
+          "name": "金屋町、母の日のカーネーション",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161743834,
+          "key": "n2e60c218bb01",
+          "name": "ますや食堂のカツ丼。— The Katsudon at Masuya Shokudo, a Beloved Old-School Diner in Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162220084,
+          "key": "n4ab6e13f4548",
+          "name": "雨晴海岸、朝のうちに。— Amaharashi Coast, Early in the Morning",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 162632543,
+          "key": "n31bf6c6d91f8",
+          "name": "高岡銅器と、職人の手。— Takaoka Copperware and the Hands That Shape It",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162791841,
+          "key": "n413edeaff9ed",
+          "name": "木彫りの音が響く町、南砺市・井波で瑞泉寺と職人の技にふれる",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162929898,
+          "key": "n151f64abb080",
+          "name": "高岡駅に着いてからの2泊3日。氷見・雨晴をめぐる、お金をかけない富山ローカル旅ガイド",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 18,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156502345,
+          "key": "nc9e6839f5fc6",
+          "name": "「座りすぎは早死に」はもう古い — 72,000人追跡研究が示した本当の正解",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160064813,
+          "key": "nde0176909816",
+          "name": "月3万円稼げる人の1日のスケジュール — A Day in the Life of a ¥30K Side Hustler",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161523934,
+          "key": "n7b62f773b404",
+          "name": "HeyGenという名前の、まだ入れていないドア。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161640248,
+          "key": "n5fd6988b1a46",
+          "name": "おとぎの森に、ドラえもんがいた。— Doraemon in the Fairytale Forest of Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162220668,
+          "key": "nba2a5f98567e",
+          "name": "瑞龍寺の午後、回廊を歩く。— Zuiryu-ji, Walking the Corridors",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162550175,
+          "key": "nd69347db0369",
+          "name": "古城公園の堀は、静かだった。— A Still Morning at Kojo Park",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162633013,
+          "key": "n6cb39b4ea9a2",
+          "name": "富山ブラックを、はじめて食べた日。— The Day I First Ate Toyama Black",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162790494,
+          "key": "n1a0e6e977eb2",
+          "name": "海越しの立山連峰を望む道の駅「ひみ番屋街」で氷見の海の幸を味わう",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162852856,
+          "key": "n3a9bbb155775",
+          "name": "世界遺産・五箇山の合掌造り集落へ。雪深い山里に息づく日本の原風景を訪ねる",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163113881,
+          "key": "n14d55d2043f3",
+          "name": "鱒寿司は、駅弁じゃない。富山の朝食だ。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164305487,
+          "key": "nbd855061b617",
+          "name": "黒い醤油のラーメンは、もともと「労働者の塩分補給」だった。— 富山ブラック",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 17,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 154825717,
+          "key": "nb854e2ef04eb",
+          "name": "高岡「おでん百福」── 80年の出汁を受け継ぐ、片原町の夜の灯り",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158283266,
+          "key": "n5ef8bc0cfbff",
+          "name": "五月一日、御車山が街を轟かす ― May Day, When the Wheels Shake the Town",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158979246,
+          "key": "n1b5d8638d00b",
+          "name": "「AI時代の50代からの個人収益」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160104884,
+          "key": "n9ded991e46be",
+          "name": "月3万円稼げる人の1日のスケジュール — The Daily Routine of a ¥30K Side Hustler",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162691695,
+          "key": "na7bc0b01f595",
+          "name": "白くて、小さくて、宝石みたいだった。— White Shrimp of Toyama Bay",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162693083,
+          "key": "nf1a7e5572233",
+          "name": "まんがの故郷へ。— 氷見市・潮風ギャラリー",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162693527,
+          "key": "nbc42f40a87f6",
+          "name": "田んぼの中の森。— 砺波平野・散居村",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162922900,
+          "key": "n1c2d0f8ae73d",
+          "name": "ドラえもん誕生のまち、高岡。藤子・F・不二雄が少年期を過ごした街に広がるキャラクターの世界を歩く",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113703,
+          "key": "n3e505d779f01",
+          "name": "人を雇う前に、AIに5つの役職を渡してみた話。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 16,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170063,
+          "key": "na4cd80387959",
+          "name": "春の北陸は、山菜で食卓が変わる。— 富山の山の恵み",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163513741,
+          "key": "n8636d054bf3d",
+          "name": "高岡コロッケを、外国人の友人に食べさせた日。— The Day I Fed Takaoka Croquettes to a Foreign Friend",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163587196,
+          "key": "n51f31c50765a",
+          "name": "昆布じめという哲学 — The Philosophy of Kombu-jime",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 16,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156381940,
+          "key": "n41ff76b6d4bf",
+          "name": "テーブルの上にサンドイッチがあった朝",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156423287,
+          "key": "nb843217bc00e",
+          "name": "煮込む、ということ",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158453948,
+          "key": "ndd1aa41604bf",
+          "name": "【テンプレ付き】クラウドワークスで採択率を上げる提案文の書き方｜現役ライターが意識している5つの型",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 7,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161898368,
+          "key": "n3ece08999371",
+          "name": "高岡大仏、日曜日の午後。— The Great Buddha of Takaoka, on a Sunday Afternoon",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162318296,
+          "key": "ncb592554ced7",
+          "name": "白えびの季節。— 富山湾、五月の朝に。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162792581,
+          "key": "n4261071bdd27",
+          "name": "北前船で栄えた港町、富山市・岩瀬の町並みと満寿泉の蔵を歩く",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163013568,
+          "key": "nc38c07e6b4ed",
+          "name": "越前そばの真髄、武生・御清水庵のおろしそば。福井の湧き水と辛味大根が織りなす一杯",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163852788,
+          "key": "n13dc3d1baec8",
+          "name": "高岡は、日本で一番知られていない名城下町かもしれない。— Takaoka: Japan's Most Underrated Castle Town",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 15,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158889867,
+          "key": "n61672c1aee87",
+          "name": "菖蒲湯の夜、五月五日の高岡 — A Sweet Flag Bath, the Evening of May 5th in Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 5,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159985595,
+          "key": "na2b7a82ef353",
+          "name": "五月、山町筋を歩く火曜日 — A Tuesday Walk Through Yamachosuji in May",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 160502967,
+          "key": "nf6c3fb59f74d",
+          "name": "瑞龍寺の長い廊下、五月の風が抜ける — Long Corridors at Zuiryū-ji, May Wind Drifting Through",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162691475,
+          "key": "n1eeb3cc13479",
+          "name": "海の向こうに、山がある。— Mountains Beyond the Sea, Amaharashi",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162693409,
+          "key": "na1cf85e974af",
+          "name": "富山湾の宝石。— 白えびの話",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163012729,
+          "key": "n6443ec1e78bb",
+          "name": "立山の麓、上市・大岩そうめん。滝行のあとに食べる、門前の精進そうめん",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163588864,
+          "key": "n92157b283083",
+          "name": "道の駅グルメ、富山篇 — Roadside Station Gourmet: Toyama Edition",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164819035,
+          "key": "ndf26ca8fffee",
+          "name": "作業ログを毎日つけていたら、自分の時間の使い方が見えた話。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 14,
+          "like_count": 5,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156254316,
+          "key": "nf63bacd4ffd9",
+          "name": "知らないと損する、小さな習慣の話",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156441025,
+          "key": "n593be597176e",
+          "name": "出汁はとった方がいい。でも、道の駅に素晴らしいパックがある。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 157635375,
+          "key": "n254f004fd0b3",
+          "name": "HeyGenという名前の、まだ入れていないドア。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 13,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158581823,
+          "key": "ne7f0b9fd646b",
+          "name": "五月の高岡、青銅と若葉のあいだに",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 159047948,
+          "key": "nd9809c81c740",
+          "name": "連休明け、田に水が入る夕暮れ — After Golden Week, the Paddies Fill With Sky",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162480070,
+          "key": "nc9c1ec7f8db8",
+          "name": "万葉線に乗って、日曜日を過ごす。— A Sunday Ride on the Manyo Line",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 162632015,
+          "key": "nc22e85ea8e4e",
+          "name": "山町筋を、ゆっくり歩く。— Walking Slowly Through Sanmachi",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163013364,
+          "key": "n698fdf832339",
+          "name": "小松のソウルフード、勝ちゃんの塩焼きそば。石川で半世紀続く、もちもち太麺の塩味",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163168486,
+          "key": "nb74a2253ceee",
+          "name": "海の向こうに、3000メートルの山が見える駅がある。— 富山・高岡「雨晴駅」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170009,
+          "key": "n175c0b0da3dc",
+          "name": "日本のフリーランスの記事が、海外で読まれる時代になっていた。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163172804,
+          "key": "n2831e4bf7c0b",
+          "name": "黒い醤油のラーメンは、もともと「労働者の塩分補給」だった。— 富山ブラック",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 13,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163511995,
+          "key": "nb3a4f70db8f5",
+          "name": "とんかつを一人で食べる昼。— Eating Tonkatsu Alone at a Takaoka Diner",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 0,
+          "comment_count": 2,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163591019,
+          "key": "n3b515d1e132c",
+          "name": "富山ブラックと、一杯の記憶 — Toyama Black Ramen and the Memory of a Bowl",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 13,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164007001,
+          "key": "n0443f87ce4df",
+          "name": "氷見牛は、地元でもめったに食べられない。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 13,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156423762,
+          "key": "nacfdb1a5b052",
+          "name": "信号待ちの、三分間",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 158432810,
+          "key": "nc25ea86960bf",
+          "name": "祭の翌朝、山町筋の静けさ — The Quiet Morning After the Floats Are Gone",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162639576,
+          "key": "nb8cf6587ed44",
+          "name": "ところてん、海の前で。— Tokoroten, by the Sea in Fushiki",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162647984,
+          "key": "nbbbea7f08112",
+          "name": "古城公園の堀、五月の終わり。— The Moat in Late May, Takaoka's Castle Park.",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 162852528,
+          "key": "ncf51d26a3f2a",
+          "name": "ドラえもんに、世界中が会いに来ていた。— 富山・高岡おとぎの森公園",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162852629,
+          "key": "n423e4c4c0481",
+          "name": "日本三大仏のひとつ、高岡大仏。銅器の町・高岡が誇る青銅の阿弥陀如来を訪ねる",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162852956,
+          "key": "n2495d261db68",
+          "name": "秘境をゆくトロッコ列車、黒部峡谷鉄道。日本一深いV字谷を縫う絶景の20.1キロ",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162928812,
+          "key": "na29aa68b92ad",
+          "name": "ふたりの藤子先生が生まれた街へ。高岡から氷見線でめぐる「ドラえもん」と「Ⓐ」の誕生地・一日巡礼",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163013131,
+          "key": "nda76323a8f5e",
+          "name": "庄川の清流に育つ、夏の鮎。砺波・庄川峡で味わう、加賀藩献上の香り",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113574,
+          "key": "na4f7d0fa7f38",
+          "name": "個人が「会社」を持てる時代に、いちばん大事になること。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 12,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113655,
+          "key": "nf4a05b1346a0",
+          "name": "氷見の干物が、朝食を変える。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169897,
+          "key": "n6c3bd609ba93",
+          "name": "立山の水で、地ビールを醸す。— 富山のクラフトビール",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169931,
+          "key": "nf8428630d575",
+          "name": "観光客が来る前の、雨晴海岸を歩く。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170041,
+          "key": "n9a151d02ba0e",
+          "name": "冬の食卓に、必ずいた。— 富山「ぶり大根」",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 12,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163585151,
+          "key": "n607fe1bded01",
+          "name": "高岡おでんの夜 — A Winter Night with Takaoka Oden",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164601561,
+          "key": "nccad750b3e54",
+          "name": "雨の日の高岡大仏。— The Great Buddha of Takaoka, on a Rainy Day",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 12,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 156440456,
+          "key": "nf9928f64b49d",
+          "name": "出汁のこと",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 1,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162549790,
+          "key": "n9284dfe0049e",
+          "name": "北陸の雨は、やわらかい。— The Soft Rain of Hokuriku",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162633791,
+          "key": "nd45159b0449e",
+          "name": "五箇山は、静かすぎた。— Gokayama Was Too Quiet",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162786400,
+          "key": "n5b878fe41dc9",
+          "name": "ドラえもんに、世界中が会いに来ていた。— 富山・高岡おとぎの森公園",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113529,
+          "key": "nf99641287b83",
+          "name": "金曜の夜に「やらない」と決めた3つのこと。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163122168,
+          "key": "n4ad6af936585",
+          "name": "北陸の冬のおでんは、出汁が違う。— 越中富山の家のおでん",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163168353,
+          "key": "nd4187b8d863b",
+          "name": "ドラえもんに、世界中が会いに来ていた。— 富山・高岡おとぎの森公園",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 11,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163168448,
+          "key": "n354a5c032b1f",
+          "name": "400年、ひとりで価値を生んできた町がある。— 富山・高岡の職人に学ぶ「個人で食べていく力」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169209,
+          "key": "n7934d7317cf8",
+          "name": "フリーランス収支管理スプレッドシートを売って、分かったこと。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 11,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170129,
+          "key": "n04c4844b168b",
+          "name": "北陸の冬の保存食。— 富山「かぶら寿司」",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 11,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163511862,
+          "key": "ndb9cc5e9555a",
+          "name": "高岡の銅器職人が、なぜ今でも仕事を続けているか。— Why Takaoka's Coppersmith Still Works Every Day",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163511938,
+          "key": "n164aa07dd123",
+          "name": "梅雨の富山で、晴れた日の使い方。— How to Use a Sunny Day in Rainy-Season Toyama",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163514592,
+          "key": "n96152f7abb49",
+          "name": "週3日だけ働く、という実験を3ヶ月やってみた。— I Tried a Three-Day Workweek for Three Months",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163590315,
+          "key": "n126986917e6c",
+          "name": "富山の朝ごはんが好きだ — I Love Toyama Breakfasts",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163592533,
+          "key": "n944f197b4483",
+          "name": "雨晴海岸の朝 — Morning at Amaharashi Coast",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 4,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163604301,
+          "key": "n59fc2705ff31",
+          "name": "銭湯の夜に思うこと — Thoughts at the Public Bath",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163848172,
+          "key": "n17af1e4f1a80",
+          "name": "ドラえもんの作者の故郷へ行ったら、街ごとドラえもんだった。— A Manga Pilgrimage to Takaoka & Himi",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163851920,
+          "key": "ncaa0329ab69e",
+          "name": "立山黒部から富山に降りたら、もう1泊したくなった。— After Tateyama: Why You Should Slow Down in Toyama",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164305609,
+          "key": "n90fa70b0513b",
+          "name": "細いうどんを、漁師町が選んだ理由。— 氷見うどん",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164306968,
+          "key": "n7e95d38e41fa",
+          "name": "ドラえもんで育った君へ。— 生誕地という、小さな巡礼",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164843771,
+          "key": "n79cdecee105f",
+          "name": "瑞龍寺、金曜日の午後。— A Quiet Friday at Zuiryu-ji",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 11,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156371429,
+          "key": "n4907d6b3ccd3",
+          "name": "荒野行動VTuber「白鷺 凪」、始動します。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160284275,
+          "key": "nc72430498dce",
+          "name": "月3万円稼げる人の1日のスケジュール",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162791220,
+          "key": "nde5ea0834bc7",
+          "name": "帆船「海の貴婦人」と新湊大橋がそびえる射水・海王丸パークを歩く",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163011273,
+          "key": "n3b661ade23f4",
+          "name": "富山ブラック、はじめての一杯。戦後の労働者を支えた\"おかずのラーメン\"を、白いごはんと",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113801,
+          "key": "nc67f24e28f4a",
+          "name": "最初の有料記事を出す前に、自分に問うべき3つのこと。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113841,
+          "key": "na9894c6640a1",
+          "name": "土曜の朝30分、週次振り返りで週末が変わる。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163131271,
+          "key": "n0424df3084ca",
+          "name": "六月、雨の高岡。— June Rain in Takaoka.",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 6,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163168410,
+          "key": "nd88b0094f28e",
+          "name": "ドラえもんが生まれた町には、おとぎの森がある。— 富山・高岡「おとぎの森公園」散歩",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163593184,
+          "key": "n451cca563605",
+          "name": "高岡大仏と過ごす午後 — An Afternoon with Takaoka's Great Buddha",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163682459,
+          "key": "n512b2f5438c8",
+          "name": "金沢に来たら、1日だけ高岡に寄ってほしい理由。— The Day Trip from Kanazawa That Most Tourists Miss",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163850170,
+          "key": "nc3a37b9e7a37",
+          "name": "北陸新幹線で、新高岡に途中下車してみた。知らない街に降りる、という旅。— Getting Off the Shinkansen at Shin-Takaoka",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163990992,
+          "key": "nb2f7f6fab31d",
+          "name": "雷が呼ぶ魚、氷見の寒ブリ――鰤起こしという奇跡",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164307069,
+          "key": "n9505383c7a73",
+          "name": "藤子F不二雄という人。— 高岡が育てた作家と、原画に会える場所",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164307326,
+          "key": "n755a9ae7f139",
+          "name": "冬の食卓に、必ずいた。— 富山「ぶり大根」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164329035,
+          "key": "nadc0c8619c33",
+          "name": "富山の煮付けで、いちばん地味な主役。— バイ貝",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 164423885,
+          "key": "n6c9815ba68ea",
+          "name": "火曜の午前を、いちばん集中する時間に設計する。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 10,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164485369,
+          "key": "n02c7f1eebda2",
+          "name": "金属が、暮らしの音になる町。— 高岡銅器",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164485581,
+          "key": "n56f375a8ff8a",
+          "name": "富山湾のわかめは、塩漬けで届く。— 海の保存食の話",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 166273645,
+          "key": "n2a831d62325a",
+          "name": "夏の冷奴は、豆腐の選び方で全部変わる。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 10,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156423790,
+          "key": "n79eb68c3ec51",
+          "name": "湯気のこと",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 160140484,
+          "key": "n822e8936f964",
+          "name": "五月、金屋町に銅の匂いを嗅ぐ — May Mornings, the Scent of Copper in Kanayamachi",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 161888623,
+          "key": "ne627ae7f95d5",
+          "name": "富山ポークの豚汁セットを、昼に食べた。— A Bowl of Toyama Pork Tonjiru at Midday",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162330936,
+          "key": "n15b784b4a77a",
+          "name": "白えびのピークの朝 — Shirobi at Dawn: The Glass Shrimp of Toyama Bay",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162479188,
+          "key": "ndce315aeeb15",
+          "name": "山町筋、木曜の昼。— Yamacho-suji, a Thursday Afternoon.",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162789862,
+          "key": "n71837554a43f",
+          "name": "富山駅から徒歩10分、富岩運河環水公園で「世界一美しいスタバ」と運河の風景を楽しむ",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162852680,
+          "key": "na3c69fb297ba",
+          "name": "富山唯一の国宝建築、高岡・瑞龍寺。前田利長を弔う禅寺の伽藍美に息をのむ",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162852774,
+          "key": "nab62d7caf0ec",
+          "name": "海越しの立山連峰と義経伝説、高岡・雨晴海岸。万葉の歌人も愛した絶景の渚",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 163122118,
+          "key": "n3d3ab27e71b7",
+          "name": "1ヶ月で失敗したこと、全部書きます。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169458,
+          "key": "n3ae65ff2f942",
+          "name": "刺身を、昆布に挟んで一晩寝かせる文化がある。— 北陸「昆布じめ」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163512573,
+          "key": "nca3d1039402a",
+          "name": "朝の市場で500円出したら、1週間分の野菜が来た。— How 500 Yen Bought Me a Week's Worth of Vegetables",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163512805,
+          "key": "n96d751e38b02",
+          "name": "富山の水が、料理の味を変えている理由。— Why Toyama's Water Changes the Taste of Everything",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163587937,
+          "key": "nb87deda4cd3b",
+          "name": "氷見カレーを食べに行った — The Day I Drove to Himi for Curry",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163601647,
+          "key": "n41e0b82cde6f",
+          "name": "週次振り返りで人生が変わった話 — How Weekly Reviews Changed My Life",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163853649,
+          "key": "nd00d4f786b86",
+          "name": "ニセコに飽きたなら、北陸に来てほしい。雪と世界遺産と氷見ブリがある場所。— Hokuriku Ski & Culture: The Luxury Japan Trip That Niseko Can't Offer",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164423457,
+          "key": "n8c4a99c693df",
+          "name": "フリーランス1年目に、読んでよかった本ベスト5。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 9,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164423671,
+          "key": "n20469952b313",
+          "name": "富山湾のわかめは、塩漬けで届く。— 海の保存食の話",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 9,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164485550,
+          "key": "n913c64098865",
+          "name": "雪が降る前に。— 雪国の冬支度",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164485637,
+          "key": "nd9d01b05791e",
+          "name": "水の話から、酒の話へ。— 富山の地酒と立山の伏流水",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 166198578,
+          "key": "n778829ba53b1",
+          "name": "高岡コロッケを、揚げたてのまま齧った。— The Korokke of Takaoka, Eaten Where It's Fried",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 166273462,
+          "key": "ncdd5c9edcee0",
+          "name": "仕事をする場所を、固定しなくなった。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 9,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162216319,
+          "key": "ne3b143b48c52",
+          "name": "金屋町、五月の午後。— Kanaya-machi, a May Afternoon",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162549364,
+          "key": "n871f17bb009e",
+          "name": "瑞龍寺の石畳に、雨が降っていた。— Rain on the Stones of Zuiryuji",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162808888,
+          "key": "n7f855ff96451",
+          "name": "雨晴海岸、五月の海と立山。— Amaharashi Coast: the Sea and the Tateyama Range in Late Spring.",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163113758,
+          "key": "n7670bea7637b",
+          "name": "ノドグロは、富山湾の最高級魚。— 年に1回の贅沢",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163123106,
+          "key": "nda68d5365c22",
+          "name": "鱒寿司は、駅弁じゃない。富山の朝食だ。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163168529,
+          "key": "nddb4e9f0e199",
+          "name": "フリーランス1年目の自分に教えたい、月1万円を逃さないコツ。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169339,
+          "key": "neb350f93dbe1",
+          "name": "富山の地酒は、水と米の風土でできている。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163169972,
+          "key": "n1e80caa1c09e",
+          "name": "月曜朝、最初に開くファイルを1つ決めている。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163591652,
+          "key": "n5127c01b7e8f",
+          "name": "万葉線に揺られて — Swaying on the Manyo Line",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163622428,
+          "key": "n838f7ff51210",
+          "name": "Claude Codeって、何ができるのか。— AIがターミナルで働く話",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163851147,
+          "key": "naaa94948b05a",
+          "name": "能登に行くなら、氷見から入ってほしい。— Supporting Noto: Why Himi Should Be Your First Stop",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  },
+  {
+    "data": {
+      "start_date_str": "1926/06/22",
+      "start_date": "1926-06-22",
+      "end_date_str": "2026/06/22",
+      "end_date": "2026-06-22T23:59:59.999+09:00",
+      "last_page": false,
+      "note_stats": [
+        {
+          "id": 164305757,
+          "key": "n65b77a99a37b",
+          "name": "銅の町には、銅でできた大仏がいる。— 富山・高岡大仏",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164307198,
+          "key": "na5016d227fe8",
+          "name": "白川郷の代わりに、ドラえもん＋静かな合掌集落。— 金沢2日目の富山ルート",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164485523,
+          "key": "nb84751b50588",
+          "name": "静けさが、つくられている。— 高岡「瑞龍寺」",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164672356,
+          "key": "nbbf919d803b6",
+          "name": "路面電車が、まだ町の真ん中を走っている。— 高岡の万葉線",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164818921,
+          "key": "nb7f40004d732",
+          "name": "金屋町は、鋳物が始まった町。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 164819189,
+          "key": "n0a9c5f4b1c2e",
+          "name": "夏の川魚は、塩焼きの香りで食べる。— 庄川の鮎",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 2,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 166274189,
+          "key": "n826dc4bd09ea",
+          "name": "夏だけ、仕事を朝に前倒しするようにした。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 8,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 156253612,
+          "key": "nf2120bfb4102",
+          "name": "毎週届く、ちょっとだけ得する話。",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 7,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 162631587,
+          "key": "n4aab7c119138",
+          "name": "雨晴海岸から、山が見えた日。— The Day the Mountains Appeared",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 7,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163170172,
+          "key": "n05720886b969",
+          "name": "フリーランス1年目に、読んでよかった本ベスト5。",
+          "body": null,
+          "type": "TextNote",
+          "status": "draft",
+          "read_count": 7,
+          "like_count": 3,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163187420,
+          "key": "n60b745b7d048",
+          "name": "雨の日は、昆布のだし。— Kelp Broth on a Rainy Day, Toyama",
+          "body": null,
+          "type": "TextNote",
+          "status": "deleted",
+          "read_count": 7,
+          "like_count": 1,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        },
+        {
+          "id": 163845281,
+          "key": "n75868bbf7284",
+          "name": "ひろゆきも泊まった、氷見の民宿。— The Fishing Inn That Even Hiroyuki Couldn't Resist",
+          "body": null,
+          "type": "TextNote",
+          "status": "published",
+          "read_count": 7,
+          "like_count": 0,
+          "comment_count": 0,
+          "user": {
+            "urlname": "safe_canna441"
+          },
+          "custom_domain": null
+        }
+      ],
+      "total_pv": 4646,
+      "total_like": 402,
+      "total_comment": 6,
+      "filter": "all",
+      "last_calculate_at": "2026/6/22 05:38"
+    }
+  }
+]
