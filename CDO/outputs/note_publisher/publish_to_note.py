@@ -362,19 +362,33 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
             input("Enterで閉じる ...")
         else:
-            print("\n🚀 公開ボタンを押します（3秒後）...")
-            page.wait_for_timeout(3000)
-            try:
-                page.locator('button:has-text("公開")').last.click()
-                page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
-                page.wait_for_timeout(3000)
-                print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
-            except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
+            print("\n🚀 公開ボタンを押します（5秒後）...")
+            page.wait_for_timeout(5000)
+            published = False
+            # Step1: 「公開に進む」ボタンを押して公開設定パネルを開く
+            for label in ("公開に進む", "公開設定", "投稿"):
+                try:
+                    btn = page.locator(f'button:has-text("{label}")').last
+                    if btn.is_visible(timeout=2000):
+                        btn.click()
+                        page.wait_for_timeout(1500)
+                        break
+                except Exception:
+                    continue
+            # Step2: 確認ダイアログの「公開する」or「公開」を押す
+            for label in ("公開する", "投稿する", "公開"):
+                try:
+                    btn = page.locator(f'button:has-text("{label}")').last
+                    if btn.is_visible(timeout=3000):
+                        btn.click()
+                        page.wait_for_timeout(3000)
+                        published = True
+                        print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
+                        break
+                except Exception:
+                    continue
+            if not published:
+                print("⚠️  公開ボタン自動クリック失敗")
                 print("    画面で「公開」ボタンを手動で押してください。")
                 input("公開を確認したら Enter ...")
 
