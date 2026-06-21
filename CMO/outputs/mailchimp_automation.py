@@ -16,6 +16,7 @@ CMO: Mailchimp自動化スクリプト
 import os
 import json
 import time
+from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List
 import hashlib
@@ -312,7 +313,7 @@ Solo CEO OS と SNS Calendar でテンプレ側の自動化が進んだあなた
 
         return results
 
-    def save_automation_log(self, output_path: str = "outputs/mailchimp_automation_log.json"):
+    def save_automation_log(self, output_path: str = "CMO/outputs/mailchimp_automation_log.json"):
         """自動化ログを保存"""
         log_data = {
             "executed_at": datetime.now().isoformat(),
@@ -323,6 +324,7 @@ Solo CEO OS と SNS Calendar でテンプレ側の自動化が進んだあなた
             "sent_emails": self.sent_emails
         }
 
+        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(log_data, f, ensure_ascii=False, indent=2)
 
