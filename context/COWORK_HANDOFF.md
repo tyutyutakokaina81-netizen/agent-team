@@ -26,10 +26,12 @@
      - 結果を下の【結果A】に記入
      詳細：projects/2026-04-08_月30万自動化/Cowork依頼_プロモーション6倍化.md STEP0
 
-□ T2. noteの実数値を取得（最重要・需要データ）
-     - ダッシュボードから記事別ビュー/スキ 上位20本
-     - 形式：タイトル / ビュー / スキ / カテゴリ(食・場所・暮らし・ひとり起業・AI)
-     - 結果を下の【結果B】に記入
+□ T2. noteの実数値を取得（最重要・需要データ）★自動化あり
+     - 【自動】Macで1コマンド： bash scripts/fetch_note_stats.sh
+       → noteアクセス数を自動取得し CAO/outputs/note_stats_top20.md に保存→自動push
+       → 初回のみ事前に `python3 CDO/outputs/note_publisher/publish_to_note.py --login` が必要
+       → 失敗時は CAO/outputs/note_stats_raw.json が出るので、それをpushすればリモートAIが直す
+     - 【手動でも可】ダッシュボードで上位20本を見て下の【結果B】に記入
 
 □ T3. 生きてる媒体に、用意済みプロモ素材を投入
      - 素材：CMO/outputs/プロモ素材_富山定番5本_IG_X_SEO.md（富山ブラック/雨晴/ノドグロ/白えび/鱒寿司/ホタルイカ/瑞龍寺/氷見うどん）
