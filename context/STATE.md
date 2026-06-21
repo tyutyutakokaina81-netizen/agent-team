@@ -302,6 +302,16 @@ python3 CSO/outputs/auto_outreach_inbound.py --service template --language both
 
 **次の分岐**：オーナーが手動アクション実行 → 毎週KPI記録 → Week4で自動Go/No-Go。
 
+### 2026-06-21 追加実装（「並行して」「改善も」発令）
+
+| 成果物 | 役職 | 内容 |
+|-------|------|------|
+| 有料記事5本（実執筆） | CMO | メンバーシップ深掘り本編。設定後そのまま中身投入可 |
+| Vol.2購入者ガイド+販売ページ完成稿 | CPO | Vol.2を「売れる完成品」に |
+| CFO事務テンプレ一式（見積/契約/請求） | CFO | 初成約時の事務。第6条=成果非保証が肝。projects/CFO配下（CFO/outputsはgitignore） |
+| send_outreach_gmail.py | CSO | Gmailアプリパスワードのみで送信。targets.csv・dry-run・5分間隔。旧inbound版は非推奨化 |
+| 改善：営業文の「御中の」表現修正・旧スクリプト非推奨明記・gitignore追記 | 横断 | 全Py構文OK・dry-run動作確認済 |
+
 ## 決定ログ（追記式・消さない）
 
 | 日付 | 決定事項 |
