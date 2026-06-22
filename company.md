@@ -30,11 +30,16 @@ agent-team/
 │   ├── _index.md
 │   ├── research/             ← プロンプト検証・ツール調査
 │   └── outputs/              ← プロンプト集・活用ガイド
-└── CAO/                      ← 分析責任者（2026-05-30 新設）
+├── CAO/                      ← 分析責任者（2026-05-30 新設）
+│   ├── _index.md
+│   ├── prompt.md
+│   ├── research/             ← データ取得・前処理
+│   └── outputs/              ← 分析レポート・仮説まとめ
+└── COO/                      ← 最高執行責任者・管理者（2026-06-22 新設）
     ├── _index.md
     ├── prompt.md
-    ├── research/             ← データ取得・前処理
-    └── outputs/              ← 分析レポート・仮説まとめ
+    ├── research/             ← 進行整理・棚卸し
+    └── outputs/              ← 実行ロードマップ・タスク表・進行レビュー
 ```
 
 ---
@@ -58,6 +63,7 @@ agent-team/
 | CSO（営業） | `CSO/research/` | `CSO/outputs/` |
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
 | CAO（分析） | `CAO/research/` | `CAO/outputs/` |
+| COO（執行・管理） | `COO/research/` | `COO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
@@ -200,3 +206,4 @@ projects/YYYY-MM-DD_プロジェクト名/
 - **CFO**：請求書発行、契約書管理、経費管理、事務全般
 - **CSO**：顧客との対話記録、営業提案、商談管理
 - **CDO**：プロンプト管理、Claude Code活用、技術検証、新役職生成
+- **COO**：実行・進行管理、役職間の交通整理、ops/監督、ブロッカー集約（中身は作らず「回す」役）
