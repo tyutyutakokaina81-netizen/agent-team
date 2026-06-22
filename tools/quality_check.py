@@ -33,9 +33,13 @@ def scan(path, reader=False, quiet=False):
     except OSError as e:
         print(f"  ! 読めない: {e}")
         return 1
+    # ルール記述/チェックリスト行は誤検出になるので除外（禁止語を"使うな"と列挙している行）
+    META = ("禁止語", "厳守：", "厳守:", "do-not", "do not use", "banned", "NG型", "NG例", "使わない", "不使用")
     hard = []   # (cat, term, lineno, text)
     soft = []
     for i, ln in enumerate(lines, 1):
+        if any(m in ln for m in META):
+            continue
         for t in A5_HARD:
             if t in ln: hard.append(("A5-HARD", t, i, ln.strip()))
         for t in A5_SOFT:
