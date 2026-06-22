@@ -35,11 +35,16 @@ agent-team/
 │   ├── prompt.md
 │   ├── research/             ← データ取得・前処理
 │   └── outputs/              ← 分析レポート・仮説まとめ
-└── COO/                      ← 最高執行責任者・管理者（2026-06-22 新設）
+├── COO/                      ← 最高執行責任者・管理者（2026-06-22 新設）
+│   ├── _index.md
+│   ├── prompt.md
+│   ├── research/             ← 進行整理・棚卸し
+│   └── outputs/              ← 実行ロードマップ・タスク表・進行レビュー
+└── CEO/                      ← 社長・最終判断（2026-06-22 新設／人間オーナーが最終決裁者）
     ├── _index.md
     ├── prompt.md
-    ├── research/             ← 進行整理・棚卸し
-    └── outputs/              ← 実行ロードマップ・タスク表・進行レビュー
+    ├── research/
+    └── outputs/              ← 社長指示・統合判断・方向付け
 ```
 
 ---
@@ -64,6 +69,7 @@ agent-team/
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
 | CAO（分析） | `CAO/research/` | `CAO/outputs/` |
 | COO（執行・管理） | `COO/research/` | `COO/outputs/` |
+| CEO（社長・最終判断） | `CEO/research/` | `CEO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
 | オーナー一次情報 | `context/` 配下 | — |
 
@@ -207,3 +213,4 @@ projects/YYYY-MM-DD_プロジェクト名/
 - **CSO**：顧客との対話記録、営業提案、商談管理
 - **CDO**：プロンプト管理、Claude Code活用、技術検証、新役職生成
 - **COO**：実行・進行管理、役職間の交通整理、ops/監督、ブロッカー集約（中身は作らず「回す」役）
+- **CEO（社長）**：全社の最終判断、優先順位の決定、やらないことの決定（人間オーナーが最終決裁者）
