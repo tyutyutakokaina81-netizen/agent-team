@@ -1089,3 +1089,11 @@ Photorealistic close-up of a rustic Fukui soba restaurant interior with a wooden
 ```
 
 ---
+
+
+<!-- CTA:gumroad -->
+─────────────
+🛠 ひとり会社の実務を自動化する道具を作っています：
+　AIプロンプト集（実務15本・¥980）→ https://あなたのGumroad URL
+　請求書・返信・SNS・営業メールを、毎回ゼロから書かなくて済みます。
+─────────────
