@@ -1,0 +1,41 @@
+name: auto-company-guardian
+
+# 完全自動AI会社の無人ガーディアン（監視体制）
+# - LLMを呼ばない決定論的チェックのみ → API従量課金ゼロ・GitHub Actions無料枠で動く
+# - 6/12インシデント（重複/テスト/未来日付/台帳乖離）の再発を機械的に防ぐ
+# - push時＝即検査 / 毎朝＝定点監視
+
+on:
+  push:
+    branches: [ main, "claude/**" ]
+    paths:
+      - "CMO/outputs/**"
+      - "**/_index.md"
+      - "ops/auto_company/**"
+  schedule:
+    - cron: "0 22 * * *"   # 毎日 07:00 JST（UTC22:00）に定点監視
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: 監視ガーディアン（重複・未来日付・テスト記事・台帳整合・センシティブ）
+        run: |
+          python3 ops/auto_company/guard_checks.py | tee guard_report.txt
+          code=${PIPESTATUS[0]}
+          {
+            echo "## 🛡 auto-company-guardian";
+            echo '```';
+            cat guard_report.txt;
+            echo '```';
+          } >> "$GITHUB_STEP_SUMMARY"
+          # 重大(exit=2)はジョブを失敗させて通知（誤公開ブロック）。警告(0/1)は通す。
+          exit $code
