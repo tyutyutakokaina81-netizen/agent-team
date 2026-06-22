@@ -18,6 +18,8 @@
 | 2026-06-22 | ops/auto_company/revenue_ledger.py | 採算ツール | sales.csvから採算表自動生成(売上−手数料＝純利益・Phaseゲート)。CFO工程⑥ | 完成 |
 | 2026-06-22 | ops/auto_company/build_gumroad_pack.py | 出品ツール | 商品mdから制作ノート除去の配布用クリーン版を生成(流出防止) | 完成 |
 | 2026-06-22 | .github/workflows/auto-company-guardian.yml | 無人監視 | push時＋毎朝7時にguard_checksを自動実行(Actions無料枠・API課金ゼロ) | 完成・稼働 |
+| 2026-06-22 | ops/auto_company/sync_ledger.py | 台帳同期 | 台帳乖離(R5)を自動修復。outputs未記載を追記のみで同期。実行で74件解消(乖離ゼロ) | 完成・実行済 |
+| 2026-06-22 | ops/auto_company/apply_cta.py | SELL自動化 | 商品URL確定時に全127記事へCTAを冪等一括挿入。dry-run検証済(127本対象) | 完成・URL待ち |
 
 ## 進行中タスク
 
