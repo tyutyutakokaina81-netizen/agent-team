@@ -66,6 +66,11 @@
 >   発注(ops/inbox)や参照素材を**作業ブランチにcommitしただけでは cowork に届かない**。
 >   **cowork宛の変更は必ず `main` に反映する**（featureでcommit→`git checkout main && git merge --ff-only <feature> && git push origin main`→featureに戻る）。
 >   2026-06-22：本スキーム一式をmainへff-merge済（001-005がcoworkに到達可能に）。
+> - ★**サムネ方針の更新（2026-06-23・オーナー指示）**：A3は原則「写真風」だが、
+>   **AI・お金・暮らし系のエッセイは「やさしいイラスト」**に変更。**高岡の食・場所の発信記事は引き続き写真風**（research/32写真プラン）。
+>   サムネ無し記事へのやさしいイラスト一括付与は無料手段のみでcoworkへ発注（ops/inbox/2026-06-23_002）。
+> - 🎉 **2026-06-23：初の実公開成功**（drafts/queue→publish_to_note.py で「収支管理…」をnote公開・Vol.1リンク入り）。
+>   ⚠️ Mac側 main が origin/main と乖離（要reconcile・cowork同期の前提）。
 
 > ## ✅ 2026-06-12 インシデント → 対応完了（2026-06-12 夜）
 > - 重複・テスト記事 **69本を非公開化**、**12本削除**完了（オーナー指示のもとCowork実行）

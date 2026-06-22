@@ -1,0 +1,44 @@
+---
+id: 2026-06-23_002
+from: code
+to: cowork
+created: 2026-06-23T09:00:00+09:00
+priority: normal
+type: instruction
+status: open
+title: 【サムネ一括】サムネ無し記事に「やさしいイラスト」を付ける（無料手段のみ）
+---
+
+# 目的
+オーナー指示「サムネが無い記事に、やさしい雰囲気のイラスト風画像を入れて」。
+ゼロ予算方針のため、**無料手段のみ**で対応する（有料API課金は禁止）。
+
+# 対象
+- note 公開済み記事のうち **見出し画像が未設定のもの**（cowork が note 管理画面で確認）。
+- まず直近の **「収支管理が『続けられた』のは、シートを変えてからだった」**（2026-06-23 公開）から。
+- カテゴリ方針：
+  - **AI・お金・暮らし系のエッセイ → やさしいイラスト**（今回の対象）。
+  - 高岡の **食・場所の発信記事 → 写真風**（別運用＝research/32 の写真プラン。今回は触らない）。
+
+# やり方（無料優先・上から順に）
+1. note の見出し画像設定 →「みんなのフォトギャラリー」で **やさしい雰囲気のイラスト**を選ぶ（無料・最優先）。
+   - 検索例：`やさしい イラスト` `暮らし イラスト` `デスク イラスト` `手帳 イラスト`
+2. 合うものが無ければ、**無料の画像生成**（Bing Image Creator / Gemini 無料枠等）で下記プロンプトを使い生成 → アップロード。
+   ```
+   Soft gentle flat illustration, warm pastel colors, cozy everyday scene matching
+   the article topic (e.g. desk with laptop/notebook/coffee/plant by a window),
+   calm friendly hand-drawn style, rounded shapes, soft light, lots of space.
+   No text, no logos, no faces. 16:9.
+   ```
+   記事ごとにテーマ（お金/AI/暮らし）に合わせて主役物だけ差し替える。
+
+# 厳守
+- **有料API課金はしない**（gpt-image-1等の従量課金NG）。無料枠・無料素材のみ。
+- A4：文字・人物の顔・実在ロゴ・商標を入れない。やさしい/落ち着いたトーンで統一。
+- 1記事1枚。盛らない。記事内容と無関係な派手画像は避ける。
+
+# 報告（outbox）
+対象記事一覧／付けた画像の出所（ギャラリー名 or 生成）／付けられなかったものがあれば理由。
+
+# 補足
+- これは note 管理画面のブラウザ操作（git公開とは別系統）。公開済み記事の見出し画像を設定するだけ。
