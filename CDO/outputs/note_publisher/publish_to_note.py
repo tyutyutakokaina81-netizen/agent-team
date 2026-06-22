@@ -364,17 +364,59 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         else:
             print("\n🚀 公開ボタンを押します（3秒後）...")
             page.wait_for_timeout(3000)
-            try:
-                page.locator('button:has-text("公開")').last.click()
-                page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
-                page.wait_for_timeout(3000)
-                print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
-            except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
+            published = False
+
+            # パターンA: 公開設定パネルをまず開く（タグ入力で開いていない場合）
+            for label in ("公開に進む", "公開設定"):
+                try:
+                    btn = page.locator(f'button:has-text("{label}")').last
+                    if btn.is_visible(timeout=1500):
+                        btn.click()
+                        page.wait_for_timeout(1500)
+                        break
+                except Exception:
+                    continue
+
+            # パターンB: 最終確定ボタン（複数ラベルを試す）
+            for label in ("公開する", "投稿する", "投稿", "公開"):
+                try:
+                    btn = page.locator(f'button:has-text("{label}")').last
+                    if btn.is_visible(timeout=3000):
+                        btn.click()
+                        page.wait_for_timeout(3000)
+                        published = True
+                        print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
+                        break
+                except Exception:
+                    continue
+
+            # パターンC: JavaScript で全ボタンを探してクリック
+            if not published:
+                try:
+                    clicked = page.evaluate("""() => {
+                        const targets = ['公開する', '投稿する', '投稿', '公開'];
+                        const btns = Array.from(document.querySelectorAll('button'));
+                        const btn = btns.find(b => targets.includes(b.textContent.trim()));
+                        if (btn) { btn.click(); return btn.textContent.trim(); }
+                        return null;
+                    }""")
+                    if clicked:
+                        page.wait_for_timeout(3000)
+                        published = True
+                        print(f"✅ 公開リクエストを送信しました（JS: '{clicked}'ボタン）。")
+                except Exception:
+                    pass
+
+            if not published:
+                # デバッグ用スクリーンショット保存
+                try:
+                    ss_path = Path(__file__).parent / "debug_screenshot.png"
+                    page.screenshot(path=str(ss_path))
+                    print(f"🔍 スクリーンショット保存: {ss_path}")
+                    print("    画面に何が表示されているかを確認してください。")
+                except Exception:
+                    pass
+                print("⚠️  公開ボタン自動クリック失敗")
                 print("    画面で「公開」ボタンを手動で押してください。")
                 input("公開を確認したら Enter ...")
 

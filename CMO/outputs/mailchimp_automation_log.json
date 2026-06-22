@@ -1,0 +1,64 @@
+{
+  "executed_at": "2026-06-21T01:09:24.189863",
+  "mode": "test",
+  "contacts_added": 2,
+  "emails_scheduled": 6,
+  "contacts": [
+    {
+      "email": "customer1@example.com",
+      "product": "Solo CEO OS",
+      "added_at": "2026-06-21T01:09:24.189804",
+      "status": "subscribed"
+    },
+    {
+      "email": "customer2@example.jp",
+      "product": "Solo CEO OS",
+      "added_at": "2026-06-21T01:09:24.189826",
+      "status": "subscribed"
+    }
+  ],
+  "sent_emails": [
+    {
+      "email": "customer1@example.com",
+      "sequence_name": "Mail #1: ウェルカムメール",
+      "scheduled_at": "2026-06-21T01:09:24.189807",
+      "subject": "Solo CEO OS 購入ありがとうございます",
+      "status": "test"
+    },
+    {
+      "email": "customer1@example.com",
+      "sequence_name": "Mail #2: テンプレVol.2 アップセル",
+      "scheduled_at": "2026-06-24T01:09:24.189808",
+      "subject": "【本日公開】SNS Content Calendar Vol.2",
+      "status": "test"
+    },
+    {
+      "email": "customer1@example.com",
+      "sequence_name": "Mail #3: note有料化ご案内",
+      "scheduled_at": "2026-06-28T01:09:24.189811",
+      "subject": "あなたの「数字の迷い」を減らす有料記事",
+      "status": "test"
+    },
+    {
+      "email": "customer2@example.jp",
+      "sequence_name": "Mail #1: ウェルカムメール",
+      "scheduled_at": "2026-06-21T01:09:24.189829",
+      "subject": "Solo CEO OS 購入ありがとうございます",
+      "status": "test"
+    },
+    {
+      "email": "customer2@example.jp",
+      "sequence_name": "Mail #2: テンプレVol.2 アップセル",
+      "scheduled_at": "2026-06-24T01:09:24.189829",
+      "subject": "【本日公開】SNS Content Calendar Vol.2",
+      "status": "test"
+    },
+    {
+      "email": "customer2@example.jp",
+      "sequence_name": "Mail #3: note有料化ご案内",
+      "scheduled_at": "2026-06-28T01:09:24.189831",
+      "subject": "あなたの「数字の迷い」を減らす有料記事",
+      "status": "test"
+    }
+  ]
+}

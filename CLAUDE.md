@@ -74,6 +74,10 @@ All documents and operational output are in Japanese.
 1. `company.md` — 会社共通ルール・ディレクトリ構造・役職定義・新役職生成ルール
 2. `context/` — オーナーの日記・アイデア・参考資料（意図や背景の把握に使う）
 3. 担当役職の `_index.md` — 過去の成果物・進行中タスクの確認
+4. `context/COWORK_HANDOFF.md` — **リモートAI⇄Cowork 連携ボード**。起動時に必ず確認する。
+   - **Cowork（ネット有効）**：未処理タスク(□)を上から実行し、結果欄に記入して commit & push する
+   - **リモートAI（403でネット遮断）**：Coworkが書き戻した結果を読んで続行する
+   - 両者は直接通信できない。**連携は常にこのファイル＋git経由（非同期）**で行う
 
 ---
 

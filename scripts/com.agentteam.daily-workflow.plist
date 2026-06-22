@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.agentteam.daily-workflow</string>
+
+	<!-- 実行コマンド -->
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/bash</string>
+		<string>/Users/apple/agent-team/scripts/daily_workflow.sh</string>
+	</array>
+
+	<!-- 実行スケジュール：毎日5:30 AM -->
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>5</integer>
+		<key>Minute</key>
+		<integer>30</integer>
+	</dict>
+
+	<!-- ログ出力 -->
+	<key>StandardOutPath</key>
+	<string>/Users/apple/.claude_daily_stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/apple/.claude_daily_stderr.log</string>
+
+	<!-- 設定 -->
+	<key>RunAtLoad</key>
+	<false/>
+
+	<key>KeepAlive</key>
+	<false/>
+
+	<!-- Environmentをリセット（システム環境変数を確実に読み込む） -->
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+		<key>HOME</key>
+		<string>/Users/apple</string>
+	</dict>
+
+	<!-- エラーハンドリング -->
+	<key>ThrottleInterval</key>
+	<integer>60</integer>
+
+</dict>
+</plist>

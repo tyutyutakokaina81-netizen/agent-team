@@ -1,0 +1,59 @@
+{
+  "started_at": "2026-06-21",
+  "weeks": [
+    {
+      "week": 1,
+      "date_range": "2026-06-23〜06-29",
+      "channels": {
+        "note_membership": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "note_paid_article": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "solo_ceo_os": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "template_vol2": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "seo_writing": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "sns_management": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "online_course": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        },
+        "consulting": {
+          "new_units": 0,
+          "active_units": 0,
+          "actual_revenue": 0
+        }
+      },
+      "funnel": {
+        "outreach_sent": 0,
+        "opened": 0,
+        "replied": 0,
+        "meetings": 0,
+        "contracts": 0
+      },
+      "note": ""
+    }
+  ]
+}
