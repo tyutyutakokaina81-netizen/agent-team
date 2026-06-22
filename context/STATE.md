@@ -62,6 +62,10 @@
 > - 役割確定：**code=制作・規則チェック・要確認集約／cowork=投稿・ネット検証・写真生成／オーナー=最終GO・写真選定**。
 > - ★**管制塔＝`COO/outputs/2026-06-22_運用管理ダッシュボード_スキーム管制塔.md`**。スキームの唯一の管理台帳。
 >   毎セッション「STATE→管制塔→ops未処理」の順で見て、工程ゲートG1-G7を1つでも前進させること。cowork報告(outbox)受信時のSOPも管制塔に記載。
+> - 🚨**cowork配達ルール（2026-06-22 修復・再発防止）**：cowork は canonical＝`main` をミラーする。
+>   発注(ops/inbox)や参照素材を**作業ブランチにcommitしただけでは cowork に届かない**。
+>   **cowork宛の変更は必ず `main` に反映する**（featureでcommit→`git checkout main && git merge --ff-only <feature> && git push origin main`→featureに戻る）。
+>   2026-06-22：本スキーム一式をmainへff-merge済（001-005がcoworkに到達可能に）。
 
 > ## ✅ 2026-06-12 インシデント → 対応完了（2026-06-12 夜）
 > - 重複・テスト記事 **69本を非公開化**、**12本削除**完了（オーナー指示のもとCowork実行）
