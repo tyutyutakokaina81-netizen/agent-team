@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-12T21:30:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【統合・最新】Mac側自動バックアップの点検（最優先）＋ 6/12-6/13公開 ＋ 6/10-6/11サムネ後追い ＋ X投稿
 ---
 
@@ -74,3 +74,10 @@ python3 attach_thumbnails.py --filter 2026-06-11 --skip-existing             # 6
 
 - 無料ツールのみ／破壊的操作（削除・上書き・git reset での履歴破壊）禁止／note 1日上限25本厳守。
 - git 競合時は退避ブランチを作ってから解消（作業ツリーの一方的な reset --hard は避ける）。
+
+
+---
+
+## 結果 (2026-06-22T22:53:40+00:00)
+
+新方針(発信本命・ゼロ予算)より前の指示。陳腐化のため無効化(code判断・オーナー承認)
