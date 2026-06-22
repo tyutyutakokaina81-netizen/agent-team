@@ -78,21 +78,26 @@
 ### 【結果D】営業先リスト（2026-06-22 実地検証・Cowork記入）
 ```
 基準：実在公式サイト＋ブログ/お知らせ欄あり＋最新更新が2025-12以前（半年以上停止）
-WebSearch+WebFetchで約28サイトを精査 → 条件クリア6社（＋公開メール1社・停止未確認）
+WebSearch+WebFetchで約43サイトを精査 → 条件クリア7社（採用率16%・残りは健全更新中 or 日付欄なし）
 詳細エビデンス：CSO/outputs/targets_evidence_2026-06-22.md（PIIのためgit管理外）
 
 会社名 / 業種 / 連絡先 / ブログ最新
 ↓
-1. 株式会社宮城工務店    / 工務店(高岡) / form:miyagi-koumuten.com/inquiry/        / 2025-10
-2. Orb hair salon         / 美容室(富山) / form:orb-hair.net/inquiry/                / 2022-10
-3. SALON cesto            / 美容室(富山) / form:cesto.jp（導線URL要確認）            / 2024-04
+■ フォームあり（本命5社）
+1. 株式会社宮城工務店    / 工務店(高岡) / form:miyagi-koumuten.com/inquiry/         / 2025-10
+2. Orb hair salon         / 美容室(富山) / form:orb-hair.net/inquiry/                 / 2022-10
+3. SALON cesto            / 美容室(富山) / form:cesto.jp（導線URL要確認）             / 2024-04
 4. 富山ウェルネス接骨院   / 整体(富山)   / form:toyama-wellness-sekkotsuin.com/reserve/ / 2024-11
 5. 髙瀬会計事務所         / 士業(富山)   / form:takasekaikei.tkcnf.com/form/.../page10 / 2025-01
-6. ヘアーサロンシエル     / 美容室(高岡) / 電話のみ・フォーム無（手段要確認）        / 2025-10
-（参考）なかやす酒販      / 物販(高岡)   / mail:info@nakayasu-net.jp（停止は未確認）  / 不明
+■ 電話/LINEのみ（高摩擦・2社）
+6. ヘアーサロンシエル     / 美容室(高岡) / 電話のみ                                   / 2025-10
+7. hair tub（ヘアータブ） / 美容室(砺波) / LINE:bgl7007q / 0763-58-5890               / 2022-09
+（参考）なかやす酒販      / 物販(高岡)   / mail:info@nakayasu-net.jp（停止は未確認）   / 不明
 
-★重要：採用6社は全て「問い合わせフォームのみ」。公開メールは実質ゼロ。
+★重要：採用7社中フォーム5・電話/LINE2。公開メールは実質ゼロ。
   → B2「メール一斉送信」は撃つ相手がいない。実チャネルはB3（フォーム手動投入）。
+★「30社」は不成立：43サイト精査で7社が上限級。残りは健全更新 or ブログ欄なし(IG/LINE運用)。
+  → 30集めるより、本命フォーム5社へ確実に当てる＋オーナー知人伝手の方が早い。
 ```
 
 ### 【結果E】営業の反応（2026-06-22）
