@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLMチャットボット・ウィジェット デモ｜AI自動化サポート</title>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;color:#1c2530;line-height:1.8;max-width:760px;margin:0 auto;padding:40px 20px;background:#fff}
+  h1{font-size:26px}h2{font-size:19px;margin-top:28px}
+  p,li{color:#3a434f}code{background:#f5f7fa;padding:2px 6px;border-radius:5px;font-size:13px}
+  pre{background:#1c2530;color:#e8eef7;padding:16px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.6}
+  .box{background:#eef4ff;border:1px solid #cfe0ff;border-radius:12px;padding:16px 18px;margin:18px 0}
+  .note{font-size:13px;color:#5b6470}
+</style>
+</head>
+<body>
+  <h1>🤖 ドロップイン LLMチャットボット（デモ）</h1>
+  <p>このページの<strong>右下のボタン</strong>から、実際に会話できるチャットボットを試せます。どんなWebサイトにも <code>&lt;script&gt;</code> 2行で組み込めます。AI自動化サポートの納品物の一つです。</p>
+
+  <div class="box">
+    <strong>使ってみる：</strong> 右下「💬 AIに質問」→ 初回はAPIキー設定を促されます。<br>
+    OpenAI互換のキーを入れると<strong>実際のLLM会話</strong>に。キーは<strong>この端末のブラウザ内だけ</strong>に保存され、外部に送信しません。キー無しでも簡易応答（台本）で動きます。
+  </div>
+
+  <h2>組み込み方（2行）</h2>
+  <pre>&lt;script&gt;
+  window.CHATBOT_CONFIG = {
+    title: "○○店 サポート",
+    system: "あなたは○○店の問い合わせ対応アシスタント。丁寧に、断定せず、最終確認は人が行う前提で答える。",
+    greeting: "こんにちは！ご質問どうぞ🤖",
+    model: "gpt-4o-mini"
+    // proxyUrl: "https://自社サーバ/chat"  ← 本番はキーをサーバ側に置く
+  };
+&lt;/script&gt;
+&lt;script src="chatbot.js"&gt;&lt;/script&gt;</pre>
+
+  <h2>特徴</h2>
+  <ul>
+    <li>依存ゼロの単一JS。どのページにも貼れる。</li>
+    <li>業種ごとに <code>system</code> プロンプトを差し替えるだけで“その店専用”の応答に。</li>
+    <li>APIキーは利用者の自前＝当社にAPIコストが発生しない。</li>
+    <li>キー無しでも台本フォールバックで動く（設定を促す）。</li>
+  </ul>
+
+  <h2 class="note">⚠️ 正直な注意</h2>
+  <p class="note">ブラウザにキーを置く方式は「自分用・社内用・小規模」向け。不特定多数に公開する本番では、キーは必ずサーバ側（<code>proxyUrl</code>）に置いてください（キー露出防止）。本番構築は当社で対応します。</p>
+
+  <p style="margin-top:30px"><a href="../ai-agency-hp/index.html">← AI自動化サポート トップへ</a></p>
+
+<script>
+  window.CHATBOT_CONFIG = {
+    title: "AI自動化サポート（デモ）",
+    system: "あなたはAI自動化代行サービスの問い合わせ対応アシスタント。料金（月額¥50,000/¥100,000/¥200,000）、自動化できる業務（問い合わせ返信・リード対応・事務・コンテンツ）、無料サンプルについて、丁寧かつ簡潔に答える。効果や成果は保証せず、最終確認は人が行う前提で話す。専門的判断は断定しない。",
+    greeting: "こんにちは！AI自動化サポートです🤖 料金・できること・無料サンプルなど、何でも聞いてください。",
+    model: "gpt-4o-mini",
+    buttonLabel: "AIに質問"
+  };
+</script>
+<script src="chatbot.js"></script>
+</body>
+</html>
