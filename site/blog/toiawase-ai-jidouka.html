@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>問い合わせ対応をAIで自動化する方法（下書き自動化の手順）</title>
+<meta name="description" content="中小企業向けの実践ガイド。問い合わせ返信をAIで下書き自動化する具体的な手順、プロンプト例、注意点（自動送信しない・機密を入れない・確認は人）を解説します。">
+<meta property="og:title" content="問い合わせ対応をAIで自動化する方法">
+<meta property="og:description" content="返信の下書きをAIで自動化し、確認と送信は人が行う。中小企業向けの手順とプロンプト例。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tyutyutakokaina81-netizen.github.io/agent-team/blog/toiawase-ai-jidouka.html">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#1c2530;line-height:1.75;max-width:760px;margin:0 auto;padding:34px 20px 70px}
+  h1{font-size:30px;line-height:1.3}h2{font-size:21px;margin-top:32px}
+  p,li{color:#333b45;font-size:16px}code,pre{background:#f5f7fa;border:1px solid #e4e8ee;border-radius:8px}
+  code{padding:2px 6px;font-size:13px}pre{display:block;padding:14px;overflow:auto;font-size:13px;white-space:pre-wrap}
+  a{color:#2f6df0}.cta{display:block;background:#2f6df0;color:#fff;text-decoration:none;text-align:center;font-weight:700;padding:15px;border-radius:12px;margin:28px 0}
+  .muted{color:#5b6470;font-size:14px}.tag{color:#5b6470;font-size:13px}
+</style>
+</head>
+<body>
+<p class="tag">ガイド · 中小企業のためのAI活用</p>
+<h1>問い合わせ対応をAIで自動化する方法（下書き自動化の手順）</h1>
+<p class="muted">毎日同じような問い合わせ（料金・予約・在庫・「◯◯はできますか？」）に追われていませんか。返信の<strong>下書き</strong>をAIに任せれば、対応の時間を減らせます。読んで確認し、送信するのは人。現実的で誠実なやり方を紹介します。</p>
+
+<h2>なぜ「返信の下書き」が最初の一歩に向くのか</h2>
+<p>多くの小さなチームは、内容の8割が似たメッセージに時間を取られています。狙いは言葉を置き換えることではなく、「白紙から書く手間」をなくすこと。AIがたたき台を即座に書き、あなたは一部を直して送ります。人の確認を経ないものは送られません。</p>
+
+<h2>手順1 — よくある質問を集める</h2>
+<p>頻度の高い問い合わせを15〜30件、それぞれの良い回答とあわせて書き出します。これがAIの参照する「知識」になります。顧客の個人情報は入れず、聞かれ方のパターンと自社の言い回しだけをまとめます。</p>
+
+<h2>手順2 — AIにルールを与える（システムプロンプト）</h2>
+<p>役割・トーン・してはいけないこと（価格や在庫を約束しない、推測しない＝足りなければ確認する）を伝えます。例：</p>
+<pre>あなたは小規模事業者の受付アシスタントです。丁寧で簡潔な返信の下書きを作成してください。
+構成：あいさつ → 用件の確認 → 次のアクション（予約・見積・必要な情報） → 結び。
+価格・在庫・結果は約束しないこと（「確認のうえご連絡します」とする）。情報が不足する場合は丁寧に質問する。
+末尾に必ず「（下書き：送信前に担当者が確認します）」と記載する。</pre>
+
+<h2>手順3 — 下書き・確認・送信</h2>
+<p>受信メッセージを貼り付けて下書きを得て、必要なら直して送ります。メール受信箱と連携するツールを使えば、下書きが自動で用意され、あなたは確認するだけにできます。安全を保つ要は<strong>「AIが下書き、送信は人」</strong>です。</p>
+
+<h2>避けたい落とし穴</h2>
+<ul>
+  <li><strong>AIに自動送信させる。</strong> しないこと。必ず人の承認ステップを残します。</li>
+  <li><strong>機密を入力する。</strong> 必要なのはトーンとFAQのパターンであり、機密データではありません。</li>
+  <li><strong>断定・約束しすぎる。</strong> 価格・期日・結果を言い切らないよう指示します。確認は人が行います。</li>
+  <li><strong>過度な期待。</strong> 下書きの時間は減りますが、確認は引き続き重要です。成果を保証するツールはありません。</li>
+</ul>
+
+<h2>設定をお手伝いします</h2>
+<p>返信・フォローアップ・事務まで、人が主導権を持つ設計で御社に合わせて整えます。ご判断の前に、実際の業務ひとつで<strong>無料サンプル</strong>をお作りします。</p>
+<a class="cta" href="../index.html">仕組みを見る（無料サンプル）→</a>
+<p class="muted">本記事は一般的な情報であり、成果を保証するものではありません。AIの出力は下書きであり、確認と送信はお客様が行います。</p>
+<p class="tag"><a href="../index.html">AI自動化スタジオ</a></p>
+</body>
+</html>
