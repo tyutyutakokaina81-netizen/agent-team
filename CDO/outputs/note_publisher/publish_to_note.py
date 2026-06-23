@@ -121,13 +121,15 @@ def find_latest_article(require_photos: bool = False):
     return sorted(candidates, key=lambda p: p.stat().st_mtime, reverse=True)[0]
 
 
-def find_article_by_date(target_date_str: str | None = None):
+def find_article_by_date(target_date_str: str | None = None, allow_future: bool = False):
     """ファイル名の日付(YYYY-MM-DD)が target_date と一致するものを返す。
-    無ければ target_date 以降の最も早い未来日付の記事を返す。
-    全て過去なら最も新しい過去日付。CAO日次運用ではこちらをデフォルトに使う。"""
+    無ければ「本日以前で最も新しい記事」を返す（未来日付ガード）。
+    --by-date で明示指定 or allow_future=True のときだけ未来日付を許可する。
+    2026-06-12 の未来日付公開インシデント以降、デフォルトでは未来日付を絶対に出さない。"""
     from datetime import date
+    today = date.today().isoformat()
     if target_date_str is None:
-        target_date_str = date.today().isoformat()
+        target_date_str = today
     dated = []
     for p in ARTICLES_DIR.glob("*_note記事_*.md"):
         m = re.match(r"(\d{4}-\d{2}-\d{2})_", p.name)
@@ -136,16 +138,21 @@ def find_article_by_date(target_date_str: str | None = None):
     if not dated:
         sys.exit(f"記事が見つかりません: {ARTICLES_DIR}/*_note記事_*.md")
     dated.sort()
-    # exact match
+    # exact match（指定日そのもの）
     for d, p in dated:
         if d == target_date_str:
             return p
-    # next future
-    for d, p in dated:
-        if d > target_date_str:
-            return p
-    # fallback: most recent past
-    return dated[-1][1]
+    # 未来日付ガード：明示許可時のみ「次の未来」を返す
+    if allow_future:
+        for d, p in dated:
+            if d > target_date_str:
+                return p
+    # デフォルト：未来は絶対に出さない。本日以前で最も新しいものを返す
+    past = [(d, p) for d, p in dated if d <= today]
+    if past:
+        return past[-1][1]
+    sys.exit("✗ 本日以前の日付の記事がありません（未来日付のみ）。誤公開防止のため中断します。"
+             "\n  特定記事を出すなら --article <path> で明示指定してください。")
 
 
 def parse_article(md_path: Path):
@@ -258,10 +265,41 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         if "accounts.google.com" in page.url or "login" in page.url:
             sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
 
+        # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を先に閉じる
+        for _ in range(3):
+            try:
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(250)
+            except Exception:
+                pass
+        for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
+            try:
+                b = page.locator(f'button:has-text("{label}")').first
+                if b.is_visible(timeout=300):
+                    b.click()
+                    page.wait_for_timeout(300)
+            except Exception:
+                pass
+
         # タイトル入力（noteのエディタはplaceholderに「タイトル」を含む）
         title_input = page.locator(
             'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"]'
         ).first
+        # 最大60秒待つ。見つからなければ落とさず、ブラウザを開いたまま手動継続できるようにする
+        try:
+            title_input.wait_for(state="visible", timeout=60000)
+        except Exception:
+            print("⚠️  タイトル入力欄が見つかりませんでした。")
+            print(f"    現在のURL: {page.url}")
+            print("    考えられる原因：noteのログイン切れ／画面にダイアログが残っている／note側のUI変更。")
+            print(f"    （この記事のタイトル: {title}）")
+            # 対話実行(オーナー)なら開いたまま止めて手動継続できるように。
+            # 非対話実行(cowork自動)ならハングさせず失敗(rc=2)で返す。
+            if sys.stdin.isatty():
+                print("    ブラウザは開いたままにします。画面を確認し、必要なら手動で投稿してください。")
+                input("確認したら Enter で閉じる ...")
+            ctx.close()
+            sys.exit(2)
         title_input.click()
         title_input.fill(title)
         print("✅ タイトル入力完了")
@@ -394,6 +432,8 @@ def main():
                     help="ファイル名日付指定で選択。省略時は本日。--photos と排他")
     ap.add_argument("--latest-mtime", action="store_true",
                     help="ファイル名日付ではなくmtime最新を選択（旧デフォルト）")
+    ap.add_argument("--allow-future", action="store_true",
+                    help="未来日付の記事も公開対象に含める（既定では誤公開防止のため未来は除外）")
     args = ap.parse_args()
 
     if args.login:
@@ -412,7 +452,7 @@ def main():
     elif args.latest_mtime:
         md_path = find_latest_article(require_photos=False)
     else:
-        md_path = find_article_by_date(args.by_date)
+        md_path = find_article_by_date(args.by_date, allow_future=args.allow_future)
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
