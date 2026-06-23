@@ -44,6 +44,8 @@ jobs:
           done
           # チャットボットの本体JSも配信
           [ -f apps/chatbot-widget/chatbot.js ] && cp apps/chatbot-widget/chatbot.js _site/chatbot-widget/chatbot.js
+          [ -f apps/ai-agency-hp/robots.txt ] && cp apps/ai-agency-hp/robots.txt _site/robots.txt
+          [ -f apps/ai-agency-hp/sitemap.xml ] && cp apps/ai-agency-hp/sitemap.xml _site/sitemap.xml
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
