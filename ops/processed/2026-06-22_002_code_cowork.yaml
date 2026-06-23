@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-22T14:10:00+09:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・初回管理放出】無料看板2本を text-only で公開（既公開ならスキップ）
 ---
 
@@ -40,3 +40,10 @@ python3 publish_to_note.py --article CMO/outputs/2026-06-13_note記事_鱒寿司
 # 次段
 この2本がクリーンに公開できたら、棚卸し（2026-06-22_001）の結果と合わせて
 「1日5本ルールでの本格再開」と「有料マガジンの編成・出品」へ進む。
+
+
+---
+
+## 結果 (2026-06-23T00:00:37+00:00)
+
+白えび丼:公開済みスキップ https://note.com/safe_canna441/n/ndcda27ac9d23 、鱒寿司:公開済みスキップ https://note.com/safe_canna441/n/n9cb8b7d7da1a
