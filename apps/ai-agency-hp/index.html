@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI自動化サポート｜中小事業者の反復作業を、AIで軽くする</title>
+<meta name="description" content="問い合わせ返信・資料作成・データ整理など、毎日のくり返し作業をAIで効率化する導入代行。無料サンプルから。私たち自身、会社の運営をAIで回しています。">
+<style>
+  :root{--ink:#1c2530;--sub:#5b6470;--bg:#ffffff;--soft:#f5f7fa;--line:#e4e8ee;--accent:#2f6df0;--accent-d:#1f55c7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .logo{font-weight:700;font-size:17px;letter-spacing:.02em}
+  .logo span{color:var(--accent)}
+  .nav a.cta{background:var(--accent);color:#fff;padding:9px 16px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600}
+  .nav a.cta:hover{background:var(--accent-d)}
+  .hero{padding:64px 0 48px;background:linear-gradient(180deg,#f5f9ff, #fff)}
+  .hero h1{font-size:33px;line-height:1.45;letter-spacing:.01em}
+  .hero h1 .hl{color:var(--accent)}
+  .hero p.lead{margin-top:18px;font-size:17px;color:var(--sub)}
+  .btns{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-d)}
+  .btn.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+  .note{margin-top:16px;font-size:13px;color:var(--sub)}
+  section{padding:52px 0;border-top:1px solid var(--line)}
+  h2{font-size:24px;margin-bottom:8px;letter-spacing:.01em}
+  .sub{color:var(--sub);margin-bottom:26px;font-size:15px}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{font-size:17px;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--sub)}
+  .price{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+  .price.feat{border:2px solid var(--accent);box-shadow:0 8px 28px rgba(47,109,240,.12)}
+  .price .tag{font-size:13px;color:var(--accent);font-weight:700}
+  .price .amt{font-size:30px;font-weight:800;margin:6px 0}
+  .price .amt small{font-size:14px;color:var(--sub);font-weight:500}
+  .price ul{list-style:none;margin-top:12px;text-align:left;font-size:14px;color:var(--sub)}
+  .price li{padding:5px 0 5px 22px;position:relative}
+  .price li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .steps{counter-reset:s}
+  .step{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--line)}
+  .step:last-child{border-bottom:none}
+  .step .n{flex:0 0 38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .step h4{font-size:16px}
+  .step p{font-size:14px;color:var(--sub)}
+  details{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  summary{font-weight:600;cursor:pointer;font-size:15px}
+  details p{margin-top:10px;font-size:14px;color:var(--sub)}
+  .cta-band{background:linear-gradient(135deg,#2f6df0,#1f55c7);color:#fff;border-radius:18px;padding:38px 28px;text-align:center;margin:8px 0}
+  .cta-band h2{color:#fff}
+  .cta-band p{color:#e8f0ff;margin-bottom:22px}
+  .cta-band .btn.primary{background:#fff;color:var(--accent)}
+  .disc{font-size:12.5px;color:var(--sub);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:20px}
+  footer{padding:34px 0;color:var(--sub);font-size:13px;text-align:center;border-top:1px solid var(--line)}
+  @media(max-width:680px){.g3,.g2{grid-template-columns:1fr}.hero h1{font-size:26px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="logo">AI自動化<span>サポート</span></div>
+  <a class="cta" href="#contact">無料で相談</a>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1>毎日のくり返し作業を、<span class="hl">AIで軽く</span>する。<br>中小事業者のための導入代行。</h1>
+  <p class="lead">問い合わせ返信・資料づくり・データ整理・社内マニュアル——「人を増やせないけど手が回らない」を、AIの仕組みで肩代わりします。まずは<strong>無料サンプル</strong>から。</p>
+  <div class="btns">
+    <a class="btn primary" href="#contact">無料サンプルを依頼する</a>
+    <a class="btn ghost" href="#why">なぜ任せられる？</a>
+  </div>
+  <p class="note">※ 効果（時間削減・売上）を保証するものではありません。最終確認は必ずご担当者が行う前提です。</p>
+</div></div>
+
+<section id="problem"><div class="wrap">
+  <h2>こんな「くり返し」に時間を取られていませんか</h2>
+  <p class="sub">どれも、AIで“下書き・たたき台”を出すところまでは任せられます。</p>
+  <div class="grid g3">
+    <div class="card"><h3>問い合わせ・メール返信</h3><p>料金/予約/相談の似た問い合わせに、毎回ゼロから文面を考えている。</p></div>
+    <div class="card"><h3>資料・記事・説明文</h3><p>提案資料、商品説明、SNS、社内文書。書き出しに時間がかかる。</p></div>
+    <div class="card"><h3>データ整理・議事録</h3><p>表の整形、議事録の清書、FAQづくりが後回しになっている。</p></div>
+  </div>
+</div></section>
+
+<section id="service"><div class="wrap">
+  <h2>サービス：仕組みを作って、毎月回す</h2>
+  <p class="sub">単発の納品で終わらせず、御社の業務に合わせて作り込み、運用・改善まで継続します。初回構築は月額に含みます。</p>
+  <div class="grid g3">
+    <div class="price"><div class="tag">ライト</div><div class="amt">¥50,000<small>/月</small></div>
+      <ul><li>1〜2業務の自動化を構築</li><li>運用・微調整</li><li>初回セットアップ込み</li></ul></div>
+    <div class="price feat"><div class="tag">スタンダード（人気）</div><div class="amt">¥100,000<small>/月</small></div>
+      <ul><li>3〜4業務の自動化</li><li>月次の改善・更新</li><li>プロンプト更新＋簡易研修</li></ul></div>
+    <div class="price"><div class="tag">フル</div><div class="amt">¥200,000<small>/月</small></div>
+      <ul><li>全社の反復をまとめて</li><li>優先対応</li><li>継続的な拡張</li></ul></div>
+  </div>
+  <p class="note" style="margin-top:14px">料金は内容により調整します。月単位・守秘明記・社外秘はお預かりしない設計です。</p>
+</div></section>
+
+<section id="why"><div class="wrap">
+  <h2>なぜ私たちに任せられるか</h2>
+  <p class="sub">「AIが使えます」と言うだけの会社とは違います。</p>
+  <div class="grid g2">
+    <div class="card"><h3>自分たちがAIで会社を回している</h3><p>企画・制作・事務の下ごしらえ・進行管理を、AIを“担当者”として日々運用。その過程で作った仕組みを、そのまま御社向けに提供します。</p></div>
+    <div class="card"><h3>“現物”を無料でお見せする</h3><p>口頭の説明ではなく、御社の実際の業務で<strong>動くサンプル</strong>を無料で作成。見てから判断していただけます。</p></div>
+    <div class="card"><h3>安全に配慮した設計</h3><p>社外秘・個人情報はお預かりしない形で構築。AIは下書きまで、確定・送信は必ず人が行う前提です。</p></div>
+    <div class="card"><h3>続けられる運用</h3><p>属人化せず、誰が使っても同じ品質。月次で改善し、業務が増えるほど効いてきます。</p></div>
+  </div>
+</div></section>
+
+<section id="flow"><div class="wrap">
+  <h2>はじめ方（3ステップ）</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><h4>無料の10分ヒアリング／診断</h4><p>どの業務から効くかを一緒に見える化します。費用はかかりません。</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>無料サンプルをお作りする</h4><p>御社の実際の業務（個人情報は伏せてOK）で、AIの“たたき台”を作ってお見せします。</p></div></div>
+    <div class="step"><div class="n">3</div><div><h4>価値を感じたら、月額で運用</h4><p>初回構築を含めて月額でお引き受け。少しずつ自動化を広げていきます。</p></div></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2>よくあるご質問</h2>
+  <details><summary>本当に効果はありますか？</summary><p>作業の“下書き・たたき台”を素早く出す仕組みをお作りします。確認・修正の手間は残ります。時間削減や売上を保証するものではありません。まず無料サンプルで実際の手応えをご確認ください。</p></details>
+  <details><summary>情報の扱いが心配です。</summary><p>社外秘・お客様の個人情報はお預かりしない形で構築します。設定するのは文章のトーンやルールなどで、機密データは不要です。</p></details>
+  <details><summary>AIの間違いが不安です。</summary><p>AIは下書きまでです。確定・送信は必ずご担当者が行う前提で設計します。重要な判断を断定させない作りにします。</p></details>
+  <details><summary>自分たちでもできそうですが？</summary><p>もちろん可能です。私たちは「業務に合わせた作り込み・運用・改善を継続して代行する」点に価値を置いています。立ち上げと維持の手間をまるごとお引き受けします。</p></details>
+  <details><summary>解約はできますか？</summary><p>月単位の契約です。合わないと感じられたら、翌月以降の停止が可能です。</p></details>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="cta-band">
+    <h2>まずは無料サンプルから</h2>
+    <p>御社の業務を1つ、AIで“たたき台”にして無料でお見せします。<br>「これは使えそう」と思ってからで大丈夫です。</p>
+    <a class="btn primary" href="mailto:【連絡先メールをここに】?subject=AI自動化サポート%20無料サンプル希望">メールで無料サンプルを依頼</a>
+  </div>
+  <div class="disc">
+    【ご確認ください】本サービスは業務効率化の支援であり、時間削減・売上・集客などの成果を保証するものではありません。
+    税務・法務・会計などの専門的判断は、有資格者および最新の公式情報をご確認ください。AIの出力は下書きであり、
+    内容の確認・確定・送信はお客様（ご担当者）が行うことを前提としています。
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  AI自動化サポート（運営：【屋号 / Kai Arata】）　|　お問い合わせ：【連絡先】<br>
+  © 2026 AI自動化サポート. 掲載の製品・サービス名は各社の商標です。本サイトは各社と提携・公認されたものではありません。
+</div></footer>
+</body>
+</html>
