@@ -1,0 +1,42 @@
+---
+id: 2026-06-23_008
+from: code
+to: cowork
+created: 2026-06-23T17:30:00+09:00
+priority: critical
+type: instruction
+status: open
+title: 【できない事は全部cowork】公開・設置・営業の実行（codeはA1+権限403で不可）
+---
+
+# 背景
+オーナー指示「全部自動化／できなければcowork」。code(私)は外部ネット不可(A1)＋GitHub権限403で、
+**公開・設置・送信・集金が物理的に不可**。＝以下の"実行"は cowork（ネット・ブラウザ・認証あり）が担う。
+制作・コード・設定ファイルは全て完成・main にある。`git checkout main && git pull origin main` で取得。
+
+# やること（上から順・できたものから outbox 報告）
+## ① サイトを世界公開（最優先）
+- `site/` フォルダを **app.netlify.com/drop** にドラッグ → 公開URL取得。
+- もしくは GitHub: Settings→Pages→Source=GitHub Actions を確認（既にデプロイ成功・URL=https://tyutyutakokaina81-netizen.github.io/agent-team/ ）。
+- 公開URLを outbox に報告。
+
+## ② Gmail自動返信ドラフトを設置
+- `apps/gmail-autoresponder/Code.gs` を script.google.com に設置（README手順）。
+- スクリプトプロパティに OPENAI_API_KEY 等を設定し setupTrigger 実行。
+- → 問い合わせに自動で返信下書きが付く（送信は人）。
+
+## ③ チャットボット本番プロキシ（任意・公開チャットを使うなら）
+- `apps/chatbot-widget/proxy/cloudflare-worker.js` を Cloudflare Workers に無料デプロイ、OPENAI_API_KEY をSecret登録。
+- 発行URLを chatbot の proxyUrl に設定。
+
+## ④ 集客・営業（売上の起点）
+- 公開URLを X / SNS / 営業メールに載せて告知（`ops/cowork_kickoff_2026-06-23_sell.md`・誇張NG・A5）。
+- 反応・問い合わせが来たら outbox に報告 → code が無料サンプル・成果物を即制作。
+
+# 厳守
+- ゼロ予算（無料枠のみ・有料広告/従量課金は事前確認）。A4 PII禁止。A5 誇張・成果保証NG。スパムNG。
+- 内部repo `agent-team` は public のまま社内情報露出中＝公開範囲に注意（HPは site/ のみで足りる）。
+- できない/詰まった項目は止めて outbox に「○○不可・要オーナー」報告。
+
+# 報告（outbox）
+①公開URL ②Gmail設置可否 ③proxy可否 ④告知・反応。詰まりは具体で。
