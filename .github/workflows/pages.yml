@@ -36,7 +36,7 @@ jobs:
           # 既存ダッシュボードは /tavern.html で残す
           cp tavern.html _site/tavern.html
           # 無料Webツール（営業導線・集客）も公開
-          for t in freelance-rate-calculator invoice-generator ai-prompt-builder; do
+          for t in freelance-rate-calculator invoice-generator ai-prompt-builder ai-shindan; do
             if [ -f "apps/$t/index.html" ]; then
               mkdir -p "_site/$t"
               cp "apps/$t/index.html" "_site/$t/index.html"
