@@ -1,0 +1,11 @@
+# clients/ — 顧客情報(PII・契約・請求)はコミットしない。雛形(_template)とこの設計だけ追跡。
+# CFO/CSO の outputs と同じ扱い（A4：実名・住所・地区名はファイルに残さない）。
+
+# 全クライアント実体を除外
+*/
+# ただし雛形と構造維持用ファイルは追跡する
+!_template/
+!_template/**
+!.gitignore
+!README.md
+!.gitkeep
