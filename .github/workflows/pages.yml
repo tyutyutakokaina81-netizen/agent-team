@@ -29,8 +29,10 @@ jobs:
       - name: Build site
         run: |
           mkdir -p _site
-          # 正面＝AI自動化サポートのHP
+          # 正面＝AI自動化サポートのHP（日本語）
           cp apps/ai-agency-hp/index.html _site/index.html
+          # 世界向け英語版
+          cp apps/ai-agency-hp/en.html _site/en.html
           # 既存ダッシュボードは /tavern.html で残す
           cp tavern.html _site/tavern.html
           # 無料Webツール（営業導線・集客）も公開
