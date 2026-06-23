@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>かんたん請求書ジェネレーター｜無料・ブラウザ完結・PDF保存</title>
+<meta name="description" content="登録不要・無料のかんたん請求書ジェネレーター。請求先や品目を入力するだけできれいな請求書を作成し、ブラウザの印刷機能でPDF保存できます。入力内容はお使いのブラウザ内にのみ保存されます。">
+<style>
+  :root{
+    --ink:#1a2230; --sub:#5b6675; --line:#e2e6ec; --bg:#f4f6f9;
+    --accent:#2b6cb0; --accent-d:#234e7d; --paper:#ffffff; --soft:#f8fafc;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",
+      "Segoe UI",Meiryo,sans-serif;
+    color:var(--ink); background:var(--bg); line-height:1.6; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 60px}
+  header.site{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  header.site h1{font-size:1.25rem;margin:0;letter-spacing:.02em}
+  header.site .tag{font-size:.78rem;color:var(--sub);font-weight:400}
+  .layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  @media (max-width:880px){.layout{grid-template-columns:1fr}}
+
+  /* ---- Form ---- */
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .panel h2{font-size:.95rem;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--accent);color:var(--accent-d)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:480px){.grid2{grid-template-columns:1fr}}
+  label{display:block;font-size:.78rem;color:var(--sub);margin:10px 0 4px;font-weight:600}
+  input,textarea,select{
+    width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;
+    font-size:.92rem;font-family:inherit;background:#fff;color:var(--ink)
+  }
+  input:focus,textarea:focus,select:focus{outline:2px solid #bcd4ee;border-color:var(--accent)}
+  textarea{resize:vertical;min-height:54px}
+  .note{font-size:.72rem;color:var(--sub);margin-top:4px;line-height:1.45}
+
+  /* items table in form */
+  table.items{width:100%;border-collapse:collapse;margin-top:8px}
+  table.items th{font-size:.72rem;color:var(--sub);text-align:left;padding:6px 4px;font-weight:600}
+  table.items td{padding:4px 4px;vertical-align:top}
+  table.items input{padding:7px 8px;font-size:.88rem}
+  .col-name{width:42%}.col-qty,.col-price{width:18%}.col-del{width:34px}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;cursor:pointer;border:none;border-radius:8px;
+    font-size:.86rem;font-weight:600;padding:9px 14px;font-family:inherit
+  }
+  .btn-line{background:#eef4fb;color:var(--accent-d);border:1px solid #cfe0f2}
+  .btn-line:hover{background:#e1edfa}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-d)}
+  .btn-ghost{background:#fff;color:var(--sub);border:1px solid var(--line)}
+  .btn-del{background:none;color:#c0392b;border:1px solid #f0c9c4;border-radius:6px;width:30px;height:30px;font-size:1rem;line-height:1;padding:0;cursor:pointer}
+  .row-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+  /* ---- Preview (invoice paper) ---- */
+  .preview-shell{position:sticky;top:14px}
+  .paper{
+    background:var(--paper);border:1px solid var(--line);border-radius:8px;
+    padding:30px 32px;color:#222;font-size:.9rem
+  }
+  .inv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  .inv-title{font-size:1.7rem;font-weight:700;letter-spacing:.3em;margin:0 0 4px}
+  .inv-meta{font-size:.8rem;color:#555;text-align:right;min-width:170px}
+  .inv-meta div{margin:2px 0}
+  .to-block{margin-top:26px}
+  .to-name{font-size:1.15rem;font-weight:700;border-bottom:2px solid #333;display:inline-block;padding:0 30px 4px 4px}
+  .to-sub{font-size:.82rem;color:#555;margin-top:6px;white-space:pre-wrap}
+  .from-block{margin-top:18px;text-align:right;font-size:.82rem;color:#333;white-space:pre-wrap}
+  .from-block .from-name{font-size:1rem;font-weight:700}
+  .greeting{margin:22px 0 6px;font-size:.86rem}
+  .total-banner{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--soft);border:1px solid var(--line);border-radius:8px;
+    padding:12px 18px;margin:10px 0 6px
+  }
+  .total-banner .lbl{font-size:.86rem;font-weight:700}
+  .total-banner .amt{font-size:1.45rem;font-weight:800;letter-spacing:.02em}
+  table.inv{width:100%;border-collapse:collapse;margin-top:14px;font-size:.84rem}
+  table.inv th{background:#2b3442;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:.8rem}
+  table.inv th.r,table.inv td.r{text-align:right}
+  table.inv td{padding:8px 10px;border-bottom:1px solid #e8ebef}
+  table.inv tr:nth-child(even) td{background:#fafbfc}
+  .sum{margin-top:12px;margin-left:auto;width:280px;max-width:100%;font-size:.86rem}
+  .sum .line{display:flex;justify-content:space-between;padding:5px 2px}
+  .sum .line.grand{border-top:2px solid #333;margin-top:4px;padding-top:8px;font-weight:800;font-size:1rem}
+  .sum .tax-note{font-size:.72rem;color:#777;text-align:right;padding-top:2px}
+  .bank-block{margin-top:22px;border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--soft)}
+  .bank-block h3{margin:0 0 6px;font-size:.82rem;color:var(--accent-d)}
+  .bank-block .bank-text{font-size:.83rem;white-space:pre-wrap}
+  .remarks{margin-top:16px;font-size:.8rem;color:#444;white-space:pre-wrap}
+  .remarks h3{margin:0 0 4px;font-size:.8rem;color:var(--sub)}
+
+  /* ad + product */
+  .promo{margin-top:22px;border:1px dashed #cbd5e0;border-radius:10px;padding:14px 16px;background:#fcfdff}
+  .promo p{margin:0 0 6px;font-size:.86rem}
+  .promo a{color:var(--accent-d);font-weight:700;text-decoration:none}
+  .promo a:hover{text-decoration:underline}
+  .ad-slot{margin-top:10px;min-height:1px}
+  footer.site{margin-top:30px;font-size:.74rem;color:var(--sub);text-align:center;line-height:1.7}
+  footer.site a{color:var(--sub)}
+
+  /* ---- Print ---- */
+  @media print{
+    @page{size:A4;margin:14mm}
+    body{background:#fff}
+    .wrap{max-width:none;padding:0}
+    header.site,.panel.form,.toolbar,.promo,.ad-slot,footer.site .no-print,.print-hide{display:none !important}
+    .layout{display:block}
+    .preview-shell{position:static}
+    .paper{border:none;border-radius:0;padding:0;font-size:11pt}
+    .total-banner{break-inside:avoid}
+    table.inv{break-inside:auto}
+    table.inv tr{break-inside:avoid}
+    .bank-block{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <div>
+      <h1>かんたん請求書ジェネレーター</h1>
+      <div class="tag">登録不要・無料／入力はこのブラウザ内にだけ保存／印刷でPDF保存</div>
+    </div>
+    <div class="print-hide">
+      <button class="btn btn-primary" onclick="window.print()">印刷 / PDF保存</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ============ FORM ============ -->
+    <section class="panel form" aria-label="入力フォーム">
+
+      <h2>① 基本情報</h2>
+      <div class="grid2">
+        <div>
+          <label for="invNo">請求書番号</label>
+          <input id="invNo" placeholder="例：INV-2026-001">
+        </div>
+        <div>
+          <label for="invDate">請求日</label>
+          <input id="invDate" type="date">
+        </div>
+        <div>
+          <label for="dueDate">支払期限</label>
+          <input id="dueDate" type="date">
+        </div>
+        <div>
+          <label for="taxRate">消費税率（%）</label>
+          <select id="taxRate">
+            <option value="10">10%（標準税率）</option>
+            <option value="8">8%（軽減税率）</option>
+            <option value="0">0%（非課税・対象外）</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="regNo">登録番号（インボイス／任意）</label>
+      <input id="regNo" placeholder="例：T1234567890123（任意）">
+      <p class="note">※ インボイス制度（適格請求書）の要件・記載事項は変更される場合があります。
+        最新の取り扱いは<strong>国税庁など公式情報をご確認ください</strong>。本ツールは制度判断を行いません。</p>
+
+      <h2 style="margin-top:18px">② 請求先 / 請求元</h2>
+      <div class="grid2">
+        <div>
+          <label for="toName">請求先（宛名）</label>
+          <input id="toName" placeholder="例：株式会社サンプル商事 御中">
+          <label for="toDetail">請求先 部署・担当・住所など（任意）</label>
+          <textarea id="toDetail" placeholder="例：営業部 ○○様&#10;〒000-0000 △△県△△市"></textarea>
+        </div>
+        <div>
+          <label for="fromName">請求元（自分・屋号）</label>
+          <input id="fromName" placeholder="例：山田太郎 / 屋号">
+          <label for="fromDetail">請求元 住所・連絡先・登録番号など（任意）</label>
+          <textarea id="fromDetail" placeholder="〒000-0000 ○○県○○市&#10;TEL 000-0000-0000&#10;mail@example.com"></textarea>
+        </div>
+      </div>
+
+      <label for="greeting">あいさつ文（任意）</label>
+      <input id="greeting" placeholder="下記の通りご請求申し上げます。">
+
+      <h2 style="margin-top:18px">③ 品目</h2>
+      <table class="items" aria-label="品目">
+        <thead>
+          <tr>
+            <th class="col-name">品目・内容</th>
+            <th class="col-qty">数量</th>
+            <th class="col-price">単価（円）</th>
+            <th class="col-del"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+      <div class="row-actions">
+        <button class="btn btn-line" id="addRow">＋ 品目を追加</button>
+      </div>
+
+      <h2 style="margin-top:18px">④ 振込先・備考</h2>
+      <label for="bank">振込先（銀行・支店・種別・口座番号・名義など）</label>
+      <textarea id="bank" placeholder="○○銀行 ○○支店 普通 1234567&#10;口座名義：ヤマダ タロウ"></textarea>
+      <p class="note">※ 振込手数料の負担者など条件は当事者間でご確認ください。</p>
+      <label for="remarks">備考（任意）</label>
+      <textarea id="remarks" placeholder="例：お振込手数料は御社にてご負担をお願いいたします。"></textarea>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="window.print()">印刷 / PDF保存</button>
+        <button class="btn btn-ghost" id="loadSample">サンプルを入れる</button>
+        <button class="btn btn-ghost" id="clearAll">入力をクリア</button>
+      </div>
+      <p class="note" style="margin-top:10px">
+        入力内容はサーバーに送信されません。お使いの端末・ブラウザの localStorage にのみ自動保存されます。
+        別の端末やブラウザには引き継がれません。
+      </p>
+    </section>
+
+    <!-- ============ PREVIEW ============ -->
+    <div class="preview-shell">
+      <section class="paper" id="paper" aria-label="請求書プレビュー">
+        <div class="inv-top">
+          <div>
+            <h2 class="inv-title">請求書</h2>
+          </div>
+          <div class="inv-meta">
+            <div id="pInvNo"></div>
+            <div id="pInvDate"></div>
+            <div id="pDueDate"></div>
+            <div id="pRegNo"></div>
+          </div>
+        </div>
+
+        <div class="to-block">
+          <span class="to-name" id="pToName">請求先 御中</span>
+          <div class="to-sub" id="pToDetail"></div>
+        </div>
+
+        <div class="from-block">
+          <div class="from-name" id="pFromName">請求元</div>
+          <div id="pFromDetail"></div>
+        </div>
+
+        <div class="greeting" id="pGreeting"></div>
+
+        <div class="total-banner">
+          <span class="lbl">ご請求金額（税込）</span>
+          <span class="amt" id="pGrand">¥0</span>
+        </div>
+
+        <table class="inv">
+          <thead>
+            <tr>
+              <th>品目・内容</th>
+              <th class="r">数量</th>
+              <th class="r">単価</th>
+              <th class="r">金額</th>
+            </tr>
+          </thead>
+          <tbody id="pItems"></tbody>
+        </table>
+
+        <div class="sum">
+          <div class="line"><span>小計</span><span id="pSub">¥0</span></div>
+          <div class="line"><span id="pTaxLabel">消費税（10%）</span><span id="pTax">¥0</span></div>
+          <div class="line grand"><span>合計</span><span id="pGrand2">¥0</span></div>
+          <div class="tax-note">※ 端数は1円未満を切り捨てて計算しています。</div>
+        </div>
+
+        <div class="bank-block" id="pBankWrap">
+          <h3>お振込先</h3>
+          <div class="bank-text" id="pBank"></div>
+        </div>
+
+        <div class="remarks" id="pRemarksWrap">
+          <h3>備考</h3>
+          <div id="pRemarks"></div>
+        </div>
+      </section>
+
+      <!-- 収益化フック（控えめ） -->
+      <div class="promo print-hide">
+        <p>請求書づくりや毎月の収支管理を、もっとラクにしたい人へ。</p>
+        <p>フリーランス向けの<strong>実務テンプレ集・収支管理シート</strong>を用意しています。
+          → <a href="#" id="productLink">【商品リンク】テンプレ集 / 収支シートを見る</a></p>
+        <!-- ad slot -->
+        <div class="ad-slot" id="adSlot"></div>
+      </div>
+    </div>
+
+  </div><!-- /layout -->
+
+  <footer class="site print-hide">
+    <p class="no-print">
+      本ツールはブラウザ内で完結し、入力データを外部送信しません。
+      税務・法務・インボイス制度の要件は公式情報をご確認のうえご利用ください。本ツールは内容の正確性・適法性を保証しません。
+    </p>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+(function(){
+  var LS_KEY = "kantan_invoice_v1";
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- helpers ---------- */
+  function yen(n){
+    n = Math.floor(n || 0);
+    return "¥" + n.toLocaleString("ja-JP");
+  }
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;");
+  }
+  function escMultiline(s){ return esc(s).replace(/\n/g,"<br>"); }
+
+  /* ---------- item rows ---------- */
+  var itemsBody = $("itemsBody");
+
+  function addRow(name, qty, price){
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td class="col-name"><input class="it-name" type="text" placeholder="例：Webサイト制作"></td>' +
+      '<td class="col-qty"><input class="it-qty" type="number" min="0" step="1" inputmode="numeric" placeholder="1"></td>' +
+      '<td class="col-price"><input class="it-price" type="number" min="0" step="1" inputmode="numeric" placeholder="50000"></td>' +
+      '<td class="col-del"><button type="button" class="btn-del" title="削除">×</button></td>';
+    itemsBody.appendChild(tr);
+    tr.querySelector(".it-name").value  = name  != null ? name  : "";
+    tr.querySelector(".it-qty").value   = qty   != null ? qty   : "";
+    tr.querySelector(".it-price").value = price != null ? price : "";
+    tr.querySelector(".btn-del").addEventListener("click", function(){
+      tr.parentNode.removeChild(tr);
+      if(!itemsBody.children.length) addRow();
+      render(); save();
+    });
+    tr.querySelectorAll("input").forEach(function(inp){
+      inp.addEventListener("input", function(){ render(); save(); });
+    });
+    return tr;
+  }
+
+  $("addRow").addEventListener("click", function(){ addRow(); save(); });
+
+  /* ---------- fields ---------- */
+  var FIELDS = ["invNo","invDate","dueDate","taxRate","regNo","toName","toDetail",
+    "fromName","fromDetail","greeting","bank","remarks"];
+
+  FIELDS.forEach(function(id){
+    $(id).addEventListener("input", function(){ render(); save(); });
+    $(id).addEventListener("change", function(){ render(); save(); });
+  });
+
+  /* ---------- render preview ---------- */
+  function collectItems(){
+    var rows = [];
+    itemsBody.querySelectorAll("tr").forEach(function(tr){
+      var name  = tr.querySelector(".it-name").value;
+      var qty   = parseFloat(tr.querySelector(".it-qty").value);
+      var price = parseFloat(tr.querySelector(".it-price").value);
+      if(isNaN(qty)) qty = 0;
+      if(isNaN(price)) price = 0;
+      rows.push({ name:name, qty:qty, price:price });
+    });
+    return rows;
+  }
+
+  function render(){
+    var items = collectItems();
+    var taxRate = parseFloat($("taxRate").value) || 0;
+
+    // meta
+    $("pInvNo").textContent   = $("invNo").value ? "請求書番号：" + $("invNo").value : "";
+    $("pInvDate").textContent = $("invDate").value ? "請求日：" + $("invDate").value : "";
+    $("pDueDate").textContent = $("dueDate").value ? "支払期限：" + $("dueDate").value : "";
+    $("pRegNo").textContent   = $("regNo").value ? "登録番号：" + $("regNo").value : "";
+
+    $("pToName").textContent  = $("toName").value || "請求先 御中";
+    $("pToDetail").innerHTML  = escMultiline($("toDetail").value);
+    $("pFromName").textContent= $("fromName").value || "請求元";
+    $("pFromDetail").innerHTML= escMultiline($("fromDetail").value);
+    $("pGreeting").textContent= $("greeting").value || "下記の通りご請求申し上げます。";
+
+    // items table
+    var sub = 0, html = "";
+    items.forEach(function(it){
+      var amt = it.qty * it.price;
+      sub += amt;
+      if(!it.name && !it.qty && !it.price) return; // skip fully-empty row in preview
+      html +=
+        "<tr><td>" + (esc(it.name) || "&nbsp;") + "</td>" +
+        '<td class="r">' + (it.qty ? it.qty.toLocaleString("ja-JP") : "") + "</td>" +
+        '<td class="r">' + (it.price ? yen(it.price) : "") + "</td>" +
+        '<td class="r">' + yen(amt) + "</td></tr>";
+    });
+    if(!html) html = '<tr><td colspan="4" style="color:#aaa">品目を入力してください</td></tr>';
+    $("pItems").innerHTML = html;
+
+    var tax = Math.floor(sub * taxRate / 100);
+    var grand = sub + tax;
+
+    $("pSub").textContent = yen(sub);
+    $("pTaxLabel").textContent = "消費税（" + taxRate + "%）";
+    $("pTax").textContent = yen(tax);
+    $("pGrand").textContent = yen(grand);
+    $("pGrand2").textContent = yen(grand);
+
+    // bank / remarks blocks hide when empty
+    var bank = $("bank").value;
+    $("pBank").innerHTML = escMultiline(bank);
+    $("pBankWrap").style.display = bank.trim() ? "" : "none";
+
+    var rem = $("remarks").value;
+    $("pRemarks").innerHTML = escMultiline(rem);
+    $("pRemarksWrap").style.display = rem.trim() ? "" : "none";
+  }
+
+  /* ---------- persistence ---------- */
+  function save(){
+    try{
+      var data = { fields:{}, items: collectItems() };
+      FIELDS.forEach(function(id){ data.fields[id] = $(id).value; });
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+    }catch(e){ /* storage unavailable: ignore */ }
+  }
+
+  function load(){
+    var raw;
+    try{ raw = localStorage.getItem(LS_KEY); }catch(e){ raw = null; }
+    if(!raw) return false;
+    var data;
+    try{ data = JSON.parse(raw); }catch(e){ return false; }
+    FIELDS.forEach(function(id){
+      if(data.fields && data.fields[id] != null) $(id).value = data.fields[id];
+    });
+    itemsBody.innerHTML = "";
+    if(data.items && data.items.length){
+      data.items.forEach(function(it){ addRow(it.name, it.qty || "", it.price || ""); });
+    }else{
+      addRow();
+    }
+    return true;
+  }
+
+  /* ---------- sample / clear ---------- */
+  function todayISO(){ return new Date().toISOString().slice(0,10); }
+  function plusDaysISO(d){
+    var t = new Date(); t.setDate(t.getDate()+d); return t.toISOString().slice(0,10);
+  }
+
+  function loadSample(){
+    // 架空サンプル（PIIなし）
+    $("invNo").value    = "INV-2026-001";
+    $("invDate").value  = todayISO();
+    $("dueDate").value  = plusDaysISO(30);
+    $("taxRate").value  = "10";
+    $("regNo").value    = "";
+    $("toName").value   = "株式会社サンプル商事 御中";
+    $("toDetail").value = "営業部 ご担当者様";
+    $("fromName").value = "サンプル工房（架空）";
+    $("fromDetail").value = "TEL 000-0000-0000\nsample@example.com";
+    $("greeting").value = "下記の通りご請求申し上げます。";
+    $("bank").value     = "サンプル銀行 本店 普通 0000000\n口座名義：サンプルコウボウ";
+    $("remarks").value  = "お振込手数料は御社にてご負担をお願いいたします。";
+    itemsBody.innerHTML = "";
+    addRow("Webサイト制作（5ページ）", 1, 80000);
+    addRow("ロゴデザイン", 1, 30000);
+    addRow("保守サポート（月額）", 3, 5000);
+    render(); save();
+  }
+
+  function clearAll(){
+    if(!window.confirm("入力内容をすべて消去します。よろしいですか？")) return;
+    FIELDS.forEach(function(id){ $(id).value = ""; });
+    $("taxRate").value = "10";
+    itemsBody.innerHTML = "";
+    addRow();
+    try{ localStorage.removeItem(LS_KEY); }catch(e){}
+    render();
+  }
+
+  $("loadSample").addEventListener("click", loadSample);
+  $("clearAll").addEventListener("click", clearAll);
+
+  /* ---------- init ---------- */
+  if(!load()){
+    addRow();
+    $("invDate").value = todayISO();
+    $("dueDate").value = plusDaysISO(30);
+  }
+  render();
+})();
+</script>
+</body>
+</html>

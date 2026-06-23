@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>フリーランス時給・案件採算カリキュレーター</title>
+<meta name="description" content="収入・経費・作業時間から実質時給と案件別の採算、目標月収に必要な単価を計算する無料ツール。依存ゼロ・オフライン動作。">
+<style>
+  :root{
+    --bg:#0f1720; --panel:#172230; --panel2:#1e2c3d; --line:#2b3b50;
+    --ink:#e8eef5; --sub:#9fb0c3; --accent:#4cc2a3; --accent2:#5aa9e6;
+    --warn:#e0a85a; --bad:#e07a6a; --good:#4cc2a3;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    line-height:1.6; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:18px 16px 60px}
+  header h1{font-size:1.35rem; margin:.2em 0 .1em; letter-spacing:.01em}
+  header p.lead{color:var(--sub); margin:.2em 0 1.2em; font-size:.92rem}
+  .card{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:16px 16px 18px; margin:0 0 16px;
+  }
+  .card h2{font-size:1.05rem; margin:.1em 0 .8em; display:flex; align-items:center; gap:.4em}
+  .card h2 .n{
+    width:1.5em; height:1.5em; border-radius:50%; background:var(--accent2);
+    color:#06121d; font-size:.8em; display:inline-flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px 14px}
+  @media (max-width:520px){ .grid{grid-template-columns:1fr} }
+  label{display:block; font-size:.82rem; color:var(--sub); margin:0 0 4px}
+  .field{margin:0 0 10px}
+  input[type=number],input[type=text],select{
+    width:100%; background:var(--panel2); border:1px solid var(--line); color:var(--ink);
+    border-radius:10px; padding:10px 11px; font-size:1rem; -moz-appearance:textfield;
+  }
+  input:focus,select:focus{outline:2px solid var(--accent2); outline-offset:0; border-color:transparent}
+  .hint{font-size:.74rem; color:var(--sub); margin:3px 0 0}
+  .row-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px}
+  button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:10px;
+    padding:10px 14px; font-size:.92rem; font-weight:600;
+  }
+  .btn-primary{background:var(--accent); color:#06121d}
+  .btn-ghost{background:transparent; color:var(--sub); border:1px solid var(--line)}
+  .btn-sm{padding:6px 10px; font-size:.82rem}
+  /* result tiles */
+  .tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  @media (max-width:520px){ .tiles{grid-template-columns:1fr} }
+  .tile{background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:12px 13px}
+  .tile .k{font-size:.78rem; color:var(--sub)}
+  .tile .v{font-size:1.5rem; font-weight:700; margin-top:2px; letter-spacing:-.01em}
+  .tile .v small{font-size:.62em; font-weight:600; color:var(--sub); margin-left:2px}
+  .tile.accent .v{color:var(--accent)}
+  .tile .sub{font-size:.74rem; color:var(--sub); margin-top:3px}
+  /* projects table */
+  table{width:100%; border-collapse:collapse; font-size:.86rem}
+  th,td{padding:8px 7px; text-align:right; border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--sub); font-weight:600; font-size:.78rem}
+  td input{padding:7px 8px; font-size:.9rem}
+  .proj-row td:last-child{text-align:center}
+  .del{background:transparent;color:var(--bad);border:1px solid var(--line);border-radius:8px;padding:4px 9px;font-weight:700}
+  .badge{display:inline-block; padding:2px 8px; border-radius:999px; font-size:.74rem; font-weight:700}
+  .badge.good{background:rgba(76,194,163,.16); color:var(--good)}
+  .badge.warn{background:rgba(224,168,90,.16); color:var(--warn)}
+  .badge.bad{background:rgba(224,122,106,.16); color:var(--bad)}
+  /* chart */
+  .chartwrap{margin-top:6px}
+  canvas{width:100%; height:auto; display:block; background:var(--panel2); border-radius:12px; border:1px solid var(--line)}
+  .legend{display:flex; gap:14px; flex-wrap:wrap; font-size:.78rem; color:var(--sub); margin-top:8px}
+  .legend i{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:5px; vertical-align:-1px}
+  .note-box{background:rgba(90,169,230,.08); border:1px solid var(--line); border-left:3px solid var(--accent2); padding:10px 12px; border-radius:8px; font-size:.82rem; color:var(--sub); margin-top:12px}
+  .promo{background:linear-gradient(135deg,#1c3a33,#1e2c3d); border:1px solid var(--line); border-radius:var(--radius); padding:16px}
+  .promo h2{margin-top:0}
+  .promo a.cta{display:inline-block; margin-top:6px; background:var(--accent); color:#06121d; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:700}
+  .promo p{font-size:.88rem; color:var(--sub)}
+  footer{color:var(--sub); font-size:.76rem; text-align:center; margin-top:24px; line-height:1.7}
+  footer a{color:var(--accent2)}
+  .saved{font-size:.74rem; color:var(--sub)}
+  .target-line{display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap}
+  .target-line .field{flex:1 1 140px; margin-bottom:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>フリーランス時給・案件採算カリキュレーター</h1>
+    <p class="lead">収入・経費・作業時間を入れると、<b>実質時給</b>・<b>案件ごとの採算</b>・<b>目標月収に必要な単価</b>の目安を計算します。入力内容はこの端末のブラウザにだけ保存され、外部には送られません。</p>
+  </header>
+
+  <!-- 1. 全体の収支 -->
+  <section class="card">
+    <h2><span class="n">1</span>ひと月の収支と稼働</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="income">月の売上（税込・円）</label>
+        <input type="number" id="income" inputmode="numeric" min="0" step="1000" placeholder="例：400000">
+      </div>
+      <div class="field">
+        <label for="expense">月の経費合計（円）</label>
+        <input type="number" id="expense" inputmode="numeric" min="0" step="1000" placeholder="例：60000">
+        <p class="hint">通信費・ソフト代・交通費・外注費など</p>
+      </div>
+      <div class="field">
+        <label for="hoursBillable">月の請求対象の作業時間（時間）</label>
+        <input type="number" id="hoursBillable" inputmode="decimal" min="0" step="1" placeholder="例：120">
+        <p class="hint">クライアントに請求できる実作業時間</p>
+      </div>
+      <div class="field">
+        <label for="hoursOverhead">月の請求できない時間（時間）</label>
+        <input type="number" id="hoursOverhead" inputmode="decimal" min="0" step="1" placeholder="例：40">
+        <p class="hint">営業・経理・打合せ・学習など</p>
+      </div>
+    </div>
+    <div class="row-actions">
+      <button class="btn-ghost btn-sm" id="clearAll" type="button">入力をリセット</button>
+      <span class="saved" id="savedMsg"></span>
+    </div>
+  </section>
+
+  <!-- results -->
+  <section class="card">
+    <h2><span class="n">2</span>あなたの実質時給（目安）</h2>
+    <div class="tiles">
+      <div class="tile accent">
+        <div class="k">実質時給（請求時間ベース）</div>
+        <div class="v"><span id="rateBillable">—</span><small>円/時</small></div>
+        <div class="sub">（売上−経費）÷ 請求対象時間</div>
+      </div>
+      <div class="tile">
+        <div class="k">実質時給（総稼働ベース）</div>
+        <div class="v"><span id="rateTotal">—</span><small>円/時</small></div>
+        <div class="sub">請求できない時間も含めた本当の時給</div>
+      </div>
+      <div class="tile">
+        <div class="k">手取りに近い額（経費後）</div>
+        <div class="v"><span id="profit">—</span><small>円/月</small></div>
+        <div class="sub">税・社会保険料の前の金額</div>
+      </div>
+      <div class="tile">
+        <div class="k">稼働率（請求できた割合）</div>
+        <div class="v"><span id="utilization">—</span><small>%</small></div>
+        <div class="sub">請求時間 ÷ 総稼働時間</div>
+      </div>
+    </div>
+    <div class="note-box" id="taxNote">
+      ※ ここでの金額は<b>税金・社会保険料を引く前の目安</b>です。実際の手取りは所得・控除・地域などで変わります。税額の断定はしません。正確な計算は税理士や確定申告の手引きをご確認ください。
+    </div>
+  </section>
+
+  <!-- 3. 目標月収 -->
+  <section class="card">
+    <h2><span class="n">3</span>目標月収に必要な単価の目安</h2>
+    <div class="target-line">
+      <div class="field">
+        <label for="targetIncome">目標の月の売上（円）</label>
+        <input type="number" id="targetIncome" inputmode="numeric" min="0" step="10000" placeholder="例：500000">
+      </div>
+    </div>
+    <div class="tiles" style="margin-top:12px">
+      <div class="tile">
+        <div class="k">必要な実質時給</div>
+        <div class="v"><span id="needRate">—</span><small>円/時</small></div>
+        <div class="sub">いまの経費・稼働時間のままなら</div>
+      </div>
+      <div class="tile">
+        <div class="k">いまとの差</div>
+        <div class="v"><span id="gapRate">—</span><small>円/時</small></div>
+        <div class="sub" id="gapNote">実質時給を上げるか時間を増やす必要</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 案件別採算 -->
+  <section class="card">
+    <h2><span class="n">4</span>案件ごとの採算</h2>
+    <p class="hint" style="margin-top:-4px">案件名は自由入力です（個人名・住所などの個人情報は入れないでください）。</p>
+    <div style="overflow-x:auto">
+    <table id="projTable">
+      <thead>
+        <tr>
+          <th>案件</th>
+          <th>報酬(円)</th>
+          <th>時間(h)</th>
+          <th>時給(円)</th>
+          <th>判定</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="projBody"></tbody>
+    </table>
+    </div>
+    <div class="row-actions">
+      <button class="btn-ghost btn-sm" id="addProj" type="button">＋ 案件を追加</button>
+    </div>
+    <div class="chartwrap">
+      <canvas id="chart" width="700" height="260" aria-label="案件別の時給グラフ"></canvas>
+      <div class="legend">
+        <span><i style="background:#4cc2a3"></i>実質時給より上</span>
+        <span><i style="background:#e0a85a"></i>実質時給の前後</span>
+        <span><i style="background:#e07a6a"></i>実質時給より下（採算注意）</span>
+      </div>
+      <p class="hint">判定の基準は、上で計算した「実質時給（請求時間ベース）」です。基準が無いときは仮に2,000円/時で表示します。</p>
+    </div>
+  </section>
+
+  <!-- ad slot (将来用・現在は非表示) -->
+  <!-- ad slot -->
+
+  <!-- 収益化フック：控えめ・正直 -->
+  <section class="promo">
+    <h2>もっと本格的に管理したい人へ</h2>
+    <p>このツールは「今ざっくり把握する」ためのもの。月ごとの推移・経費の科目分け・確定申告の下準備まで自動でやりたい人には、当社の<b>フリーランス収支管理スプレッドシート（Vol.1）／テンプレ集</b>が役立ちます。案件別の時給集計や年間サマリーまで自動です。</p>
+    <a class="cta" href="【商品リンク】">収支シート Vol.1 を見る</a>
+    <p class="hint" style="margin-top:10px">※ 無料ツールだけでも完結して使えます。買わなくても問題ありません。</p>
+  </section>
+
+  <footer>
+    <p>計算はすべてあなたの端末の中だけで行われ、入力はこのブラウザの localStorage に保存されます（サーバー送信なし）。</p>
+    <p>本ツールは概算の<b>目安</b>を出すものであり、税務・会計上の助言ではありません。</p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var STORE_KEY = "frlc_calc_v1";
+  var $ = function(id){ return document.getElementById(id); };
+
+  var inputIds = ["income","expense","hoursBillable","hoursOverhead","targetIncome"];
+
+  // ---- helpers ----
+  function num(v){
+    var n = parseFloat(v);
+    return (isFinite(n) && n >= 0) ? n : 0;
+  }
+  function yen(n){
+    if(!isFinite(n)) return "—";
+    return Math.round(n).toLocaleString("ja-JP");
+  }
+  function pct(n){
+    if(!isFinite(n)) return "—";
+    return (Math.round(n*10)/10).toLocaleString("ja-JP");
+  }
+
+  // ---- core calculations (pure) ----
+  // returns object with all derived metrics; safe against divide-by-zero
+  function compute(s){
+    var income = num(s.income), expense = num(s.expense);
+    var hB = num(s.hoursBillable), hO = num(s.hoursOverhead);
+    var profit = income - expense;                 // 経費後（税前）
+    var totalH = hB + hO;
+    var rateBillable = hB > 0 ? profit / hB : null; // 実質時給（請求時間）
+    var rateTotal    = totalH > 0 ? profit / totalH : null; // 総稼働
+    var utilization  = totalH > 0 ? (hB / totalH) * 100 : null;
+
+    // 目標月収に必要な実質時給：目標売上から現状の経費を引き、請求時間で割る
+    var target = num(s.targetIncome);
+    var needRate = (target > 0 && hB > 0) ? (target - expense) / hB : null;
+    var gapRate = (needRate != null && rateBillable != null) ? needRate - rateBillable : null;
+
+    return {
+      income:income, expense:expense, profit:profit,
+      hB:hB, hO:hO, totalH:totalH,
+      rateBillable:rateBillable, rateTotal:rateTotal, utilization:utilization,
+      needRate:needRate, gapRate:gapRate
+    };
+  }
+
+  // ---- projects ----
+  function readProjects(){
+    var rows = document.querySelectorAll("#projBody .proj-row");
+    var list = [];
+    rows.forEach(function(r){
+      list.push({
+        name: r.querySelector(".p-name").value,
+        pay:  r.querySelector(".p-pay").value,
+        hours:r.querySelector(".p-hours").value
+      });
+    });
+    return list;
+  }
+
+  function projRate(p){
+    var pay = num(p.pay), h = num(p.hours);
+    return h > 0 ? pay / h : null;
+  }
+
+  // benchmark = 実質時給（請求時間ベース）, fallback 2000
+  function benchmark(metrics){
+    return (metrics.rateBillable != null && metrics.rateBillable > 0) ? metrics.rateBillable : 2000;
+  }
+
+  function verdict(rate, bench){
+    if(rate == null) return {cls:"", label:"—", color:"#5a6b80"};
+    if(rate >= bench * 1.1) return {cls:"good", label:"良", color:"#4cc2a3"};
+    if(rate >= bench * 0.9) return {cls:"warn", label:"並", color:"#e0a85a"};
+    return {cls:"bad", label:"注意", color:"#e07a6a"};
+  }
+
+  function addProjectRow(p){
+    p = p || {name:"", pay:"", hours:""};
+    var tb = $("projBody");
+    var tr = document.createElement("tr");
+    tr.className = "proj-row";
+    tr.innerHTML =
+      '<td><input class="p-name" type="text" maxlength="40" placeholder="案件A" value=""></td>' +
+      '<td><input class="p-pay" type="number" inputmode="numeric" min="0" step="1000" placeholder="0"></td>' +
+      '<td><input class="p-hours" type="number" inputmode="decimal" min="0" step="1" placeholder="0"></td>' +
+      '<td class="p-rate">—</td>' +
+      '<td class="p-verdict"><span class="badge">—</span></td>' +
+      '<td><button type="button" class="del" aria-label="削除">×</button></td>';
+    tb.appendChild(tr);
+    tr.querySelector(".p-name").value = p.name || "";
+    tr.querySelector(".p-pay").value = p.pay || "";
+    tr.querySelector(".p-hours").value = p.hours || "";
+    tr.querySelectorAll("input").forEach(function(inp){
+      inp.addEventListener("input", onChange);
+    });
+    tr.querySelector(".del").addEventListener("click", function(){
+      tr.parentNode.removeChild(tr);
+      onChange();
+    });
+  }
+
+  // ---- render ----
+  function render(){
+    var state = collect();
+    var m = compute(state);
+
+    $("rateBillable").textContent = m.rateBillable != null ? yen(m.rateBillable) : "—";
+    $("rateTotal").textContent    = m.rateTotal != null ? yen(m.rateTotal) : "—";
+    $("profit").textContent       = (m.income||m.expense) ? yen(m.profit) : "—";
+    $("utilization").textContent  = m.utilization != null ? pct(m.utilization) : "—";
+
+    $("needRate").textContent = m.needRate != null ? yen(m.needRate) : "—";
+    if(m.gapRate != null){
+      var g = m.gapRate;
+      $("gapRate").textContent = (g>0?"+":"") + yen(g);
+      $("gapNote").textContent = g > 0
+        ? "あと " + yen(g) + " 円/時 上げる（または時間を増やす）必要があります"
+        : "目標は今の実質時給で達成できる見込みです";
+    } else {
+      $("gapRate").textContent = "—";
+      $("gapNote").textContent = "実質時給を上げるか時間を増やす必要";
+    }
+
+    // projects
+    var bench = benchmark(m);
+    var projects = readProjects();
+    document.querySelectorAll("#projBody .proj-row").forEach(function(r){
+      var rate = projRate({pay:r.querySelector(".p-pay").value, hours:r.querySelector(".p-hours").value});
+      var v = verdict(rate, bench);
+      r.querySelector(".p-rate").textContent = rate != null ? yen(rate) : "—";
+      var badge = r.querySelector(".p-verdict .badge");
+      badge.className = "badge " + v.cls;
+      badge.textContent = v.label;
+    });
+
+    drawChart(projects, bench);
+    save(state, projects);
+  }
+
+  // ---- chart (self-drawn canvas bar chart) ----
+  function drawChart(projects, bench){
+    var cv = $("chart");
+    var ctx = cv.getContext("2d");
+    // handle hi-dpi crisp rendering
+    var cssW = cv.clientWidth || 700;
+    var ratio = window.devicePixelRatio || 1;
+    var W = Math.round(cssW * ratio), H = Math.round(260 * ratio);
+    if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
+    ctx.setTransform(ratio,0,0,ratio,0,0);
+    var w = cssW, h = 260;
+    ctx.clearRect(0,0,w,h);
+
+    var data = projects.map(function(p,i){
+      var r = projRate(p);
+      return { name: (p.name && p.name.trim()) ? p.name.trim() : ("案件"+(i+1)), rate: r };
+    }).filter(function(d){ return d.rate != null && d.rate > 0; });
+
+    var padL = 8, padR = 12, padT = 16, padB = 34;
+    if(data.length === 0){
+      ctx.fillStyle = "#5a6b80";
+      ctx.font = "13px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("案件を追加するとグラフが表示されます", w/2, h/2);
+      return;
+    }
+
+    var maxRate = Math.max(bench, Math.max.apply(null, data.map(function(d){return d.rate;}))) * 1.12;
+    var plotH = h - padT - padB;
+    var plotW = w - padL - padR;
+    var n = data.length;
+    var gap = 14;
+    var barW = Math.max(14, Math.min(54, (plotW - gap*(n-1)) / n));
+    var totalW = barW*n + gap*(n-1);
+    var startX = padL + Math.max(0,(plotW - totalW)/2);
+    var yOf = function(val){ return padT + plotH - (val/maxRate)*plotH; };
+
+    // benchmark line
+    var by = yOf(bench);
+    ctx.strokeStyle = "#5aa9e6";
+    ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(padL, by); ctx.lineTo(w-padR, by); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#5aa9e6";
+    ctx.font = "11px sans-serif"; ctx.textAlign = "left";
+    ctx.fillText("基準 "+yen(bench)+"円/時", padL+2, by-5 < padT+8 ? by+13 : by-5);
+
+    data.forEach(function(d,i){
+      var x = startX + i*(barW+gap);
+      var y = yOf(d.rate);
+      var col = d.rate >= bench*1.1 ? "#4cc2a3" : (d.rate >= bench*0.9 ? "#e0a85a" : "#e07a6a");
+      ctx.fillStyle = col;
+      var bh = (padT+plotH) - y;
+      // rounded-ish top via simple rect
+      ctx.fillRect(x, y, barW, bh);
+      // value label
+      ctx.fillStyle = "#e8eef5"; ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+      ctx.fillText(yen(d.rate), x+barW/2, y-5 < padT ? padT+11 : y-5);
+      // name label
+      ctx.fillStyle = "#9fb0c3"; ctx.font = "11px sans-serif";
+      var name = d.name.length > 6 ? d.name.slice(0,6)+"…" : d.name;
+      ctx.fillText(name, x+barW/2, h-padB+18);
+    });
+  }
+
+  // ---- state / storage ----
+  function collect(){
+    var s = {};
+    inputIds.forEach(function(id){ s[id] = $(id).value; });
+    return s;
+  }
+  function save(state, projects){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify({inputs:state, projects:projects, ts:Date.now()}));
+      $("savedMsg").textContent = "保存しました（この端末のみ）";
+    }catch(e){
+      $("savedMsg").textContent = "";
+    }
+  }
+  function load(){
+    var raw;
+    try{ raw = localStorage.getItem(STORE_KEY); }catch(e){ raw = null; }
+    if(!raw) return null;
+    try{ return JSON.parse(raw); }catch(e){ return null; }
+  }
+
+  function onChange(){ render(); }
+
+  // ---- init ----
+  function init(){
+    var saved = load();
+    inputIds.forEach(function(id){
+      $(id).addEventListener("input", onChange);
+    });
+    $("addProj").addEventListener("click", function(){ addProjectRow(); render(); });
+    $("clearAll").addEventListener("click", function(){
+      if(!confirm("入力内容をすべて消去します。よろしいですか？")) return;
+      inputIds.forEach(function(id){ $(id).value = ""; });
+      $("projBody").innerHTML = "";
+      try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+      addProjectRow();
+      render();
+      $("savedMsg").textContent = "リセットしました";
+    });
+
+    if(saved){
+      if(saved.inputs){ inputIds.forEach(function(id){ if(saved.inputs[id]!=null) $(id).value = saved.inputs[id]; }); }
+      if(saved.projects && saved.projects.length){
+        saved.projects.forEach(function(p){ addProjectRow(p); });
+      } else {
+        addProjectRow();
+      }
+    } else {
+      addProjectRow();
+    }
+    render();
+
+    // expose pure functions for self-test in console / debugging
+    window.__frlc = { compute:compute, projRate:projRate, verdict:verdict, benchmark:benchmark };
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else { init(); }
+})();
+</script>
+</body>
+</html>

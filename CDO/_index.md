@@ -14,6 +14,7 @@
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
 | 2026-05-28 | outputs/note_publisher/ | 自動化ツール | note自動公開ヘルパー(Playwright・柱Dと同じ初回ログインのみ手動モデル)。オーナーのMacで実行 | MVP完成 |
+| 2026-06-23 | apps/invoice-generator/index.html, README.md | Webツール | 依存ゼロ単一HTMLの請求書ジェネレーター(localStorage保存・印刷PDF・インボイス注記・商品リンク/ad slot)。GitHub Pages公開可。検索流入×テンプレ商品の相互送客フック付き | 完成 |
 
 ## 進行中タスク
 
