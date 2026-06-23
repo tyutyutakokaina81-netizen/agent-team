@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>業務AI化 10分セルフ診断｜どこから自動化できる？</title>
+<meta name="description" content="8つの質問に答えるだけ。あなたの業務のどこからAIで自動化できるか、優先度とおおよその効果の目安を無料で診断します。">
+<style>
+  :root{--ink:#1c2530;--sub:#5b6470;--bg:#fff;--soft:#f5f7fa;--line:#e4e8ee;--accent:#2f6df0;--accent-d:#1f55c7;--ok:#1aa260;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;color:var(--ink);background:var(--soft);line-height:1.8}
+  .wrap{max-width:680px;margin:0 auto;padding:24px 18px 60px}
+  .head{text-align:center;padding:18px 0 10px}
+  .head h1{font-size:24px}.head p{color:var(--sub);font-size:14px;margin-top:8px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:16px;box-shadow:0 4px 16px rgba(0,0,0,.04)}
+  .q{font-weight:700;margin-bottom:12px;font-size:16px}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer;font-size:14px;transition:.15s}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#eef4ff;font-weight:600}
+  .bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:14px 0}
+  .bar>i{display:block;height:100%;background:var(--accent);width:0;transition:.3s}
+  .nav{display:flex;justify-content:space-between;margin-top:18px}
+  button{font-family:inherit}
+  .btn{padding:12px 22px;border-radius:10px;border:none;font-weight:700;font-size:15px;cursor:pointer}
+  .btn.p{background:var(--accent);color:#fff}.btn.p:disabled{opacity:.4;cursor:not-allowed}.btn.p:hover:not(:disabled){background:var(--accent-d)}
+  .btn.g{background:#fff;border:1.5px solid var(--line);color:var(--sub)}
+  .res{display:none}
+  .score{text-align:center;padding:10px 0}
+  .score .n{font-size:46px;font-weight:800;color:var(--accent)}
+  .score .lv{font-size:15px;color:var(--sub)}
+  .pick{background:#eef4ff;border:1px solid #cfe0ff;border-radius:12px;padding:16px;margin-top:14px}
+  .pick h3{font-size:15px;color:var(--accent-d);margin-bottom:6px}
+  .pick p{font-size:14px}
+  .cta{display:block;text-align:center;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;margin-top:18px}
+  .cta:hover{background:var(--accent-d)}
+  .small{font-size:12px;color:var(--sub);margin-top:14px;line-height:1.6}
+  .note{font-size:12px;color:var(--sub);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>業務AI化 10分セルフ診断</h1>
+    <p>8問に答えるだけ。あなたの業務の「どこから自動化すると効くか」がわかります。無料・登録不要。</p>
+  </div>
+
+  <div class="card" id="quiz">
+    <div class="bar"><i id="bar"></i></div>
+    <div class="q" id="q"></div>
+    <div class="opts" id="opts"></div>
+    <div class="nav">
+      <button class="btn g" id="back" onclick="prev()">← 戻る</button>
+      <button class="btn p" id="next" onclick="next()" disabled>次へ →</button>
+    </div>
+  </div>
+
+  <div class="card res" id="res">
+    <div class="score"><div class="n" id="sn">0</div><div class="lv" id="sl"></div></div>
+    <div class="pick"><h3>まず自動化すべき業務</h3><p id="pick"></p></div>
+    <div class="pick" style="background:#f5f7fa;border-color:var(--line)"><h3 style="color:var(--ink)">効果の目安</h3><p id="eff"></p></div>
+    <a class="cta" id="cta" href="#">この業務の無料サンプルを依頼する（メール）</a>
+    <p class="small" id="disc"></p>
+    <div class="nav" style="justify-content:center"><button class="btn g" onclick="restart()">もう一度診断する</button></div>
+  </div>
+  <p class="note">※ この診断はブラウザ内で完結し、入力内容は外部に送信・保存されません。効果の数値は一般的な目安で、成果を保証するものではありません。</p>
+</div>
+
+<script>
+(function(){
+  var MAIL="tyutyu.tako.kaina81@gmail.com";
+  var areas=["問い合わせ・メール返信","リード対応・見込み客フォロー","請求・事務・データ整理","資料・SNS・商品説明の作成"];
+  var Q=[
+    {q:"いちばん時間を取られている反復作業は？",o:[["問い合わせ・メール返信",0],["見込み客への連絡・追客",1],["請求書・見積・データ整理",2],["資料・記事・商品説明づくり",3]],pick:true},
+    {q:"その作業、1日にどれくらい発生しますか？",o:[["ほぼ毎日・何件も",3],["毎日1〜数件",2],["週に数回",1],["たまに",0]]},
+    {q:"1件あたりにかかる時間は？",o:[["15分以上",3],["5〜15分",2],["5分未満",1],["バラバラ",2]]},
+    {q:"似たような内容のくり返しが多いですか？",o:[["とても多い",3],["まあまあ",2],["少ない",1],["毎回違う",0]]},
+    {q:"今その作業は誰が？",o:[["自分（経営者）",3],["少人数で手分け",2],["専任がいる",1],["外注",1]]},
+    {q:"文章・資料のトーンは決まっていますか？",o:[["決まっている",3],["なんとなく",2],["バラバラ",1],["わからない",1]]},
+    {q:"AI（ChatGPT等）を業務で使っていますか？",o:[["ほぼ使っていない",3],["少し試した",2],["まあまあ使う",1],["使いこなしている",0]]},
+    {q:"「これが楽になれば」と一番思うのは？",o:[["返信・対応の速さ",0],["客先・売上の取りこぼし",1],["事務・締め作業",2],["発信・コンテンツ量産",3]],pick:true}
+  ];
+  var i=0, ans=[], pickCount=[0,0,0,0];
+  function el(id){return document.getElementById(id);}
+  function render(){
+    var x=Q[i];
+    el("q").textContent="Q"+(i+1)+"/"+Q.length+"　"+x.q;
+    el("bar").style.width=((i)/Q.length*100)+"%";
+    var c=el("opts");c.innerHTML="";
+    x.o.forEach(function(o,idx){
+      var d=document.createElement("div");d.className="opt"+(ans[i]&&ans[i].idx===idx?" sel":"");
+      d.textContent=o[0];
+      d.onclick=function(){ans[i]={idx:idx,val:o[1],pick:x.pick?o[1]:null};
+        [].forEach.call(c.children,function(e){e.classList.remove("sel")});d.classList.add("sel");el("next").disabled=false;};
+      c.appendChild(d);
+    });
+    el("next").disabled=!ans[i];
+    el("back").style.visibility=i===0?"hidden":"visible";
+    el("next").textContent=i===Q.length-1?"結果を見る":"次へ →";
+  }
+  window.next=function(){if(!ans[i])return; if(i<Q.length-1){i++;render();}else{finish();}};
+  window.prev=function(){if(i>0){i--;render();}};
+  function finish(){
+    var score=0,max=0;
+    Q.forEach(function(x,k){ if(!x.pick){score+=(ans[k]?ans[k].val:0);max+=3;} });
+    var pct=Math.round(score/max*100);
+    // pick area: from pick questions
+    var pc=[0,0,0,0];
+    Q.forEach(function(x,k){ if(x.pick&&ans[k]){pc[ans[k].pick]++;} });
+    var best=0; for(var z=1;z<4;z++){if(pc[z]>pc[best])best=z;}
+    el("sn").textContent=pct;
+    var lv = pct>=70?"自動化の効果が出やすい状態です":pct>=45?"いくつかの業務はすぐ自動化できます":"まずは1業務から試すのがおすすめです";
+    el("sl").textContent="AI化 優先度スコア（目安）／ "+lv;
+    el("pick").textContent="「"+areas[best]+"」。くり返しが多く、AIで下書き・仕組み化しやすい領域です。ここから始めると効果を体感しやすいです。";
+    var saved = pct>=70?"うまくいけば、この業務の作業時間を体感で半分前後に圧縮できる例もあります":"小さく始めても、着手の速さと品質の安定は期待できます";
+    el("eff").textContent=saved+"（※あくまで一般的な目安で、削減量や成果を保証するものではありません。確認・送信は人が行う前提です）。";
+    var subj=encodeURIComponent("業務AI化 無料サンプル希望（"+areas[best]+"）");
+    el("cta").href="mailto:"+MAIL+"?subject="+subj+"&body="+encodeURIComponent("診断結果：優先度スコア "+pct+"／まず自動化したい業務："+areas[best]+"\n\n（この業務の実例を数件、個人情報は伏せて貼っていただければ、無料でAIの下書きサンプルをお作りします）");
+    el("disc").textContent="次の一歩：上のボタンから、その業務の実例を数件送ってください（個人情報は伏せてOK）。無料でAIの下書きサンプルをお作りします。";
+    el("bar").style.width="100%";
+    el("quiz").style.display="none"; el("res").style.display="block";
+  }
+  window.restart=function(){i=0;ans=[];el("res").style.display="none";el("quiz").style.display="block";render();};
+  render();
+})();
+</script>
+</body>
+</html>

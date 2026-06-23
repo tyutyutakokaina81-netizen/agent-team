@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Automation, Done For You — for small teams that can't hire</title>
+<meta name="description" content="We build and run AI workflows for customer replies, lead follow-up, content and admin — so your small team stops drowning in repetitive work. Free sample first. We run our own company on AI.">
+<style>
+  :root{--ink:#1c2530;--sub:#5b6470;--bg:#fff;--soft:#f5f7fa;--line:#e4e8ee;--accent:#2f6df0;--accent-d:#1f55c7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .logo{font-weight:800;font-size:17px}.logo span{color:var(--accent)}
+  .nav .right{display:flex;gap:14px;align-items:center}
+  .nav a.lang{font-size:13px;color:var(--sub);text-decoration:none}
+  .nav a.cta{background:var(--accent);color:#fff;padding:9px 16px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600}
+  .nav a.cta:hover{background:var(--accent-d)}
+  .hero{padding:66px 0 50px;background:linear-gradient(180deg,#f5f9ff,#fff)}
+  .hero h1{font-size:36px;line-height:1.3;letter-spacing:-.01em}.hero h1 .hl{color:var(--accent)}
+  .hero p.lead{margin-top:18px;font-size:18px;color:var(--sub);max-width:760px}
+  .btns{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px}
+  .btn.primary{background:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent-d)}
+  .btn.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+  .note{margin-top:16px;font-size:13px;color:var(--sub)}
+  section{padding:54px 0;border-top:1px solid var(--line)}
+  h2{font-size:25px;margin-bottom:8px;letter-spacing:-.01em}
+  .sub{color:var(--sub);margin-bottom:26px;font-size:15px}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{font-size:16px;margin-bottom:6px}.card p{font-size:14px;color:var(--sub)}
+  .price{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+  .price.feat{border:2px solid var(--accent);box-shadow:0 8px 28px rgba(47,109,240,.12)}
+  .price .tag{font-size:13px;color:var(--accent);font-weight:700}
+  .price .amt{font-size:30px;font-weight:800;margin:6px 0}.price .amt small{font-size:14px;color:var(--sub);font-weight:500}
+  .price ul{list-style:none;margin-top:12px;text-align:left;font-size:14px;color:var(--sub)}
+  .price li{padding:5px 0 5px 22px;position:relative}.price li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .steps .step{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--line)}.steps .step:last-child{border-bottom:none}
+  .step .n{flex:0 0 38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .step h4{font-size:16px}.step p{font-size:14px;color:var(--sub)}
+  details{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  summary{font-weight:600;cursor:pointer;font-size:15px}details p{margin-top:10px;font-size:14px;color:var(--sub)}
+  .cta-band{background:linear-gradient(135deg,#2f6df0,#1f55c7);color:#fff;border-radius:18px;padding:40px 28px;text-align:center;margin:8px 0}
+  .cta-band h2{color:#fff}.cta-band p{color:#e8f0ff;margin-bottom:22px}.cta-band .btn.primary{background:#fff;color:var(--accent)}
+  .disc{font-size:12.5px;color:var(--sub);background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:20px}
+  footer{padding:34px 0;color:var(--sub);font-size:13px;text-align:center;border-top:1px solid var(--line)}
+  @media(max-width:680px){.g2,.g3{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="logo">AI Automation<span>.studio</span></div>
+  <div class="right"><a class="lang" href="index.html">日本語</a><a class="cta" href="#contact">Get a free sample</a></div>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <h1>Stop drowning in repetitive work.<br><span class="hl">We set up the AI</span> — you keep the control.</h1>
+  <p class="lead">Done-for-you AI workflows for customer replies, lead follow-up, content and admin — built for small teams that can't afford another hire. We run our own company on AI, and we'll set up yours. <strong>See a free sample on your real work before you decide.</strong></p>
+  <div class="btns">
+    <a class="btn primary" href="#contact">Get a free sample</a>
+    <a class="btn ghost" href="#why">Why trust us</a>
+  </div>
+  <p class="note">We don't promise specific time savings, revenue, or results. AI produces drafts; a human reviews and sends.</p>
+</div></div>
+
+<section id="what"><div class="wrap">
+  <h2>What we automate first</h2>
+  <p class="sub">We start with the work that piles up daily. AI drafts it; your team reviews and approves.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Customer & inquiry replies</h3><p>Draft on-brand responses to the same questions (pricing, booking, support) in seconds.</p></div>
+    <div class="card"><h3>Lead response & follow-up</h3><p>First-touch and follow-up drafts so leads don't go cold while you're busy.</p></div>
+    <div class="card"><h3>Content & product copy</h3><p>Drafts for product descriptions, social posts, and marketing — no more blank page.</p></div>
+    <div class="card"><h3>Admin, data & reports</h3><p>Invoices/quotes wording, spreadsheet cleanup, meeting notes, FAQ drafting.</p></div>
+    <div class="card"><h3>Internal knowledge & SOPs</h3><p>Turn scattered know-how into searchable, AI-ready docs your team actually uses.</p></div>
+    <div class="card"><h3>Custom chatbot setup</h3><p>A Q&A assistant configured to run on your own account — for first-line replies on your site.</p></div>
+  </div>
+  <p class="note" style="margin-top:14px">Note: we build and configure; for live LLM chatbots, the runtime runs on your own account/budget. We don't host live services on our side.</p>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <h2>Simple monthly pricing</h2>
+  <p class="sub">Initial setup is included in the monthly plan. Month-to-month. Cancel anytime.</p>
+  <div class="grid g3">
+    <div class="price"><div class="tag">STARTER</div><div class="amt">$1,000<small>/mo</small></div>
+      <ul><li>1–2 workflows automated</li><li>Setup included</li><li>Monthly tuning</li></ul></div>
+    <div class="price feat"><div class="tag">GROWTH · popular</div><div class="amt">$2,000<small>/mo</small></div>
+      <ul><li>3–4 workflows</li><li>Monthly improvements</li><li>Prompt updates + team training</li></ul></div>
+    <div class="price"><div class="tag">FULL</div><div class="amt">$3,500<small>/mo</small></div>
+      <ul><li>Company-wide workflows</li><li>Priority turnaround</li><li>Ongoing expansion</li></ul></div>
+  </div>
+  <p class="note" style="margin-top:14px">Custom scope available. Confidential data is not stored on our side by design. Prices in USD; invoiced via card/PayPal.</p>
+</div></section>
+
+<section id="why"><div class="wrap">
+  <h2>Why trust us</h2>
+  <p class="sub">Not another "we use AI" shop.</p>
+  <div class="grid g2">
+    <div class="card"><h3>We run our own company on AI</h3><p>Planning, production, admin prep and ops — handled with AI as the operator. We give you the systems we actually use.</p></div>
+    <div class="card"><h3>We show you a real sample — free</h3><p>Before any contract, we automate one of your real tasks and show you the output. You decide after seeing it.</p></div>
+    <div class="card"><h3>Privacy-conscious by design</h3><p>We don't take custody of your confidential or customer data. We configure tone and rules — not your secrets.</p></div>
+    <div class="card"><h3>Built to last</h3><p>Consistent quality regardless of who runs it. We improve it monthly; it compounds as your workflows grow.</p></div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><h4>Free 10-minute review</h4><p>We map which tasks are worth automating first. No cost, no commitment.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>Free sample on your real work</h4><p>We automate one task (sensitive details redacted) and show you the result.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h4>Go monthly if it's worth it</h4><p>Setup included. We expand the automation over time.</p></div></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2>FAQ</h2>
+  <details><summary>Will this actually save time / make money?</summary><p>We build systems that produce drafts quickly. Review and edits still take time. We don't guarantee time savings or revenue — see the free sample and judge for yourself.</p></details>
+  <details><summary>What about our data and privacy?</summary><p>We don't take custody of confidential or customer data. We set up tone and rules; sensitive data isn't required to build the system.</p></details>
+  <details><summary>What if the AI is wrong?</summary><p>AI produces drafts only. A human on your side reviews, edits, and sends. We design it so nothing critical is auto-decided.</p></details>
+  <details><summary>Can we cancel?</summary><p>Yes. Plans are month-to-month; stop anytime from the following month.</p></details>
+  <details><summary>Do you work with clients outside Japan?</summary><p>Yes. We work in English, remotely, and invoice in USD via card or PayPal.</p></details>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="cta-band">
+    <h2>Start with a free sample</h2>
+    <p>Send us one task you'd love to stop doing by hand. We'll automate it and show you — free.</p>
+    <a class="btn primary" href="mailto:tyutyu.tako.kaina81@gmail.com?subject=AI%20Automation%20-%20free%20sample%20request">Email us for a free sample</a>
+  </div>
+  <div class="disc">
+    This service supports operational efficiency. It does not guarantee time savings, revenue, traffic, or any specific outcome.
+    For legal, tax, or financial matters, consult a qualified professional and current official sources. AI outputs are drafts;
+    review, approval, and sending are done by the client. Product names mentioned are trademarks of their respective owners;
+    this service is independent and not affiliated with them.
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  AI Automation.studio — by Kai Arata　|　Contact: tyutyu.tako.kaina81@gmail.com<br>
+  © 2026. Independent service. Not affiliated with any third-party platform.
+</div></footer>
+
+<style>
+  #cw-btn{position:fixed;right:18px;bottom:18px;z-index:50;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:14px 20px;font-size:15px;font-weight:700;box-shadow:0 8px 24px rgba(47,109,240,.35);cursor:pointer}
+  #cw-btn:hover{background:var(--accent-d)}
+  #cw-panel{position:fixed;right:18px;bottom:78px;z-index:50;width:340px;max-width:calc(100vw - 36px);height:480px;max-height:calc(100vh - 110px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.18);display:none;flex-direction:column;overflow:hidden}
+  #cw-panel.open{display:flex}
+  .cw-head{background:var(--accent);color:#fff;padding:13px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+  .cw-head small{display:block;font-weight:400;font-size:11px;opacity:.85}
+  .cw-x{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1}
+  .cw-body{flex:1;overflow-y:auto;padding:14px;background:var(--soft)}
+  .cw-msg{margin:8px 0;display:flex}.cw-msg .b{max-width:82%;padding:9px 13px;border-radius:13px;font-size:14px;line-height:1.6}
+  .cw-bot .b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+  .cw-me{justify-content:flex-end}.cw-me .b{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+  .cw-chips{display:flex;flex-wrap:wrap;gap:7px;padding:8px 14px;background:var(--soft)}
+  .cw-chip{background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:16px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .cw-chip:hover{background:var(--accent);color:#fff}
+  .cw-input{display:flex;border-top:1px solid var(--line);background:#fff}
+  .cw-input input{flex:1;border:none;padding:12px 14px;font-size:14px;outline:none}
+  .cw-input button{background:var(--accent);color:#fff;border:none;padding:0 16px;font-weight:700;cursor:pointer}
+</style>
+<button id="cw-btn" onclick="cwToggle()">💬 Ask AI</button>
+<div id="cw-panel">
+  <div class="cw-head"><div>AI Automation.studio<small>auto-reply · a human reviews everything</small></div><button class="cw-x" onclick="cwToggle()">×</button></div>
+  <div class="cw-body" id="cw-body"></div>
+  <div class="cw-chips" id="cw-chips"></div>
+  <div class="cw-input"><input id="cw-in" placeholder="Type a question…" onkeydown="if(event.key==='Enter')cwSend()"><button onclick="cwSend()">Send</button></div>
+</div>
+<script>
+(function(){
+  var MAIL="tyutyu.tako.kaina81@gmail.com";
+  var qa=[
+    {k:["price","cost","how much","pricing","fee"],a:"Monthly plans: Starter $1,000 / Growth $2,000 / Full $3,500 (custom available). Setup is included in the monthly fee. Try a free sample first."},
+    {k:["sample","free","try","demo","test"],a:"Send us one real task you'd like to stop doing by hand. We'll automate it and show you the output — free, before any contract."},
+    {k:["what","do","automate","service","help"],a:"We start with: customer/inquiry replies, lead follow-up, content & product copy, admin/data/reports. AI drafts; your team reviews and sends."},
+    {k:["chatbot","bot","chat","voice"],a:"Yes — we set up chatbots configured to run on your own account (for first-line replies). This widget is a simple scripted version of that idea."},
+    {k:["data","privacy","security","confidential"],a:"We don't take custody of your confidential or customer data. We configure tone and rules — sensitive data isn't needed to build the system."},
+    {k:["result","work","guarantee","roi","save"],a:"We build systems that draft fast; review still takes time. We don't guarantee time savings or revenue. The free sample lets you judge before paying."},
+    {k:["cancel","contract","term"],a:"Plans are month-to-month. You can stop from the following month."},
+    {k:["japan","outside","country","english","remote"],a:"We work in English, remotely, worldwide. Invoicing is in USD via card or PayPal."}
+  ];
+  var chips=["Pricing?","What do you automate?","Get a free sample","Can you build a chatbot?","Data privacy?"];
+  function el(id){return document.getElementById(id);}
+  function push(who,text){var b=el("cw-body");var d=document.createElement("div");d.className="cw-msg "+(who==="me"?"cw-me":"cw-bot");d.innerHTML='<div class="b"></div>';d.querySelector(".b").textContent=text;b.appendChild(d);b.scrollTop=b.scrollHeight;}
+  function pushCTA(){var b=el("cw-body");var d=document.createElement("div");d.className="cw-msg cw-bot";var href="mailto:"+MAIL+"?subject="+encodeURIComponent("AI Automation - free sample request");d.innerHTML='<div class="b">▶ <a href="'+href+'">Email us for a free sample</a></div>';b.appendChild(d);b.scrollTop=b.scrollHeight;}
+  function answer(t){var s=t.toLowerCase();for(var i=0;i<qa.length;i++){for(var j=0;j<qa[i].k.length;j++){if(s.indexOf(qa[i].k[j])>=0){push("bot",qa[i].a);if(qa[i].k.indexOf("sample")>=0||qa[i].k.indexOf("price")>=0)pushCTA();return;}}}push("bot","Thanks! Pricing, what we automate, or a free sample — ask away, or email us.");pushCTA();}
+  window.cwToggle=function(){var p=el("cw-panel");p.classList.toggle("open");if(p.classList.contains("open")&&!el("cw-body").hasChildNodes()){push("bot","Hi! We set up AI to handle repetitive work — replies, follow-ups, content, admin. What would you like to know?");renderChips();}};
+  window.cwSend=function(){var inp=el("cw-in");var v=inp.value.trim();if(!v)return;push("me",v);inp.value="";setTimeout(function(){answer(v);},250);};
+  function renderChips(){var c=el("cw-chips");c.innerHTML="";chips.forEach(function(t){var s=document.createElement("span");s.className="cw-chip";s.textContent=t;s.onclick=function(){push("me",t);setTimeout(function(){answer(t);},250);};c.appendChild(s);});}
+})();
+</script>
+</body>
+</html>

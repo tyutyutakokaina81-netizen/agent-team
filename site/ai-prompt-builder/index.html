@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="用途と条件を選ぶだけで、整ったAIプロンプトを組み立てるツール。依存ゼロ・無料・ブラウザ完結。Build clean AI prompts in seconds.">
+<title>AIプロンプト・ビルダー / AI Prompt Builder</title>
+<style>
+  :root{
+    --bg:#0f1220; --panel:#181c2e; --panel2:#1f2438; --line:#2c3350;
+    --txt:#e8ebf5; --muted:#9aa3c4; --accent:#6c8cff; --accent2:#36d6a0;
+    --warn:#ffb454; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN",Meiryo,system-ui,sans-serif;
+    background:radial-gradient(1200px 600px at 70% -10%,#21284a 0%,var(--bg) 55%);
+    color:var(--txt); line-height:1.6; min-height:100vh;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:800;color:#0b0e1a}
+  h1{font-size:20px;margin:0;letter-spacing:.2px}
+  .sub{color:var(--muted);font-size:13px;margin:2px 0 0}
+  .langbtn{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:7px 12px;border-radius:999px;cursor:pointer;font-size:13px}
+  .langbtn:hover{border-color:var(--accent)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .card h2{font-size:14px;margin:0 0 12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}
+  select,input[type=text],textarea{
+    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);
+    border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;outline:none
+  }
+  select:focus,input:focus,textarea:focus{border-color:var(--accent)}
+  textarea{resize:vertical;min-height:64px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:5px}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:12.5px;cursor:pointer;user-select:none}
+  .chip.on{background:rgba(108,140,255,.18);border-color:var(--accent);color:var(--txt)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tmpls{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px}
+  .tmpl{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:7px 11px;border-radius:9px;font-size:12.5px;cursor:pointer}
+  .tmpl:hover{border-color:var(--accent2)}
+  .out{background:#0b0e1a;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:13.5px;white-space:pre-wrap;word-break:break-word;min-height:200px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{flex:1;min-width:120px;background:var(--accent);color:#0b0e1a;border:none;border-radius:10px;padding:11px 14px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.alt{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
+  .note{font-size:12px;color:var(--warn);margin-top:12px;display:flex;gap:7px;align-items:flex-start}
+  .hist{margin-top:8px}
+  .histitem{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:7px;font-size:12.5px;cursor:pointer}
+  .histitem:hover{border-color:var(--accent)}
+  .histitem .h-meta{color:var(--muted);font-size:11px;margin-bottom:3px}
+  .histitem .h-prev{color:var(--txt);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .empty{color:var(--muted);font-size:12.5px;padding:8px 2px}
+  .promo{margin-top:18px;background:linear-gradient(135deg,rgba(54,214,160,.12),rgba(108,140,255,.12));border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-align:center}
+  .promo a{color:var(--accent2);font-weight:700;text-decoration:none}
+  .promo a:hover{text-decoration:underline}
+  .ad{margin-top:14px;border:1px dashed var(--line);border-radius:10px;padding:12px;text-align:center;color:var(--muted);font-size:12px}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;text-align:center}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--accent2);color:#06281d;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">AI</div>
+      <div>
+        <h1 data-i18n="title">AIプロンプト・ビルダー</h1>
+        <p class="sub" data-i18n="sub">用途と条件を選ぶだけで、整ったプロンプトを生成。無料・登録不要・ブラウザ完結。</p>
+      </div>
+    </div>
+    <button class="langbtn" id="langBtn">English</button>
+  </header>
+
+  <div class="grid">
+    <!-- LEFT: inputs -->
+    <div class="card">
+      <h2 data-i18n="inputsTitle">設定 / Settings</h2>
+
+      <label data-i18n="lblTemplate">テンプレートから選ぶ（任意）</label>
+      <div class="tmpls" id="tmpls"></div>
+
+      <label data-i18n="lblPurpose">用途</label>
+      <select id="purpose"></select>
+
+      <label data-i18n="lblTask">具体的な内容・お題</label>
+      <textarea id="task" data-i18n-ph="phTask" placeholder="例：新製品のローンチを知らせる顧客向けメール"></textarea>
+
+      <div class="row2">
+        <div>
+          <label data-i18n="lblTone">トーン</label>
+          <select id="tone"></select>
+        </div>
+        <div>
+          <label data-i18n="lblLength">長さ</label>
+          <select id="length"></select>
+        </div>
+      </div>
+
+      <label data-i18n="lblAudience">対象読者</label>
+      <input type="text" id="audience" data-i18n-ph="phAudience" placeholder="例：中小企業の経営者">
+
+      <label data-i18n="lblLang">出力言語</label>
+      <select id="outlang"></select>
+
+      <label data-i18n="lblConstraints">制約・条件（クリックで追加）</label>
+      <div class="chips" id="constraintChips"></div>
+
+      <label data-i18n="lblExtra">追加の指示（任意）</label>
+      <textarea id="extra" data-i18n-ph="phExtra" placeholder="例：箇条書きを3点まで、専門用語は避ける"></textarea>
+
+      <div class="btnrow">
+        <button class="btn" id="buildBtn" data-i18n="btnBuild">プロンプト生成</button>
+        <button class="btn alt" id="resetBtn" data-i18n="btnReset">リセット</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: output -->
+    <div class="card">
+      <h2 data-i18n="outputTitle">生成されたプロンプト / Output</h2>
+      <div class="out" id="output" data-i18n="outEmpty">左で設定して「プロンプト生成」を押してください。</div>
+      <div class="btnrow">
+        <button class="btn" id="copyBtn" data-i18n="btnCopy">コピー</button>
+        <button class="btn alt" id="saveBtn" data-i18n="btnSave">履歴に保存</button>
+      </div>
+      <div class="note">
+        <span>⚠️</span>
+        <span data-i18n="disclaimer">生成されるのは「プロンプト文」です。AIの出力は必ず人が内容を確認してから使ってください。個人情報（氏名・住所・連絡先など）はプロンプトに含めないでください。</span>
+      </div>
+
+      <h2 style="margin-top:18px" data-i18n="histTitle">履歴（この端末に保存）</h2>
+      <div class="hist" id="hist"></div>
+      <div class="btnrow" id="histActions" style="display:none">
+        <button class="btn alt" id="clearHistBtn" data-i18n="btnClearHist">履歴を全消去</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 収益化フック（控えめ） -->
+  <div class="promo">
+    <div data-i18n="promo">もっと実務で使えるプロンプトが欲しい方へ。すぐ使える厳選 <b>AIプロンプト集（30本）</b> を用意しています。</div>
+    <p style="margin:8px 0 0"><a href="【商品リンク】" data-i18n="promoLink">→ AIプロンプト集（30本）を見る</a></p>
+  </div>
+
+  <!-- ad slot -->
+  <div class="ad" data-i18n="adslot">広告スペース / ad slot</div>
+
+  <footer>
+    <span data-i18n="footer">完全クライアントサイド・外部送信なし・APIキー不要。入力内容は端末内（localStorage）のみに保存されます。</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ---------- i18n ---------- */
+const I18N = {
+  ja:{
+    title:"AIプロンプト・ビルダー",
+    sub:"用途と条件を選ぶだけで、整ったプロンプトを生成。無料・登録不要・ブラウザ完結。",
+    inputsTitle:"設定 / Settings",
+    lblTemplate:"テンプレートから選ぶ（任意）",
+    lblPurpose:"用途", lblTask:"具体的な内容・お題",
+    lblTone:"トーン", lblLength:"長さ", lblAudience:"対象読者",
+    lblLang:"出力言語", lblConstraints:"制約・条件（クリックで追加）",
+    lblExtra:"追加の指示（任意）",
+    btnBuild:"プロンプト生成", btnReset:"リセット",
+    outputTitle:"生成されたプロンプト / Output",
+    outEmpty:"左で設定して「プロンプト生成」を押してください。",
+    btnCopy:"コピー", btnSave:"履歴に保存",
+    disclaimer:"生成されるのは「プロンプト文」です。AIの出力は必ず人が内容を確認してから使ってください。個人情報（氏名・住所・連絡先など）はプロンプトに含めないでください。",
+    histTitle:"履歴（この端末に保存）", btnClearHist:"履歴を全消去",
+    promo:"もっと実務で使えるプロンプトが欲しい方へ。すぐ使える厳選 AIプロンプト集（30本） を用意しています。",
+    promoLink:"→ AIプロンプト集（30本）を見る",
+    adslot:"広告スペース / ad slot",
+    footer:"完全クライアントサイド・外部送信なし・APIキー不要。入力内容は端末内（localStorage）のみに保存されます。",
+    phTask:"例：新製品のローンチを知らせる顧客向けメール",
+    phAudience:"例：中小企業の経営者",
+    phExtra:"例：箇条書きを3点まで、専門用語は避ける",
+    copied:"コピーしました", saved:"履歴に保存しました", cleared:"履歴を消去しました",
+    needTask:"「具体的な内容・お題」を入力してください",
+    histEmpty:"まだ履歴はありません。",
+    p_header:"あなたは経験豊富なアシスタントです。以下の条件に従ってタスクを実行してください。",
+    p_task:"# タスク", p_purpose:"用途", p_audience:"対象読者",
+    p_tone:"トーン", p_length:"長さ", p_lang:"出力言語",
+    p_constraints:"# 制約・条件", p_extra:"# 追加指示",
+    p_format:"# 出力フォーマット", p_format_v:"見出し・段落・箇条書きを適切に使い、読みやすく構成してください。",
+    p_check:"# 確認", p_check_v:"事実関係に不確かな点があれば、断定せずその旨を明記してください。捏造はしないでください。"
+  },
+  en:{
+    title:"AI Prompt Builder",
+    sub:"Pick a purpose and a few conditions, get a clean prompt. Free, no signup, runs in your browser.",
+    inputsTitle:"Settings",
+    lblTemplate:"Start from a template (optional)",
+    lblPurpose:"Purpose", lblTask:"Topic / what you want",
+    lblTone:"Tone", lblLength:"Length", lblAudience:"Audience",
+    lblLang:"Output language", lblConstraints:"Constraints (click to add)",
+    lblExtra:"Extra instructions (optional)",
+    btnBuild:"Build prompt", btnReset:"Reset",
+    outputTitle:"Generated prompt / Output",
+    outEmpty:"Configure on the left, then press “Build prompt”.",
+    btnCopy:"Copy", btnSave:"Save to history",
+    disclaimer:"This generates a “prompt”, not a final answer. Always review the AI’s output before using it. Do not put personal data (names, addresses, contacts) into prompts.",
+    histTitle:"History (saved on this device)", btnClearHist:"Clear all history",
+    promo:"Want more ready-to-use, practical prompts? We offer a curated AI Prompt Pack (30 prompts).",
+    promoLink:"→ See the AI Prompt Pack (30 prompts)",
+    adslot:"ad slot",
+    footer:"Fully client-side. No data leaves your device. No API key. Inputs are stored only in your browser (localStorage).",
+    phTask:"e.g. Customer email announcing a new product launch",
+    phAudience:"e.g. Small business owners",
+    phExtra:"e.g. Max 3 bullet points, avoid jargon",
+    copied:"Copied", saved:"Saved to history", cleared:"History cleared",
+    needTask:"Please fill in “Topic / what you want”",
+    histEmpty:"No history yet.",
+    p_header:"You are an experienced assistant. Complete the task following the conditions below.",
+    p_task:"# Task", p_purpose:"Purpose", p_audience:"Audience",
+    p_tone:"Tone", p_length:"Length", p_lang:"Output language",
+    p_constraints:"# Constraints", p_extra:"# Extra instructions",
+    p_format:"# Output format", p_format_v:"Use headings, paragraphs and bullet points appropriately so it is easy to read.",
+    p_check:"# Verification", p_check_v:"If any facts are uncertain, say so rather than asserting them. Do not fabricate."
+  }
+};
+
+/* ---------- option data (label = {ja,en}) ---------- */
+const PURPOSES = [
+  {id:"email",   ja:"メール作成",      en:"Write an email"},
+  {id:"article", ja:"記事・ブログ",    en:"Article / blog post"},
+  {id:"summary", ja:"要約",            en:"Summarize"},
+  {id:"translate",ja:"翻訳",           en:"Translate"},
+  {id:"code",    ja:"コード生成",      en:"Generate code"},
+  {id:"debug",   ja:"コードの説明・修正",en:"Explain / fix code"},
+  {id:"sns",     ja:"SNS投稿",         en:"Social media post"},
+  {id:"idea",    ja:"アイデア出し",    en:"Brainstorm ideas"},
+  {id:"rewrite", ja:"文章のリライト",  en:"Rewrite text"},
+  {id:"plan",    ja:"計画・手順づくり",en:"Make a plan"},
+  {id:"custom",  ja:"その他（自由）",  en:"Other (free form)"}
+];
+const TONES = [
+  {id:"neutral",  ja:"指定なし",   en:"No preference"},
+  {id:"formal",   ja:"丁寧・フォーマル",en:"Formal / polite"},
+  {id:"friendly", ja:"親しみやすい",en:"Friendly"},
+  {id:"pro",      ja:"プロフェッショナル",en:"Professional"},
+  {id:"casual",   ja:"カジュアル", en:"Casual"},
+  {id:"persuasive",ja:"説得的",    en:"Persuasive"},
+  {id:"plain",    ja:"平易・かみくだいた",en:"Plain / simple"}
+];
+const LENGTHS = [
+  {id:"any",   ja:"指定なし",      en:"No preference"},
+  {id:"short", ja:"短め（〜150字 / ~100 words）", en:"Short (~100 words)"},
+  {id:"medium",ja:"標準（300〜500字 / ~300 words）",en:"Medium (~300 words)"},
+  {id:"long",  ja:"長め（800字以上 / 600+ words）",en:"Long (600+ words)"}
+];
+const OUTLANGS = [
+  {id:"same",ja:"入力と同じ",en:"Same as input"},
+  {id:"ja",  ja:"日本語",   en:"Japanese"},
+  {id:"en",  ja:"英語",     en:"English"},
+  {id:"both",ja:"日英併記", en:"Japanese + English"}
+];
+const CONSTRAINTS = [
+  {id:"bullets", ja:"箇条書きで",        en:"Use bullet points"},
+  {id:"steps",   ja:"手順を番号付きで",  en:"Numbered steps"},
+  {id:"nojargon",ja:"専門用語を避ける",  en:"Avoid jargon"},
+  {id:"examples",ja:"具体例を入れる",    en:"Include examples"},
+  {id:"table",   ja:"表でまとめる",      en:"Use a table"},
+  {id:"cite",    ja:"根拠・出典を示す",  en:"Show sources/reasoning"},
+  {id:"title",   ja:"タイトル案も出す",  en:"Suggest a title"},
+  {id:"emoji",   ja:"絵文字なし",        en:"No emojis"}
+];
+
+/* ---------- templates: prefill the form ---------- */
+const TEMPLATES = [
+  {ja:"📧 お礼メール", en:"📧 Thank-you email",
+   set:{purpose:"email", tone:"formal", length:"short",
+        task_ja:"取引先への感謝を伝えるお礼メール", task_en:"Thank-you email to a business partner",
+        audience_ja:"取引先の担当者", audience_en:"A business contact", constraints:["emoji"]}},
+  {ja:"📝 ブログ記事", en:"📝 Blog article",
+   set:{purpose:"article", tone:"friendly", length:"long",
+        task_ja:"初心者向けに〇〇を解説するブログ記事", task_en:"Beginner-friendly blog article explaining X",
+        audience_ja:"その分野の初心者", audience_en:"Beginners in the field", constraints:["title","examples"]}},
+  {ja:"📄 文章を要約", en:"📄 Summarize text",
+   set:{purpose:"summary", tone:"neutral", length:"short",
+        task_ja:"以下の文章の要点を3点にまとめる", task_en:"Summarize the following text into 3 key points",
+        audience_ja:"忙しい人", audience_en:"Busy readers", constraints:["bullets","nojargon"]}},
+  {ja:"🌐 翻訳（自然に）", en:"🌐 Translate (natural)",
+   set:{purpose:"translate", tone:"neutral", length:"any",
+        task_ja:"以下の文章を自然で読みやすく翻訳する", task_en:"Translate the text below naturally and readably",
+        audience_ja:"一般読者", audience_en:"General readers", outlang:"en", constraints:[]}},
+  {ja:"💻 コード生成", en:"💻 Generate code",
+   set:{purpose:"code", tone:"pro", length:"any",
+        task_ja:"〇〇する関数を書く（言語を明記）", task_en:"Write a function that does X (state the language)",
+        audience_ja:"開発者", audience_en:"Developers", constraints:["examples","steps"]}},
+  {ja:"📱 SNS投稿", en:"📱 Social post",
+   set:{purpose:"sns", tone:"casual", length:"short",
+        task_ja:"〇〇を告知するSNS投稿を3案", task_en:"3 social post drafts announcing X",
+        audience_ja:"フォロワー", audience_en:"Followers", constraints:["title"]}}
+];
+
+/* ---------- state ---------- */
+let lang = localStorage.getItem("apb_lang") || "ja";
+const selectedConstraints = new Set();
+const HIST_KEY = "apb_history_v1";
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+function fillSelect(el, arr){
+  el.innerHTML = arr.map(o=>`<option value="${o.id}">${o[lang]}</option>`).join("");
+}
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("show"),1600);
+}
+function labelOf(arr,id){ const o = arr.find(x=>x.id===id); return o ? o[lang] : id; }
+
+/* ---------- render UI ---------- */
+function applyI18n(){
+  const dict = I18N[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k = el.getAttribute("data-i18n");
+    if(dict[k]!==undefined) el.textContent = dict[k];
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+    const k = el.getAttribute("data-i18n-ph");
+    if(dict[k]!==undefined) el.placeholder = dict[k];
+  });
+  $("langBtn").textContent = lang==="ja" ? "English" : "日本語";
+}
+function renderSelects(){
+  fillSelect($("purpose"),PURPOSES);
+  fillSelect($("tone"),TONES);
+  fillSelect($("length"),LENGTHS);
+  fillSelect($("outlang"),OUTLANGS);
+}
+function renderTemplates(){
+  $("tmpls").innerHTML = TEMPLATES.map((t,i)=>`<button class="tmpl" data-t="${i}">${t[lang]}</button>`).join("");
+  $("tmpls").querySelectorAll(".tmpl").forEach(b=>{
+    b.onclick = ()=>applyTemplate(TEMPLATES[+b.dataset.t]);
+  });
+}
+function renderConstraints(){
+  $("constraintChips").innerHTML = CONSTRAINTS.map(c=>
+    `<span class="chip${selectedConstraints.has(c.id)?" on":""}" data-c="${c.id}">${c[lang]}</span>`).join("");
+  $("constraintChips").querySelectorAll(".chip").forEach(ch=>{
+    ch.onclick = ()=>{
+      const id = ch.dataset.c;
+      if(selectedConstraints.has(id)) selectedConstraints.delete(id); else selectedConstraints.add(id);
+      ch.classList.toggle("on");
+    };
+  });
+}
+function applyTemplate(t){
+  const s = t.set;
+  $("purpose").value = s.purpose || "custom";
+  $("tone").value = s.tone || "neutral";
+  $("length").value = s.length || "any";
+  $("outlang").value = s.outlang || "same";
+  $("task").value = lang==="ja" ? (s.task_ja||"") : (s.task_en||"");
+  $("audience").value = lang==="ja" ? (s.audience_ja||"") : (s.audience_en||"");
+  selectedConstraints.clear();
+  (s.constraints||[]).forEach(c=>selectedConstraints.add(c));
+  renderConstraints();
+  toast(lang==="ja"?"テンプレを反映しました":"Template applied");
+}
+
+/* ---------- build the prompt ---------- */
+function buildPrompt(){
+  const dict = I18N[lang];
+  const task = $("task").value.trim();
+  if(!task){ toast(dict.needTask); $("task").focus(); return null; }
+
+  const purpose = labelOf(PURPOSES,$("purpose").value);
+  const tone = $("tone").value;
+  const length = $("length").value;
+  const outlang = $("outlang").value;
+  const audience = $("audience").value.trim();
+  const extra = $("extra").value.trim();
+
+  const lines = [];
+  lines.push(dict.p_header);
+  lines.push("");
+  lines.push(dict.p_task);
+  lines.push(`- ${dict.p_purpose}: ${purpose}`);
+  lines.push(`- ${task}`);
+  if(audience) lines.push(`- ${dict.p_audience}: ${audience}`);
+  if(tone!=="neutral") lines.push(`- ${dict.p_tone}: ${labelOf(TONES,tone)}`);
+  if(length!=="any")   lines.push(`- ${dict.p_length}: ${labelOf(LENGTHS,length)}`);
+  if(outlang!=="same") lines.push(`- ${dict.p_lang}: ${labelOf(OUTLANGS,outlang)}`);
+
+  const cons = [...selectedConstraints].map(id=>labelOf(CONSTRAINTS,id));
+  if(cons.length){
+    lines.push("");
+    lines.push(dict.p_constraints);
+    cons.forEach(c=>lines.push(`- ${c}`));
+  }
+  lines.push("");
+  lines.push(dict.p_format);
+  lines.push(`- ${dict.p_format_v}`);
+  lines.push("");
+  lines.push(dict.p_check);
+  lines.push(`- ${dict.p_check_v}`);
+  if(extra){
+    lines.push("");
+    lines.push(dict.p_extra);
+    lines.push(`- ${extra}`);
+  }
+  return lines.join("\n");
+}
+
+function onBuild(){
+  const p = buildPrompt();
+  if(p===null) return;
+  $("output").textContent = p;
+  $("output").dataset.filled = "1";
+}
+
+/* ---------- copy ---------- */
+function onCopy(){
+  const out = $("output");
+  if(out.dataset.filled!=="1"){ toast(I18N[lang].needTask); return; }
+  const text = out.textContent;
+  const done = ()=>toast(I18N[lang].copied);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+  } else fallbackCopy(text,done);
+}
+function fallbackCopy(text,cb){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); cb(); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ---------- history ---------- */
+function loadHist(){ try{ return JSON.parse(localStorage.getItem(HIST_KEY))||[]; }catch(e){ return []; } }
+function saveHist(arr){ localStorage.setItem(HIST_KEY,JSON.stringify(arr.slice(0,30))); }
+function onSave(){
+  const out = $("output");
+  if(out.dataset.filled!=="1"){ toast(I18N[lang].needTask); return; }
+  const arr = loadHist();
+  arr.unshift({ts:Date.now(), text:out.textContent});
+  saveHist(arr); renderHist();
+  toast(I18N[lang].saved);
+}
+function renderHist(){
+  const arr = loadHist();
+  const box = $("hist");
+  if(!arr.length){
+    box.innerHTML = `<div class="empty">${I18N[lang].histEmpty}</div>`;
+    $("histActions").style.display = "none";
+    return;
+  }
+  $("histActions").style.display = "flex";
+  box.innerHTML = arr.map((h,i)=>{
+    const d = new Date(h.ts);
+    const meta = d.toLocaleString(lang==="ja"?"ja-JP":"en-US");
+    const prev = h.text.replace(/\s+/g," ").slice(0,120);
+    return `<div class="histitem" data-h="${i}"><div class="h-meta">${meta}</div><div class="h-prev"></div></div>`;
+  }).join("");
+  // set preview text safely (avoid HTML injection)
+  box.querySelectorAll(".histitem").forEach((el,i)=>{
+    el.querySelector(".h-prev").textContent = arr[i].text.replace(/\s+/g," ").slice(0,120);
+    el.onclick = ()=>{
+      $("output").textContent = arr[i].text;
+      $("output").dataset.filled = "1";
+      window.scrollTo({top:0,behavior:"smooth"});
+    };
+  });
+}
+function onClearHist(){
+  localStorage.removeItem(HIST_KEY); renderHist();
+  toast(I18N[lang].cleared);
+}
+
+/* ---------- reset ---------- */
+function onReset(){
+  $("task").value=""; $("audience").value=""; $("extra").value="";
+  $("purpose").value="email"; $("tone").value="neutral";
+  $("length").value="any"; $("outlang").value="same";
+  selectedConstraints.clear(); renderConstraints();
+  $("output").textContent = I18N[lang].outEmpty;
+  $("output").dataset.filled = "0";
+}
+
+/* ---------- lang toggle ---------- */
+function toggleLang(){
+  lang = lang==="ja" ? "en" : "ja";
+  localStorage.setItem("apb_lang",lang);
+  // preserve current selections
+  const cur = {purpose:$("purpose").value,tone:$("tone").value,length:$("length").value,outlang:$("outlang").value};
+  applyI18n(); renderSelects(); renderTemplates(); renderConstraints();
+  $("purpose").value=cur.purpose; $("tone").value=cur.tone; $("length").value=cur.length; $("outlang").value=cur.outlang;
+  if($("output").dataset.filled!=="1") $("output").textContent = I18N[lang].outEmpty;
+  renderHist();
+}
+
+/* ---------- init ---------- */
+function init(){
+  applyI18n(); renderSelects(); renderTemplates(); renderConstraints(); renderHist();
+  if($("output").dataset.filled!=="1") $("output").textContent = I18N[lang].outEmpty;
+  $("langBtn").onclick = toggleLang;
+  $("buildBtn").onclick = onBuild;
+  $("resetBtn").onclick = onReset;
+  $("copyBtn").onclick = onCopy;
+  $("saveBtn").onclick = onSave;
+  $("clearHistBtn").onclick = onClearHist;
+}
+document.addEventListener("DOMContentLoaded",init);
+</script>
+</body>
+</html>
