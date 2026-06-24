@@ -17,10 +17,14 @@
 | 2026-06-23 | projects/2026-06-23_収益化_AIひとり会社商品/template_kit/template_kit.md | テンプレ集（完成品） | ひとり会社 実務テンプレ8種の構成定義＋使い方＋記入例＋スプレッドシート化手順。Vol.1兄弟商品 | 完成・出品待ち |
 | 2026-06-23 | template_kit/csv/（5本） | CSV | 収支/キャッシュ見通し/案件管理/週次レビュー/経費区分のヘッダ＋サンプル行 | 完成 |
 | 2026-06-23 | template_kit/sales_page.md | 販売ページ | note/BOOTH用。価格案¥980〜1,980・Vol.1とのバンドル案・免責・ハッシュタグ | 完成・出品待ち |
+| 2026-06-24 | template_kit/note_ready.md | 貼付一発原稿 | note貼付→有料ライン→公開で完結。無料サンプル＝案件管理シート全文。内容レビュー反映（請求/見積の記入例を具体額化・経費CSV全15項目） | 完成 |
+| 2026-06-24 | prompt_pack/note_ready.md（CPO移管） | 貼付一発原稿 | プロンプト集の貼付原稿。無料サンプル2本（#1＋#19実務系）に強化。商品ライン責任をCPOへ | 完成 |
+| 2026-06-24 | prompt_pack/cover.png ・ template_kit/cover.png | サムネ | make_product_thumbnail.py で確定生成した両商品の見出し画像（1280x670） | 完成 |
+| 2026-06-24 | apps/ai-agency-hp/blog/ai-hitori-kaisha-korekara.html | 公開ブログ | 「これからの話」をサイトに公開（SEO・無料サンプル導線）。sitemap/index登録済 | 公開（Pages反映待ち） |
 
 ## 進行中タスク
 
-- （なし）
+- 商品ライン（プロンプト集/テンプレ集）の出品はオーナー操作待ち。Vol.2拡張はCPO主導で継続検討。
 
 ## メモ・引き継ぎ事項
 
