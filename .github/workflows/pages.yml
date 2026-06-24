@@ -46,6 +46,10 @@ jobs:
           [ -f apps/chatbot-widget/chatbot.js ] && cp apps/chatbot-widget/chatbot.js _site/chatbot-widget/chatbot.js
           [ -f apps/ai-agency-hp/robots.txt ] && cp apps/ai-agency-hp/robots.txt _site/robots.txt
           [ -f apps/ai-agency-hp/sitemap.xml ] && cp apps/ai-agency-hp/sitemap.xml _site/sitemap.xml
+          # IndexNow キーファイル（検索エンジン自動通知の所有権確認用）
+          for k in apps/ai-agency-hp/*.txt; do
+            case "$k" in *robots.txt) ;; *) [ -f "$k" ] && cp "$k" "_site/$(basename "$k")";; esac
+          done
           # 英語SEO記事（海外からの検索流入を自動化）
           if [ -d apps/ai-agency-hp/blog ]; then mkdir -p _site/blog; cp apps/ai-agency-hp/blog/*.html _site/blog/ 2>/dev/null || true; fi
       - name: Upload artifact
