@@ -35,6 +35,9 @@ jobs:
           cp apps/ai-agency-hp/en.html _site/en.html
           # 既存ダッシュボードは /tavern.html で残す
           cp tavern.html _site/tavern.html
+          # 販売サイト（デジタル商品LP）＋商品サムネ画像
+          cp apps/ai-agency-hp/store.html _site/store.html
+          if [ -d apps/ai-agency-hp/img ]; then mkdir -p _site/img; cp apps/ai-agency-hp/img/* _site/img/ 2>/dev/null || true; fi
           # 無料Webツール（営業導線・集客）も公開
           for t in freelance-rate-calculator invoice-generator ai-prompt-builder ai-shindan chatbot-widget; do
             if [ -f "apps/$t/index.html" ]; then
