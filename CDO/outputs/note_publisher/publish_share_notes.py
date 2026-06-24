@@ -54,6 +54,7 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KIT_PATH = REPO_ROOT / "projects" / "2026-06-24_富山ガイド" / "note配信キット.md"
+THUMB_DIR = Path(__file__).resolve().parent / "share_thumbs"   # 01.png..06.png（番号=投稿番号）
 PROFILE_DIR = Path.home() / ".note_publisher_profile"   # publish_to_note.py と共有
 NOTE_NEW_URL = "https://note.com/notes/new"
 
@@ -132,9 +133,55 @@ def cmd_list(posts):
         print()
 
 
+# ---------- 見出し画像（サムネ）を自動アップロード ----------
+
+def set_thumbnail(page, thumb_path: Path) -> bool:
+    """ローカル画像を note の見出し画像にアップロードする。best-effort。
+    note のUI構造に依存するため、失敗したら False を返す（呼び出し側で握る）。"""
+    if not thumb_path or not thumb_path.exists():
+        return False
+    try:
+        # 「見出し画像を追加」系ボタンを押す → アップロードの導線を開く
+        add_btn = page.locator(
+            'button:has-text("見出し画像"), button:has-text("画像を追加"), '
+            'button:has-text("記事に画像"), [aria-label*="見出し画像"], [aria-label*="画像を追加"]'
+        ).first
+        add_btn.click(timeout=5000)
+        page.wait_for_timeout(1000)
+
+        # モーダル内の「画像をアップロード」を押すとファイル選択が出る → file chooser を捕まえる
+        try:
+            with page.expect_file_chooser(timeout=5000) as fc:
+                page.locator(
+                    'button:has-text("画像をアップロード"), button:has-text("アップロード"), '
+                    'label:has-text("アップロード")'
+                ).first.click()
+            fc.value.set_files(str(thumb_path))
+        except Exception:
+            # ボタンを介さず input[type=file] へ直接流し込むフォールバック
+            page.locator('input[type="file"]').first.set_input_files(str(thumb_path))
+        page.wait_for_timeout(2500)
+
+        # トリミング/位置決め画面が出たら「保存」「適用」「決定」「この画像を…」を押す
+        for label in ["保存", "適用", "決定", "完了", "挿入", "設定"]:
+            try:
+                btn = page.locator(f'button:has-text("{label}")').last
+                if btn.is_visible():
+                    btn.click(timeout=2000)
+                    page.wait_for_timeout(1500)
+                    break
+            except Exception:
+                continue
+        print("  🖼️  見出し画像をアップロードしました。")
+        return True
+    except Exception as e:
+        print(f"  ⚠️  見出し画像の自動アップロードに失敗（本文はそのまま）: {e}")
+        return False
+
+
 # ---------- note エディタへの投入（既存 publish_to_note.py の操作を踏襲） ----------
 
-def post_one(ctx, post: dict, do_publish: bool):
+def post_one(ctx, post: dict, thumb_path: Path | None, do_publish: bool):
     page = ctx.pages[0] if ctx.pages else ctx.new_page()
     page.goto(NOTE_NEW_URL, wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
@@ -181,11 +228,21 @@ def post_one(ctx, post: dict, do_publish: bool):
 
     page.wait_for_timeout(800)
 
+    # 見出し画像（サムネ）を自動アップロード
+    thumb_ok = set_thumbnail(page, thumb_path) if thumb_path else False
+    page.wait_for_timeout(800)
+
     if not do_publish:
         print("  📝 下書きの内容を入力しました（公開はしません）。")
-        print("     → ブラウザで『みんなのフォトギャラリー』から見出し画像を選び、")
-        print(f"       検索ワード例: {post['photo']}")
+        if not thumb_ok:
+            print(f"     ※サムネ自動設定はできていません。検索ワード例: {post['photo']}")
         print("     → 内容を確認して、自分で『公開』を押してください。")
+        return
+
+    # サムネ自動設定に失敗していたら、公開せず止める（さむねなし公開を避ける）
+    if thumb_path and not thumb_ok:
+        print("  ⛔ サムネ自動設定に失敗したため、公開は見送り下書きで止めます。")
+        print("     画面で見出し画像を足して、自分で『公開』してください。")
         return
 
     # --publish: 公開フローへ
@@ -216,6 +273,7 @@ def main():
     ap.add_argument("--post", type=int, metavar="N", help="N番目(1〜)の投稿だけ実行")
     ap.add_argument("--all", action="store_true", help="全6本を順番に実行")
     ap.add_argument("--publish", action="store_true", help="公開ボタンまで押す（既定は下書きで停止）")
+    ap.add_argument("--no-thumb", action="store_true", help="サムネ自動アップを行わない")
     ap.add_argument("--interval", type=int, default=20, help="--all時の各投稿の間隔秒（既定20）")
     args = ap.parse_args()
 
@@ -234,23 +292,24 @@ def main():
 
     _ensure_profile()
 
-    # 対象の決定
+    # 対象の決定（original_no = 1始まりの投稿番号。サムネ share_thumbs/NN.png と対応）
     if args.post:
         if not (1 <= args.post <= len(posts)):
             sys.exit(f"--post は 1〜{len(posts)} で指定してください。")
-        targets = [posts[args.post - 1]]
+        targets = [(args.post, posts[args.post - 1])]
     else:
-        targets = posts
+        targets = [(i, p) for i, p in enumerate(posts, 1)]
 
     mode = "公開" if args.publish else "下書き保存"
-    print(f"\n▶ {len(targets)}本を「{mode}」で処理します。\n")
+    print(f"\n▶ {len(targets)}本を「{mode}」で処理します。サムネ自動アップ={'OFF' if args.no_thumb else 'ON'}\n")
 
     with sync_playwright() as p:
         ctx = _launch(p)
         try:
-            for idx, post in enumerate(targets, 1):
+            for idx, (orig_no, post) in enumerate(targets, 1):
                 print(f"--- [{idx}/{len(targets)}] {post['heading']} ---")
-                post_one(ctx, post, do_publish=args.publish)
+                thumb = None if args.no_thumb else (THUMB_DIR / f"{orig_no:02d}.png")
+                post_one(ctx, post, thumb_path=thumb, do_publish=args.publish)
                 if args.all and idx < len(targets):
                     print(f"  …次まで {args.interval}秒待機\n")
                     time.sleep(args.interval)
