@@ -38,6 +38,8 @@ jobs:
           # 販売サイト（デジタル商品LP）＋商品サムネ画像
           cp apps/ai-agency-hp/store.html _site/store.html
           if [ -d apps/ai-agency-hp/img ]; then mkdir -p _site/img; cp apps/ai-agency-hp/img/* _site/img/ 2>/dev/null || true; fi
+          # 複数HP展開①：富山・高岡ガイド（既存読者と客層が合う・アフィリ）
+          if [ -f apps/toyama-guide/index.html ]; then mkdir -p _site/toyama; cp apps/toyama-guide/index.html _site/toyama/index.html; fi
           # 無料Webツール（営業導線・集客）も公開
           for t in freelance-rate-calculator invoice-generator ai-prompt-builder ai-shindan chatbot-widget; do
             if [ -f "apps/$t/index.html" ]; then
