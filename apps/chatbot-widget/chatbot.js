@@ -93,12 +93,19 @@
     };
   }
 
-  // ---- 台本フォールバック（キーなしでも最低限会話） ----
+  // ---- 台本フォールバック（キーなしでも最低限会話・無料） ----
+  // CHATBOT_CONFIG.faq = [{p:"正規表現文字列", a:"回答"}, ...] を指定すると、
+  // キー無し(無料)でも商品ごとのFAQに自動応答する。CHATBOT_CONFIG.fallback で既定文も差し替え可。
   function scripted(t){
     var s = t.toLowerCase();
+    if (Array.isArray(C.faq)) {
+      for (var i = 0; i < C.faq.length; i++) {
+        try { if (new RegExp(C.faq[i].p, "i").test(t)) return C.faq[i].a; } catch (e) {}
+      }
+    }
     if (/(料金|価格|いくら|cost|price)/.test(s)) return "料金は内容により異なります。詳しくは担当よりご案内します。";
     if (/(サンプル|無料|試|demo|sample)/.test(s)) return "無料サンプルをご用意できます。お問い合わせください。";
-    return "ご質問ありがとうございます。担当が確認のうえお答えします（※AIキー設定で、その場で会話できます）。";
+    return C.fallback || "ご質問ありがとうございます。担当が確認のうえお答えします（※AIキー設定で、その場で会話できます）。";
   }
 
   async function ask(text){
