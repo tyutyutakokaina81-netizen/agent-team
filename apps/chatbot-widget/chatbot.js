@@ -68,13 +68,25 @@
     '<div class="lcb-head"><span>' + esc(C.title) + '</span><button aria-label="close">×</button></div>' +
     '<div class="lcb-body"></div>' +
     '<div class="lcb-cfg" style="display:none"></div>' +
-    '<div class="lcb-in"><input placeholder="メッセージを入力…"><button>送信</button></div>';
+    '<div class="lcb-in"><button class="lcb-mic" title="音声で話す" style="display:none">🎤</button><input placeholder="メッセージを入力…"><button class="lcb-send">送信</button></div>';
   document.body.appendChild(btn); document.body.appendChild(panel);
 
   var body = panel.querySelector(".lcb-body");
   var input = panel.querySelector(".lcb-in input");
-  var sendBtn = panel.querySelector(".lcb-in button");
+  var sendBtn = panel.querySelector(".lcb-in .lcb-send");
+  var micBtn = panel.querySelector(".lcb-in .lcb-mic");
   var cfgBar = panel.querySelector(".lcb-cfg");
+
+  // ---- 音声（¥0・ブラウザ標準のWeb Speech API。音声認識+読み上げともAPI課金なし） ----
+  function speak(t){
+    if (!C.voice || !window.speechSynthesis || !t) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(String(t));
+      u.lang = C.voiceLang || "ja-JP"; u.rate = 1; u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
 
   function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
   function add(role, text){
@@ -119,7 +131,7 @@
         data = await res.json();
       } else {
         var key = localStorage.getItem(LSKEY);
-        if (!key) { thinking.textContent = scripted(text); showKeyPrompt(); return; }
+        if (!key) { var sc = scripted(text); thinking.textContent = sc; speak(sc); showKeyPrompt(); return; }
         res = await fetch(C.endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
@@ -130,6 +142,7 @@
       if (!res.ok) throw new Error((data && data.error && data.error.message) || ("HTTP " + res.status));
       var reply = (data.choices && data.choices[0] && (data.choices[0].message ? data.choices[0].message.content : data.choices[0].text)) || (data.reply) || "(応答なし)";
       thinking.textContent = reply.trim();
+      speak(reply.trim());
       history.push({ role: "assistant", content: reply.trim() });
     } catch (e) {
       thinking.textContent = "⚠️ 応答に失敗しました（" + e.message + "）。キーやネット接続をご確認ください。";
@@ -147,7 +160,27 @@
     panel.classList.toggle("open");
     if (panel.classList.contains("open") && !body.hasChildNodes()){
       add("bot", C.greeting);
+      if (C.voice) speak(C.greeting);
       if (!hasKey()) showKeyPrompt();
     }
   };
+
+  // ---- 音声入力（マイク）：ブラウザの音声認識で話しかけ→自動送信 ----
+  var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (C.voice && Rec && micBtn){
+    micBtn.style.display = "";
+    var rec = new Rec();
+    rec.lang = C.voiceLang || "ja-JP";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    var listening = false;
+    micBtn.onclick = function(){
+      if (listening){ try { rec.stop(); } catch(e){} return; }
+      try { window.speechSynthesis && window.speechSynthesis.cancel(); rec.start(); listening = true; micBtn.textContent = "●"; }
+      catch(e){ listening = false; micBtn.textContent = "🎤"; }
+    };
+    rec.onresult = function(ev){ var t = ev.results[0][0].transcript; if (t){ input.value = t; send(); } };
+    rec.onend = function(){ listening = false; micBtn.textContent = "🎤"; };
+    rec.onerror = function(){ listening = false; micBtn.textContent = "🎤"; };
+  }
 })();
