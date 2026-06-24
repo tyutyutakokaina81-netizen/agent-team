@@ -133,7 +133,84 @@ def cmd_list(posts):
         print()
 
 
-# ---------- 見出し画像（サムネ）を自動アップロード ----------
+# ---------- 見出し画像（サムネ）：みんなのフォトギャラリーから自動選択 ----------
+
+def first_keyword(photo_hint: str) -> str:
+    """ '`カニ` `蟹` `海鮮`' のような文字列から最初のキーワード『カニ』を取り出す。"""
+    m = re.findall(r"`([^`]+)`", photo_hint or "")
+    if m:
+        return m[0].strip()
+    # バッククォートが無ければ最初の語
+    return (photo_hint or "富山").split()[0].strip("` ")
+
+
+def set_thumbnail_gallery(page, keyword: str) -> bool:
+    """note の『みんなのフォトギャラリー』からキーワード検索で1枚選び、見出し画像にする。
+    best-effort。note のUI構造に依存し、失敗したら False。"""
+    if not keyword:
+        return False
+    try:
+        # 「見出し画像を追加」を開く
+        page.locator(
+            'button:has-text("見出し画像"), button:has-text("画像を追加"), '
+            'button:has-text("記事に画像"), [aria-label*="見出し画像"], [aria-label*="画像を追加"]'
+        ).first.click(timeout=5000)
+        page.wait_for_timeout(1200)
+
+        # 「みんなのフォトギャラリー」タブ/ボタンへ
+        page.locator(
+            'button:has-text("みんなのフォトギャラリー"), a:has-text("みんなのフォトギャラリー"), '
+            'div:has-text("みんなのフォトギャラリー")'
+        ).first.click(timeout=5000)
+        page.wait_for_timeout(1500)
+
+        # 検索ボックスにキーワードを入れて検索
+        search = page.locator(
+            'input[placeholder*="検索"], input[type="search"], input[type="text"]'
+        ).last
+        search.click()
+        search.fill(keyword)
+        page.keyboard.press("Enter")
+        page.wait_for_timeout(2500)
+
+        # 検索結果の最初の画像をクリック
+        candidate = page.locator(
+            '[class*="gallery"] img, [class*="Gallery"] img, [class*="photo"] img, '
+            'ul li img, [role="list"] img, button img'
+        ).first
+        candidate.click(timeout=6000)
+        page.wait_for_timeout(1500)
+
+        # 「この画像を挿入」「決定」「保存」「適用」のいずれかを押す
+        for label in ["この画像を挿入", "画像を挿入", "挿入", "決定", "保存", "適用", "完了", "設定"]:
+            try:
+                btn = page.locator(f'button:has-text("{label}")').last
+                if btn.is_visible():
+                    btn.click(timeout=2500)
+                    page.wait_for_timeout(1500)
+                    break
+            except Exception:
+                continue
+
+        # トリミング画面が続く場合の保存
+        for label in ["保存", "適用", "決定", "完了"]:
+            try:
+                btn = page.locator(f'button:has-text("{label}")').last
+                if btn.is_visible():
+                    btn.click(timeout=2000)
+                    page.wait_for_timeout(1200)
+                    break
+            except Exception:
+                continue
+
+        print(f"  🖼️  みんなのフォトギャラリーから『{keyword}』の写真を設定しました。")
+        return True
+    except Exception as e:
+        print(f"  ⚠️  ギャラリーからの自動選択に失敗（本文はそのまま）: {e}")
+        return False
+
+
+# ---------- 見出し画像（サムネ）：ローカル画像をアップロード（予備） ----------
 
 def set_thumbnail(page, thumb_path: Path) -> bool:
     """ローカル画像を note の見出し画像にアップロードする。best-effort。
@@ -181,7 +258,7 @@ def set_thumbnail(page, thumb_path: Path) -> bool:
 
 # ---------- note エディタへの投入（既存 publish_to_note.py の操作を踏襲） ----------
 
-def post_one(ctx, post: dict, thumb_path: Path | None, do_publish: bool):
+def post_one(ctx, post: dict, thumb_path: Path | None, do_publish: bool, use_gallery: bool = True):
     page = ctx.pages[0] if ctx.pages else ctx.new_page()
     page.goto(NOTE_NEW_URL, wait_until="domcontentloaded")
     page.wait_for_timeout(2500)
@@ -228,21 +305,31 @@ def post_one(ctx, post: dict, thumb_path: Path | None, do_publish: bool):
 
     page.wait_for_timeout(800)
 
-    # 見出し画像（サムネ）を自動アップロード
-    thumb_ok = set_thumbnail(page, thumb_path) if thumb_path else False
+    # 見出し画像（サムネ）を自動設定
+    #   既定：みんなのフォトギャラリーからキーワード検索で実写を選ぶ
+    #   --local-thumb 指定時：ローカルの文字サムネ(share_thumbs/NN.png)をアップ
+    want_thumb = use_gallery or bool(thumb_path)
+    if use_gallery:
+        kw = first_keyword(post.get("photo", ""))
+        print(f"  🔎 みんなのフォトギャラリーで『{kw}』を検索して見出し画像にします…")
+        thumb_ok = set_thumbnail_gallery(page, kw)
+    elif thumb_path:
+        thumb_ok = set_thumbnail(page, thumb_path)
+    else:
+        thumb_ok = False
     page.wait_for_timeout(800)
 
     if not do_publish:
         print("  📝 下書きの内容を入力しました（公開はしません）。")
-        if not thumb_ok:
+        if want_thumb and not thumb_ok:
             print(f"     ※サムネ自動設定はできていません。検索ワード例: {post['photo']}")
-        print("     → 内容を確認して、自分で『公開』を押してください。")
+        print("     → 内容を確認して、（必要なら画像を直して）自分で『公開』を押してください。")
         return
 
     # サムネ自動設定に失敗していたら、公開せず止める（さむねなし公開を避ける）
-    if thumb_path and not thumb_ok:
+    if want_thumb and not thumb_ok:
         print("  ⛔ サムネ自動設定に失敗したため、公開は見送り下書きで止めます。")
-        print("     画面で見出し画像を足して、自分で『公開』してください。")
+        print("     画面で『みんなのフォトギャラリー』から画像を足して、自分で『公開』してください。")
         return
 
     # --publish: 公開フローへ
