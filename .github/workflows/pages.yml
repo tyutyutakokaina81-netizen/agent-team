@@ -43,6 +43,8 @@ jobs:
             mkdir -p _site/toyama
             cp apps/toyama-guide/*.html _site/toyama/ 2>/dev/null || true
             # OGサムネ画像・写真も配信（これが無いとog:imageが404になる）
+            # 海外向け収益化スクリプト（国際アフィリ・冪等）
+            [ -f apps/toyama-guide/affiliates.js ] && cp apps/toyama-guide/affiliates.js _site/toyama/affiliates.js
             if [ -d apps/toyama-guide/og ]; then mkdir -p _site/toyama/og; cp apps/toyama-guide/og/* _site/toyama/og/ 2>/dev/null || true; fi
             if [ -d apps/toyama-guide/photos ]; then mkdir -p _site/toyama/photos; cp apps/toyama-guide/photos/* _site/toyama/photos/ 2>/dev/null || true; fi
           fi
