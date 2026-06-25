@@ -39,7 +39,13 @@ jobs:
           cp apps/ai-agency-hp/store.html _site/store.html
           if [ -d apps/ai-agency-hp/img ]; then mkdir -p _site/img; cp apps/ai-agency-hp/img/* _site/img/ 2>/dev/null || true; fi
           # 複数HP展開①：富山・高岡ガイド（既存読者と客層が合う・アフィリ）。記事ページも全部配信
-          if [ -d apps/toyama-guide ]; then mkdir -p _site/toyama; cp apps/toyama-guide/*.html _site/toyama/ 2>/dev/null || true; fi
+          if [ -d apps/toyama-guide ]; then
+            mkdir -p _site/toyama
+            cp apps/toyama-guide/*.html _site/toyama/ 2>/dev/null || true
+            # OGサムネ画像・写真も配信（これが無いとog:imageが404になる）
+            if [ -d apps/toyama-guide/og ]; then mkdir -p _site/toyama/og; cp apps/toyama-guide/og/* _site/toyama/og/ 2>/dev/null || true; fi
+            if [ -d apps/toyama-guide/photos ]; then mkdir -p _site/toyama/photos; cp apps/toyama-guide/photos/* _site/toyama/photos/ 2>/dev/null || true; fi
+          fi
           # 無料Webツール（営業導線・集客）も公開
           for t in freelance-rate-calculator invoice-generator ai-prompt-builder ai-shindan chatbot-widget; do
             if [ -f "apps/$t/index.html" ]; then
