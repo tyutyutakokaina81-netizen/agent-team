@@ -12,6 +12,9 @@ on:
       - 'apps/ai-agency-hp/**'
       - 'apps/toyama-guide/**'
   workflow_dispatch:
+  # 定期再送信（毎週月曜 0:00 UTC）= 更新が無くても検索エンジンに自動でリマインド。owner操作ゼロ。
+  schedule:
+    - cron: '0 0 * * 1'
 
 permissions:
   contents: read
