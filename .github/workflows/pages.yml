@@ -55,6 +55,8 @@ jobs:
           done
           # チャットボットの本体JSも配信
           [ -f apps/chatbot-widget/chatbot.js ] && cp apps/chatbot-widget/chatbot.js _site/chatbot-widget/chatbot.js
+          # 到達計測（GA4）共有スクリプト — 全ページが /agent-team/analytics.js を読む
+          [ -f apps/ai-agency-hp/analytics.js ] && cp apps/ai-agency-hp/analytics.js _site/analytics.js
           [ -f apps/ai-agency-hp/robots.txt ] && cp apps/ai-agency-hp/robots.txt _site/robots.txt
           [ -f apps/ai-agency-hp/sitemap.xml ] && cp apps/ai-agency-hp/sitemap.xml _site/sitemap.xml
           # IndexNow キーファイル（検索エンジン自動通知の所有権確認用）
