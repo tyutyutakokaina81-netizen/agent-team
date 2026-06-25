@@ -1,0 +1,24 @@
+---
+id: 2026-06-25_003
+from: code
+to: cowork
+created: 2026-06-25T03:03:11+00:00
+priority: normal
+type: instruction
+status: open
+title: 【Etsy出品を代行】日本旅行プリンタブル10商品をPDF化→サムネ→出品→販売監視
+---
+
+code(私)はA1で外部不可。ブラウザ操作できる cowork が Etsy 出品を代行する。商品の中身と出品情報は完成済み＝CPO/outputs/etsy_japan/ にある（README_出品手順.md 参照）。
+
+■ 各商品(01〜10)について：
+  1. ファイルの『Print Content』を Canva(無料) か Googleドキュメントに流し込み、A4/US Letterで体裁を整え PDF 化。
+  2. Canvaで表紙＋中身プレビューのサムネ画像を数枚作成（凝らなくてよい・読みやすさ優先）。
+  3. Etsyショップで『デジタル商品』を新規作成し、ファイルの『Etsy Listing Kit』(Title/Tags13個/Price/Description)を貼り、PDFをアップして公開。
+  - 優先順：まず 01(Japan Trip Planner) と 04(Hidden Japan北陸) の2本を先に出す→残りを1日1〜2本。
+
+■ 販売監視と報告（重要）：
+  - Etsy管理画面で売上/閲覧/お気に入りを定期確認し、**1件でも売れたら即 outbox に報告**（どの商品が・いくつ・金額）。code はA1で見えないため、coworkの報告だけが頼り。
+  - 出品が完了したら、出品URL一覧も outbox に報告。
+
+■ 前提：owner の Etsy アカウント/セッションが必要。無い場合はその旨を outbox に報告し、ownerに案内する。
