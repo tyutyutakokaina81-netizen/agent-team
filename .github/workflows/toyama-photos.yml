@@ -1,0 +1,54 @@
+name: Toyama guide photos (Pexels)
+
+# 富山ガイド各記事に「内容に応じたフリー写真(Pexels)」をクラウドで取得して入れる。
+# code はネット遮断(A1)のためここで実行。A3「写真風で統一・無料素材」に合致・¥0。
+# 各記事の不足分だけ取得（既に写真があるページはスキップ＝push ループ無し）。
+#
+# キー: リポジトリ Settings > Secrets and variables > Actions に登録
+#  - PEXELS_API_KEY : https://www.pexels.com/api/ （無料）
+#
+# 実行: Actions タブ → "Toyama guide photos (Pexels)" → Run workflow（手動）
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "apps/toyama-guide/**.html"
+      - "CDO/outputs/note_publisher/fetch_toyama_photos.py"
+      - ".github/workflows/toyama-photos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: toyama-photos
+  cancel-in-progress: false
+
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch content-appropriate photos
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: |
+          if [ -z "$PEXELS_API_KEY" ]; then
+            echo "PEXELS_API_KEY 未設定のためスキップ（Secretsに登録してください）"; exit 0
+          fi
+          python3 CDO/outputs/note_publisher/fetch_toyama_photos.py
+      - name: Commit photos
+        run: |
+          if [ -n "$(git status --porcelain apps/toyama-guide)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add apps/toyama-guide/photos apps/toyama-guide/*.html
+            git commit -m "auto: 富山ガイドに内容に応じたPexels写真を挿入（不足分）"
+            git push
+          else
+            echo "変更なし（全記事に写真あり）"
+          fi
