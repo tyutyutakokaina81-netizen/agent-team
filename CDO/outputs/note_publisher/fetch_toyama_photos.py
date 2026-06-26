@@ -68,6 +68,7 @@ QUERY = {
     # --- 多言語Toyama概要・漫画聖地（著作権キャラ回避＝町並み写真） ---
     "de-toyama":"sea of japan coast mountains", "fr-toyama":"sea of japan coast mountains",
     "es-toyama":"sea of japan coast mountains", "about":"toyama japan landscape",
+    "zh-toyama":"sea of japan coast mountains", "zh-tw-toyama":"sea of japan coast mountains",
     "ko-manga":"japan retro town tram", "zh-manga":"japan retro town tram",
     "zh-tw-manga":"japan retro town tram",
 }

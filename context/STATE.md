@@ -6,6 +6,12 @@
 
 最終更新: 2026-06-26（英語7ページ[宿選び/worth/getting around/白川郷/レンタカー/アルペン料金/rail pass]＋note記事2000字(アルペン料金)＋みんフォト検索ワード指定／事実誤り5件訂正。下記参照）
 
+> ## 2026-06-26 多言語拡大：中国語Toyama概要ハブ新設（owner「世界へ・大きい順に」）
+> - **背景**：海外発信は英語44本に偏り、中/韓/欧は各1本だけだった。owner「大きい順」＝最大市場の中国語から拡大。
+> - **実装**：`zh-toyama.html`（簡体・Noto Sans SC）＋`zh-tw-toyama.html`（繁体・Noto Sans TC）の概要ハブを新設（de/fr/es-toyama と同型・じゃらんA8・なぜ富山/食/見所/行き方/宿）。文字化け防止のWebフォント埋込。
+> - **配線**：hreflang を en/zh-Hans/zh-Hant/fr/de/es で相互リンク（fr/de/es 側にも zh-Hans/zh-Hant を追加）。en.html「Other languages」の簡体/繁体リンクを概要ハブへ差し替え。sitemap・サムネQUERY 登録。
+> - **次の拡大候補（大きい順）**：韓国語Toyama概要→仏独西を概要1本から主要記事へ拡張→中国語で雨晴/アルペン等の個別記事。
+>
 > ## 2026-06-26 サムネ自動連携（owner「よくわからんから自動連携して」）— 恒久自動化
 > - **目的**：owner が仕組みを意識しなくても回るように自動化。今後ページを追加しても**サムネ登録漏れで穴があかない**ようにする。
 > - **実装**：`fetch_toyama_photos.py` の主ループで、QUERY未登録ページを skip していたのを廃止し、**`q=QUERY.get(stem) or "toyama japan landscape"`** の安全フォールバックに変更。＝全ページが必ずサムネを得る。curated QUERY があればそれ優先。
