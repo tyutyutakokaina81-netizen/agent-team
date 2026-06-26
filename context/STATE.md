@@ -4,7 +4,15 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-06-26（事実誤り5件を全ソース訂正／新規=英語宿選びページ／note反映cowork発注。下記参照）
+最終更新: 2026-06-26（事実誤り5件訂正／新規=英語3ページ追加[宿選び・worth visiting・getting around]／note反映発注。下記参照）
+
+> ## 2026-06-26 新規 英語SEO 2ページ追加（owner「つくって」）— 計画/意思決定クエリ狙い
+> - 放置SEOモデルの継続制作。予約意図ハブ en-where-to-stay に続け、ファネル上流の2ページを新規作成：
+>   - `en-worth-visiting.html`「Is Toyama worth visiting?」＝意思決定クエリ（"skip if / come if" の正直な切り分け→worth-visiting→where-to-stayへ送客）
+>   - `en-getting-around.html`「Getting around Toyama」＝交通計画クエリ（新幹線/トラム/山岳交通＋"車は要るか"の正直回答→where-to-stayへ）
+> - en.html「Plan your trip」とsitemapに登録。内部リンク全実在確認。じゃらんA8(160000)配線・PR開示・免責つき。誇張なし(A5)/PIIなし(A4)。
+> - これで toyama 英語ページ＝計38本（season4本完備＋宿選び＋worth/getting-aroundの計画ファネル整備）。
+
 
 > ## 2026-06-26 事実誤り 高優先5件を全ソース訂正＋note反映を発注（owner「修正して、新規もつくって」）
 > - **修正（5件すべてソース対応完了）**：事実検証レポートの高優先5件を、note記事本文・英訳・制作意図メモ・クロスポスト（Reddit/X/enprompt）・誌面ドラフト(15_/16_/17_)まで横断で訂正。残存ゼロを grep 確認。
