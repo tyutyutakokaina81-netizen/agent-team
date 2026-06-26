@@ -117,8 +117,9 @@ def main():
     for f in sorted(GUIDE.glob("*.html")):
         stem=f.stem
         if stem=="index": continue   # 日本語ハブは別管理（カード型）なので対象外
-        q=QUERY.get(stem)
-        if not q: skip+=1; continue
+        # 自動連携：QUERYに無い新規ページも必ずサムネが付くよう、安全な既定値でフォールバック
+        # （以後ページを追加してもサムネ登録漏れで穴があかない＝手作業の保険）
+        q=QUERY.get(stem) or "toyama japan landscape"
         dest=PHOTOS/f"{stem}.jpg"
         tm=re.search(r"<title>(.*?)</title>", f.read_text(encoding='utf-8'), re.S)
         alt=re.split(r"[｜|]", html.unescape(tm.group(1)))[0].strip() if tm else stem
