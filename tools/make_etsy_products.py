@@ -154,6 +154,16 @@ SUB = {
  "18_hiroshima-miyajima-itinerary":"Peace Memorial & Miyajima Island",
  "19_japan-solo-travel-planner":"Solo trip — safety & planning",
  "20_japan-2-week-itinerary-planner":"14-day Japan route & fill-in plan",
+ "21_kyoto-itinerary-planner":"Temples, shrines & area guide",
+ "22_nara-day-trip-planner":"Deer Park & Great Buddha day trip",
+ "23_japan-autumn-leaves-planner":"Koyo fall foliage season planner",
+ "24_japan-winter-trip-planner":"Snow, onsen, ski & illuminations",
+ "25_japan-couples-honeymoon-planner":"Romantic itinerary for two",
+ "26_japan-7-day-golden-route-planner":"Tokyo–Hakone–Kyoto–Osaka, 7 days",
+ "27_fuji-hakone-itinerary":"Fuji Five Lakes & Hakone onsen",
+ "28_japan-onsen-trip-planner":"Hot springs, ryokan & etiquette",
+ "29_japan-anime-pop-culture-planner":"Otaku Tokyo & pop-culture trip",
+ "30_japan-travel-journal":"Printable trip diary & memory book",
 }
 import sys
 targets = sys.argv[1:] or [os.path.basename(f) for f in sorted(glob.glob(f"{SRC}/[0-9]*.md"))]
