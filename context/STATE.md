@@ -4,8 +4,13 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-06-26（事実誤り5件訂正／新規=英語4ページ[宿選び・worth visiting・getting around・白川郷/五箇山]／note反映発注。下記参照）
+最終更新: 2026-06-26（事実誤り5件訂正／新規=英語5ページ[宿選び・worth visiting・getting around・白川郷/五箇山・レンタカー]／note反映発注。下記参照）
 
+> ## 2026-06-26 新規 レンタカー記事（owner「完璧な記事書いて／レンタカーもあるやな」）— web検証済み
+> - owner指摘：getting-aroundで「多くは車不要」と書いたが、車が活きる場面はある。→ レンタカー専用の「完璧な」記事を裏取りして作成。
+> - `en-car-rental.html`。WebSearchで事実確認：①IDP必須(来日前取得)・例外7か国は公式翻訳②貸出=富山駅前(National/Alamo/Enterprise/JR/トヨタ/ニッポン/ORIX/Times)・富山空港(ORIX/Hertz)・英語対応③冬は本格降雪→スタッドレス(冬季は無料装着多/別途約¥1,100日)④目安1日約¥6,000-9,000⑤車が活きる=五箇山/海沿い/温泉/子連れ・冬の自由度／**アルペンルートは車で通れない**。
+> - 正直トーン維持＝「headlineは車不要、でも静かな半分を開ける／hybrid推奨」。en-getting-aroundの「車要る?」節からも相互リンク。en.html・sitemap登録。数値approximate明記(A5)。toyama英語=計40本。
+>
 > ## 2026-06-26 新規 白川郷・五箇山アクセス記事（owner「リサーチしてからつくって」）— web検証済み
 > - **web検索が proxy 経由で可能と判明**（WebSearch ○／WebFetchは403=A1部分適用）。記憶でなく出典付きで事実確認してから執筆。
 > - `en-shirakawa-go.html`「Shirakawa-go & Gokayama from Toyama」。海外検索の意図が最大級（白川郷=バケットリスト級）×富山が最適拠点の切り口。
