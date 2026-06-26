@@ -28,9 +28,9 @@ BASE = "https://tyutyutakokaina81-netizen.github.io/agent-team/toyama"
 QUERY = {
     # --- 食(日本語) ---
     "benizuwai":"snow crab seafood", "kanburi":"yellowtail fish sashimi",
-    "kamaboko":"japanese food", "genge":"dried fish", "baigai":"sea snail shellfish",
+    "kamaboko":"japanese fish cake", "genge":"dried fish", "baigai":"sea snail shellfish",
     "kombu":"kombu seaweed", "kombujime":"sashimi", "jibeer":"craft beer glass",
-    "jizake":"japanese sake", "masuzushi":"sushi", "hotaruika":"squid seafood",
+    "jizake":"japanese sake", "masuzushi":"trout sushi", "hotaruika":"squid sea japan",
     "shiroebi":"shrimp sashimi", "toyama-black":"ramen bowl", "himi-fish":"fish market japan",
     "himono":"dried fish grilled", "omiyage":"japanese souvenir gift", "sweets":"japanese sweets",
     "rice":"rice field japan", "ochugen-gift":"japanese gift box", "furusato-nozei":"japanese seafood",
@@ -46,6 +46,30 @@ QUERY = {
     "en-food":"japanese seafood", "en-shiroebi":"shrimp sashimi",
     "en-hattori":"japan fishing port", "en-doraemon":"japan city tram",
     "en-manga-pilgrimage":"japan retro town", "novel":"ocean view kitchen window",
+    # --- 旅・計画（2026-06-26 追加：未登録ページのサムネ修正） ---
+    "en-where-to-stay":"japanese ryokan room", "en-worth-visiting":"japan sea mountains landscape",
+    "en-getting-around":"japan tram station", "en-rail-pass":"shinkansen train japan",
+    "en-car-rental":"countryside road japan", "en-faq":"toyama japan landscape",
+    "en-shirakawa-go":"thatched village japan", "en-alpine-cost":"japan snow corridor mountains",
+    # --- 季節 ---
+    "en-autumn":"japan autumn foliage mountains", "en-spring":"japan cherry blossom mountains",
+    "en-summer":"japan green mountains river", "en-winter":"japan snow mountains sea",
+    # --- 景観・名所 ---
+    "en-kurobe-gorge":"mountain gorge river autumn", "en-shomyo-falls":"tall waterfall japan",
+    "en-zuiryuji":"japanese zen temple", "en-off-beaten-path":"japan rural countryside",
+    "en-onsen":"japanese onsen hot spring", "en-glass-art":"glass art museum",
+    "en-days-2-3":"japan travel train", "en-how-many-days":"japan travel train",
+    # --- 食（英語） ---
+    "en-crab":"snow crab seafood", "en-sake":"japanese sake", "en-masuzushi":"trout sushi",
+    "en-firefly-squid":"squid sea japan", "en-toyama-black":"black ramen bowl",
+    "en-onigiri-kelp":"rice ball onigiri",
+    # --- 食（日本語・漏れ） ---
+    "ikagurozukuri":"squid seafood", "tororo-gohan":"rice bowl japanese",
+    # --- 多言語Toyama概要・漫画聖地（著作権キャラ回避＝町並み写真） ---
+    "de-toyama":"sea of japan coast mountains", "fr-toyama":"sea of japan coast mountains",
+    "es-toyama":"sea of japan coast mountains", "about":"toyama japan landscape",
+    "ko-manga":"japan retro town tram", "zh-manga":"japan retro town tram",
+    "zh-tw-manga":"japan retro town tram",
 }
 
 def pexels_photo(query, key):
