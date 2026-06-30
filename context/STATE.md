@@ -4,7 +4,13 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-06-30（コスト制約=完全無料縛り確定／サムネ自己修復。下記参照）
+最終更新: 2026-06-30（英語6新規ページ公開／サムネ56枚／コスト¥0縛り。下記参照）
+
+> ## 2026-06-30 ★英語6新規ページ公開（owner「10倍／見える成果を」）
+> - 北極星ギャップ調査で特定した海外検索意図の穴を、**公開される英語ページ6本**として量産・配線・マージ公開（PR #63→c8ec959）。
+> - 6本：en-budget(予算)/en-money(お金)/en-sim-wifi(eSIM)/en-what-to-wear(服装)/en-with-kids(家族)/en-is-toyama-safe(安全)。各WebSearch裏取り・OG/canonical/JSON-LD/hreflang・A4/A5・捏造リンクなし・¥0。en.html「Plan your trip」とsitemap配線済（壊れリンク0/XML妥当）。toyama英語=計50本へ。
+> - 公開URL例: https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-budget.html
+> - **サムネ**：56枚生成済（pollinations・¥0）。残りは新run（retry付）が生成中。無料ゆえ取りこぼしは複数runで自己修復。
 
 > ## 2026-06-30 ★コスト制約（owner「API料金は払いたくない」）— 完全無料縛り
 > - **有料API禁止**：OPENAI_API_KEY等の課金APIは使わない。GEMINI_API_KEYもowner が料金リスクを嫌うため**推奨しない**（無料枠でも設定不要）。
