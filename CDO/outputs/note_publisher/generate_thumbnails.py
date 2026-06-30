@@ -20,6 +20,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -104,8 +105,14 @@ def generate_with_gemini(prompt: str, api_key: str) -> bytes:
     return base64.b64decode(b64)
 
 
+MIN_IMAGE_BYTES = 5000  # これ未満はエラーページ等＝失敗扱い
+
+
 def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
-    """Pollinations.ai: APIキー不要・無料の画像生成サービス。"""
+    """Pollinations.ai: APIキー不要・無料の画像生成サービス。
+    無料ゆえレート制限/タイムアウトが起きるので、リトライ＋画像サイズ検証で堅牢化する。
+    """
+    import time
     import urllib.parse
     # プロンプトを短くしないと URL 長で 404 になる。最初の300字程度に切る。
     short = prompt[:300].rsplit(" ", 1)[0]  # 単語途中で切らない
@@ -115,9 +122,20 @@ def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
         f"https://image.pollinations.ai/prompt/{encoded}"
         f"?width=1280&height=720&nologo=true&model=flux"
     )
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        return resp.read()
+    last_err: Exception | None = None
+    for attempt in range(3):  # 最大3回（バックオフ 0/4/8秒）
+        if attempt:
+            time.sleep(attempt * 4)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                data = resp.read()
+            if len(data) >= MIN_IMAGE_BYTES:
+                return data
+            last_err = ValueError(f"画像が小さすぎる({len(data)}B)＝失敗扱い")
+        except Exception as e:  # noqa: BLE001  ネットワーク/HTTP全般を握ってリトライ
+            last_err = e
+    raise last_err or RuntimeError("pollinations 生成失敗")
 
 
 def pick_backend():
@@ -192,6 +210,8 @@ def main():
         except Exception as e:
             print(f"  ✗ {type(e).__name__}: {e}")
             fail += 1
+        if backend == "pollinations":
+            time.sleep(1.5)                 # 無料枠への配慮＝レート制限回避のペース調整
 
     print(f"\n成功: {ok} / 失敗: {fail}")
 

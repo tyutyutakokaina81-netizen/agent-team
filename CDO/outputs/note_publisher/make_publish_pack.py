@@ -58,12 +58,22 @@ def kw_for(title: str, stem: str) -> str:
 
 
 def extract(text: str, stem: str):
-    mt = re.search(r"##\s*タイトル\s*\n```\s*\n(.+?)\n```", text, re.S)
-    title = mt.group(1).strip().splitlines()[0] if mt else stem
-    mb = re.search(r"##\s*本文\s*\n```\s*\n(.+?)\n```", text, re.S)
+    # 見出しに注釈が付く形式（例「## 本文（noteにそのままコピペ…）」）も拾えるよう .*? を許容。
+    # publish_to_note.py / copy_body.py と同じ寛容な抽出に統一（厳格形だと24記事で本文が空になる不具合）。
+    mt = re.search(r"##\s*タイトル.*?\n```\s*\n(.+?)\n```", text, re.S)
+    if not mt:  # 「**タイトル:** ...」形式（旅行ガイド等）も拾う
+        mt2 = re.search(r"^\*\*タイトル[:：]\*\*\s*(.+)$", text, re.M)
+        title = mt2.group(1).strip() if mt2 else stem
+    else:
+        title = mt.group(1).strip().splitlines()[0]
+    mb = re.search(r"##\s*本文.*?\n```\s*\n(.+?)\n```", text, re.S)
+    if not mb:  # 「**本文（ここから貼り付け）:**」形式も拾う
+        mb = re.search(r"\*\*本文.*?\*\*\s*\n+```\s*\n(.+?)\n```", text, re.S)
     body = mb.group(1).strip() if mb else ""
-    mh = re.search(r"##\s*ハッシュタグ\s*\n```\s*\n(.+?)\n```", text, re.S)
+    mh = re.search(r"##\s*ハッシュタグ.*?\n```\s*\n(.+?)\n```", text, re.S)
     tags = " ".join(re.findall(r"#\S+", mh.group(1))) if mh else ""
+    if not body:  # silent failure 防止：本文が取れなかったら明示警告
+        print(f"  ⚠️ 本文抽出に失敗（空本文）: {stem}", file=sys.stderr)
     return title, body, tags
 
 
