@@ -6,7 +6,11 @@
 
 最終更新: 2026-06-30（サムネ方針転換=みんフォト実写へ／英語6ページ公開。下記参照）
 
-> ## 2026-06-30 ★サムネ方針転換（owner「みんなの画像のフリー使って、自前のai画像は荒い」）
+> ## 2026-06-30 ★サムネ＝無料の実写を自動取得に変更（owner「みんなの画像のフリー／自前aiは荒い／実写取得に変更／自動」）
+> - **自前AI画像(Pollinations)は荒い→廃止**。代わりに**キーレス・無料・実写の Wikimedia Commons から自動取得**（新 `fetch_thumbnails_wikimedia.py`）。検索語は `fetch_note_thumbnails.query_for()` の日英対応表を流用＋食/場所の不足語を追加(紅ずわい→red snow crab 等)。
+> - **ワークフロー note-thumbnails.yml を組替**：①Wikimedia実写(既定・無料)→②Pexels(無料キーがあれば高品質)→③AIは ALLOW_AI_THUMBNAILS=1 のときだけ。Picsumランダムは廃止。取得失敗はサムネ無しで残し次回再取得(自己修復)。provenanceにwikimedia/pexelsを良として記録。
+> - **コンテナは網制限(A1)でWikimedia 403→GitHub Actionsで実行**（net可）。マージで起動し実写を全記事に取得。
+> - 留意：Commons画像はCC/PD等で**クレジット表記が要る場合あり**。表記不要が必須なら みんなのフォトギャラリー(手動) or Pexels(無料キー)。¥0方針は不変。
 > - **自前AI画像(Pollinations)は画質が荒い→既定で使わない**。`generate_thumbnails.py` の pick_backend を変更＝キー無し時は backend"none"で**生成しない**（AIは ALLOW_AI_THUMBNAILS=1 の明示時のみ）。
 > - **note見出し画像＝みんなのフォトギャラリー（無料・実写）を手動採用**する運用に確定。各note記事に既に『みんフォト検索ワード』を用意済み＝owner/coworkがそれで実写を選ぶ。
 > - 既存の荒いAIサムネ56枚＋_provenance.json は git管理から除去。走行中の旧生成runはmンが先行する分 push失敗で無効化。
