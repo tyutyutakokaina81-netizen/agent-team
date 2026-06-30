@@ -19,6 +19,7 @@ import { spawn }        from 'node:child_process';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { timingSafeEqual } from 'node:crypto';
 
 const PORT    = process.env.PIPELINE_PORT || 3001;
 const HOST    = '0.0.0.0';                          // iPhone からアクセス可能にする
@@ -93,20 +94,44 @@ function html(res, content) {
   res.end(content);
 }
 
+const MAX_BODY_BYTES = 1 << 20; // 1MB 上限（巨大ペイロード対策）
+
 function readBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on('data', c => chunks.push(c));
+    let size = 0;
+    req.on('data', c => {
+      size += c.length;
+      if (size > MAX_BODY_BYTES) {
+        const err = new Error('Payload Too Large');
+        err.statusCode = 413;
+        req.destroy(err);
+        return reject(err);
+      }
+      chunks.push(c);
+    });
     req.on('end',  () => resolve(Buffer.concat(chunks).toString()));
     req.on('error', reject);
   });
 }
 
+/** タイミング安全な文字列比較（長さの違いでも false を返す） */
+function safeEqual(a, b) {
+  const ab = Buffer.from(String(a), 'utf-8');
+  const bb = Buffer.from(String(b), 'utf-8');
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
+}
+
 function checkAuth(req, res) {
   if (!TOKEN) return true;                          // TOKEN未設定なら認証スキップ
   const auth = req.headers['authorization'] || '';
-  const t    = new URL(`http://x${req.url}`).searchParams.get('token') || '';
-  if (auth === `Bearer ${TOKEN}` || t === TOKEN) return true;
+  let t = '';
+  try {
+    t = new URL(`http://x${req.url}`).searchParams.get('token') || '';
+  } catch { t = ''; }                               // 不正URLでもクラッシュさせない
+  const bearer = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+  if (safeEqual(bearer, TOKEN) || safeEqual(t, TOKEN)) return true;
   json(res, 401, { error: 'Unauthorized' });
   return false;
 }
@@ -328,8 +353,12 @@ function renderPanel() {
 // ─────────────────────────────────────────────
 async function handleRequest(req, res) {
   const { method } = req;
-  const urlObj = new URL(`http://x${req.url}`);
-  const path   = urlObj.pathname;
+  let path;
+  try {
+    path = new URL(`http://x${req.url}`).pathname;
+  } catch {
+    return json(res, 400, { error: 'Bad Request' });
+  }
 
   // HTML操作パネル
   if (method === 'GET' && path === '/') {
@@ -415,7 +444,11 @@ if (!TOKEN) {
 const server = createServer(async (req, res) => {
   const start = performance.now();
   try { await handleRequest(req, res); }
-  catch (err) { json(res, 500, { error: 'Internal Server Error' }); }
+  catch (err) {
+    // ヘッダ送信前のみ 500 を返す（二重送信クラッシュ防止）
+    if (!res.headersSent) json(res, 500, { error: 'Internal Server Error' });
+    else res.end();
+  }
   const ms = (performance.now() - start).toFixed(2);
   console.log(`${req.method} ${req.url} ${res.statusCode} ${ms}ms`);
 });
