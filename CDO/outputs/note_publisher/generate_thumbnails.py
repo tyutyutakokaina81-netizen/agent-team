@@ -139,12 +139,16 @@ def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
 
 
 def pick_backend():
+    # owner方針(2026-06-30)：自前AI画像(Pollinations)は画質が荒いので既定で使わない。
+    # note見出し画像は「みんなのフォトギャラリー（無料・実写）」を手動採用する運用に切替。
+    # AI生成は ALLOW_AI_THUMBNAILS=1 を明示したときだけ（owner任意・既定OFF）。
     if os.environ.get("OPENAI_API_KEY"):
         return "openai", os.environ["OPENAI_API_KEY"]
     if os.environ.get("GEMINI_API_KEY"):
         return "gemini", os.environ["GEMINI_API_KEY"]
-    # キー無しでも動く Pollinations をデフォルトに
-    return "pollinations", ""
+    if os.environ.get("ALLOW_AI_THUMBNAILS") == "1":
+        return "pollinations", ""
+    return "none", ""   # 既定＝AI自動生成しない（荒いため）。みんフォト手動運用に委ねる
 
 
 def main():
@@ -158,6 +162,10 @@ def main():
     THUMB_DIR.mkdir(parents=True, exist_ok=True)
     backend, key = pick_backend()
     print(f"backend: {backend}")
+    if backend == "none":
+        print("AI自動生成はOFF（owner方針：荒いため）。note見出し画像はみんなのフォトギャラリー(無料・実写)を手動採用。")
+        print("AIを使う場合は環境変数 ALLOW_AI_THUMBNAILS=1。実写無料素材は PEXELS_API_KEY(無料)で。")
+        return
 
     articles = sorted(ARTICLES_DIR.glob("2026-*_note記事_*.md"))
     if args.filter:

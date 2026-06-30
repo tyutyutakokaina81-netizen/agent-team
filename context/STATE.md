@@ -4,7 +4,23 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-06-30（コスト制約=完全無料縛り確定／サムネ自己修復。下記参照）
+最終更新: 2026-06-30（サムネ方針転換=みんフォト実写へ／英語6ページ公開。下記参照）
+
+> ## 2026-06-30 ★サムネ＝無料の実写を自動取得に変更（owner「みんなの画像のフリー／自前aiは荒い／実写取得に変更／自動」）
+> - **自前AI画像(Pollinations)は荒い→廃止**。代わりに**キーレス・無料・実写の Wikimedia Commons から自動取得**（新 `fetch_thumbnails_wikimedia.py`）。検索語は `fetch_note_thumbnails.query_for()` の日英対応表を流用＋食/場所の不足語を追加(紅ずわい→red snow crab 等)。
+> - **ワークフロー note-thumbnails.yml を組替**：①Wikimedia実写(既定・無料)→②Pexels(無料キーがあれば高品質)→③AIは ALLOW_AI_THUMBNAILS=1 のときだけ。Picsumランダムは廃止。取得失敗はサムネ無しで残し次回再取得(自己修復)。provenanceにwikimedia/pexelsを良として記録。
+> - **コンテナは網制限(A1)でWikimedia 403→GitHub Actionsで実行**（net可）。マージで起動し実写を全記事に取得。
+> - 留意：Commons画像はCC/PD等で**クレジット表記が要る場合あり**。表記不要が必須なら みんなのフォトギャラリー(手動) or Pexels(無料キー)。¥0方針は不変。
+> - **自前AI画像(Pollinations)は画質が荒い→既定で使わない**。`generate_thumbnails.py` の pick_backend を変更＝キー無し時は backend"none"で**生成しない**（AIは ALLOW_AI_THUMBNAILS=1 の明示時のみ）。
+> - **note見出し画像＝みんなのフォトギャラリー（無料・実写）を手動採用**する運用に確定。各note記事に既に『みんフォト検索ワード』を用意済み＝owner/coworkがそれで実写を選ぶ。
+> - 既存の荒いAIサムネ56枚＋_provenance.json は git管理から除去。走行中の旧生成runはmンが先行する分 push失敗で無効化。
+> - 実写無料素材を自動化したい場合の任意手段＝PEXELS_API_KEY(無料・課金なし)。owner判断。¥0方針は不変。
+
+> ## 2026-06-30 ★英語6新規ページ公開（owner「10倍／見える成果を」）
+> - 北極星ギャップ調査で特定した海外検索意図の穴を、**公開される英語ページ6本**として量産・配線・マージ公開（PR #63→c8ec959）。
+> - 6本：en-budget(予算)/en-money(お金)/en-sim-wifi(eSIM)/en-what-to-wear(服装)/en-with-kids(家族)/en-is-toyama-safe(安全)。各WebSearch裏取り・OG/canonical/JSON-LD/hreflang・A4/A5・捏造リンクなし・¥0。en.html「Plan your trip」とsitemap配線済（壊れリンク0/XML妥当）。toyama英語=計50本へ。
+> - 公開URL例: https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-budget.html
+> - **サムネ**：56枚生成済（pollinations・¥0）。残りは新run（retry付）が生成中。無料ゆえ取りこぼしは複数runで自己修復。
 
 > ## 2026-06-30 ★コスト制約（owner「API料金は払いたくない」）— 完全無料縛り
 > - **有料API禁止**：OPENAI_API_KEY等の課金APIは使わない。GEMINI_API_KEYもowner が料金リスクを嫌うため**推奨しない**（無料枠でも設定不要）。

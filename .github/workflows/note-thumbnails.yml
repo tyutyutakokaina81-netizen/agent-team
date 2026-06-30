@@ -47,18 +47,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1) AI生成: GEMINI_API_KEYがあればImagen、無ければ generate_thumbnails.py 既定の
-      #    Pollinations(キー不要)で生成を試みる。どちらも失敗は次段で補完。
-      - name: Generate (Gemini or keyless Pollinations)
+      # 1) 実写取得（既定・キー不要・無料）: Wikimedia Commons から記事題材の実写を取得。
+      #    owner方針＝荒い自前AI画像は使わず、無料の実写を自動で入れる。
+      - name: Fetch real photos (Wikimedia Commons, keyless)
         run: |
-          cd CDO/outputs/note_publisher
           if [ -n "$FILTER" ]; then
-            python3 generate_thumbnails.py --filter "$FILTER" || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" || true
           else
-            python3 generate_thumbnails.py || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py || true
           fi
 
-      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるときだけ・relevantな写真）
+      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるとき・より高品質な実写。無料キー）
       - name: Fill remaining with Pexels (free, if key)
         if: ${{ env.PEXELS_API_KEY != '' }}
         run: |
@@ -68,10 +67,13 @@ jobs:
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
           fi
 
-      # 3) Picsum(ランダム無関係画像)フォールバックは廃止。
-      #    note では無関係サムネは逆効果のため、生成できなかった記事は「サムネ無し」のまま残し、
-      #    provenanceに記録されない＝次回トリガーで Pollinations が再挑戦する（自己修復）。
-      #    最高品質が欲しい場合は GEMINI_API_KEY を Secrets に設定すれば Imagen3 に自動切替。
+      # 3) AI生成は既定OFF（owner方針：荒いため）。ALLOW_AI_THUMBNAILS=1 のときだけ補完で動く。
+      - name: (optional) AI fallback only if explicitly enabled
+        if: ${{ env.ALLOW_AI_THUMBNAILS == '1' }}
+        run: |
+          python3 CDO/outputs/note_publisher/generate_thumbnails.py || true
+      # ※ ランダムPicsumは廃止。取得できなかった記事はサムネ無しで残し（provenance未記録）、
+      #   次回トリガーで再取得（自己修復）。note見出しは みんなのフォトギャラリー 手動採用も可。
 
       - name: Commit thumbnails
         run: |
