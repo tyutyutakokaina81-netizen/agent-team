@@ -114,3 +114,17 @@
 
 - CMO/outputs/EN/ フォルダを新設。英語クロスポスト用成果物の保存先として運用開始（2026-06-11）
 - 2026-06-23: 収支管理記事を初の実公開（drafts/published/へ移動済み）。残り4本をキューに投入。
+
+## 2026-07-01 note-daily-publish 公開記録（scheduled task・ブラウザ実施）
+
+note.com (safe_canna441/著者てつ) にバックログ5本を公開。各記事は事前にnoteグローバル検索で「0件＝未公開」を確認し、本文全段落・タイトルをスクショ/取得で検証してから公開（文字落ち対策：paste-event注入＋React textarea native setter）。食2本含む（B4遵守）、5本厳守（B3）。
+
+| 公開日 | 記事 | カテゴリ | note URL |
+|---|---|---|---|
+| 2026-07-01 | 2026-06-16_note記事_紅ずわいがに_富山湾の冬の楽しみ.md | 食 | https://note.com/safe_canna441/n/na2218fba8640 |
+| 2026-07-01 | 2026-06-14_note記事_高岡の昆布消費量_北前船の名残.md | 食 | https://note.com/safe_canna441/n/n5c4ee05d7b7b |
+| 2026-07-01 | 2026-06-16_note記事_伏木_万葉集の越中を歩く.md | 場所/歴史 | https://note.com/safe_canna441/n/n7e1710a039d8 |
+| 2026-07-01 | 2026-06-27_note記事_ドラえもん聖地巡礼_高岡.md | 文化/聖地巡礼 | https://note.com/safe_canna441/n/n9433c773428f |
+| 2026-07-01 | 2026-06-27_note記事_金沢ばかり行かないで高岡.md | 旅・比較 | https://note.com/safe_canna441/n/n061604c37e27 |
+
+> ⚠️ git注記: このリモート(origin/main)は、コンテナ内の作業リポジトリ(ローカルmain・471コミット)と**共通祖先を持たない別系統の履歴**だった。ローカルの全履歴はPATの`workflow`スコープ不足(.github/workflows変更を含む)で push 不可。本記録はリモートmainへの追記のみで保全。履歴の統合はオーナーの手動対応が必要。
