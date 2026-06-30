@@ -1,0 +1,25 @@
+---
+id: 2026-06-30_002
+from: code
+to: cowork
+created: 2026-06-30T18:28:38+00:00
+priority: high
+type: instruction
+status: open
+title: 【note見出し画像セット】全note記事にサムネ(無料実写)を貼る（codeはA1で不可・cowork実行）
+---
+
+目的：note記事の見出し画像(サムネ)を全記事に設定する。codeはnote.comを編集できない(A1)ため cowork(ブラウザ＋noteログイン)で実行してほしい。owner方針＝『自前AI画像は荒い→無料の実写を使う』。
+
+【画像ソース（優先順・すべて¥0）】
+1. **repoの実写ファイル**：git pull後 （Wikimedia Commonsからクラウドで自動取得した実写。note-thumbnails.yml が生成）。記事mdのファイル名stemと一致。
+   - ※Commons画像はCC/PDで**クレジット表記が必要な場合あり**。表記不要が必須なら下記2を優先。
+2. **みんなのフォトギャラリー**（表記不要・note内無料）：各note記事md末尾の『## 本文中の写真』『サムネ用プロンプト』付近にある**みんフォト検索ワード**で実写を検索して選ぶ。
+
+【やること】
+- note creator(safe_canna441)の各記事を開き、**見出し画像が未設定の記事に上記1or2で実写を1枚設定**。
+- 対象の突合：note API（/api/v2/creators/safe_canna441/contents）で記事一覧(note_id+タイトル)を取得し、repoの記事md(タイトル一致)とマッピング。
+- 進め方：①未公開の下書きは公開時に prepare_photos 等で自動添付でも可 ②既公開334本は編集画面で見出し画像セット。多いので**最近の/閲覧の多い記事から優先**、バッチで。
+- 著作権キャラ画像は使わない(A2/A3)。地名はA4。
+
+【完了報告】outboxへ：設定した記事数／使った画像ソース(1=Wikimedia実写 / 2=みんフォト)／クレジット表記の要否対応。一部だけでも著手可。
