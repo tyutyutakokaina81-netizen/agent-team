@@ -120,9 +120,13 @@ def has_thumb(stem: str) -> bool:
 
 def extract_title(text: str, stem: str) -> str:
     import re
-    m = re.search(r"##\s*タイトル\s*\n```\s*\n(.+?)\n```", text, re.S)
+    # 注釈付き見出し「## タイトル案」等も拾えるよう .*? を許容（厳格形だと112/124止まりでサムネ精度が落ちる）
+    m = re.search(r"##\s*タイトル.*?\n```\s*\n(.+?)\n```", text, re.S)
     if m:
         return m.group(1).strip().splitlines()[0]
+    m2 = re.search(r"^\*\*タイトル[:：]\*\*\s*(.+)$", text, re.M)
+    if m2:
+        return m2.group(1).strip()
     return stem
 
 
