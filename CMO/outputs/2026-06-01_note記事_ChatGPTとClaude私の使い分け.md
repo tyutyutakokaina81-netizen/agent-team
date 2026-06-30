@@ -106,7 +106,7 @@ that fits will reveal what your actual work is.
 
 ## ハッシュタグ
 ```
-#ChatGPT #Claude #生成AI #フリーランス #AI活用 #buildinpublic #ひとり起業 #ツール選び
+#ChatGPT #Claude #生成AI #フリーランス #AI活用 #buildinpublic #ひとり起業 #ツール選び #業務効率化 #AI
 ```
 
 ## サムネ用プロンプト（実写風・画像AIに貼る）
