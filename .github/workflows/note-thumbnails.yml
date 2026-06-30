@@ -82,5 +82,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
-          git diff --cached --quiet || git commit -m "auto: generate note thumbnails (Gemini/Pexels)"
+          git add -f CDO/outputs/note_publisher/thumbnails/_provenance.json || true
+          git diff --cached --quiet || git commit -m "auto: generate note thumbnails (relevant AI / provenance)"
           git push

@@ -27,6 +27,24 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO = SCRIPT_DIR.parents[2]
 ARTICLES_DIR = REPO / "CMO" / "outputs"
 THUMB_DIR = SCRIPT_DIR / "thumbnails"
+# 生成元の記録。記事プロンプトから作った関連サムネ(openai/gemini/pollinations)を「良」とみなす。
+# ここに無い既存ファイル＝素性不明(過去のpicsumランダム等)＝1回だけ再生成して関連画像に置き換える。
+PROV_FILE = THUMB_DIR / "_provenance.json"
+GOOD_BACKENDS = {"openai", "gemini", "pollinations"}
+
+
+def load_provenance() -> dict:
+    try:
+        return json.loads(PROV_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_provenance(prov: dict) -> None:
+    try:
+        PROV_FILE.write_text(json.dumps(prov, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def extract_thumb_prompt(text: str) -> str | None:
@@ -127,11 +145,17 @@ def main():
     if args.filter:
         articles = [a for a in articles if args.filter in a.name]
 
+    prov = load_provenance()
     queue = []
+    healed = 0
     for a in articles:
         out = THUMB_DIR / f"{a.stem}.jpg"
+        # 既存をスキップする条件：--force でなく、かつ「素性が良い」と記録済みのときだけ。
+        # 既存でも素性不明（過去のpicsumランダム等＝記録に無い）なら関連画像へ1回だけ再生成する。
         if out.exists() and not args.force:
-            continue
+            if prov.get(a.stem) in GOOD_BACKENDS:
+                continue
+            healed += 1  # 素性不明の既存を再生成対象に含める
         prompt = extract_thumb_prompt(a.read_text(encoding="utf-8"))
         if not prompt:
             continue
@@ -140,7 +164,7 @@ def main():
     if args.max > 0:
         queue = queue[: args.max]
 
-    print(f"対象: {len(queue)}本\n")
+    print(f"対象: {len(queue)}本（うち素性不明の再生成: {healed}本）\n")
     if args.dry_run:
         for a, _, out in queue:
             print(f"  + {a.stem}  →  {out.name}")
@@ -157,6 +181,8 @@ def main():
             else:
                 data = generate_with_pollinations(prompt)
             out.write_bytes(data)
+            prov[a.stem] = backend          # 素性を記録（次回からスキップ）
+            save_provenance(prov)           # 都度保存＝途中失敗しても進捗が残る
             print(f"  ✓ {out.name}  ({len(data)//1024} KB)")
             ok += 1
         except urllib.error.HTTPError as e:
