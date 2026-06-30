@@ -68,14 +68,10 @@ jobs:
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
           fi
 
-      # 3) 最終フォールバック: キー不要のPicsumで、まだ無い記事を必ず1枚埋める
-      - name: Fill remaining with Picsum (keyless, guaranteed)
-        run: |
-          if [ -n "$FILTER" ]; then
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py --filter "$FILTER" || true
-          else
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py || true
-          fi
+      # 3) Picsum(ランダム無関係画像)フォールバックは廃止。
+      #    note では無関係サムネは逆効果のため、生成できなかった記事は「サムネ無し」のまま残し、
+      #    provenanceに記録されない＝次回トリガーで Pollinations が再挑戦する（自己修復）。
+      #    最高品質が欲しい場合は GEMINI_API_KEY を Secrets に設定すれば Imagen3 に自動切替。
 
       - name: Commit thumbnails
         run: |
