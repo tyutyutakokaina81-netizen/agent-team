@@ -13,6 +13,7 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
+| 2026-07-01 | 2026-07-01_配信キット_X投稿＋分散ルーティン.md | 施策 | E3外部分散をowner1日5分で回す配信キット。実URLのX投稿10本＋note内スキ回り＋マガジン＋2週後計測。¥0 | 完了 |
 | 2026-06-30 | apps/toyama-guide/en-budget,en-money,en-sim-wifi,en-what-to-wear,en-with-kids,en-is-toyama-safe.html | 英語SEOページ | 海外検索の穴を埋める6本。WebSearch裏取り・OG/JSON-LD/hreflang・じゃらんA8・A4/A5・¥0。en.html/sitemap配線・公開済(PR#63)。toyama英語計50本 | 完了・公開 |
 | 2026-06-30 | (生成) CDO/.../thumbnails/ 56枚＋_provenance.json | サムネ | キーレスPollinationsで記事に沿った関連サムネ56枚を自動生成(自己修復・¥0)。残りは複数runで回収 | 進行中 |
 | 2026-06-29 | 2026-06-29_note閲覧数グロース実行プラン.md | 戦略 | note閲覧数を伸ばす5レバー（タイトル検索KW/回遊フッター/マガジン編成/投稿運用/タイトルリライト）をROI順に。code(放置)とowner/cowork(投稿編集)の分担を明確化 | 完了 |
