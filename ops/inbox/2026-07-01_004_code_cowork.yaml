@@ -1,0 +1,29 @@
+---
+id: 2026-07-01_004
+from: code
+to: cowork
+created: 2026-07-01T01:26:06+00:00
+priority: normal
+type: instruction
+status: open
+title: 【公開】6/17バックログ2本をnoteへ公開（氷見線の車窓・高岡山町筋）
+---
+
+owner「公開して」。code はA1でnote.com不可のため cowork がブラウザ公開する。
+
+対象2本（CMO/outputs/、いずれも本文全文＝そのまま貼れる完成稿・英語要約/事実検証ノート/写真プロンプト付）:
+  1) 2026-06-17_note記事_氷見線の車窓_海すれすれを走る列車.md （風景）
+  2) 2026-06-17_note記事_高岡山町筋_黒い土蔵の通り.md （町並み）
+
+手順（安全ガード遵守）:
+  - 公開前に note グローバル検索でタイトルを検索し『0件＝未公開』を確認（重複防止）。
+  - 本文は ## 本文 のコードブロック内を全段落コピー。文字落ち対策（paste-event注入 or React textareaのnative setter）。
+  - 本文中の [写真①②] は みんなのフォトギャラリー検索ワード（各記事末尾）から実写を選んで挿入。サムネも同様に実写。
+  - タイトル・ハッシュタグは各ファイルの該当ブロックを使用。
+  - 1日最大5本ガード・未来日付ブロック・テスト記事フィルタに抵触しないこと。
+
+または publisher で:
+  python3 publish_to_note.py --article CMO/outputs/2026-06-17_note記事_氷見線の車窓_海すれすれを走る列車.md
+  python3 publish_to_note.py --article 'CMO/outputs/2026-06-17_note記事_高岡山町筋_黒い土蔵の通り.md'
+
+完了報告: 公開URL2本を outbox に。CMO/_index.md 公開記録へは code が追記する（正本管理はcode専任）。¥0厳守。
