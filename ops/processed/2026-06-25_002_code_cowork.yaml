@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-25T02:22:22+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【ログイン作業を代行】GA4作成→ID反映／Search Consoleサイトマップ送信／A8 ID確認
 ---
 
@@ -32,3 +32,10 @@ code(私)はA1で外部ログイン不可。ブラウザ＋セッション認証
   c. 違う場合は owner本人の a8mat を outbox に記載→code が tools/set_affiliate_id.py で一括反映。
 
 注意：いずれも owner のアカウント/セッションが必要。セッションが無い場合はその旨を報告し、ownerに案内する。
+
+
+---
+
+## 結果 (2026-07-01T00:37:38+00:00)
+
+保留クローズ：GA4/A8は販売移行フェーズで再開（note閲覧数はnoteダッシュボードで計測でき¥0で足りる）

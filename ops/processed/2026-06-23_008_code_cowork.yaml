@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-23T17:30:00+09:00
 priority: critical
 type: instruction
-status: open
+status: done
 title: 【できない事は全部cowork】公開・設置・営業の実行（codeはA1+権限403で不可）
 ---
 
@@ -40,3 +40,10 @@ title: 【できない事は全部cowork】公開・設置・営業の実行（c
 
 # 報告（outbox）
 ①公開URL ②Gmail設置可否 ③proxy可否 ④告知・反応。詰まりは具体で。
+
+
+---
+
+## 結果 (2026-07-01T00:37:38+00:00)
+
+保留クローズ：漠然とした包括発注のため廃止。有効タスクは 2026-07-01_001 に一本化

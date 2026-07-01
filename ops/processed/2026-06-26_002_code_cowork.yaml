@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-26T00:00:00+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【世界に向けて発信】富山ガイドの海外配信（Pinterest/Reddit）— codeはA1で投稿不可
 ---
 
@@ -33,3 +33,10 @@ title: 【世界に向けて発信】富山ガイドの海外配信（Pinterest/
 - 公開したPin/投稿のURL、保存数/upvote、ガイドへのクリック（分かる範囲）
 - 上記リスクで詰まった点（特に画像の有無）
 完了したら ops/process_inbox.py done で processed/ へ。
+
+
+---
+
+## 結果 (2026-07-01T00:37:20+00:00)
+
+統合クローズ：海外配信(Pinterest/Reddit)は 2026-07-01_001[3]分散 に集約
