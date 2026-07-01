@@ -5,7 +5,7 @@ to: cowork
 created: 2026-06-23T16:30:00+09:00
 priority: critical
 type: instruction
-status: open
+status: done
 title: 【公開実行】AI自動化HPを無料ホストで世界公開（codeは権限不足で不可＝coworkが実行）
 ---
 
@@ -34,3 +34,10 @@ code(私)は外部ネット不可(A1)＋GitHub MCPの権限で新規リポジト
 # 報告（outbox）
 - 公開できたURL（日本語 / en.html）／使ったホスト／詰まりがあれば内容。
 - 公開後：そのURLをSNS・営業文に載せて告知開始してよい（誇張NG・A5）。
+
+
+---
+
+## 結果 (2026-07-01T00:37:38+00:00)
+
+対応済クローズ：AI自動化HPは GitHub Pages で公開済（github.io/agent-team）。別軸のため整理
