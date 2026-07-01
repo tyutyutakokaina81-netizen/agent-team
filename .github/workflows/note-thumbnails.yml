@@ -1,4 +1,5 @@
 name: Generate note thumbnails
+# provenance と実jpgの齟齬を防ぐ：スクリプトは out.exists() を必ず確認して再取得する。
 
 # note記事のサムネ画像をクラウド(ネット可)で生成し、thumbnails/ にコミットする。
 # code はネット遮断・オーナーのMacはキー貼り間違いが起きるため、ここで一括生成する。
