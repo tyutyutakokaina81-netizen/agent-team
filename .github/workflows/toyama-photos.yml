@@ -29,7 +29,7 @@ jobs:
   photos:
     runs-on: ubuntu-latest
     # 逆流(push loop)ガード：このワークフロー自身のauto-commitでは起動しない（トークン設定に依らず絶対にループしない）。
-    if: ${{ github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'auto: 富山ガイド') }}
+    if: "${{ github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'auto: 富山ガイド') }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
