@@ -1,0 +1,33 @@
+---
+id: 2026-07-01_001
+from: code
+to: cowork
+created: 2026-07-01T00:30:32+00:00
+priority: high
+type: instruction
+status: done
+title: 【戦略実行・一括】note月間10,000PV→販売 の実行（baseline取得/反映/回遊/分散/サムネ）
+---
+
+戦略 CAO/outputs/2026-07-01_note閲覧数10000_販売移行戦略.md の実行。owner月間10,000PV目標。code はA1で外部不可のため cowork/owner が実行。一部でも着手可。
+
+【0】baseline取得（最優先）：note API(/api/v2/creators/safe_canna441/contents 他)で全記事のビュー合計・スキ・フォロワー数を取得し outbox報告。codeが現在地→10,000/月の差分を計算する。
+
+【1】E1検索（反映）：CMO/outputs/2026-06-29_note_タイトル最適化バッチ.md の★10本のタイトルを note編集画面で改善案へ差替＋タグ10本化（URL不変）。
+
+【2】E2回遊：CMO/outputs/2026-06-29_note_マガジン編成リスト.md の①〜④マガジンを作成し該当記事を追加。回遊フッター(gen_footers)を未付与記事へ。
+
+【3】E3分散（毎日）：CMO/outputs/2026-07-01_配信キット_X投稿＋分散ルーティン.md のX投稿を1日1本＋note内スキ回り。海外は EN/outputs/reddit・pinterest。
+
+【4】サムネ：ops/inbox/2026-06-30_002 のとおり、無料実写(repoのWikimedia画像 or みんなのフォトギャラリー)を各記事の見出し画像にセット。
+
+【5】2週後：月間ビューを再取得しoutbox報告→codeが効いた型へ最適化。
+
+制約：¥0(有料課金・広告なし)・A4/A5・スパム/規約違反NG・押し売りNG。完了はoutboxへ(何をどれだけやったか)。
+
+
+---
+
+## 結果 (2026-07-01T01:27:25+00:00)
+
+005へ統合（重複整理）。実行は 2026-07-01_005 マスター指示を参照。

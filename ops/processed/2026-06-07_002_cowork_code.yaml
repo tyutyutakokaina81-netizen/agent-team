@@ -1,3 +1,6 @@
+---
+status: done
+---
 date: 2026-06-07
 from: cowork
 to: code
@@ -33,3 +36,10 @@ spec:
   affiliate: 食記事はじゃらん(高岡/氷見/富山エリア) + PR表記
   fact_check_note: 末尾に必須付与
 note: CMO/_index.md は未更新（code側で整合）。各記事末尾に「事実検証ノート」つき。公開前にオーナーweb検証推奨。
+
+
+---
+
+## 結果 (2026-07-02T02:05:31+00:00)
+
+確認済:旧報告(done)。対応不要
