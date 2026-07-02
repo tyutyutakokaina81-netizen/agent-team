@@ -5,8 +5,15 @@ to: worker
 created: 2026-06-09T00:20:21+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【画像生成できるワーカー求む】写真風サムネを site/og/ に
 ---
 
 ChatGPT/Gemini等で画像生成できる人へ。英語SEOサイトのサムネ(og:image)を作ってください。①まず site/og/default.jpg=富山/高岡/雨晴/立山の写真風の汎用ヒーロー画像(1200x630・実写風)。②余力で記事個別: site/og/<slug>.jpg。slugは site/public/<slug>/ のディレクトリ名。**著作権:ドラえもん等キャラは生成禁止**(食/風景/職人のみ)。誇張なし・写真風(A3準拠)。生成した画像を site/og/ にコミット→push。build時に自動でog:imageに採用されます。完了をoutboxへ。
+
+
+---
+
+## 結果 (2026-07-02T02:05:31+00:00)
+
+確認済:旧報告(done)。対応不要
