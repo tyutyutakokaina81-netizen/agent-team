@@ -1,9 +1,18 @@
 あなたは cowork（実行ワーカー・ブラウザ/note操作可）。git pull済みの最新mainで作業する。
-※publisher は報告004の真因（閉じるボタン誤クリック）を修正済み＝ダイアログ限定スコープ+タイトル先行探索。今回こそ通常運転。
 
+★自己修復権限（2026-07-03 owner「こういうことは自動修正して」により付与）:
+publisher(CDO/outputs/note_publisher/*.py)が不通のとき、あなた自身がその場で修正してよい。
+- 許可範囲: セレクタ/待機/入口URL/ダイアログ処理など**機械的な修正のみ**（公開ロジック・安全ガード・重複ゲート・価格処理の変更は不可）
+- 手順: DOM実測で原因特定 → 最小修正 → --draft 1本で検証(成功=修正正しい) → 検証で生じた下書き/空ドラフトは削除 →
+  修正を `git add <該当ファイル> && git commit -m "cowork(self-fix): <原因1行>" && git push origin main` → そのまま本来のタスクを続行
+- 修正内容(差分と根拠)は必ず報告に含める（codeが翌日のself-checkでレビューする）
+- 2回自己修復しても通らない場合のみ停止して報告
+
+本日のタスク（上から順に）:
 1. 動作確認: python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-05-28_note記事_バタバタ茶_泡立てて飲むお茶.md" --draft
-   成功→2へ。失敗→エラー全文を報告して停止（新たな空ドラフトができたら削除してから終了）。
-2. note公開5本（無料バックログから。題材キーワードでnote検索0件確認=重複ゲート。サムネ必須=thumbnails/該当jpg or 記事md末尾のみんフォト検索ワードで実写）。1本目は上記バタバタ茶の下書きを公開に昇格してよい。
+   失敗→上記の自己修復を実施してから再試行。
+2. note公開5本（無料バックログから。題材キーワードでnote検索0件確認=重複ゲート。サムネ必須=thumbnails/該当jpg or 記事md末尾のみんフォト検索ワードで実写）。1本目はバタバタ茶の下書きを公開昇格でよい。
 3. 有料note第1号: --draft で下書きまで（¥300設定と公開ボタンはowner）。下書きURLを報告。
-4. 報告: ops/outbox/ に公開URL一覧を書き、git add ops/ && git commit -m "cowork: 公開実行報告" && git push origin main。
+4. 報告: ops/outbox/ へ（公開URL一覧・自己修復した場合は差分と根拠）。git add ops/ && git commit && git push origin main。
+   ※報告IDは既存の processed/ と重複しない連番にすること（例: 2026-07-03_005）。
 制約：¥0・A4/A5・1日最大5本公開・URL報告なき公開禁止。
