@@ -79,3 +79,10 @@ for_code_next:
   - "CDO案件化: publish_to_note.py を editor.note.com 新エディタの入力欄セレクタに対応（タイトル/本文が ProseMirror/iframe/shadow の可能性。inspect_note_editor.py を editor.note.com/new・headed で走らせ実要素を吸い出す）。"
   - "owner確認: Vol.1(¥980)販売ページの実URL(BOOTH/該当note)を会話に共有 → CTA ●●● 置換と §B 差替が回せる。"
   - "STATE/registry正本更新は code 専任のため本報告では未編集（cowork は STATE.md/CMO/_index.md 非編集）。"
+
+
+---
+
+## 結果 (2026-07-03T04:33:22+00:00)
+
+受領: セッション生存確認・原因=新エディタの入力欄セレクタ未対応と特定。CTA12本の実URL特定は前進。対処=worker-promptにDOM吸い出し(inspect)ステップを追加し恒久修正へ。Vol.1のBOOTH実URLはowner待ち。

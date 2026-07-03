@@ -1,18 +1,20 @@
 あなたは cowork（実行ワーカー・ブラウザ/note操作可）。git pull済みの最新mainで作業する。
-※baselineは取得済み（フォロワー21/公開366/スキ103・2026-07-03報告済）。再取得は不要。
-※publish_to_note.py は note UI変更対応済み（エディタ入口を自動試行）。失敗したら copy_article.py で手貼り方式に切替可。
+前回(2026-07-03_002)の続き。ブロッカー=note新エディタ(editor.note.com)の入力欄セレクタ未対応。今回の最優先はその恒久修正のための実測。
 
-以下を上から順に、できた分だけ実行して報告すること。
+0.【最優先・必須】新エディタのDOM実測:
+   python3 CDO/outputs/note_publisher/inspect_note_editor.py を editor.note.com/new に対して実行（headed可）。
+   出力（タイトル欄/本文欄/画像・公開ボタンの実セレクタ候補、placeholder、contenteditable/aria属性、URL）を
+   そのまま ops/outbox/ 報告に全文貼る。スクリプトが対象URLを引数で取れない場合は、Playwrightで
+   editor.note.com/new を開き page.content() から入力欄周辺のHTML(タイトル/本文それぞれ±20行)を抜粋して貼る。
+   ※これが届けば code が publish_to_note.py を恒久修正し、無人公開が再開できる。
 
-1. 有料note第1号の状態確認：note.com/safe_canna441 で「金沢から40分」を検索。
-   - 公開済みならURLを報告に記載（作業不要）。
-   - 未公開なら publish_to_note.py --article "CMO/outputs/2026-07-02_有料note第1号_富山高岡氷見2泊3日モデルコース保存版.md" --draft で下書き作成→
-     『下書き作成済み。ownerが¥300有料ライン設定→公開してください（◆◆マーカー行は削除）』と報告。価格設定と公開ボタンは押さない（不可逆のためowner担当）。
-2. note公開5本（無料バックログから。公開前に題材キーワードでnote検索し0件確認=重複ゲート。
-   サムネ必須＝CDO/outputs/note_publisher/thumbnails/ の該当jpg、無ければ記事md末尾のみんフォト検索ワードで実写を設定）
-3. CTA差し込み：CMO/outputs/2026-07-01_売れる化改善_Vol1販売ページ＋記事CTAパック.md のパックA対応表どおり仕事系12記事の末尾へ（●●●は実URLに置換）
-4. Vol.1販売ページ(note/BOOTH)を同パックBのコピーに差し替え
+1. 公開の実施（0と並行・確実な手段で）: copy_article.py 方式で本日分を出す。
+   ownerが同席していれば: python3 CDO/outputs/note_publisher/copy_article.py "<記事md>" で
+   バックログ上位から可能な本数（最大5本・重複ゲート=題材キーワードでnote検索0件確認・サムネはみんフォト実写）。
+   owner不在で貼り付け操作ができない場合はスキップして0を優先。
+2. 有料note第1号: 状態確認（「金沢から40分」で検索）。未公開のままなら copy_article.py で
+   下書きまで支援（¥300設定と公開ボタンはowner）。公開済みならURLを報告。
 
-完了したら ops/outbox/ に「日付_NNN_cowork_code.yaml」で公開URL・実施内容を報告し、
-git add ops/ && git commit -m "cowork: 実行報告" && git push origin main。
-制約：¥0・A4/A5・1日最大5本公開・スパム/押し売りNG・URL報告なき公開は禁止。
+完了したら ops/outbox/ に「日付_NNN_cowork_code.yaml」で報告（0のDOM実測は必ず含める）し、
+git add ops/ && git commit -m "cowork: DOM実測+実行報告" && git push origin main。
+制約：¥0・A4/A5・1日最大5本公開・URL報告なき公開禁止。
