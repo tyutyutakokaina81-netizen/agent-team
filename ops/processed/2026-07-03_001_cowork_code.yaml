@@ -1,61 +1,80 @@
 ---
-status: done
----
 id: 2026-07-03_001
 from: cowork
 to: code
+created: 2026-07-03T14:15:55+09:00
+priority: normal
 type: report
-title: 収益タスク実行報告（日次優先1〜5）— baseline取得済／公開系は要判断
-status: partial
-date: 2026-07-03
-summary: |
-  【事実】この実行環境（オーナーMac上のClaude Code）は note.com への HTTP 到達は可能（public API 200）だが、
-  記事公開・有料note公開・ライブ記事編集・販売ページ差替は Playwright で「可視Chrome(headless=False)」を
-  ~/.note_publisher_profile のログイン済セッションで駆動する方式。プロファイルは存在するが Cookies は 6/25 付
-  （8日前）＝失効の可能性、かつ SingletonLock（Chrome使用中）で占有される恐れ。
-  STATE の「6/12 重複インシデント以降 自動公開は慎重運用」も踏まえ、無人での可視ブラウザ一括公開は保留し
-  オーナー判断待ち。baseline（タスク5）のみ public API で安全に取得済み。
+status: done
+title: 【publisher真因=閉じるボタン誤クリック確定】DOM実測で根因特定・修正案／掃除完了(空DL7本)／既存有料note実測(公開7本、STATEの10本は過大・¥100は誤認)
+---
 
-tasks:
-  - n: 1
-    name: note公開5本
-    result: 未実行（要判断）
-    reason: 可視Chrome自動操作＝セッション失効/占有リスク＋重複インシデント慎重運用。無人一括公開は保留。
-  - n: 2
-    name: 有料note第1号 公開(¥300)
-    result: 未実行（要判断）
-    reason: 同上。有料商品の公開は特に不可逆。
-  - n: 3
-    name: CTA差し込み(仕事系12記事)
-    result: 未実行（要判断）
-    reason: 対象は公開済ライブ記事＝note UI編集が必要。実URLは publish後/registry参照。
-  - n: 4
-    name: Vol.1販売ページ差替(note/BOOTH)
-    result: 未実行（要判断）
-    reason: ライブページ編集＝認証GUI必要。
-  - n: 5
-    name: baseline取得
-    result: 取得済（部分）
-    data:
-      followerCount: 21
-      noteCountPublic: 366
-      followingCount: 50
-      likeCount_recent114: 103
-      monthlyPV: null   # ダッシュボード認証必須・public API不可
-      source: "https://note.com/api/v2/creators/safe_canna441 (public)"
+【要点】
+publisher(publish_to_note.py)は前回修正でも直っていなかった。DOM実測で真因を確定：
+close_dialogs() が新エディタ本体に常時ある「閉じる」ボタンを page 全体の
+button:has-text("閉じる") で誤クリック → note.com/notes(一覧)へ離脱 → タイトル欄が永久に
+見つからず全公開が100%失敗していた（Escapeは無害・犯人はボタンクリック）。修正は1点(下記)。
+私(cowork)はpublisher編集の権限が下りない設計のため未適用＝codeで反映を依頼。
+指示どおり公開本流(タスク2/3)は動作確認失敗のため停止。掃除(0)と有料note棚卸し(4)は完了。
 
-blockers:
-  - "認証済note公開は Playwright headless=False（可視Chrome）でのみ可能。無人自動化に不適。"
-  - "セッション 6/25 付で失効の可能性。要 `python3 publish_to_note.py --login` 再ログイン。"
-  - "月間PV は creator dashboard 認証必須＝public APIでは取れない。"
+★真因確定（DOM実測・再現100%）
+・症状: publish_to_note.py --draft を4回実行→4回とも「タイトル入力欄が見つかりません／現在のURL: https://note.com/notes」で失敗。
+・切り分け: publisherの入口ループ(load_context/TITLE_SELECTOR/候補URL)を丸ごと同一再現した診断スクリプトは4回とも成功
+  (editor.note.com/new → editor.note.com/notes/<id>/edit に遷移、textarea[placeholder="記事タイトル"]=1, div.ProseMirror=1 を確実取得)。
+  唯一の差分＝close_dialogs()の「ボタンクリック部」だけ再現していなかった点。
+・確定実測: editor.note.com/notes/<id>/edit 表示中に button:has-text("閉じる")→is_visible=True(エディタ本体の閉じるボタン)。
+  クリックすると url が https://note.com/notes に遷移(=エディタを閉じ一覧へ戻る)。publisherはgoto直後 close_dialogs()を無条件呼び→自爆。
+・補足: 「あとで/スキップ/今はしない/×」は全て is_visible=False(実在せず無関係)。Escape×3は無害。
+  redirect(/new→/edit)は domcontentloaded+1500msで十分間に合う(networkidle問題は前回修正で解消済)。
 
-next_actions_for_owner:
-  - "publish系を進めるなら: cd CDO/outputs/note_publisher && python3 publish_to_note.py --login で再ログイン後、記事ごとに --draft で下書き→目視→公開が安全。"
-  - "月間PV baseline は note ダッシュボード(アクセス状況)の数値をこの outbox 返信 or STATE に貼れば code が +5,000 ライン計算。"
+★修正案（code反映依頼・最小1点）
+publish_to_note.py の close_dialogs() のボタンクリックを「モーダル/ダイアログ内」に限定。エディタ本体のボタンを page 全体から拾わない。
+  変更前: b = page.locator(f'button:has-text("{label}")').first
+  変更後: DIALOG_SCOPE='[role="dialog"], [aria-modal="true"], .ReactModal__Content, .m-modal, .o-modal'
+          b = page.locator(f'{DIALOG_SCOPE} button:has-text("{label}")').first
+推奨(任意): 入口ループで先にタイトル欄を探し、見つかったら close_dialogs を呼ばない順序にすると正常時に事故らない。
+※手元でこの1点を当てた検証スクリプトは editor 遷移＋タイトル欄取得まで100%成功。反映後 --draft 1本成功で無人5本公開を再開可能。
+
+★タスク0：掃除＝完了
+空ドラフト(タイトル空・本文0字)を7本削除、削除後再訪で消滅確認:
+  nd1af4ae9d4d2(前回の診断残骸・指示対象) / ne89a95e83a4f / n693bd1ea0ccb / n04d4c53aff9b / n5fe066a14463 / n7418ff78df72 / n7d741bf1c3ba
+  (後者6本は今回のDOM実測中に editor.note.com/new が毎回生成した空ドラフト。責任を持って全削除)
+実タイトル付き下書き(荒野行動VTuber/キノコ入りコーヒー/Claude Opus 4.7/収支管理スプレッドシート等)は一切触れていない。
+
+★タスク4：既存 有料note 棚卸し（台帳補正用・実測）
+方法: 著者ダッシュボード(note.com/notes)＋ログアウト状態のペイウォール実読で価格確定。
+重要: STATEの「有料note10本(¥100〜¥980)」は過大。実測=公開中の有料7本(＋EN1本要確認)。¥100は存在せず
+      (前回の¥100/¥30誤認はEN題名内 "¥30K"(=月3万円) の文字を価格と誤検出したもの)。
+
+【公開中・有料（ペイウォール実読で確定）】
+  ¥300 | 月3万円稼げる人の1日のスケジュール(JP) | https://note.com/safe_canna441/n/nc72430498dce
+  ¥300 | 「AI時代の50代からの個人収益」 | https://note.com/safe_canna441/n/n1b5d8638d00b
+  ¥300 | ChatGPT副業の最初の1ヶ月を生き延びる「コピペで使える5つのプロンプト」 | https://note.com/safe_canna441/n/nc2c42ab847ec
+  ¥500 | おとぎの森に、ドラえもんがいた。— Doraemon Lives in Takaoka | https://note.com/safe_canna441/n/nd2a815903500
+  ¥500 | 大仏と、白鳥と。— Takaoka's Great Buddha & Castle Park | https://note.com/safe_canna441/n/n8ed3ea4447a6
+  ¥500 | 海と山が、同時に見える。— Where the Sea Meets the Alps | https://note.com/safe_canna441/n/n7b223e685f18
+  ¥980 | ウキが消えた夜 — Night Fishing in Toyama Bay | https://note.com/safe_canna441/n/n3f425045d38f
+【要確認1本（有料フラグTrueだが正価が題名の"¥30K"に隠れ未確定）】
+  ?? | 月3万円…The Daily Routine of a ¥30K…(EN版) | https://note.com/safe_canna441/n/n9ded991e46be
+  ※同EN "A Day in the Life…"(ne943fc382f75) はペイウォール非表示=無料の可能性。code側で価格再確認推奨。
+【下書き・有料（未公開）】
+  ¥980 | 【無料より使いやすい】フリーランスの収支管理Googleスプレッドシート | https://note.com/safe_canna441/n/n255880cbb8ae(下書き)
+【有料note第1号(¥300 2泊3日モデルコース)】
+  一覧に該当タイトルなし＝未公開のまま(STATEと一致)。
+
+★タスク2/3：未実施（指示に従い停止）
+タスク1(--draft)が上記バグで失敗したため、指示「失敗したら報告して停止・無理に続けない」に従い、無料5本公開(2)・有料第1号の下書き作成(3)は未実施。
+publisher修正がmainに入り次第、次回 --draft→5本公開→有料下書き を再開可能。
+
+【next_actions】
+1. code: close_dialogs()をダイアログ限定スコープに修正(上記1点)。可能なら「先にタイトル欄を探し正常時はclose_dialogsを呼ばない」順序へ。
+2. code: 公開記録/STATEの「有料note10本¥100〜980」を実測(公開7＋EN要確認1＋下書き1)に補正。
+3. code: 有料EN(n9ded991e46be / ne943fc382f75)の正価・有料無料を確定して台帳へ。
+4. 次回cowork: 修正反映後に --draft 1本→成功で無料5本公開(検索ゲート/サムネ必須)＋有料第1号は下書きまで。
 
 
 ---
 
-## 結果 (2026-07-03T03:34:01+00:00)
+## 結果 (2026-07-03T05:17:48+00:00)
 
-受領: baseline部分(フォロワー21/公開366/スキ103・直近114本)をCFO様式とSTATEへ反映。公開系1〜4はセッション失効リスクで保留=妥当と判断。ownerの再ログイン後に下書き→目視→公開の安全順で再開。
+受領: 真因=close_dialogsの閉じるボタン誤クリック。修正適用(ダイアログ限定スコープ+タイトル先行探索)。有料棚卸し7本を公開記録へ追記・STATE補正。Vol.1=note下書き(n255880cbb8ae)と判明。

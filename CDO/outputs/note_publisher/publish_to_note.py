@@ -273,6 +273,10 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
+        # ダイアログ内のボタンだけを対象にする（2026-07-03実測：新エディタ本体に常設の
+        # 「閉じる」ボタンがあり、page全体からhas-textで拾うと誤クリック→一覧へ離脱＝全滅の真因だった）
+        DIALOG_SCOPE = '[role="dialog"], [aria-modal="true"], .ReactModal__Content, .m-modal, .o-modal'
+
         def close_dialogs():
             # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を閉じる
             for _ in range(3):
@@ -283,7 +287,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                     pass
             for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
                 try:
-                    b = page.locator(f'button:has-text("{label}")').first
+                    b = page.locator(f'{DIALOG_SCOPE} >> button:has-text("{label}")').first
                     if b.is_visible(timeout=300):
                         b.click()
                         page.wait_for_timeout(300)
@@ -302,13 +306,22 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 continue
             if "accounts.google.com" in page.url or "login" in page.url:
                 sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
-            close_dialogs()
             cand = page.locator(TITLE_SELECTOR).first
             try:
+                # まずタイトル欄を素直に待つ（正常時はダイアログ処理を呼ばない＝誤クリック事故ゼロ）。
                 # リダイレクト(/new→/notes/<id>/edit)＋ProseMirrorマウントに時間がかかるため長めに待つ（実測対応）
                 cand.wait_for(state="visible", timeout=20000)
                 title_input = cand
                 print(f"🚪 エディタ入口: {entry} → {page.url}")
+                break
+            except Exception:
+                pass
+            # タイトル欄が出ない時だけ、ダイアログが被っている可能性を潰して再確認
+            close_dialogs()
+            try:
+                cand.wait_for(state="visible", timeout=5000)
+                title_input = cand
+                print(f"🚪 エディタ入口: {entry} → {page.url}（ダイアログ除去後）")
                 break
             except Exception:
                 continue
