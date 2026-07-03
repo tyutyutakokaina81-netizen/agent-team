@@ -6,6 +6,12 @@
 
 最終更新: 2026-07-02（売上ゼロ改善＝有料note第1号¥300完成・ワーカー日次を収益優先に変更・世界ウケ枠恒久化・世界配布キット。最優先＝下の「新・日次優先順」1〜5）
 
+> ## 2026-07-03 ★戦略V2起動待ち（owner 2アクション待ち）
+> - **V2**=`CAO/outputs/2026-07-03_戦略V2_実行者不在前提の収益化.md`。収益装置を英語サイト(宿アフィリ)へ。affiliates.js確認済＝rel/sponsored/PR表記/無害設計OK・**LINKS.stayにURL1本貼るだけで49ページ一斉有効**。
+> - **待ち①**：owner がMacで1行実行 `cd ~/agent-team && git stash -u ; git pull origin main && claude -p "$(cat docs/worker-prompt.txt)"`（収益優先1〜5が回る）
+> - **待ち②**：owner が Travelpayouts 無料登録→Booking.com の宿リンク1本を会話に貼る→code が LINKS.stay 投入→main反映で収益化開始。
+> - ID受領時のcode作業：affiliates.js の stay(可能なら tours/rail/esim も)へ投入→PR→main→Pages反映を確認→STATE更新。
+>
 > ## 2026-07-02 ★★★運用OS変更（owner「溝口勇児の思考で運用して」）— 全セッション・全役職に適用
 > **OS＝逆算・スピード・アテンション・数字・集中**（詳細: `CAO/outputs/2026-07-02_運用OS_逆算経営モード.md`）。
 > - **逆算ゴール**：D+7(7/9)有料note売り場に立つ＋CTA12本／D+30(8/1)初売上1件＋PV+30%／D+90(10/1)月¥5,800分岐点超え。
