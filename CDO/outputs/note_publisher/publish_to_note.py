@@ -43,6 +43,20 @@ ARTICLES_DIR = REPO_ROOT / "CMO" / "outputs"
 PROFILE_DIR = Path.home() / ".note_publisher_profile"   # 永続プロファイル（OAuth状態も含めて全部保存）
 NOTE_LOGIN_URL = "https://note.com/login"
 NOTE_NEW_URL = "https://note.com/notes/new"
+# note はエディタを editor.note.com へ移行中（2026-07 UI変更で /notes/new が一覧へリダイレクトする事象を確認）。
+# 上から順に試し、タイトル欄が出た入口を採用する。
+NOTE_NEW_URL_CANDIDATES = [
+    "https://editor.note.com/new",
+    "https://note.com/notes/new",
+    "https://note.com/new",
+]
+# タイトル欄のセレクタ（旧UI input/textarea ＋ 新エディタの contenteditable も拾う）
+TITLE_SELECTOR = (
+    'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"], '
+    'textarea[placeholder*="記事タイトル"], '
+    '[contenteditable="true"][data-placeholder*="タイトル"], '
+    'h1[contenteditable="true"], div[role="textbox"][aria-label*="タイトル"]'
+)
 
 
 # ---------- セッション管理（persistent profile方式 ＋ 本物Chrome優先） ----------
@@ -259,35 +273,51 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(NOTE_NEW_URL)
-        page.wait_for_load_state("networkidle", timeout=20000)
-        # 認証チェック：Googleログイン画面にいるなら中断
-        if "accounts.google.com" in page.url or "login" in page.url:
-            sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
+        def close_dialogs():
+            # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を閉じる
+            for _ in range(3):
+                try:
+                    page.keyboard.press("Escape")
+                    page.wait_for_timeout(250)
+                except Exception:
+                    pass
+            for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
+                try:
+                    b = page.locator(f'button:has-text("{label}")').first
+                    if b.is_visible(timeout=300):
+                        b.click()
+                        page.wait_for_timeout(300)
+                except Exception:
+                    pass
 
-        # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を先に閉じる
-        for _ in range(3):
+        # エディタ入口を順に試す（2026-07 UI変更対応）。タイトル欄が出た入口を採用。
+        title_input = None
+        for entry in NOTE_NEW_URL_CANDIDATES:
             try:
-                page.keyboard.press("Escape")
-                page.wait_for_timeout(250)
+                page.goto(entry)
+                page.wait_for_load_state("networkidle", timeout=20000)
             except Exception:
-                pass
-        for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
+                continue
+            if "accounts.google.com" in page.url or "login" in page.url:
+                sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
+            close_dialogs()
+            cand = page.locator(TITLE_SELECTOR).first
             try:
-                b = page.locator(f'button:has-text("{label}")').first
-                if b.is_visible(timeout=300):
-                    b.click()
-                    page.wait_for_timeout(300)
+                cand.wait_for(state="visible", timeout=8000)
+                title_input = cand
+                print(f"🚪 エディタ入口: {entry}")
+                break
             except Exception:
-                pass
+                continue
 
-        # タイトル入力（noteのエディタはplaceholderに「タイトル」を含む）
-        title_input = page.locator(
-            'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"]'
-        ).first
-        # 最大60秒待つ。見つからなければ落とさず、ブラウザを開いたまま手動継続できるようにする
+        # どの入口でも出なければ、旧入口でもう一度だけ長めに待つ（回線遅延ケース）
+        if title_input is None:
+            page.goto(NOTE_NEW_URL)
+            page.wait_for_load_state("networkidle", timeout=20000)
+            close_dialogs()
+            title_input = page.locator(TITLE_SELECTOR).first
         try:
-            title_input.wait_for(state="visible", timeout=60000)
+            title_input.wait_for(state="visible", timeout=30000)
         except Exception:
             print("⚠️  タイトル入力欄が見つかりませんでした。")
             print(f"    現在のURL: {page.url}")
