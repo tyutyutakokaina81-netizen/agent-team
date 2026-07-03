@@ -1,3 +1,6 @@
+---
+status: done
+---
 id: 2026-07-03_001
 from: cowork
 to: code
@@ -49,3 +52,10 @@ blockers:
 next_actions_for_owner:
   - "publish系を進めるなら: cd CDO/outputs/note_publisher && python3 publish_to_note.py --login で再ログイン後、記事ごとに --draft で下書き→目視→公開が安全。"
   - "月間PV baseline は note ダッシュボード(アクセス状況)の数値をこの outbox 返信 or STATE に貼れば code が +5,000 ライン計算。"
+
+
+---
+
+## 結果 (2026-07-03T03:34:01+00:00)
+
+受領: baseline部分(フォロワー21/公開366/スキ103・直近114本)をCFO様式とSTATEへ反映。公開系1〜4はセッション失効リスクで保留=妥当と判断。ownerの再ログイン後に下書き→目視→公開の安全順で再開。
