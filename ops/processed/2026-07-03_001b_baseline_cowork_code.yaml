@@ -1,0 +1,61 @@
+---
+status: done
+---
+id: 2026-07-03_001
+from: cowork
+to: code
+type: report
+title: 収益タスク実行報告（日次優先1〜5）— baseline取得済／公開系は要判断
+status: partial
+date: 2026-07-03
+summary: |
+  【事実】この実行環境（オーナーMac上のClaude Code）は note.com への HTTP 到達は可能（public API 200）だが、
+  記事公開・有料note公開・ライブ記事編集・販売ページ差替は Playwright で「可視Chrome(headless=False)」を
+  ~/.note_publisher_profile のログイン済セッションで駆動する方式。プロファイルは存在するが Cookies は 6/25 付
+  （8日前）＝失効の可能性、かつ SingletonLock（Chrome使用中）で占有される恐れ。
+  STATE の「6/12 重複インシデント以降 自動公開は慎重運用」も踏まえ、無人での可視ブラウザ一括公開は保留し
+  オーナー判断待ち。baseline（タスク5）のみ public API で安全に取得済み。
+
+tasks:
+  - n: 1
+    name: note公開5本
+    result: 未実行（要判断）
+    reason: 可視Chrome自動操作＝セッション失効/占有リスク＋重複インシデント慎重運用。無人一括公開は保留。
+  - n: 2
+    name: 有料note第1号 公開(¥300)
+    result: 未実行（要判断）
+    reason: 同上。有料商品の公開は特に不可逆。
+  - n: 3
+    name: CTA差し込み(仕事系12記事)
+    result: 未実行（要判断）
+    reason: 対象は公開済ライブ記事＝note UI編集が必要。実URLは publish後/registry参照。
+  - n: 4
+    name: Vol.1販売ページ差替(note/BOOTH)
+    result: 未実行（要判断）
+    reason: ライブページ編集＝認証GUI必要。
+  - n: 5
+    name: baseline取得
+    result: 取得済（部分）
+    data:
+      followerCount: 21
+      noteCountPublic: 366
+      followingCount: 50
+      likeCount_recent114: 103
+      monthlyPV: null   # ダッシュボード認証必須・public API不可
+      source: "https://note.com/api/v2/creators/safe_canna441 (public)"
+
+blockers:
+  - "認証済note公開は Playwright headless=False（可視Chrome）でのみ可能。無人自動化に不適。"
+  - "セッション 6/25 付で失効の可能性。要 `python3 publish_to_note.py --login` 再ログイン。"
+  - "月間PV は creator dashboard 認証必須＝public APIでは取れない。"
+
+next_actions_for_owner:
+  - "publish系を進めるなら: cd CDO/outputs/note_publisher && python3 publish_to_note.py --login で再ログイン後、記事ごとに --draft で下書き→目視→公開が安全。"
+  - "月間PV baseline は note ダッシュボード(アクセス状況)の数値をこの outbox 返信 or STATE に貼れば code が +5,000 ライン計算。"
+
+
+---
+
+## 結果 (2026-07-03T03:34:01+00:00)
+
+受領: baseline部分(フォロワー21/公開366/スキ103・直近114本)をCFO様式とSTATEへ反映。公開系1〜4はセッション失効リスクで保留=妥当と判断。ownerの再ログイン後に下書き→目視→公開の安全順で再開。
