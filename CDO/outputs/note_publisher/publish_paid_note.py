@@ -2,36 +2,28 @@
 """
 note 有料記事 自動公開ヘルパー（オーナーのMacで実行する）
 
-既存の publish_to_note.py は「CMOの無料note記事（## 本文 形式・写真あり）」専用で、
-有料デジタル商品（プロンプト集 / テンプレ集 = note_ready.md 形式）は扱えない：
-  - parse_article が「## 本文」コードブロック前提 → note_ready.md ではエラー
-  - 有料ライン（ここから有料）・価格を設定する機能が無い → そのまま公開すると全部タダ
+publish_to_note.py（無料記事用）の姉妹スクリプト。有料デジタル商品／有料記事を扱う。
+設計の最優先＝**絶対にタダで公開しない**：
+  - デフォルトは下書き保存で止まる。公開は --publish を明示した時だけ。
+  - 有料ライン(有料エリア指定)と価格の両方が確実にセットできたと判断できた時だけ公開する。
+    どちらかでも未確定なら公開せず下書きで止め、手動手順を出す。
 
-このスクリプトは「有料商品」専用。設計の最優先＝**絶対にタダで公開しない**：
-  - デフォルトは下書き保存（--draft 相当）で止まる。公開は --publish を明示した時だけ。
-  - 有料ラインのセットに確証が持てない場合は、公開せず下書きで止め、手動2クリックの手順を出す。
+2026-07-03 更新（cowork self-fix）: note新エディタ(editor.note.com)にUI追従。
+  - 入口: editor.note.com/new（/notes/new は一覧へリダイレクトするため）
+  - 有料ライン: 本文の境界行でブロックメニュー(メニューを開く)→「有料エリア指定」
+  - 価格: 「公開に進む」→ /publish/ 画面で「有料」を選び価格入力
+  - 公開ボタン: 「投稿する」（旧「公開する」は廃止）
+  - 公開前に「下書き保存」で編集状態を確定（見出し画像等の後の公開バリデーション誤判定回避）
 
-入力ファイルの約束（note_ready.md）：
-  - タイトル … 先頭の `# 見出し`（または --title で上書き）
-  - 有料境界 … `<!-- PAYWALL price=980 -->` というコメント行。
-                この行より前＝無料、後＝有料。価格は price=NNN で指定（--price で上書き可）。
-  - `━━━` の囲みや `★【ここから…】★`、案内文（（noteエディタで…））は自動で除去する。
+入力ファイル（2形式に対応）：
+  A) 明示ブロック形式（推奨・当リポジトリのCMO有料記事）：
+     `## タイトル` / `## 無料部分` / `## 有料部分` / `## ハッシュタグ` の各コードブロック。
+  B) note_ready.md 形式：先頭 `# 見出し` ＋ `<!-- PAYWALL price=NNN -->` または `★【ここから…】★`。
 
 使い方:
-  # 初回ログイン（publish_to_note.py と同じプロファイルを共有。未ログインならこちらでもOK）
   python3 publish_paid_note.py --login
-
-  # 下書きを作る（安全・推奨）。本文が自動で入り、有料ライン+価格まで試みて、公開はしない
-  python3 publish_paid_note.py --article <path/to/note_ready.md>
-
-  # 中身を確認して問題なければ公開まで（有料ラインのセット確証が取れた時のみ公開）
-  python3 publish_paid_note.py --article <path/to/note_ready.md> --publish
-
-  # 価格やタイトル・タグを上書き
-  python3 publish_paid_note.py --article ... --price 980 --title "..." --tags "AI,業務効率化,フリーランス"
-
-注意（A1）：私(code)はnoteへ接続・検証ができないため、note側の有料UI操作は「ベストエフォート」。
-UIが変わっている等で自動セットに失敗した場合でも、**下書きは残り**、画面に手動手順を表示して安全に止まる。
+  python3 publish_paid_note.py --article <path> --price 300           # 下書き（安全・既定）
+  python3 publish_paid_note.py --article <path> --price 300 --publish  # 公開まで（安全ゲート付き）
 """
 
 import argparse
@@ -44,40 +36,43 @@ try:
 except ImportError:
     sys.exit("Playwrightが未インストールです。`./setup.sh` を実行してください。")
 
-# 既存ヘルパーとプロファイル（ログインセッション）を共有する
 PROFILE_DIR = Path.home() / ".note_publisher_profile"
 NOTE_LOGIN_URL = "https://note.com/login"
-NOTE_NEW_URL = "https://note.com/notes/new"
+NOTE_NEW_URL_CANDIDATES = [
+    "https://editor.note.com/new",
+    "https://note.com/notes/new",
+    "https://note.com/new",
+]
+TITLE_SELECTOR = (
+    'textarea[placeholder="記事タイトル"], '
+    'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"], '
+    '[contenteditable="true"][data-placeholder*="タイトル"], '
+    'h1[contenteditable="true"], div[role="textbox"][aria-label*="タイトル"]'
+)
 
-# 本文に紛れ込む「人間向けの目印」を消すためのパターン
 _MARKER_PATTERNS = [
-    re.compile(r"^[━─=]{6,}\s*$"),                       # ━ や ─ の罫線
-    re.compile(r"^\s*★?【ここから.*?】★?\s*$"),          # ★【ここから…】★
-    re.compile(r"^\s*（note.*?有料.*?）\s*$"),            # （noteエディタで…ここから有料を選ぶ）
-    re.compile(r"^\s*<!--\s*PAYWALL.*?-->\s*$"),          # <!-- PAYWALL ... -->（保険）
+    re.compile(r"^[━─=]{6,}\s*$"),
+    re.compile(r"^\s*★?【ここから.*?】★?\s*$"),
+    re.compile(r"^\s*◆◆.*?◆◆\s*$"),
+    re.compile(r"^\s*（note.*?有料.*?）\s*$"),
+    re.compile(r"^\s*<!--\s*PAYWALL.*?-->\s*$"),
 ]
 
 
 # ---------- セッション管理（publish_to_note.py と同方式） ----------
 
 def _launch(playwright):
-    """本物Chrome優先、失敗時Chromiumフォールバック（OAuth自動化検知の回避）。"""
     try:
         ctx = playwright.chromium.launch_persistent_context(
-            user_data_dir=str(PROFILE_DIR),
-            channel="chrome",
-            headless=False,
-            args=["--disable-blink-features=AutomationControlled"],
-        )
+            user_data_dir=str(PROFILE_DIR), channel="chrome", headless=False,
+            args=["--disable-blink-features=AutomationControlled"])
         print("🌐 本物のGoogle Chrome を使用しています")
         return ctx
     except Exception as e:
         print(f"⚠️  Chrome起動失敗 → Chromiumにフォールバック: {e}")
         return playwright.chromium.launch_persistent_context(
-            user_data_dir=str(PROFILE_DIR),
-            headless=False,
-            args=["--disable-blink-features=AutomationControlled"],
-        )
+            user_data_dir=str(PROFILE_DIR), headless=False,
+            args=["--disable-blink-features=AutomationControlled"])
 
 
 def login():
@@ -98,172 +93,184 @@ def load_context(playwright):
     return _launch(playwright)
 
 
-# ---------- note_ready.md のパース ----------
+# ---------- パース ----------
 
 def _clean_lines(block: str) -> str:
-    """人間向けの目印（罫線・★案内）を除去し、過剰な空行を畳む。"""
-    kept = []
-    for line in block.splitlines():
-        if any(p.match(line) for p in _MARKER_PATTERNS):
-            continue
-        kept.append(line)
+    kept = [ln for ln in block.splitlines() if not any(p.match(ln) for p in _MARKER_PATTERNS)]
     text = "\n".join(kept)
-    text = re.sub(r"\n{3,}", "\n\n", text).strip()
-    return text
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
+def _extract_block(text: str, header: str):
+    """`## <header>` 直下の ``` コードブロックを返す。無ければ None。"""
+    m = re.search(rf"##\s*{re.escape(header)}.*?\n```\n(.+?)\n```", text, re.S)
+    return m.group(1).strip() if m else None
 
 
 def parse_paid_article(md_path: Path, title_override=None, price_override=None):
-    """note_ready.md を (title, free_body, paid_body, price) に分解する。"""
+    """(title, free_body, paid_body, price, tags) を返す。
+    明示ブロック形式（## 無料部分 / ## 有料部分）を優先。無ければ PAYWALL/★ 形式にフォールバック。"""
     text = md_path.read_text(encoding="utf-8")
 
-    # 価格：sentinel の price=NNN → --price で上書き
+    # 価格
     price = None
     m = re.search(r"<!--\s*PAYWALL[^>]*\bprice\s*=\s*(\d+)", text)
     if m:
         price = int(m.group(1))
+    m2 = re.search(r"(?:価格|price)[^\d]{0,6}?(\d{3,5})", text)
+    if price is None and m2:
+        price = int(m2.group(1))
     if price_override is not None:
         price = price_override
 
-    # 有料境界で分割
-    sentinel = re.search(r"<!--\s*PAYWALL.*?-->", text)
-    if sentinel:
-        free_raw = text[:sentinel.start()]
-        paid_raw = text[sentinel.end():]
-    else:
-        # フォールバック：★【ここから…】★ の行で分割
-        alt = re.search(r"^.*★?【ここから.*?】★?.*$", text, re.M)
-        if not alt:
-            sys.exit("✗ 有料境界が見つかりません（<!-- PAYWALL --> も ★【ここから…】★ も無い）。"
-                     "\n  無料記事として出すなら publish_to_note.py を使ってください。")
-        free_raw = text[:alt.start()]
-        paid_raw = text[alt.end():]
+    # タグ
+    tags = []
+    tag_block = _extract_block(text, "ハッシュタグ")
+    if tag_block:
+        tags = [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_block)]
 
-    # タイトル：先頭の `# 見出し`（# 1つ）
-    if title_override:
-        title = title_override.strip()
+    # 明示ブロック形式（推奨）
+    free_block = _extract_block(text, "無料部分")
+    paid_block = _extract_block(text, "有料部分")
+    title_block = _extract_block(text, "タイトル")
+    if free_block and paid_block:
+        if title_override:
+            title = title_override.strip()
+        elif title_block:
+            title = title_block.splitlines()[0].strip()
+        else:
+            tm = re.search(r"^#\s+(.+?)\s*$", text, re.M)
+            title = tm.group(1).strip() if tm else md_path.stem
+        free_body = _clean_lines(free_block)
+        paid_body = _clean_lines(paid_block)
     else:
-        tm = re.search(r"^#\s+(.+?)\s*$", free_raw, re.M)
-        if not tm:
-            sys.exit("✗ タイトル（先頭の `# 見出し`）が見つかりません。--title で指定してください。")
-        title = tm.group(1).strip()
-        # 本文からタイトル行は落とす（noteのタイトル欄に入れるため）
-        free_raw = free_raw[:tm.start()] + free_raw[tm.end():]
-
-    free_body = _clean_lines(free_raw)
-    paid_body = _clean_lines(paid_raw)
+        # フォールバック：note_ready.md 形式
+        sentinel = re.search(r"<!--\s*PAYWALL.*?-->", text)
+        if sentinel:
+            free_raw, paid_raw = text[:sentinel.start()], text[sentinel.end():]
+        else:
+            alt = re.search(r"^.*(?:★?【ここから.*?】★?|◆◆.*?◆◆).*$", text, re.M)
+            if not alt:
+                sys.exit("✗ 有料境界が見つかりません（## 無料部分/## 有料部分 も PAYWALL も ◆◆ も無い）。")
+            free_raw, paid_raw = text[:alt.start()], text[alt.end():]
+        if title_override:
+            title = title_override.strip()
+        else:
+            tm = re.search(r"^#\s+(.+?)\s*$", free_raw, re.M)
+            if not tm:
+                sys.exit("✗ タイトル（先頭の `# 見出し`）が見つかりません。--title で指定してください。")
+            title = tm.group(1).strip()
+            free_raw = free_raw[:tm.start()] + free_raw[tm.end():]
+        free_body = _clean_lines(free_raw)
+        paid_body = _clean_lines(paid_raw)
 
     if not paid_body:
         sys.exit("✗ 有料エリアの本文が空です。境界の位置を確認してください。")
     if price is None:
-        sys.exit("✗ 価格が不明です。md に <!-- PAYWALL price=980 --> を置くか、--price 980 を指定してください。")
+        sys.exit("✗ 価格が不明です。--price 300 を指定してください。")
+    return title, free_body, paid_body, price, tags
 
-    return title, free_body, paid_body, price
 
-
-# ---------- note UI 操作 ----------
-
-def _dismiss_dialogs(page):
-    for _ in range(3):
-        try:
-            page.keyboard.press("Escape")
-            page.wait_for_timeout(200)
-        except Exception:
-            pass
-    for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
-        try:
-            b = page.locator(f'button:has-text("{label}")').first
-            if b.is_visible(timeout=300):
-                b.click()
-                page.wait_for_timeout(250)
-        except Exception:
-            pass
-
+# ---------- note UI 操作（新エディタ） ----------
 
 def _type_body(page, text: str):
-    """段落ごとに insert_text → Enter で本文を流し込む（改行保持）。"""
-    paragraphs = text.split("\n")
-    for i, para in enumerate(paragraphs):
+    for i, para in enumerate(text.split("\n")):
         if para:
             page.keyboard.insert_text(para)
-        if i < len(paragraphs) - 1:
-            page.keyboard.press("Enter")
-            page.wait_for_timeout(20)
+        page.keyboard.press("Enter")
+        page.wait_for_timeout(20)
+
+
+def _open_editor(page):
+    """editor.note.com/new へ入り、タイトル欄を返す。"""
+    for entry in NOTE_NEW_URL_CANDIDATES:
+        try:
+            page.goto(entry, wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(1500)
+        except Exception:
+            continue
+        if "accounts.google.com" in page.url or page.url.rstrip("/").endswith("/login"):
+            sys.exit("✗ note にログインしていません。 `python3 publish_paid_note.py --login` を再実行してください。")
+        cand = page.locator(TITLE_SELECTOR).first
+        try:
+            cand.wait_for(state="visible", timeout=20000)
+            print(f"🚪 エディタ入口: {entry} → {page.url}")
+            return cand
+        except Exception:
+            continue
+    return None
 
 
 def _try_set_paywall(page) -> bool:
-    """現在のカーソル位置に note の「ここから有料」ラインを挿入する（ベストエフォート）。
-    note のUI差異に備えて複数手段を試す。確実にセットできたと判断できたら True。"""
-    # 手段1：行頭の「＋」追加ボタン → メニューに「有料」を含む項目
+    """現在のカーソル行で ブロックメニュー(メニューを開く)→「有料エリア指定」を挿入。"""
     try:
-        plus = page.locator('button[aria-label*="追加"], button[aria-label*="ブロック"]').first
-        if plus.is_visible(timeout=1500):
-            plus.click()
-            page.wait_for_timeout(400)
+        m = page.locator('[aria-label="メニューを開く"]').first
+        if m.is_visible(timeout=2000):
+            m.click()
+            page.wait_for_timeout(700)
             item = page.locator(
-                '[role="menuitem"]:has-text("有料"), button:has-text("ここから有料"), '
-                'li:has-text("ここから有料"), span:has-text("ここから有料")'
+                '[role="menuitem"]:has-text("有料エリア指定"), button:has-text("有料エリア指定"), '
+                'li:has-text("有料エリア指定"), span:has-text("有料エリア指定")'
             ).first
-            if item.is_visible(timeout=1500):
+            if item.is_visible(timeout=2000):
                 item.click()
-                page.wait_for_timeout(500)
+                page.wait_for_timeout(800)
                 return True
     except Exception:
         pass
-    # 手段2：ツールバー等にある「有料エリア」「ライン」ボタン
-    for sel in ('button:has-text("有料エリア")', 'button:has-text("ここから有料")',
-                '[aria-label*="有料"]'):
-        try:
-            b = page.locator(sel).first
-            if b.is_visible(timeout=800):
-                b.click()
-                page.wait_for_timeout(500)
-                return True
-        except Exception:
-            continue
     return False
 
 
-def _try_set_price(page, price: int) -> bool:
-    """販売設定で「有料」を選び、価格を入力する（ベストエフォート）。"""
-    ok = False
-    # 「公開設定」「販売設定」へ進む
-    for label in ("公開に進む", "公開設定", "販売設定", "次へ"):
-        try:
-            b = page.locator(f'button:has-text("{label}")').first
-            if b.is_visible(timeout=800):
-                b.click()
-                page.wait_for_timeout(700)
-                break
-        except Exception:
-            continue
-    # 「有料」を選択（ラジオ/トグル/タブ）
-    for sel in ('label:has-text("有料")', 'button:has-text("有料")', 'text=有料'):
+def _try_set_price_on_publish(page, price: int) -> bool:
+    """/publish/ 画面で「有料」を選び価格を入力し、境界を確定。DOMで価格を検証できたら True。
+    2026-07-03実測: 「有料」はradioを内包する<label>。選択後に価格input(placeholder=300相当)と
+    「このラインより先を有料にする」ボタンが現れる。ボタンで本文の有料エリア指定ラインを束ねる。"""
+    # 1) 「有料」を選択（labelクリックでpaid radioをオン）
+    for sel in ('label:has-text("有料")', 'input[value="paid"]',
+                '[role="radio"][value="paid"]', 'text=有料'):
         try:
             el = page.locator(sel).first
-            if el.is_visible(timeout=800):
+            if el.is_visible(timeout=1200):
                 el.click()
-                page.wait_for_timeout(500)
+                page.wait_for_timeout(1200)
                 break
         except Exception:
             continue
-    # 価格入力
-    for sel in ('input[placeholder*="価格"]', 'input[placeholder*="金額"]',
-                'input[type="number"]', 'input[inputmode="numeric"]'):
+    # 2) 価格入力（有料選択後に出現）
+    filled = False
+    for sel in ('input[type="number"]', 'input[inputmode="numeric"]',
+                'input[placeholder="300"]', 'input[placeholder*="価格"]', 'input[placeholder*="金額"]'):
         try:
             inp = page.locator(sel).first
-            if inp.is_visible(timeout=800):
+            if inp.is_visible(timeout=1500):
                 inp.click()
+                inp.fill("")
                 inp.fill(str(price))
-                page.wait_for_timeout(300)
-                ok = True
+                page.wait_for_timeout(500)
+                filled = True
                 break
         except Exception:
             continue
-    return ok
+    # 3) 「このラインより先を有料にする」で有料境界を確定
+    try:
+        b = page.locator('button:has-text("このラインより先を有料にする")').first
+        if b.is_visible(timeout=2000):
+            b.click()
+            page.wait_for_timeout(800)
+    except Exception:
+        pass
+    # 4) DOM検証：価格入力の値が price と一致
+    try:
+        vals = page.evaluate("()=>[...document.querySelectorAll('input')].map(i=>i.value).filter(Boolean)")
+        return str(price) in vals
+    except Exception:
+        return filled
 
 
-def publish(md_path: Path, do_publish: bool, title_override, price_override, tags):
-    title, free_body, paid_body, price = parse_paid_article(md_path, title_override, price_override)
+def publish(md_path: Path, do_publish: bool, title_override, price_override, tags_override):
+    title, free_body, paid_body, price, file_tags = parse_paid_article(
+        md_path, title_override, price_override)
+    tags = tags_override if tags_override else file_tags
 
     print(f"📝 商品: {md_path.name}")
     print(f"🏷️  タイトル: {title}")
@@ -275,141 +282,155 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(NOTE_NEW_URL)
-        page.wait_for_load_state("networkidle", timeout=20000)
-        if "accounts.google.com" in page.url or page.url.rstrip("/").endswith("/login"):
-            sys.exit("✗ note にログインしていません。 `python3 publish_paid_note.py --login` を再実行してください。")
 
-        _dismiss_dialogs(page)
-
-        # タイトル
-        title_input = page.locator(
-            'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"]'
-        ).first
-        try:
-            title_input.wait_for(state="visible", timeout=60000)
-        except Exception:
+        title_input = _open_editor(page)
+        if title_input is None:
             print("⚠️  タイトル入力欄が見つかりません。note側のUI変更/ログイン切れの可能性。")
             print(f"    現在のURL: {page.url}")
             if sys.stdin.isatty():
-                input("    画面を確認し、必要なら手動で。Enterで閉じる ...")
+                input("Enterで閉じる ...")
             ctx.close()
             sys.exit(2)
         title_input.click()
         title_input.fill(title)
         print("✅ タイトル入力完了")
 
-        # 本文（無料パート）
         editor = page.locator('div[contenteditable="true"]').first
         editor.click()
-        _type_body(page, free_body)
-        page.keyboard.press("Enter")
-        page.wait_for_timeout(150)
+        _type_body(page, free_body)          # 無料パート＋末尾で改行済み
+        print("✅ 無料パート入力完了")
 
-        # 有料ラインをセット（ベストエフォート）
+        # 有料ライン（無料パートの直後＝正しい境界）
         paywall_ok = _try_set_paywall(page)
         if paywall_ok:
-            print("✅ 「ここから有料」ラインをセットしました")
+            print("✅ 「有料エリア指定」ラインをセットしました（無料パート直後）")
         else:
-            # セット不能 → 目印を本文に残す（手動で2クリックできるように）
+            editor.click()
             page.keyboard.insert_text("━━━【ここから下を有料に設定してください】━━━")
             page.keyboard.press("Enter")
             print("⚠️  有料ラインの自動セットに失敗。本文に目印を入れました（後で手動設定）。")
 
-        # 有料パートを続けて入力
+        # 有料パート
+        editor2 = page.locator('div[contenteditable="true"]').first
+        editor2.click()
+        # カーソルを本文末尾へ
+        page.keyboard.press("End")
         _type_body(page, paid_body)
-        print("✅ 本文（無料＋有料）の流し込み完了")
+        print("✅ 有料パート入力完了")
+
+        # 下書き保存で状態確定
+        try:
+            ds = page.locator('button:has-text("下書き保存")').first
+            if ds.is_visible(timeout=2000):
+                ds.click()
+                page.wait_for_timeout(2500)
+                print("✅ 下書き保存で編集状態を確定")
+        except Exception as e:
+            print(f"⚠️  下書き保存クリック省略: {e}")
+
+        # 公開設定画面へ
+        try:
+            page.locator('button:has-text("公開に進む")').first.click()
+            try:
+                page.wait_for_url("**/publish/**", timeout=15000)
+            except Exception:
+                page.wait_for_timeout(3000)
+        except Exception as e:
+            print(f"⚠️  『公開に進む』クリック失敗: {e}")
+        page.wait_for_timeout(1500)
 
         # タグ
         if tags:
             try:
                 tag_input = page.locator(
-                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                ).first
-                if not tag_input.is_visible(timeout=1200):
-                    page.locator('button:has-text("公開に進む"), button:has-text("公開設定")').first.click()
-                    page.wait_for_timeout(700)
-                    tag_input = page.locator(
-                        'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                    ).first
+                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]').first
+                tag_input.wait_for(state="visible", timeout=8000)
                 for t in tags[:10]:
                     tag_input.click()
                     page.keyboard.type(t)
                     page.keyboard.press("Enter")
-                    page.wait_for_timeout(150)
+                    page.wait_for_timeout(180)
                 print(f"✅ タグ {len(tags[:10])} 個を入力")
             except Exception as e:
-                print(f"⚠️  タグ入力に失敗: {e}（手動で追加してください）")
+                print(f"⚠️  タグ入力に失敗: {e}")
 
-        # 価格設定（ベストエフォート）
-        price_ok = _try_set_price(page, price)
-        print(f"{'✅' if price_ok else '⚠️ '} 価格設定: {'¥'+str(price)+' を入力' if price_ok else '自動入力に失敗（手動で価格を入れてください）'}")
+        # 価格設定
+        price_ok = _try_set_price_on_publish(page, price)
+        print(f"{'✅' if price_ok else '⚠️ '} 価格設定: {'¥'+str(price)+' をDOM検証OK' if price_ok else '自動入力/検証に失敗'}")
 
-        # --- 公開可否の判定（収益化セーフティ）---
-        # 有料ライン or 価格のどちらかが未確定なら、絶対に公開しない（タダ公開・無料公開の事故防止）
+        # --- 収益化セーフティ：有料ライン と 価格 の両方が確定した時だけ公開 ---
         safe_to_publish = paywall_ok and price_ok
-        if do_publish and not safe_to_publish:
-            print("\n🛑 安全のため公開を中止します（有料ライン/価格の自動セットが未確定）。")
-            print("   下書きは保存されています。画面で次を確認してから手動で「公開」してください：")
-            print("   1) 本文中の「ここから有料」ライン（無い場合は目印行の下で ＋メニュー→ここから有料）")
-            print(f"   2) 販売設定で「有料」を選び、価格 ¥{price} を入力")
-            print("   3) 右上の「公開」")
+        if not do_publish or not safe_to_publish:
+            if do_publish and not safe_to_publish:
+                print("\n🛑 安全のため公開を中止します（有料ライン/価格の自動セットが未確定）。")
+            else:
+                print("\n📋 下書きモード（既定）：公開しません。")
+            print("   下書きは保存されています。note画面で次を確認し、必要なら手動で「投稿する」を：")
+            print("   1) 本文中の「ここから有料」ライン（無料パート直後）")
+            print(f"   2) /publish/ 画面で「有料」を選び、価格 ¥{price}")
+            print(f"   現在URL: {page.url}")
             if sys.stdin.isatty():
                 input("   確認したら Enter で閉じる ...")
             ctx.close()
-            return
+            return None
 
-        if not do_publish:
-            print("\n📋 下書きモード（既定）：公開しません。note上で内容と有料設定を確認してください。")
-            print(f"   この商品の想定価格は ¥{price} です。販売設定→有料→価格、を確認のうえ手動で公開を。")
-            if sys.stdin.isatty():
-                input("   Enterで閉じる ...")
-            ctx.close()
-            return
-
-        # ここに来るのは do_publish かつ paywall_ok かつ price_ok のときだけ
-        print("\n🚀 公開ボタンを押します（3秒後）...")
+        # 公開（投稿する）。公開は1回のみ。
+        print("\n🚀 投稿する（＝公開）を押します（3秒後）...")
         page.wait_for_timeout(3000)
+        published_id = None
         try:
-            page.locator('button:has-text("公開")').last.click()
-            page.wait_for_timeout(1500)
-            confirm = page.locator('button:has-text("有料エリア設定で公開"), button:has-text("公開する"), button:has-text("公開")').last
-            if confirm.is_visible(timeout=2000):
-                confirm.click()
+            pub = page.locator('button:has-text("投稿する")').first
+            pub.wait_for(state="visible", timeout=10000)
+            pub.click()
+            page.wait_for_timeout(2500)
+            for lbl in ("有料エリア設定で投稿", "投稿する", "公開する", "OK"):
+                try:
+                    c = page.locator(f'[role="dialog"] >> button:has-text("{lbl}")').last
+                    if c.is_visible(timeout=800):
+                        c.click()
+                        page.wait_for_timeout(1500)
+                        break
+                except Exception:
+                    continue
             page.wait_for_timeout(3000)
-            print("✅ 公開リクエストを送信しました。note側で反映と価格を必ず確認してください。")
+            m = re.search(r"/notes/(n[a-z0-9]+)/", page.url)
+            published_id = m.group(1) if m else None
+            print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
+            if published_id:
+                print(f"🔗 想定公開URL: https://note.com/safe_canna441/n/{published_id}")
         except Exception as e:
-            print(f"⚠️  公開ボタン自動クリック失敗: {e}（画面で手動公開してください）")
+            print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}（画面で手動公開してください）")
             if sys.stdin.isatty():
                 input("   公開を確認したら Enter ...")
         ctx.close()
+        return published_id
 
 
 # ---------- CLI ----------
 
 def main():
     ap = argparse.ArgumentParser(description="note 有料記事 自動公開ヘルパー（収益化セーフティ付き）")
-    ap.add_argument("--login", action="store_true", help="初回セッション保存（手動ログイン）")
-    ap.add_argument("--article", type=str, help="商品md（note_ready.md）のパス")
+    ap.add_argument("--login", action="store_true")
+    ap.add_argument("--article", type=str)
     ap.add_argument("--publish", action="store_true",
                     help="公開まで実行（有料ライン+価格の自動セットが確証できた時のみ実際に公開）。既定は下書き保存。")
-    ap.add_argument("--price", type=int, default=None, help="価格(円)。md の price=NNN を上書き")
-    ap.add_argument("--title", type=str, default=None, help="タイトルを上書き（既定は先頭の # 見出し）")
-    ap.add_argument("--tags", type=str, default=None, help="タグをカンマ区切りで指定（例: AI,業務効率化,フリーランス）")
+    ap.add_argument("--price", type=int, default=None)
+    ap.add_argument("--title", type=str, default=None)
+    ap.add_argument("--tags", type=str, default=None)
     args = ap.parse_args()
 
     if args.login:
         login()
         return
     if not args.article:
-        sys.exit("--article <note_ready.md のパス> を指定してください。")
+        sys.exit("--article <path> を指定してください。")
     md_path = Path(args.article).expanduser()
     if not md_path.exists():
         sys.exit(f"記事が見つかりません: {md_path}")
 
-    tags = [t.strip().lstrip("#") for t in args.tags.split(",")] if args.tags else []
+    tags = [t.strip().lstrip("#") for t in args.tags.split(",")] if args.tags else None
     publish(md_path, do_publish=args.publish, title_override=args.title,
-            price_override=args.price, tags=tags)
+            price_override=args.price, tags_override=tags)
 
 
 if __name__ == "__main__":
