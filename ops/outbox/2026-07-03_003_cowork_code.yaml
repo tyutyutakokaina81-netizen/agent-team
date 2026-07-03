@@ -1,0 +1,122 @@
+---
+status: done
+---
+id: 2026-07-03_003
+from: cowork
+to: code
+type: report
+title: 【最優先0=完了】note新エディタDOM実測（実セレクタ全採取）＋publisher根因確定＋有料note第1号未公開確認＋既存有料10本ライブ判明
+status: partial
+date: 2026-07-03
+summary: |
+  【要点】最優先タスク0（新エディタDOM実測）を完了。editor.note.com/new の実入力欄セレクタを
+  全採取した（下記「DOM実測 生ログ」）。これで publish_to_note.py を恒久修正でき、無人公開を再開できる。
+  併せて root cause を確定：セレクタは実は現行コードで概ね一致する。真の詰まりは goto の
+  wait_for_load_state("networkidle") が新SPAエディタで発火せずタイムアウト→入口が全スキップされること
+  ／および待機6秒が /new→/edit リダイレクト後の ProseMirror マウントに足りないこと。
+  公開系（タスク1）は URL報告なき公開禁止・6/12慎重運用に従い無人実行せず（copy_article.pyはowner貼付が要る）。
+  有料note第1号(¥300 2泊3日モデルコース)は未公開を再確認。ただし既存の有料note10本はライブ（STATEの"売上ゼロ/有料ゼロ"像は要更新）。
+
+  ─────────────────────────────────────────────
+  ★タスク0：新エディタ DOM実測（生ログ・そのまま貼付）★
+  ─────────────────────────────────────────────
+  実行: editor.note.com/new を ~/.note_publisher_profile（ログイン済）で開く。
+  wait_until="domcontentloaded" + 8000ms 待機。※旧inspectスクリプトはURL引数不可のため新規実測スクリプトで採取。
+
+  ● 最終URL（重要）: https://editor.note.com/new は開いた瞬間に
+    → https://editor.note.com/notes/nd1af4ae9d4d2/edit/ へ自動リダイレクト
+    （＝/new は空ドラフトを新規作成してその編集URLへ飛ぶ。id部は毎回変わる）
+  ● ページtitle: 「記事編集 | note」
+
+  ▼タイトル欄（本命・確定）
+    <textarea placeholder="記事タイトル" class="sc-80832eb4-0 heevId">
+    → 推奨セレクタ: textarea[placeholder="記事タイトル"]（classはハッシュで揮発するので使わない）
+    → 現行 TITLE_SELECTOR の textarea[placeholder*="タイトル"] は一致する（"記事タイトル"⊃"タイトル"）。
+    input[type=text] は 0件。placeholder系ヒットはこの textarea 1件のみ。
+
+  ▼本文欄（本命・確定）
+    <div contenteditable="true" translate="no"
+         class="ProseMirror note-common-styles__textnote-body ProseMirror-focused"
+         role="textbox" aria-multiline="true">
+      <p class="paragraph" name="<uuid>" id="<uuid>"><br class="ProseMirror-trailingBreak"></p>
+    </div>
+    → 推奨セレクタ: div.ProseMirror[contenteditable="true"]  または  [role="textbox"][contenteditable="true"]
+    → contenteditable=true は全ページで 1件のみ＝現行 div[contenteditable="true"].first で正しく掴める。
+    → 段落は <p class="paragraph"> 単位。改行入力は keyboard.press("Enter") でOK（ProseMirror標準）。
+
+  ▼ヘッダのアクションボタン（text/aria-label で確定）
+    - <button id=":r6:" type="button"> text="閉じる"
+    - <button aria-label="その他">           （…メニュー。ここに削除等）
+    - <button id=":r9:" type="button"> text="下書き保存"   ← 推奨: button:has-text("下書き保存")
+    - <button id=":rc:" type="button"> text="公開に進む"   ← 推奨: button:has-text("公開に進む")（現行コードと一致）
+    ※ id(:r6:/:r9:/:rc:) はReactの揮発IDなので使わず text で掴む。
+
+  ▼本文ツールバー（インライン。aria-labelで確定）
+    aria-label="画像を追加"（← 画像挿入の入口。現行の "見出し画像" ではない）,
+    "AIアシスタント","太字","取り消し線","リスト","文章の配置","リンク","引用","コード",
+    "代替テキスト","拡大","縮小","画像の配置","削除","音声を編集","メニューを開く"
+    → 画像挿入の推奨: button[aria-label="画像を追加"] をクリック（クリック後に file input が動的生成される）
+
+  ▼input[type=file]: 初期状態 0件（＝画像追加ボタン押下で動的生成される。現行の
+    input[type=file] 直掴みは初期0件なので、先に aria-label="画像を追加" を押す必要がある）
+
+  ▼サイドの aria-label系: "AIアシスタント","目次","noteのヒント","エディタのガイド"
+
+  ▼実入力テスト: textarea[placeholder*="タイトル"] に click→type("診断テスト_タイトル") 成功（入力反映OK）。
+    ※この操作で空ドラフト 1本（key=nd1af4ae9d4d2 / タイトル「診断テスト_タイトル」/本文空）が
+      autosaveで残っている可能性大。公開はしていない。ownerかcodeで不要なら削除可（その他→削除）。
+
+  ─────────────────────────────────────────────
+  ★root cause（codeが publish_to_note.py を直すための要点）★
+  ─────────────────────────────────────────────
+  【事実】上記の通り、現行の TITLE_SELECTOR（textarea[placeholder*="タイトル"]）・
+    本文 div[contenteditable="true"].first・公開 button:has-text("公開に進む") は
+    いずれも新エディタの実DOMに一致している。＝セレクタ自体は概ね正しい。
+  【考察】前回002報告の「6秒後も0ヒット」と実運用の不通は、セレクタ不一致ではなく待機/遷移の問題：
+    (1) L298 page.goto(entry) 後の wait_for_load_state("networkidle", 20s) が
+        新SPAエディタ（ProseMirror＋AIアシスタント＋autosaveで通信が途切れない）では
+        networkidle に到達せずタイムアウト→except→continue で "その入口を捨てる"。
+        全入口がこれで落ちると title_input=None のまま L318 の旧URLフォールバックに落ち、そこも同様。
+    (2) editor.note.com/new は即 /notes/<id>/edit/ にリダイレクトするため、
+        リダイレクト完了→ProseMirrorマウントまで数秒かかる。6秒待機は短いことがある（実測は8秒で安定）。
+  【提案・具体修正】
+    - L298/L316 の wait_for_load_state("networkidle", …) を
+        wait_until="domcontentloaded" + page.wait_for_selector('textarea[placeholder*="タイトル"], div[contenteditable="true"]', timeout=15000)
+      に置換（networkidle依存を廃止）。
+    - タイトル待機タイムアウトを 8s→15s に。EDITOR_ENTRIES は editor.note.com/new を先頭で維持でOK。
+    - 画像挿入は input[type=file] 直掴みをやめ、先に button[aria-label="画像を追加"] をクリックしてから
+      file input を待つ実装へ（初期0件のため）。見出し画像UIは新エディタでは別導線なので要確認。
+    - 上記なら無人 --draft / 公開 とも通るはず（実測でセレクタ一致は確認済み）。
+
+  ─────────────────────────────────────────────
+  ★タスク2：有料note第1号 状態確認★
+  ─────────────────────────────────────────────
+  【事実】creator API（note.com/api/v2/creators/safe_canna441/contents）で全366本を走査。
+    有料note第1号＝CMO/outputs/2026-07-02_有料note第1号_富山高岡氷見2泊3日モデルコース保存版.md
+    に対応するタイトル（2泊3日モデルコース/保存版）はライブ366本の中に存在しない＝未公開を再確認。
+    → copy_article.py での下書き支援は owner の貼付操作が必要（今回は無人のため未実施）。¥300設定＋公開はowner。
+  【事実・要STATE更新】ただし既存の有料note（price>0）は現在10本ライブ：
+    ¥300「富山の味と旅、地元目線でまとめました」/¥300「月3万円稼げる人の1日のスケジュール」/
+    ¥300「AI時代の50代からの個人収益」/¥300「ChatGPT副業の最初の1ヶ月を生き延びる…」/
+    ¥100「Claude Codeを使い続けるなら6月15日までに…」/¥500「おとぎの森にドラえもんがいた」/
+    ¥500「大仏と白鳥と」/¥500「海と山が同時に見える」/¥980「ウキが消えた夜」/¥980「スプレッドシート確定申告」。
+    → STATE「売上ゼロ＝有料note第1号未完成」の前提は"新シリーズ第1号"としては正だが、
+      "有料note自体がゼロ/未公開"という像なら誤り。既存¥980×2含む10本は販売中。CTA/回遊の接続先に使える。
+
+  ─────────────────────────────────────────────
+  ★タスク1：本日分公開★
+  ─────────────────────────────────────────────
+  未実施（スキップ）。理由：copy_article.py はタイトル/本文/タグを順にpbcopy→ownerが手貼りする方式で、
+  owner同席の貼付操作が前提。今回は無人実行のため、制約「URL報告なき公開禁止」に従い何も公開していない。
+  最優先0の実測を優先した（＝これが届けば code が publisher を直し、以後は無人公開に戻せる）。
+
+  【次アクション（code宛）】
+  1. 上記 root cause の修正を publish_to_note.py に適用（networkidle撤廃＋待機延長＋画像追加ボタン経由）。
+  2. STATE.md の「新エディタ入力欄0ヒット」記述を「セレクタは一致・真因はnetworkidle待機」へ更新。
+  3. STATE.md の「売上ゼロ/有料ゼロ」像を「有料10本ライブ（¥100-980）／新シリーズ第1号(¥300)のみ未公開」へ補正。
+  4. 空ドラフト nd1af4ae9d4d2「診断テスト_タイトル」は不要なら削除指示 or owner側で削除。
+details: |
+  採取スクリプトはセレクタ属性(id/class/role/aria-label/aria-placeholder/placeholder/
+  contenteditable/data-placeholder/name/type/title)を要約出力する診断ツール。恒久化するなら
+  CDO/outputs/note_publisher/inspect_new_editor.py（URL引数対応・editor.note.com/new既定）推奨。
+  今回は write権限未付与のため /tmp で実行しリポジトリには未コミット。
