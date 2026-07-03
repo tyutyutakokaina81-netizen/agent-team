@@ -1,0 +1,81 @@
+---
+status: done
+---
+id: 2026-07-03_002
+from: cowork
+to: code
+type: report
+title: 実行報告（有料note下書き/5本公開/CTA/Vol.1）— publisherがnote新エディタ移行で不通・実機切り分け完了＋CTA12本の実URL特定
+status: partial
+date: 2026-07-03
+summary: |
+  【要点】公開系4タスクは「note公開自動化が現在不通」で自律完了できず（URL報告なき公開は禁止＝何も公開していない）。
+  ただし前回001の「要判断で全保留」から一歩進め、実機で原因を切り分け＋安全な準備を完了した。
+
+  【事実1・セッションは生存】~/.note_publisher_profile で note.com にアクセスすると HOME はログイン状態
+  （ログイン/会員登録リンク=0・投稿ボタン存在）。/login へは飛ばない＝セッションは失効していない。
+  ※前回001「6/25 Cookies＝失効の可能性」は実測では否定。生存を確認。
+
+  【事実2・原因は note の新エディタ移行】publish_to_note.py --draft を有料note第1号で実行した結果、
+  「タイトル入力欄が見つかりません／現在URL=note.com/notes」で停止(EXIT=2)。読み取り専用プローブで再確認すると
+  投稿導線(/notes/new)は現在 editor.note.com/new へ集約され、ページは開くが
+  contenteditable / input[placeholder*=タイトル] / textarea / div[role=textbox] / .ProseMirror が
+  6秒待機後も 0 個。＝publisher のタイトル/本文セレクタが新エディタ(editor.note.com)に一致していない。
+  STATE 2026-07-03「publisher修正済(editor.note.com/new優先)」は入口URLは正したが、
+  入力欄セレクタ側が未対応で、実際には publish/draft とも不通。
+
+  【結論】タスク1・2（下書き/公開）は publisher の新エディタ対応(=CDO修正)か copy_article.py 手貼り（人の手）が必要。
+  無人での note 記事作成は現状不可。タスク3・4は別ブロッカー（実URL不在＋既存記事編集の自動化なし）。
+  6/12 インシデントの慎重運用に従い、不可逆な公開フローをライブで無理に叩いていない。
+
+tasks:
+  - n: 1
+    name: 有料note第1号（金沢から40分・モデルコース）の下書き作成
+    result: 未完了（公開状態は確認済＝未公開）
+    detail: |
+      public API で全366本を走査。有料note は 2本のみ（¥300「富山の味と旅…」/ ¥100「Claude Codeを…」）で
+      モデルコース保存版は未公開を確定。publish_to_note.py --draft 実行→上記【事実2】で停止。下書き未作成。
+    next: |
+      A) CDO が publisher を editor.note.com の入力欄セレクタに対応（推奨・恒久策）→再実行で下書き可、
+      B) owner が copy_article.py で手貼り（タイトル→本文→タグをpbcopy・◆◆マーカー行削除し¥300有料ライン設定→公開）。
+      価格設定・公開ボタンは owner 担当（不可逆）のまま。
+  - n: 2
+    name: 無料note 5本公開（バックログ）
+    result: 未実行
+    reason: タスク1と同一ブロッカー（新エディタ未対応で投稿自体が不通）。重複ゲート/サムネ以前の問題。
+    next: publisher 修正後に再開。重複検索ゲート・サムネ必須は遵守予定。
+  - n: 3
+    name: CTA差し込み（仕事系12記事）
+    result: 準備完了・実装は owner 待ち（2ブロッカー）
+    blockers: |
+      (a) 差し込む販売ページの実URL(●●●置換先)がリポジトリに存在しない。Vol.1(¥980)は note 有料記事に無く＝BOOTH 商品。URLは owner のみ保有。
+      (b) 対象は公開済みライブ記事の編集。publisher は新規作成専用で既存記事編集の自動化は無い（新エディタで編集導線も要対応）。
+    prepared: パックA対応表12本を public API 実データと突合し実URLを特定済み（下 cta_targets）。owner は各URLを開き末尾「▼あわせて読む」の前に指定CTAを貼り●●●をVol.1販売URLに置換で完了。
+  - n: 4
+    name: Vol.1販売ページを パックB コピーに差替（note/BOOTH）
+    result: 未実行（owner作業）
+    reason: Vol.1(¥980)は BOOTH 商品でURLがリポジトリ未記録。既存ライブページ編集は認証GUI操作＝owner担当。差替コピー(パックB)は CMO/outputs/2026-07-01_売れる化改善_Vol1販売ページ＋記事CTAパック.md §B に完成済。
+    next: owner が BOOTH(および該当note)販売ページ本文を §B コピーに貼り替え。
+
+cta_targets:
+  note: "パックA対応表12本の実URL（public API 366本と突合・確定）。●●●=Vol.1販売URL(owner保有)に要置換。"
+  items:
+    - {cta: CTA-1, url: https://note.com/safe_canna441/n/n4e1e1c624ba8, title: "自分の時給を、ちゃんと計算したことはありますか。"}
+    - {cta: CTA-2, url: https://note.com/safe_canna441/n/nddb4e9f0e199, title: "フリーランス1年目の自分に教えたい、月1万円を逃さないコツ。"}
+    - {cta: CTA-1, url: https://note.com/safe_canna441/n/n74e4d7e3d7b3, title: "フリーランスで「月10万円」を超えるためにやった、7つの実例。"}
+    - {cta: CTA-2, url: https://note.com/safe_canna441/n/nee84a650d559, title: "先月、12個あったサブスクを5個に絞った話。"}
+    - {cta: CTA-3, url: https://note.com/safe_canna441/n/ndf26ca8fffee, title: "作業ログを毎日つけていたら、自分の時間の使い方が見えた話。"}
+    - {cta: CTA-3, url: https://note.com/safe_canna441/n/n930a1fe5a902, title: "収支管理が「続けられた」のは、シートを変えてからだった"}
+    - {cta: CTA-2, url: https://note.com/safe_canna441/n/n192b7f156f9e, title: "請求書を3分で作る、AIへのプロンプト。"}
+    - {cta: CTA-3, url: https://note.com/safe_canna441/n/ncc992aed3e68, title: "土曜の朝30分、週次振り返りで週末が変わる。"}
+    - {cta: CTA-3, url: https://note.com/safe_canna441/n/n1e80caa1c09e, title: "月曜朝、最初に開くファイルを1つ決めている。"}
+    - {cta: CTA-1, url: https://note.com/safe_canna441/n/nda50d4e3f2c8, title: "営業しないで、仕事が来る仕組みは作れるのか。"}
+    - {cta: CTA-1, url: https://note.com/safe_canna441/n/n079426e8b8db, title: "ひとり会社を始めて、最初の30日で「買ってよかった」3つ。"}
+    - {cta: CTA-2, url: https://note.com/safe_canna441/n/nf3cc798988a4, title: "無料noteを30本書いて見えた、「有料化」の境目。"}
+
+published_urls: []   # 今回の公開は 0 件（URL報告なき公開禁止を遵守）
+
+for_code_next:
+  - "CDO案件化: publish_to_note.py を editor.note.com 新エディタの入力欄セレクタに対応（タイトル/本文が ProseMirror/iframe/shadow の可能性。inspect_note_editor.py を editor.note.com/new・headed で走らせ実要素を吸い出す）。"
+  - "owner確認: Vol.1(¥980)販売ページの実URL(BOOTH/該当note)を会話に共有 → CTA ●●● 置換と §B 差替が回せる。"
+  - "STATE/registry正本更新は code 専任のため本報告では未編集（cowork は STATE.md/CMO/_index.md 非編集）。"
