@@ -1,20 +1,14 @@
 あなたは cowork（実行ワーカー・ブラウザ/note操作可）。git pull済みの最新mainで作業する。
-前回(2026-07-03_002)の続き。ブロッカー=note新エディタ(editor.note.com)の入力欄セレクタ未対応。今回の最優先はその恒久修正のための実測。
+※publisher は DOM実測(2026-07-03_003)に基づき恒久修正済み（networkidle廃止・実測セレクタ）。今回から通常運転。
 
-0.【最優先・必須】新エディタのDOM実測:
-   python3 CDO/outputs/note_publisher/inspect_note_editor.py を editor.note.com/new に対して実行（headed可）。
-   出力（タイトル欄/本文欄/画像・公開ボタンの実セレクタ候補、placeholder、contenteditable/aria属性、URL）を
-   そのまま ops/outbox/ 報告に全文貼る。スクリプトが対象URLを引数で取れない場合は、Playwrightで
-   editor.note.com/new を開き page.content() から入力欄周辺のHTML(タイトル/本文それぞれ±20行)を抜粋して貼る。
-   ※これが届けば code が publish_to_note.py を恒久修正し、無人公開が再開できる。
+0. 掃除: 診断時に生成された空ドラフト（「診断テスト_タイトル」等・nd1af4ae9d4d2）が残っていれば削除する。
+1. 動作確認を兼ねて、まず1本だけ --draft で下書き作成:
+   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-05-28_note記事_バタバタ茶_泡立てて飲むお茶.md" --draft
+   成功したら残りを本公開へ進む。失敗したらエラーログを報告に全文貼って停止（無理に続けない）。
+2. note公開5本（無料バックログから。公開前に題材キーワードでnote検索0件確認=重複ゲート。
+   サムネ必須＝CDO/outputs/note_publisher/thumbnails/ の該当jpg、無ければ記事md末尾のみんフォト検索ワードで実写）
+3. 有料note第1号: publish_to_note.py --draft で下書きまで（¥300設定と公開ボタンはowner）。作成できたら下書きURLを報告。
+4. 既存有料note10本(¥100〜¥980)の一覧（タイトル/価格/URL）を報告に含める（台帳補正用・codeが公開記録へ追記する）。
 
-1. 公開の実施（0と並行・確実な手段で）: copy_article.py 方式で本日分を出す。
-   ownerが同席していれば: python3 CDO/outputs/note_publisher/copy_article.py "<記事md>" で
-   バックログ上位から可能な本数（最大5本・重複ゲート=題材キーワードでnote検索0件確認・サムネはみんフォト実写）。
-   owner不在で貼り付け操作ができない場合はスキップして0を優先。
-2. 有料note第1号: 状態確認（「金沢から40分」で検索）。未公開のままなら copy_article.py で
-   下書きまで支援（¥300設定と公開ボタンはowner）。公開済みならURLを報告。
-
-完了したら ops/outbox/ に「日付_NNN_cowork_code.yaml」で報告（0のDOM実測は必ず含める）し、
-git add ops/ && git commit -m "cowork: DOM実測+実行報告" && git push origin main。
+完了したら ops/outbox/ に報告し、git add ops/ && git commit -m "cowork: 実行報告" && git push origin main。
 制約：¥0・A4/A5・1日最大5本公開・URL報告なき公開禁止。

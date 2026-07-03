@@ -6,6 +6,13 @@
 
 最終更新: 2026-07-02（売上ゼロ改善＝有料note第1号¥300完成・ワーカー日次を収益優先に変更・世界ウケ枠恒久化・世界配布キット。最優先＝下の「新・日次優先順」1〜5）
 
+> ## 2026-07-03 ★★publisher恒久修正（報告003=DOM実測受領）
+> - **真因確定**：セレクタはほぼ一致していた。詰まりは `wait_for_load_state("networkidle")`＝新SPAエディタで発火せず全入口タイムアウト。＋/new→/notes/<id>/editリダイレクト後のProseMirrorマウント待ち不足。
+> - **修正済**：networkidle全廃→`domcontentloaded`+タイトル欄`wait_for_selector`20s／実測セレクタ優先(`textarea[placeholder="記事タイトル"]`・本文`div.ProseMirror[contenteditable]`・`公開に進む`)／画像は`button[aria-label="画像を追加"]`対応。
+> - **台帳補正（重要）**：既存の**有料note10本(¥100〜¥980)がライブ**と判明（「有料ゼロ」認識は誤り）。第1号(¥300 2泊3日)は未公開のまま。次回ワーカーが10本の一覧を報告→公開記録へ追記する。
+> - **掃除**：診断時の空ドラフト(nd1af4ae9d4d2)削除をワーカー次回タスク0に設定。
+> - worker-prompt=通常運転版へ（まず1本--draftで動作確認→成功なら5本公開→有料は下書きまで）。
+>
 > ## 2026-07-03 ★ワーカー報告002処理（公開0本・原因特定）
 > - **事実**：セッション生存・新エディタ(editor.note.com)は開くが**入力欄セレクタが新形式で0ヒット**＝publisher不通の根因。有料note第1号は未公開と確定（全366本走査）。CTA対象12本の実URL特定済み。Vol.1はBOOTH商品でURL未記録（owner待ち）。
 > - **対処**：worker-prompt を「DOM実測最優先」版に更新（inspect_note_editor.py で実セレクタを吸い出し報告→code が publisher を恒久修正→無人公開再開）。当面の公開は copy_article.py 方式（実証済み）。
