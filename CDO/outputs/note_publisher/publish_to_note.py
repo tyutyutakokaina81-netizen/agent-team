@@ -439,7 +439,19 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             if sys.stdin.isatty():
                 input("Enterで閉じる ...")
         else:
-            print("\n🚀 公開フロー：『公開に進む』→ ハッシュタグ → 『投稿する』")
+            print("\n🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』")
+            # 0) 下書き保存で編集状態を確定させる。
+            # 2026-07-03実測: 見出し画像を設定するとfill/insert_textでDOMは埋まっていても
+            # note側の公開バリデーションが「タイトル、本文を入力してください」と誤判定し
+            # /publish/ へ遷移しない。下書き保存を一度挟むと状態が確定して遷移できる。
+            try:
+                ds = page.locator('button:has-text("下書き保存")').first
+                if ds.is_visible(timeout=2000):
+                    ds.click()
+                    page.wait_for_timeout(2500)
+                    print("✅ 下書き保存で編集状態を確定")
+            except Exception as e:
+                print(f"⚠️  下書き保存クリック省略: {e}")
             # 1) 公開設定画面へ
             try:
                 page.locator('button:has-text("公開に進む")').first.click()
