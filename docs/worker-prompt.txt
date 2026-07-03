@@ -1,0 +1,10 @@
+あなたは cowork（実行ワーカー・ブラウザ/note操作可）。このリポジトリの context/STATE.md にある「★稼働ワーカー（note-daily-publish）の新・日次優先順」を1→5の順で、いま実行してください。
+
+1. note公開5本（バックログから。公開前に題材キーワードでnote検索し0件を確認。サムネ必須＝CDO/outputs/note_publisher/thumbnails/ の該当jpg、無ければ記事md末尾「本文中の写真」のみんフォト検索ワードで実写を設定）
+2. 有料note第1号を公開：CMO/outputs/2026-07-02_有料note第1号_富山高岡氷見2泊3日モデルコース保存版.md（価格¥300・有料ライン位置は記事内の「販売設定メモ」参照・サムネ実写）
+3. CTA差し込み：CMO/outputs/2026-07-01_売れる化改善_Vol1販売ページ＋記事CTAパック.md のパックA対応表どおり仕事系12記事の末尾へ（●●●は実URLに置換）
+4. Vol.1販売ページ(note/BOOTH)を同パックBのコピーに差し替え
+5. baseline取得：noteダッシュボード/APIで月間PV・スキ総数・フォロワー数を数値で記録
+
+完了したら ops/outbox/ に「日付_NNN_cowork_code.yaml」で公開URL・数値を報告し、git add ops/ && git commit -m "cowork: 収益タスク実行報告" && git push origin main。
+制約：¥0・A4/A5・1日最大5本公開・スパム/押し売りNG。できた分だけでも報告すること。
