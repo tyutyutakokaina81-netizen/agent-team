@@ -395,20 +395,30 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         thumb_to_use = photos[0] if photos else auto_thumb
         if thumb_to_use:
             try:
-                # 「見出し画像」エリアを開く（noteは設定パネルにある）
-                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"], button[aria-label="画像を追加"]').first.click()
-                page.wait_for_timeout(500)
+                # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
+                #   ①上部 見出し画像エリアの button[aria-label="画像を追加"] を押す
+                #     → パネル(「画像をアップロード / 推奨サイズ：1280×670px」)が開く
+                #   ②「画像をアップロード」を押すとOSのファイル選択が開く(input[type=file]はDOMに存在しない)
+                #     → expect_file_chooser で捕捉して set_files
+                # 旧コードは存在しない input[type=file] を待って30秒Timeoutで失敗していた。
+                page.locator(
+                    'button[aria-label="画像を追加"], button:has-text("見出し画像"), [aria-label*="見出し画像"]'
+                ).first.click()
+                page.wait_for_timeout(800)
                 with page.expect_file_chooser() as fc:
-                    page.locator('input[type="file"]').first.click()
+                    page.locator('button:has-text("画像をアップロード")').first.click()
                 fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(1500)
-                # 「適用」「保存」「決定」ボタンがあれば押す
-                for label in ("適用", "決定", "保存", "完了"):
+                page.wait_for_timeout(2500)  # アップロード＆トリミングダイアログ表示待ち
+                # トリミング/位置調整ダイアログの確定（「保存」が本命）。
+                # 2026-07-03実測: ページには「下書き保存」も存在するため、必ずダイアログ内に
+                # スコープして誤クリック(下書き保存)を防ぐ。
+                crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
+                for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
                     try:
-                        btn = page.locator(f'button:has-text("{label}")').first
-                        if btn.is_visible(timeout=400):
+                        btn = page.locator(f'{crop_dialog} >> button:has-text("{label}")').last
+                        if btn.is_visible(timeout=600):
                             btn.click()
-                            page.wait_for_timeout(600)
+                            page.wait_for_timeout(800)
                             break
                     except Exception:
                         continue
@@ -416,51 +426,69 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             except Exception as e:
                 print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
 
-        # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
-        if tags:
+        # ---- 公開 or 下書き ----
+        # 2026-07-03実測(新エディタ editor.note.com)：
+        #   ・「公開に進む」で /publish/ 画面へ遷移
+        #   ・その画面にハッシュタグ欄(placeholder=ハッシュタグを追加する)と最終ボタン「投稿する」がある
+        #   ・旧UIの「公開する」ボタンは存在しない（＝旧コードは投稿ボタンを押せず公開未完だった）
+        if draft:
+            # 下書きはエディタ画面で自動保存済み。設定画面へは進まない。
+            # （ハッシュタグ欄は /publish/ 画面のみに存在するため、下書きでは設定しない）
+            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
+            print(f"    （ハッシュタグ {len(tags)} 個は公開時に /publish/ 画面で設定されます）")
+            if sys.stdin.isatty():
+                input("Enterで閉じる ...")
+        else:
+            print("\n🚀 公開フロー：『公開に進む』→ ハッシュタグ → 『投稿する』")
+            # 1) 公開設定画面へ
             try:
-                tag_input = page.locator(
-                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                ).first
-                # 公開設定パネルを開く必要がある場合の保険
-                if not tag_input.is_visible(timeout=1500):
-                    try:
-                        page.locator('button:has-text("公開設定"), button:has-text("公開に進む")').first.click()
-                        page.wait_for_timeout(800)
-                    except Exception:
-                        pass
+                page.locator('button:has-text("公開に進む")').first.click()
+                try:
+                    page.wait_for_url("**/publish/**", timeout=15000)
+                except Exception:
+                    page.wait_for_timeout(3000)
+            except Exception as e:
+                print(f"⚠️  『公開に進む』クリック失敗: {e}")
+            page.wait_for_timeout(1500)
+            # 2) ハッシュタグ入力（/publish/ 画面）
+            if tags:
+                try:
                     tag_input = page.locator(
                         'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
                     ).first
-                for t in tags[:10]:
-                    tag_input.click()
-                    page.keyboard.type(t)
-                    page.keyboard.press("Enter")
-                    page.wait_for_timeout(200)
-                print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
-            except Exception as e:
-                print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
-
-        # 公開 or 下書き
-        if draft:
-            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
-            input("Enterで閉じる ...")
-        else:
-            print("\n🚀 公開ボタンを押します（3秒後）...")
-            page.wait_for_timeout(3000)
+                    tag_input.wait_for(state="visible", timeout=8000)
+                    for t in tags[:10]:
+                        tag_input.click()
+                        page.keyboard.type(t)
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(200)
+                    print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
+                except Exception as e:
+                    print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
+            # 3) 投稿する（＝公開）。公開は1回のみ。
+            page.wait_for_timeout(1000)
             try:
-                page.locator('button:has-text("公開")').last.click()
-                page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
+                pub = page.locator('button:has-text("投稿する")').first
+                pub.wait_for(state="visible", timeout=10000)
+                pub.click()
+                page.wait_for_timeout(2500)
+                # 確認ダイアログが出る場合のみ、ダイアログ内の確定ボタンを押す
+                for lbl in ("投稿する", "公開する", "OK"):
+                    try:
+                        c = page.locator(f'[role="dialog"] >> button:has-text("{lbl}")').last
+                        if c.is_visible(timeout=800):
+                            c.click()
+                            page.wait_for_timeout(1500)
+                            break
+                    except Exception:
+                        continue
                 page.wait_for_timeout(3000)
-                print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
+                print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
             except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
-                print("    画面で「公開」ボタンを手動で押してください。")
-                input("公開を確認したら Enter ...")
+                print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}")
+                print(f"    現在URL: {page.url}")
+                if sys.stdin.isatty():
+                    input("画面で「投稿する」を押したら Enter ...")
 
         ctx.close()
 
