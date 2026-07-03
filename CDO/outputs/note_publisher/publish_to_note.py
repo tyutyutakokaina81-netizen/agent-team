@@ -52,8 +52,8 @@ NOTE_NEW_URL_CANDIDATES = [
 ]
 # タイトル欄のセレクタ（旧UI input/textarea ＋ 新エディタの contenteditable も拾う）
 TITLE_SELECTOR = (
+    'textarea[placeholder="記事タイトル"], '  # 2026-07 新エディタ実測の本命
     'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"], '
-    'textarea[placeholder*="記事タイトル"], '
     '[contenteditable="true"][data-placeholder*="タイトル"], '
     'h1[contenteditable="true"], div[role="textbox"][aria-label*="タイトル"]'
 )
@@ -294,8 +294,10 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         title_input = None
         for entry in NOTE_NEW_URL_CANDIDATES:
             try:
-                page.goto(entry)
-                page.wait_for_load_state("networkidle", timeout=20000)
+                # 新エディタはSPAで networkidle が発火しない（2026-07実測）→ domcontentloaded で進み、
+                # /new → /notes/<id>/edit への自動リダイレクト＋ProseMirrorマウントは wait_for_selector 側で待つ。
+                page.goto(entry, wait_until="domcontentloaded", timeout=30000)
+                page.wait_for_timeout(1500)
             except Exception:
                 continue
             if "accounts.google.com" in page.url or "login" in page.url:
@@ -303,17 +305,18 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             close_dialogs()
             cand = page.locator(TITLE_SELECTOR).first
             try:
-                cand.wait_for(state="visible", timeout=8000)
+                # リダイレクト(/new→/notes/<id>/edit)＋ProseMirrorマウントに時間がかかるため長めに待つ（実測対応）
+                cand.wait_for(state="visible", timeout=20000)
                 title_input = cand
-                print(f"🚪 エディタ入口: {entry}")
+                print(f"🚪 エディタ入口: {entry} → {page.url}")
                 break
             except Exception:
                 continue
 
         # どの入口でも出なければ、旧入口でもう一度だけ長めに待つ（回線遅延ケース）
         if title_input is None:
-            page.goto(NOTE_NEW_URL)
-            page.wait_for_load_state("networkidle", timeout=20000)
+            page.goto(NOTE_NEW_URL, wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(1500)
             close_dialogs()
             title_input = page.locator(TITLE_SELECTOR).first
         try:
@@ -380,7 +383,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         if thumb_to_use:
             try:
                 # 「見出し画像」エリアを開く（noteは設定パネルにある）
-                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"]').first.click()
+                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"], button[aria-label="画像を追加"]').first.click()
                 page.wait_for_timeout(500)
                 with page.expect_file_chooser() as fc:
                     page.locator('input[type="file"]').first.click()

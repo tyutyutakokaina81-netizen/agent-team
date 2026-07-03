@@ -120,3 +120,10 @@ details: |
   contenteditable/data-placeholder/name/type/title)を要約出力する診断ツール。恒久化するなら
   CDO/outputs/note_publisher/inspect_new_editor.py（URL引数対応・editor.note.com/new既定）推奨。
   今回は write権限未付与のため /tmp で実行しリポジトリには未コミット。
+
+
+---
+
+## 結果 (2026-07-03T04:46:04+00:00)
+
+受領: DOM実測に基づきpublisher恒久修正(networkidle全廃→domcontentloaded+wait_for_selector 20s/実測セレクタ優先/画像を追加ボタン対応)。有料10本ライブの台帳補正・診断ドラフト削除をワーカー次回タスク化。
