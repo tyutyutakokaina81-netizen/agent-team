@@ -24,6 +24,12 @@
 > 毎朝の便でnoteコメントに自動返信（てつ名義・丁寧・非テンプレ・感謝必須・質問は事実検証ノートの範囲で回答）。
 > **返信禁止→報告のみ**: 苦情/事実誤り指摘/けんか腰/スパム/PII（誤り指摘は記事修正の起点として全文report）。1コメント1返信・追撃なし・コメント欄で営業しない(A5)。
 >
+> ## 2026-07-04 ★配車係（dispatcher）常設＝ワーカー起動の手作業を撤廃（owner「ここも自動化して」）
+> - **仕組み**：Macのcronが5分ごとに `docs/worker_dispatcher.sh` を実行→mainをpull→ `ops/run_requests/*.txt` に未消化の要求があれば `run_worker.sh` を起動。**codeが要求ファイルをpushするだけで便が出る**（ownerのコマンド貼り付け不要に）。
+> - **安全**：run_worker.sh自身に実行中ロック（cron定期便/配車/手動の三経路とも二重起動不可・6時間超の残骸ロックは自動回収）／朝cron7:17の前後30分は配車しない／消化済み要求はMacローカルに記録。
+> - **owner作業（最後の1回だけ）**：`bash docs/worker_dispatcher.sh --install` で登録。以後は完全無人。
+> - 初回要求 `ops/run_requests/2026-07-04_1900_full-run.txt` 投函済み（11:35便の再実行）。
+>
 > ## 2026-07-04 ★★重複ゲートをpublisherに実装（11:35便のワーカー指摘が正しかった）
 > - **発覚**：docs/STATEが謳っていた「重複チェック」ガードは publish_to_note.py に**未実装**だった（ワーカーが全文読解で発見し公開を正しく保留）。
 > - **実装（code・オフライン4テスト合格）**：二層ゲート＝①published_registry.json（台帳由来14件seed＋公開のたび自動追記・正規化タイトル照合）②公開直前のnote検索で自アカウント同名記事を確認（**fail-closed**=検索不能なら公開中断・--skip-online-dedupで明示解除のみ）。再構築=`build_published_registry.py`。
