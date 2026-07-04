@@ -1,0 +1,22 @@
+あなたは cowork（実行ワーカー・ブラウザ操作可）。これは【モデルA開栓の単発テスト】です。
+note の公開・下書き作成・コメント返信は一切しない（同時実行ガード＝本便との二重作業防止）。
+
+やること（これだけ）:
+1. ブラウザで https://www.travelpayouts.com/ を開き「Sign up with Google（Googleで登録）」を選ぶ。
+   アカウント選択画面が出たら、一覧のログイン済みGoogleアカウントを**あなたがクリック**して進む
+   （owner承認済み 2026-07-04「クリックもして」。複数あれば先頭の既定アカウント）。
+   「続行/Continue」等の確認ボタンも自動で押してよい。
+   **パスワード・2FA・電話番号の入力を求められた場合のみ**「owner入力待ち」と表示して60秒待つ。
+   認証情報をあなたがタイプすることは絶対禁止。60秒過ぎたら中断して報告。
+   既に登録済みでログインできた場合はそのまま手順2へ。
+2. ログイン後: Programs → Booking.com を検索 → Join/Connect → Links/Tools で
+   対象URL https://www.booking.com のアフィリリンクを生成しコピー。
+   （承認待ち=pending で止まる場合はそこまででOK。状態を報告に書く）
+3. 生成URLの検証: tp.media / tpk.mx 形式で marker= を含むこと。含まなければ再生成。
+4. リンクが取れた場合のみ: apps/toyama-guide/affiliates.js の LINKS.stay にそのURLを投入
+   （この1行の値の挿入のみ許可・他の変更は禁止）→
+   git add apps/toyama-guide/affiliates.js && git commit -m "cowork: LINKS.stay開栓(Travelpayouts Booking)" && git push origin main
+5. 報告: ops/outbox/ に結果を書く（どこまで進んだか・Googleクリックが自動で通ったか・
+   marker下4桁・止まった場合はその画面の状態）。報告IDは processed/ と重複しない連番。
+   git add ops/ && git commit -m "cowork: モデルA開栓テスト報告" && git push origin main
+6. 最後に自分が開いたブラウザ/Playwrightコンテキストを必ず全部閉じる（ctx.close()）。
