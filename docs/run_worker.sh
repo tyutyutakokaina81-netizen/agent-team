@@ -19,6 +19,13 @@ fi
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 git pull origin main -q
+
+# 配車係の自動インストール（冪等）: ownerの貼り付け作業なしで、次にこのスクリプトが
+# 走った時点（朝7:17のcron便など）で dispatcher が crontab に登録される。
+if ! crontab -l 2>/dev/null | grep -q worker_dispatcher.sh; then
+  bash docs/worker_dispatcher.sh --install || true
+fi
+
 TS=$(date +%Y-%m-%d_%H%M)
 CLA=$(command -v claude || ls "$HOME/.claude/local/claude" 2>/dev/null)
 
