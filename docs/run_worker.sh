@@ -13,7 +13,9 @@ URL=$(git remote get-url origin)
 if [ ! -d "$LOGCLONE/.git" ]; then git clone --depth 1 -q "$URL" "$LOGCLONE"; fi
 
 echo "=== ワーカー開始 ${TS}（実行中も3分ごとに状況が自動送信されます）==="
-"$CLA" -p "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log &
+# --dangerously-skip-permissions: -p(非対話)では権限プロンプトに答えられず、報告書き込み/git pushが
+# 全部ブロックされる（2026-07-04 11:35便で実証: 報告もログも届かなかった）。owner環境の自リポジトリ限定運用。
+"$CLA" -p --dangerously-skip-permissions "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log &
 PID=$!
 
 # ライブ送信ループ（ワーカーが生きている間だけ）

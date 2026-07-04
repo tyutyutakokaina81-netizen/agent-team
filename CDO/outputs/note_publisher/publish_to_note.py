@@ -58,6 +58,100 @@ TITLE_SELECTOR = (
     'h1[contenteditable="true"], div[role="textbox"][aria-label*="タイトル"]'
 )
 
+AUTHOR_ID = "safe_canna441"
+# 既公開記事のローカル台帳（公開成功のたびに本スクリプトが自動追記する）。
+# note上の全記事はカバーしない（seedは台帳由来の一部のみ）ため、これは第1層の高速チェック。
+# 第2層＝公開直前の note 検索（online_dedup_check）が最終ゲート。
+REGISTRY_PATH = Path(__file__).resolve().parent / "published_registry.json"
+
+
+# ---------- 重複ゲート（2026-06-12 重複公開インシデント対策・2026-07-04 実装） ----------
+
+def _norm_title(s: str) -> str:
+    """タイトル比較用の正規化（空白・記号を除去して casefold）"""
+    s = re.sub(r"\s+", "", s)
+    s = re.sub(r"[「」『』【】\[\]（）()｛｝{}、。，．,.!！?？:：;；・･\-ー—–〜~…※★☆|｜/／\\]", "", s)
+    return s.casefold()
+
+
+def _titles_match(a: str, b: str) -> bool:
+    """正規化後の完全一致、または両者12文字以上での包含を重複とみなす"""
+    na, nb = _norm_title(a), _norm_title(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    if len(na) >= 12 and len(nb) >= 12 and (na in nb or nb in na):
+        return True
+    return False
+
+
+def load_registry() -> list:
+    if REGISTRY_PATH.exists():
+        try:
+            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+
+def registry_check(title: str):
+    """ローカル台帳との重複チェック。ヒットしたエントリ or None"""
+    for e in load_registry():
+        if _titles_match(title, e.get("title", "")):
+            return e
+    return None
+
+
+def registry_add(title: str, url: str):
+    """公開成功後に台帳へ自動追記（自己保全。次回以降の第1層ゲートになる）"""
+    reg = load_registry()
+    reg.append({
+        "title": title,
+        "url": url,
+        "recorded_at": datetime.now().isoformat(timespec="seconds"),
+    })
+    REGISTRY_PATH.write_text(
+        json.dumps(reg, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
+    print(f"📒 published_registry.json に追記しました（{len(reg)}件）")
+
+
+def online_dedup_check(page, title: str):
+    """note検索で自アカウント(safe_canna441)の同名記事を探す（最終ゲート・公開直前に実行）。
+    返り値: 重複URLのリスト（空=重複なし）／ None=検索結果が確認できず判定不能。
+    判定不能時の扱いは呼び出し側で fail-closed（公開中断）とする。"""
+    from urllib.parse import quote
+    try:
+        page.goto(
+            f"https://note.com/search?context=note&q={quote(title)}",
+            wait_until="domcontentloaded", timeout=30000,
+        )
+        page.wait_for_timeout(3500)
+        # 検索ページ自体が開けたかの確認（結果0件は正常＝重複なし）
+        if "/search" not in page.url:
+            return None
+        links = page.locator(f'a[href*="/{AUTHOR_ID}/n/"]')
+        n = links.count()
+        nt = _norm_title(title)
+        hits = []
+        for i in range(min(n, 30)):
+            a = links.nth(i)
+            href = a.get_attribute("href") or ""
+            try:
+                card_text = a.inner_text(timeout=1500)
+            except Exception:
+                card_text = ""
+            # カード文言（タイトル+抜粋）の中に記事タイトルが含まれていれば重複とみなす
+            if card_text and nt and nt in _norm_title(card_text):
+                m = re.search(r"/n/[a-z0-9]+", href)
+                if m:
+                    hits.append(f"https://note.com/{AUTHOR_ID}{m.group(0)}")
+        return sorted(set(hits))
+    except Exception as e:
+        print(f"⚠️  note検索での重複確認に失敗: {e}")
+        return None
+
 
 # ---------- セッション管理（persistent profile方式 ＋ 本物Chrome優先） ----------
 
@@ -242,9 +336,19 @@ def collect_photos(photo_dir: Path):
 
 # ---------- 投稿フロー（note UI操作） ----------
 
-def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False):
+def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False,
+            skip_online_dedup: bool = False):
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
+
+    # ---- 重複ゲート第1層：ローカル台帳（ブラウザを開く前に即判定） ----
+    reg_hit = registry_check(title)
+    if reg_hit:
+        if draft:
+            print(f"⚠️  台帳に既公開の記録があります: {reg_hit.get('url')}（ドラフトなので続行）")
+        else:
+            sys.exit(f"✗ 重複ゲート(台帳): このタイトルは既に公開済みです → {reg_hit.get('url')}\n"
+                     f"  記事: {title}\n  公開を中断しました（published_registry.json 参照）。")
 
     # thumbnails/{stem}.jpg があれば自動でサムネ＆--photos未指定時の見出し画像に使う
     auto_thumb = find_thumbnail_for(md_path)
@@ -273,6 +377,24 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
+
+        # ---- 重複ゲート第2層：note検索（公開時のみ・fail-closed） ----
+        if not draft:
+            if skip_online_dedup:
+                print("⚠️  --skip-online-dedup 指定: note検索での重複確認をスキップします（非推奨）")
+            else:
+                dup = online_dedup_check(page, title)
+                if dup is None:
+                    ctx.close()
+                    sys.exit("✗ 重複ゲート: note検索で重複確認ができませんでした（fail-closed で公開中断）。\n"
+                             "  note検索UIの変更/回線不調の可能性。目視で重複なしを確認できた場合のみ\n"
+                             "  --skip-online-dedup を付けて再実行してください。")
+                if dup:
+                    ctx.close()
+                    sys.exit(f"✗ 重複ゲート(note検索): 同タイトルの公開記事が既にあります → {', '.join(dup)}\n"
+                             f"  記事: {title}\n  公開を中断しました。")
+                print("✅ 重複ゲート通過（note検索でヒットなし）")
+
         # ダイアログ内のボタンだけを対象にする（2026-07-03実測：新エディタ本体に常設の
         # 「閉じる」ボタンがあり、page全体からhas-textで拾うと誤クリック→一覧へ離脱＝全滅の真因だった）
         DIALOG_SCOPE = '[role="dialog"], [aria-modal="true"], .ReactModal__Content, .m-modal, .o-modal'
@@ -496,6 +618,9 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                         continue
                 page.wait_for_timeout(3000)
                 print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
+                # 公開成功を台帳へ自動追記（次回以降の第1層ゲート）
+                m = re.search(r"/n/[a-z0-9]+", page.url)
+                registry_add(title, f"https://note.com/{AUTHOR_ID}{m.group(0)}" if m else page.url)
             except Exception as e:
                 print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}")
                 print(f"    現在URL: {page.url}")
@@ -520,6 +645,8 @@ def main():
                     help="ファイル名日付ではなくmtime最新を選択（旧デフォルト）")
     ap.add_argument("--allow-future", action="store_true",
                     help="未来日付の記事も公開対象に含める（既定では誤公開防止のため未来は除外）")
+    ap.add_argument("--skip-online-dedup", action="store_true",
+                    help="note検索での重複確認をスキップ（非推奨・目視確認済みの時のみ）")
     args = ap.parse_args()
 
     if args.login:
@@ -543,7 +670,8 @@ def main():
         sys.exit(f"記事が見つかりません: {md_path}")
 
     photo_dir = Path(args.photos).expanduser() if args.photos else None
-    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only)
+    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only,
+            skip_online_dedup=args.skip_online_dedup)
 
 
 if __name__ == "__main__":
