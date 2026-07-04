@@ -3,6 +3,21 @@
 # ・実行中: 3分ごとにログ末尾を ops/logs/worker_live.log として自動push（codeが遠隔でリアルタイム診断）
 # ・終了時: ログ末尾120行+exit code を ops/logs/worker_<日時>.log として push
 cd "$HOME/agent-team-run" || exit 1
+
+# 実行中ロック（cron定期便・配車係・手動の三経路すべての二重起動防止）
+LOCK="$HOME/.agent-team-dispatch/worker.lock"
+mkdir -p "$(dirname "$LOCK")"
+if ! mkdir "$LOCK" 2>/dev/null; then
+  # 6時間超の残骸ロックだけ回収して続行（異常終了でロックが残ったケース）
+  if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +360 2>/dev/null)" ]; then
+    rmdir "$LOCK" 2>/dev/null; mkdir "$LOCK" 2>/dev/null || { echo "ロック取得失敗"; exit 0; }
+  else
+    echo "=== 別のワーカーが実行中のため起動しません（二重起動防止）==="
+    exit 0
+  fi
+fi
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+
 git pull origin main -q
 TS=$(date +%Y-%m-%d_%H%M)
 CLA=$(command -v claude || ls "$HOME/.claude/local/claude" 2>/dev/null)
