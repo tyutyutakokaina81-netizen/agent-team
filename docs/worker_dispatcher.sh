@@ -29,10 +29,19 @@ if [ "$HM" -ge 0647 ] && [ "$HM" -le 0747 ]; then exit 0; fi
 # 未消化の実行要求を探す（消化済みはローカル記録。Macは1台前提）
 CONSUMED="$STATE_DIR/consumed.txt"
 touch "$CONSUMED"
+TODAY=$(date +%Y-%m-%d)
 REQ=""
 for f in ops/run_requests/*.txt; do
   [ -e "$f" ] || continue
-  grep -qxF "$f" "$CONSUMED" || { REQ="$f"; break; }
+  grep -qxF "$f" "$CONSUMED" && continue
+  # ファイル名の日付が過去日の要求は空振り消化（朝の定期便がカバー済み＝古い要求で余計な便を出さない）
+  RD=$(basename "$f" | cut -c1-10)
+  if [ "$RD" \< "$TODAY" ]; then
+    echo "$f" >> "$CONSUMED"
+    echo "stale request skipped: $f"
+    continue
+  fi
+  REQ="$f"; break
 done
 [ -z "$REQ" ] && exit 0
 

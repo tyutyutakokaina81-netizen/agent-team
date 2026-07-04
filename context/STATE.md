@@ -27,8 +27,9 @@
 > ## 2026-07-04 ★配車係（dispatcher）常設＝ワーカー起動の手作業を撤廃（owner「ここも自動化して」）
 > - **仕組み**：Macのcronが5分ごとに `docs/worker_dispatcher.sh` を実行→mainをpull→ `ops/run_requests/*.txt` に未消化の要求があれば `run_worker.sh` を起動。**codeが要求ファイルをpushするだけで便が出る**（ownerのコマンド貼り付け不要に）。
 > - **安全**：run_worker.sh自身に実行中ロック（cron定期便/配車/手動の三経路とも二重起動不可・6時間超の残骸ロックは自動回収）／朝cron7:17の前後30分は配車しない／消化済み要求はMacローカルに記録。
-> - **owner作業（最後の1回だけ）**：`bash docs/worker_dispatcher.sh --install` で登録。以後は完全無人。
-> - 初回要求 `ops/run_requests/2026-07-04_1900_full-run.txt` 投函済み（11:35便の再実行）。
+> - **owner作業ゼロ化（owner「ターミナルに貼って実行して」→codeはMacを直接叩けないため自動注入に変更）**：run_worker.sh が起動時に配車係を自動インストール（冪等）。＝**明朝7:17の既存cron便が走った時点で配車係が有効化**され、以後は貼り付け不要。今夜すぐ有効化したい場合のみ `bash docs/worker_dispatcher.sh --install` を1回貼る（任意）。
+> - **同日多重便の安全**：過去日の実行要求は空振り消化（stale skip）／worker-promptに「1日5本の数え方=registryの本日recorded_at件数で残枠管理」を明記（定期便+配車便の合算で5本超えない）。
+> - 初回要求 `ops/run_requests/2026-07-04_1900_full-run.txt` 投函済み（11:35便の再実行。本日中に配車されなければ明朝分でカバーされ、要求はstale消化される）。
 >
 > ## 2026-07-04 ★★重複ゲートをpublisherに実装（11:35便のワーカー指摘が正しかった）
 > - **発覚**：docs/STATEが謳っていた「重複チェック」ガードは publish_to_note.py に**未実装**だった（ワーカーが全文読解で発見し公開を正しく保留）。
