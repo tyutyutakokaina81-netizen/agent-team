@@ -619,8 +619,10 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 page.wait_for_timeout(3000)
                 print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
                 # 公開成功を台帳へ自動追記（次回以降の第1層ゲート）
-                m = re.search(r"/n/[a-z0-9]+", page.url)
-                registry_add(title, f"https://note.com/{AUTHOR_ID}{m.group(0)}" if m else page.url)
+                # 公開後の page.url は editor.note.com/notes/<key>/publish/ になる場合があるため、
+                # /n/<key> だけでなく /notes/<key> からもキーを取り出し、正規の公開URLに整形する。
+                m = re.search(r"/(?:n|notes)/(n[a-z0-9]+)", page.url)
+                registry_add(title, f"https://note.com/{AUTHOR_ID}/n/{m.group(1)}" if m else page.url)
             except Exception as e:
                 print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}")
                 print(f"    現在URL: {page.url}")
