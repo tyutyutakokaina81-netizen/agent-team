@@ -6,6 +6,9 @@
 
 最終更新: 2026-07-02（売上ゼロ改善＝有料note第1号¥300完成・ワーカー日次を収益優先に変更・世界ウケ枠恒久化・世界配布キット。最優先＝下の「新・日次優先順」1〜5）
 
+> ## 2026-07-04 ワーカー自己修復レビュー（点検サイクル）: 447e781 → 採用（ロールバック不要）
+> 公開後URL抽出を `/notes/<key>` 形式(editor.note.com/notes/<key>/publish/)にも対応させ台帳へ正規URL記録。機械的修正で公開ロジック/ガード/価格に不触＝権限内・妥当。以後再レビュー不要。
+>
 > ## 2026-07-04 ★世界配信を再発火（owner「世界に向けて公開して」）
 > - **仕組み（既存・完成済み）**：mainへのpush毎に①GitHub Pagesが英語49ページ＋日本語HP＋sitemapを世界公開 ②IndexNowがBing/Yandex/Seznam/Naver等へ全URL自動通知（+毎週月曜再送）。**A1の壁なし＝codeが直接できる唯一の"世界公開"**。Googleのみ非対応でSearch Console登録が別途要（owner側）。
 > - **点検結果**：英語ページ49本すべてsitemap掲載（漏れ0）。sitemap全114URLにlastmod付与→**PR#109マージでIndexNow再pingが completed/success**（全ページを検索エンジンへ再通知完了）。
