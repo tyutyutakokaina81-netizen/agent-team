@@ -86,6 +86,25 @@ def _titles_match(a: str, b: str) -> bool:
     return False
 
 
+def _topic_key(title: str = "", md_path: "Path | None" = None) -> str:
+    """題材キーワードを取り出す（2026-07-05 追加・タイトルが違う同一題材の重複を捕捉するため）。
+    優先度: ①mdファイル名の `_note記事_<題材>_` セグメント ②md本文の `## 題材キーワード` ブロック。
+    どちらも無ければ空文字（＝題材照合しない＝誤検知を出さない安全側）。
+    タイトル先頭語からの推測は誤検知が多いので使わない。"""
+    if md_path is not None:
+        m = re.search(r"_note記事_([^_]+)_", Path(md_path).name)
+        if m:
+            return _norm_title(m.group(1))
+        try:
+            text = Path(md_path).read_text(encoding="utf-8")
+            km = re.search(r"##\s*題材キーワード.*?\n```\n(.+?)\n```", text, re.S)
+            if km:
+                return _norm_title(km.group(1).splitlines()[0])
+        except Exception:
+            pass
+    return ""
+
+
 def load_registry() -> list:
     if REGISTRY_PATH.exists():
         try:
@@ -103,14 +122,30 @@ def registry_check(title: str):
     return None
 
 
-def registry_add(title: str, url: str):
+def registry_topic_check(topic_key: str):
+    """題材キーワードの重複チェック（タイトルが異なっても同一題材を捕捉）。
+    台帳エントリの `topic` フィールドと完全一致（正規化後）した最初のエントリを返す。
+    topic_key が空、または台帳側に topic が無い場合は照合しない（誤検知回避）。"""
+    if not topic_key:
+        return None
+    for e in load_registry():
+        et = _norm_title(e.get("topic", "") or "")
+        if et and et == topic_key:
+            return e
+    return None
+
+
+def registry_add(title: str, url: str, topic: str = ""):
     """公開成功後に台帳へ自動追記（自己保全。次回以降の第1層ゲートになる）"""
     reg = load_registry()
-    reg.append({
+    entry = {
         "title": title,
         "url": url,
         "recorded_at": datetime.now().isoformat(timespec="seconds"),
-    })
+    }
+    if topic:
+        entry["topic"] = topic
+    reg.append(entry)
     REGISTRY_PATH.write_text(
         json.dumps(reg, ensure_ascii=False, indent=1), encoding="utf-8"
     )
@@ -384,11 +419,12 @@ def collect_photos(photo_dir: Path):
 # ---------- 投稿フロー（note UI操作） ----------
 
 def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False,
-            skip_online_dedup: bool = False, skip_topic_check: bool = False):
+            skip_online_dedup: bool = False, allow_topic_dup: bool = False):
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
+    topic_key = _topic_key(title, md_path)
 
-    # ---- 重複ゲート第1層：ローカル台帳（ブラウザを開く前に即判定） ----
+    # ---- 重複ゲート第1層a：ローカル台帳・タイトル照合（ブラウザを開く前に即判定） ----
     reg_hit = registry_check(title)
     if reg_hit:
         if draft:
@@ -397,17 +433,34 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             sys.exit(f"✗ 重複ゲート(台帳): このタイトルは既に公開済みです → {reg_hit.get('url')}\n"
                      f"  記事: {title}\n  公開を中断しました（published_registry.json 参照）。")
 
-    # ---- 重複ゲート第0層：題材トークン（タイトル違いの同一題材を捕捉・2026-07-07） ----
-    if not skip_topic_check:
+    # ---- 重複ゲート第1層b：題材キーワード照合（ファイル名の題材セグメント・2026-07-05） ----
+    # 台帳エントリの topic フィールドと照合（精密・今後の公開はこちらが主）。
+    topic_hit = registry_topic_check(topic_key)
+    if topic_hit and not (reg_hit and reg_hit.get("url") == topic_hit.get("url")):
+        if draft:
+            print(f"⚠️  台帳に同一題材『{topic_key}』の既公開があります: "
+                  f"{topic_hit.get('title')} → {topic_hit.get('url')}（ドラフトなので続行）")
+        elif allow_topic_dup:
+            print(f"⚠️  同一題材『{topic_key}』の既公開があります "
+                  f"({topic_hit.get('url')}) が --allow-topic-dup 指定のため続行します。")
+        else:
+            sys.exit(f"✗ 重複ゲート(題材キー): 同一題材『{topic_key}』が既に公開済みです → "
+                     f"{topic_hit.get('title')} ({topic_hit.get('url')})\n"
+                     f"  記事: {title}\n  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。")
+
+    # ---- 重複ゲート第0層：題材トークン照合（タイトルベース・2026-07-07） ----
+    # topic フィールドを持たない既存台帳エントリ(seed含む)もカバーする補完層。
+    # 「氷見牛は地元でも…」と「氷見牛は里山で…」のようなタイトル違い同一題材を捕捉。
+    if not allow_topic_dup:
         tc = topic_conflict(title)
-        if tc:
+        if tc and not (topic_hit and topic_hit.get("url") == tc[0].get("url")):
             e, shared = tc
-            msg = (f"✗ 題材重複ゲート: 既公開記事と同じ題材『{'・'.join(sorted(shared))}』です → {e.get('url')}\n"
+            msg = (f"✗ 重複ゲート(題材トークン): 既公開と同じ題材『{'・'.join(sorted(shared))}』→ {e.get('url')}\n"
                    f"  既公開: {e.get('title')}\n  今回  : {title}")
             if draft:
-                print("⚠️ " + msg + "\n  （ドラフトなので続行。別題材なら --skip-topic-check）")
+                print("⚠️ " + msg + "\n  （ドラフトなので続行。別題材なら --allow-topic-dup）")
             else:
-                sys.exit(msg + "\n  公開を中断しました。角度が異なり別記事として出す場合のみ --skip-topic-check を付けて再実行。")
+                sys.exit(msg + "\n  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。")
 
     # thumbnails/{stem}.jpg があれば自動でサムネ＆--photos未指定時の見出し画像に使う
     auto_thumb = find_thumbnail_for(md_path)
@@ -678,8 +731,11 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 page.wait_for_timeout(3000)
                 print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
                 # 公開成功を台帳へ自動追記（次回以降の第1層ゲート）
-                m = re.search(r"/n/[a-z0-9]+", page.url)
-                registry_add(title, f"https://note.com/{AUTHOR_ID}{m.group(0)}" if m else page.url)
+                # 公開後の page.url は editor.note.com/notes/<key>/publish/ になる場合があるため、
+                # /n/<key> だけでなく /notes/<key> からもキーを取り出し、正規の公開URLに整形する。
+                m = re.search(r"/(?:n|notes)/(n[a-z0-9]+)", page.url)
+                registry_add(title, f"https://note.com/{AUTHOR_ID}/n/{m.group(1)}" if m else page.url,
+                             topic=topic_key)
             except Exception as e:
                 print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}")
                 print(f"    現在URL: {page.url}")
@@ -706,6 +762,8 @@ def main():
                     help="未来日付の記事も公開対象に含める（既定では誤公開防止のため未来は除外）")
     ap.add_argument("--skip-online-dedup", action="store_true",
                     help="note検索での重複確認をスキップ（非推奨・目視確認済みの時のみ）")
+    ap.add_argument("--allow-topic-dup", action="store_true",
+                    help="題材重複ゲートを解除（切り口が本当に異なると目視確認できた時のみ）")
     args = ap.parse_args()
 
     if args.login:
@@ -730,7 +788,7 @@ def main():
 
     photo_dir = Path(args.photos).expanduser() if args.photos else None
     publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only,
-            skip_online_dedup=args.skip_online_dedup, skip_topic_check=args.skip_topic_check)
+            skip_online_dedup=args.skip_online_dedup, allow_topic_dup=args.allow_topic_dup)
 
 
 if __name__ == "__main__":

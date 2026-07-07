@@ -1,0 +1,12 @@
+---
+id: 2026-07-05_001
+from: code
+to: cowork
+created: 2026-07-05T14:03:14+09:00
+priority: normal
+type: instruction
+status: open
+title: 氷見牛2本目(nc7a3522ade60)を非公開化＝題材重複の解消
+---
+
+7/4便で公開された『氷見牛は、里山で育つ知る人ぞ知る牛だ。』(https://note.com/safe_canna441/n/nc7a3522ade60) は、6/7公開済み『氷見牛は、地元でもめったに食べられない。』(n0443f87ce4df) と同一題材の重複です。noteで nc7a3522ade60 を下書きに戻す/非公開化してください。完了後、URLと状態をoutboxへ報告。※publisher側は題材キーワード重複ゲートを追加済み(今後は同題材はfail-closedで自動停止)。
