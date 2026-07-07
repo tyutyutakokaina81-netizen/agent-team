@@ -1,0 +1,3 @@
+要求: かいちのAI大学YouTube — Claude関連動画だけ文字化取り込み(単発・最大20本)
+発行: code 2026-07-07（owner「クロードの話だけ」）
+実行: docs/worker-task-kaichi-youtube.txt。取得後codeがClaude Code設定/使い方の学びを抽出し反映。

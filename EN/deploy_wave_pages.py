@@ -121,21 +121,62 @@ def convert(wave_dir: Path, slug: str):
     return f"en-{slug}.html"
 
 
+def _topic_tokens(title: str) -> set:
+    """題材トークン抽出（重複ゲート用・日英対応）"""
+    stop = {"富山","高岡","氷見","富山県","富山市","高岡市","氷見市","富山湾","北陸","保存版","ガイド",
+            "toyama","takaoka","himi","japan","guide","travel","the","and","for","with","how","best","your",
+            "worth","stop","season","day","days","tips","near","from","food","eat","see","visit","trip","area",
+            "place","spot","cost","price","time","way","get","when","where","what","which","around","local",
+            "honest","actually","really","things","that","this","you","are","was","its","not","but","real"}
+    toks = set()
+    for seg in re.split(r"[、。，．,\.\s・「」『』【】\[\]（）()＝=＋+\-—–~〜…!！?？:：;；|｜/／']+", title or ""):
+        seg = seg.strip().lower()
+        if len(seg) < 3 or seg in stop:
+            continue
+        if re.search(r"[一-鿿ァ-ヶ]", seg) or (seg.isalpha() and len(seg) >= 4):
+            toks.add(seg)
+    return toks
+
+
+def _existing_index(exclude):
+    files, tokens = set(), set()
+    for p in GUIDE.glob("en-*.html"):
+        stem = p.stem[3:]
+        if stem in exclude:
+            continue
+        files.add(stem)
+        m = re.search(r"<h1>(.*?)</h1>", p.read_text(encoding="utf-8"), re.S)
+        if m:
+            tokens |= _topic_tokens(re.sub("<[^>]+>", "", m.group(1)))
+    return files, tokens
+
+
 def main():
     wave_dir = Path(sys.argv[1])
     slugs = sys.argv[2:]
-    made, failed = [], []
+    # ★必須の重複ゲート（2026-07-07 再発防止）: 既存全ページとファイル名/題材トークンで照合、衝突は公開しない
+    ex_files, ex_tokens = _existing_index(set(slugs))
+    seen = set(ex_tokens)
+    made, skipped = [], []
     for s in slugs:
+        md = wave_dir / f"{s}.md"
+        if not md.exists():
+            skipped.append((s, "md無")); continue
+        if s in ex_files:
+            skipped.append((s, "ファイル名衝突")); continue
+        m = re.match(r"^#\s+(.*)", md.read_text(encoding="utf-8").strip())
+        tok = _topic_tokens(m.group(1) if m else s)
+        if tok & seen:
+            skipped.append((s, "題材重複:" + "・".join(sorted(tok & seen))[:30])); continue
         try:
-            if not (wave_dir / f"{s}.md").exists():
-                failed.append((s, "md無")); continue
-            made.append(convert(wave_dir, s))
+            made.append(convert(wave_dir, s)); seen |= tok
         except Exception as e:
-            failed.append((s, str(e)[:80]))
-    print(f"生成 {len(made)}ページ → apps/toyama-guide/")
-    if failed:
-        print(f"失敗 {len(failed)}:")
-        for s, e in failed: print(f"   ✗ {s}: {e}")
+            skipped.append((s, str(e)[:80]))
+    print(f"生成 {len(made)}ページ（重複ゲート通過のみ）→ apps/toyama-guide/")
+    for f in made: print("  ", f)
+    if skipped:
+        print(f"スキップ {len(skipped)}件（重複/欠損）:")
+        for s, r in skipped: print(f"   ✗ {s}: {r}")
 
 
 if __name__ == "__main__":
