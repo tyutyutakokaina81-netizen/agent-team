@@ -48,6 +48,12 @@ jobs:
             if [ -d apps/toyama-guide/og ]; then mkdir -p _site/toyama/og; cp apps/toyama-guide/og/* _site/toyama/og/ 2>/dev/null || true; fi
             if [ -d apps/toyama-guide/photos ]; then mkdir -p _site/toyama/photos; cp apps/toyama-guide/photos/* _site/toyama/photos/ 2>/dev/null || true; fi
           fi
+          # 新規事業②：世界向けAI/SaaSツール アフィリメディア（_drafts は配信しない）
+          if [ -d apps/ai-tools-guide ]; then
+            mkdir -p _site/ai-tools
+            cp apps/ai-tools-guide/*.html _site/ai-tools/ 2>/dev/null || true
+            [ -f apps/ai-tools-guide/aff-links.js ] && cp apps/ai-tools-guide/aff-links.js _site/ai-tools/aff-links.js
+          fi
           # 無料Webツール（営業導線・集客）も公開
           for t in freelance-rate-calculator invoice-generator ai-prompt-builder ai-shindan chatbot-widget; do
             if [ -f "apps/$t/index.html" ]; then
