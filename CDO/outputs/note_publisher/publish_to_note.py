@@ -117,6 +117,53 @@ def registry_add(title: str, url: str):
     print(f"📒 published_registry.json に追記しました（{len(reg)}件）")
 
 
+# ---------- 題材(トピック)重複ゲート（2026-07-07 追加・タイトル違いの同一題材を捕捉） ----------
+# 背景: タイトル照合だけでは「氷見牛は地元でも…」と「氷見牛は里山で…」のような
+#   タイトル違いの同一題材を素通りさせた（実インシデント）。題材トークンでも判定する。
+TOPIC_STOPWORDS = {
+    "富山", "高岡", "氷見", "富山県", "高岡市", "氷見市", "富山市", "富山湾", "北陸",
+    "保存版", "ガイド", "決定版", "完全版", "まとめ", "前編", "後編", "北前船",
+}
+
+
+def _topic_tokens(title: str) -> set:
+    """タイトルから識別性のある題材トークン(漢字含む語 or 3字以上カタカナ語)を抽出。
+    句読点・空白・記号で分割→末尾助詞を除去→ストップワード/短語を除外。"""
+    segs = re.split(r"[、。，．,\.\s・「」『』【】\[\]（）()＝=＋+\-—–~〜…!！?？:：;；|｜/／]+", title or "")
+    toks = set()
+    for seg in segs:
+        seg = re.sub(r"(?:は|が|の|を|に|へ|と|で|も|や|から|まで|など|という|だ|です)+$", "", seg)
+        if len(seg) < 3 or seg in TOPIC_STOPWORDS:
+            continue
+        if re.search(r"[一-鿿]", seg) or re.fullmatch(r"[ァ-ヶー]{3,}", seg):
+            toks.add(seg)
+    return toks
+
+
+def topic_conflict(title: str):
+    """既公開記事と題材が重なるものを探す。(entry, 共有トークン集合) or None。
+    判定=①識別トークンの完全一致 ②識別トークン(3字以上)が相手タイトルに包含
+    （「バタバタ茶」が「バタバタ茶をもう一度」に含まれる等、句に埋もれた同一題材も捕捉）。"""
+    new_toks = _topic_tokens(title)
+    if not new_toks:
+        return None
+    new_norm = _norm_title(title)
+    for e in load_registry():
+        pt = e.get("title", "")
+        pub_toks = _topic_tokens(pt)
+        pub_norm = _norm_title(pt)
+        shared = set(pub_toks & new_toks)  # ①完全一致
+        for t in pub_toks:                 # ②既公開トークンが新タイトルに包含
+            if len(t) >= 3 and _norm_title(t) in new_norm:
+                shared.add(t)
+        for t in new_toks:                 # ②新トークンが既公開タイトルに包含
+            if len(t) >= 3 and _norm_title(t) in pub_norm:
+                shared.add(t)
+        if shared:
+            return e, shared
+    return None
+
+
 def online_dedup_check(page, title: str):
     """note検索で自アカウント(safe_canna441)の同名記事を探す（最終ゲート・公開直前に実行）。
     返り値: 重複URLのリスト（空=重複なし）／ None=検索結果が確認できず判定不能。
@@ -337,7 +384,7 @@ def collect_photos(photo_dir: Path):
 # ---------- 投稿フロー（note UI操作） ----------
 
 def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False,
-            skip_online_dedup: bool = False):
+            skip_online_dedup: bool = False, skip_topic_check: bool = False):
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
 
@@ -349,6 +396,18 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         else:
             sys.exit(f"✗ 重複ゲート(台帳): このタイトルは既に公開済みです → {reg_hit.get('url')}\n"
                      f"  記事: {title}\n  公開を中断しました（published_registry.json 参照）。")
+
+    # ---- 重複ゲート第0層：題材トークン（タイトル違いの同一題材を捕捉・2026-07-07） ----
+    if not skip_topic_check:
+        tc = topic_conflict(title)
+        if tc:
+            e, shared = tc
+            msg = (f"✗ 題材重複ゲート: 既公開記事と同じ題材『{'・'.join(sorted(shared))}』です → {e.get('url')}\n"
+                   f"  既公開: {e.get('title')}\n  今回  : {title}")
+            if draft:
+                print("⚠️ " + msg + "\n  （ドラフトなので続行。別題材なら --skip-topic-check）")
+            else:
+                sys.exit(msg + "\n  公開を中断しました。角度が異なり別記事として出す場合のみ --skip-topic-check を付けて再実行。")
 
     # thumbnails/{stem}.jpg があれば自動でサムネ＆--photos未指定時の見出し画像に使う
     auto_thumb = find_thumbnail_for(md_path)
@@ -671,7 +730,7 @@ def main():
 
     photo_dir = Path(args.photos).expanduser() if args.photos else None
     publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only,
-            skip_online_dedup=args.skip_online_dedup)
+            skip_online_dedup=args.skip_online_dedup, skip_topic_check=args.skip_topic_check)
 
 
 if __name__ == "__main__":
