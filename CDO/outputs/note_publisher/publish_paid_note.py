@@ -251,12 +251,22 @@ def _try_set_price_on_publish(page, price: int) -> bool:
                 break
         except Exception:
             continue
-    # 3) 「このラインより先を有料にする」で有料境界を確定
+    # 3) 有料境界の確定。2026-07-07 cowork self-fix（実測）：
+    #    /publish/ 画面の最終ボタン「投稿する」は、有料ラインを確定するまで出現しない。
+    #    まず「有料エリア設定」を開き、次に「このラインより先を有料にする」で
+    #    ドラフト本文の既存 PAYWALL-LINE をそのまま確定する（境界は移動しない＝冪等）。
+    try:
+        area = page.locator('button:has-text("有料エリア設定")').first
+        if area.is_visible(timeout=2000):
+            area.click()
+            page.wait_for_timeout(1500)
+    except Exception:
+        pass
     try:
         b = page.locator('button:has-text("このラインより先を有料にする")').first
-        if b.is_visible(timeout=2000):
+        if b.is_visible(timeout=2500):
             b.click()
-            page.wait_for_timeout(800)
+            page.wait_for_timeout(1500)
     except Exception:
         pass
     # 4) DOM検証：価格入力の値が price と一致
@@ -311,10 +321,17 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
             print("⚠️  有料ラインの自動セットに失敗。本文に目印を入れました（後で手動設定）。")
 
         # 有料パート
-        editor2 = page.locator('div[contenteditable="true"]').first
-        editor2.click()
-        # カーソルを本文末尾へ
-        page.keyboard.press("End")
+        # カーソルを編集領域の末尾へ確実に移動（JSで選択範囲を末尾に collapse）。
+        # 旧実装（editor.click()+End）は本文中間にカーソルが飛び、有料本文が無料パートの
+        # 途中に混入して全文がスクランブルする不具合があった（2026-07-07 cowork self-fix：
+        # ncdcbf437aa5d で実測→JS caret-to-end に置換。FREE/PAYWALL-LINE/PAID の順序を保証）。
+        page.evaluate(
+            "()=>{const ed=document.querySelector('div[contenteditable=\"true\"]');"
+            "if(!ed)return;ed.focus();const r=document.createRange();"
+            "r.selectNodeContents(ed);r.collapse(false);"
+            "const s=window.getSelection();s.removeAllRanges();s.addRange(r);}"
+        )
+        page.wait_for_timeout(200)
         _type_body(page, paid_body)
         print("✅ 有料パート入力完了")
 

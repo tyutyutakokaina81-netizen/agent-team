@@ -94,6 +94,17 @@ def run(note_id, do_publish, price):
                 if b.is_visible(timeout=1500): b.click(); page.wait_for_timeout(800)
             except Exception: pass
 
+        # 有料境界の確定（2026-07-07 cowork self-fix・実測）：
+        # /publish/ の最終ボタン「投稿する」は有料ラインを確定するまで出現しない。
+        # 「有料エリア設定」を開き→「このラインより先を有料にする」で既存 PAYWALL-LINE を確定（境界は移動しない）。
+        try:
+            area=page.locator('button:has-text("有料エリア設定")').first
+            if area.count() and area.is_visible(timeout=1500):
+                area.click(); page.wait_for_timeout(1500)
+                cf=page.locator('button:has-text("このラインより先を有料にする")').first
+                if cf.count() and cf.is_visible(timeout=2000): cf.click(); page.wait_for_timeout(1500)
+        except Exception: pass
+
         def _confirmed():
             page.wait_for_timeout(1500)
             if "/publish" not in page.url and _pid(page): return True

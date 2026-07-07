@@ -696,6 +696,19 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             except Exception as e:
                 print(f"⚠️  『公開に進む』クリック失敗: {e}")
             page.wait_for_timeout(1500)
+            # 1b) フォールバック：まれに『公開に進む』が /publish/ へ遷移しないことがある
+            #     （2026-07-07 cowork self-fix：待機/入口URLの機械的補正。/publish/ URL へ直接遷移。
+            #      公開ロジック・重複ゲート・価格処理は不変）。
+            if "/publish" not in page.url:
+                m_pub = re.search(r"/notes/(n[a-z0-9]+)/", page.url)
+                if m_pub:
+                    try:
+                        page.goto(f"https://editor.note.com/notes/{m_pub.group(1)}/publish/",
+                                  wait_until="domcontentloaded", timeout=20000)
+                        page.wait_for_timeout(2500)
+                        print(f"↩️  /publish/ へ直接遷移（フォールバック）: {page.url}")
+                    except Exception as e:
+                        print(f"⚠️  /publish/ 直接遷移も失敗: {e}")
             # 2) ハッシュタグ入力（/publish/ 画面）
             if tags:
                 try:
