@@ -5,17 +5,29 @@
 
 ---
 
+## Copyright
+
+© 2026, a Toyama local. All rights reserved.
+
+This book is an independent traveller's guide, written and fact-checked by a resident of Takaoka, Toyama. It is not affiliated with, endorsed by, or sponsored by any tourism board, transport operator, hotel or business mentioned in these pages.
+
+## A Note on Accuracy
+
+Travel details change. Train timetables, opening hours, seasonal dates (the Alpine Route, crab season, firefly-squid nights), fares and prices are all set by the individual operators and shift from year to year. Every figure in this book is a planning guide, current to 2026 and given in good faith — not a quote or a guarantee. Always confirm the latest details with the official source before you book or travel.
+
+## How to Use This Book
+
+You don't have to read this cover to cover. The chapters run roughly in planning order — why come, how to get here, when to go, what to see and eat, the practical matters — and finish with ready-made itineraries. If you're still deciding whether Toyama is for you, start at the beginning. If your trip is already booked, skip ahead to "When to Go", "Food of the Bay & Table" and "Itineraries". Prices are in Japanese yen (¥), and cross-references point to the relevant chapter rather than a web link.
+
+---
+
 # Why Toyama — Japan Beyond the Golden Route
+
+This opening chapter makes the honest case for Toyama: who it's for, who should happily skip it, how it stacks up against neighbouring Kanazawa, and whether it's a safe, easy place to travel. Read it to decide whether this quiet stretch of the Sea-of-Japan coast belongs on your trip at all.
 
 ## Is Toyama worth visiting?
 
-Travel · Planning · Is it worth it?
-
 Here's the honest version, from someone who actually lives here. Toyama is not a blockbuster destination, and it shouldn't pretend to be. There's no single must-see that ends up on every Japan highlight reel. But if you're the kind of traveller who's already done Tokyo and Kyoto and wants somewhere real, scenic and uncrowded, Toyama is one of the best detours on Japan's west coast. Let me tell you who it's perfect for — and who should skip it.
-
-## Skip Toyama if…
-
-## Come to Toyama if…
 
 ## The honest case for the detour
 
@@ -26,8 +38,6 @@ The single best reason is how easy it is to combine with what you're probably al
 For a first, short trip to Japan: probably not yet. For a second trip, or anyone who wants the country at a quieter, more local altitude: yes, clearly. If that sounds like you, start with things to do, decide when to go, and pick where to stay.
 
 ## Off the beaten path in Japan: 7 reasons to choose Toyama
-
-Travel · Off the beaten path · Japan
 
 Kyoto is magical — and, these days, mobbed. If you're after the Japan behind the postcards, where you can still feel like you've discovered something, point yourself at the Sea of Japan coast. Here are seven honest reasons a local thinks Toyama is one of the country's most rewarding under-the-radar regions — and barely a foreign tourist in sight.
 
@@ -65,15 +75,11 @@ If you want temples-and-crowds Japan, stay on the Golden Route. If you want a qu
 
 ## Toyama or Kanazawa? Which to visit — and how to do both
 
-Travel · Planning · Toyama vs Kanazawa
-
 If you're planning the Sea of Japan side of central Japan, you've probably landed on the same question many travelers do: Toyama or Kanazawa? The honest answer is that they're very different in character — and, because they're barely 20 minutes apart by train, you don't really have to choose. Here's a local's straight comparison to help you decide where to spend your time.
 
 ## The short answer
 
 Kanazawa is the polished, famous one: a celebrated garden, preserved geisha and samurai districts, gold leaf, and excellent museums. Toyama is the quieter, more local one: arguably even better seafood, mountains that rise straight out of the sea, craft towns, and a fraction of the crowds. Kanazawa is the headline; Toyama is the place you tell your friends about afterwards.
-
-## Side by side
 
 ## Choose Kanazawa if…
 
@@ -92,8 +98,6 @@ This is the move most people miss. Kanazawa and Toyama are about 20–25 minutes
 If Toyama is in your plan, basing yourself in Toyama City gives you easy reach of both the coast and the mountains; a seaside inn toward Himi is the scenic alternative.
 
 ## Is Toyama safe?
-
-Travel · Safety · Honest answers
 
 Short version, from someone who lives here: yes, Toyama is a calm, low-crime place, and it's one of the easier corners of Japan to travel solo or on a first trip. But "safe" doesn't mean "nothing to think about." The real things to plan around here aren't crime — they're nature: heavy winter snow, the occasional earthquake, and bears in the mountains. Here's the honest, practical version, with no scare-mongering and no false promises.
 
@@ -151,14 +155,11 @@ These numbers are free, work 24 hours, and can be dialled from any phone, includ
 
 For a solo or first-time traveller, Toyama is one of the more reassuring places in Japan to visit: low crime, easy public transport, helpful locals. The honest caveats are about nature, not people — respect the winter snow, know what to do in an earthquake, and take real care if you head into the mountains. Plan for those and you're very well placed. If that sounds like your kind of trip, see the travel FAQ, work out when to go, sort out getting around, and start with the Toyama guide home.
 
-
 ---
 
 # Getting There & Around
 
-## How to get to Toyama, Japan
-
-Travel · Planning · Getting to Toyama
+Everything you need to reach Toyama and move around once you arrive — the bullet train, whether a rail pass pays off, the trams and buses, and the honest verdict on renting a car. By the end you'll know how to come from Tokyo, Kanazawa or Kansai, and how to link the city, the coast, the craft town and the mountains without stress.
 
 ## The quick version
 
@@ -194,8 +195,6 @@ From Tokyo, it's a two-hour bullet train. From Kanazawa, it's around the corner.
 
 ## Rail passes for Toyama — worth it?
 
-Travel · Planning · Rail passes
-
 Rail passes can save you real money in Japan — or quietly waste it. For a lot of Toyama trips, the honest answer is that you don't need one. But it depends entirely on your wider route. Here's a clear, current breakdown of the three passes that matter for Toyama, what each actually covers, and the one catch that trips people up every year.
 
 ## Read this first: no JR pass covers the Alpine Route
@@ -214,23 +213,17 @@ The regional pass built for exactly this corner of Japan: unlimited JR travel be
 
 If crossing the Alpine Route is central to your trip, this is the pass to look at. It gives unlimited travel roughly between Nagoya and Toyama (taking in Takayama and Matsumoto) and, crucially, includes all transport along the Tateyama–Kurobe Alpine Route itself.
 
-## How to decide, quickly
-
 ## The honest bottom line
 
 Rail passes are sold hard, but they're not automatically a saving — recent price increases mean that for a focused Toyama trip, ordinary tickets are frequently the cheaper choice. Add up your actual planned journeys first, then buy a pass only if it genuinely beats the sum. And remember the catch: budget for the Alpine Route on top, unless you're on the Alpine-Takayama-Matsumoto pass. Whatever you choose, base yourself somewhere well-connected — see where to stay in Toyama.
 
 ## Getting around Toyama
 
-Travel · Planning · Getting around
-
 Good news for trip planning: Toyama is one of the easier parts of rural Japan to get around without a car. The main sights line up along train and tram routes, the city is small and walkable, and the bullet train puts you in the centre of it all. Here's how a local actually moves between the city, the coast, the craft town and the mountains — and the honest answer on whether you need to rent a car.
 
 ## Getting here
 
 The Hokuriku Shinkansen (bullet train) runs to Toyama from Tokyo, and Shin-Takaoka Station serves Takaoka. From Kanazawa it's about 30 minutes by train, which is why Toyama works so well as a day trip or a calm base after the big cities. Full details: how to get to Toyama.
-
-## Around the city and the coast
 
 ## Out to the mountains and gorges
 
@@ -246,15 +239,7 @@ Because the sights fan out from a couple of hubs, where you stay matters more th
 
 ## Renting a car in Toyama
 
-Travel · Planning · Renting a car
-
 Here's the honest local view: you don't need a car for Toyama's headline sights — trains, trams and buses reach the city, the coast, Takaoka and the famous mountain routes just fine. But a rental car genuinely opens up the other half of Toyama: the quiet villages, the small fishing ports, the back-road onsen, and the freedom to go on your own schedule. If that's the trip you want, here's exactly when a car is worth it, when it isn't, and how to rent one as a visitor.
-
-## When a car is genuinely worth it
-
-## When to skip the car
-
-## What you need to drive in Japan
 
 ## Where to rent
 
@@ -276,18 +261,15 @@ Toyama gets serious snow. If you're driving between roughly December and March, 
 
 For most people the sweet spot is a hybrid: take the train to your base, see the city and the famous mountain routes by public transport, and rent a car for just the day or two when you want the villages, the coast or the countryside on your own terms. Pick a well-connected base first — see where to stay in Toyama.
 
-
 ---
 
 # When to Go
 
+Toyama changes completely with the seasons, and a few of its best experiences happen only in a narrow window. This chapter walks through the year season by season — what to see, what's in season on the plate, and how many days to give it — so you can time your visit to whatever you most want.
+
 ## The best time to visit Toyama — by season
 
-Travel · Planning · Toyama
-
 Toyama rewards travelers who time it right. Because it sits between the deep Toyama Bay and the high Northern Alps, the seafood and the scenery change completely through the year — and a few of its best experiences only happen in a narrow window. Here's an honest season-by-season guide to help you decide when to come, depending on what you most want to see and eat.
-
-## At a glance
 
 ## Spring — the headline season
 
@@ -296,8 +278,6 @@ If you only know one thing about this region, it's probably the Tateyama–Kurob
 ## Summer — mountains and calm
 
 The cities get warm, but the high country stays cool, making summer ideal for alpine air, ponds and easy hiking. Down on the coast, white shrimp is in season and the pace is relaxed.
-
-## Autumn — the quiet sweet spot
 
 ## Winter — the most dramatic
 
@@ -309,11 +289,7 @@ Want the snow corridor and a buzz? Spring. Want crab, yellowtail and the most dr
 
 ## How many days do you need in Toyama?
 
-Travel · Planning · How long to stay
-
 It's the most practical planning question, and the honest answer is: more than most people give it. A lot of travelers squeeze Toyama into a rushed day trip from Kanazawa — and it's lovely as that — but the region really rewards an overnight or two, and slots beautifully into a longer, relaxed Hokuriku trip. Here's how to think about the nights, depending on your time.
-
-## At a glance
 
 ## 1 night — a proper taste
 
@@ -333,17 +309,11 @@ For a multi-night trip, basing in Toyama City keeps the mountains and coast both
 
 ## Toyama in spring
 
-Travel · Season · Spring in Toyama
-
 Spring might be the single best time to visit Toyama. It's when the mountains open up for the year's most famous spectacle — walls of snow towering over a mountain road — while down on the coast the sea puts on its own strange, glowing show. Add the first sweet shrimp of the year and cherry blossom, and you have a season that's hard to beat. Here's a local's guide to a Toyama spring.
-
-## What to see
 
 ## What to eat
 
 Spring brings the year's first white shrimp (shiroebi) — delicate and sweet — and firefly squid, usually boiled or marinated. It's a fresh, light counterpoint to winter's rich crab and yellowtail. See the food guide.
-
-## Good to know
 
 ## Where to stay
 
@@ -351,17 +321,11 @@ Toyama City is the easiest base for both the Alpine Route and the coast; a seasi
 
 ## Toyama in summer
 
-Travel · Season · Summer in Toyama
-
 Japanese summers can be punishingly hot and humid — which is exactly why Toyama is such a clever choice. Within an hour or two of the warm coast, you can be standing in cool alpine air at 2,000 metres, or riding a little train into a deep, green river gorge. Down on the bay, the season brings the year's sweetest white shrimp. If you want mountains, water and seafood without the crowds of the famous summer spots, here's a local's guide to a Toyama summer.
-
-## What to see
 
 ## What to eat
 
 Summer is prime time for white shrimp (shiroebi) — the "jewel of Toyama Bay" — as sashimi or a crisp kakiage tempura. Lighter seasonal white fish and local sushi round out a fresh, summer-friendly table. See the food guide.
-
-## Good to know
 
 ## Where to stay
 
@@ -369,25 +333,17 @@ Toyama City makes an easy base for both the gorge and the high mountains; a seas
 
 ## Toyama in autumn
 
-Travel · Season · Autumn in Toyama
-
 Ask a local for the most underrated time to visit, and a lot of us will quietly say autumn. The mountains catch some of the earliest foliage in Japan, the weather turns mild and easy after the summer humidity, the crowds thin out, and the bay starts getting rich again as the water cools. You get the scenery and the food without the spring rush or the deep-winter logistics. Here's a local's guide to a Toyama autumn.
-
-## What to see
 
 ## What to eat
 
 As the water cools, the bay turns generous again — seasonal white fish, kelp-cured sashimi and local sushi all come back into their own, with the first hints of the winter richness to come. It's a fine, comfortable season to work through the food guide without the peak-season scramble.
-
-## Good to know
 
 ## Where to stay
 
 Toyama City is the easy, well-connected base for both the gorge and the high mountains; a seaside inn toward Himi trades that for sea views and seafood dinners as the bay turns rich.
 
 ## Toyama in winter
-
-Travel · Season · Winter in Toyama
 
 If you ask a local when Toyama is at its best, many will say winter — and not despite the cold, but because of it. This is when the bay turns generous (crab, rich yellowtail), when the air clears enough for the Northern Alps to float above the sea, and when the thatched mountain villages disappear under deep, quiet snow. It takes a little planning, but a Toyama winter is one of the most rewarding seasons anywhere in Japan. Here's how to do it.
 
@@ -399,16 +355,15 @@ Winter is the headline reason to come. The cold deepens the fat in the fish and 
 
 Note: the high Tateyama–Kurobe Alpine Route is closed in deep winter — it's a spring-to-autumn experience. Winter is about the coast, the food and the snow scenery.
 
-## What to know before you go
-
 ## Where to stay
 
 A seaside inn toward Himi is the classic winter choice — crab dinners and a chance at that dawn view from the bay. Toyama City is the easy, well-connected base if you'd rather day-trip.
 
-
 ---
 
 # Toyama City & the Coast
+
+This chapter covers the flat, walkable heart of the region: Toyama City as a base, its contemporary glass-art scene, and the stretch of coast at Amaharashi and Himi where the Alps appear to rise straight out of the sea. Read it for where to anchor yourself and where to catch the region's most famous view.
 
 ## Toyama City — glass, a canal park, and the perfect base
 
@@ -417,8 +372,6 @@ Most people pass through Toyama City on the bullet train without stopping. That'
 ## Why base yourself here
 
 Toyama City sits on the Hokuriku Shinkansen (about 2 hours from Tokyo), with easy local trains and trams fanning out in every direction. Stay here and you can do a mountain day and a coast day without changing hotels. It's also relaxed and affordable compared with the bigger tourist cities — you get good food and calm streets without the crowds.
-
-## Things to do
 
 ## Use it as a hub
 
@@ -452,11 +405,7 @@ Pair it with the city's tram ride and its well-known canal-side park — see Toy
 
 Central Toyama is walkable and tram-connected from Toyama Station (Hokuriku Shinkansen).
 
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 ## Amaharashi Coast — where the Alps rise out of the sea
-
-Travel · Amaharashi Coast, Toyama
 
 There are only a handful of places on the planet where you can stand on a beach and watch a wall of 3,000-metre, snow-covered mountains rise straight out of the open sea. One of them is a quiet stretch of Toyama coastline called Amaharashi. On a clear winter morning, the Tateyama range floats above the water of Toyama Bay — and in the foreground, famously, a lone pine clings to a rock just offshore. Almost no foreign travelers know it exists. Here's how to see it.
 
@@ -510,10 +459,11 @@ Himi's seaside inns are known for winter crab-and-yellowtail dinners and bay vie
 
 Winter (December–February) is the headline season: cold yellowtail, crab, and the clearest mountain-over-sea views. Spring brings firefly squid and cherry blossoms; the green months are quiet and easy. If your one priority is that Alps-from-the-sea view, come on a crisp, clear winter morning.
 
-
 ---
 
 # Takaoka — Craft, Temples & Doraemon
+
+Takaoka is a 400-year-old bronze-casting town, home to a National-Treasure Zen temple and the birthplace of the creators behind Doraemon and Ninja Hattori-kun. This chapter shows how to combine the metal-craft streets, the Great Buddha and the two-town manga pilgrimage across Takaoka and neighbouring Himi in one unhurried day.
 
 ## Takaoka — Doraemon's hometown, 400 years of metalwork, and the sea
 
@@ -522,8 +472,6 @@ Most visitors to central Japan rush between Kanazawa and the Alpine Route and ne
 ## Why Takaoka
 
 Takaoka isn't a polished tourist machine, and that's the appeal. You get a real, lived-in Japanese city: old merchant streets, the smell of metal workshops, a giant bronze Buddha, and locals who are quietly surprised — and pleased — to see a traveler who bothered to get off the main line.
-
-## Things to do
 
 ## What to eat
 
@@ -536,8 +484,6 @@ Takaoka is on the Hokuriku Shinkansen line (via Shin-Takaoka), roughly 2.5–3 h
 ## When to go
 
 Winter brings crab and yellowtail (and dramatic mountain-over-sea views), spring brings firefly squid and cherry blossoms, and the green months are quiet and easy. Book ahead in crab season and during the Alpine Route season.
-
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
 
 ## Zuiryuji — a National Treasure, without the crowds
 
@@ -559,11 +505,7 @@ It sits close to the station and pairs naturally with the Takaoka Great Buddha a
 
 A short walk or local ride from Takaoka / Shin-Takaoka stations. Check current opening hours before you go, especially in winter.
 
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 ## Visiting Doraemon's hometown: Takaoka
-
-Travel · Pop culture · Takaoka, Toyama
 
 If you grew up anywhere in Asia — or anywhere with a soft spot for a round blue robot cat from the future — this one's for you. Takaoka, a quiet craft city on the Sea of Japan, is the hometown of Fujiko F. Fujio, the artist who created Doraemon. The city wears it lightly: no giant theme park, just gentle, charming nods tucked into everyday streets. For fans, that understatement is exactly the appeal. Here's how to find them, and what else to do while you're here.
 
@@ -589,8 +531,6 @@ You can visit in a day, but staying over lets you pair the Doraemon stroll with 
 
 ## Toyama: a manga pilgrimage to two legends
 
-Travel · Pop culture · Toyama
-
 Here's something most fans never realize: two of the most beloved names in manga history came from the same quiet stretch of the Sea of Japan coast, and grew up just a short train ride apart. Toyama is the birthplace of the duo who worked as "Fujiko Fujio" — the creator of Doraemon was from Takaoka, and the creator of Ninja Hattori-kun from neighbouring Himi. For anyone who grew up on these stories — and that's a huge slice of the world — Toyama is a genuinely moving, refreshingly uncommercial pilgrimage. Here's how to do it.
 
 ## Two friends, two towns, one coast
@@ -614,8 +554,6 @@ The beauty of this pilgrimage is that the towns are wonderful on their own terms
 Takaoka is about 15–40 minutes from Kanazawa, or roughly 2.5–3 hours from Tokyo via the Hokuriku Shinkansen to Shin-Takaoka; Himi is a short ride on from Takaoka. Base yourself in Toyama City or by the sea toward Himi, and you can do the whole pilgrimage at a relaxed pace.
 
 ## Ninja Hattori-kun's hometown: Himi
-
-Travel · Pop culture · Himi, Toyama
 
 In India, an entire generation grew up on Ninja Hattori-kun — the cheerful little ninja has been one of the most-watched cartoons on Indian television for years. What most of those fans don't know is where he comes from. The artist behind Hattori-kun, Fujiko Fujio Ⓐ (Motoo Abiko), was born in Himi, a quiet fishing town on the Sea of Japan in Toyama. If you love the series, Himi is a genuinely special — and refreshingly uncommercial — place to visit. Here's a fan's guide.
 
@@ -645,14 +583,13 @@ Himi sits on the local JR Himi Line, a short ride from Takaoka — which is itse
 
 Himi's seaside inns are known for winter crab and yellowtail dinners and bay views — and staying over means you can catch that mountains-over-the-sea sunrise. Toyama city is an easy alternative base. Book ahead in crab season.
 
-
 ---
 
 # The Mountains — Alps, Gorges & Falls
 
-## The Tateyama–Kurobe Alpine Route, from the Toyama side
+Here is the high country: the Tateyama–Kurobe Alpine Route with its towering snow walls, the little Kurobe Gorge trolley train, Japan's tallest waterfall, and the UNESCO thatched villages of Gokayama. This chapter explains what each experience is, when it's open, what it really costs, and how to pair the mountains with the coast.
 
-Travel · Tateyama–Kurobe Alpine Route
+## The Tateyama–Kurobe Alpine Route, from the Toyama side
 
 Imagine a bus inching through a canyon carved out of snow, with white walls rising higher than a four-storey building on either side. That's the Tateyama–Kurobe Alpine Route in spring — one of Japan's most extraordinary mountain journeys, and a lot easier to reach than most travelers realize. The route climbs from the lowlands up over the Northern Japan Alps using a chain of cable cars, ropeways and buses. Here's how a local would ride it from the Toyama side, and how to pair it with the quiet coast at Takaoka and Himi.
 
@@ -674,11 +611,7 @@ Here's the move most visitors miss. Pair the high mountains with the low coast. 
 
 ## Tateyama Alpine Route: costs & how to do it
 
-Travel · Planning · Alpine Route costs
-
 The Tateyama–Kurobe Alpine Route is one of Japan's most spectacular mountain journeys — and, honestly, one of its more expensive day trips. It's worth it, but you should walk in knowing the real numbers, the season, and how to plan so you don't get caught out. Here's the practical, honest version for 2026, from the Toyama side.
-
-## When it's open (2026)
 
 ## What it costs — be ready, it's not cheap
 
@@ -689,8 +622,6 @@ In short: budget for it as a premium experience, not a cheap local outing. For a
 ## The sections you ride (Toyama side → Nagano)
 
 You don't drive any of this — you switch between cable cars, a highland bus, a ropeway and tunnel buses. From the Toyama side it runs: Tateyama → Bijodaira (cable car) → Murodo (highland bus; the snow wall and the highest point, around 2,450m) → Daikanbo (tunnel electric bus, ~10 min, ¥2,200) → Kurobedaira (ropeway, ~7 min, ¥1,700) → Kurobeko (cable car, ~5 min, ¥1,150) → walk across the Kurobe Dam crest (~15 min, free) → Ogizawa (tunnel electric bus, ~16 min, ¥1,800) on the Nagano side. Done as a full crossing with sightseeing, allow 6–8 hours.
-
-## How to book
 
 ## An honest money-saving tip
 
@@ -718,11 +649,7 @@ The gateway is the hot-spring town of Unazuki, an easy place to soak after the r
 
 Reach Toyama by Hokuriku Shinkansen, then continue by local railway toward Unazuki on the eastern side of the prefecture.
 
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 ## Shomyo Falls — Japan's tallest waterfall, off the Tateyama snow
-
-Travel · Tateyama, Toyama
 
 Shomyo Falls, in the mountains of Toyama, drops about 350 m — the tallest waterfall in Japan. It is fed by snowmelt from the Tateyama range, so it is at its most powerful in spring and early summer. It sees a fraction of the crowds of Japan's famous sights.
 
@@ -742,11 +669,7 @@ From the access point it is a walk along the gorge to the viewing area; at full 
 
 It sits on the Tateyama side of Toyama. Most travelers reach Toyama by Hokuriku Shinkansen, then continue by local train and bus toward the Tateyama area. It pairs naturally with the Tateyama–Kurobe Alpine Route in season.
 
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 ## Gokayama — UNESCO thatched villages, without the crowds
-
-Travel · Gokayama, Toyama
 
 Everyone has seen the photos of Shirakawa-go: steep thatched roofs, like hands pressed together in prayer, dusted with snow. What most travelers don't realize is that the same UNESCO World Heritage site includes two more villages just over the prefectural border in Toyama — Gokayama — and they're smaller, older-feeling, and far, far quieter. If you want the storybook village without the tour-bus crush, this is where a local would send you.
 
@@ -757,8 +680,6 @@ Gokayama is a remote, mountainous corner of Toyama Prefecture, home to two thatc
 ## Why come here instead of Shirakawa-go
 
 Shirakawa-go is justly famous — and on a busy day, it can feel like it. Gokayama gives you the same architecture and a deeper hush: narrow lanes, the smell of woodsmoke, mountains close on every side, and often just a handful of other visitors. It feels less like a photo stop and more like a place that simply kept living the way it always has.
-
-## Things to do
 
 ## How to get there
 
@@ -774,8 +695,6 @@ Winter, with snow on the thatch, is the iconic look (and the area gets serious s
 
 ## Shirakawa-go & Gokayama from Toyama
 
-Travel · Day trips · World Heritage villages
-
 The thatched gassho-zukuri farmhouses are one of the most photographed images of rural Japan — and Toyama is one of the best bases for reaching them. There are actually two World Heritage areas here: famous Shirakawa-go (just over the border in Gifu), and quieter Gokayama, which is in Toyama itself. A local's honest tip up front: if you want the postcard crowds, go to Shirakawa-go; if you want something calmer and more lived-in, Gokayama is the secret. Here's how to reach both, with the real bus details.
 
 ## Gokayama — Toyama's own, and the quieter one
@@ -790,22 +709,15 @@ Shirakawa-go is the big-name village (technically in Gifu Prefecture, but easy f
 
 If you'd like to do Gokayama and Shirakawa-go together, the "Gokayama–Shirakawago" ticket links Takaoka / Shin-Takaoka with Shirakawa-go via the Gokayama hamlets. It runs about ¥3,500 for adults (around ¥1,750 for children) and is typically valid for two days, which lets you stop at Zuiryuji, Ainokura, Suganuma and Shirakawa-go on one route. There are also one-day free passes covering the buses between Ainokura and Shirakawa-go. For most people, basing in Toyama or Takaoka and doing this as a long day (or an overnight) is the easiest way to tick off both.
 
-## Which should you choose?
-
-## Good to know before you go
-
-
 ---
 
 # Food of the Bay & Table
 
+Toyama Bay is one of Japan's richest fishing grounds, and this chapter is a local's tour of its table — white shrimp, crab, winter yellowtail, firefly squid, pressed trout sushi, inky Toyama Black ramen, the region's kelp obsession and its clean mountain-water sake. Read it to know exactly what to order, and when each specialty is at its best.
+
 ## What to eat in Toyama — a local food guide
 
 Toyama sits on one of Japan's richest fishing grounds, the deep, cold Toyama Bay, with the Northern Alps rising right behind it. The result is a quiet food paradise that most travelers miss. You don't need a famous restaurant here — even a modest counter near the station can serve fish that would cost a fortune in Tokyo. Here's what a local would tell you to order.
-
-## The essentials
-
-## When it's in season
 
 ## How to eat like a local
 
@@ -814,8 +726,6 @@ Keep it simple. Sweet, delicate fish like white shrimp wants light salt or a tou
 ## Come and taste it
 
 The best of this food is eaten where it's landed — by the bay, the morning it's caught. The easiest way is to stay a night near the water: a Himi seaside inn for winter yellowtail and crab, or Toyama city as a well-connected base. See the one-day itinerary from Kanazawa and the Himi guide to plan it.
-
-This is a general guide and does not guarantee any specific service, price, or outcome. Seasons and availability vary by year and provider; rates are set by each booking site's latest information.
 
 ## Toyama crab — red snow crab, and the winter table
 
@@ -829,13 +739,9 @@ The everyday Toyama crab is the red snow crab (benizuwai), landed from the deep 
 
 Crab is a cold-season pleasure — roughly autumn into late winter, depending on the fishery's opening. Exact dates shift each year, so check the latest before you plan a crab trip.
 
-## How locals enjoy it
-
 ## Where
 
 Look around the ports and Toyama City in season. For the wider bay menu, see what to eat in Toyama and Himi.
-
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
 
 ## White shrimp (shiroebi) — the jewel of Toyama Bay
 
@@ -844,8 +750,6 @@ There's a seafood in Toyama so delicate that locals call it "the jewel of the ba
 ## What makes shiroebi special
 
 Shiroebi are small — just a few centimetres — and so pale they look almost translucent when fresh, with a faint pink shimmer. They live in the deep underwater canyons of Toyama Bay, and because they're fragile and spoil quickly, truly fresh shiroebi is hard to find outside the region. The taste is the opposite of what "shrimp" suggests to most people: clean, gently sweet, almost creamy, with none of the heaviness of larger prawns.
-
-## How to eat it
 
 ## When it's in season
 
@@ -860,8 +764,6 @@ The freshest shiroebi is eaten close to where it's landed, around Toyama Bay. Ev
 Don't drown it in soy sauce. Shiroebi is all about a soft, sweet, fleeting flavour — treat it gently and it'll be one of the most memorable bites of your trip. And if you fall for it, the senbei travel well as a gift.
 
 ## Firefly squid: the spring nights Toyama Bay glows blue
-
-Nature · Food · Toyama, Japan
 
 Some natural wonders you have to travel a long way to see. This is one of them. Every spring, the deep waters of Toyama Bay fill with millions of tiny squid called hotaruika — "firefly squid" — that glow with an eerie, electric-blue light. On the right night, the shoreline shimmers as if the sea has swallowed the stars. It's one of the strangest and most beautiful light shows in the natural world, it happens in only a handful of places, and Toyama is the most famous of them. Here's how it works — and yes, you can also eat them.
 
@@ -895,13 +797,9 @@ Unlike the nigiri you slice and eat at once, masuzushi is a pressed sushi: the f
 
 The dish grew up around the rivers and rail of Toyama, and became a classic station lunch sold across the region. Each shop guards its own balance of vinegar, salt and how lightly or firmly the trout is cured.
 
-## How to enjoy it
-
 ## Where to find it
 
 Look around Toyama City and its station. For the wider picture of the region's food, see what to eat in Toyama.
-
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
 
 ## Toyama Black — the ramen built to refuel workers
 
@@ -915,17 +813,11 @@ The story goes that a Toyama shop seasoned the broth heavily so workers — swea
 
 Expect a sharp, salty, peppery soy hit, usually with thick noodles, plenty of coarse black pepper, menma (bamboo) and slices of pork. It is intense — many locals eat it with a bowl of plain rice rather than finishing the broth.
 
-## How to eat it like a local
-
 ## Where to try it
 
 Several Toyama Black shops cluster around Toyama City, and a few have branches in larger cities. While you're in the area, balance it with the bay's lighter flavors — see what to eat in Toyama.
 
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 ## The town that wraps rice balls in kelp, not seaweed
-
-Food · Culture · Toyama, Japan
 
 Almost everyone who loves Japanese food knows the onigiri — the triangular rice ball wrapped in a crisp sheet of dark nori seaweed. So here's a small surprise from the Sea of Japan coast: in Toyama, people often skip the nori entirely and wrap their rice balls in soft, fluffy tororo kombu — finely shaved kelp — instead. It looks like the rice ball is wearing a pale, feathery cloud. And it's delicious. Here's the story behind one of Japan's most charming regional food quirks.
 
@@ -957,22 +849,17 @@ Sake is mostly water, so its source shapes the result. Toyama's soft snowmelt te
 
 Look for local junmai and ginjo styles. Many small breweries dot the prefecture; a chilled glass alongside white shrimp or sashimi is an easy, very local pairing.
 
-## How to enjoy it as a visitor
-
 ## More
 
 See what to eat in Toyama and white shrimp for pairings.
-
-This is a general guide and does not guarantee any specific service, price, or outcome. Prices, schedules and availability are set by each provider's latest official information.
-
 
 ---
 
 # Practical Matters
 
-## Where to stay in Toyama
+The nuts and bolts of a smooth trip: where to stay, how money and cards work, staying connected with a SIM or eSIM, what to pack by season, a realistic budget, travelling with kids, onsen etiquette, and a quick FAQ. Dip into whichever section you need while you plan.
 
-Travel · Planning · Where to stay
+## Where to stay in Toyama
 
 Toyama isn't a place where you agonise over neighbourhoods — but where you base yourself does change the trip. The simple version: stay in the city if you want easy trains and a relaxed base, stay by the sea in Himi if you've come for crab and the Alps-over-the-bay view, and stay in Takaoka if you want a quieter, craft-town feel. Here's how a local would choose between them, and when to book.
 
@@ -993,8 +880,6 @@ Takaoka is the 400-year bronze-casting town — home of the Great Buddha and the
 One practical note: book well ahead for the spring Alpine Route season and for winter crab season — those are when rooms across the prefecture fill up fastest. See when to go for the seasonal picture.
 
 ## Money in Toyama
-
-Travel · Planning · Money
 
 Japan has a reputation for being a cash country, and that's still partly true — but it's changing fast, and a traveller can now get through most of a trip with a card and a phone. Here's the honest, practical picture for Toyama: when you'll genuinely need yen in your pocket, where your foreign card will work, how to tap onto the trams, and a few things (like tipping) you can simply forget about.
 
@@ -1029,8 +914,6 @@ One nice simplification: tipping isn't part of the culture in Japan, and Toyama 
 Bring at least one card that works abroad (ideally two, from different networks, in case one is finicky), make sure you know your PIN, and tell your bank you'll be travelling so a withdrawal abroad doesn't get blocked. Arrive with a little yen for the very first taxi, locker or snack, then top up at an ATM once you're settled. That's genuinely all the money planning Toyama needs.
 
 ## SIM, eSIM & Wi-Fi for Toyama (and Japan)
-
-Travel · Planning · Staying connected
 
 You'll want mobile internet from the moment you land — for maps, train times, translation and looking up where to eat. Toyama is no different from the rest of Japan here: the same four options apply, and the choice comes down to your phone, your group size and how much fuss you want. This is a plain-English rundown, current as of 2026, of how to stay connected on a Toyama trip — what each option is, where to pick one up around the city, and how much data you actually need.
 
@@ -1078,11 +961,7 @@ If you have a recent, unlocked phone and you're travelling solo or as a couple, 
 
 ## What to wear in Toyama, by season
 
-Travel · Weather · What to pack · Toyama
-
 Toyama sits on the Sea of Japan side of the country, between a deep bay and the high Northern Alps — so the weather has more range than many first-time visitors expect. The lowland city is mild in spring and autumn, warm and humid in summer, and genuinely snowy in winter; the mountains are a different climate entirely. Here's an honest, local packing guide with rough temperature ranges so you bring the right layers. (All figures are approximate seasonal averages and vary year to year; check a forecast before you travel.)
-
-## At a glance — lowland Toyama City
 
 ## Spring — mild, but pack layers
 
@@ -1111,8 +990,6 @@ The simplest way to think about it: pack for the lowland season you're visiting 
 After a snowy or rainy day, a comfortable base with a hot bath is worth a lot. Basing yourself in Toyama City keeps the bay and the mountains both within easy reach, while a seaside inn is a treat in the cold yellowtail and crab season.
 
 ## Toyama travel budget — what 2–3 days actually costs
-
-Travel · Planning · Budget
 
 One of the quiet advantages of Toyama is that it's gentler on the wallet than the big-name cities — accommodation and food run a little cheaper than Tokyo or Kyoto, and most sights are modestly priced. The main expense for overseas visitors is simply getting here. Here's an honest, itemised look at what 2–3 days actually costs, broken into transport, where you sleep, food, tickets and local travel, with a few sample totals. All figures are approximate 2026 amounts in yen, per person unless noted, and prices change — treat them as planning guides, not quotes, and confirm current rates before you book.
 
@@ -1152,11 +1029,7 @@ Add the return Shinkansen (~¥26,000–32,000 from Tokyo) on top, plus the Alpin
 
 ## Toyama with kids
 
-Travel · Planning · With kids
-
 Toyama is one of the easier parts of rural Japan to travel with children. The distances are short, the trains and trams are simple and step-free, there's a genuinely big park that's free to enter, and a rainy afternoon doesn't ruin the day because several of the best spots have indoor options. Here's how a local would plan a family trip — what actually keeps small kids happy, and the practical bits (trams, food, where to base yourself) that make the difference.
-
-## Why Toyama works with kids
 
 ## A big free park (with a rainy-day option)
 
@@ -1188,13 +1061,7 @@ Yes, comfortably. It won't out-dazzle a theme-park trip, but for a calmer, real-
 
 ## Toyama hot springs (onsen)
 
-Travel · Onsen · Toyama, Japan
-
 After a day on the mountains or eating your way around the bay, there's no better way to end it in Japan than sinking into a hot spring. Toyama is quietly well-stocked with them — from a famous gorge-side resort to small mountain and seaside baths where you'll often have the view almost to yourself. Here's a local's guide to soaking in Toyama, plus the etiquette basics if it's your first time.
-
-## Where to soak
-
-## Onsen etiquette (the short version)
 
 ## How to plan it
 
@@ -1206,19 +1073,35 @@ The questions visitors ask most before coming to Toyama — answered honestly by
 
 ## Is Toyama worth visiting?
 
+For a first, short trip to Japan, probably not yet — stay on the Golden Route. But for a second trip, or anyone who wants a quieter, more local, more delicious side of the country, yes, clearly.
+
 ## How many days do you need?
+
+A day trip from Kanazawa is lovely, but the region really rewards an overnight or two — give it a coast-and-culture day, a mountain day, and a slow city-and-food day.
 
 ## How do you get to Toyama?
 
+About two hours from Tokyo on the Hokuriku Shinkansen, and only 20–25 minutes from Kanazawa. From Kyoto or Osaka it's a single easy transfer via Tsuruga.
+
 ## When is the best time to visit?
+
+Spring for the Alpine Route snow corridor, winter for crab, yellowtail and the clearest Alps-over-the-sea views, and autumn for mild, quiet weather and foliage.
 
 ## Do you need a car?
 
+For the headline sights, no — trains, trams and buses reach the city, the coast, Takaoka and the famous mountain routes. A car only helps if you want quiet rural corners on your own schedule.
+
 ## Is the Alpine Route covered by a JR pass?
+
+No. The Tateyama–Kurobe Alpine Route is run by private mountain operators, so most JR passes get you to Toyama but not along the route itself — you pay that separately.
 
 ## Can you visit Shirakawa-go from Toyama?
 
+Yes. There's a direct highway bus from Toyama Station, and quieter Gokayama — in Toyama itself — is reached by the World Heritage Bus from Takaoka or Shin-Takaoka.
+
 ## What food is Toyama known for?
+
+White shrimp (shiroebi), winter yellowtail (buri) and crab, kelp-cured sashimi (kombu-jime), pressed trout sushi (masuzushi), and the inky, salty Toyama Black ramen.
 
 ## Is English spoken in Toyama?
 
@@ -1226,14 +1109,15 @@ Less than in Tokyo or Kyoto, but major stations, signage and tourist sites have 
 
 ## Toyama or Kanazawa?
 
+They're very different in character and only about 20 minutes apart, so the honest answer is do both: Kanazawa for gardens and old districts, Toyama for seafood, sea-and-mountain scenery and calm.
 
 ---
 
 # Itineraries
 
-## Toyama itinerary: how to spend 2–3 days
+Finally, the plans that tie it all together — a flexible 2–3 day itinerary, detailed day-by-day routes, a single-day trip from Kanazawa, and a shortlist of the region's best things to do. Use these as a ready-made backbone you can bend to the season and your own pace.
 
-Travel · Itinerary · Toyama
+## Toyama itinerary: how to spend 2–3 days
 
 Toyama packs a lot into a small area — high mountains, a rich bay, craft towns and pop-culture history, all within an easy train ride of each other. That makes it ideal for a focused 2–3 day trip. Here's a flexible, local's plan you can follow or mix and match, with real travel logic and where to base yourself. Base in Toyama City and you can do all of it without changing hotels.
 
@@ -1253,13 +1137,7 @@ Slow down in Toyama City: the Kengo Kuma–designed glass art museum, the canal 
 
 Only have a day, perhaps from Kanazawa? Do the Day 1 coast-and-culture loop — see the dedicated day trip from Kanazawa. Wondering whether to choose Toyama or its famous neighbour? Here's Toyama or Kanazawa.
 
-## Practical notes
-
-## Where to stay
-
 ## Toyama Day 2 & Day 3 — detailed plans
-
-Travel · Itinerary · Toyama Days 2–3
 
 You've done Day 1 — the coast, Takaoka and Himi (see the day-one loop). Now you've wisely decided to stay longer. Here are detailed, hour-by-hour plans for Day 2 and Day 3, written for an overseas visitor basing in Toyama City. They're flexible — swap pieces to suit the weather and the season — but this is the rhythm a local would suggest to make the most of a multi-night trip.
 
@@ -1283,15 +1161,11 @@ Keep Toyama City as your easy base, and move one night to an onsen or seaside in
 
 ## A perfect day trip from Kanazawa: Takaoka & Himi
 
-Travel · Day trip · Kanazawa → Toyama
-
 Kanazawa is wonderful — and increasingly crowded. Here's a secret the tour buses haven't caught onto: one stop east on the bullet train, a quieter, older, more delicious side of Japan is waiting, and almost no foreign visitors get off the train. Spend a single day in Takaoka and Himi and you'll see 400-year-old metal craft, a giant bronze Buddha, a real fishing port, and — on a clear day — the Alps rising straight out of the sea. Here's exactly how a local would plan it.
 
 ## Why do this instead of another day in Kanazawa
 
 You've already seen Kenrokuen and the geisha districts. A day trip east costs you one short train ride and gives you something most travelers never get: an un-staged, lived-in Japan, with seafood pulled from the bay that morning — and space to breathe. This is the "Japan most tourists never see," and it's far easier to reach than people assume.
-
-## The itinerary (a relaxed single day)
 
 ## What to eat
 
@@ -1341,7 +1215,21 @@ Toyama City has a striking glass-art museum (by architect Kengo Kuma), a canal p
 
 You can sample Toyama on a single day trip from Kanazawa, but two or three days lets you pair a mountain day with a coast day and a manga or craft day. See the best time to visit and how to get there.
 
-## Where to stay
-
-
 ---
+
+# About the Author
+
+This guide was written by Tetsu, a resident of Takaoka in Toyama Prefecture. He writes about the Takaoka–Himi–Toyama corner of the Sea-of-Japan coast for overseas readers, with one simple rule: everything gets fact-checked, and nothing gets exaggerated. Where the honest answer is "it depends on the weather" or "check the official site," this book says so. The aim throughout is the version a local would actually give a visiting friend — the quiet views, the best-value seafood, and the small practical catches that guidebooks tend to skip.
+
+# Plan Your Trip
+
+The single most useful thing you can do ahead of a Toyama trip is book your bed early — rooms fill fast in the spring Alpine Route season and in winter crab season. Comparison sites such as Booking.com and Agoda are a convenient, neutral way to check live rates and availability across Toyama City hotels, the seaside inns toward Himi, and the onsen ryokan in the hills. Compare a couple before you commit, and reserve well ahead for spring and winter.
+
+# Read More
+
+If you enjoyed this book and want more of the same honest, local perspective on Takaoka, Himi and Toyama:
+
+- Japanese-language articles and new pieces: note.com/safe_canna441 (https://note.com/safe_canna441)
+- The companion English travel guide, kept updated with the latest seasonal notes and practical details.
+
+Thank you for reading — and for choosing to travel beyond the Golden Route. If this book helped you plan, a short, honest review on Amazon genuinely helps other travellers find it.
