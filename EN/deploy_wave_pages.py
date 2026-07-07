@@ -124,9 +124,18 @@ def convert(wave_dir: Path, slug: str):
 def main():
     wave_dir = Path(sys.argv[1])
     slugs = sys.argv[2:]
-    made = [convert(wave_dir, s) for s in slugs]
+    made, failed = [], []
+    for s in slugs:
+        try:
+            if not (wave_dir / f"{s}.md").exists():
+                failed.append((s, "md無")); continue
+            made.append(convert(wave_dir, s))
+        except Exception as e:
+            failed.append((s, str(e)[:80]))
     print(f"生成 {len(made)}ページ → apps/toyama-guide/")
-    for f in made: print("  ", f)
+    if failed:
+        print(f"失敗 {len(failed)}:")
+        for s, e in failed: print(f"   ✗ {s}: {e}")
 
 
 if __name__ == "__main__":
