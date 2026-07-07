@@ -61,6 +61,27 @@ if [ "$WARN" -eq 2 ]; then
 fi
 [ "$WARN" -eq 1 ] && echo "  → 警告ありbut続行（該当タスクはワーカーが失敗として報告します）"
 
+# ---- 1.5) ワークスペース信頼を自動付与（warning「workspace has not been trusted」を消す） ----
+# claude -p は未信頼フォルダだと settings.json の permissions.allow を無視する警告を出す。
+# --dangerously-skip-permissions で実害は無いが、警告を消すため ~/.claude.json に信頼フラグを冪等付与。
+python3 - "$REPO" <<'PY' 2>/dev/null || true
+import json, os, sys
+p = os.path.expanduser("~/.claude.json")
+repo = sys.argv[1]
+try:
+    d = json.load(open(p)) if os.path.exists(p) else {}
+except Exception:
+    d = {}
+proj = d.setdefault("projects", {})
+entry = proj.setdefault(repo, {})
+if entry.get("hasTrustDialogAccepted") is not True:
+    entry["hasTrustDialogAccepted"] = True
+    json.dump(d, open(p, "w"), ensure_ascii=False, indent=1)
+    print("  ✅ 1.5) ワークスペース信頼を付与（次回から信頼警告なし）")
+else:
+    print("  ✅ 1.5) ワークスペース信頼: 既に付与済み")
+PY
+
 # ---- 2) 配車係を常駐登録（冪等） ----
 echo "---- 2) 配車係(dispatcher)登録 ----"
 if crontab -l 2>/dev/null | grep -q worker_dispatcher.sh; then
