@@ -1,0 +1,3 @@
+要求: かいちのAI大学YouTube文字化取り込み(単発・最新20本)
+発行: code 2026-07-07（owner「かいちのYouTube全部読み取り」）
+実行: docs/worker-task-kaichi-youtube.txt の手順。取得後codeが内容を分析・取り込み。
