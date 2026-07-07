@@ -15,7 +15,16 @@
     "permissions": {
         "allow": [
             "Bash(*)",
-            "Skill"
+            "Skill",
+            "Read",
+            "Edit",
+            "Write",
+            "Glob",
+            "Grep",
+            "Task",
+            "TodoWrite",
+            "WebSearch",
+            "WebFetch"
         ]
     }
 }
