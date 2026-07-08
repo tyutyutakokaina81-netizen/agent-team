@@ -4,7 +4,7 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-08（かいちClaude Code動画10本の学びを全体反映=CLAUDE.md鉄則+6役員サブエージェント+.gitignore機密対策。最優先=8/1初売上1件）
+最終更新: 2026-07-08（かいちClaude Code学び＋溝口経営哲学を全体反映=CLAUDE.md憲法+6役員サブエージェント。最優先=8/1初売上1件）
 
 > ## 2026-07-08 ★かいちClaude Code動画10本を取り込み→学びを記憶＋設定反映（owner「Claude Codeに限定・記憶して」）
 > - workerが @kaichi_ai のClaude Code動画10本を文字化(`CAO/research/kaichi_youtube/`)。code精読→要点記憶(`CAO/research/2026-07-08_かいちClaude Code動画_学びと設定反映.md`)。
