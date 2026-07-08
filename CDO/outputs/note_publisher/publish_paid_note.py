@@ -114,10 +114,11 @@ def parse_paid_article(md_path: Path, title_override=None, price_override=None):
 
     # 価格
     price = None
-    m = re.search(r"<!--\s*PAYWALL[^>]*\bprice\s*=\s*(\d+)", text)
+    m = re.search(r"<!--\s*PAYWALL[^>]*\bprice\s*=\s*(\d+)", text, re.I)
     if m:
         price = int(m.group(1))
-    m2 = re.search(r"(?:価格|price)[^\d]{0,6}?(\d{3,5})", text)
+    # 大文字/小文字を問わず「価格/Price」＋数字を拾う（英語有料商品の Price: ¥100 対応・2026-07-08）
+    m2 = re.search(r"(?:価格|price)[^\d]{0,8}?(\d{3,5})", text, re.I)
     if price is None and m2:
         price = int(m2.group(1))
     if price_override is not None:
