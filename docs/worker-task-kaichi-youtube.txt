@@ -1,20 +1,21 @@
-【単発タスク】かいちのAI大学 YouTube — Claude(クロード)関連動画だけを文字化して取り込む
-（owner「クロードの話だけ」2026-07-07）
+【単発タスク】かいちのAI大学 YouTube — 「Claude Code」の話だけ文字化して取り込む
+（owner「クロードの話だけ」→「Claude Codeに限定・気になる記事は記憶して」2026-07-08）
 あなたは cowork（ブラウザ操作可）。codeはA1でYouTube取得不可のため代行する。
 
-対象を限定: **タイトル/内容が Claude・Claude Code・クロード・Anthropic に関する動画のみ**。
-（一般のChatGPT/生成AIニュース等は対象外＝スキップ）
+★対象を厳密に限定: **Claude Code（Anthropicのコーディング用CLI/エージェント）に関する動画のみ。**
+ - 対象: 「Claude Code」「クロードコード」「Claude Codeの設定/使い方/フック/MCP/サブエージェント/権限」等。
+ - 対象外(取り込まない): 一般のClaude/Anthropic/ChatGPT/生成AIニュース/他ツールの話。
 
 手順:
-1. https://www.youtube.com/@kaichi_gpt/search?query=Claude と
-   https://www.youtube.com/@kaichi_gpt/search?query=クロード を開く（チャンネル内検索）。
-2. ヒットした Claude/Claude Code 関連動画を新しい順に開き、「…もっと見る」→「文字起こしを表示」。
-   字幕が無い動画はスキップ。Claude と無関係なら取り込まない。
+1. https://www.youtube.com/@kaichi_gpt/search?query=Claude%20Code と
+   https://www.youtube.com/@kaichi_gpt/search?query=クロードコード を開く（チャンネル内検索）。
+2. Claude Code関連とはっきり分かる動画だけを開き「…もっと見る」→「文字起こしを表示」。
+   Claude Codeが主題でない動画はスキップ。字幕なしもスキップ。
 3. 各動画の文字起こし全文を保存:
-   CAO/research/kaichi_youtube/<公開日YYYY-MM-DD>_claude_<タイトル安全化>.md
+   CAO/research/kaichi_youtube/<公開日YYYY-MM-DD>_claudecode_<タイトル安全化>.md
    先頭に # タイトル / URL / 公開日 / （本文=文字起こし全文）
-4. 取得できた Claude関連動画の一覧と本数を報告。上限は当面20本。
-5. git add CAO/research/kaichi_youtube/ && git commit -m "cowork: かいちYouTube Claude関連の文字起こし取り込み" && git push origin main
+4. 取得した Claude Code動画の一覧と本数を報告（上限20本）。
+5. git add CAO/research/kaichi_youtube/ && git commit -m "cowork: かいちYouTube Claude Codeの文字起こし取り込み" && git push origin main
 6. ops/outbox/ へ報告（取得本数・タイトル一覧・字幕なし数）。
-目的: **code がその内容を読んで Claude Code の設定・使い方の学びを抽出し、本リポジトリの設定に反映する**。
+目的: **codeがその内容を読み、Claude Codeの設定/使い方の"気になる有用な点"を抽出して記憶(STATE/CAO)に取り込み、本リポの.claude設定に反映する。**
 制約: 内部の学習・分析目的に限定（公開/再配布しない＝著作権配慮）。ブラウザは最後に閉じる。
