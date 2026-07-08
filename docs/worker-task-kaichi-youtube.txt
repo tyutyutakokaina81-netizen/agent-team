@@ -7,8 +7,9 @@
  - 対象外(取り込まない): 一般のClaude/Anthropic/ChatGPT/生成AIニュース/他ツールの話。
 
 手順:
-1. https://www.youtube.com/@kaichi_gpt/search?query=Claude%20Code と
-   https://www.youtube.com/@kaichi_gpt/search?query=クロードコード を開く（チャンネル内検索）。
+1. https://www.youtube.com/@kaichi_ai/search?query=Claude%20Code と
+   https://www.youtube.com/@kaichi_ai/search?query=クロードコード を開く（チャンネル内検索）。
+   ※正しいハンドルは @kaichi_ai（「かいちのAI大学 / Saix」）。@kaichi_gpt は存在せず404（2026-07-08 実測修正）。
 2. Claude Code関連とはっきり分かる動画だけを開き「…もっと見る」→「文字起こしを表示」。
    Claude Codeが主題でない動画はスキップ。字幕なしもスキップ。
 3. 各動画の文字起こし全文を保存:
