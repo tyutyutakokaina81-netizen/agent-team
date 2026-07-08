@@ -345,9 +345,33 @@ def find_article_by_date(target_date_str: str | None = None, allow_future: bool 
              "\n  特定記事を出すなら --article <path> で明示指定してください。")
 
 
+def _assert_not_paid_article(text: str, md_path: Path):
+    """fail-closed 安全ガード（2026-07-08・owner「今後エラーなしにして」）:
+    このスクリプトは無料公開専用。有料記事を渡すと本文全体を無料公開してしまう
+    （＝有料商品の全文無料流出事故）。有料マーカーを検知したら即中断し、正経路
+    publish_paid_note.py へ誘導する。無料記事はこれらのマーカーを持たないため誤検知しない。"""
+    paid_markers = [
+        (r"##\s*有料部分", "『## 有料部分』ブロック"),
+        (r"◆◆.*?有料.*?◆◆", "『◆◆…有料…◆◆』ライン設定マーカー"),
+        (r"<!--\s*PAYWALL", "PAYWALL コメント"),
+        (r"★?【ここから.*?有料.*?】", "『【ここから…有料…】』マーカー"),
+    ]
+    for pat, label in paid_markers:
+        if re.search(pat, text):
+            sys.exit(
+                f"✗ 有料記事を無料公開スクリプトに渡しています（検知: {label}）。\n"
+                f"  この {md_path.name} は有料商品です。無料公開すると全文が無料流出します。\n"
+                f"  正しい公開経路 → python3 CDO/outputs/note_publisher/publish_paid_note.py "
+                f"--article \"{md_path}\" --price <金額> --publish"
+            )
+
+
 def parse_article(md_path: Path):
     """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す"""
     text = md_path.read_text(encoding="utf-8")
+
+    # ★fail-closed: 有料記事なら無料公開を拒否（正経路 publish_paid_note.py へ誘導）
+    _assert_not_paid_article(text, md_path)
 
     # タイトル：「メイン：」直下の最初の ``` コードブロック
     title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S)
