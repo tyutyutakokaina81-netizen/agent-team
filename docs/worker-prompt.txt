@@ -17,6 +17,9 @@ CAO/research/kaichi_youtube/ に *_claudecode_*.md が1本も無ければ、docs
 （@kaichi_gpt をチャンネル内検索「Claude Code」「クロードコード」→Claude Code主題の動画だけ「文字起こしを表示」→全文をCAO/research/kaichi_youtube/に保存→commit&push→outbox報告。上限20本・字幕なしskip・著作権配慮で内部資料限定。）
 既に取り込み済みなら本タスクはスキップ。
 
+【常設・収入最優先】noteの既存トラフィックを既ライブ有料商品へ流す（owner「本当に収入できること」2026-07-08）:
+docs/worker-task-note-income.txt を実行（warm leadへ本URL返信→閲覧トップ10記事に上品なCTA→保存版マガジン編成）。noteは決済済=owner操作ゼロで収入を狙える唯一の道。A5厳守・1記事1CTA・押し売り禁止。
+
 本日のタスク（上から順に）:
 0. **【最優先・重複解消】氷見牛2本目を非公開化**（owner「おすすめで実行」2026-07-07）:
    https://note.com/safe_canna441/n/nc7a3522ade60 『氷見牛は、里山で育つ知る人ぞ知る牛だ。』は
