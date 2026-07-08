@@ -1,0 +1,12 @@
+要求: フル稼働便（owner「フル稼働」「売れるようにやって」「ワーカー足して」2026-07-08）
+発行: code 2026-07-08
+実行: docs/worker-prompt.txt を最初から最後まで全タスク実行。ただし収入を最優先で先頭に置く。
+
+★最優先(収入・初売上を最短で):
+1. docs/worker-task-note-income.txt step0 = ¥100入口(CMO/outputs/2026-07-08_有料note_100円入口_富山外さない12選.md)を publish_to_note.py で公開。重複ゲート順守→公開URL報告。
+2. 同 step1-3 = warm lead返信 / 閲覧トップ10無料記事の末尾CTAを"第一に¥100入口"へ / 保存版マガジン編成。
+3. 閲覧数トップ10の数字を outbox に必ず持ち帰る（codeはA1で見えない＝需要テスト判定材料）。
+
+★続けて worker-prompt.txt の残タスクも実行:
+- 英語toyama-guideの世界発信(デプロイ/IndexNow)・コミュニティ交流・Travelpayouts(Google自動クリック、password/2FAのみ停止)・かいち条件付き・ブラウザ後始末。
+制約: ¥0・A5(押し売り禁止)・1記事1CTA・価格/公開ロジック/安全ガード/重複ゲートは変更不可・機密は打鍵しない。
