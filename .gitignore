@@ -4,6 +4,20 @@ node_modules/
 .env
 *.env.*
 
+# 機密ファイル（かいちのAI大学「Claude Code危険リスク5選」の学びを反映・2026-07-08）
+# ＝git経由の情報漏洩を防ぐ4系統: 認証情報 / SSH秘密鍵 / AWS鍵 / 証明書
+credentials.json
+credentials.yaml
+*_credentials*
+id_rsa
+id_ed25519
+*.ppk
+.ssh/
+.aws/
+aws_credentials
+*.pem
+*.key
+
 # local-only / generated
 # .claude: 共有設定(settings.json)・フック(hooks/)・サブエージェント(agents/)は追跡。ローカル設定は除外。
 .claude/*
