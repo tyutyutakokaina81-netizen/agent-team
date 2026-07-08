@@ -1,0 +1,7 @@
+要求: 収益バルブ1＝A8 ID照合便（owner「両方とも」→ codeはA1で確認不可なのでworkerが読む）
+発行: code 2026-07-08
+最優先: docs/worker-task-a8-verify.txt を実行。
+- ownerがA8ログイン済みなら→じゃらん/楽天の本人a8matを読み取り、埋込ID(じゃらん1CCUH0+929KAA+14CS+64RJ5／楽天1U7G8Q+5LTYUQ+2HOM+686ZL)と照合して報告。
+- 未ログインなら→認証情報を打鍵せず「A8 owner本人ログイン要」と1回報告。
+続けて worker-prompt.txt の残タスク(KDP出品/note収入化/¥100入口/収益枠予約/コミュニティ/モデルA)も実行。
+制約: ¥0・owner認証情報は絶対打鍵しない・HTML書換はしない(IDの差替えはcode正本管理)・ブラウザ後始末。
