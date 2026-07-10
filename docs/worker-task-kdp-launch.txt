@@ -5,7 +5,8 @@
 - AI副業入門: manuscript_AI副業入門.epub ＋ kdp_listing_AI副業入門.md（タイトル/説明/キーワード/カテゴリ/価格）
 - AI時短仕事術: manuscript_AI時短仕事術.epub ＋ kdp_listing_AI時短仕事術.md
 - フリーランス確定申告入門: manuscript_フリーランス確定申告入門.epub ＋ kdp_listing_フリーランス確定申告入門.md
-（英語の Toyama 本 EN/outputs/kindle/Toyama_Uncrowded_Coast_manuscript.md は第2弾。まず日本語3本＝Amazon JPのAI/副業カテゴリは購買層が厚い）
+- 【英語・外国人収益化の中核】Toyama: Japan's Uncrowded Coast: **EN/outputs/kindle/Toyama_Uncrowded_Coast.epub（生成済・KDP検証OK）** ＋ リスティングは EN/outputs/kindle/SELLING_SCHEME_world.md §2（Title/Subtitle/$5.99/7キーワード/カテゴリ Travel›Asia›Japan/説明文が全部そのまま登録可）。**言語=英語・Amazon.com（グローバル）で出品**＝英語ページの流入と別に、Amazonの外国人購買層に直接載る。KDP Select登録でKU読了ページ課金も狙える。
+（日本語3本＝Amazon JPのAI/副業カテゴリ／英語1本＝Amazon.comの訪日客。どちらも同じKDPアカウントで出品可）
 
 手順（ブラウザ＝worker実行）:
 1. kdp.amazon.co.jp を開く。**既にownerがログイン済み/アカウントありなら手順3へ**。
