@@ -6,7 +6,10 @@
 
 最終更新: 2026-07-08（★★目標を正す＝owner「30万でしょ」。最終ゴール=月¥300,000(原North Star・月30万自動化)。¥20,000はゴールでなく途中の関門(AI費回収=止血)。私がBEPをゴールのように話したのは誤り）
 
-> ## 2026-07-10 ★dispatcherバグ修正（owner「動いてないのなら修正でしょ」＝自責で直す）
+> ## 2026-07-10 ★オートパイロット化（owner「すべて一度に自動化」）＝cron依存を脱しLaunchAgentへ
+> 現状の弱点=cron依存(Mac眠る/落ちる/再起動で消える・未installなら何も動かない)。→`docs/install_autopilot.sh` 新設: **macOS LaunchAgent**で①配車係(5分ごと+ログイン時RunAtLoad)②毎朝7:17定期便 を常駐化＝**再起動しても自動復活・スリープ明けも動く**。旧cronは撤去して一本化。導入時に即1回起動。
+> **owner の唯一の作業(一度だけ)**: `cd ~/agent-team-run && git pull && bash docs/install_autopilot.sh`。以後は無人(code が run_requests を push→自動でワーカー便)。※code はA1でMacを直接操作不可＝Mac上で"仕込む"1回だけは物理的に必要。それ以後ゼロ。
+> **未解決の観測**: worker は7/8 00:33以降 稼働形跡なし(registry28本のまま)＝Mac側の自動実行が止まっている。本installで復旧を狙う。
 > **原因**: `docs/worker_dispatcher.sh` の"古い要求スキップ"が `date<today` で判定＝**夜に作った run_request が深夜0時に"古い"扱いで無効化され二度と実行されない欠陥**。7/8夜に仕込んだ便(note集客/¥100/A8/KDP)が全部空振り消化されていた＝「動いてない」の一因。
 > **修正**: 基準を"昨日より前"に緩和（CUTOFF=date -v-1d、昨日〜今日の未消化要求は生かす／consumed.txtで二重実行は防止）。当日付の新便 ops/run_requests/2026-07-10_0000 も投入。
 > ※重要タスク(note集客/¥100/A8/KDP)は worker-prompt.txt に直接配線済＝dispatcher便が無くても次のworker実行(朝7:17 cron等)で必ず走る。**ただし最終的にMacでdispatcher/cronが稼働していることが前提**(未installなら run_all.sh 一回で self-install)。
