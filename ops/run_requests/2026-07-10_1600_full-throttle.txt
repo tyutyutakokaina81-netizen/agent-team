@@ -1,0 +1,19 @@
+要求: フル稼働便（owner「フル稼働して」2026-07-10）＝全エンジン一斉実行
+発行: code 2026-07-10
+実行: docs/worker-prompt.txt を最初から最後まで全タスク。収益を最優先で。
+
+★収益（初売上を最短で）:
+1. note収入化(docs/worker-task-note-income.txt): ¥100入口(日/英)を publish_paid_note.py --price 100 --publish で公開→URL報告。warm lead(「本もつくらないの」読者)へ有料本¥980を1返信。閲覧トップ10にCTA。
+2. note内集客(docs/worker-task-note-growth.txt): フォロー最大30/スキ+本物コメント最大10/フォローバック。フォロワー総数の推移を報告。
+3. KDP出品(docs/worker-task-kdp-launch.txt): ログイン済みなら日本語3冊+英語1冊(epub)を提出→ASIN報告。未設定なら「初期設定要」と1回報告。
+4. A8 ID照合(docs/worker-task-a8-verify.txt): じゃらん/楽天の本人a8matを読み照合。
+5. かいちLINE特典(docs/worker-task-kaichi-line-tokuten.txt): 未取得なら学習目的で取得(公開/再配布しない・LINE認証はowner追加要なら1回報告)。
+
+★世界発信・開栓:
+6. 英語toyama-guideのデプロイ/IndexNow・Travelpayouts開栓(Google自動クリック・password/2FAのみ停止)・コミュニティ交流ドラフト。
+
+★測定（必須）:
+7. 閲覧トップ10・フォロワー総数・公開URL・各タスク結果を outbox に持ち帰る。
+
+制約: ¥0・A4/A5・1日最大5本(収益枠≥2予約)・owner認証情報は絶対打鍵しない・bot判定回避で量は上限厳守・機密は打鍵しない・ブラウザ後始末。
+※B2B受託(projects/2026-07-10_B2B受託/)はowner主導(クラウドソーシング登録・応募)。workerは受注後の提案書生成(gen_proposal.py)で支援。
