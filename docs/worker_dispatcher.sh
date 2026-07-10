@@ -29,16 +29,19 @@ if [ "$HM" -ge 0647 ] && [ "$HM" -le 0747 ]; then exit 0; fi
 # 未消化の実行要求を探す（消化済みはローカル記録。Macは1台前提）
 CONSUMED="$STATE_DIR/consumed.txt"
 touch "$CONSUMED"
-TODAY=$(date +%Y-%m-%d)
+# 「古い要求」の基準を "昨日より前" にする（2026-07-08 バグ修正 owner「動いてないのなら修正でしょ」）。
+# 旧ロジックは date<today で即スキップ→夜に作った要求が深夜0時に無効化され二度と実行されない欠陥だった。
+# 未消化かつ「昨日 or 今日」の要求は生かす（consumed.txt で二重実行は防止済み）。
+CUTOFF=$(date -v-1d +%Y-%m-%d 2>/dev/null || date -d "yesterday" +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
 REQ=""
 for f in ops/run_requests/*.txt; do
   [ -e "$f" ] || continue
   grep -qxF "$f" "$CONSUMED" && continue
-  # ファイル名の日付が過去日の要求は空振り消化（朝の定期便がカバー済み＝古い要求で余計な便を出さない）
+  # ファイル名の日付が「昨日」より前の要求だけ空振り消化（=2日以上前。夜作成分は翌日も生かす）
   RD=$(basename "$f" | cut -c1-10)
-  if [ "$RD" \< "$TODAY" ]; then
+  if [ "$RD" \< "$CUTOFF" ]; then
     echo "$f" >> "$CONSUMED"
-    echo "stale request skipped: $f"
+    echo "stale request skipped (older than yesterday): $f"
     continue
   fi
   REQ="$f"; break
