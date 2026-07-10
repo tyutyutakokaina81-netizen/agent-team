@@ -1,0 +1,11 @@
+要求: dispatcher修正後の実行便（owner「動いてないのなら修正でしょ」）
+発行: code 2026-07-10
+背景: worker_dispatcher.sh の"古い要求スキップ"が date<today で夜作成分を深夜0時に無効化していた欠陥を修正（→昨日〜今日の要求は生かす）。この便は当日付=確実に発火用。
+
+実行: docs/worker-prompt.txt を最初から全タスク。特に未実行の収益タスクを優先:
+1. note内集客(docs/worker-task-note-growth.txt)=フォロワーを積む。報告にフォロワー総数の推移を必ず記載。
+2. ¥100入口(日/英)を publish_paid_note.py --price 100 --publish で公開→URL報告。
+3. A8 ID照合(docs/worker-task-a8-verify.txt)=じゃらん/楽天の本人a8matを読み照合。
+4. KDP出品(docs/worker-task-kdp-launch.txt)=ログイン済みなら3冊提出、未設定なら「初期設定要」と1回報告。
+5. 閲覧数トップ10・フォロワー総数の数字を outbox に持ち帰る。
+制約: ¥0・A4/A5・owner認証情報は絶対打鍵しない・bot判定回避で量は上限厳守・ブラウザ後始末。
