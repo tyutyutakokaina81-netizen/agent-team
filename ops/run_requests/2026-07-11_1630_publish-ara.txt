@@ -1,0 +1,9 @@
+要求: 記事公開（owner「魚のアラ骨の入手で記事書いて」2026-07-11）
+発行: code 2026-07-11
+実行:
+1. CMO/outputs/2026-07-11_note記事_魚のアラの入手_富山の台所.md を publish_to_note.py（無料記事の正経路）で公開:
+   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-11_note記事_魚のアラの入手_富山の台所.md" --text-only
+   （サムネjpgがあれば自動設定・[写真①]はowner写真 or 実写のみ。重複ゲート順守）→公開URL報告。
+2. 続けてworker-prompt.txtの残タスク（フル稼働）も実行。
+制約: ¥0・A4(番地/店名を本文に足さない)・A5・1日最大5本(収益枠≥2予約)・owner認証情報は打鍵しない・ブラウザ後始末。
+※無料記事＝publish_to_note.pyで正しい(有料経路ではない)。
