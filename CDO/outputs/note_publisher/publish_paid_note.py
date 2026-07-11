@@ -223,59 +223,116 @@ def _try_set_paywall(page) -> bool:
 
 
 def _try_set_price_on_publish(page, price: int) -> bool:
-    """/publish/ 画面で「有料」を選び価格を入力し、境界を確定。DOMで価格を検証できたら True。
-    2026-07-03実測: 「有料」はradioを内包する<label>。選択後に価格input(placeholder=300相当)と
-    「このラインより先を有料にする」ボタンが現れる。ボタンで本文の有料エリア指定ラインを束ねる。"""
-    # 1) 「有料」を選択（labelクリックでpaid radioをオン）
-    for sel in ('label:has-text("有料")', 'input[value="paid"]',
-                '[role="radio"][value="paid"]', 'text=有料'):
+    """/publish/ で「有料」を選び、価格を**実キーボード**で入力し、paid選択＋価格==price をDOM検証したら True。
+    2026-07-11 cowork self-fix（実測 nb90084f378c8）：note の価格欄は React 制御の
+    <input type=text placeholder="300"> で、Playwright の fill() は onChange が発火せず
+    アプリ状態が既定300のまま＝価格未確定になっていた（＝過去の「価格未確定で下書き止め」の主因）。
+    実マウス click→Meta+A(+Ctrl+A)→Backspace→keyboard.type→Tab で onChange を発火させると確定する。
+    ※ここでは有料エリア境界の確定はしない。開くと入力欄が畳まれ価格を再検証できなくなるため、
+      境界確定は _confirm_paid_boundary() で別途行う（順序＝価格→検証→境界→投稿）。
+    2026-07-11 追補（実測 nba958ccd6cb8）：fresh フロー（公開に進む直後）では /publish/ UI が
+    未settleで価格入力に失敗しうる。settle待ち＋scroll_into_view＋検証リトライ(最大3回)で堅牢化。"""
+    def _paid_checked():
+        return page.evaluate(
+            "()=>{const r=document.querySelector('input[name=is_paid][value=paid]');return r?r.checked:false;}")
+    def _price_value():
+        return page.evaluate(
+            "()=>{const i=document.querySelector('input[placeholder=\"300\"]');return i?i.value:null;}")
+
+    for attempt in range(3):
+        # 1) 「有料」を選択（labelクリックでpaid radioをオン）
+        if not _paid_checked():
+            for sel in ('label:has-text("有料")', 'input[value="paid"]',
+                        '[role="radio"][value="paid"]', 'text=有料'):
+                try:
+                    el = page.locator(sel).first
+                    if el.is_visible(timeout=1500):
+                        el.click()
+                        page.wait_for_timeout(1200)
+                        break
+                except Exception:
+                    continue
+        # 2) 価格入力＝実キーボード（React onChange を発火させる）
+        for sel in ('input[placeholder="300"]', 'input[type="number"]',
+                    'input[inputmode="numeric"]', 'input[placeholder*="価格"]', 'input[placeholder*="金額"]'):
+            try:
+                inp = page.locator(sel).first
+                if inp.is_visible(timeout=2000):
+                    try:
+                        inp.scroll_into_view_if_needed(timeout=1500)
+                    except Exception:
+                        pass
+                    box = inp.bounding_box()
+                    if not box:
+                        continue
+                    page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+                    page.wait_for_timeout(250)
+                    page.keyboard.press("Meta+A")       # macOS 全選択
+                    page.keyboard.press("Control+A")     # 保険（他OS）
+                    page.keyboard.press("Backspace")
+                    page.wait_for_timeout(150)
+                    page.keyboard.type(str(price), delay=120)
+                    page.wait_for_timeout(250)
+                    page.keyboard.press("Tab")           # blur で確定
+                    page.wait_for_timeout(700)
+                    break
+            except Exception:
+                continue
+        # 3) paid選択 と 価格==price をDOMで検証（両方揃って初めて価格確定とみなす）
         try:
-            el = page.locator(sel).first
-            if el.is_visible(timeout=1200):
-                el.click()
-                page.wait_for_timeout(1200)
-                break
+            if bool(_paid_checked()) and str(_price_value()) == str(price):
+                return True
         except Exception:
-            continue
-    # 2) 価格入力（有料選択後に出現）
-    filled = False
-    for sel in ('input[type="number"]', 'input[inputmode="numeric"]',
-                'input[placeholder="300"]', 'input[placeholder*="価格"]', 'input[placeholder*="金額"]'):
-        try:
-            inp = page.locator(sel).first
-            if inp.is_visible(timeout=1500):
-                inp.click()
-                inp.fill("")
-                inp.fill(str(price))
-                page.wait_for_timeout(500)
-                filled = True
-                break
-        except Exception:
-            continue
-    # 3) 有料境界の確定。2026-07-07 cowork self-fix（実測）：
-    #    /publish/ 画面の最終ボタン「投稿する」は、有料ラインを確定するまで出現しない。
-    #    まず「有料エリア設定」を開き、次に「このラインより先を有料にする」で
-    #    ドラフト本文の既存 PAYWALL-LINE をそのまま確定する（境界は移動しない＝冪等）。
+            pass
+        page.wait_for_timeout(1500)  # settle 待ちして再試行
+    return False
+
+
+def _confirm_paid_boundary(page) -> bool:
+    """「有料エリア設定」を開き「このラインより先を有料にする」で本文の既存 PAYWALL-LINE を確定する。
+    2026-07-11 実測: 確定後は価格/paid入力欄が畳まれ「投稿する」が出現する（＝境界確定が最終ボタン出現の前提）。
+    そのため価格検証は必ず本関数の**前**に済ませること。「投稿する」が出現したら True。"""
     try:
         area = page.locator('button:has-text("有料エリア設定")').first
-        if area.is_visible(timeout=2000):
+        if area.is_visible(timeout=2500):
             area.click()
-            page.wait_for_timeout(1500)
+            page.wait_for_timeout(2000)
     except Exception:
         pass
+    boundary_btn = False
     try:
         b = page.locator('button:has-text("このラインより先を有料にする")').first
         if b.is_visible(timeout=2500):
+            boundary_btn = True
             b.click()
-            page.wait_for_timeout(1500)
+            page.wait_for_timeout(2000)
     except Exception:
         pass
-    # 4) DOM検証：価格入力の値が price と一致
     try:
-        vals = page.evaluate("()=>[...document.querySelectorAll('input')].map(i=>i.value).filter(Boolean)")
-        return str(price) in vals
+        return boundary_btn and page.evaluate(
+            "()=>[...document.querySelectorAll('button')].some(b=>(b.innerText||'').includes('投稿する'))")
     except Exception:
-        return filled
+        return boundary_btn
+
+
+def _verify_paid_published(nid: str, price: int) -> bool:
+    """公開後の最終検証：note v3 公開API で price==price かつ can_read==False（＝有料ラインが効いている）
+    かつ status==published を確認。全文無料事故を後追いでも必ず検知するための belt-and-suspenders。
+    2026-07-11 実測: 正しく有料公開された記事は is_limited=False。有料の真の判定は price と can_read。"""
+    import json as _json, urllib.request as _url
+    try:
+        req = _url.Request(f"https://note.com/api/v3/notes/{nid}", headers={"User-Agent": "Mozilla/5.0"})
+        d = _json.load(_url.urlopen(req, timeout=15))
+        data = d.get("data", d)
+        ok = (str(data.get("price")) == str(price)
+              and data.get("can_read") is False
+              and data.get("status") == "published")
+        print(f"🔎 公開後v3検証: price={data.get('price')} can_read={data.get('can_read')} "
+              f"status={data.get('status')} → {'✅ 有料が効いている' if ok else '⚠️ 想定不一致（要確認）'}")
+        return ok
+    except Exception as e:
+        print(f"🔎 公開後v3検証に失敗: {e}（手動確認を推奨）")
+        return False
 
 
 def publish(md_path: Path, do_publish: bool, title_override, price_override, tags_override):
@@ -372,12 +429,17 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
             except Exception as e:
                 print(f"⚠️  タグ入力に失敗: {e}")
 
-        # 価格設定
+        # 価格設定（実キーボード）→ paid+価格==price を検証 → その後に有料エリア境界を確定
+        # （順序厳守：境界を先に開くと入力欄が畳まれ価格を検証できなくなる。2026-07-11 self-fix）
         price_ok = _try_set_price_on_publish(page, price)
-        print(f"{'✅' if price_ok else '⚠️ '} 価格設定: {'¥'+str(price)+' をDOM検証OK' if price_ok else '自動入力/検証に失敗'}")
+        print(f"{'✅' if price_ok else '⚠️ '} 価格設定: "
+              f"{'¥'+str(price)+' をDOM検証OK（paid選択＋価格一致）' if price_ok else '自動入力/検証に失敗'}")
+        boundary_ok = _confirm_paid_boundary(page) if price_ok else False
+        print(f"{'✅' if boundary_ok else '⚠️ '} 有料境界確定: "
+              f"{'『投稿する』出現までOK' if boundary_ok else '境界確定に失敗'}")
 
-        # --- 収益化セーフティ：有料ライン と 価格 の両方が確定した時だけ公開 ---
-        safe_to_publish = paywall_ok and price_ok
+        # --- 収益化セーフティ：有料ライン・価格・境界の3つ全部が確定した時だけ公開 ---
+        safe_to_publish = paywall_ok and price_ok and boundary_ok
         if not do_publish or not safe_to_publish:
             if do_publish and not safe_to_publish:
                 print("\n🛑 安全のため公開を中止します（有料ライン/価格の自動セットが未確定）。")
@@ -411,7 +473,7 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
                 except Exception:
                     continue
             page.wait_for_timeout(3000)
-            m = re.search(r"/notes/(n[a-z0-9]+)/", page.url)
+            m = re.search(r"/notes/(n[a-z0-9]+)/", page.url) or re.search(r"/n/(n[a-z0-9]+)", page.url)
             published_id = m.group(1) if m else None
             print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
             if published_id:
@@ -421,6 +483,9 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
             if sys.stdin.isatty():
                 input("   公開を確認したら Enter ...")
         ctx.close()
+        # 公開後の最終検証（v3 API：price一致・can_read=False・published）。全文無料事故の後追い検知。
+        if published_id:
+            _verify_paid_published(published_id, price)
         return published_id
 
 
