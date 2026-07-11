@@ -76,8 +76,26 @@ cat > "$DAILY_PLIST" <<PLIST
 </plist>
 PLIST
 
+# ---- スリープ防止 LaunchAgent（owner「毎回止まる」対策 2026-07-11）----
+# caffeinate -s = AC電源接続中はシステムスリープを抑止（バッテリー時は通常どおり眠る＝電池を守る）。
+# これで「Macがスリープ→配車係が止まる→公開されない」を根治。KeepAlive=落ちても復活。
+AWAKE_PLIST="$LADIR/com.agentteam.awake.plist"
+cat > "$AWAKE_PLIST" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentteam.awake</string>
+  <key>ProgramArguments</key>
+  <array><string>/usr/bin/caffeinate</string><string>-s</string></array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+</dict>
+</plist>
+PLIST
+
 # ---- ロード（既存はunloadしてから）----
-for L in "$DISP_PLIST" "$DAILY_PLIST"; do
+for L in "$DISP_PLIST" "$DAILY_PLIST" "$AWAKE_PLIST"; do
   launchctl unload "$L" 2>/dev/null || true
   launchctl load "$L" 2>/dev/null && echo "  ✅ 常駐登録: $(basename "$L")" || echo "  ⚠️ load失敗: $(basename "$L")（手動: launchctl load $L）"
 done
