@@ -21,6 +21,7 @@ CAO/research/kaichi_youtube/ に *_claudecode_*.md が1本も無ければ、docs
 以下2本を publish_to_note.py（無料経路）で公開（サムネは同stem.jpgを自動採用・重複ゲート順守・公開URL報告）:
 1. CMO/outputs/2026-07-10_note記事_福井三国_新保屋のおろしそば.md（見出し画像=owner実食写真あり）
 2. CMO/outputs/2026-07-11_note記事_魚のアラの入手_富山の台所.md
+3. CMO/outputs/2026-07-11_note記事_みりん干し_氷見の干物.md
    python3 CDO/outputs/note_publisher/publish_to_note.py --article "<上のpath>" --text-only
 ★重要（枠の扱い）: **この2本は「通常記事は最大3本」のサブ上限に縛られず、1日5本の総枠の中で優先的に公開する**（owner明示依頼のため）。有料¥100がUI不発で下書き止めの日は、予約枠(≥2)をこの2本に回してよい＝本日既に通常3本公開済でも、この2本は枠4・5で公開する（合計5本以内なら可）。既公開ならスキップ。
 
