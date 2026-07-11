@@ -1,0 +1,9 @@
+要求: 残りを全部公開（owner「全部うごかして」「すべて公開したん？」2026-07-11）
+発行: code 2026-07-11
+実行: docs/worker-prompt.txt を全タスク。特に未公開分を優先:
+1. おろしそば記事(CMO/outputs/2026-07-10_note記事_福井三国_新保屋のおろしそば.md)を publish_to_note.py --text-only で公開→URL報告。
+2. アラ記事(CMO/outputs/2026-07-11_note記事_魚のアラの入手_富山の台所.md)を publish_to_note.py --text-only で公開→URL報告。
+3. ¥100入口(日/英)を publish_paid_note.py で公開（承認済の価格自己修復手順・is_limited=True必須ゲート・確定できなければ下書き止め）。
+4. note集客(フォロー/スキ/コメント)継続→フォロワー総数を報告。
+5. A8照合/KDP/LINE特典/世界発信も実行。閲覧数・フォロワー数を outbox に持ち帰る。
+制約: ¥0・A4/A5・1日最大5本(収益枠≥2予約)・owner認証情報は打鍵しない・全文無料事故の絶対防止・ブラウザ後始末。
