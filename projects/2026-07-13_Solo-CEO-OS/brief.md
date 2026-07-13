@@ -27,7 +27,13 @@
 - 実際のGumroadアップロード・公開はオーナーがブラウザで手動（コンテナから外部到達不可・制約A1）。
 
 ## 状態
-- 2026-07-13：product一式・sales(EN/JA)・設定ガイド 作成完了。ZIP化と出品はオーナー作業待ち。
+- 2026-07-13：product一式・sales(EN/JA)・設定ガイド 作成完了。ZIP（Solo-CEO-OS-v1.0.zip）とカバー案(cover.svg)も作成しオーナーへ送付済み。
+- 2026-07-13：集客キット（launch/faq.md・social-posts.md・launch-plan.md）作成完了。出品と投稿はオーナー作業待ち。
+
+## 集客キット（launch/）
+- `faq.md` … 購入前FAQ（EN=商品ページ／JA=note）
+- `social-posts.md` … X英語スレ/単発・Reddit・X日本語スレ（そのまま貼れる完成稿・`{LINK}`置換）
+- `launch-plan.md` … Day0〜Week1の3ステップ・見る指標
 
 ## 次アクション（オーナー側）
 1. `product/` を `Solo-CEO-OS-v1.0.zip` に圧縮 → Gumroadの Content にアップロード
