@@ -88,6 +88,7 @@
 | 2026-06-13 | outputs/Takaoka_Insiders_Monthly_Issue01_2026-06.docx | 中韓マガジン | 高冈内部人月刊 / 다카오카 인사이더 월간지 創刊号（Issue 01）。梅雨テーマ。中国語6記事＋韓国語6記事。A4 Word形式。Gumroad販売用 | 完了 |
 | 2026-07-13 | projects/2026-07-13_Solo-CEO-OS/launch/social-posts.md | ローンチ投稿素材 | Solo CEO OS告知用のX英語スレッド/単発・Reddit投稿・X日本語スレッド（フック別パターン）。そのまま貼れる完成稿 | 完了 |
 | 2026-07-13 | projects/2026-07-13_Solo-CEO-OS/launch/launch-plan.md | ローンチ計画 | Solo CEO OS の3ステップ集客計画（CAO＋CMO）。Day0-Week1のシーケンス・見るべき指標・注意 | 完了 |
+| 2026-07-13 | outputs/2026-07-13_note記事_SoloCEOOS告知.md | note記事 | Solo CEO OS告知記事（当事者視点）。AIを会社化した体験＋記憶ファイルの効用→有料導線。英語要約・事実検証ノート付き | 完了 |
 
 ## 進行中タスク
 
