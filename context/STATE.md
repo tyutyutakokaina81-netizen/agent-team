@@ -6,6 +6,13 @@
 
 最終更新: 2026-07-08（★★目標を正す＝owner「30万でしょ」。最終ゴール=月¥300,000(原North Star・月30万自動化)。¥20,000はゴールでなく途中の関門(AI費回収=止血)。私がBEPをゴールのように話したのは誤り）
 
+> ## 2026-07-13 ★「世界にひろめて」＝Pagesは既にLIVE。検索エンジンへの能動通知(IndexNow)を追加＋GSC送信がowner側の残スイッチ
+> **実機検証で判明**: 英語97ページは GitHub Pages で**公開済みLIVE**（pages.yml デプロイ成功・sitemap 98 EN URL/robots/GA4/GSC確認ファイル/IndexNowキー 全部あり）。だが WebSearch で自社サイトが1件もヒットせず＝**「公開」と「検索で見つかる」は別**。
+> **私が入れた一手**: IndexNowキー(d0b74…)は設置済みだったが**実際のping(通知)が抜けていた**→ `scripts/indexnow_ping.py` を pages.yml のデプロイ後に実行し、sitemap全URLをBing/Yandex等へ毎回自動通知（非致命）。コミット6657e08。
+> **owner側の残スイッチ（私はできない）**: ①Google Search Consoleでプロパティ確認→sitemap送信（約5分・Google発見の本丸。確認ファイルは設置済だがダッシュボード操作はowner）②被リンク＝workerがQuora(ROI1位)/Reddit投稿（Mac起動が前提）。
+> **★重要な仕組み訂正**: run_request は**引き金専用で中身がworkerに渡らない**（07-14別セッション発見）。workerへの実タスク投入は `docs/worker-prompt.txt` が正。私の収益キューrun_requestも同じ誤経路だった＝今後はworker-prompt.txtを編集する。
+> **氷見牛 解決**: 1本目 nccce1e10499a が便実測で既にライブ＝再公開不要（懸案クローズ）。
+
 > ## 2026-07-12 ★追加10ワーカーを「集客とKDP」に配置（owner「ワーカーもあと10人増やして」→owner選択=集客とKDP）
 > **判断**: 記事166本で供給過剰・詰まりは流入(27停滞)→記事量産でなく流入創出に10人配置。`projects/2026-07-12_集客KDP_10ワーカー/`(HEAD a6494c8・branch/main同期)。
 > **KDP(本命4)**: 英語Kindle原稿2冊(富山の食/まんが聖地巡礼・各12章・build_epub.py対応)＋Amazonリスティング2冊分＋公開ゼロ打鍵手順書。**owner既存Amazonあり=アカウント作成不要**。詰まりは「口座開設」でなく既存銀行口座をKDP画面に登録するだけ(🔴owner本人のみ・約20分)。owner「KDP設定した/ASIN=」の一言でworkerが残り本を提出。
