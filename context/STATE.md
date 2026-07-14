@@ -10,6 +10,8 @@
 > **実機検証で判明**: 英語97ページは GitHub Pages で**公開済みLIVE**（pages.yml デプロイ成功・sitemap 98 EN URL/robots/GA4/GSC確認ファイル/IndexNowキー 全部あり）。だが WebSearch で自社サイトが1件もヒットせず＝**「公開」と「検索で見つかる」は別**。
 > **私が入れた一手**: IndexNowキー(d0b74…)は設置済みだったが**実際のping(通知)が抜けていた**→ `scripts/indexnow_ping.py` を pages.yml のデプロイ後に実行し、sitemap全URLをBing/Yandex等へ毎回自動通知（非致命）。コミット6657e08。
 > **owner側の残スイッチ（私はできない）**: ①Google Search Consoleでプロパティ確認→sitemap送信（約5分・Google発見の本丸。確認ファイルは設置済だがダッシュボード操作はowner）②被リンク＝workerがQuora(ROI1位)/Reddit投稿（Mac起動が前提）。
+> **★フル稼働便(owner「フル稼働」×3)で実装済(commit dbb84b5まで)**: 英語ピラー en-start-here.html新設(既存27ページを束ねるハブ)+en.html導線／技術SEO15ページ(og:image補完5・JSON-LD/canonical検証・hreflangは日本語版不在で不付与)／黒部ダム en-kurobe-dam.html新設(内部リンク8)+en-alpine予約強化／sitemap 166URL網羅。3役員(CAO gap調査/CDO技術SEO/CMO ピラー・黒部)を並列fan-outで回収→検証→統合。成果物=projects/2026-07-13_世界配信フル稼働/。
+> **次の増分(未着手・CAO gap調査に列挙)**: 新設候補=en-kurobe-dam済み・残り9件／強化候補=en-alpine済み・残り9件(cao_en_seo_gap.md)。世界配信engineはコード側フル稼働済＝以後の伸びは①GSC送信②worker外部投稿(=owner/Mac)待ち。
 > **★重要な仕組み訂正**: run_request は**引き金専用で中身がworkerに渡らない**（07-14別セッション発見）。workerへの実タスク投入は `docs/worker-prompt.txt` が正。私の収益キューrun_requestも同じ誤経路だった＝今後はworker-prompt.txtを編集する。
 > **氷見牛 解決**: 1本目 nccce1e10499a が便実測で既にライブ＝再公開不要（懸案クローズ）。
 
