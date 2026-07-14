@@ -84,3 +84,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      # デプロイ後、検索エンジンに全URLを自動通知（IndexNow・無料・非致命）。
+      # 「世界に広める」の能動的な一押し＝更新のたびBing/Yandex等へ即時通知。
+      - name: Notify search engines (IndexNow)
+        if: success()
+        run: python3 scripts/indexnow_ping.py || true
