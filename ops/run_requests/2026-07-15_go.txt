@@ -1,0 +1,11 @@
+要求: 便を出す（owner「起動してる」2026-07-15＝引き金切れ解消）
+発行: code 2026-07-15
+※これは"引き金"。実タスク本文は docs/worker-prompt.txt を参照（run_requestの中身はworkerに渡らない仕様）。
+※配車係(5分ごと)がこの当日日付の未消費要求を検知して run_worker.sh を起動する。
+
+今便でworkerがやること（worker-prompt.txt の優先順）:
+1. 【最優先・単発】GSCへ sitemap.xml を送信（owner「自動でやって」）。Google未ログインなら即STOP＆outbox報告。認証情報は打鍵しない。
+2. 集客（Quora=ROI1位/Reddit/note内growth）を outbox 提出＋フォロワー総数の推移を報告。
+3. 収益（warm-lead返信→閲覧トップCTA）。
+4. 公開バックログ（砂糖記事・ギャラリー等）を1日5本枠で消化・URL報告。
+制約: ¥0・A4/A5・1日5本厳守・認証情報打鍵しない・ブラウザ後始末。
