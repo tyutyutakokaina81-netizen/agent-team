@@ -400,8 +400,23 @@ def parse_article(md_path: Path):
     return title, body, placeholders, tags
 
 
+def _verified_thumb_stems() -> set:
+    """owner確認済みサムネのallowlist(thumbnails/_verified.txt)。ここに記事stemが載っている場合のみ自動サムネを使う。
+    背景(2026-07-15): 自動取得(note-thumbnails Action)がWikimedia/Pexelsから地名と無関係な写真を拾う事故が判明
+    （氷見ギャラリー→NYグッゲンハイム、雪の大谷→蔵王の桜 等）＝A5違反かつブランド毀損。
+    そのため既定を「未検証=見出し画像なしで公開」に変更（誤サムネより無サムネが正）。owner実写を確認したstemだけ_verified.txtに追記する。"""
+    f = Path(__file__).resolve().parent / "thumbnails" / "_verified.txt"
+    if not f.exists():
+        return set()
+    return {ln.strip() for ln in f.read_text(encoding="utf-8").splitlines()
+            if ln.strip() and not ln.strip().startswith("#")}
+
+
 def find_thumbnail_for(md_path: Path) -> Path | None:
-    """thumbnails/{記事stem}.{jpg|png|webp} があれば返す。"""
+    """thumbnails/{記事stem}.{jpg|png|webp} があり、かつ _verified.txt に載っている(=owner確認済)場合のみ返す。
+    未検証サムネは A5安全のため使わない(None=見出し画像なしで公開)。"""
+    if md_path.stem not in _verified_thumb_stems():
+        return None
     thumbs = Path(__file__).resolve().parent / "thumbnails"
     for ext in ("jpg", "jpeg", "png", "webp", "JPG", "PNG"):
         p = thumbs / f"{md_path.stem}.{ext}"
@@ -649,8 +664,9 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
-        # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
-        thumb_to_use = photos[0] if photos else auto_thumb
+        # サムネ（見出し画像）：優先順位 = --photos の写真① > _verified.txt掲載のthumbnails/{stem}.jpg
+        # text_only は本文だけの投稿＝見出し画像を付けない（誤サムネ事故の再発防止・2026-07-15）
+        thumb_to_use = photos[0] if photos else (None if text_only else auto_thumb)
         if thumb_to_use:
             try:
                 # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
