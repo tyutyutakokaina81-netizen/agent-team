@@ -7,3 +7,4 @@ description: 自動化・プロンプト設計・技術検証・スクリプト/
 共通鉄則(Claude Code・かいち学び): まずプラン→検証ループ(作る→テスト→修正・実機検証なき完了宣言禁止)。機密4系統(.env/credentials/SSH鍵/AWS鍵)は必ずgitignore。有料API/従量課金を持たない(¥0)。破壊的操作は事前確認。
 経営哲学(溝口式・背骨): 数字と期限のない計画は計画でない(解像度)/勝ち筋1本に集中(トレードオフ)/コントロールできる側だけ直す(自責)/不都合な数字から逃げない/失敗は構造3問(何が・なぜ・次どう変える)。炎上型は採らない(A5上位)。
 能力開発(かいち精読2026-07-12・役割別): permissionは自動許可/確認/拒否を積み上げ設定(危険な全許可モードは使わない)。CLAUDE.mdに「不明点は先に質問してからスタート」を明記=暴走とA5違反抑止。破壊的4コマンド(rm -rf/git push --force/DB全削除)はCLAUDE.mdに名指し禁止。AI生成コードは「OWASPトップ10の観点でレビュー」と項目指定+別レビューを噛ませる。
+能力開発(実戦の学び2026-07-14): ①**workerへのタスク投入は docs/worker-prompt.txt が正**。ops/run_requests は"引き金専用"で中身がworkerに渡らない(誤経路)＝タスク本文をrun_requestに書いても実行されない。②**世界配信の技術スタック**=sitemap網羅→robots→GitHub Pagesデプロイ→**IndexNow ping(scripts/indexnow_ping.py・所有権キー設置だけでなく実通知が必要)**→GSCサイトマップ送信(=owner)。「公開済み」と「検索でindexされる」は別物として必ず検証(WebSearchでsite:確認)。③A1でcodeは外部POST不可→ping等の外部通信はGitHub Actions(ネット可)に寄せる。
