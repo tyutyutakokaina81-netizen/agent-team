@@ -34,6 +34,7 @@ HEAD = '''<!DOCTYPE html>
   p,li{{color:#33403f;font-size:16px}}a{{color:#1f8a70}}
   .pr{{font-size:12.5px;color:#5b6a6a;background:#fffbe6;border:1px solid #f0e6b0;border-radius:8px;padding:8px 12px;margin:14px 0}}
   .cta{{display:inline-block;background:#0f3d2e;color:#fff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:10px;margin:16px 0;font-size:15px}}
+  .aff{{font-weight:700}}
   .muted{{color:#5b6a6a;font-size:14px}}.tag{{color:#5b6a6a;font-size:13px}}
 </style>
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"Article","headline":"{title}","inLanguage":"en","url":"{base}/{slug}.html","publisher":{{"@type":"Organization","name":"AI Tools Guide"}}}}</script>
@@ -48,9 +49,27 @@ FOOT = '''<p class="tag"><a href="index.html">More AI tool guides →</a></p>
 '''
 
 
+def aff_key_for(label):
+    """CTAラベル文中のツール名から aff-links.js の LINKS キーを推定（slugより正確・複数ツール対応）。"""
+    low = label.lower()
+    for k, v in TOOLS.items():
+        if k in low:
+            return v
+    return None
+
+
 def inline(s):
     s = html.escape(s, quote=False)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    # アフィリCTAプレースホルダ [label](#aff) → data-aff付きリンク（aff-links.jsがURL設定時のみ有効化）。
+    # ※本文段落を丸ごとボタン化していた旧ヒューリスティックの根本修正。CTAはこの明示マーカーだけが対象。
+    def _aff(m):
+        label = m.group(1)
+        key = aff_key_for(label)
+        da = f' data-aff="{key}"' if key else ''
+        return f'<a class="aff"{da} href="#" rel="nofollow sponsored">{label}</a>'
+    s = re.sub(r"\[([^\]]+)\]\(#aff\)", _aff, s)
+    # 通常のマークダウンリンク
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
     return s
 
@@ -63,7 +82,7 @@ def tool_for(slug):
 
 
 def md_to_html(body, tool):
-    out, in_ul, cta_done = [], False, False
+    out, in_ul = [], False
     def close():
         nonlocal in_ul
         if in_ul: out.append("</ul>"); in_ul=False
@@ -83,12 +102,8 @@ def md_to_html(body, tool):
         # affiliate disclosure → PR box
         if "affiliate" in low and ("commission" in low or "disclosure" in low):
             out.append(f'<p class="pr">{inline(ln.strip())}</p>'); continue
-        # CTA line (#aff placeholder等) → data-aff button（未設定なら非表示）
-        if not cta_done and ("#aff" in ln or re.search(r"try |get started|check .*price|visit ", low)):
-            label = re.sub(r"\(#aff\)|\[|\]|\(|\)", "", ln).strip() or "Check the latest plans"
-            da = f' data-aff="{tool}"' if tool else ''
-            out.append(f'<a class="cta"{da} href="#">{inline(label)}</a>')
-            cta_done = True; continue
+        # CTA は本文段落内の明示マーカー [label](#aff) だけが対象（inline() が data-aff リンク化）。
+        # 旧: 本文中の "try/check price/visit" 等の語で行全体をボタン化＝段落がデッドボタン/非表示になる不具合 → 撤去。
         out.append(f"<p>{inline(ln.strip())}</p>")
     close()
     return "\n".join(out)
