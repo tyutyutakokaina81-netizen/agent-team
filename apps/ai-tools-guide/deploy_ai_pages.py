@@ -5,6 +5,7 @@
 """
 import re, sys, html
 from pathlib import Path
+from datetime import date as _date
 
 HERE = Path(__file__).resolve().parent
 DRAFTS = HERE / "_drafts"
@@ -124,6 +125,45 @@ def convert(slug):
     return f"{slug}.html"
 
 
+def _page_title(p):
+    h = p.read_text(encoding="utf-8")
+    m = re.search(r"<h1>(.*?)</h1>", h, re.S)
+    return re.sub(r"<[^>]+>", "", m.group(1)).strip() if m else p.stem
+
+
+def rebuild_index():
+    """index.html の記事一覧(<p id="index">)を全ページから再構築＝ハブから全記事に導通（発見性/内部SEO）。"""
+    idx = HERE / "index.html"
+    if not idx.exists():
+        return 0
+    pages = sorted(p for p in HERE.glob("*.html") if p.name != "index.html")
+    items = "\n".join(f'<li><a href="{p.name}">{html.escape(_page_title(p))}</a></li>' for p in pages)
+    ul = f'<ul id="index">\n{items}\n</ul>'
+    h = idx.read_text(encoding="utf-8")
+    new = re.sub(r'<(p|ul) id="index">.*?</\1>', ul, h, flags=re.S)
+    idx.write_text(new, encoding="utf-8")
+    return len(pages)
+
+
+def sync_sitemap():
+    """全 ai-tools ページを sitemap.xml に登録＝Google が発見できるように（未登録=クロール不能の穴を塞ぐ）。"""
+    sm = HERE.parent / "ai-agency-hp" / "sitemap.xml"
+    if not sm.exists():
+        return 0
+    txt = sm.read_text(encoding="utf-8")
+    existing = set(re.findall(r"/ai-tools/([^<]+\.html)", txt))
+    today = _date.today().isoformat()
+    add = [p.name for p in sorted(HERE.glob("*.html")) if p.name not in existing]
+    if add:
+        lines = "".join(
+            f"  <url><loc>{BASE}/{n}</loc><lastmod>{today}</lastmod><priority>0.7</priority></url>\n"
+            for n in add)
+        sm.write_text(txt.replace("</urlset>", lines + "</urlset>"), encoding="utf-8")
+    return len(add)
+
+
 if __name__ == "__main__":
     made = [convert(s) for s in sys.argv[1:]]
-    print(f"生成 {len(made)}ページ → apps/ai-tools-guide/")
+    n_idx = rebuild_index()
+    n_sm = sync_sitemap()
+    print(f"生成 {len(made)}ページ → apps/ai-tools-guide/｜index一覧={n_idx}本 更新｜sitemap新規登録={n_sm}件")
