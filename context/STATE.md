@@ -15,6 +15,13 @@
 > **★★要対応(code): サムネ自動取得が"別の場所の写真"で誤表示＝A5リスク**。`CDO/outputs/note_publisher/thumbnails/{stem}.jpg`(147枚)を実機目視したところ、内容と無関係な海外/県外のストック写真が混入：①氷見潮風ギャラリー(藤子)→**グッゲンハイム美術館(NYC)のらせん天井** ②立山「雪の大谷」→**一目千本桜＋蔵王(宮城)の桜川面**(雪の壁でない) ③高岡大仏→青銅座像だが高岡大仏と断定不可。**note公開時 publish_to_note.py は --text-only でもこのサムネを見出し画像に強制添付する(L653 `thumb_to_use = photos[0] if photos else auto_thumb`＝text_onlyでも auto_thumb を使用)**。→本便は**通常記事の公開を保留**(富山の記事に別の場所の写真を貼るのはA5違反=ブランド毀損)。要=①fetch_thumbnails_*.py の取得ロジック見直し（キーワードが地名でなく一般語で拾っている疑い）②owner実写(藤子は IMG_0489 石像)へ差替 or ③text_only時は auto_thumb を付けない選択肢。**⚠️2026-07-12公開の食4本もこの経路でサムネ添付済＝既公開分の点検も要**。サムネ選択=公開ロジックのためworker自己修復の対象外→codeで対応依頼。
 > **フォロワー: 31**（07-11/12の27→31, +4）。following59・noteCount398。
 
+> ## 2026-07-15 ★★GSC sitemap送信=実機完了（世界配信の本丸ON）＋サムネ誤取得を根治＋オートパイロット復活
+> **引き金切れ根治**: 配車係CUTOFF=昨日以降のrun_requestのみ拾う仕様に対し未消費最新が07-13で割れ→3日間便が出ず。owner go.sh実行(正パス=find で見つかる Library配下 or /Users/apple/agent-team-run)でLaunchAgent(dispatcher/daily/awake)常駐復活→07-15_1818便が稼働。**go.sh正パス=owner再クローンLibrary配下**(私が言ってた~/agent-team-run/agent-team/は誤)。
+> **GSC送信=DONE(実機)**: プロパティは所有権verified済(google4a0bf4b0a669a11d.html HTTP200)。06/24送信の旧sitemapが「取得0」で失敗放置→現行166URL(HTTP200)で**再送信・緑ダイアログ確認・日付06/24→07/15更新**。Google再クロール待ち(数日)。=世界配信の本丸スイッチON。
+> **★サムネ誤取得の根治(A5事故・commit 5fd3477)**: 自動取得(note-thumbnails Action)がWikimedia/Pexelsから地名無関係の写真(氷見ギャラリー→NYグッゲンハイム/雪の大谷→蔵王の桜/高岡大仏→別大仏?)を拾い**owner実写(IMG_0489等)も上書き**していた。修正=①publish_to_note.py: find_thumbnail_forを**_verified.txt(owner確認済stem)掲載時のみ返す**方式に(既定=見出し画像なし=誤サムネより無サムネが正)②text_onlyは見出し画像を付けない③note-thumbnails.yml **自動push撤去→手動のみ**④有料publisherは元からサムネ自動添付なし=安全。検証済(未検証→None/allowlist追加で復活)。
+> **worker配線**: 11記事(藤子ギャラリー/雪の大谷/黒部/氷見うどん/寒ブリ/かぶら寿司/売薬/蜃気楼/チューリップ/高岡大仏/路面電車)は**無サムネで安全に再公開可**に配線。既公開の食4記事の誤サムネ点検も配線。フォロワー27→31(+4)。
+> **要フォロー**: owner実写を確認したら _verified.txt にstem追記でサムネ復活。既公開記事の誤サムネはworkerがnote編集で外す/差替。
+
 > ## 2026-07-13 ★「世界にひろめて」＝Pagesは既にLIVE。検索エンジンへの能動通知(IndexNow)を追加＋GSC送信がowner側の残スイッチ
 > **実機検証で判明**: 英語97ページは GitHub Pages で**公開済みLIVE**（pages.yml デプロイ成功・sitemap 98 EN URL/robots/GA4/GSC確認ファイル/IndexNowキー 全部あり）。だが WebSearch で自社サイトが1件もヒットせず＝**「公開」と「検索で見つかる」は別**。
 > **私が入れた一手**: IndexNowキー(d0b74…)は設置済みだったが**実際のping(通知)が抜けていた**→ `scripts/indexnow_ping.py` を pages.yml のデプロイ後に実行し、sitemap全URLをBing/Yandex等へ毎回自動通知（非致命）。コミット6657e08。
