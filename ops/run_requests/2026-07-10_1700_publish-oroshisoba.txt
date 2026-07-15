@@ -1,0 +1,9 @@
+要求: owner一次体験の記事を公開（owner「福井・三国の新保屋のおろしそば食べてきたのでnoteに記事書いて」2026-07-10）
+発行: code 2026-07-10
+実行:
+1. CMO/outputs/2026-07-10_note記事_福井三国_新保屋のおろしそば.md を **publish_to_note.py**（無料記事の正経路）で公開:
+   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-10_note記事_福井三国_新保屋のおろしそば.md" --text-only
+   （サムネjpgがあれば自動設定・写真①②placeholderはowner写真 or 実写のみ。重複ゲート順守）→公開URLを報告。
+2. 続けてworker-prompt.txtの残タスク（フル稼働）も実行。
+制約: ¥0・A4(番地/電話は本文に足さない)・A5・1日最大5本(収益枠≥2予約)・owner認証情報は打鍵しない・ブラウザ後始末。
+※これは無料記事＝publish_to_note.pyで正しい(有料経路ではない)。

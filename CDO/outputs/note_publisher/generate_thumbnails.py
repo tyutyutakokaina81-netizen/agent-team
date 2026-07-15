@@ -20,6 +20,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -27,6 +28,24 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO = SCRIPT_DIR.parents[2]
 ARTICLES_DIR = REPO / "CMO" / "outputs"
 THUMB_DIR = SCRIPT_DIR / "thumbnails"
+# 生成元の記録。記事プロンプトから作った関連サムネ(openai/gemini/pollinations)を「良」とみなす。
+# ここに無い既存ファイル＝素性不明(過去のpicsumランダム等)＝1回だけ再生成して関連画像に置き換える。
+PROV_FILE = THUMB_DIR / "_provenance.json"
+GOOD_BACKENDS = {"openai", "gemini", "pollinations"}
+
+
+def load_provenance() -> dict:
+    try:
+        return json.loads(PROV_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_provenance(prov: dict) -> None:
+    try:
+        PROV_FILE.write_text(json.dumps(prov, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def extract_thumb_prompt(text: str) -> str | None:
@@ -86,8 +105,14 @@ def generate_with_gemini(prompt: str, api_key: str) -> bytes:
     return base64.b64decode(b64)
 
 
+MIN_IMAGE_BYTES = 5000  # これ未満はエラーページ等＝失敗扱い
+
+
 def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
-    """Pollinations.ai: APIキー不要・無料の画像生成サービス。"""
+    """Pollinations.ai: APIキー不要・無料の画像生成サービス。
+    無料ゆえレート制限/タイムアウトが起きるので、リトライ＋画像サイズ検証で堅牢化する。
+    """
+    import time
     import urllib.parse
     # プロンプトを短くしないと URL 長で 404 になる。最初の300字程度に切る。
     short = prompt[:300].rsplit(" ", 1)[0]  # 単語途中で切らない
@@ -97,18 +122,33 @@ def generate_with_pollinations(prompt: str, api_key: str = "") -> bytes:
         f"https://image.pollinations.ai/prompt/{encoded}"
         f"?width=1280&height=720&nologo=true&model=flux"
     )
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        return resp.read()
+    last_err: Exception | None = None
+    for attempt in range(3):  # 最大3回（バックオフ 0/4/8秒）
+        if attempt:
+            time.sleep(attempt * 4)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                data = resp.read()
+            if len(data) >= MIN_IMAGE_BYTES:
+                return data
+            last_err = ValueError(f"画像が小さすぎる({len(data)}B)＝失敗扱い")
+        except Exception as e:  # noqa: BLE001  ネットワーク/HTTP全般を握ってリトライ
+            last_err = e
+    raise last_err or RuntimeError("pollinations 生成失敗")
 
 
 def pick_backend():
+    # owner方針(2026-06-30)：自前AI画像(Pollinations)は画質が荒いので既定で使わない。
+    # note見出し画像は「みんなのフォトギャラリー（無料・実写）」を手動採用する運用に切替。
+    # AI生成は ALLOW_AI_THUMBNAILS=1 を明示したときだけ（owner任意・既定OFF）。
     if os.environ.get("OPENAI_API_KEY"):
         return "openai", os.environ["OPENAI_API_KEY"]
     if os.environ.get("GEMINI_API_KEY"):
         return "gemini", os.environ["GEMINI_API_KEY"]
-    # キー無しでも動く Pollinations をデフォルトに
-    return "pollinations", ""
+    if os.environ.get("ALLOW_AI_THUMBNAILS") == "1":
+        return "pollinations", ""
+    return "none", ""   # 既定＝AI自動生成しない（荒いため）。みんフォト手動運用に委ねる
 
 
 def main():
@@ -122,16 +162,26 @@ def main():
     THUMB_DIR.mkdir(parents=True, exist_ok=True)
     backend, key = pick_backend()
     print(f"backend: {backend}")
+    if backend == "none":
+        print("AI自動生成はOFF（owner方針：荒いため）。note見出し画像はみんなのフォトギャラリー(無料・実写)を手動採用。")
+        print("AIを使う場合は環境変数 ALLOW_AI_THUMBNAILS=1。実写無料素材は PEXELS_API_KEY(無料)で。")
+        return
 
     articles = sorted(ARTICLES_DIR.glob("2026-*_note記事_*.md"))
     if args.filter:
         articles = [a for a in articles if args.filter in a.name]
 
+    prov = load_provenance()
     queue = []
+    healed = 0
     for a in articles:
         out = THUMB_DIR / f"{a.stem}.jpg"
+        # 既存をスキップする条件：--force でなく、かつ「素性が良い」と記録済みのときだけ。
+        # 既存でも素性不明（過去のpicsumランダム等＝記録に無い）なら関連画像へ1回だけ再生成する。
         if out.exists() and not args.force:
-            continue
+            if prov.get(a.stem) in GOOD_BACKENDS:
+                continue
+            healed += 1  # 素性不明の既存を再生成対象に含める
         prompt = extract_thumb_prompt(a.read_text(encoding="utf-8"))
         if not prompt:
             continue
@@ -140,7 +190,7 @@ def main():
     if args.max > 0:
         queue = queue[: args.max]
 
-    print(f"対象: {len(queue)}本\n")
+    print(f"対象: {len(queue)}本（うち素性不明の再生成: {healed}本）\n")
     if args.dry_run:
         for a, _, out in queue:
             print(f"  + {a.stem}  →  {out.name}")
@@ -157,6 +207,8 @@ def main():
             else:
                 data = generate_with_pollinations(prompt)
             out.write_bytes(data)
+            prov[a.stem] = backend          # 素性を記録（次回からスキップ）
+            save_provenance(prov)           # 都度保存＝途中失敗しても進捗が残る
             print(f"  ✓ {out.name}  ({len(data)//1024} KB)")
             ok += 1
         except urllib.error.HTTPError as e:
@@ -166,6 +218,8 @@ def main():
         except Exception as e:
             print(f"  ✗ {type(e).__name__}: {e}")
             fail += 1
+        if backend == "pollinations":
+            time.sleep(1.5)                 # 無料枠への配慮＝レート制限回避のペース調整
 
     print(f"\n成功: {ok} / 失敗: {fail}")
 

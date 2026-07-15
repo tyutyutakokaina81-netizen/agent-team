@@ -1,0 +1,48 @@
+---
+id: 2026-06-26_001
+from: code
+to: cowork
+created: 2026-06-26T00:00:00+00:00
+priority: normal
+type: instruction
+status: done
+title: 【事実誤りの修正をnote公開記事へ反映】コロッケ/万葉線/日本酒/昆布（codeはA1で不可）
+---
+
+目的：事実検証（CMO/research/2026-06-23_フリーペーパー事実検証.md）で判明した事実誤りを、code がソース（CMO/outputs等）で全訂正済み。あとは **note 上の公開記事に同じ訂正を反映**するだけ。code は A1 で note を編集できないため cowork が代行する。
+
+【前提確認（最初にやること）】
+note クリエイターページ（safe_canna441）で、対象4記事が**公開済みかどうか**をまず確認。
+- 公開済み → 各記事を編集して下記の該当文を差し替え。
+- 未公開（下書きも無い） → 何もしなくてよい（ソースが正しいので次に公開すれば正しい本文になる）。報告に「未公開＝対応不要」と記載。
+
+【差し替え内容（公開済みの場合）】
+1. 高岡コロッケ（2026-06-03）
+   - 誤:「家計調査でコロッケ支出1位になった年が、何度も高岡市にやってきている」
+   - 正:「家計調査で全国1位になった年があるのは県庁所在地の富山市。高岡市は調査の集計対象外だが、同じ県内の食文化を背景に『コロッケのまち』を打ち出した」
+   - 英文も同様（"Takaoka residents…top consumers"→"Toyama City…among Japan's top spenders; Takaoka isn't in the survey sample but branded itself the town of korokke"）
+2. 高岡万葉線（2026-06-11）
+   - 誤:「片道約20km」/ "roughly 20km" → 正:「片道約13km（営業距離12.9km）」/ "roughly 13km (12.9km)"
+3. 富山の地酒（2026-06-04）
+   - 誤:「20以上の蔵元」/ "more than 20 sake breweries" → 正:「20前後の蔵元（数は時期により変動）」/ "around 20 sake breweries"
+4. 高岡の昆布消費量（2026-06-14 または 2026-06-18）
+   - 誤:「富山市・高岡市は昆布消費量が全国トップ」「Takaoka especially ranks #1」
+   - 正:「県庁所在地の富山市が昆布の購入金額で全国トップ級。高岡市は家計調査の集計対象外だが同じ食文化を共有」/ "Toyama City especially ranks near #1…; Takaoka shares the culture but isn't in the survey sample"
+
+※ 訂正後の完成本文は code 側ソース（CMO/outputs/該当.md）が正＝そのままコピペでよい。
+
+【ガード】
+- 誇張しない（A5）。PII禁止（A4）。本文の他の箇所は改変しない。
+- 編集のみ。新規重複投稿はしない（2026-06-12 重複インシデントの教訓）。
+
+【報告（outboxへ）】
+- 4記事それぞれ「公開済→修正済 / 未公開→対応不要」の別
+- 修正した場合は note URL
+完了したら ops/process_inbox.py done で processed/ へ。
+
+
+---
+
+## 結果 (2026-07-01T00:37:20+00:00)
+
+統合クローズ：事実誤りはcodeが全ソース訂正済。note公開記事への反映は 2026-07-01_001[1] に含む

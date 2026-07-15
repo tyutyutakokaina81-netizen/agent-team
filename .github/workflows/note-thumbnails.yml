@@ -1,34 +1,32 @@
 name: Generate note thumbnails
+# provenance と実jpgの齟齬を防ぐ：スクリプトは out.exists() を必ず確認して再取得する。
 
-# note記事のサムネ画像をクラウド(ネット可)で生成し、thumbnails/ にコミットする。
-# code はネット遮断・オーナーのMacはキー貼り間違いが起きるため、ここで一括生成する。
+# note記事のサムネ画像をクラウド(ネット可)で取得し、thumbnails/ にコミットする。
+# code はネット遮断・オーナーのMacはキー貼り間違いが起きるため、ここで一括取得する。
 #
-# 画像ソース（優先順）:
-#  1. Gemini (Imagen 3)  … GEMINI_API_KEY があれば、各記事の「サムネ用プロンプト」からAI生成
-#  2. Pexels (無料素材)  … PEXELS_API_KEY があれば、Geminiで埋まらなかった分をフリー写真で補完
+# ★¥0原則(A2/A3)：有料の画像生成AI(Gemini/Imagen 等)は使わない。無料の実写のみ。
+# 画像ソース（優先順・すべて無料）:
+#  1. Wikimedia Commons … キー不要・完全無料。記事題材の実写を取得（既定）。
+#  2. Pexels (無料素材)  … PEXELS_API_KEY(無料)があれば、1で埋まらなかった分を実写で補完。
 #
 # キーは リポジトリ Settings > Secrets and variables > Actions に登録（ターミナルに貼らない）。
-#  - GEMINI_API_KEY : https://aistudio.google.com/apikey （無料枠）
 #  - PEXELS_API_KEY : https://www.pexels.com/api/ （無料）
+# ※ 有料APIキー(GEMINI_API_KEY 等)は登録しない＝課金の発生源を持たない。
 #
 # 実行: Actions タブ → "Generate note thumbnails" → Run workflow（手動）
 
 on:
+  # 2026-07-15 ★自動トリガー(push)を撤去＝手動(workflow_dispatch)のみに変更。
+  # 理由: 自動取得サムネがWikimedia/Pexelsから地名と無関係の写真を拾う事故(氷見ギャラリー→NYグッゲンハイム、
+  #       雪の大谷→蔵王の桜 等)が判明し、owner実写も上書きしていた＝A5違反かつブランド毀損。
+  # publisher側で「_verified.txt に載る owner確認済みサムネのみ使用」へ変更済み。
+  # 以後この取得は"手動で確認しながら"だけ回す（自動で本文公開に混ざらない）。
   workflow_dispatch:
     inputs:
       filter:
         description: "対象を絞る日付など (例 2026-06-09)。空なら全記事の不足分。"
         required: false
         default: ""
-  # 記事が追加/更新されたら自動でサムネ生成（不足分のみ取得＝既存はスキップ）。
-  # bot のコミットは thumbnails/ のみ触るため push ループにはならない。
-  push:
-    branches: [main]
-    paths:
-      - "CMO/outputs/**"
-      - ".github/workflows/note-thumbnails.yml"
-      - "CDO/outputs/note_publisher/fetch_*.py"
-      - "CDO/outputs/note_publisher/generate_thumbnails.py"
 
 permissions:
   contents: write
@@ -41,24 +39,23 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     env:
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      # ¥0原則(A2/A3)：有料の画像生成AIは使わない。無料の実写ソースのみ。
       PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
       FILTER: ${{ github.event.inputs.filter }}
     steps:
       - uses: actions/checkout@v4
 
-      # 1) AI生成: GEMINI_API_KEYがあればImagen、無ければ generate_thumbnails.py 既定の
-      #    Pollinations(キー不要)で生成を試みる。どちらも失敗は次段で補完。
-      - name: Generate (Gemini or keyless Pollinations)
+      # 1) 実写取得（既定・キー不要・無料）: Wikimedia Commons から記事題材の実写を取得。
+      #    owner方針＝荒い自前AI画像は使わず、無料の実写を自動で入れる。
+      - name: Fetch real photos (Wikimedia Commons, keyless)
         run: |
-          cd CDO/outputs/note_publisher
           if [ -n "$FILTER" ]; then
-            python3 generate_thumbnails.py --filter "$FILTER" || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" || true
           else
-            python3 generate_thumbnails.py || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py || true
           fi
 
-      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるときだけ・relevantな写真）
+      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるとき・より高品質な実写。無料キー）
       - name: Fill remaining with Pexels (free, if key)
         if: ${{ env.PEXELS_API_KEY != '' }}
         run: |
@@ -68,19 +65,15 @@ jobs:
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
           fi
 
-      # 3) 最終フォールバック: キー不要のPicsumで、まだ無い記事を必ず1枚埋める
-      - name: Fill remaining with Picsum (keyless, guaranteed)
-        run: |
-          if [ -n "$FILTER" ]; then
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py --filter "$FILTER" || true
-          else
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_picsum.py || true
-          fi
+      # ※ 有料AI生成(Gemini/Imagen)経路は撤去（¥0原則・A2/A3）。ランダムPicsumも廃止。
+      #   取得できなかった記事はサムネ無しで残し（provenance未記録）、次回トリガーで再取得（自己修復）。
+      #   note見出しは みんなのフォトギャラリー 手動採用も可。
 
       - name: Commit thumbnails
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
-          git diff --cached --quiet || git commit -m "auto: generate note thumbnails (Gemini/Pexels)"
+          git add -f CDO/outputs/note_publisher/thumbnails/_provenance.json || true
+          git diff --cached --quiet || git commit -m "auto: note用サムネを無料実写(Wikimedia/Pexels)から取得"
           git push

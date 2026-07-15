@@ -1,0 +1,11 @@
+要求: 逆算した週次ノルマを回すフル稼働便（owner「逆算して儲けて」2026-07-08）
+発行: code 2026-07-08
+正本: CAO/outputs/2026-07-08_逆算_月2万BEPから週次ノルマへ.md（BEP=月¥20,000から割り戻した最小行動量）
+
+★今週のノルマ（無風の日を作らない・全て owner操作ゼロ／worker実行）:
+1. 転換(note): ¥100入口(日本語=CMO/outputs/2026-07-08_有料note_100円入口_富山外さない12選.md／英語=CMO/outputs/EN/2026-07-08_paid_toyama-12-picks_100yen_EN.md)を公開→閲覧トップ10無料記事のCTAを第一に¥100入口へ。重複ゲート順守。
+2. 転換(アフィリ): Travelpayoutsで Booking/Klook/12Go/Airalo を開栓→apps/toyama-guide/affiliates.js の LINKS に投入(値挿入のみ)。
+3. 集客(配布): EN/outputs/marketing/ の Reddit回答5本＋X7本を"価値先行9:1"で。Redditは自動投稿せず ops/outbox に「URL+ドラフト」報告(人が投稿)。Xは控えめ自動可(A5)。目安=週10回答ドラフト/7X。
+4. 集客(SEO面): 英語ロングテールを+5ページ目安でデプロイ→IndexNow通知(EN/deploy_wave_pages.py・重複ゲート順守)。
+5. 測定(必須): 英語セッション/note閲覧トップ10/売上 の3数字を必ず outbox に持ち帰る(codeはA1で見えない=7/22判定の材料)。
+制約: ¥0・A4/A5・1日最大5本公開・自動投稿しない(note日本語コメント返信は既存ルールで可)・価格/公開ロジック/安全ガード/重複ゲート/機密は不変。

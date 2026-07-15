@@ -1,0 +1,77 @@
+---
+id: 2026-07-08_002
+from: cowork
+to: code
+created: 2026-07-08T12:40:00+09:00
+priority: high
+type: report
+status: done
+title: 07-08第2便 — かいちYouTube「Claude Code」文字起こし取り込み完了(10本)。ハンドル誤り自己修復(@kaichi_gpt→@kaichi_ai)。公開系は残枠0で全見送り。
+---
+
+# 要点（結論）
+
+- **単発最優先タスク＝かいちYouTube「Claude Code」取り込み＝完了**。Claude Code(CLI/エージェント)主題の動画 **10本の文字起こし全文**を `CAO/research/kaichi_youtube/` に保存(commit&push済)。字幕なし1本はskip。
+- **★自己修復(input URL訂正)**: worker-prompt/タスクdocの指定ハンドル `@kaichi_gpt` は**実在せず404**。YouTube検索で正チャンネルを特定＝**`@kaichi_ai`（かいちのAI大学 / Saix）**。この訂正なしでは0件で失敗していた。`docs/worker-task-kaichi-youtube.txt` の該当URLを @kaichi_ai へ修正済（差分下記）。
+- **公開系(task2/3/4/4b/有料本/モデルA)＝本便も全見送り**。理由=本日の台帳 recorded_at=2026-07-08 が既に**5/5**（00:29–00:33のcron定期便＋第1便2026-07-08_001で確認済）＝残枠0。ルール「同日合計5本超えない・残枠0なら公開せず他タスクのみ」に従う。
+- **task0(氷見牛2本目 nc7a3522ade60 非公開化)＝既済を再々確認**。visitor視点で HTTP 404（=非公開）。1本目 n0443f87ce4df も残置(削除せず)。
+- **task1 ゲート合格を再確認**：バタバタ茶 text-only は「重複ゲート(台帳)」で即中断（ブラウザ開かず）＝正常。
+- **ブラウザ**：YouTube探索はすべて headless chromium＋ctx.close()済（ownerの画面に残骸なし）。note用Chromeプロファイルは未起動（公開なしのため）。
+- **self-fix(publisher)：なし**（publisherは健全）。今回のself-fixはタスクdocのハンドル訂正のみ。
+
+# かいちYouTube「Claude Code」取り込み — 詳細
+
+- チャンネル: **かいちのAI大学 / Saix（@kaichi_ai）**
+- 判定基準: owner「Claude Code(CLI/エージェント)に限定」→ 一般Claude/ChatGPT/モデル解説/AIニュースは**除外**。
+- 取得方法: チャンネル内検索(Claude Code / クロードコード / Claude)で候補列挙 → Claude Code主題のみ選別 → youtube-transcript-api(隔離venv・¥0)で字幕全文取得。内部学習・分析目的のみ(公開/再配布しない=著作権配慮)。
+- **取得10本(status=ok)**：
+
+| 公開日 | タイトル | videoId | 文字数 |
+|---|---|---|---|
+| 2026-02-14 | Claude Code 完全セットアップガイド｜3つの鉄則 | L3rvaPCpCPI | 5,330 |
+| 2026-03-22 | Claude Codeで会社経営を行う方法 | rqdG7YnCK54 | 17,006 |
+| 2026-03-26 | Claude Codeとは？10分で徹底解説 | cfnQaeMK29I | 6,080 |
+| 2026-04-29 | Claude Codeの危険なリスク5選と対策｜安全設定 | aiek9fNCB00 | 8,594 |
+| 2026-04-30 | AI社員で月20万の外注をゼロに｜Claude Codeで業務移管 | Jvc3fe-lZu8 | 8,573 |
+| 2026-05-14 | Claude Code × CPO 経営役員シリーズ1 | 2t__ZmgRZbo | 13,633 |
+| 2026-05-15 | Claude Code × CMO 経営役員シリーズ2 | --45ZjpeBM4 | 15,701 |
+| 2026-05-19 | 税理士向けClaude Code活用術7選 | owTTmb4tqqc | 19,817 |
+| 2026-06-28 | Claude Code × CFO 経営役員シリーズ3 | P-77DMwFKXM | 16,462 |
+| 2026-07-07 | Claude Code × CHRO 経営役員シリーズ4 | aX4YNNDN-nQ | 16,866 |
+
+- **skip 1本(字幕なし)**：「Claude Codeを活用したバイブコーディング活用事例5選」(SbLAGzbcyXo / 2025-10-09) = Subtitles disabled。
+- マニフェスト: `CAO/research/kaichi_youtube/_manifest_claudecode.json`。
+
+# ★code/ownerへ引き継ぎ（次アクション＝codeの役割）
+
+1. **抽出＆記憶反映（code専任）**: 上記10本は owner目的「codeが読み"気になる有用な点"を抽出→STATE/CAOに記憶→本リポ.claude設定に反映」の**素材**。私(cowork)はSTATE.md/.claude/を編集していない(code正本管理のため)。**特に有用と思われる2本**＝
+   - 『完全セットアップガイド(3つの鉄則)』＝設定手順の一次情報。
+   - 『危険なリスク5選と安全設定』＝permissions/ガード設計の参考(1,000万円請求・機密漏洩・破壊防止)。
+   経営役員シリーズ(CPO/CMO/CFO/CHRO)は本リポのC?O構成と同型＝役割設計の外部事例。
+2. **ハンドル訂正の水平展開**: `docs/worker-prompt.txt`(L22付近)と `ops/run_requests/2026-07-08_kaichi-*.txt` にも `@kaichi_gpt` が残存。今回タスクは完了しファイル存在で今後skipされるため実害は消えるが、正確性のため次便でcodeが訂正推奨。
+3. **公開の持ち越し**（残枠0で本日全見送り・次の残枠日に）: 有料本¥980 / 未公開候補5本 / 有料第1号¥300 / Vol.1¥980＋売れる化A/B / モデルA(Travelpayouts)開栓。
+
+# 検証根拠（メモ）
+
+- ハンドル確認: `@kaichi_gpt`=title「404 Not Found」/ytd-app無 ; `@kaichi_ai`=検索で「かいちのAI大学 / Saix」ヒット、Claude Code内検索で29件描画。
+- 残枠: published_registry.json の recorded_at=2026-07-08 が5件。
+- task0: `https://note.com/safe_canna441/n/nc7a3522ade60` → HTTP 404（対照: 公開中n56f284ca4fbf/n6e7ca70475c8=200）。
+- ゲート: バタバタ茶text-only → 「✗ 重複ゲート(台帳): 既に公開済み n92090a60679c」で即中断。
+
+# self-fix 差分（docs/worker-task-kaichi-youtube.txt）
+
+```
+-1. https://www.youtube.com/@kaichi_gpt/search?query=Claude%20Code と
+-   https://www.youtube.com/@kaichi_gpt/search?query=クロードコード を開く（チャンネル内検索）。
++1. https://www.youtube.com/@kaichi_ai/search?query=Claude%20Code と
++   https://www.youtube.com/@kaichi_ai/search?query=クロードコード を開く（チャンネル内検索）。
++   ※正しいハンドルは @kaichi_ai（「かいちのAI大学 / Saix」）。@kaichi_gpt は存在せず404（2026-07-08 実測修正）。
+```
+根拠: 指定ハンドルが404実在せず、正チャンネル特定なしにはタスクが0件失敗となるため(機械的なinput URL訂正=自己修復権限内)。
+
+
+---
+
+## 結果 (2026-07-08T07:01:51+00:00)
+
+code処理完了: かいち10本の抽出は既にCAO/research/2026-07-08_かいちClaude Code動画_学びと設定反映.mdへ反映済(CHRO含む全10本)。ハンドル訂正@kaichi_gpt→@kaichi_aiをworker-prompt.txt L17へ水平展開。.gitignore機密4系統も反映済を確認。

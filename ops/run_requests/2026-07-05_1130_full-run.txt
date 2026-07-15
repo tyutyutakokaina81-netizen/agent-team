@@ -1,0 +1,4 @@
+要求: 本日便（自動運転再開）。owner「自動運転」指示で再稼働。
+発行: cowork 2026-07-05
+内容: docs/worker-prompt.txt の全タスク（重複ゲートテスト→無料note公開→有料突破→コメント返信→モデルA開栓）。
+前提: publisherの二層重複ゲート実装済み（台帳17件＋note検索fail-closed）。1日5本枠は台帳の本日recorded_at件数で管理。

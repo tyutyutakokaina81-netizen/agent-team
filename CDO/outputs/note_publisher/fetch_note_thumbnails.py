@@ -35,6 +35,18 @@ KEY = os.environ.get("PEXELS_API_KEY")
 
 # 日本語タイトル/ファイル名の部分一致 → Pexels検索語（具体的なものを先に置く）
 RULES = [
+    # 食（実写ヒット率を上げる追加分・具体的なものを先に）
+    ("紅ずわい", "red snow crab"), ("ずわい", "snow crab"), ("かに", "snow crab seafood"),
+    ("バイ貝", "whelk shellfish"), ("フクラギ", "yellowtail fish"), ("フクラギ", "yellowtail fish"),
+    ("たら汁", "cod fish soup"), ("鮎", "ayu sweetfish grilled"), ("よごし", "japanese vegetable side dish"),
+    ("ノドグロ", "blackthroat seaperch fish"), ("ほたるいか", "firefly squid"),
+    # 場所（追加分）
+    ("蜃気楼", "sea horizon calm bay"), ("内川", "canal fishing town japan"),
+    ("金屋町", "japanese old townscape"), ("万葉線", "tram streetcar japan city"),
+    ("路面電車", "tram streetcar japan city"), ("庄川峡", "river gorge mountains japan"),
+    ("遊覧船", "sightseeing boat river gorge"), ("環水", "canal park waterfront japan"),
+    ("富岩運河", "canal park waterfront japan"), ("伏木", "japanese old port town"),
+    ("市場散歩", "fish market japan morning"), ("早朝散歩", "coast sea mountains japan"),
     # 食
     ("かぶら寿司", "kabura sushi japanese food"), ("ます寿司", "japanese pressed sushi"),
     ("ホタルイカ", "squid seafood japan"), ("寒ぶり", "yellowtail fish sashimi"),
@@ -120,9 +132,13 @@ def has_thumb(stem: str) -> bool:
 
 def extract_title(text: str, stem: str) -> str:
     import re
-    m = re.search(r"##\s*タイトル\s*\n```\s*\n(.+?)\n```", text, re.S)
+    # 注釈付き見出し「## タイトル案」等も拾えるよう .*? を許容（厳格形だと112/124止まりでサムネ精度が落ちる）
+    m = re.search(r"##\s*タイトル.*?\n```\s*\n(.+?)\n```", text, re.S)
     if m:
         return m.group(1).strip().splitlines()[0]
+    m2 = re.search(r"^\*\*タイトル[:：]\*\*\s*(.+)$", text, re.M)
+    if m2:
+        return m2.group(1).strip()
     return stem
 
 

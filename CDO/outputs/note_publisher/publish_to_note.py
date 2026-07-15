@@ -43,6 +43,196 @@ ARTICLES_DIR = REPO_ROOT / "CMO" / "outputs"
 PROFILE_DIR = Path.home() / ".note_publisher_profile"   # 永続プロファイル（OAuth状態も含めて全部保存）
 NOTE_LOGIN_URL = "https://note.com/login"
 NOTE_NEW_URL = "https://note.com/notes/new"
+# note はエディタを editor.note.com へ移行中（2026-07 UI変更で /notes/new が一覧へリダイレクトする事象を確認）。
+# 上から順に試し、タイトル欄が出た入口を採用する。
+NOTE_NEW_URL_CANDIDATES = [
+    "https://editor.note.com/new",
+    "https://note.com/notes/new",
+    "https://note.com/new",
+]
+# タイトル欄のセレクタ（旧UI input/textarea ＋ 新エディタの contenteditable も拾う）
+TITLE_SELECTOR = (
+    'textarea[placeholder="記事タイトル"], '  # 2026-07 新エディタ実測の本命
+    'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"], '
+    '[contenteditable="true"][data-placeholder*="タイトル"], '
+    'h1[contenteditable="true"], div[role="textbox"][aria-label*="タイトル"]'
+)
+
+AUTHOR_ID = "safe_canna441"
+# 既公開記事のローカル台帳（公開成功のたびに本スクリプトが自動追記する）。
+# note上の全記事はカバーしない（seedは台帳由来の一部のみ）ため、これは第1層の高速チェック。
+# 第2層＝公開直前の note 検索（online_dedup_check）が最終ゲート。
+REGISTRY_PATH = Path(__file__).resolve().parent / "published_registry.json"
+
+
+# ---------- 重複ゲート（2026-06-12 重複公開インシデント対策・2026-07-04 実装） ----------
+
+def _norm_title(s: str) -> str:
+    """タイトル比較用の正規化（空白・記号を除去して casefold）"""
+    s = re.sub(r"\s+", "", s)
+    s = re.sub(r"[「」『』【】\[\]（）()｛｝{}、。，．,.!！?？:：;；・･\-ー—–〜~…※★☆|｜/／\\]", "", s)
+    return s.casefold()
+
+
+def _titles_match(a: str, b: str) -> bool:
+    """正規化後の完全一致、または両者12文字以上での包含を重複とみなす"""
+    na, nb = _norm_title(a), _norm_title(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    if len(na) >= 12 and len(nb) >= 12 and (na in nb or nb in na):
+        return True
+    return False
+
+
+def _topic_key(title: str = "", md_path: "Path | None" = None) -> str:
+    """題材キーワードを取り出す（2026-07-05 追加・タイトルが違う同一題材の重複を捕捉するため）。
+    優先度: ①mdファイル名の `_note記事_<題材>_` セグメント ②md本文の `## 題材キーワード` ブロック。
+    どちらも無ければ空文字（＝題材照合しない＝誤検知を出さない安全側）。
+    タイトル先頭語からの推測は誤検知が多いので使わない。"""
+    if md_path is not None:
+        m = re.search(r"_note記事_([^_]+)_", Path(md_path).name)
+        if m:
+            return _norm_title(m.group(1))
+        try:
+            text = Path(md_path).read_text(encoding="utf-8")
+            km = re.search(r"##\s*題材キーワード.*?\n```\n(.+?)\n```", text, re.S)
+            if km:
+                return _norm_title(km.group(1).splitlines()[0])
+        except Exception:
+            pass
+    return ""
+
+
+def load_registry() -> list:
+    if REGISTRY_PATH.exists():
+        try:
+            return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+
+def registry_check(title: str):
+    """ローカル台帳との重複チェック。ヒットしたエントリ or None"""
+    for e in load_registry():
+        if _titles_match(title, e.get("title", "")):
+            return e
+    return None
+
+
+def registry_topic_check(topic_key: str):
+    """題材キーワードの重複チェック（タイトルが異なっても同一題材を捕捉）。
+    台帳エントリの `topic` フィールドと完全一致（正規化後）した最初のエントリを返す。
+    topic_key が空、または台帳側に topic が無い場合は照合しない（誤検知回避）。"""
+    if not topic_key:
+        return None
+    for e in load_registry():
+        et = _norm_title(e.get("topic", "") or "")
+        if et and et == topic_key:
+            return e
+    return None
+
+
+def registry_add(title: str, url: str, topic: str = ""):
+    """公開成功後に台帳へ自動追記（自己保全。次回以降の第1層ゲートになる）"""
+    reg = load_registry()
+    entry = {
+        "title": title,
+        "url": url,
+        "recorded_at": datetime.now().isoformat(timespec="seconds"),
+    }
+    if topic:
+        entry["topic"] = topic
+    reg.append(entry)
+    REGISTRY_PATH.write_text(
+        json.dumps(reg, ensure_ascii=False, indent=1), encoding="utf-8"
+    )
+    print(f"📒 published_registry.json に追記しました（{len(reg)}件）")
+
+
+# ---------- 題材(トピック)重複ゲート（2026-07-07 追加・タイトル違いの同一題材を捕捉） ----------
+# 背景: タイトル照合だけでは「氷見牛は地元でも…」と「氷見牛は里山で…」のような
+#   タイトル違いの同一題材を素通りさせた（実インシデント）。題材トークンでも判定する。
+TOPIC_STOPWORDS = {
+    "富山", "高岡", "氷見", "富山県", "高岡市", "氷見市", "富山市", "富山湾", "北陸",
+    "保存版", "ガイド", "決定版", "完全版", "まとめ", "前編", "後編", "北前船",
+}
+
+
+def _topic_tokens(title: str) -> set:
+    """タイトルから識別性のある題材トークン(漢字含む語 or 3字以上カタカナ語)を抽出。
+    句読点・空白・記号で分割→末尾助詞を除去→ストップワード/短語を除外。"""
+    segs = re.split(r"[、。，．,\.\s・「」『』【】\[\]（）()＝=＋+\-—–~〜…!！?？:：;；|｜/／]+", title or "")
+    toks = set()
+    for seg in segs:
+        seg = re.sub(r"(?:は|が|の|を|に|へ|と|で|も|や|から|まで|など|という|だ|です)+$", "", seg)
+        if len(seg) < 3 or seg in TOPIC_STOPWORDS:
+            continue
+        if re.search(r"[一-鿿]", seg) or re.fullmatch(r"[ァ-ヶー]{3,}", seg):
+            toks.add(seg)
+    return toks
+
+
+def topic_conflict(title: str):
+    """既公開記事と題材が重なるものを探す。(entry, 共有トークン集合) or None。
+    判定=①識別トークンの完全一致 ②識別トークン(3字以上)が相手タイトルに包含
+    （「バタバタ茶」が「バタバタ茶をもう一度」に含まれる等、句に埋もれた同一題材も捕捉）。"""
+    new_toks = _topic_tokens(title)
+    if not new_toks:
+        return None
+    new_norm = _norm_title(title)
+    for e in load_registry():
+        pt = e.get("title", "")
+        pub_toks = _topic_tokens(pt)
+        pub_norm = _norm_title(pt)
+        shared = set(pub_toks & new_toks)  # ①完全一致
+        for t in pub_toks:                 # ②既公開トークンが新タイトルに包含
+            if len(t) >= 3 and _norm_title(t) in new_norm:
+                shared.add(t)
+        for t in new_toks:                 # ②新トークンが既公開タイトルに包含
+            if len(t) >= 3 and _norm_title(t) in pub_norm:
+                shared.add(t)
+        if shared:
+            return e, shared
+    return None
+
+
+def online_dedup_check(page, title: str):
+    """note検索で自アカウント(safe_canna441)の同名記事を探す（最終ゲート・公開直前に実行）。
+    返り値: 重複URLのリスト（空=重複なし）／ None=検索結果が確認できず判定不能。
+    判定不能時の扱いは呼び出し側で fail-closed（公開中断）とする。"""
+    from urllib.parse import quote
+    try:
+        page.goto(
+            f"https://note.com/search?context=note&q={quote(title)}",
+            wait_until="domcontentloaded", timeout=30000,
+        )
+        page.wait_for_timeout(3500)
+        # 検索ページ自体が開けたかの確認（結果0件は正常＝重複なし）
+        if "/search" not in page.url:
+            return None
+        links = page.locator(f'a[href*="/{AUTHOR_ID}/n/"]')
+        n = links.count()
+        nt = _norm_title(title)
+        hits = []
+        for i in range(min(n, 30)):
+            a = links.nth(i)
+            href = a.get_attribute("href") or ""
+            try:
+                card_text = a.inner_text(timeout=1500)
+            except Exception:
+                card_text = ""
+            # カード文言（タイトル+抜粋）の中に記事タイトルが含まれていれば重複とみなす
+            if card_text and nt and nt in _norm_title(card_text):
+                m = re.search(r"/n/[a-z0-9]+", href)
+                if m:
+                    hits.append(f"https://note.com/{AUTHOR_ID}{m.group(0)}")
+        return sorted(set(hits))
+    except Exception as e:
+        print(f"⚠️  note検索での重複確認に失敗: {e}")
+        return None
 
 
 # ---------- セッション管理（persistent profile方式 ＋ 本物Chrome優先） ----------
@@ -155,9 +345,33 @@ def find_article_by_date(target_date_str: str | None = None, allow_future: bool 
              "\n  特定記事を出すなら --article <path> で明示指定してください。")
 
 
+def _assert_not_paid_article(text: str, md_path: Path):
+    """fail-closed 安全ガード（2026-07-08・owner「今後エラーなしにして」）:
+    このスクリプトは無料公開専用。有料記事を渡すと本文全体を無料公開してしまう
+    （＝有料商品の全文無料流出事故）。有料マーカーを検知したら即中断し、正経路
+    publish_paid_note.py へ誘導する。無料記事はこれらのマーカーを持たないため誤検知しない。"""
+    paid_markers = [
+        (r"##\s*有料部分", "『## 有料部分』ブロック"),
+        (r"◆◆.*?有料.*?◆◆", "『◆◆…有料…◆◆』ライン設定マーカー"),
+        (r"<!--\s*PAYWALL", "PAYWALL コメント"),
+        (r"★?【ここから.*?有料.*?】", "『【ここから…有料…】』マーカー"),
+    ]
+    for pat, label in paid_markers:
+        if re.search(pat, text):
+            sys.exit(
+                f"✗ 有料記事を無料公開スクリプトに渡しています（検知: {label}）。\n"
+                f"  この {md_path.name} は有料商品です。無料公開すると全文が無料流出します。\n"
+                f"  正しい公開経路 → python3 CDO/outputs/note_publisher/publish_paid_note.py "
+                f"--article \"{md_path}\" --price <金額> --publish"
+            )
+
+
 def parse_article(md_path: Path):
     """記事mdから タイトル・本文・写真placeholder順序・ハッシュタグ を取り出す"""
     text = md_path.read_text(encoding="utf-8")
+
+    # ★fail-closed: 有料記事なら無料公開を拒否（正経路 publish_paid_note.py へ誘導）
+    _assert_not_paid_article(text, md_path)
 
     # タイトル：「メイン：」直下の最初の ``` コードブロック
     title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S)
@@ -186,8 +400,23 @@ def parse_article(md_path: Path):
     return title, body, placeholders, tags
 
 
+def _verified_thumb_stems() -> set:
+    """owner確認済みサムネのallowlist(thumbnails/_verified.txt)。ここに記事stemが載っている場合のみ自動サムネを使う。
+    背景(2026-07-15): 自動取得(note-thumbnails Action)がWikimedia/Pexelsから地名と無関係な写真を拾う事故が判明
+    （氷見ギャラリー→NYグッゲンハイム、雪の大谷→蔵王の桜 等）＝A5違反かつブランド毀損。
+    そのため既定を「未検証=見出し画像なしで公開」に変更（誤サムネより無サムネが正）。owner実写を確認したstemだけ_verified.txtに追記する。"""
+    f = Path(__file__).resolve().parent / "thumbnails" / "_verified.txt"
+    if not f.exists():
+        return set()
+    return {ln.strip() for ln in f.read_text(encoding="utf-8").splitlines()
+            if ln.strip() and not ln.strip().startswith("#")}
+
+
 def find_thumbnail_for(md_path: Path) -> Path | None:
-    """thumbnails/{記事stem}.{jpg|png|webp} があれば返す。"""
+    """thumbnails/{記事stem}.{jpg|png|webp} があり、かつ _verified.txt に載っている(=owner確認済)場合のみ返す。
+    未検証サムネは A5安全のため使わない(None=見出し画像なしで公開)。"""
+    if md_path.stem not in _verified_thumb_stems():
+        return None
     thumbs = Path(__file__).resolve().parent / "thumbnails"
     for ext in ("jpg", "jpeg", "png", "webp", "JPG", "PNG"):
         p = thumbs / f"{md_path.stem}.{ext}"
@@ -228,9 +457,49 @@ def collect_photos(photo_dir: Path):
 
 # ---------- 投稿フロー（note UI操作） ----------
 
-def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False):
+def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False,
+            skip_online_dedup: bool = False, allow_topic_dup: bool = False):
     title, body, placeholders, tags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
+    topic_key = _topic_key(title, md_path)
+
+    # ---- 重複ゲート第1層a：ローカル台帳・タイトル照合（ブラウザを開く前に即判定） ----
+    reg_hit = registry_check(title)
+    if reg_hit:
+        if draft:
+            print(f"⚠️  台帳に既公開の記録があります: {reg_hit.get('url')}（ドラフトなので続行）")
+        else:
+            sys.exit(f"✗ 重複ゲート(台帳): このタイトルは既に公開済みです → {reg_hit.get('url')}\n"
+                     f"  記事: {title}\n  公開を中断しました（published_registry.json 参照）。")
+
+    # ---- 重複ゲート第1層b：題材キーワード照合（ファイル名の題材セグメント・2026-07-05） ----
+    # 台帳エントリの topic フィールドと照合（精密・今後の公開はこちらが主）。
+    topic_hit = registry_topic_check(topic_key)
+    if topic_hit and not (reg_hit and reg_hit.get("url") == topic_hit.get("url")):
+        if draft:
+            print(f"⚠️  台帳に同一題材『{topic_key}』の既公開があります: "
+                  f"{topic_hit.get('title')} → {topic_hit.get('url')}（ドラフトなので続行）")
+        elif allow_topic_dup:
+            print(f"⚠️  同一題材『{topic_key}』の既公開があります "
+                  f"({topic_hit.get('url')}) が --allow-topic-dup 指定のため続行します。")
+        else:
+            sys.exit(f"✗ 重複ゲート(題材キー): 同一題材『{topic_key}』が既に公開済みです → "
+                     f"{topic_hit.get('title')} ({topic_hit.get('url')})\n"
+                     f"  記事: {title}\n  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。")
+
+    # ---- 重複ゲート第0層：題材トークン照合（タイトルベース・2026-07-07） ----
+    # topic フィールドを持たない既存台帳エントリ(seed含む)もカバーする補完層。
+    # 「氷見牛は地元でも…」と「氷見牛は里山で…」のようなタイトル違い同一題材を捕捉。
+    if not allow_topic_dup:
+        tc = topic_conflict(title)
+        if tc and not (topic_hit and topic_hit.get("url") == tc[0].get("url")):
+            e, shared = tc
+            msg = (f"✗ 重複ゲート(題材トークン): 既公開と同じ題材『{'・'.join(sorted(shared))}』→ {e.get('url')}\n"
+                   f"  既公開: {e.get('title')}\n  今回  : {title}")
+            if draft:
+                print("⚠️ " + msg + "\n  （ドラフトなので続行。別題材なら --allow-topic-dup）")
+            else:
+                sys.exit(msg + "\n  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。")
 
     # thumbnails/{stem}.jpg があれば自動でサムネ＆--photos未指定時の見出し画像に使う
     auto_thumb = find_thumbnail_for(md_path)
@@ -259,35 +528,85 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(NOTE_NEW_URL)
-        page.wait_for_load_state("networkidle", timeout=20000)
-        # 認証チェック：Googleログイン画面にいるなら中断
-        if "accounts.google.com" in page.url or "login" in page.url:
-            sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
 
-        # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を先に閉じる
-        for _ in range(3):
+        # ---- 重複ゲート第2層：note検索（公開時のみ・fail-closed） ----
+        if not draft:
+            if skip_online_dedup:
+                print("⚠️  --skip-online-dedup 指定: note検索での重複確認をスキップします（非推奨）")
+            else:
+                dup = online_dedup_check(page, title)
+                if dup is None:
+                    ctx.close()
+                    sys.exit("✗ 重複ゲート: note検索で重複確認ができませんでした（fail-closed で公開中断）。\n"
+                             "  note検索UIの変更/回線不調の可能性。目視で重複なしを確認できた場合のみ\n"
+                             "  --skip-online-dedup を付けて再実行してください。")
+                if dup:
+                    ctx.close()
+                    sys.exit(f"✗ 重複ゲート(note検索): 同タイトルの公開記事が既にあります → {', '.join(dup)}\n"
+                             f"  記事: {title}\n  公開を中断しました。")
+                print("✅ 重複ゲート通過（note検索でヒットなし）")
+
+        # ダイアログ内のボタンだけを対象にする（2026-07-03実測：新エディタ本体に常設の
+        # 「閉じる」ボタンがあり、page全体からhas-textで拾うと誤クリック→一覧へ離脱＝全滅の真因だった）
+        DIALOG_SCOPE = '[role="dialog"], [aria-modal="true"], .ReactModal__Content, .m-modal, .o-modal'
+
+        def close_dialogs():
+            # 被っているダイアログ（下書き復元・通知許可・お知らせ等）を閉じる
+            for _ in range(3):
+                try:
+                    page.keyboard.press("Escape")
+                    page.wait_for_timeout(250)
+                except Exception:
+                    pass
+            for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
+                try:
+                    b = page.locator(f'{DIALOG_SCOPE} >> button:has-text("{label}")').first
+                    if b.is_visible(timeout=300):
+                        b.click()
+                        page.wait_for_timeout(300)
+                except Exception:
+                    pass
+
+        # エディタ入口を順に試す（2026-07 UI変更対応）。タイトル欄が出た入口を採用。
+        title_input = None
+        for entry in NOTE_NEW_URL_CANDIDATES:
             try:
-                page.keyboard.press("Escape")
-                page.wait_for_timeout(250)
+                # 新エディタはSPAで networkidle が発火しない（2026-07実測）→ domcontentloaded で進み、
+                # /new → /notes/<id>/edit への自動リダイレクト＋ProseMirrorマウントは wait_for_selector 側で待つ。
+                page.goto(entry, wait_until="domcontentloaded", timeout=30000)
+                page.wait_for_timeout(1500)
+            except Exception:
+                continue
+            if "accounts.google.com" in page.url or "login" in page.url:
+                sys.exit("✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。")
+            cand = page.locator(TITLE_SELECTOR).first
+            try:
+                # まずタイトル欄を素直に待つ（正常時はダイアログ処理を呼ばない＝誤クリック事故ゼロ）。
+                # リダイレクト(/new→/notes/<id>/edit)＋ProseMirrorマウントに時間がかかるため長めに待つ（実測対応）
+                cand.wait_for(state="visible", timeout=20000)
+                title_input = cand
+                print(f"🚪 エディタ入口: {entry} → {page.url}")
+                break
             except Exception:
                 pass
-        for label in ("閉じる", "あとで", "スキップ", "今はしない", "×"):
+            # タイトル欄が出ない時だけ、ダイアログが被っている可能性を潰して再確認
+            close_dialogs()
             try:
-                b = page.locator(f'button:has-text("{label}")').first
-                if b.is_visible(timeout=300):
-                    b.click()
-                    page.wait_for_timeout(300)
+                cand.wait_for(state="visible", timeout=5000)
+                title_input = cand
+                print(f"🚪 エディタ入口: {entry} → {page.url}（ダイアログ除去後）")
+                break
             except Exception:
-                pass
+                continue
 
-        # タイトル入力（noteのエディタはplaceholderに「タイトル」を含む）
-        title_input = page.locator(
-            'input[placeholder*="タイトル"], textarea[placeholder*="タイトル"]'
-        ).first
-        # 最大60秒待つ。見つからなければ落とさず、ブラウザを開いたまま手動継続できるようにする
+        # どの入口でも出なければ、旧入口でもう一度だけ長めに待つ（回線遅延ケース）
+        if title_input is None:
+            page.goto(NOTE_NEW_URL, wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(1500)
+            close_dialogs()
+            title_input = page.locator(TITLE_SELECTOR).first
         try:
-            title_input.wait_for(state="visible", timeout=60000)
+            title_input.wait_for(state="visible", timeout=30000)
         except Exception:
             print("⚠️  タイトル入力欄が見つかりませんでした。")
             print(f"    現在のURL: {page.url}")
@@ -345,24 +664,35 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
         print("✅ 本文＆写真の挿入処理が完了")
 
-        # サムネ（見出し画像）：優先順位 = --photos の写真① > thumbnails/{stem}.jpg
-        thumb_to_use = photos[0] if photos else auto_thumb
+        # サムネ（見出し画像）：優先順位 = --photos の写真① > _verified.txt掲載のthumbnails/{stem}.jpg
+        # text_only は本文だけの投稿＝見出し画像を付けない（誤サムネ事故の再発防止・2026-07-15）
+        thumb_to_use = photos[0] if photos else (None if text_only else auto_thumb)
         if thumb_to_use:
             try:
-                # 「見出し画像」エリアを開く（noteは設定パネルにある）
-                page.locator('button:has-text("見出し画像"), [aria-label*="見出し画像"]').first.click()
-                page.wait_for_timeout(500)
+                # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
+                #   ①上部 見出し画像エリアの button[aria-label="画像を追加"] を押す
+                #     → パネル(「画像をアップロード / 推奨サイズ：1280×670px」)が開く
+                #   ②「画像をアップロード」を押すとOSのファイル選択が開く(input[type=file]はDOMに存在しない)
+                #     → expect_file_chooser で捕捉して set_files
+                # 旧コードは存在しない input[type=file] を待って30秒Timeoutで失敗していた。
+                page.locator(
+                    'button[aria-label="画像を追加"], button:has-text("見出し画像"), [aria-label*="見出し画像"]'
+                ).first.click()
+                page.wait_for_timeout(800)
                 with page.expect_file_chooser() as fc:
-                    page.locator('input[type="file"]').first.click()
+                    page.locator('button:has-text("画像をアップロード")').first.click()
                 fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(1500)
-                # 「適用」「保存」「決定」ボタンがあれば押す
-                for label in ("適用", "決定", "保存", "完了"):
+                page.wait_for_timeout(2500)  # アップロード＆トリミングダイアログ表示待ち
+                # トリミング/位置調整ダイアログの確定（「保存」が本命）。
+                # 2026-07-03実測: ページには「下書き保存」も存在するため、必ずダイアログ内に
+                # スコープして誤クリック(下書き保存)を防ぐ。
+                crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
+                for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
                     try:
-                        btn = page.locator(f'button:has-text("{label}")').first
-                        if btn.is_visible(timeout=400):
+                        btn = page.locator(f'{crop_dialog} >> button:has-text("{label}")').last
+                        if btn.is_visible(timeout=600):
                             btn.click()
-                            page.wait_for_timeout(600)
+                            page.wait_for_timeout(800)
                             break
                     except Exception:
                         continue
@@ -370,51 +700,100 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             except Exception as e:
                 print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
 
-        # ハッシュタグ入力（公開設定パネルに「ハッシュタグ」入力欄がある）
-        if tags:
+        # ---- 公開 or 下書き ----
+        # 2026-07-03実測(新エディタ editor.note.com)：
+        #   ・「公開に進む」で /publish/ 画面へ遷移
+        #   ・その画面にハッシュタグ欄(placeholder=ハッシュタグを追加する)と最終ボタン「投稿する」がある
+        #   ・旧UIの「公開する」ボタンは存在しない（＝旧コードは投稿ボタンを押せず公開未完だった）
+        if draft:
+            # 下書きはエディタ画面で自動保存済み。設定画面へは進まない。
+            # （ハッシュタグ欄は /publish/ 画面のみに存在するため、下書きでは設定しない）
+            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
+            print(f"    （ハッシュタグ {len(tags)} 個は公開時に /publish/ 画面で設定されます）")
+            if sys.stdin.isatty():
+                input("Enterで閉じる ...")
+        else:
+            print("\n🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』")
+            # 0) 下書き保存で編集状態を確定させる。
+            # 2026-07-03実測: 見出し画像を設定するとfill/insert_textでDOMは埋まっていても
+            # note側の公開バリデーションが「タイトル、本文を入力してください」と誤判定し
+            # /publish/ へ遷移しない。下書き保存を一度挟むと状態が確定して遷移できる。
             try:
-                tag_input = page.locator(
-                    'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
-                ).first
-                # 公開設定パネルを開く必要がある場合の保険
-                if not tag_input.is_visible(timeout=1500):
+                ds = page.locator('button:has-text("下書き保存")').first
+                if ds.is_visible(timeout=2000):
+                    ds.click()
+                    page.wait_for_timeout(2500)
+                    print("✅ 下書き保存で編集状態を確定")
+            except Exception as e:
+                print(f"⚠️  下書き保存クリック省略: {e}")
+            # 1) 公開設定画面へ
+            try:
+                page.locator('button:has-text("公開に進む")').first.click()
+                try:
+                    page.wait_for_url("**/publish/**", timeout=15000)
+                except Exception:
+                    page.wait_for_timeout(3000)
+            except Exception as e:
+                print(f"⚠️  『公開に進む』クリック失敗: {e}")
+            page.wait_for_timeout(1500)
+            # 1b) フォールバック：まれに『公開に進む』が /publish/ へ遷移しないことがある
+            #     （2026-07-07 cowork self-fix：待機/入口URLの機械的補正。/publish/ URL へ直接遷移。
+            #      公開ロジック・重複ゲート・価格処理は不変）。
+            if "/publish" not in page.url:
+                m_pub = re.search(r"/notes/(n[a-z0-9]+)/", page.url)
+                if m_pub:
                     try:
-                        page.locator('button:has-text("公開設定"), button:has-text("公開に進む")').first.click()
-                        page.wait_for_timeout(800)
-                    except Exception:
-                        pass
+                        page.goto(f"https://editor.note.com/notes/{m_pub.group(1)}/publish/",
+                                  wait_until="domcontentloaded", timeout=20000)
+                        page.wait_for_timeout(2500)
+                        print(f"↩️  /publish/ へ直接遷移（フォールバック）: {page.url}")
+                    except Exception as e:
+                        print(f"⚠️  /publish/ 直接遷移も失敗: {e}")
+            # 2) ハッシュタグ入力（/publish/ 画面）
+            if tags:
+                try:
                     tag_input = page.locator(
                         'input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]'
                     ).first
-                for t in tags[:10]:
-                    tag_input.click()
-                    page.keyboard.type(t)
-                    page.keyboard.press("Enter")
-                    page.wait_for_timeout(200)
-                print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
-            except Exception as e:
-                print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
-
-        # 公開 or 下書き
-        if draft:
-            print("\n📋 ドラフトモード：公開ボタンは押しません。画面で内容確認してください。")
-            input("Enterで閉じる ...")
-        else:
-            print("\n🚀 公開ボタンを押します（3秒後）...")
-            page.wait_for_timeout(3000)
+                    tag_input.wait_for(state="visible", timeout=8000)
+                    for t in tags[:10]:
+                        tag_input.click()
+                        page.keyboard.type(t)
+                        page.keyboard.press("Enter")
+                        page.wait_for_timeout(200)
+                    print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
+                except Exception as e:
+                    print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
+            # 3) 投稿する（＝公開）。公開は1回のみ。
+            page.wait_for_timeout(1000)
             try:
-                page.locator('button:has-text("公開")').last.click()
-                page.wait_for_timeout(2000)
-                # 確認ダイアログがあれば再度公開
-                confirm = page.locator('button:has-text("公開する"), button:has-text("公開")').last
-                if confirm.is_visible():
-                    confirm.click()
+                pub = page.locator('button:has-text("投稿する")').first
+                pub.wait_for(state="visible", timeout=10000)
+                pub.click()
+                page.wait_for_timeout(2500)
+                # 確認ダイアログが出る場合のみ、ダイアログ内の確定ボタンを押す
+                for lbl in ("投稿する", "公開する", "OK"):
+                    try:
+                        c = page.locator(f'[role="dialog"] >> button:has-text("{lbl}")').last
+                        if c.is_visible(timeout=800):
+                            c.click()
+                            page.wait_for_timeout(1500)
+                            break
+                    except Exception:
+                        continue
                 page.wait_for_timeout(3000)
-                print("✅ 公開リクエストを送信しました。note側で反映を確認してください。")
+                print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
+                # 公開成功を台帳へ自動追記（次回以降の第1層ゲート）
+                # 公開後の page.url は editor.note.com/notes/<key>/publish/ になる場合があるため、
+                # /n/<key> だけでなく /notes/<key> からもキーを取り出し、正規の公開URLに整形する。
+                m = re.search(r"/(?:n|notes)/(n[a-z0-9]+)", page.url)
+                registry_add(title, f"https://note.com/{AUTHOR_ID}/n/{m.group(1)}" if m else page.url,
+                             topic=topic_key)
             except Exception as e:
-                print(f"⚠️  公開ボタン自動クリック失敗: {e}")
-                print("    画面で「公開」ボタンを手動で押してください。")
-                input("公開を確認したら Enter ...")
+                print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}")
+                print(f"    現在URL: {page.url}")
+                if sys.stdin.isatty():
+                    input("画面で「投稿する」を押したら Enter ...")
 
         ctx.close()
 
@@ -434,6 +813,10 @@ def main():
                     help="ファイル名日付ではなくmtime最新を選択（旧デフォルト）")
     ap.add_argument("--allow-future", action="store_true",
                     help="未来日付の記事も公開対象に含める（既定では誤公開防止のため未来は除外）")
+    ap.add_argument("--skip-online-dedup", action="store_true",
+                    help="note検索での重複確認をスキップ（非推奨・目視確認済みの時のみ）")
+    ap.add_argument("--allow-topic-dup", action="store_true",
+                    help="題材重複ゲートを解除（切り口が本当に異なると目視確認できた時のみ）")
     args = ap.parse_args()
 
     if args.login:
@@ -457,7 +840,8 @@ def main():
         sys.exit(f"記事が見つかりません: {md_path}")
 
     photo_dir = Path(args.photos).expanduser() if args.photos else None
-    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only)
+    publish(md_path, photo_dir, draft=args.draft, text_only=args.text_only,
+            skip_online_dedup=args.skip_online_dedup, allow_topic_dup=args.allow_topic_dup)
 
 
 if __name__ == "__main__":

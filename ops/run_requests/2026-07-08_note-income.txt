@@ -1,0 +1,3 @@
+要求: note収入化(既ライブ有料商品へ既存トラフィックを流す)＋日次便
+発行: code 2026-07-08（owner「本当に収入できること考えて」）
+実行: docs/worker-task-note-income.txt を最優先。noteは決済済=owner操作ゼロで収入を狙える唯一の道。

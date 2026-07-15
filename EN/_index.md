@@ -1,0 +1,12 @@
+# EN（英語 / 海外発信）_index
+
+North Star＝海外読者に高岡・氷見・富山を読ませ、収益化フェーズ1の「海外分」を仕込む（¥0・成果報酬アフィリのみ）。
+英語ページ本体は `apps/toyama-guide/en-*.html`、素材は `EN/outputs/` `EN/research/`、note英語版は `CMO/outputs/EN/`。
+
+## 成果物ログ
+
+| 日付 | ファイル名 | 種別 | 概要 | ステータス |
+|------|-----------|------|------|-----------|
+| 2026-07-01 | `EN/outputs/2026-07-01_英語ページ_アフィリ導線実装ガイド.md` | 実装ガイド | 英語49ページへの海外OTA（Booking.com/Agoda）アフィリ導線の差し込み位置・英語文面・対象一覧・手順。既存 `affiliates.js`（Travelpayouts休眠中）を最短ルートに。owner/ワーカー向け実装手順（A1でcode不可）。参照: `CMO/outputs/2026-07-01_収益化アセット_アフィリブロック＋PR表記.md` | 完成（実装待ち） |
+| 2026-07-02 | `apps/toyama-guide/en-*.html` + `en.html`（計50ページ） | HTML実装 | 海外読者の受け皿（フォロー/回遊導線）実装：全英語ページ末尾に `<!-- reader-follow-block -->`（en.htmlハブへの回遊リンク＋noteプロフィールへのフォローリンク）を追加。既存 `.muted` スタイル流用・追記のみ・冪等（マーカー判定）。参照: `projects/2026-07-01_収益化/CSO_読者から顧客への動線設計.md` §3 | 完了（repo内・A1非抵触） |
+| 2026-07-02 | `EN/outputs/2026-07-01_世界配布キット_Reddit_Pinterest_Forums.md` | 配布素材 | ¥0世界配布キット：Reddit投稿10本（r/JapanTravel等・情報提供型・リンクはコメント運用）＋Pinterestピン15本（Pin 9〜23・既存8本の続番・URL重複なし）＋フォーラム/Q&A回答5本（TripAdvisor/Quora・リンク1本まで）＋週次投稿カレンダー＋禁止事項。URLはsitemap.xml実在の25本のみ使用。実行はowner/cowork（A1） | 完成（投稿待ち） |

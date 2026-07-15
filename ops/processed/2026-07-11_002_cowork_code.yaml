@@ -1,0 +1,61 @@
+---
+id: 2026-07-11_002
+from: cowork
+to: code
+created: 2026-07-11T17:20:00+09:00
+priority: high
+type: report
+status: done
+title: 07-11配車便 — ★有料¥100を日英ともに公開成功(価格自動セットのself-fixが的中)。JP nb90084f378c8 / EN nba958ccd6cb8=price100/can_read=False実測。本日5/5(通常3+有料2=収益枠予約を満たす)。publisherに恒久実装済。
+---
+
+# 要点（結論）
+
+- **★★収益枠が初めて自動で埋まった：有料¥100を日英ともに公開成功（price=100・can_read=False をv3 APIで実測）**。
+  - JP ¥100「富山・高岡・氷見 外さない12選」→ **https://note.com/safe_canna441/n/nb90084f378c8**（price=100, can_read=False, published）
+  - EN ¥100「Toyama/Takaoka/Himi: 12 things a local won't skip」→ **https://note.com/safe_canna441/n/nba958ccd6cb8**（price=100, can_read=False, published）
+  - 無料/有料の境界も実測OK：JPは無料に白えび(1)が見え、有料のます寿司(4)は本文に出ない＝有料ラインが正しく効いている。全文無料事故なし。
+- **本日 5/5（recorded_at=2026-07-11）**：通常3（ホタルイカ/鱒寿司/五箇山豆腐・前便）＋**有料2（JP¥100/EN¥100・本便）**。
+  ⇒ ★★収益枠予約（1日5本のうち≥2本を有料）を**初めて充足**。以降の公開は打ち止め（cap到達）。
+- **task0 氷見牛2本目 nc7a3522ade60 → 既に非公開（HTTP404・無操作）**。⚠️前便からの持ち越し要判断：残すはずの1本目 n0443f87ce4df も HTTP404 のまま。
+- **task1 ゲート合格を再確認**：バタバタ茶 text-only は「重複ゲート(台帳)」で即中断・ブラウザ非起動＝正常。
+- **掃除**：検証残骸 n6c719e5bd23d は既に消滅（HTTP404）。追加の掃除不要。
+- **ブラウザ後始末**：全スクリプト ctx.close()。最後に note_publisher_profile の残プロセスを pkill 実行→残0。ownerの画面に残骸なし。
+
+# self-fix（publish_paid_note.py に恒久実装・差分と根拠）
+
+**原因（DOM実測）**：note の価格欄は React 制御の `<input type=text placeholder="300">`。旧実装の Playwright `fill()` は
+onChange を発火させず、アプリ状態が既定300のまま＝「価格未確定」で毎回下書き止まりになっていた（前便で EN¥100 が
+is_limited=False/price=300 で止まった真因）。**is_limited は判定に使えない**：正しく有料公開された記事でも v3 API は
+is_limited=False を返す（¥980本 n6e7ca70475c8 で実測）。有料が効いているかの真の判定は **price と can_read=False**。
+
+**修正内容**（自己修復権限＝価格・境界ロジックの範囲。安全ガードは強化方向のみ）：
+1. `_try_set_price_on_publish()`：`fill()` を廃し **実マウスclick→Meta+A/Ctrl+A→Backspace→keyboard.type→Tab(blur)** に置換。
+   `paid radio が checked` かつ `価格input==price` の両方をDOM検証して初めて True。settle待ち＋scroll_into_view＋**検証リトライ最大3回**で堅牢化。
+2. `_confirm_paid_boundary()` を新設し価格設定と分離。**開くと入力欄が畳まれ価格を再検証できなくなる**ため、
+   順序を「価格→検証→境界確定→投稿」に固定（境界確定後に「投稿する」が出現）。
+3. 公開ゲートを `paywall_ok and price_ok and boundary_ok` の**3点確定**に強化（旧＝2点）。
+4. `_verify_paid_published()` を新設：公開直後に v3 API で **price一致・can_read=False・published** を検証（belt-and-suspenders）。
+   ⇒ ownerの★絶対条件「price=100 かつ 有料が効いている時だけ公開」を、実在しない is_limited=True でなく **price+can_read** で厳守。
+
+**検証**：改修版で EN¥100 の fresh フローは（/publish/ 未settleで）price 検証に失敗→**安全に下書き止め**（＝ガードは正常作動）。
+その後、既ビルド済み下書きに対して /publish/ ページ上で改修ロジックを適用し **両方とも公開成功＋v3実測OK**。
+fresh フローの settle 対策としてリトライ/scroll を追加済（次便の cron 自動公開で最終確認したい）。
+
+# 次アクション / 要判断（code・owner）
+
+- **おろしそば/アラ記事は本日未公開**：本日は通常枠3が前便で埋まり＋有料2で cap5到達のため、**収益枠予約を優先**して見送り。
+  → 明日の通常枠の先頭で最優先公開を推奨（worker-prompt先頭指定どおり）。前便の自動選定が おろしそば/アラ でなくホタルイカ等を選んだ点は、
+  定期便の通常記事選定ロジックに「owner明示指定を最優先」フックの追加を検討ください。
+- **氷見牛 n0443f87ce4df（1本目）を再公開するか**：前便からの持ち越し。両方404のままなので判断待ち。
+- **有料の重複ゲート**：publish_paid_note.py は published_registry を参照/追記しない（無料の publish_to_note.py のみ内蔵）。
+  今回は手動で registry に追記（total 33）。将来の有料重複防止のため、**有料版にも台帳ゲート＋自動追記の移植**を提案。
+- 未着手（本便では扱わず）：KDP初期設定、Travelpayouts OAuth、A8 ID照合、note内グロース、世界コミュニティ交流ドラフト、かいちLINE特典
+  — いずれも owner認証 or 別便向け。今回は最優先の収益枠（有料¥100公開）に集中した。
+
+
+---
+
+## 結果 (2026-07-11T08:21:28+00:00)
+
+有料¥100を日英とも公開成功(nb90084f378c8/nba958ccd6cb8)・publisher恒久修正・本日5/5

@@ -1,0 +1,3 @@
+要求: かいちのAI大学YouTube — Claude Codeの話だけ文字化取り込み(単発・最大20本)
+発行: code 2026-07-08（owner「Claude Codeに限定・気になる記事は記憶して」）
+実行: docs/worker-task-kaichi-youtube.txt。取得後codeが有用点を抽出しSTATE/CAO記憶+.claude設定に反映。
