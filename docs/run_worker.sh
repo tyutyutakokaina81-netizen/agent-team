@@ -8,15 +8,26 @@ cd "$HOME/agent-team-run" || exit 1
 LOCK="$HOME/.agent-team-dispatch/worker.lock"
 mkdir -p "$(dirname "$LOCK")"
 if ! mkdir "$LOCK" 2>/dev/null; then
-  # 6時間超の残骸ロックだけ回収して続行（異常終了でロックが残ったケース）
-  if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +360 2>/dev/null)" ]; then
-    rmdir "$LOCK" 2>/dev/null; mkdir "$LOCK" 2>/dev/null || { echo "ロック取得失敗"; exit 0; }
+  # 残骸ロックの回収判定（2026-07-20強化: Macスリープ等で異常終了しロックが残ると
+  # 旧ロジックは最大6時間ワーカーを止めていた＝5日間便が出ない事故の一因）。
+  # 「実際にworkerプロセスが生きているか」を最優先で判定し、居なければ即回収する。
+  STALE=""
+  OLDPID=$(cat "$LOCK/pid" 2>/dev/null)
+  # ① 保持PIDが死んでいる  ② そもそもワーカー(claude -p …)が1つも走っていない  ③ 6時間超の保険
+  { [ -n "$OLDPID" ] && ! kill -0 "$OLDPID" 2>/dev/null; } && STALE=1
+  pgrep -f "dangerously-skip-permissions" >/dev/null 2>&1 || STALE=1
+  [ -n "$(find "$LOCK" -maxdepth 0 -mmin +360 2>/dev/null)" ] && STALE=1
+  if [ -n "$STALE" ]; then
+    echo "（残骸ロックを回収して続行）"
+    rm -rf "$LOCK" 2>/dev/null
+    mkdir "$LOCK" 2>/dev/null || { echo "ロック取得失敗"; exit 0; }
   else
     echo "=== 別のワーカーが実行中のため起動しません（二重起動防止）==="
     exit 0
   fi
 fi
-trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+echo $$ > "$LOCK/pid" 2>/dev/null   # 保持者PIDを記録（次回の生存判定に使う）
+trap 'rm -rf "$LOCK" 2>/dev/null' EXIT
 
 git pull origin main -q
 
