@@ -4,7 +4,16 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-15（★GSC sitemap送信を完遂＝世界配信の本丸スイッチON。下記2026-07-15ブロック参照）
+最終更新: 2026-07-21（英語SEOの"次の増分"を実装＝gap調査の未着手6ページを新設。下記2026-07-21ブロック参照）
+
+> ## 2026-07-21 ★英語SEO gap調査の"次の増分"を実装（owner「続き」＝記事量産でなく流入創出を継続）
+> **判断（戦略に忠実）**: STATE 07-12/07-13の確定方針＝**記事供給は過剰・詰まりは流入(流入創出に振る)**。よって通常note 5本量産でなく、07-13で「次の増分(未着手)」と明記していた `projects/2026-07-13_世界配信フル稼働/cao_en_seo_gap.md` の新設候補を消化＝owner操作ゼロ・North Star直結・code単独で完結する世界配信の"面"拡張を選択。
+> **やったこと（commit）**: gap §2の優先ページを6本新設（`apps/toyama-guide/`）＝①en-alpine-season(開通時期/雪壁・高CVクエリ)②en-alpine-one-day(1日縦断ロジ・荷物)③en-hokuriku-arch-pass(「パスはアルペン非対象」誤解解消)④en-gassho-stay(合掌造り宿泊)⑤en-to-shirakawago-bus(高岡発 世界遺産バス)⑥en-takaoka-from-kanazawa(金沢滞在者を逆流入)。CMO 6並列fan-out→code検証統合。
+> **品質規律（A5/A4厳守・実検証済）**: 全ページ料金/開通日/所要分/時刻は**一切断定せず「公式で確認」**にヘッジ（en-kurobe-damの誠実文体を踏襲）。A5誤検知スキャン=¥100フッターのみ(=正)。A4=市/村レベルのみ・私設住所/人名なし。canonical=各slug一致・JSON-LD有・単一h1・XML well-formed(172URL)を機械検証。
+> **内部リンク整備（orphan対策）**: en.html(ガイドホーム)とクラスタ親(en-alpine/en-rail-pass/en-daytrip/en-gokayama/en-when-to-go)へ相互リンクを追加。**07-13新設のen-kurobe-damがhome/hub未リンクのorphanだった件も同時に是正**。新6本は相互にもクラスタ内リンク。
+> **sitemap**: `apps/ai-agency-hp/sitemap.xml` を166→**172 URL**（6本追記・lastmod 2026-07-21）。全内部リンク解決を機械確認(0 broken)。
+> **世界配信の発火条件（要注意）**: pages.yml/indexnow.ymlは**mainへのpushで発火**。本便はbranch `claude/continuation-34kg7n` へpush＝**mainマージ後にPages公開＆IndexNow通知＆次回GSCクロールで発見**。マージはPR経由(owner/レビュー)。
+> **残り未着手（次の増分）**: gap §2の残3本＝en-central-japan-route/en-manyosen-tram/en-local-trains。gap §3の強化10件は本文実読が前提（願望実装回避）。
 
 > ## 2026-07-15 ★★GSC sitemap送信 完遂（owner「自動でやって」2026-07-14の残スイッチをworkerが実機で押した）
 > **やったこと（実機・note_publisher_profileのChromeで実行）**: Google Search Console にログイン済＆プロパティ `https://tyutyutakokaina81-netizen.github.io/agent-team/` は**既に確認(verified)済**だった（サマリーが開けた＝所有権確認は過去に完了）。サイトマップ画面を開くと `/sitemap.xml` は **2026/06/24に送信済だが「取得できませんでした」0ページ**の失敗状態で放置されていた（当時sitemapが未LIVE/不正だった名残）。
