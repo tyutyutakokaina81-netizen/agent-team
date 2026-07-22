@@ -4,7 +4,18 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-22（T2の穴埋め＝新6ページ直結のQuora/Reddit回答9本を用意。下記2026-07-22⑦参照）
+最終更新: 2026-07-22（「すべて」＝note公開＋batch3外部投稿をworkerへ配線＋起動trigger。下記2026-07-22⑧参照）
+
+> ## 2026-07-22 ⑧ ★「公開」＝すべてworkerへ配線（owner AskUserQ選択④「全部worker」→「すべて」）
+> **owner意図**: 「公開」＝note記事公開＋Quora/Reddit(batch3)外部投稿の**両方をworkerに回す**。※codeはA1でnote/Quora/Reddit直接投稿不可＝worker(Mac/go.sh)実行が必須。code側は「配線と起動trigger」まで。
+> **確認**: worker-prompt.txt は **note公開=既に最優先で配線済**（11記事）／外部投稿=常設枠あるが**旧素材参照でbatch3未配線**だった。
+> **やったこと（commit）**:
+> - `docs/worker-prompt.txt` 【世界コミュニティ交流】step2 に **batch3(`quora_reddit_batch3_newpages_EN.md`)を"用意済ドラフト優先活用"として明示配線**（新6ページの被リンクを最優先で取りにいく・手動投稿・1回答1リンク・URL差替の作法つき）。
+> - `ops/run_requests/2026-07-22_publish-all.txt` を投函＝**配車係(5分LaunchAgent)への起動trigger**。中身はnote11本公開＋batch3外部投稿＋growth＋フォロワー推移報告（run_requestは引き金・実タスクはworker-prompt側が正）。
+> **これでcode側の"配線"は完了。実publish/投稿はMacのworker稼働待ち**（go.sh/LaunchAgentが動いていれば次サイクルでpull→実行）。Mac停止中なら起動が律速。
+> **残（不変・owner/worker）**: (a)Mac worker稼働（go.sh）＝これが今の唯一の律速 (b)en-rail-pass等の2026価格 公式照合。
+
+> ## 2026-07-22 ⑦ ★T2（被リンク=外部投稿）を code側で前進＝新ページ直結のQ&Aドラフト9本（owner「続き」）
 
 > ## 2026-07-22 ⑦ ★T2（被リンク=外部投稿）を code側で前進＝新ページ直結のQ&Aドラフト9本（owner「続き」）
 > **背景**: ⑥でT2の穴＝「外部投稿素材が2026-07-21〜22公開の新6ページを1つも参照していない」を発見。戦略上の真のボトルネック=流入(被リンク)なので、ここをcodeで前進。
