@@ -4,7 +4,16 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-22（★PR #173 マージ可能化＝並行生成の題材重複3本を解決。下記2026-07-22④参照）
+最終更新: 2026-07-22（★★PR #173 マージ＆世界公開 完了＝deploy/IndexNow success。下記2026-07-22⑤参照）
+
+> ## 2026-07-22 ⑤ ★★英語SEO増分を世界公開＝完了（owner「続けて/確認して」・deploy実測success）
+> **完了（実機verified）**: PR #173 を squash で main へマージ（main=`d4f8028`）→ **Deploy site to GitHub Pages=success ／ IndexNow ping=success**（actions_list の conclusion で確認・run 29960478848/29960478839）。=07-21以降の英語SEO増分（新規6＋既存強化8＋内部リンク＋sitemap）が**実際に世界公開＆検索エンジン通知**された。※ライブHTML直接確認はA1（proxy 403）で不可＝判定はworkflow conclusionを正とした。
+> **公開直前の是正**: sitemapの死にリンク `en-noto-day-trip.html`（base由来の404）を除去し公開sitemapをクリーン化（174URL・全エントリ実在確認）。
+> **重複解決の確定**: 並行生成で衝突した3本（gassho-stay/hokuriku-arch-pass/to-shirakawago-bus）はmain既存版を採用済＝重複公開なし（A5順守）。
+> **ブランチ状態**: PR #173 マージ済につき claude/continuation-34kg7n を origin/main から切り直し済（本⑤の記録はこの新ブランチ・follow-up）。以後の新規作業もmain基点で。
+> **残タスク（次の増分・任意）**: ①en-rail-pass等の[要確認]価格の公式照合（owner/worker・A1でcode不可）②gap §3で"既カバー"としたページの本文精読（願望実装回避の逆＝過剰スキップの点検）③被リンク=worker外部投稿（Quora/Reddit）で流入の実弾。世界配信engineはコード側フル稼働＝以後の伸びはクロール待ち＋外部投稿。
+
+> ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
 
 > ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
 > **何が起きたか**: PR #173 が `mergeable_state=dirty`（衝突）だった。原因=**別のcodeセッション（同じくowner「続き」駆動）が同じ gap §2 文書から en-gassho-stay/en-hokuriku-arch-pass/en-to-shirakawago-bus の**3本を独立生成**し、先に main へマージ済（commit cf8e87d・cmo_batch2_pages.md）。私の branch と題材が重複＝2026-07-07決定ログ「ミスB=並行生成による題材重複」の再発型（今回は公開前=無害）。
