@@ -4,7 +4,13 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-22（英語SEO gap §3=既存ページ強化を実施＝8本に加筆。下記2026-07-22②ブロック参照）
+最終更新: 2026-07-22（★PR #173 作成＝英語SEO gap完走分をmainへ。マージで世界公開。下記2026-07-22③参照）
+
+> ## 2026-07-22 ③ ★PR #173 作成（owner「すべて」＝PR作成/worker起動/fetchの全対応）
+> **PR**: https://github.com/tyutyutakokaina81-netizen/agent-team/pull/173 （head=claude/continuation-34kg7n → base=main・3コミット＝新規9ページ＋既存8強化＋sitemap 175URL）。origin/main..branchはクリーン3コミット＝unrelated-history問題なし（このPRに限り）。PRテンプレは無し。
+> **意味**: **マージすると pages.yml が Pages 公開＋indexnow.yml が検索エンジン通知**＝07-21以降の英語SEO増分が初めて世界に出る。マージはowner判断。
+> **owner側の②③（Mac・agent-team-run が正クローン）**: worker起動=`cd /Users/apple/agent-team-run && git pull origin main && bash go.sh`。fetchのみ=`git fetch origin claude/continuation-34kg7n`。※go.sh実パス確定=find結果より `/Users/apple/agent-team-run`（入れ子agent-team/は誤・記憶訂正済）。他クローン=`/Users/apple/agent-team`・`.agent-team-logclone` も存在するが正本はagent-team-run。
+> **次**: PRのCI（pages/indexnow/note-thumbnails）を監視するか要owner判断（subscribe可）。
 
 > ## 2026-07-22 ② ★英語SEO gap §3=既存ページ強化（owner「やって」＝§2完走後の次の増分）
 > **やったこと（commit）**: gap §3の強化候補10件を、**本文実読が前提**(§4-3=願望実装回避)に沿って CMO 10並列fan-outで各ファイルを実読→**genuinely missingな箇所のみ加筆**。結果=**8本に1セクションずつ加筆／2本は既に十分カバー済で無変更**。
