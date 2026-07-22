@@ -16,6 +16,7 @@ owner「ワーカーもあと10人増やして」→ 確認の結果 owner選択
 | 集客4 | x_posts_batch3_EN.md | CMO | X英語 単発20+スレッド10 | 白えび"産地でしか生食不可"の意外事実 |
 | 集客5 | cdo_en_pages_seo_log.md | CDO | 英語15ページに内部リンク42本+¥100(EN)CTA実装（commit f46f561） | 既存資産の回遊/変換率を上げる |
 | 集客6 | note_growth_targets_thisweek.md | CMO | note内growth今週ターゲット | 筆頭クラスタ=富山・北陸ローカル発信者 |
+| 集客7 | quora_reddit_batch3_newpages_EN.md | CMO | 新6ページ直結の高intent質問9本（Alpine開通時期/1日縦断/アーチパス誤解/合掌造り宿泊/世界遺産バス/金沢→高岡/中部7日/私鉄IC/万葉線） | 2026-07-22公開の新ページへの被リンク専用＝既存15問と非重複・T2の穴埋め |
 
 ## 重要インサイト（CAO・要方針反映）
 **note自体が海外に届かない＝フォロワー27停滞の構造的正体。** よって海外集客の着地は note でなく **英語ガイド(apps/toyama-guide)/KDP** に付け替えるのが正解。ROI最上位は Quora（Google検索の長期流入）。IG/Xコールドは"やらない"。
