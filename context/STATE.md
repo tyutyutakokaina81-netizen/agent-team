@@ -4,7 +4,26 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-22（★PR #173 マージ可能化＝並行生成の題材重複3本を解決。下記2026-07-22④参照）
+最終更新: 2026-07-22（残タスクを調査・実行＝pillar hubから新10ページへ内部リンク。下記2026-07-22⑥参照）
+
+> ## 2026-07-22 ⑥ ★残タスクを調査→code実行可能分を実行（owner「残りのタスクを調べて実行」）
+> **調査結論（STATE⑤の残3件）**:
+> - **T3（過剰スキップ点検）= 実行/検証済＝変更不要**。gap §3で"既カバー"としたen-alpine（予約導線L53-54で詳述）／en-gokayama（宿泊L55-56＋バスアクセスL52-53＋footer相互リンク）を精読＝**両方とも本当にカバー済＝スキップ判断は正しかった**（過剰スキップなし）。
+> - **T1（en-rail-pass等の価格[要確認]）= code側は既に適正**。en-rail-pass は L78 に既に「Price(2026)・approximate at the time of writing・公式で要確認（¥35,000は2026-03値上げ）」の明示注記あり＝A5的に誠実な枠組み済。残るは**実数字の公式照合のみ＝A1でcode不可＝owner/worker**（撤去はしない＝正しいかもしれない有用情報を消さない）。
+> - **T2（被リンク=外部投稿）= worker専用だが"素材が新ページ未参照"の穴を発見**。`projects/2026-07-12_集客KDP_10ワーカー/{quora_answers_batch_EN.md, reddit_answers_batch2_EN.md}` は存在するが、**今回公開の新6ページ（alpine-season/one-day/central-japan-route/manyosen-tram/local-trains/takaoka-from-kanazawa）を1つも参照していない**＝外部投稿の被リンク先が旧ページ止まり。※answer本文への機械的URL差込はスパム化リスク（各回答は実在の質問に沿う必要）＝codeで自動編集せず、worker/owner判断のタスクとして明示。
+> **実行した増分（code）**: **pillar hub `en-start-here.html` から新10ページへ文脈内リンクを配線**（従来ゼロ＝link equity未供給の穴）。Getting here→hokuriku-arch-pass/local-trains/takaoka-from-kanazawa、How many days→central-japan-route、Mountains and coast→alpine-season/alpine-one-day/kurobe-dam/to-shirakawago-bus/gassho-stay、Manga towns→manyosen-tram。単一h1・全リンク解決・sitemap en-start-here lastmod更新(174URL・XML妥当)を機械検証。**mainマージで反映**（本便もbranch）。
+> **次アクション（明確化）**: (a)worker: quora/reddit素材に新6ページを"文脈が合う回答"へ自然に織り込む（スパム化しない）＝被リンクの実弾 (b)owner/worker: en-rail-pass等の2026価格を公式照合 (c)本⑥をmainへ（PR）。
+
+> ## 2026-07-22 ⑤ ★★英語SEO増分を世界公開＝完了（owner「続けて/確認して」・deploy実測success）
+
+> ## 2026-07-22 ⑤ ★★英語SEO増分を世界公開＝完了（owner「続けて/確認して」・deploy実測success）
+> **完了（実機verified）**: PR #173 を squash で main へマージ（main=`d4f8028`）→ **Deploy site to GitHub Pages=success ／ IndexNow ping=success**（actions_list の conclusion で確認・run 29960478848/29960478839）。=07-21以降の英語SEO増分（新規6＋既存強化8＋内部リンク＋sitemap）が**実際に世界公開＆検索エンジン通知**された。※ライブHTML直接確認はA1（proxy 403）で不可＝判定はworkflow conclusionを正とした。
+> **公開直前の是正**: sitemapの死にリンク `en-noto-day-trip.html`（base由来の404）を除去し公開sitemapをクリーン化（174URL・全エントリ実在確認）。
+> **重複解決の確定**: 並行生成で衝突した3本（gassho-stay/hokuriku-arch-pass/to-shirakawago-bus）はmain既存版を採用済＝重複公開なし（A5順守）。
+> **ブランチ状態**: PR #173 マージ済につき claude/continuation-34kg7n を origin/main から切り直し済（本⑤の記録はこの新ブランチ・follow-up）。以後の新規作業もmain基点で。
+> **残タスク（次の増分・任意）**: ①en-rail-pass等の[要確認]価格の公式照合（owner/worker・A1でcode不可）②gap §3で"既カバー"としたページの本文精読（願望実装回避の逆＝過剰スキップの点検）③被リンク=worker外部投稿（Quora/Reddit）で流入の実弾。世界配信engineはコード側フル稼働＝以後の伸びはクロール待ち＋外部投稿。
+
+> ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
 
 > ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
 > **何が起きたか**: PR #173 が `mergeable_state=dirty`（衝突）だった。原因=**別のcodeセッション（同じくowner「続き」駆動）が同じ gap §2 文書から en-gassho-stay/en-hokuriku-arch-pass/en-to-shirakawago-bus の**3本を独立生成**し、先に main へマージ済（commit cf8e87d・cmo_batch2_pages.md）。私の branch と題材が重複＝2026-07-07決定ログ「ミスB=並行生成による題材重複」の再発型（今回は公開前=無害）。
