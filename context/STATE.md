@@ -4,7 +4,46 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-15（★GSC sitemap送信を完遂＝世界配信の本丸スイッチON。下記2026-07-15ブロック参照）
+最終更新: 2026-07-22（★PR #173 マージ可能化＝並行生成の題材重複3本を解決。下記2026-07-22④参照）
+
+> ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
+> **何が起きたか**: PR #173 が `mergeable_state=dirty`（衝突）だった。原因=**別のcodeセッション（同じくowner「続き」駆動）が同じ gap §2 文書から en-gassho-stay/en-hokuriku-arch-pass/en-to-shirakawago-bus の**3本を独立生成**し、先に main へマージ済（commit cf8e87d・cmo_batch2_pages.md）。私の branch と題材が重複＝2026-07-07決定ログ「ミスB=並行生成による題材重複」の再発型（今回は公開前=無害）。
+> **解決（merge origin/main→branch）**: 重複3本は**main版を採用**（canonical・品質同等/やや長921-966語）、私の重複分は破棄。私の固有分＝他6新規(en-alpine-season/one-day/takaoka-from-kanazawa/central-japan-route/manyosen-tram/local-trains)＋8強化＋内部リンクは保持。sitemapはunion（**175URL・重複URL 0・XML well-formed**を機械検証）。→ push で `mergeable_state=clean` を確認。
+> **再発防止の学び**: run_request/worker-prompt と別に**複数のcodeセッションが同一gap文書から並行生成すると衝突する**。次からは着手前に origin/main を fetch し「main側で既に作られていないか」をファイル名照合してから新規生成する（題材ゲートのcode版）。
+> **[要確認]（既存負債・別issue）**: sitemap に `en-noto-day-trip.html` の死にリンク（base 6a75247からの既存・ファイル未存在＝404）。私の変更と無関係だが sitemap 品質のため follow-up で除去 or ページ作成を推奨。
+> **CI補足**: PRに check_runs=0 は正常（pages.yml/indexnow.ymlは push-to-main で発火・PRでは走らない／note-thumbnails.ymlは CMO/outputs/** 変更時のみ＝本PRは非対象）。=CI失敗ではない。
+
+> ## 2026-07-22 ③ ★PR #173 作成（owner「すべて」＝PR作成/worker起動/fetchの全対応）
+
+> ## 2026-07-22 ③ ★PR #173 作成（owner「すべて」＝PR作成/worker起動/fetchの全対応）
+> **PR**: https://github.com/tyutyutakokaina81-netizen/agent-team/pull/173 （head=claude/continuation-34kg7n → base=main・3コミット＝新規9ページ＋既存8強化＋sitemap 175URL）。origin/main..branchはクリーン3コミット＝unrelated-history問題なし（このPRに限り）。PRテンプレは無し。
+> **意味**: **マージすると pages.yml が Pages 公開＋indexnow.yml が検索エンジン通知**＝07-21以降の英語SEO増分が初めて世界に出る。マージはowner判断。
+> **owner側の②③（Mac・agent-team-run が正クローン）**: worker起動=`cd /Users/apple/agent-team-run && git pull origin main && bash go.sh`。fetchのみ=`git fetch origin claude/continuation-34kg7n`。※go.sh実パス確定=find結果より `/Users/apple/agent-team-run`（入れ子agent-team/は誤・記憶訂正済）。他クローン=`/Users/apple/agent-team`・`.agent-team-logclone` も存在するが正本はagent-team-run。
+> **次**: PRのCI（pages/indexnow/note-thumbnails）を監視するか要owner判断（subscribe可）。
+
+> ## 2026-07-22 ② ★英語SEO gap §3=既存ページ強化（owner「やって」＝§2完走後の次の増分）
+> **やったこと（commit）**: gap §3の強化候補10件を、**本文実読が前提**(§4-3=願望実装回避)に沿って CMO 10並列fan-outで各ファイルを実読→**genuinely missingな箇所のみ加筆**。結果=**8本に1セクションずつ加筆／2本は既に十分カバー済で無変更**。
+> - 加筆8本: en-alpine-cost(「JRパスはアルペン非対象」明記+片道/往復あり※金額は非断定)／en-rail-pass(trip-shape比較+arch-pass誘導)／en-vs-kanazawa(富山＝安く静かな拠点・両市近接※分数非断定)／en-daytrip(金沢滞在者の逆流入note)／en-firefly-squid(早朝ツアー実務+博物館代替※時刻/日付非断定)／en-kurobe-gorge(峡谷≠ダムの峻別+kurobe-dam誘導)／en-when-to-go(アルペン開通/雪壁callout+alpine-season誘導)／en-toyama-bay-sushi(日本語不要の予約導線=ホテル代行/英語予約サイト※店名は非断定)。
+> - 無変更2本: en-alpine(既にL54で予約導線を説明済)／en-gokayama(既に宿泊の魅力+バスアクセスをカバー済)。→重複加筆を避けた(則2/A5)。
+> **品質規律（実検証済）**: 加筆分は git diff で全行レビュー＝**新規の断定数値ゼロ**(料金/時刻/日付/IC/パス範囲は全て「公式で確認」にヘッジ)。安定事実(JRパス非対象・峡谷とダムは別物)のみ断定。全8本=単一h1・</html>閉じ・内部リンク解決(0 broken)・sitemap lastmodを2026-07-22へ更新(175URL不変・XML well-formed)。
+> **★[要確認]（owner向け・pre-existing・今回の加筆と別物）**: `en-rail-pass.html` は**過去セッションが入れた具体的な価格/日付**を保持＝「Hokuriku Arch Pass ¥35,000(2026-03-14に¥30,000から値上げ)」「Alpine-Takayama-Matsumoto ¥23,800/5日」「JR Pass片道約¥13,000」等。**A1でcode検証不可**＝正しければ有用だが誤ると信頼毀損(A5)。owner/worker側で公式価格の照合を推奨(私は今回、検証不能なため書き換えず=既存の意図的コンテンツを温存)。en-alpine-costの既存価格も同様に[要確認]。
+> **残り**: gap §2/§3とも実質完了。次の増分は新テーマ(例:季節×食の英語ハブ強化、被リンク=worker外部投稿)だが、**世界配信の律速は依然"mainマージ"**（下記①参照＝07-21以降の新9ページ＋本加筆は全てbranch止まり）。
+
+> ## 2026-07-22 ① ★英語SEO gap §2を完走（owner「続き」＝07-21の残タスクを消化＝新設候補10件コンプリート）
+> **やったこと（commit）**: gap調査 `cao_en_seo_gap.md` §2の残り3本を新設（`apps/toyama-guide/`）＝⑧en-central-japan-route(富山拠点の中部7日ルート・"金沢より安い拠点"角度)⑨en-manyosen-tram(万葉線＝ドラえもんトラム含む・路線として)⑩en-local-trains(JR外私鉄=あいの風/地鉄Dentetsu/万葉線・IC/パス非対象の実務)。**これで gap §2 の新設候補10件を全消化**（#1 kurobe-dam=07-13、#2〜#7=07-21、#8〜#10=本便）。CMO 3並列fan-out→code検証統合。
+> **品質規律（A5/A4厳守・実検証済）**: 料金/所要分/時刻/IC対応/パス範囲は**一切断定せず「各公式で確認」**にヘッジ。A5誤検知スキャン=¥100フッターのみ(=正)。「former JR本線→あいの風」「JRパス非対象(私鉄/三セク)」等の安定した事実のみ断定。canonical=各slug一致・JSON-LD有・単一h1・sitemap XML well-formed(**175URL**)を機械検証・全内部リンク解決(0 broken)。
+> **内部リンク整備**: en.html(ホーム)＋クラスタ親(en-getting-around/en-doraemon/en-golden-route-detour/en-itinerary)へ相互リンク追加。新3本も相互リンク。
+> **世界配信の発火条件（不変・要注意）**: pages.yml/indexnow.ymlは**mainへのpushで発火**。本便もbranch `claude/continuation-34kg7n` へpush＝**mainマージ後に**Pages公開＆IndexNow通知＆次回GSCクロールで発見。マージはPR経由(owner/レビュー)。**07-21便＋本便の計9新ページはmain未マージ＝まだ世界に出ていない**（マージが次の律速）。
+> **残り未着手**: gap §2は完走。**gap §3の強化10件**（既存ページの本文加筆＝en-alpine予約導線/en-firefly-squid実務 等）が次の増分だが、**本文実読が前提**（願望実装回避＝gap §4-3の指示）。
+
+> ## 2026-07-21 ★英語SEO gap調査の"次の増分"を実装（owner「続き」＝記事量産でなく流入創出を継続）
+> **判断（戦略に忠実）**: STATE 07-12/07-13の確定方針＝**記事供給は過剰・詰まりは流入(流入創出に振る)**。よって通常note 5本量産でなく、07-13で「次の増分(未着手)」と明記していた `projects/2026-07-13_世界配信フル稼働/cao_en_seo_gap.md` の新設候補を消化＝owner操作ゼロ・North Star直結・code単独で完結する世界配信の"面"拡張を選択。
+> **やったこと（commit）**: gap §2の優先ページを6本新設（`apps/toyama-guide/`）＝①en-alpine-season(開通時期/雪壁・高CVクエリ)②en-alpine-one-day(1日縦断ロジ・荷物)③en-hokuriku-arch-pass(「パスはアルペン非対象」誤解解消)④en-gassho-stay(合掌造り宿泊)⑤en-to-shirakawago-bus(高岡発 世界遺産バス)⑥en-takaoka-from-kanazawa(金沢滞在者を逆流入)。CMO 6並列fan-out→code検証統合。
+> **品質規律（A5/A4厳守・実検証済）**: 全ページ料金/開通日/所要分/時刻は**一切断定せず「公式で確認」**にヘッジ（en-kurobe-damの誠実文体を踏襲）。A5誤検知スキャン=¥100フッターのみ(=正)。A4=市/村レベルのみ・私設住所/人名なし。canonical=各slug一致・JSON-LD有・単一h1・XML well-formed(172URL)を機械検証。
+> **内部リンク整備（orphan対策）**: en.html(ガイドホーム)とクラスタ親(en-alpine/en-rail-pass/en-daytrip/en-gokayama/en-when-to-go)へ相互リンクを追加。**07-13新設のen-kurobe-damがhome/hub未リンクのorphanだった件も同時に是正**。新6本は相互にもクラスタ内リンク。
+> **sitemap**: `apps/ai-agency-hp/sitemap.xml` を166→**172 URL**（6本追記・lastmod 2026-07-21）。全内部リンク解決を機械確認(0 broken)。
+> **世界配信の発火条件（要注意）**: pages.yml/indexnow.ymlは**mainへのpushで発火**。本便はbranch `claude/continuation-34kg7n` へpush＝**mainマージ後にPages公開＆IndexNow通知＆次回GSCクロールで発見**。マージはPR経由(owner/レビュー)。
+> **残り未着手（次の増分）**: gap §2の残3本＝en-central-japan-route/en-manyosen-tram/en-local-trains。gap §3の強化10件は本文実読が前提（願望実装回避）。
 
 > ## 2026-07-15 ★★GSC sitemap送信 完遂（owner「自動でやって」2026-07-14の残スイッチをworkerが実機で押した）
 > **やったこと（実機・note_publisher_profileのChromeで実行）**: Google Search Console にログイン済＆プロパティ `https://tyutyutakokaina81-netizen.github.io/agent-team/` は**既に確認(verified)済**だった（サマリーが開けた＝所有権確認は過去に完了）。サイトマップ画面を開くと `/sitemap.xml` は **2026/06/24に送信済だが「取得できませんでした」0ページ**の失敗状態で放置されていた（当時sitemapが未LIVE/不正だった名残）。
