@@ -4,7 +4,16 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-22（★PR #173 作成＝英語SEO gap完走分をmainへ。マージで世界公開。下記2026-07-22③参照）
+最終更新: 2026-07-22（★PR #173 マージ可能化＝並行生成の題材重複3本を解決。下記2026-07-22④参照）
+
+> ## 2026-07-22 ④ ★PR #173 の衝突を解決＝並行生成の題材重複が再発（ミスB再発型）を検知・処理
+> **何が起きたか**: PR #173 が `mergeable_state=dirty`（衝突）だった。原因=**別のcodeセッション（同じくowner「続き」駆動）が同じ gap §2 文書から en-gassho-stay/en-hokuriku-arch-pass/en-to-shirakawago-bus の**3本を独立生成**し、先に main へマージ済（commit cf8e87d・cmo_batch2_pages.md）。私の branch と題材が重複＝2026-07-07決定ログ「ミスB=並行生成による題材重複」の再発型（今回は公開前=無害）。
+> **解決（merge origin/main→branch）**: 重複3本は**main版を採用**（canonical・品質同等/やや長921-966語）、私の重複分は破棄。私の固有分＝他6新規(en-alpine-season/one-day/takaoka-from-kanazawa/central-japan-route/manyosen-tram/local-trains)＋8強化＋内部リンクは保持。sitemapはunion（**175URL・重複URL 0・XML well-formed**を機械検証）。→ push で `mergeable_state=clean` を確認。
+> **再発防止の学び**: run_request/worker-prompt と別に**複数のcodeセッションが同一gap文書から並行生成すると衝突する**。次からは着手前に origin/main を fetch し「main側で既に作られていないか」をファイル名照合してから新規生成する（題材ゲートのcode版）。
+> **[要確認]（既存負債・別issue）**: sitemap に `en-noto-day-trip.html` の死にリンク（base 6a75247からの既存・ファイル未存在＝404）。私の変更と無関係だが sitemap 品質のため follow-up で除去 or ページ作成を推奨。
+> **CI補足**: PRに check_runs=0 は正常（pages.yml/indexnow.ymlは push-to-main で発火・PRでは走らない／note-thumbnails.ymlは CMO/outputs/** 変更時のみ＝本PRは非対象）。=CI失敗ではない。
+
+> ## 2026-07-22 ③ ★PR #173 作成（owner「すべて」＝PR作成/worker起動/fetchの全対応）
 
 > ## 2026-07-22 ③ ★PR #173 作成（owner「すべて」＝PR作成/worker起動/fetchの全対応）
 > **PR**: https://github.com/tyutyutakokaina81-netizen/agent-team/pull/173 （head=claude/continuation-34kg7n → base=main・3コミット＝新規9ページ＋既存8強化＋sitemap 175URL）。origin/main..branchはクリーン3コミット＝unrelated-history問題なし（このPRに限り）。PRテンプレは無し。
