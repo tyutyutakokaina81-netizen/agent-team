@@ -51,6 +51,11 @@
 | 2026-07-01 | 2026-06-17_note記事_氷見線の車窓_海すれすれを走る列車.md | 風景 | 6/17バックログ補完(3→5本)。高岡↔氷見の海沿い車窓を住人目線で。英語要約・事実検証ノート・写真プロンプト付。非食(既存2食で食枠充足)。¥0 | 完了 |
 | 2026-07-01 | 2026-06-17_note記事_高岡山町筋_黒い土蔵の通り.md | 町並み | 6/17バックログ補完。金屋町と別の商家土蔵造りの通りを住人目線で(はしご動線)。英語要約・事実検証ノート・写真プロンプト付。非食。¥0 | 完了 |
 | 2026-07-01 | 2026-07-01_配信キット_X投稿＋分散ルーティン.md | 施策 | E3外部分散をowner1日5分で回す配信キット。実URLのX投稿10本＋note内スキ回り＋マガジン＋2週後計測。¥0 | 完了 |
+| 2026-07-23 | 2026-07-23_note記事_氷見カレー.md | note/食 | 氷見のご当地カレー(煮干しだしベース)を住人目線で。累計406本と非重複の新題材。英語要約(dashi curry角度)+海外KW3+事実検証ノート+写真placeholder。A4/A5順守・断定数値なし | 作成済・公開待ち |
+| 2026-07-23 | 2026-07-23_note記事_大根寿司.md | note/食 | 大根寿司(だいこんずし・北陸の冬の麹なれ寿司)。かぶら寿司との違い=ハレとケの対比。新題材。英語要約(発酵食角度)+事実検証(諸説ありを明記)+写真placeholder。A4/A5順守 | 作成済・公開待ち |
+| 2026-07-23 | 2026-07-23_note記事_富山県美術館TAD.md | note/建築 | 富山県美術館(TAD・オノマトペの屋上)。ガラス美術館とは別施設。デザイン角度の世界ウケ枠。英語要約+海外KW3+事実検証(開館年/設計者は要確認と明記)+写真placeholder | 作成済・公開待ち |
+| 2026-07-23 | 2026-07-23_note記事_井波の木彫りの町.md | note/工芸 | 井波(南砺)の木彫りの町・瑞泉寺門前。craft town角度の世界ウケ枠(pipeline#8)。英語要約厚め+海外KW3+事実検証+写真placeholder。A4=地名は既存準拠(五箇山/金屋町同様) | 作成済・公開待ち |
+| 2026-07-23 | 2026-07-23_note記事_呉羽山からの立山連峰.md | note/風景 | 呉羽山展望台から平野越しの立山連峰。雨晴(海越し)と差別化=街裏の日常絶景角度。英語要約+海外KW3+事実検証(標高/山名比定は要確認)+写真placeholder | 作成済・公開待ち |
 | 2026-07-22 | apps/toyama-guide/en-{alpine-cost,rail-pass,vs-kanazawa,daytrip,firefly-squid,kurobe-gorge,when-to-go,toyama-bay-sushi}.html | 英語SEO強化 | gap §3(既存ページ強化)。本文実読→genuinely missingのみ加筆＝8本に1セクションずつ(JRパス非対象明記/富山＝安い拠点/逆流入/早朝ツアー実務/峡谷≠ダム/開通callout/日本語不要予約)。en-alpine・en-gokayamaは既カバーで無変更。加筆分は断定数値ゼロ(全て公式確認へヘッジ)=A5準拠。sitemap lastmod更新 | 完了・mainマージ待ち |
 | 2026-07-22 | apps/toyama-guide/en-central-japan-route,en-manyosen-tram,en-local-trains.html | 英語SEOページ | gap §2 残3本を新設＝新設候補10件を全消化。中部7日ルート(富山拠点)/万葉線(ドラトラム)/JR外私鉄・IC実務。料金/時刻/IC/パスは全て非断定(公式確認へヘッジ)=A5準拠。sitemap 175URL・内部リンク機械検証済。branchへpush=mainマージで公開 | 作成済・mainマージ待ち |
 | 2026-07-21 | apps/toyama-guide/en-alpine-season,en-alpine-one-day,en-hokuriku-arch-pass,en-gassho-stay,en-to-shirakawago-bus,en-takaoka-from-kanazawa.html | 英語SEOページ | gap調査(cao_en_seo_gap.md §2)の未着手6本を新設。開通時期/1日縦断/アーチパス誤解解消/合掌造り宿泊/世界遺産バス/金沢逆流入。料金・日付は全て非断定(公式確認へヘッジ)=A5準拠。canonical/JSON-LD/内部リンク/sitemap(172URL)機械検証済。en-kurobe-damのorphanも是正。branchへpush=mainマージで公開 | 作成済・mainマージ待ち |
