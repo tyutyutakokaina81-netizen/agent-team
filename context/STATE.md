@@ -84,6 +84,15 @@
 > **世界配信の発火条件（要注意）**: pages.yml/indexnow.ymlは**mainへのpushで発火**。本便はbranch `claude/continuation-34kg7n` へpush＝**mainマージ後にPages公開＆IndexNow通知＆次回GSCクロールで発見**。マージはPR経由(owner/レビュー)。
 > **残り未着手（次の増分）**: gap §2の残3本＝en-central-japan-route/en-manyosen-tram/en-local-trains。gap §3の強化10件は本文実読が前提（願望実装回避）。
 
+> ## 2026-07-23 ★便が復活し実成果（残骸ロック根治が効いた）＝誤サムネ12本削除(A5解消)+4本公開+集客
+> **ロック根治が効いた**: 07-20の run_worker.sh 残骸ロック自動回収(pgrep判定)により、5日止まっていた便が復活・稼働。
+> **★誤サムネ点検＝完遂(owner「過去のエラー解消」)**: 公開全記事の見出し画像を実機点検→**誤サムネ12本をnote編集で削除**(本文無傷をAPI検証)。例=バタバタ茶/ガラス美術館/魚のアラ/みりん干し(山夕景の使い回し)、細工かまぼこ→たい焼き、雨晴駅→赤橋、ホタルイカ→タコ、金屋町→京都風坂道 等。=publisher側のallowlist根治＋既公開分の実削除で A5事故クローズ。
+> **4本公開(owner依頼11から・無サムネ安全)**: 立山雪の大谷 n9ce371a27502／寒ブリ ncd002e46c5ae／売薬文化 nf88dafa9b25e／路面電車 n58afa9807d20。
+> **スキップ3本=題材既公開(氷見牛と同構図)**: 氷見うどん(nc8e8172b0f66)/高岡大仏(n2cc579da9b21)/魚津蜃気楼(nc15cd99b4468)。→worker-prompt 11リストを訂正、**残4本=黒部トロッコ/かぶら寿司/チューリップ/藤子ギャラリーを次便**。
+> **集客**: フォロワー 31→**39**(+8)。フォロー+22/スキ10/本物コメント4。growth稼働中。
+> **★重要発見(code要対応)**: ①**registry41件 vs 実公開406本**の乖離＝20時台の別自動投稿系(~/note-auto/run_note.sh)がregistry外で毎日公開している。1日5本cap管理と台帳の統合方針が要検討。②06-21「夏だけ仕事を朝に前倒し」が2本重複公開(n826dc4bd09ea/n0615f5861d08)→片方非公開推奨。③要確認サムネ8本(笑ゥせぇるすまん=満月 等)は判断保留。
+> **収益バルブ=全て未ログインで停止(owner作業)**: KDP初期設定/A8ログイン/Travelpayouts(Google登録廃止→email登録5分)/Reddit・Quora(「てつで続行」押すだけ)。承認あれば次便でReddit/Quora投稿(被リンク=indexの鍵)完遂。**batch3投稿先3件=実在の新鮮スレを特定済**(r/JapanTravelTips アルペン/黒部峡谷/golden route)。
+
 > ## 2026-07-15 ★★GSC sitemap送信 完遂（owner「自動でやって」2026-07-14の残スイッチをworkerが実機で押した）
 > **やったこと（実機・note_publisher_profileのChromeで実行）**: Google Search Console にログイン済＆プロパティ `https://tyutyutakokaina81-netizen.github.io/agent-team/` は**既に確認(verified)済**だった（サマリーが開けた＝所有権確認は過去に完了）。サイトマップ画面を開くと `/sitemap.xml` は **2026/06/24に送信済だが「取得できませんでした」0ページ**の失敗状態で放置されていた（当時sitemapが未LIVE/不正だった名残）。
 > **原因と対処**: 現在の `sitemap.xml` は実機で HTTP200・application/xml・**166 URL**・robots.txtも正＝完全LIVE。よってGSC入力欄(aria-label「サイトマップの URL を入力」)へ `sitemap.xml` を入れ送信ボタン(jsname=M2UYVd)をクリック→**緑ダイアログ「サイトマップを送信しました」を確認**。一覧の送信日が 06/24→**2026/07/15 に更新**。ステータスは再クロール待ちで一時「取得できませんでした」表示だが、sitemapはLIVE確認済のため次回クロールで取得成功見込み。
