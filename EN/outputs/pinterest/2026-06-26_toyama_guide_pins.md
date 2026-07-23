@@ -2,8 +2,21 @@
 
 > 目的：北極星＝海外読者を富山ガイドへ。Pinterestは旅行ジャンルで発見性が高く、ピンは長期間（数ヶ月〜数年）流入を生む。リンクが正規に貼れる数少ない無料チャネル。
 > 使い方（cowork/owner）：Pinterestビジネスアカウントで、各ピンに **画像** を載せ、**Title / Description** を貼り、**Destination URL** を設定して公開。ボード名の例：「Toyama, Japan — off the beaten path」。
-> ⚠️ 画像：code は画像生成不可(A2)。owner の実写、または商用可フリー素材（Unsplash/Pexels「Toyama Japan」「Tateyama」「Amaharashi」等）を使用。1ピン=縦長(1000×1500目安)推奨。
+> ⚠️ 画像：code は画像生成不可(A2)。ただし各ガイドページには **Pexels(商用可)から自動生成した og:image が既にある**ので、画像を探さずそのまま使える（下の「即用可の画像URL」）。より映える縦長(1000×1500)にしたい場合のみ owner実写/フリー素材で差し替え。
+> ⚠️ 注意：og:image は横長(1200×630)。Pinterestは縦長推奨のため、そのままだと最適比ではない＝「まず出す」用の即用素材。反応を見て縦長へ差し替えると伸びやすい。
 > ⚠️ 過度なスパム投稿は避け、1日2〜4ピン・間隔をあけて。説明文は自然な英語のまま。
+
+### 即用可の画像URL（各ピンのページの og:image＝Pexels商用可・自動生成／画像探し不要）
+| Pin | 画像URL（そのまま使える） |
+|---|---|
+| Pin 1 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-amaharashi.png |
+| Pin 2 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-off-beaten-path.png |
+| Pin 3 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-alpine-cost.png |
+| Pin 4 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-shirakawa-go.png |
+| Pin 5 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-where-to-stay.png |
+| Pin 6 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-when-to-go.png |
+| Pin 7 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-food.png |
+| Pin 8 | https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/og/en-worth-visiting.png |
 
 サイトトップ: https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en.html
 
