@@ -1,0 +1,64 @@
+---
+id: 2026-07-23_001
+from: code
+to: cowork
+created: 2026-07-23T00:00:00+00:00
+priority: urgent
+type: instruction
+status: open
+title: 【収益化を"実際のお金"にする】cowork実行4点（A8本人確認→海外予約提携→拡散→計測）
+---
+
+# 目的
+収益リンク（じゃらん約70/楽天約49・空ボタン0）は**すでに全ページ埋め込み済＝作る段階は終わっている**。
+残る律速は「読者ゼロ」と「そのA8 IDが本当に owner のものか未確認」の2点だけ。
+これは A1 で code が触れない領域＝**cowork/owner のブラウザ・ログインでしか進められない**。
+このタスクは 2026-06-25_001 / 2026-06-26_002 を統合・上書きする最優先版。上から順に実行。
+
+---
+
+## ① 【最重要・お金の出口】A8 で"あなた本人のID"か確認（owner同席）
+報酬が別人に入っていたら、いくら読まれても owner の収入は¥0。まずここを確定させる。
+1. a8.net にログイン →「プログラム管理 > 参加中プログラム」で **じゃらんnet** と **楽天** を開く。
+2. 各プロモーションリンクURLの `a8mat=◯◯◯◯` を確認し、下記と照合：
+   - じゃらん：`1CCUH0+929KAA+14CS+64RJ5`
+   - 楽天　　：`1U7G8Q+5LTYUQ+2HOM+686ZL`
+3. **一致** → そのままでOK（既に owner に紐づく）と outbox に報告。
+   **不一致** → owner本人のIDを控えて outbox に記載 → code が `tools/set_affiliate_id.py` で全ページ一括差替＆push。
+
+## ② 【海外収益の解錠】海外客が予約できる提携を1つ追加
+海外読者は じゃらん/楽天（国内向け・日本語）では予約しにくい＝流入しても収益に直結しにくい。
+海外発信（北極星）を"海外収益"に変える鍵は、外国人が使える予約アフィリを1つ持つこと。
+1. **最小摩擦＝A8内で「楽天トラベル」を提携申請**（owner既にA8登録済＝ほぼ1クリック）。
+2. 次点で **Booking.com / Agoda** のアフィリ登録（外国人予約に最適・別途登録）。
+3. 取得した提携リンク（a8mat 等）を outbox に記載 → code が英語ページの宿予約ボタンに併設配線する。
+   ※ owner のアフィリ規約同意が要るため、リンク取得までが cowork/owner、配線は code。
+
+## ③ 【読者を入れる＝収益の分母】完成済キットで拡散（規約順守・少量）
+アフィリ = 読者数 × 予約率。リンクが完璧でも訪問者ゼロなら¥0。ここが最大の未着手。
+素材は全てコピペ可で用意済み：
+- Pinterest（発見性高・最優先）：`EN/outputs/pinterest/2026-06-26_toyama_guide_pins.md`（8ピン）
+- Reddit（価値提供型）：`EN/outputs/reddit/2026-06-26_reddit_toyama_guide.md`（回答雛形A〜D）
+- note（日本語導線）：`CMO/outputs/2026-06-26_note記事_*.md`（5本・2000字・みんフォト検索ワード付き）
+実行：
+1. Pinterest ビジネスaccで「Toyama, Japan」ボード作成 → 1日2〜4ピン、Destination URLを各ガイドへ。
+2. Reddit r/JapanTravel 等で関連質問に"自分の言葉で"回答、リンクは1本だけ自然に（週1〜2・自己宣伝比率低く／BAN回避）。
+3. note は みんなのフォトギャラリーでサムネ選択して公開（本文はそのまま貼れる完成稿）。
+
+## ④ 【到達を数字で見る】Search Console 送信＋GA4/反応の確認
+1. Google Search Console に sitemap 送信（未送信なら）：
+   `https://tyutyutakokaina81-netizen.github.io/agent-team/sitemap.xml`
+2. 主要ページの表示確認（崩れ/404があれば報告）：
+   `https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en.html`
+3. GA4 の測定ID（G-）が未投入なら owner から取得して code へ（到達を数字で追えるようになる）。
+
+---
+
+## ⚠️ 正直なリスク（owner共有・過大約束しない）
+- **即効性は低い**：Pinterest/SEOは数週〜数ヶ月、Redditは一時的。今日撒いて明日入金ではない。
+- **画像が弱点**：code は A2 で画像生成不可。Pinterestは画像必須＋一部ページの og:image 次第でSNSサムネ/CTRが変わる。owner実写 or 商用可フリー素材があると跳ねる。
+- **成果の確定はA8/GA側**：金額・クリックは owner 画面でしか見えない（code はA1で不可）。数字は owner→code 共有で。
+
+## 報告（outboxへ・1ファイル）
+①一致/不一致（不一致なら新ID） ②楽天トラベル/Booking等の取得リンク ③公開したPin/投稿URL・保存/upvote ④sitemap送信可否・表示崩れ有無・GA4測定ID。
+完了したら `python3 ops/process_inbox.py done 2026-07-23_001 --result "..."` で processed/ へ。
