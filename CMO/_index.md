@@ -203,3 +203,7 @@ note.com (safe_canna441/著者てつ) にバックログ5本を公開。各記�
 | 2026-07-23 | 2026-07-12_note記事_氷見の寒ブリと鰤起こし.md | 食/氷見 | ✅公開 https://note.com/safe_canna441/n/ncd002e46c5ae |
 | 2026-07-23 | 2026-07-12_note記事_富山の売薬文化.md | 文化/歴史 | ✅公開 https://note.com/safe_canna441/n/nf88dafa9b25e |
 | 2026-07-23 | 2026-07-12_note記事_富山の路面電車.md | 暮らし/交通 | ✅公開 https://note.com/safe_canna441/n/n58afa9807d20 |
+| 2026-07-25 | 2026-07-12_note記事_黒部峡谷トロッコ.md | 風景/乗り物 | ✅公開 https://note.com/safe_canna441/n/n34be1f9c22f5 （無サムネ・owner依頼11本完了） |
+| 2026-07-25 | 2026-07-12_note記事_かぶら寿司.md | 食 | ✅公開 https://note.com/safe_canna441/n/nc25b1a7f72fb |
+| 2026-07-25 | 2026-07-12_note記事_砺波のチューリップ.md | 自然/花 | ✅公開 https://note.com/safe_canna441/n/nc2a17d100e92 |
+| 2026-07-25 | 2026-07-11_note記事_氷見潮風ギャラリー_藤子不二雄A.md | 文化/聖地 | ✅公開 https://note.com/safe_canna441/n/n99130059ffcf （タイトルself-fix済） |
