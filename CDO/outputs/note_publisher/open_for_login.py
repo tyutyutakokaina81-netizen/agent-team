@@ -20,6 +20,7 @@ PROFILE_DIR = Path.home() / ".note_publisher_profile"  # publish_to_note.py と�
 URLS = [
     "https://www.reddit.com/login",
     "https://www.quora.com/",
+    "https://kdp.amazon.co.jp",  # 2026-07-25 KDP追加=ワーカーが本の登録を代行できるよう同プロファイルにログイン
 ]
 
 
