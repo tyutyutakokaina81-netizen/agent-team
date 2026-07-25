@@ -374,7 +374,9 @@ def parse_article(md_path: Path):
     _assert_not_paid_article(text, md_path)
 
     # タイトル：「メイン：」直下の最初の ``` コードブロック
-    title_m = re.search(r"メイン.*?\n```\n(.+?)\n```", text, re.S)
+    # ★2026-07-25 self-fix: 「メイン」を単語で拾うと本文中の「メインフロア」等に誤マッチし
+    #   タイトルが「## 英語要約」等に化ける（藤子ギャラリー記事で実害）。ラベル「メイン：」に限定する。
+    title_m = re.search(r"メイン[：:].*?\n```\n(.+?)\n```", text, re.S)
     if not title_m:
         # フォールバック：「## タイトル」直下
         title_m = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
