@@ -33,8 +33,25 @@ ARTICLES_DIR = REPO / "CMO" / "outputs"
 THUMB_DIR = SCRIPT_DIR / "thumbnails"
 KEY = os.environ.get("PEXELS_API_KEY")
 
-# 日本語タイトル/ファイル名の部分一致 → Pexels検索語（具体的なものを先に置く）
+# 日本語タイトル/ファイル名の部分一致 → Pexels/Wikimedia検索語（具体的なものを先に置く＝先勝ち）
 RULES = [
+    # 2026-07 新分野・リサーチ記事の追加（default「富山の山写真」への誤落ちを防ぐ＝A5/誤サムネ根治）
+    ("散居村", "Tonami plain rural landscape rice fields japan"),
+    ("砺波平野", "Tonami plain rural landscape rice fields japan"),
+    ("屋敷林", "farmhouse trees rural japan"),
+    ("北アルプス", "Tateyama mountain range snow japan"),
+    ("富山の水", "clear mountain stream water japan"),
+    ("名水", "clear mountain stream water japan"),
+    ("富山湾", "Toyama bay sea coast japan"),
+    ("魚の宝庫", "fish market seafood japan"),
+    ("庭の畑", "home vegetable garden summer"),
+    ("家庭菜園", "home vegetable garden summer"),
+    ("夏野菜", "summer vegetables harvest"),
+    ("採れたて", "fresh summer vegetables harvest"),
+    ("本物と静けさ", "Takaoka Kanayamachi old street japan"),
+    ("高岡に何を", "Takaoka old townscape japan"),
+    ("求めて", "japanese old townscape tourist"),
+    ("砂糖", "japanese home cooking kitchen"),
     # 食（実写ヒット率を上げる追加分・具体的なものを先に）
     ("紅ずわい", "red snow crab"), ("ずわい", "snow crab"), ("かに", "snow crab seafood"),
     ("バイ貝", "whelk shellfish"), ("フクラギ", "yellowtail fish"), ("フクラギ", "yellowtail fish"),
