@@ -373,13 +373,14 @@ def parse_article(md_path: Path):
     # ★fail-closed: 有料記事なら無料公開を拒否（正経路 publish_paid_note.py へ誘導）
     _assert_not_paid_article(text, md_path)
 
-    # タイトル：「メイン：」直下の最初の ``` コードブロック
-    # ★2026-07-25 self-fix: 「メイン」を単語で拾うと本文中の「メインフロア」等に誤マッチし
-    #   タイトルが「## 英語要約」等に化ける（藤子ギャラリー記事で実害）。ラベル「メイン：」に限定する。
-    title_m = re.search(r"メイン[：:].*?\n```\n(.+?)\n```", text, re.S)
+    # タイトル抽出（2026-07-26 code-review改善: 標準形式「## タイトル」を先に試す）。
+    # ★2026-07-25 self-fix で「メイン」→「メイン[：:]」に限定済（本文「メインフロア」誤マッチ対策）。
+    #   さらに順序を反転＝現行の全記事は「## タイトル」形式。これを第一に照合すれば、本文に「メイン：」が
+    #   出てくる記事でも誤って本文側を拾わない。旧「メイン：」ラベル形式はフォールバックで拾う。
+    title_m = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
     if not title_m:
-        # フォールバック：「## タイトル」直下
-        title_m = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", text, re.S)
+        # フォールバック：旧形式「メイン：」直下
+        title_m = re.search(r"メイン[：:].*?\n```\n(.+?)\n```", text, re.S)
     if not title_m:
         sys.exit("タイトルブロックがmdから抽出できませんでした。")
     title = title_m.group(1).strip().splitlines()[0].strip()
