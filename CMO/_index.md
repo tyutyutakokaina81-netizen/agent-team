@@ -207,3 +207,6 @@ note.com (safe_canna441/著者てつ) にバックログ5本を公開。各記�
 | 2026-07-25 | 2026-07-12_note記事_かぶら寿司.md | 食 | ✅公開 https://note.com/safe_canna441/n/nc25b1a7f72fb |
 | 2026-07-25 | 2026-07-12_note記事_砺波のチューリップ.md | 自然/花 | ✅公開 https://note.com/safe_canna441/n/nc2a17d100e92 |
 | 2026-07-25 | 2026-07-11_note記事_氷見潮風ギャラリー_藤子不二雄A.md | 文化/聖地 | ✅公開 https://note.com/safe_canna441/n/n99130059ffcf （タイトルself-fix済） |
+| 2026-07-26 | 2026-06-27_note記事_大門素麺_ちょんまげ巻きのそうめん.md | 食 | ✅公開 https://note.com/safe_canna441/n/n05ff0cb6beb1 （無サムネ・07-26便） |
+| 2026-07-26 | 2026-06-20_note記事_富山城_町なかの城址公園.md | 文化/城 | ✅公開 https://note.com/safe_canna441/n/n63b5318141f6 |
+| 2026-07-26 | 2026-06-19_note記事_海王丸パーク_新湊の帆船.md | 風景/帆船 | ✅公開 https://note.com/safe_canna441/n/ned78ad5ee024 |
