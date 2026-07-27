@@ -72,7 +72,12 @@ def do_like(page):
     return "no-btn-or-already"
 
 def do_follow(page):
-    b = page.query_selector('button.o-noteContentHeader__actionFollow')
+    # 2026-07-28 self-fix: note がヘッダのフォローボタン(button.o-noteContentHeader__actionFollow)を廃止し、
+    # 記事下部の作者プロフィールカード(.m-creatorProfile__actions / .m-follow)内の汎用 a-button に移設した
+    # (DOM実測: old_follow_sel=0 / 新=class 'a-button' anc .m-follow .m-creatorProfile__actions)。
+    # 作者カード限定でヒットさせ、末尾のおすすめクリエイターを誤フォローしない。
+    b = page.query_selector('.m-creatorProfile__actions button.a-button') \
+        or page.query_selector('.m-follow button.a-button')
     if not b:
         return "no-follow-btn"
     txt = (b.inner_text() or "").strip()
@@ -142,16 +147,21 @@ def do_comment(page, text):
 
 def discover(page, known_handles):
     """ハッシュタグ・フィードから TARGETS 未収録の新規発信者を収集(読み取りのみ)。
-    戻り値: [{"a":handle,"k":key,"t":tag由来ラベル}] を DISCOVER_LIMIT 件まで。"""
-    found = {}  # handle -> {a,k,t}
+    戻り値: [{"a":handle,"k":key,"t":tag由来ラベル}] を DISCOVER_LIMIT 件まで。
+
+    2026-07-28 self-fix: 従来は先頭タグ(#氷見)だけで14枠を埋め、毎便同じ人気アカウント=
+    既フォロー飽和分ばかり返して新規0だった。→ (1)全タグをラウンドロビンで少数ずつ拾い、
+    (2)各タグでより深くスクロール(先頭の人気=既フォロー層を越える)ことで、
+    未フォローの新鮮な発信者に届かせる。follow/likeは冪等ゆえ既フォローが混じっても無害。"""
+    per_tag = {}   # tag -> [ {a,k,t}, ... ]（既知/自分は除外済み）
     for tag in DISCOVER_TAGS:
-        if len(found) >= DISCOVER_LIMIT:
-            break
+        lst = []
+        seen = set()
         try:
             page.goto(f"https://note.com/hashtag/{tag}", wait_until="domcontentloaded", timeout=45000)
             page.wait_for_timeout(3500)
-            for _ in range(3):
-                page.mouse.wheel(0, 3000); page.wait_for_timeout(900)
+            for _ in range(6):   # 深めにスクロール=人気(既フォロー)層の先へ
+                page.mouse.wheel(0, 3200); page.wait_for_timeout(900)
             anchors = page.query_selector_all('a[href*="/n/n"]')
             for a in anchors:
                 href = a.get_attribute("href") or ""
@@ -159,13 +169,30 @@ def discover(page, known_handles):
                 if not m:
                     continue
                 handle, key = m.group(1), m.group(2)
-                if handle == MY_HANDLE or handle in known_handles or handle in found:
+                if handle == MY_HANDLE or handle in known_handles or handle in seen:
                     continue
-                found[handle] = {"a": handle, "k": key, "t": f"#{tag}フィード発見"}
-                if len(found) >= DISCOVER_LIMIT:
-                    break
+                seen.add(handle)
+                lst.append({"a": handle, "k": key, "t": f"#{tag}フィード発見"})
         except Exception as e:
             print(f"discover({tag}) err: {e}")
+        per_tag[tag] = lst
+    # ラウンドロビンで各タグから少しずつ→タグ横断で多様に(=新鮮率UP)
+    found = {}
+    idx = 0
+    while len(found) < DISCOVER_LIMIT:
+        progressed = False
+        for tag in DISCOVER_TAGS:
+            lst = per_tag.get(tag) or []
+            if idx < len(lst):
+                cand = lst[idx]
+                if cand["a"] not in found:
+                    found[cand["a"]] = cand
+                progressed = True
+                if len(found) >= DISCOVER_LIMIT:
+                    break
+        if not progressed:
+            break
+        idx += 1
     return list(found.values())
 
 def read_followers(page):
