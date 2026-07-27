@@ -4,7 +4,14 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-27④（SEOリバイズ＝アクセス弱い推定の公開済8本のタイトル前出し/タグ強化。07-27新記事8本は2000字化＋一括公開トリガー投入済[worker待ち]。下記参照）
+最終更新: 2026-07-27⑥（★庭の七輪記事が公開済と判明＝https://note.com/safe_canna441/n/n135853de0716 。台帳✅公開更新。SEOリバイズ計12本も完了[note反映待ち]。下記参照）
+
+> ## 2026-07-27 ⑥ 庭の七輪記事＝既に公開済と確認（owner「掲載して」→Macでpublish実行→重複ゲートでURL判明）
+> owner個別依頼で庭の七輪記事の公開を試行→publisherの**重複ゲートが「既公開」と応答しURL提示＝https://note.com/safe_canna441/n/n135853de0716**。**CMO/_index.md を✅公開＋URLへ更新**(219行目)。ops 2026-07-27_001 は done(processed)へ。
+> - **desync注意**：repo側 `published_registry.json` にこのURL未反映＝worker が公開済だが registry commit を push していない可能性。台帳(CMO/_index.md=正本)は今回同期。**registry の repo 同期は次便で確認要**。
+> - **owner環境の詰まり教訓**：publish_to_note.py は**repo直下でなく `CDO/outputs/note_publisher/`**配下。実行は必ず`cd ~/agent-team-run`してから。本文に[写真①②]placeholderある記事は`--text-only`か`--photos <dir>`必須(見出しサムネは_verified.txt登録で別途自動採用)。
+
+> ## 2026-07-27 ④ SEOリバイズ：公開済8本のタイトル前出し＋タグ強化（owner「アクセス状況の悪い記事をリバイズ」・PV実データ無→SEOヒューリスティックでcode/CMOが特定）
 
 > ## 2026-07-27 ④ SEOリバイズ：公開済8本のタイトル前出し＋タグ強化（owner「アクセス状況の悪い記事をリバイズ」・PV実データ無→SEOヒューリスティックでcode/CMOが特定）
 > **PV実データは取得不能**(A1)→ヒューリスティック(①検索語がタイトル後方に埋没/②抽象で被写体不明/③ニッチで検索需要低/④タグ不足)で最も弱い8本を特定し、**## タイトル＋## ハッシュタグのみ**改稿(本文/英語要約/事実検証は不変更)。CMOサブエージェント実行→code検証(8/8 parse OK・A5断定なし・A4番地なし)→commit(93cb459)。
