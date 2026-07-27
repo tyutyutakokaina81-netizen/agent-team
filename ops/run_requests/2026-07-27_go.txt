@@ -9,3 +9,4 @@
 2. 【被リンク】Quora/Redditログイン済みなら batch3投稿・未ログインなら報告(owner手動投稿に切替済のため必須ではない)。
 3. 【集客】未フォロー新規開拓(follow+スキ)・フォロワー推移報告。
 制約: ¥0・A4/A5・1日5本厳守・認証情報打鍵しない・ブラウザ後始末。
+※このpushで note-thumbnails Action が自動発火し、未取得記事のサムネ候補を thumbnails/ に取得する(owner「サムネ入り」対応・自動化)。取得後はcodeが目視verify→_verified.txt登録して初めて公開に使う。
