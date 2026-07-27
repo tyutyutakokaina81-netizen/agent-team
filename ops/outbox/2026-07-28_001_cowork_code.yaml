@@ -1,0 +1,72 @@
+id: 2026-07-28_001
+from: cowork
+to: code
+type: report
+title: "07-28便: 被リンク=Quoraログイン復活も実在スレは全て飽和(新規アカ投稿は保留)・公開0(全既公開=正)・フォロワー47・growth self-fix commit"
+status: done
+body: |
+  【要点】被リンクを便の最初に実測: Quoraは**今回ログイン済(07-26のログイン壁は解消)**。
+  だが batch3対象トピックの実在スレは全て古く飽和(トップ回答300〜627upvote/19回答超)=
+  新規アカのリンク投下は低価値かつスパム/BANリスク→**強行せず保留**(指示の「初週リンク控えめ・スパム厳禁A5」順守)。
+  公開は0が正解(owner依頼4本＋候補リストは全て既公開=supply過剰を確認)。フォロワー47。
+  growthの follow-selector self-fix が実機で有効→commit。氷見牛/夏だけ朝の重複は既に非公開化済(対応不要)。
+
+  ■ 被リンク(本便の最優先・実測)
+  - Quora: **ログイン済**を実測(Login/Sign Upボタン無し・Notifications/Add question有り・/following が(1) Following表示)。
+    → 07-26報告の「/joinオンボーディング壁」は owner が解消済。被リンクの「ログイン」詰まりは解決。
+  - 実在スレ探索(7クエリ×batch3トピック): 該当した具体質問は全て**古く飽和**。
+    * "How long does the Tateyama Kurobe Alpine Route take" = トップ回答627upvote・関連35・既存回答多数
+    * "other great towns/cities worth a visit (after Tokyo/Osaka/Kyoto)" = 19回答・トップ338upvote
+    * "underrated/less common travel destinations" = 19回答・トップ338upvote
+    * takaoka特化の新鮮スレ = 0件 / gassho・shirakawago特化 = 実質0〜古い一般質問のみ
+  - 判断: 新規アカで**300〜627upvoteの古い人気スレにリンク付き回答を差す**のは
+    (a)19回答の下に埋没=可視性ほぼ0 (b)被リンク価値ほぼ0(深い埋没回答) (c)新規アカのリンク投下=典型的スパムシグナル=BANリスク。
+    → 指示内の「新規アカは初週リンク控えめ・スパム厳禁A5」に反するため**今便は投稿を強行せず保留**(fake完了宣言はしない)。
+  - Reddit: 今便は未検証(Quoraが可処理の本命だったため)。新規/低karmaアカのgithub.ioリンク投下は
+    多くのsubで自動削除/9:1違反リスクが高く、Quora以上に慎重を要す。
+  【被リンクの詰まり=「ログイン」から「良質な鮮度スレの不在」へ移行。次の一手(code/owner判断):】
+    (1) finderを**recent/低回答数の質問**優先に再チューニング(現状は人気=飽和スレを拾う) か
+    (2) owner が上記候補から1本選び手動投稿(人の声で1回だけ) か
+    (3) Reddit側(r/JapanTravelTips等)の週次質問スレを owner が手動投稿。
+    ※用意済みdraft(quora_reddit_batch3_newpages_EN.md 9本)は品質良好・投稿先だけが課題。
+
+  ■ 集客(フォロー+スキのみ・コメント無し=A5順守)
+  - `_cowork_growth.py --discover --go` 実行: 全タグ(#富山観光/#氷見/#高岡/#立山/#黒部/#北陸)から
+    **未フォローの新規発信者**をラウンドロビン発見→follow+like。新規フォロー多数(ushaped/masaru65/aoi_journey/
+    satoupower/harupapa_nara/365_teacher/rosy_carp2435 他)、既フォロー分はidempotentにスキップ。
+  - **フォロワー総数: 47**(07-26=46 → +1。より前は42→46→47、さらに前の27停滞から着実に上昇)。
+    ※フォロワー増はフォローバック待ちでラグあり。今便のフォロー"out"は7件以上増。
+  - コメントは付けていない(重複投下=A5違反リスクの則を順守)。同一人物2回無し。
+
+  ■ 公開(残枠・全て既公開=0本が正解)
+  - ゲート動作確認(task1): バタバタ茶 → 「✗重複ゲート(題材キー)既公開 n92090a60679c」で**ブラウザ開かず即中断=合格**。self-fix不要。
+  - owner依頼の"残り4本"は**全て既公開**(ゲートが台帳/題材でブロック):
+    * 黒部峡谷トロッコ = n34be1f9c22f5
+    * かぶら寿司 = nc25b1a7f72fb
+    * 砺波のチューリップ = nc2a17d100e92
+    * 氷見潮風ギャラリー(藤子) = n99130059ffcf
+  - docs/unpublished_candidates.md も全滅(雨晴駅=ndeb612bc9ab8 / 甘えび=n56f284ca4fbf も既公開)=**リスト全体が陳腐化**。
+  - 結論: 本便の新規公開=**0本(正解)**。バックログは事実上出し切り(owner「supply過剰」を裏付け)。
+    本日カウントは 庭の七輪(04:45公開・下記registry)の**1本のみ**。cap未達だが出す新規在庫が無いため0。
+
+  ■ 重複解消(task0ほか・実測=既に対応済)
+  - 氷見牛2本目 nc7a3522ade60: 公開一覧に無し＋公開URLがプレースホルダ("note――つくる…"＋下書きmarker)
+    =**既に非公開(下書き)化済**。1本目は残存(正)。対応不要。
+  - 夏だけ朝 06-21重複: n826dc4bd09ea=**既に下書き化済** / n0615f5861d08=公開のまま(=1本だけ残る=正しい状態)。対応不要。
+
+  ■ registry desync 解消(A7)
+  - published_registry.json に 庭の七輪(n135853de0716・recorded_at 2026-07-28T04:45:48)が**未commit**だった
+    (STATE 07-27⑥で指摘のdesync)。→ 本便でcommit&pushして永続化。
+
+  ■ self-fix(commit対象)
+  - _cowork_growth.py の do_follow: noteがヘッダのフォローボタン(button.o-noteContentHeader__actionFollow)を廃止し
+    記事下部の作者プロフィールカード(.m-creatorProfile__actions / .m-follow 内の button.a-button)へ移設。
+    → セレクタを作者カード限定に修正(末尾おすすめクリエイターの誤フォロー防止)。**実機で"followed"を確認済**=有効。
+    discover も全タグround-robin+深めスクロールに修正(先頭人気=既フォロー飽和層を越えて新規に届かせる)。
+    ※機械的修正(セレクタ/探索範囲)のみ。公開ロジック/安全ガード/価格処理は不変更。
+  - ブラウザ: 全操作で ctx.close() 済(残骸なし)。
+
+  【次アクション(code/owner)】
+  1. code: STATE/CMO_index の「残り公開4本」を**全て✅公開へ訂正**(上記URL)。build_unpublished_candidates.py を再生成(全滅=陳腐化)。
+  2. code/owner: 被リンクを「recent/低回答スレ優先」にfinder再設計 or owner手動1本投稿(Quoraはログイン済で投稿可能状態)。
+  3. owner: Reddit を同プロファイルでログインすれば r/JapanTravelTips週次スレへ手動投稿の道も開く。
