@@ -82,5 +82,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
           git add -f CDO/outputs/note_publisher/thumbnails/_provenance.json || true
-          git diff --cached --quiet || git commit -m "auto: note用サムネを無料実写(Wikimedia/Pexels)から取得"
-          git push
+          if git diff --cached --quiet; then
+            echo "サムネ更新なし（取得ゼロ）＝commit/pushしない"
+            exit 0
+          fi
+          git commit -m "auto: note用サムネを無料実写(Wikimedia/Pexels)から取得"
+          # push前に main の進みを取り込む（並行commitでの非fast-forward拒否を回避）。最大5回リトライ。
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && { echo "push成功"; exit 0; }
+            echo "push失敗（$i回目）→再取得して再試行"
+            sleep 3
+          done
+          echo "::error::5回試しても push できませんでした"
+          exit 1
