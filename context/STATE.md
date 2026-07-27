@@ -4,7 +4,21 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-27⑥（★庭の七輪記事が公開済と判明＝https://note.com/safe_canna441/n/n135853de0716 。台帳✅公開更新。SEOリバイズ計12本も完了[note反映待ち]。下記参照）
+最終更新: 2026-07-28⑧（★owner がMacで7本新規公開＝URL採番済。台帳✅公開＋repo registry同期49→56。次の主戦場=集客/被リンク。下記参照）
+
+> ## 2026-07-28 ⑧ owner がMacで**7本を新規公開**（URL採番済）→台帳✅公開＋repo registry同期(49→56)
+> owner が `publish_to_note.py --text-only` ループで07-27作成の7本を公開。全て「重複ゲート通過（note検索ヒットなし）」で正常公開・URL採番。**CMO/_index.md を7行とも✅公開＋URLへ更新**、**repo published_registry.json に7件追記(49→56、Macと一致)**＝二重公開防止(A5/06-12インシデント再発防止)。
+> | 記事 | URL |
+> |---|---|
+> | 富山湾はなぜ魚の宝庫か | https://note.com/safe_canna441/n/ne9436e34e84c |
+> | 富山の水はなぜうまいのか | https://note.com/safe_canna441/n/n43ef5c46027e |
+> | 高岡で食べる_寿司と富山ブラック | https://note.com/safe_canna441/n/n0855af36e37e |
+> | 外国人は高岡に何を求めて来るのか | https://note.com/safe_canna441/n/n75f01c532069 |
+> | 高岡で本物と静けさを満たす場所 | https://note.com/safe_canna441/n/nf24e87d5fa8b |
+> | 庭の畑と採れたてレシピ | https://note.com/safe_canna441/n/nc188ca19aafa |
+> | 散居村_家が点在する風景 | https://note.com/safe_canna441/n/n80636011df5f |
+> - **registry desync注意**：repo側の追記 recorded_at はダミー(04:55:00)。Mac側が次のworker実行で registry を push すると title/url一致・timestamp差の軽微conflictの可能性→worker の `git pull --rebase` が吸収(dedupはtitle判定なので機能影響なし)。**Macは次のpublish前に必ず `git pull`**。
+> - 公開本数：07-28 に 7本(A5の1日5本ガードは手動実行のため非適用だが、以後は日次上限を意識)。バックログ消化が進み供給過剰は解消方向。次の主戦場＝**集客/被リンク**（worker報告：Quora鮮度スレ不在で保留中→finderをrecent/低回答優先へ再設計が次アクション）。
 
 > ## 2026-07-27 ⑦ 英語補正（owner「過去記事で英語未付記を補正」）→英語なしは有料3本のみと判明・補正済
 > **堅牢スキャン結果**：note記事189本中、英語なしは**わずか3本（すべて富山の有料商品）**。無料note記事は表記ゆれ（`## English (for overseas readers)`／`## English`等）で全て英語付与済み＝当初「150本なし」は見出し表記ゆれによる誤検出だった。
