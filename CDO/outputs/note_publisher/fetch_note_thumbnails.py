@@ -145,6 +145,16 @@ def query_for(title: str, stem: str) -> str:
     return "toyama japan landscape mountains"
 
 
+def load_verified() -> set:
+    """owner確認済みサムネのallowlist(_verified.txt)。ここに載るstemは自動取得で絶対に上書きしない。"""
+    f = THUMB_DIR / "_verified.txt"
+    try:
+        return {ln.strip() for ln in f.read_text(encoding="utf-8").splitlines()
+                if ln.strip() and not ln.strip().startswith("#")}
+    except Exception:
+        return set()
+
+
 def has_thumb(stem: str) -> bool:
     return any((THUMB_DIR / f"{stem}{e}").exists() for e in (".jpg", ".jpeg", ".png", ".webp"))
 
@@ -183,12 +193,16 @@ def main() -> None:
         flt = sys.argv[sys.argv.index("--filter") + 1]
 
     THUMB_DIR.mkdir(parents=True, exist_ok=True)
+    verified = load_verified()
     files = sorted(glob.glob(str(ARTICLES_DIR / "*note記事*.md")))
     ok = skip = miss = 0
     for f in files:
         p = Path(f)
         stem = p.stem
         if flt and flt not in p.name:
+            continue
+        if stem in verified:      # owner確認済み=絶対に上書きしない
+            skip += 1
             continue
         if not force and has_thumb(stem):
             skip += 1

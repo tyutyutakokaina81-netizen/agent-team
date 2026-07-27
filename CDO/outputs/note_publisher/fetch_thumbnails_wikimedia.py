@@ -33,10 +33,20 @@ REPO = SCRIPT_DIR.parents[2]
 ARTICLES_DIR = REPO / "CMO" / "outputs"
 THUMB_DIR = SCRIPT_DIR / "thumbnails"
 PROV_FILE = THUMB_DIR / "_provenance.json"
+VERIFIED_FILE = THUMB_DIR / "_verified.txt"
 GOOD_BACKENDS = {"openai", "gemini", "pollinations", "wikimedia", "pexels"}
 MIN_IMAGE_BYTES = 8000
 UA = "toyama-guide-thumbnailer/1.0 (https://github.com/tyutyutakokaina81-netizen/agent-team; free real photos)"
 API = "https://commons.wikimedia.org/w/api.php"
+
+
+def load_verified() -> set:
+    """owner確認済みサムネのallowlist(_verified.txt)。ここに載るstemは自動取得で絶対に上書きしない(--forceでも)。"""
+    try:
+        return {ln.strip() for ln in VERIFIED_FILE.read_text(encoding="utf-8").splitlines()
+                if ln.strip() and not ln.strip().startswith("#")}
+    except Exception:
+        return set()
 
 
 def load_prov() -> dict:
@@ -109,6 +119,7 @@ def main() -> None:
 
     THUMB_DIR.mkdir(parents=True, exist_ok=True)
     prov = load_prov()
+    verified = load_verified()
     files = sorted(glob.glob(str(ARTICLES_DIR / "*note記事*.md")))
     files = [f for f in files if (not args.filter or args.filter in Path(f).name)]
 
@@ -116,6 +127,8 @@ def main() -> None:
     for f in files:
         p = Path(f)
         if "サムネ生成プロンプト" in p.name:
+            continue
+        if p.stem in verified:      # owner確認済み=絶対に上書きしない(--forceでもスキップ)
             continue
         out = THUMB_DIR / f"{p.stem}.jpg"
         if out.exists() and not args.force and prov.get(p.stem) in GOOD_BACKENDS:

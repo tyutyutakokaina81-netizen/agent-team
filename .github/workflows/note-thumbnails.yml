@@ -16,11 +16,17 @@ name: Generate note thumbnails
 # 実行: Actions タブ → "Generate note thumbnails" → Run workflow（手動）
 
 on:
-  # 2026-07-15 ★自動トリガー(push)を撤去＝手動(workflow_dispatch)のみに変更。
-  # 理由: 自動取得サムネがWikimedia/Pexelsから地名と無関係の写真を拾う事故(氷見ギャラリー→NYグッゲンハイム、
-  #       雪の大谷→蔵王の桜 等)が判明し、owner実写も上書きしていた＝A5違反かつブランド毀損。
-  # publisher側で「_verified.txt に載る owner確認済みサムネのみ使用」へ変更済み。
-  # 以後この取得は"手動で確認しながら"だけ回す（自動で本文公開に混ざらない）。
+  # 2026-07-27 ★自動トリガー(push)を再有効化(owner承認)。owner「サムネ入り」の毎回手動Runをなくす。
+  # 以前OFFにした理由(誤サムネの自動公開・owner実写の上書き)は下記2重ガードで解消済み＝
+  #  (1) publisher: _verified.txt に載る owner確認済みstemのみ見出し画像に採用（未検証は無サムネ公開）。
+  #  (2) fetcher: _verified.txt 掲載stemは自動取得で上書きしない(--forceでも)＝owner実写を守る。
+  # ゆえに自動取得しても、取得画像は thumbnails/ に置かれるだけで、code が目視verifyして
+  # _verified.txt に登録するまで本文公開に一切使われない（誤サムネ事故は起きない）。
+  # bot は thumbnails/ と _provenance.json のみ commit するため push ループにならない。
+  push:
+    branches: [main]
+    paths:
+      - "CMO/outputs/**"
   workflow_dispatch:
     inputs:
       filter:
