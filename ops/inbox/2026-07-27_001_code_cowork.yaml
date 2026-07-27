@@ -14,6 +14,8 @@ owner個別依頼「庭で七輪を使った料理をnoteに掲載」。下記1�
 - 状態: 完成稿(本文約1,916字)・英語要約・事実検証ノート付き・parse OK・A4/A5順守
 - タイトル: 庭に七輪を出す。それだけで、夏の夜がごちそうになる。
 - サムネ: _verified.txt登録済(七輪+さんま)=見出し画像を自動採用
-公開コマンド例: python3 publish_to_note.py --article "CMO/outputs/2026-07-27_note記事_庭の七輪でプチ料理.md"
+公開コマンド(リポジトリ直下=~/agent-team-run から実行・本文に[写真①②]placeholderあり→--text-only必須):
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-27_note記事_庭の七輪でプチ料理.md" --text-only
+  ※見出しサムネは_verified.txt登録済のため--text-onlyでも自動採用される(本文の写真枠のみ除去)。
 順序: この1本を最優先→その後2026-07-27_go.txtの残り7本を1日5本枠・カテゴリ分散・重複ゲート順守で順次。
 必須: 公開URLを必ず報告(A5=URL報告なき公開禁止)。¥0・認証情報打鍵しない・ブラウザ後始末。
