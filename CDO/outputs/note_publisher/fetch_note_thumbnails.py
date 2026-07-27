@@ -36,9 +36,9 @@ KEY = os.environ.get("PEXELS_API_KEY")
 # 日本語タイトル/ファイル名の部分一致 → Pexels/Wikimedia検索語（具体的なものを先に置く＝先勝ち）
 RULES = [
     # 2026-07 新分野・リサーチ記事の追加（default「富山の山写真」への誤落ちを防ぐ＝A5/誤サムネ根治）
-    ("七輪", "charcoal grill grilled food japan"),
-    ("炭火", "charcoal grill grilled food japan"),
-    ("散居村", "Tonami plain rural landscape rice fields japan"),
+    ("七輪", "shichirin charcoal grill japan"),
+    ("炭火", "shichirin charcoal grill japan"),
+    ("散居村", "Tonami plain scattered houses aerial japan"),
     ("砺波平野", "Tonami plain rural landscape rice fields japan"),
     ("屋敷林", "farmhouse trees rural japan"),
     ("北アルプス", "Tateyama mountain range snow japan"),
@@ -46,8 +46,8 @@ RULES = [
     ("名水", "clear mountain stream water japan"),
     ("富山湾", "Toyama bay sea coast japan"),
     ("魚の宝庫", "fish market seafood japan"),
-    ("庭の畑", "home vegetable garden summer"),
-    ("家庭菜園", "home vegetable garden summer"),
+    ("庭の畑", "kitchen garden vegetables japan"),
+    ("家庭菜園", "kitchen garden vegetables japan"),
     ("夏野菜", "summer vegetables harvest"),
     ("採れたて", "fresh summer vegetables harvest"),
     ("本物と静けさ", "Takaoka Kanayamachi old street japan"),
