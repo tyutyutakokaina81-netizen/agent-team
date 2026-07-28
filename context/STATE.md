@@ -4,7 +4,11 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-28⑰（「続き」→英語ガイド新ページ en-dialect(kitokito/方言)を新観点noteと連動で作成・ハブ/sitemap登録[孤立0]。下記参照）
+最終更新: 2026-07-28⑱（「続けて」→英語ガイド新ページ en-temple-bells(梵鐘/音)を作成・en-copperware双方向+sitemap登録[孤立0/en110本]。下記参照）
+
+> ## 2026-07-28 ⑱ 「続けて」→英語ガイド新ページ en-temple-bells.html(梵鐘/the sound of Japan)を作成
+> ⑰(方言)に続き音(梵鐘note⑨)をガイド化：`apps/toyama-guide/en-temple-bells.html`。検索intent="where are Japan's temple bells made"→Takaoka。梵鐘/おりん/錫の音色/金屋町/高岡大仏。en-copperwareと**双方向リンク**・en-takaoka/en-itinerary/en-things-to-doへ内部リンク。en.html「Towns&sights」節+sitemap.xml(0.7)登録→**孤立0(en110本)**。A5=シェアは断定せず「a large proportion/claim・not every bell」明記・fact-checkノート。テンプレ厳密踏襲。Mac不要でGitHub Pages公開。
+> - 集客の一貫した打ち手(本セッション)：finder v2→孤立29解消+sitemap新設→en-dialect→en-temple-bells。次候補：暮らし(家の広さ)ガイド化/公開バックログのMac公開/finder実行。
 
 > ## 2026-07-28 ⑰ 「続き」→英語ガイド新ページ en-dialect.html(Toyama方言/kitokito)を作成＝新観点noteのガイド化
 > ⑯のガイド強化に続き、**言語系ページ(未存在)の新intent**を取りに新ページ作成：`apps/toyama-guide/en-dialect.html`。kitokito(=fresh/lively・富山きときと空港)＋なーん/つかえん。新観点note(方言⑬)と連動＝クロスチャネル。既存テンプレ(head/canonical/OG/hreflang/JSON-LD/CSS/footer)を厳密踏襲、en-shiroebi/en-foodへ相互リンク。en.html「Practical」節＋sitemap.xml(priority0.7)に追加→**孤立0維持(en 109本)**。A5=辞書的定義でないと明記・fact-checkノート・県民気質は印象と明記。Mac不要でGitHub Pages公開＝海外に直届く。
