@@ -29,6 +29,10 @@ REPO = HERE.parents[2]
 ARTICLES = REPO / "CMO" / "outputs"
 FOOTER_MARK = "▼ あわせて読む"
 NOTE_BASE = "https://note.com/safe_canna441/n/"
+# 英語ガイドへの導線（North Star＝海外読者。note読者→英語ガイドへ流す・全記事フッター共通）
+GUIDE_URL = "https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en.html"
+GUIDE_CTA = ("🌍 For overseas readers (海外の方・海外の友人へ): a local's free English guide to "
+             "Toyama, Takaoka & Himi → " + GUIDE_URL)
 
 FOOD = ["食", "丼", "寿司", "うどん", "そば", "そうめん", "ラーメン", "おでん", "大根", "昆布", "かまぼこ",
         "ブリ", "フクラギ", "ノドグロ", "白えび", "ホタルイカ", "バイ貝", "鮎", "かに", "ずわい", "干物",
@@ -109,7 +113,8 @@ def build_footer(title: str) -> str:
         f"{FOOTER_MARK}\n"
         f"・{a['title']}\n{NOTE_BASE}{a['note_id']}\n"
         f"・{b['title']}\n{NOTE_BASE}{b['note_id']}\n\n"
-        f"{cta}"
+        f"{cta}\n\n"
+        f"{GUIDE_CTA}"
     )
 
 

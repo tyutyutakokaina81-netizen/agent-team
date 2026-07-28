@@ -4,7 +4,10 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-29②（配布0→1の摩擦最小化＝「今日の1投稿パック_owner用」作成[貼る文/貼る先/1リンク完備]。owner手動1件/日が唯一の解。下記参照）
+最終更新: 2026-07-29③（note→英語ガイドの導線ゼロを修正＝gen_footers.pyに二言語ガイドCTAを追加[今後の全記事フッターに波及]。下記参照）
+
+> ## 2026-07-29 ③ note→英語ガイドの funnel がゼロだった→フッター生成器に二言語ガイドCTAを追加
+> 発見：noteフッター(gen_footers.py)に英語ガイド導線が無く、**noteの既存読者→英語ガイド(North Star)へ流す線がゼロ**の取りこぼし。→ `CDO/outputs/note_footer/gen_footers.py` の build_footer に **`🌍 For overseas readers …a local's free English guide… → /toyama/en.html`** を全フッター共通で追加(dry-run検証OK)。以後 --embed-from / --paste で生成する全記事フッターがガイドへ誘導＝波及大(既存トラフィックの再利用)。既公開分への反映はcowork/ownerがフッター貼付時に乗る。
 
 > ## 2026-07-29 ② 配布を0→1にする摩擦最小化＝「今日の1投稿パック(owner用)」作成
 > 配布の投稿は自動化不能(前項)＝owner手動1件/日が唯一の解。考える負担をゼロにするため `projects/2026-07-12_集客KDP_10ワーカー/2026-07-29_今日の1投稿パック_owner用.md` を作成：①貼る先の探し方(Reddit sort=new/週次スレ/Google経由Quora・鮮度低回答優先)②そのまま貼るReddit向け本文(価値先行・富山/高岡/氷見の要点・リンク1本=en-off-beaten-path)③投稿ログ表④予備文2種(日帰り=en-daytrip/アルペン=en-alpine-season)。A5=断定数値なし・リンク1本・9:1・無風日は貼らない。**owner が今日これを1回貼れば配布実績0→1**。
