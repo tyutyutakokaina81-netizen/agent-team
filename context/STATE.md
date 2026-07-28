@@ -4,7 +4,13 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-28⑮（「次」→ボトルネック=集客へ。被リンクfinder v2[recent/低回答スレ優先の探索クエリ集]作成＋cowork指示投函。下記参照）
+最終更新: 2026-07-28⑯（「続き」→英語ガイドのSEO穴を修正: 孤立29ページをen.htmlに内部リンク化[孤立0]＋sitemap.xml/robots.txt新規作成[145URL]。下記参照）
+
+> ## 2026-07-28 ⑯ 「続き」→英語ガイド(apps/toyama-guide)のSEO穴を修正＝孤立29ページ解消＋sitemap新設
+> 被リンクが指す先＝英語ガイド(GitHub Pages・codeが直接改善可・Mac不要で海外に直届く)を強化。QCで**孤立29ページ**(どのhtmlからも未リンク＝発見不能・内部リンク価値ゼロ)と**sitemap.xml不在**を発見→両方修正。
+> - en.html「Explore the guide」に5小節(More food&drink/More towns&sights/Seasons&festivals/Is it worth it/Practical)を追加し孤立29本を全内部リンク化→**孤立0**(en 108本全て被リンク)。
+> - `sitemap.xml`(145URL・全html)＋`robots.txt`(Sitemap参照)を新規作成。既存canonicalと同じbase(github.io/agent-team/toyama/)。
+> - 効果：孤立ページにクロール優先度と内部リンク equity が回り、海外検索での露出改善が見込める(A5＝断定せず"見込み")。実測は今後のsearch console等で確認要。次候補：本文内リンクの相互補強/新観点note題材(音/暮らし/方言)のガイド化。
 
 > ## 2026-07-28 ⑮ 「次」→記事量産でなくボトルネック(被リンク/集客)に着手＝finder v2作成
 > 供給は十分(公開待ち多数)なので勝ち筋=集客へ。worker報告の詰まり「良質な鮮度スレ不在」に対し、**recent/低回答スレを surface する探索クエリ集**を作成：`projects/2026-07-12_集客KDP_10ワーカー/2026-07-28_被リンクfinder_v2_recent低回答優先.md`。中身＝(A)Google時間フィルタ+site:quora.com (B)Reddit search sort=new のクエリ列、しきい値(30日以内/回答5件未満/具体/ページ直結)、Quora/Reddit投稿ルール(初週リンク無し良回答で信頼構築・9:1・A5)、無風日の代替。**finderは自動化せず手動運用**(BAN/規約回避)。cowork実行指示を ops/inbox/2026-07-28_001 に投函。投稿ドラフト自体は既存9本で不足なし＝課題は"投稿先の鮮度"のみだった。
