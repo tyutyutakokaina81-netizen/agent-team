@@ -13,6 +13,7 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
+| 2026-07-29 | 2026-07-29_note記事_夏のなす料理_採れすぎたなすを食べ切る.md | 暮らし/家庭料理(なす) | owner「ナス料理を記事に」→家庭菜園(育てる/おすそわけ)と別の『食べ切る＝調理法』側。焼きなす/なす味噌炒め/揚げびたし/浅漬けの4定番。夏の採れすぎと地続き。North Star=日本の夏の家庭料理を海外へ。英語本文内併記。うちの一例でヘッジA5・特定店評価なし・火/油の安全喚起・A4私的情報なし・事実検証ノート | 作成済・公開待ち |
 | 2026-07-28 | 2026-07-28_note記事_家庭菜園は採れすぎる_おすそわけの夏.md | 暮らし/家庭菜園(別角度) | owner「家庭菜園もネタに」→既存(育てる+レシピ)と別角度=「夏に採れすぎる→ご近所おすそわけ(地域文化)」。⑪広い家と地続き。North Star=海外に見えにくい日本の夏のご近所文化。英語本文内併記。一次観察/うちの一例でヘッジA5・A4私的情報なし・事実検証ノート | ✅公開 https://note.com/safe_canna441/n/ndd9254085506 |
 | 2026-07-28 | apps/toyama-guide/en-temple-bells.html | 英語ガイド新ページ(音/工芸) | 「続けて」集客=音(梵鐘note⑨)のガイド化。where Japan's temple bells are cast=Takaoka(the sound of Japan)のユニーク検索intent。en-copperwareと双方向リンク・en.html Towns節+sitemap追加(孤立0)。シェアは断定せず「a large proportion/claim」・fact-checkノート・テンプレ踏襲 | 作成済・公開(GitHub Pages反映待ち) |
 | 2026-07-28 | apps/toyama-guide/en-dialect.html | 英語ガイド新ページ(言語/文化) | 「続き」集客=新観点noteと連動。Toyama dialect/kitokito(+なーん/つかえん)。言語系ページ未存在の新intent流入狙い。en.html Practical節+sitemapに追加(孤立0)。テンプレ厳密踏襲・A5=辞書的定義でないと明記・fact-checkノート | 作成済・公開(GitHub Pages反映待ち) |

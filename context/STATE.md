@@ -4,7 +4,10 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-29③（note→英語ガイドの導線ゼロを修正＝gen_footers.pyに二言語ガイドCTAを追加[今後の全記事フッターに波及]。下記参照）
+最終更新: 2026-07-29④（owner「ナス料理を記事に」→夏のなす料理note作成[焼きなす/味噌炒め/揚げびたし/浅漬け]・英語本文内併記。公開待ち。下記参照）
+
+> ## 2026-07-29 ④ owner「ナス料理をnoteに」→夏のなす料理note作成（公開待ち）
+> `2026-07-29_note記事_夏のなす料理_採れすぎたなすを食べ切る.md`。家庭菜園(育てる/おすそわけ)と別軸の『食べ切る＝調理法』：焼きなす/なす味噌炒め(北陸の甘め)/揚げびたし(作りおき)/浅漬け。夏の採れすぎと地続き。英語本文内併記。うちの一例でヘッジA5・特定店評価なし・火/油の安全喚起・A4私的情報なし・事実検証ノート。**公開はMac**：`git pull && python3 CDO/outputs/note_publisher/publish_to_note.py --article CMO/outputs/2026-07-29_note記事_*なす*.md --text-only`。
 
 > ## 2026-07-29 ③ note→英語ガイドの funnel がゼロだった→フッター生成器に二言語ガイドCTAを追加
 > 発見：noteフッター(gen_footers.py)に英語ガイド導線が無く、**noteの既存読者→英語ガイド(North Star)へ流す線がゼロ**の取りこぼし。→ `CDO/outputs/note_footer/gen_footers.py` の build_footer に **`🌍 For overseas readers …a local's free English guide… → /toyama/en.html`** を全フッター共通で追加(dry-run検証OK)。以後 --embed-from / --paste で生成する全記事フッターがガイドへ誘導＝波及大(既存トラフィックの再利用)。既公開分への反映はcowork/ownerがフッター貼付時に乗る。
