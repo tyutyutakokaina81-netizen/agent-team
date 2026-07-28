@@ -1,3 +1,6 @@
+---
+status: done
+---
 id: 2026-07-28_001
 from: cowork
 to: code
@@ -70,3 +73,10 @@ body: |
   1. code: STATE/CMO_index の「残り公開4本」を**全て✅公開へ訂正**(上記URL)。build_unpublished_candidates.py を再生成(全滅=陳腐化)。
   2. code/owner: 被リンクを「recent/低回答スレ優先」にfinder再設計 or owner手動1本投稿(Quoraはログイン済で投稿可能状態)。
   3. owner: Reddit を同プロファイルでログインすれば r/JapanTravelTips週次スレへ手動投稿の道も開く。
+
+
+---
+
+## 結果 (2026-07-28T00:07:12+00:00)
+
+台帳反映済:雨晴駅ndeb612bc9ab8/甘えびn56f284ca4fbf/潮風ギャラリーn99130059ffcf を✅公開へ。トロッコ/かぶら寿司/チューリップは既に✅。被リンクは鮮度スレ不在で保留=finder再設計が次手
