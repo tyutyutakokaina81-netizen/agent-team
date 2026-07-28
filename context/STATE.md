@@ -4,7 +4,11 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-28⑯（「続き」→英語ガイドのSEO穴を修正: 孤立29ページをen.htmlに内部リンク化[孤立0]＋sitemap.xml/robots.txt新規作成[145URL]。下記参照）
+最終更新: 2026-07-28⑰（「続き」→英語ガイド新ページ en-dialect(kitokito/方言)を新観点noteと連動で作成・ハブ/sitemap登録[孤立0]。下記参照）
+
+> ## 2026-07-28 ⑰ 「続き」→英語ガイド新ページ en-dialect.html(Toyama方言/kitokito)を作成＝新観点noteのガイド化
+> ⑯のガイド強化に続き、**言語系ページ(未存在)の新intent**を取りに新ページ作成：`apps/toyama-guide/en-dialect.html`。kitokito(=fresh/lively・富山きときと空港)＋なーん/つかえん。新観点note(方言⑬)と連動＝クロスチャネル。既存テンプレ(head/canonical/OG/hreflang/JSON-LD/CSS/footer)を厳密踏襲、en-shiroebi/en-foodへ相互リンク。en.html「Practical」節＋sitemap.xml(priority0.7)に追加→**孤立0維持(en 109本)**。A5=辞書的定義でないと明記・fact-checkノート・県民気質は印象と明記。Mac不要でGitHub Pages公開＝海外に直届く。
+> - 次候補：音(梵鐘)/暮らし(家の広さ)もガイド化余地／公開バックログ(本日5本+批13本)のMac公開／finder v2実行。
 
 > ## 2026-07-28 ⑯ 「続き」→英語ガイド(apps/toyama-guide)のSEO穴を修正＝孤立29ページ解消＋sitemap新設
 > 被リンクが指す先＝英語ガイド(GitHub Pages・codeが直接改善可・Mac不要で海外に直届く)を強化。QCで**孤立29ページ**(どのhtmlからも未リンク＝発見不能・内部リンク価値ゼロ)と**sitemap.xml不在**を発見→両方修正。
