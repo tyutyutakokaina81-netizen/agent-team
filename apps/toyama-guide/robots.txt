@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/sitemap.xml

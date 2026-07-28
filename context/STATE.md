@@ -4,7 +4,12 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-28⑳（★本日の新観点6本すべて公開完了・URL採番→台帳✅+registry同期62件。下記参照）
+最終更新: 2026-07-28㉑（「足りないこと即実行」→配信されるルートsitemapに新2ページ欠落を発見・追加[177URL]。計測はGA_ID空=owner作業のみ残。下記参照）
+
+> ## 2026-07-28 ㉑ 「足りないこと即実行」→配信sitemapの穴を修正＋計測の残作業を特定
+> 監査で判明：(1)pages.ymlは**ルートsitemap `apps/ai-agency-hp/sitemap.xml`(→_site/sitemap.xml, robots参照済)を配信**し、私が⑯で作った`apps/toyama-guide/sitemap.xml`は**未配信の冗長**だった。(2)そのルートsitemapに**新2ページ(en-dialect/en-temple-bells)が欠落**＝クロールされない状態。
+> - 修正：ルートsitemapのtoyamaセクションを実ファイルから再生成し**新2ページ追加(総177URL/toyama148・既存lastmod温存・XML妥当)**。冗長な`apps/toyama-guide/sitemap.xml`と(project-pagesで無効な)`robots.txt`は削除して正本に一本化。IndexNow(Bing/Yandex)とroot robotsのSitemap参照でクロール導線は生きている。
+> - **計測はowner作業のみ残**：`apps/ai-agency-hp/analytics.js`は**GA_ID=""(空)＝GA4未起動**。owner が analytics.google.com でプロパティ作成→測定ID(G-XXXX)を貼れば全147ページで計測開始(codeは代行不可)。Search Console所有権確認ファイルはroot配信済＝サイト全体は検証カバー、あとはSC作成とGA4のみ。
 
 > ## 2026-07-28 ⑳ ★本日の新観点6本すべてMac公開完了→台帳✅+repo registry同期(56→62)
 > owner がMacで本日分6本を全公開・URL採番。**CMO/_index.md 6行を✅公開+URL**、**repo registry 6件追記(56→62、Macと一致)**。
