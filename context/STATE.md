@@ -4,7 +4,11 @@
 > Claude はタスク開始前に必ずここを最初に読むこと。
 > コンテナは使い捨てのため、**記憶はここに書いて commit & push しない限り消える**。
 
-最終更新: 2026-07-28㉑（「足りないこと即実行」→配信されるルートsitemapに新2ページ欠落を発見・追加[177URL]。計測はGA_ID空=owner作業のみ残。下記参照）
+最終更新: 2026-07-28㉒（「すべて承認」→死リンクCTA×50ページを実在¥100英語ガイドへ繋ぎ替え。残GA4 IDのみowner作業。下記参照）
+
+> ## 2026-07-28 ㉒ 「すべて承認」→死リンクCTA×50ページを実在商品へ繋ぎ替え（即実行）
+> 英語ガイド50ページのebook CTAが `#get-the-book`（遷移先なし＝押しても無反応）だった→owner承認のもと、実在・公開済みの**¥100英語ガイド(note nba958ccd6cb8「12 things a local won't skip」)**へ全50件を繋ぎ替え＋文言を真実に統一（Kindle断定を撤去）。残存死リンク0・A5順守(実在商品のみ)。
+> - **残る唯一のowner作業＝GA4測定ID**：analytics.js の `GA_ID=""` に `G-XXXX` を貼れば全147ページで計測開始（承認済だがID値はowner取得必須＝codeは代行不可）。IDをもらい次第 code が即反映しデプロイ。
 
 > ## 2026-07-28 ㉑ 「足りないこと即実行」→配信sitemapの穴を修正＋計測の残作業を特定
 > 監査で判明：(1)pages.ymlは**ルートsitemap `apps/ai-agency-hp/sitemap.xml`(→_site/sitemap.xml, robots参照済)を配信**し、私が⑯で作った`apps/toyama-guide/sitemap.xml`は**未配信の冗長**だった。(2)そのルートsitemapに**新2ページ(en-dialect/en-temple-bells)が欠落**＝クロールされない状態。
