@@ -67,6 +67,16 @@ RULES = [
     ("かぼちゃ", "kabocha squash japanese"), ("枝豆", "edamame soybeans"),
     ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
     ("浅漬け", "japanese pickles tsukemono"),
+    # 過去記事QCで判明した誤サムネ(山夕景/無関係)の穴埋め・2026-07-29②追加（具体名を先に＝黒部ダムは黒部峡谷より前）
+    ("黒部ダム", "kurobe dam concrete water reservoir japan"), ("ダム", "concrete dam reservoir water"),
+    ("西瓜", "watermelon fruit"), ("スイカ", "watermelon fruit"), ("すいか", "watermelon fruit"),
+    ("カレー", "curry rice japanese food"),
+    ("栃餅", "mochi rice cake japanese"), ("とち餅", "mochi rice cake japanese"),
+    ("県美術館", "modern art museum architecture"), ("美術館", "modern art museum architecture"),
+    ("TAD", "modern art museum architecture"),
+    ("風鈴", "japanese wind chime hanging"), ("ホタル", "firefly night glow"), ("蛍", "firefly night glow"),
+    ("おわら", "japanese folk dance festival evening"), ("風の盆", "japanese folk dance festival evening"),
+    ("木彫り", "wood carving craft chisel"), ("井波", "wood carving craft workshop"),
     # 食（実写ヒット率を上げる追加分・具体的なものを先に）
     ("紅ずわい", "red snow crab"), ("ずわい", "snow crab"), ("かに", "snow crab seafood"),
     ("バイ貝", "whelk shellfish"), ("フクラギ", "yellowtail fish"), ("フクラギ", "yellowtail fish"),
