@@ -55,6 +55,18 @@ RULES = [
     ("高岡に何を", "Takaoka Daibutsu great buddha japan"),
     ("求めて", "Takaoka Daibutsu great buddha japan"),
     ("砂糖", "japanese home cooking kitchen"),
+    # 家庭料理の野菜（夏野菜/常備野菜シリーズ・default「山写真」への誤落ち防止＝A5/誤サムネ根治・2026-07-29追加）
+    ("焼きなす", "grilled eggplant japanese food"), ("なす", "eggplant dish japanese food"),
+    ("しそ", "shiso perilla green leaves"), ("大葉", "shiso perilla green leaves"),
+    ("もろきゅう", "cucumber miso japanese food"), ("たたききゅうり", "smashed cucumber dish"),
+    ("きゅうり", "cucumber fresh vegetable food"),
+    ("肉じゃが", "nikujaga potato stew japanese"), ("ポテトサラダ", "potato salad food"),
+    ("じゃがバター", "baked potato butter"), ("新じゃが", "boiled small potatoes food"),
+    ("じゃがいも", "potato dish japanese food"),
+    ("トマト", "fresh tomato food"), ("ピーマン", "green bell pepper vegetable"),
+    ("かぼちゃ", "kabocha squash japanese"), ("枝豆", "edamame soybeans"),
+    ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
+    ("浅漬け", "japanese pickles tsukemono"),
     # 食（実写ヒット率を上げる追加分・具体的なものを先に）
     ("紅ずわい", "red snow crab"), ("ずわい", "snow crab"), ("かに", "snow crab seafood"),
     ("バイ貝", "whelk shellfish"), ("フクラギ", "yellowtail fish"), ("フクラギ", "yellowtail fish"),
@@ -129,6 +141,9 @@ RULES = [
     ("顧客の声", "notebook coffee desk"), ("会社を持てる", "laptop minimal workspace"),
     ("途中経過", "notebook charts desk"), ("個人発信", "laptop writing desk"),
     ("気力切れ", "calm desk window coffee"), ("月10万", "laptop desk work growth"),
+    # ★catch-all（RULES最終・料理/レシピ系は山写真でなく家庭料理写真へ寄せる＝A5誤サムネ防止・2026-07-29）
+    ("料理", "japanese home cooking dish"), ("レシピ", "japanese home cooking dish"),
+    ("食べ切る", "japanese home cooking dish"), ("食べ方", "japanese home cooking dish"),
 ]
 
 FOOD_HINT = ("寿司", "ぶり", "コロッケ", "えび", "昆布", "そば", "おでん", "牛", "豆腐",
