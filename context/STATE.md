@@ -6,6 +6,8 @@
 
 最終更新: 2026-07-29⑮（owner「いまの車について記事書いて公開して」→暮らしエッセイ『車は第二の部屋』作成。既存"一人一台社会論"と別軸=車内が生活空間になる描写で非重複。英語本文内併記・A4/A5順守。Mac公開待ち。下記参照）
 
+> ## 2026-07-29 ⑰ 車記事サムネ：Action取得→**目視verify合格**→_verified登録。車記事はサムネ付きで公開可に
+> owner「すべて」(=A承認)でbranchをmainへff反映(4dc817d)→push発火のnote-thumbnails Actionが車サムネ取得(df60bcc)。**code目視verify**：車記事(車内キーワード)＝**赤い車の車内(前席/ダッシュボード/ハンドル)の実写＝記事『車は第二の部屋』に完全一致→✅_verified登録**。一方 富山の車社会_一人一台 は既存の**山夕景使い回し(77777B)をfetcherがスキップ→不適合→_rejected記録＋jpg削除**(将来car語で再取得可)。**publisher修正もmainに載った**ので、車記事は`--by-date`/`--article`(text-only)で**見出し画像付きで公開**できる。
 > ## 2026-07-29 ⑯ 【インシデント】じゃがいも二重投稿＋サムネ未反映。原因＝branch/main乖離＋台帳リセットの競合
 > **事実**：なす(n097cca9fa4a6)✅ しそ(n0d4f1b490d09)✅ きゅうり(nc54ca5114fa2)✅／じゃがいも**2本重複**=n710f16d5c152 と nca13899b62c5。じゃがいも・きゅうりは**見出し画像未設定**で公開された。
 > **原因1(サムネ未反映)**：publisher修正(text-onlyでも_verified済サムネを付ける・b83d775)は**branchのみ、origin/mainは67472a3のまま未反映**。公開はmainクローン(agent-team-run)から走り旧仕様(text_only→見出し画像None)で出た。owner実行の`git checkout -B ブランチ origin/ブランチ`は**fetch不足で"not a commit"失敗**し修正版に切替わらず。
