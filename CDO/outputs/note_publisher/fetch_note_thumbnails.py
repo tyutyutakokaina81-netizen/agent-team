@@ -143,6 +143,7 @@ RULES = [
     ("川遊び", "mountain stream rocks clear water green"), ("川で遊", "mountain stream rocks clear water green"),
     ("火を使わない", "zaru somen noodles bamboo colander"), ("そうめん", "zaru somen noodles bamboo colander"),
     ("鱒寿司", "trout pressed sushi bamboo"), ("ますのすし", "trout pressed sushi bamboo"),
+    ("かき氷", "kakigori shaved ice dessert"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
