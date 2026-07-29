@@ -1,0 +1,5 @@
+# サムネ再取得トリガー (2026-07-29 code)
+目的: 過去記事のサムネ「完璧化」。query_for改良済(食材/料理/西瓜/カレー/栃餅/美術館/風鈴/ホタル/おわら/黒部ダム/木彫り等)。
+誤サムネ削除済みの記事＋候補未取得の記事を、note-thumbnails.yml が改良キーワードで再取得する。
+_verified.txt 登録済み(owner確認/code目視verify済)は上書きされない(load_verified保護)。
+取得後: code が thumbnails/ の新規画像を目視verify→適合のみ _verified 追記→cowork が公開noteへ見出し画像設定(ops/inbox/2026-07-29_001系)。
