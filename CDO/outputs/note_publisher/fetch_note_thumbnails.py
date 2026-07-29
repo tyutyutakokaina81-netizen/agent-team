@@ -140,6 +140,7 @@ RULES = [
     # 海・夏（海水浴＝砂浜/海の実写へ。魚介記事の"富山湾"より前に置くと魚に寄るので固有トークン限定）
     ("海水浴", "japan beach sea summer"), ("海で泳ぐ", "japan beach sea summer"),
     ("花火大会", "japanese fireworks festival night"), ("花火", "japanese fireworks festival night"),
+    ("川遊び", "clear mountain river stream japan"), ("川で遊", "clear mountain river stream japan"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
