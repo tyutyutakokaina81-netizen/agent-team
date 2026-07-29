@@ -19,3 +19,31 @@ owner要望『公開済みの過去記事にサムネがない→挿入して』
 5. 外国人は高岡に何を求めて来るのか / n75f01c532069 / thumbnails/2026-07-27_note記事_外国人は高岡に何を求めて来るのか.jpg
 
 ※他の公開済み記事は現在サムネ候補が誤り/未取得のため対象外。改良キーワードで再取得後に順次追加する(別便)。owner実写があれば最優先で差し替え可。
+body: |
+  owner『過去記事にサムネがない→挿入』。code目視verify済みの適合サムネ(計24本)を、公開済みnoteの見出し画像として設定する。画像は git pull で取得(CDO/outputs/note_publisher/thumbnails/<stem>.jpg)。手順:各記事の編集画面(URLがあれば https://editor.note.com/notes/<id>/edit、無ければnoteでタイトル検索して自分の記事を開く)→見出し画像(eyecatch)に該当jpgをアップロード→更新。本文/タイトル/公開状態は変更しない。1便で数本ずつでよい。完了分をoutboxに報告(どの記事に設定したか)。未公開stemは対象外(公開時に自動採用される)。UIで詰まったらself-fix、2回で通らなければ報告。
+  
+  対象(stem / note URL / 画像path):
+  - 2026-07-27_note記事_富山湾はなぜ魚の宝庫か / https://note.com/safe_canna441/n/ne9436e34e84c / thumbnails/2026-07-27_note記事_富山湾はなぜ魚の宝庫か.jpg
+  - 2026-07-27_note記事_富山の水はなぜうまいのか / https://note.com/safe_canna441/n/n43ef5c46027e / thumbnails/2026-07-27_note記事_富山の水はなぜうまいのか.jpg
+  - 2026-07-27_note記事_庭の七輪でプチ料理 / https://note.com/safe_canna441/n/n135853de0716 / thumbnails/2026-07-27_note記事_庭の七輪でプチ料理.jpg
+  - 2026-07-08_note記事_jinzu-river-ayu-summer / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-08_note記事_jinzu-river-ayu-summer.jpg
+  - 2026-07-23_note記事_呉羽山からの立山連峰 / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-23_note記事_呉羽山からの立山連峰.jpg
+  - 2026-07-28_note記事_家庭菜園は採れすぎる_おすそわけの夏 / https://note.com/safe_canna441/n/ndd9254085506 / thumbnails/2026-07-28_note記事_家庭菜園は採れすぎる_おすそわけの夏.jpg
+  - 2026-07-27_note記事_高岡で食べる_寿司と富山ブラック / https://note.com/safe_canna441/n/n0855af36e37e / thumbnails/2026-07-27_note記事_高岡で食べる_寿司と富山ブラック.jpg
+  - 2026-07-27_note記事_高岡で本物と静けさを満たす場所 / https://note.com/safe_canna441/n/nf24e87d5fa8b / thumbnails/2026-07-27_note記事_高岡で本物と静けさを満たす場所.jpg
+  - 2026-07-27_note記事_庭の畑と採れたてレシピ / https://note.com/safe_canna441/n/nc188ca19aafa / thumbnails/2026-07-27_note記事_庭の畑と採れたてレシピ.jpg
+  - 2026-07-27_note記事_外国人は高岡に何を求めて来るのか / https://note.com/safe_canna441/n/n75f01c532069 / thumbnails/2026-07-27_note記事_外国人は高岡に何を求めて来るのか.jpg
+  - 2026-07-08_note記事_nyuzen-jumbo-watermelon-summer / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-08_note記事_nyuzen-jumbo-watermelon-summer.jpg
+  - 2026-07-23_note記事_氷見カレー / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-23_note記事_氷見カレー.jpg
+  - 2026-07-29_note記事_じゃがいも料理_常備のいちばん / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-29_note記事_じゃがいも料理_常備のいちばん.jpg
+  - 2026-07-29_note記事_夏のきゅうり料理_冷やして食べ切る / (URL未記録=note内でタイトル検索) / thumbnails/2026-07-29_note記事_夏のきゅうり料理_冷やして食べ切る.jpg
+  - 2026-05-28_note記事_おとぎの森公園_世界が会いに来ていた / (URL未記録=note内でタイトル検索) / thumbnails/2026-05-28_note記事_おとぎの森公園_世界が会いに来ていた.jpg
+  - 2026-05-30_note記事_岩瀬の町並み_北前船の廻船問屋 / (URL未記録=note内でタイトル検索) / thumbnails/2026-05-30_note記事_岩瀬の町並み_北前船の廻船問屋.jpg
+  - 2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給 / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給.jpg
+  - 2026-06-03_note記事_高岡コロッケ_鋳物の町のB級グルメ / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-03_note記事_高岡コロッケ_鋳物の町のB級グルメ.jpg
+  - 2026-06-03_note記事_五箇山豆腐_縄でしばれる固さ / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-03_note記事_五箇山豆腐_縄でしばれる固さ.jpg
+  - 2026-06-04_note記事_称名滝_落差350mの日本一 / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-04_note記事_称名滝_落差350mの日本一.jpg
+  - 2026-06-06_note記事_氷見うどん_細さは漁師町の知恵 / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-06_note記事_氷見うどん_細さは漁師町の知恵.jpg
+  - 2026-06-07_note記事_富山の地ビール / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-07_note記事_富山の地ビール.jpg
+  - 2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる.jpg
+  - 2026-06-09_note記事_富山の塩蔵わかめ_海の保存食 / (URL未記録=note内でタイトル検索) / thumbnails/2026-06-09_note記事_富山の塩蔵わかめ_海の保存食.jpg
