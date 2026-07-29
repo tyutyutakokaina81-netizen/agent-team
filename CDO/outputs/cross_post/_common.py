@@ -20,9 +20,18 @@ def parse_article(md_path: Path) -> dict:
     m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", text, re.S)
     out["body_ja"] = m.group(1).strip() if m else ""
 
-    # 英語要約（本文内の 🌏 For English readers セクション）
+    # 英語要約：①本文内 🌏 For English readers ②## 英語要約 ブロック ③本文内 【English】ブロック の順に探す
+    # (2026-07-30 追加: 新記事は「## 英語要約」/本文末【English】形式のため①だけだと空になっていた)
     m = re.search(r"🌏 For English readers.*?\n(.+?)(?=\n```|\n---|\Z)", out["body_ja"], re.S)
-    out["en_summary"] = m.group(1).strip() if m else ""
+    if m:
+        out["en_summary"] = m.group(1).strip()
+    else:
+        m2 = re.search(r"##\s*英語要約.*?\n```\n(.+?)\n```", text, re.S)
+        if m2:
+            out["en_summary"] = m2.group(1).strip()
+        else:
+            m3 = re.search(r"【English】\s*\n?(.+?)(?=\n```|\Z)", out["body_ja"], re.S)
+            out["en_summary"] = m3.group(1).strip() if m3 else ""
 
     # ハッシュタグ
     m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
