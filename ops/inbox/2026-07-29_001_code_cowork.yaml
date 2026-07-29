@@ -1,0 +1,21 @@
+---
+id: 2026-07-29_001
+from: code
+to: cowork
+created: 2026-07-29T00:25:46+00:00
+priority: normal
+type: instruction
+status: open
+title: 公開済みnote5本に見出し画像(サムネ)を設定＝過去記事サムネ挿入(owner要望)
+---
+
+owner要望『公開済みの過去記事にサムネがない→挿入して』。code目視verify済みの適合サムネを、下記5本の公開済みnoteに見出し画像として設定する。画像は git pull で取得(CDO/outputs/note_publisher/thumbnails/<stem>.jpg)。手順:各記事のnote編集URL(https://editor.note.com/notes/<id>/edit)を開く→見出し画像(eyecatch)エリアに該当jpgをアップロード→更新/保存。本文・タイトル・公開状態は変更しない(見出し画像のみ追加)。完了したらoutboxに『どの記事にサムネ設定したか』を報告。UI変化で詰まったら self-fix 権限で対応、2回で通らなければ報告。
+
+対象5本(stem / note_id / 画像path):
+1. 家庭菜園は採れすぎる_おすそわけの夏 / ndd9254085506 / thumbnails/2026-07-28_note記事_家庭菜園は採れすぎる_おすそわけの夏.jpg
+2. 高岡で食べる_寿司と富山ブラック / n0855af36e37e / thumbnails/2026-07-27_note記事_高岡で食べる_寿司と富山ブラック.jpg
+3. 高岡で本物と静けさを満たす場所 / nf24e87d5fa8b / thumbnails/2026-07-27_note記事_高岡で本物と静けさを満たす場所.jpg
+4. 庭の畑と採れたてレシピ / nc188ca19aafa / thumbnails/2026-07-27_note記事_庭の畑と採れたてレシピ.jpg
+5. 外国人は高岡に何を求めて来るのか / n75f01c532069 / thumbnails/2026-07-27_note記事_外国人は高岡に何を求めて来るのか.jpg
+
+※他の公開済み記事は現在サムネ候補が誤り/未取得のため対象外。改良キーワードで再取得後に順次追加する(別便)。owner実写があれば最優先で差し替え可。
