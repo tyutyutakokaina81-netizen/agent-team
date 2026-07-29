@@ -76,34 +76,6 @@ cat > "$DAILY_PLIST" <<PLIST
 </plist>
 PLIST
 
-# ---- コメント返信 LaunchAgent（1日3回・2026-07-30 owner「コメント返信を自動化」）----
-# 毎朝の定期便(7:17)もコメント返信を含むが、コメントは早く返すほど関係が育つので日中に3回追加。
-# full worker とロック共有＝二重起動しない（走行中ならスキップ）。
-CMT_PLIST="$LADIR/com.agentteam.comments.plist"
-cat > "$CMT_PLIST" <<PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key><string>com.agentteam.comments</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/bin/bash</string>
-    <string>$REPO/docs/run_comment_reply.sh</string>
-  </array>
-  <key>StartCalendarInterval</key>
-  <array>
-    <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>30</integer></dict>
-    <dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>30</integer></dict>
-    <dict><key>Hour</key><integer>21</integer><key>Minute</key><integer>0</integer></dict>
-  </array>
-  <key>RunAtLoad</key><false/>
-  <key>StandardOutPath</key><string>$STATE_DIR/comments.log</string>
-  <key>StandardErrorPath</key><string>$STATE_DIR/comments.log</string>
-</dict>
-</plist>
-PLIST
-
 # ---- スリープ防止 LaunchAgent（owner「毎回止まる」対策 2026-07-11）----
 # caffeinate -s = AC電源接続中はシステムスリープを抑止（バッテリー時は通常どおり眠る＝電池を守る）。
 # これで「Macがスリープ→配車係が止まる→公開されない」を根治。KeepAlive=落ちても復活。
@@ -123,7 +95,7 @@ cat > "$AWAKE_PLIST" <<PLIST
 PLIST
 
 # ---- ロード（既存はunloadしてから）----
-for L in "$DISP_PLIST" "$DAILY_PLIST" "$CMT_PLIST" "$AWAKE_PLIST"; do
+for L in "$DISP_PLIST" "$DAILY_PLIST" "$AWAKE_PLIST"; do
   launchctl unload "$L" 2>/dev/null || true
   launchctl load "$L" 2>/dev/null && echo "  ✅ 常駐登録: $(basename "$L")" || echo "  ⚠️ load失敗: $(basename "$L")（手動: launchctl load $L）"
 done
@@ -134,8 +106,7 @@ bash "$REPO/docs/worker_dispatcher.sh" || true
 echo "=================================================="
 echo " ✅ 完了。以後は Mac を起動しておくだけで自動運転。"
 echo "    ・5分ごとに配車係が run_requests を消化"
-echo "    ・毎朝7:17に定期便"
-echo "    ・10:30/15:30/21:00 にコメント返信専用便（英語コメントは英語で返信）"
+echo "    ・毎朝7:17に定期便（この中でコメント自動返信も実行＝英語コメントは英語で返信）"
 echo "    ・再起動してもログイン時に自動復活（cronと違い消えない）"
 echo "    確認: launchctl list | grep agentteam"
 echo "    ログ: tail -f $STATE_DIR/dispatch.log"
