@@ -1,0 +1,53 @@
+---
+id: 2026-07-29_002
+from: code
+to: cowork
+created: 2026-07-29T05:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開】車・海・花火の3記事をnote公開(サムネ付き・検証済み)＝owner『公開して』
+---
+
+owner『公開して』。下記3本の未公開note記事を publish_to_note.py で公開する。
+いずれも code 目視verify済みサムネが _verified.txt に登録済＝publisher修正(2026-07-29)により
+text-only でも見出し画像が自動で入る。実行時に「🖼️ 自動サムネ候補: …jpg」と出て見出し画像入りで公開される。
+
+【重要・重複防止】
+- 必ず最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` してから `git pull origin main`。
+- **公開コマンドの"間"では絶対に台帳(registry)をリセット/pullしない**（2026-07-29のじゃがいも二重投稿の再発防止＝台帳直前リセット＋note検索反映ラグの競合が原因だった）。
+- 3本は連続実行してよい（タイトルが別なので相互重複しない）。各公開の最終URLを outbox に報告。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス指定）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_車は第二の部屋_地方の車内の暮らし.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_海水浴_地元の海で泳ぐ夏.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_花火大会_地方の夏の一大イベント.md" --text-only
+```
+
+【公開後の台帳push】
+- 3本公開後、published_registry.json に追記されるので `git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 車/海/花火" && git push origin main`（台帳の記録を残す＝次回の重複ゲートに効く）。
+
+【あわせて（前便2026-07-29_001の続き・可能なら）】
+- じゃがいも重複 n710f16d5c152 を削除（nca13899b62c5 を残す）。
+- 公開済み じゃがいも(nca13899b62c5)/きゅうり(nc54ca5114fa2) に見出し画像を手動セット
+  （jpg: CDO/outputs/note_publisher/thumbnails/2026-07-29_note記事_じゃがいも料理_常備のいちばん.jpg ／ …夏のきゅうり料理_冷やして食べ切る.jpg）。
+
+完了したら outbox に「公開したnoteのURL3件＋後始末の結果」を1ファイルで報告。UI変化で詰まったら self-fix、2回で通らなければ報告。
+
+body: |
+  owner『公開して』。未公開3本(車/海/花火)を publish_to_note.py --text-only で公開。3本とも_verified登録済でpublisher修正によりtext-onlyでもサムネが自動で入る。
+  重複防止：最初にgit checkout -- registry → git pull origin main。公開コマンドの間で台帳をリセット/pullしない(じゃがいも二重投稿の再発防止)。3本連続実行可。各最終URLをoutbox報告。
+  コマンド:
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_車は第二の部屋_地方の車内の暮らし.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_海水浴_地元の海で泳ぐ夏.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-29_note記事_花火大会_地方の夏の一大イベント.md" --text-only
+  公開後: git add registry && commit && push origin main。
+  あわせて(可能なら)：じゃがいも重複 n710f16d5c152 削除(nca13899b62c5残す)、既公開じゃがいも/きゅうりに見出し画像手動セット。
+  完了→outboxにURL3件+後始末結果を報告。
