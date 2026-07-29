@@ -6,6 +6,9 @@
 
 最終更新: 2026-07-29⑳（本日note7本公開確定：なす/しそ/きゅうり/じゃがいも/車/海/花火。車海花火はサムネ付・じゃがいも重複は下書き化で解消。台帳2件補記で突合済。5本超過につき本日公開停止。川遊びは7/30分に保留。下記参照）
 
+> ## 2026-07-30 ㉖ owner『note自動返信コメント対応』→専用タスク化＋毎便必須化＋英語返信ルール追加＋即実行キュー
+> 既存はworker-prompt埋め込みで埋没しやすく**英語コメントへの英語返信ルールが無かった**(North Star的に致命)。**改善**：正本を`docs/worker-task-note-comments.txt`に切出し(通知＋直近公開10本のコメント欄確認／てつで感謝＋具体1点/使い回し禁止/**英語コメントは英語で返信**/質問は事実検証ノート範囲で正直に/苦情・事実誤り指摘・スパム・PIIは返信せずoutbox全文報告/1コメント1返信/A5)。worker-prompt先頭『毎便必須』にinbox消化の直後として組込み＋旧inlineは正本参照に。即実行を`ops/inbox/2026-07-30_003`に投函。code(A1)はnote不可＝実行はcowork/owner。
+> **サムネ続報**：JP検索優先化で**鱒寿司=本物のますのすし(笹＋丸いピンク)取得→_verified登録✅**。川遊び/温泉/そうめんはJP検索がCommonsで0件→英語フォールバックで元の誤画像のまま。確実な解決は**無料PEXELS_API_KEYの設定**(未設定でPexelsステップがskipされ続けている＝Actionログで確認済)。owner対応: repo Settings>Secrets>Actions に PEXELS_API_KEY(無料)を追加→Pexels優先で自動的に良質化。
 > ## 2026-07-30 ㉕ owner「サムネはフリー素材から見つけて」→Action を Pexels優先に改修（Wikimediaはフォールバック）
 > 原因＝Wikimediaが先に概念語(温泉/川/そうめん/鱒寿司)で無関係/別地域画像を書き、Pexels(キュレーション済・暮らし/食に強い)を has_thumb で塞いでいた。**改修**：workflowの順序を Pexels→Wikimedia に入替、Wikimedia fetcherは既存jpgを上書きしない(フォールバック専任)。Pexels query微調整(そうめん=somen noodles cold bowl/鱒寿司=salmon sushi rice)。7/30の4記事の誤jpgを削除＋provenance/_rejected解除→`ops/run_requests`push でAction発火→Pexelsで再取得→code目視verify予定。
 > ## 2026-07-30 ㉔ かき氷サムネ=目視verify合格(漆盆に緑のかき氷+スプーン=本物)→_verified登録。7/30で無料素材が当たったのは5本中1本(かき氷)のみ
