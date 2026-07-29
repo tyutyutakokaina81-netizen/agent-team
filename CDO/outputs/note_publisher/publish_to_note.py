@@ -668,8 +668,12 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         print("✅ 本文＆写真の挿入処理が完了")
 
         # サムネ（見出し画像）：優先順位 = --photos の写真① > _verified.txt掲載のthumbnails/{stem}.jpg
-        # text_only は本文だけの投稿＝見出し画像を付けない（誤サムネ事故の再発防止・2026-07-15）
-        thumb_to_use = photos[0] if photos else (None if text_only else auto_thumb)
+        # ★2026-07-29 修正: text_only でも auto_thumb は付ける。理由＝auto_thumb は find_thumbnail_for()
+        #   が _verified.txt 掲載stem(=owner/code確認済み)のみ返す＝誤サムネ事故は構造的に起きない。
+        #   旧仕様「text_only=見出し画像なし」は _verified allowlist 導入前の過剰な安全策で、
+        #   検証済みサムネのある記事まで無サムネ公開になり「本文だけ＝サムネ無し」の指摘を招いていた。
+        #   本文の[写真]placeholderは text_only で除去しつつ、確認済み見出し画像だけは活かす。
+        thumb_to_use = photos[0] if photos else auto_thumb
         if thumb_to_use:
             try:
                 # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
