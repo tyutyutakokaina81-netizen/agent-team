@@ -39,6 +39,25 @@ MIN_IMAGE_BYTES = 8000
 UA = "toyama-guide-thumbnailer/1.0 (https://github.com/tyutyutakokaina81-netizen/agent-team; free real photos)"
 API = "https://commons.wikimedia.org/w/api.php"
 
+# 2026-07-30 概念語(温泉/川/そうめん/鱒寿司 等)は英語検索だと Commons が別物(海外の地質/会社ビル/春の桜川)を
+# 返しやすい。Commons は日本語タグの実写も多いので、これらは「日本語＋補助語」で先に検索し、
+# 外したら英語(query_for)にフォールバックする。キー不要のまま精度を上げる狙い。
+JP_QUERY = [
+    ("日帰り温泉", "露天風呂 温泉 日本"), ("温泉", "露天風呂 温泉 日本"),
+    ("川遊び", "渓流 川 日本 森"), ("川で遊", "渓流 川 日本 森"),
+    ("火を使わない", "そうめん 素麺 ざる"), ("そうめん", "そうめん 素麺 ざる"),
+    ("鱒寿司", "ますのすし 鱒寿司"), ("ますのすし", "ますのすし 鱒寿司"),
+    ("花火大会", "花火大会 夜"), ("海水浴", "海水浴 砂浜 日本"),
+]
+
+
+def jp_query_for(title: str, stem: str):
+    hay = title + " " + stem
+    for key, q in JP_QUERY:
+        if key in hay:
+            return q
+    return None
+
 
 def load_verified() -> set:
     """owner確認済みサムネのallowlist(_verified.txt)。ここに載るstemは自動取得で絶対に上書きしない(--forceでも)。"""
@@ -137,23 +156,35 @@ def main() -> None:
         if out.exists() and not args.force:
             continue
         text = p.read_text(encoding="utf-8")
-        q = query_for(extract_title(text, p.stem), p.stem)
-        queue.append((p.stem, q, out))
+        title = extract_title(text, p.stem)
+        jp = jp_query_for(title, p.stem)                 # 概念語は日本語検索を優先
+        en = query_for(title, p.stem)                    # 英語フォールバック
+        queue.append((p.stem, jp, en, out))
     if args.max > 0:
         queue = queue[: args.max]
 
     print(f"backend: wikimedia（無料・実写）／対象: {len(queue)}本")
     ok = fail = 0
-    for stem, q, out in queue:
-        try:
-            data = fetch_from_wikimedia(q)
+    for stem, jp, en, out in queue:
+        tried = [q for q in (jp, en) if q]              # 日本語→英語の順に試す
+        data = None
+        used = None
+        last = None
+        for q in tried:
+            try:
+                data = fetch_from_wikimedia(q)
+                used = q
+                break
+            except Exception as e:
+                last = e
+        if data:
             out.write_bytes(data)
             prov[stem] = "wikimedia"
             save_prov(prov)
-            print(f"  ✓ {out.name}  ← '{q}'  ({len(data)//1024} KB)")
+            print(f"  ✓ {out.name}  ← '{used}'  ({len(data)//1024} KB)")
             ok += 1
-        except Exception as e:
-            print(f"  ✗ {stem}  ({q}): {type(e).__name__}: {e}")
+        else:
+            print(f"  ✗ {stem}  (tried {tried}): {type(last).__name__ if last else '?'}")
             fail += 1
         time.sleep(1.0)  # Commons への礼儀＝ペース調整
     print(f"\n成功: {ok} / 失敗: {fail}")
