@@ -20,9 +20,9 @@ owner要望『公開済みの過去記事にサムネがない→挿入して』
 
 ※他の公開済み記事は現在サムネ候補が誤り/未取得のため対象外。改良キーワードで再取得後に順次追加する(別便)。owner実写があれば最優先で差し替え可。
 body: |
-  owner『過去記事にサムネがない→挿入』。code目視verify済みサムネ(計31本)を公開済noteの見出し画像に設定。画像はgit pullで取得(thumbnails/<stem>.jpg)。手順:各記事の編集画面(URLあれば editor.note.com/notes/<id>/edit、無ければnoteでタイトル検索)→見出し画像にjpgをアップロード→更新。本文/公開状態は不変更。1便で数本ずつでOK。完了分をoutbox報告。未公開stemは公開時に自動採用されるので対象外。
+  owner『過去記事にサムネがない→挿入』。code目視verify済みサムネ(計33本)を公開済noteの見出し画像に設定。git pullで画像取得。各記事の編集画面(URLあれば editor.note.com/notes/<id>/edit、無ければnoteでタイトル検索)→見出し画像にjpgをアップロード→更新。本文/公開状態は不変更。1便数本ずつでOK、完了分をoutbox報告。未公開stemは公開時に自動採用され対象外。
   
-  対象(stem/URL/画像):
+  対象:
   - 2026-07-27_note記事_富山湾はなぜ魚の宝庫か / https://note.com/safe_canna441/n/ne9436e34e84c / thumbnails/2026-07-27_note記事_富山湾はなぜ魚の宝庫か.jpg
   - 2026-07-27_note記事_富山の水はなぜうまいのか / https://note.com/safe_canna441/n/n43ef5c46027e / thumbnails/2026-07-27_note記事_富山の水はなぜうまいのか.jpg
   - 2026-07-27_note記事_庭の七輪でプチ料理 / https://note.com/safe_canna441/n/n135853de0716 / thumbnails/2026-07-27_note記事_庭の七輪でプチ料理.jpg
@@ -54,3 +54,5 @@ body: |
   - 2026-06-13_note記事_紅ずわいがに_富山湾の冬の楽しみ / (URL未記録=noteでタイトル検索) / thumbnails/2026-06-13_note記事_紅ずわいがに_富山湾の冬の楽しみ.jpg
   - 2026-06-14_note記事_朝日町のたら汁_漁師の鍋 / (URL未記録=noteでタイトル検索) / thumbnails/2026-06-14_note記事_朝日町のたら汁_漁師の鍋.jpg
   - 2026-06-15_note記事_庄川の鮎 / (URL未記録=noteでタイトル検索) / thumbnails/2026-06-15_note記事_庄川の鮎.jpg
+  - 2026-06-19_note記事_御清水庵_水の名を冠したそば屋 / (URL未記録=noteでタイトル検索) / thumbnails/2026-06-19_note記事_御清水庵_水の名を冠したそば屋.jpg
+  - 2026-06-20_note記事_黒部峡谷のトロッコ電車_峡谷を行く / (URL未記録=noteでタイトル検索) / thumbnails/2026-06-20_note記事_黒部峡谷のトロッコ電車_峡谷を行く.jpg
