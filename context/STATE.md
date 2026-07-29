@@ -6,6 +6,12 @@
 
 最終更新: 2026-07-29⑮（owner「いまの車について記事書いて公開して」→暮らしエッセイ『車は第二の部屋』作成。既存"一人一台社会論"と別軸=車内が生活空間になる描写で非重複。英語本文内併記・A4/A5順守。Mac公開待ち。下記参照）
 
+> ## 2026-07-29 ⑯ 【インシデント】じゃがいも二重投稿＋サムネ未反映。原因＝branch/main乖離＋台帳リセットの競合
+> **事実**：なす(n097cca9fa4a6)✅ しそ(n0d4f1b490d09)✅ きゅうり(nc54ca5114fa2)✅／じゃがいも**2本重複**=n710f16d5c152 と nca13899b62c5。じゃがいも・きゅうりは**見出し画像未設定**で公開された。
+> **原因1(サムネ未反映)**：publisher修正(text-onlyでも_verified済サムネを付ける・b83d775)は**branchのみ、origin/mainは67472a3のまま未反映**。公開はmainクローン(agent-team-run)から走り旧仕様(text_only→見出し画像None)で出た。owner実行の`git checkout -B ブランチ origin/ブランチ`は**fetch不足で"not a commit"失敗**し修正版に切替わらず。
+> **原因2(重複)**：2回目公開の直前に`git checkout -- published_registry.json`で台帳リセット→1本目(n710)の記録消失→note検索の反映ラグ数秒で重複ゲートすり抜け→二重投稿。
+> **リカバリ指示(owner)**：①n710f16d5c152を削除(nca13899b62c5を残す)。②公開済み2本は再投稿しない(また重複)＝見出し画像だけ手動セット(jpgは`CDO/outputs/note_publisher/thumbnails/{stem}.jpg`)。
+> **恒久対策**：(a)**急速連続publishの間で`git checkout -- registry`を挟まない**(台帳の直前リセット厳禁＝重複の温床)。(b)publisher修正をmainへ反映しないとmainクローンではサムネが乗らない＝**branch↔main乖離が全混乱の根**。以後、公開に関わるコード修正は**mainに載るまで公開を待つ**か、Macを確実にbranch追従させてから公開する。(c)Macのbranch切替は`git fetch origin ブランチ名`を明示してから。
 > ## 2026-07-29 ⑮b owner「(車のサムネ)あるやろ」→車の検索語を追加(pipeline修正)。code取得は不可＝Action/Mac頼み
 > 車は抽象題材(におい/空/方言)と違い**無料実写が確実にある**。今まで入らなかった原因＝`query_for`に車の語が無く catch-all「toyama landscape mountains」に落ちていた(=山写真の誤り)。**修正**：`車内/第二の部屋/車社会/一人一台→car写真`をRULESに追加(路面電車/トロッコ/御車山と非衝突の固有トークン限定)。既存『富山の車社会_一人一台』(サムネ無し)も自動で車写真化。wikimedia fetcherも同じquery_forを流用＝一括反映。commit&push済(7bd34ae)。
 > - **取得手段の現実**：code外部ネット403(取得不可)・Action dispatch権限403(ボタン押下不可)。note-thumbnails Actionは**push=main由来のみ**発火(全run確認)。∴車写真の実取得は(a)本ブランチのmainマージ→Action自動取得→code目視verify→_verified登録、(b)Mac(ネット可)でキー不要`fetch_thumbnails_wikimedia.py --filter 車は第二の部屋`実行→push→code verify、のどちらか。**取得後にcode目視verify通過分だけ**見出し画像採用(誤サムネ根治ルール順守)。
