@@ -6,6 +6,10 @@
 
 最終更新: 2026-07-29⑳（本日note7本公開確定：なす/しそ/きゅうり/じゃがいも/車/海/花火。車海花火はサムネ付・じゃがいも重複は下書き化で解消。台帳2件補記で突合済。5本超過につき本日公開停止。川遊びは7/30分に保留。下記参照）
 
+> ## 2026-07-30 ㉘ owner『(コメント返信を)自動化して』→コメント返信専用便を1日3回のLaunchAgent化
+> 毎朝7:17の定期便もコメント返信を含むが、コメントは早く返すほど関係が育つので**日中3回(10:30/15:30/21:00)のコメント専用便**を追加。
+> 新規: `docs/worker-comment-reply.txt`(コメント返信だけの軽量プロンプト・公開/集客はしない)、`docs/run_comment_reply.sh`(full workerとロック共有＝二重起動しない・走行中はスキップ)、`install_autopilot.sh`に`com.agentteam.comments` LaunchAgent(StartCalendarInterval配列で3回)を追加しload。
+> **owner作業(一度きり)**：`cd ~/agent-team-run && git pull origin main -q && bash docs/install_autopilot.sh` を1回実行→以後Mac起動中は無人でコメント返信(＋公開/配車)が回る。codeはMacに常駐を仕込めない(A1)ためこの1回だけ物理実行が必要。
 > ## 2026-07-30 ㉗ 「続けて」→North Star前進：新記事12本の英語クロスポスト素材を生成＋抽出バグ根治
 > 7/28–7/30の記事(なす/しそ/きゅうり/じゃがいも/車/海/花火/川遊び/そうめん/鱒寿司/温泉/かき氷 等)に**Reddit/X/EN素材が無かった**ので`gen_all.py --since 2026-07-28`で一括生成。**根治**：`_common.py`の英語要約抽出が『🌏 For English readers』しか見ず新記事(『## 英語要約』/本文末【English】形式)で空になっていた→②## 英語要約 ③【English】 のフォールバックを追加（以後の全記事で自動的に英語が入る）。生成物は EN/outputs/reddit・x_tweets／EN/research(enprompt)。**配布はowner/cowork**(自動投稿しない・価値9:宣伝1・A5)。
 > ## 2026-07-30 ㉖ owner『note自動返信コメント対応』→専用タスク化＋毎便必須化＋英語返信ルール追加＋即実行キュー
