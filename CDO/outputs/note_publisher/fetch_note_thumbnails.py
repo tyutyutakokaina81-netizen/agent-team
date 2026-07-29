@@ -134,6 +134,9 @@ RULES = [
     ("薬売り", "traditional medicine wooden box"), ("雪国", "snow town japan winter"),
     ("冬支度", "snow house winter japan"), ("置き薬", "wooden medicine box"),
     ("観光地に住", "japanese town daily life"),
+    # 車（※「路面電車/トロッコ/御車山/車窓」等の"電車/祭"系と衝突しないよう固有トークンで限定）
+    ("車内", "car interior dashboard"), ("第二の部屋", "car parked outdoor"),
+    ("車社会", "cars parked lot"), ("一人一台", "cars parked lot"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
