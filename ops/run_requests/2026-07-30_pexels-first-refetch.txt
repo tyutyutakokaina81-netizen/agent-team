@@ -1,0 +1,3 @@
+2026-07-30 サムネ再取得トリガー（Pexels優先化の検証）
+- 目的: note-thumbnails Action を Pexels優先に変更後、7/30の4記事(川遊び/そうめん/鱒寿司/温泉)のサムネをPexels無料素材から取り直す。
+- 対象jpgは削除済み＝Actionが再取得する。取得後 code が目視verifyして _verified 登録。

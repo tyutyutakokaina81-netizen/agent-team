@@ -52,24 +52,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1) 実写取得（既定・キー不要・無料）: Wikimedia Commons から記事題材の実写を取得。
-      #    owner方針＝荒い自前AI画像は使わず、無料の実写を自動で入れる。
-      - name: Fetch real photos (Wikimedia Commons, keyless)
-        run: |
-          if [ -n "$FILTER" ]; then
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" || true
-          else
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py || true
-          fi
-
-      # 2) Pexels無料素材で不足を補完（PEXELS_API_KEYがあるとき・より高品質な実写。無料キー）
-      - name: Fill remaining with Pexels (free, if key)
+      # 1) Pexels 無料素材を優先（キュレーション済み＝暮らし/食/自然の実写に強い。無料キー）。
+      #    2026-07-30 順序をPexels優先に変更：Wikimediaは概念語(温泉/川/そうめん)で無関係画像や
+      #    別地域(海外の地質/会社ビル/春の桜川)を返しやすく、先に書くとPexelsを塞いでいた（実測）。
+      #    → まずPexelsで質の良い実写を取り、埋まらなかった分だけ後段のWikimediaで補完する。
+      - name: Fetch real photos (Pexels, free curated stock)
         if: ${{ env.PEXELS_API_KEY != '' }}
         run: |
           if [ -n "$FILTER" ]; then
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py --filter "$FILTER" || true
           else
             python3 CDO/outputs/note_publisher/fetch_note_thumbnails.py || true
+          fi
+
+      # 2) Wikimedia Commons（キー不要）で、Pexelsで埋まらなかった分だけ補完（既存jpgは上書きしない）。
+      #    固有の地名/名所(高岡大仏/立山 等)はWikimediaが強い＝フォールバックとして有効。
+      - name: Fill remaining with Wikimedia Commons (keyless fallback)
+        run: |
+          if [ -n "$FILTER" ]; then
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" || true
+          else
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py || true
           fi
 
       # ※ 有料AI生成(Gemini/Imagen)経路は撤去（¥0原則・A2/A3）。ランダムPicsumも廃止。

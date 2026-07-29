@@ -131,7 +131,10 @@ def main() -> None:
         if p.stem in verified:      # owner確認済み=絶対に上書きしない(--forceでもスキップ)
             continue
         out = THUMB_DIR / f"{p.stem}.jpg"
-        if out.exists() and not args.force and prov.get(p.stem) in GOOD_BACKENDS:
+        # 2026-07-30 Pexels優先化に伴い、既存jpgは（provenance問わず）上書きしない＝
+        # Wikimediaは「まだ画像が無い記事」だけ補完するフォールバックに徹する。
+        # これにより Pexels が取った良質な実写を Wikimedia が塗り替える事故を防ぐ。
+        if out.exists() and not args.force:
             continue
         text = p.read_text(encoding="utf-8")
         q = query_for(extract_title(text, p.stem), p.stem)
