@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-29T05:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開】車・海・花火の3記事をnote公開(サムネ付き・検証済み)＝owner『公開して』
 ---
 
@@ -51,3 +51,10 @@ body: |
   公開後: git add registry && commit && push origin main。
   あわせて(可能なら)：じゃがいも重複 n710f16d5c152 削除(nca13899b62c5残す)、既公開じゃがいも/きゅうりに見出し画像手動セット。
   完了→outboxにURL3件+後始末結果を報告。
+
+
+---
+
+## 結果 (2026-07-29T21:22:11+09:00)
+
+車n94125f32d208/海n13b8d8276acb/花火na958299320ea を公開(3本ともHTTP200ライブ・サムネ付き)。じゃがいも重複n710f16d5c152を下書き化(404確認)。見出し画像手動セットは再公開リスクと本日投稿数過多のため次便へ繰越。
