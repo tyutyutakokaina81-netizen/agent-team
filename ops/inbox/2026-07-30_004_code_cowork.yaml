@@ -1,0 +1,51 @@
+---
+id: 2026-07-30_004
+from: code
+to: cowork
+created: 2026-07-30T00:30:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開】7/30分の5記事をnote公開（全てサムネ検証済み・見出し画像付き）
+---
+
+本日(7/30)分の5記事を publish_to_note.py で公開する。**5本とも code 目視verify済みサムネが _verified.txt 登録済**
+＝publisher修正(2026-07-29)により text-only でも見出し画像が自動で入る。実行時「🖼️ 自動サムネ候補: …jpg」表示を確認。
+
+【重要・重複防止（2026-07-29じゃがいも二重投稿の教訓）】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。
+- **公開コマンドの間では台帳(registry)をリセット/pullしない**。5本は連続実行してよい（タイトルが別で相互重複しない）。
+- 公開後、追記された registry を `git add … && git commit -m "publish: 7/30" && git push origin main`。
+
+【1日上限】本日の公開はこの5本のみ（日次上限5に一致）。他は公開しない。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_かき氷_夏のごほうび.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_鱒寿司_富山の押し寿司.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_川遊び_立山からの冷たい川.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_火を使わない夏ごはん_暑い日の手抜き.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_日帰り温泉_富山の湯の暮らし.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/30 5本" && git push origin main
+```
+
+【題材トークン誤検知の対処】鱒寿司/川遊び 等でゲートが「題材トークン衝突」で止まったら、
+既公開と**本当に別題材か目視確認**の上でその1本だけ `--allow-topic-dup` を付けて再実行（花火の前例と同じ）。
+
+【報告(outbox)】公開した5本の最終URL（HTTP200ライブ確認）＋見出し画像が入ったか。ゲートで保留にしたものは理由。
+
+body: |
+  7/30分5本を公開。5本とも_verified登録済でtext-onlyでもサムネ自動。重複防止=最初にcheckout registry→pull、公開の間は台帳リセットしない、5本連続可、公開後registryをcommit&push。日次上限5に一致=他は公開しない。
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_かき氷_夏のごほうび.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_鱒寿司_富山の押し寿司.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_川遊び_立山からの冷たい川.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_火を使わない夏ごはん_暑い日の手抜き.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_日帰り温泉_富山の湯の暮らし.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/30 5本" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に5本のURLと見出し画像有無。
