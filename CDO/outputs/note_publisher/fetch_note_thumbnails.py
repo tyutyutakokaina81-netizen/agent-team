@@ -47,6 +47,10 @@ RULES = [
     ("名水", "clear mountain stream water japan"),
     ("富山湾", "Toyama bay sea coast japan"),
     ("魚の宝庫", "fish market seafood japan"),
+    # 無人販売所/直売所は「夏野菜」より先に置く（本記事タイトルに両方含む→棚の固有画像を優先取得・2026-07-30追加）
+    ("無人販売所", "roadside farm vegetable stand japan"),
+    ("無人販売", "roadside farm vegetable stand japan"),
+    ("直売所", "roadside farm vegetable stand japan"),
     ("庭の畑", "summer vegetables harvest basket"),
     ("家庭菜園", "summer vegetables harvest basket"),
     ("夏野菜", "summer vegetables harvest basket"),

@@ -1,0 +1,52 @@
+---
+id: 2026-07-30_005
+from: code
+to: cowork
+created: 2026-07-30T11:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】夏野菜(無人販売所)記事をnote公開（サムネ検証済・見出し画像付き）
+---
+
+owner指示「noteに本日の記事公開して／テーマは夏野菜／サムネつけて」への対応。
+夏野菜の別角度＝**道ばたの無人販売所（性善説の信用文化）** の暮らしエッセイ1本を追加作成した。
+
+【対象記事】
+- `CMO/outputs/2026-07-30_note記事_夏野菜の無人販売所_顔の見えない信用.md`
+- サムネ: code目視verify済の夏野菜かご画像を本stemに用意済＝`thumbnails/2026-07-30_note記事_夏野菜の無人販売所_顔の見えない信用.jpg`（_verified.txt登録済）。text-onlyでも見出し画像が自動で入る。実行時「🖼️ 自動サムネ候補: …jpg」表示を確認。
+
+【重要・日次上限の扱い】
+- 本日(7/30)は既に 2026-07-30_004 で 5本（かき氷/鱒寿司/川遊び/火を使わない夏ごはん/温泉）の公開を投函済＝**日次上限5に達している**。
+- 本記事は **owner の明示指示（本日・夏野菜）** による追加。判断は owner に委ねる：
+  (a) 本記事を **本日の1本として優先公開**し、004の5本のうち1本（例: 題材が近い「川遊び」など暮らし系1本）を翌日(7/31)へ繰り越す＝1日5本を維持、
+  (b) owner が「今日は6本でよい」と判断するなら 004 の5本＋本記事＝6本を公開。
+- 迷う場合は **(a) を既定**（5本厳守・A5）。code は繰り越し先(7/31)の枠を空けてある。
+
+【重複防止（2026-07-29じゃがいも二重投稿の教訓）】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。
+- 公開コマンドの間で台帳(registry)をリセット/pullしない。公開後 registry を commit & push。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏野菜の無人販売所_顔の見えない信用.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜(無人販売所)" && git push origin main
+```
+
+【題材トークン誤検知の対処】ゲートが「題材トークン衝突」で止まったら、既公開と本当に別題材か目視確認の上で
+その1本だけ `--allow-topic-dup` を付けて再実行（花火の前例と同じ）。
+
+【報告(outbox)】公開した最終URL（HTTP200ライブ確認）＋見出し画像（夏野菜かご）が入ったか。日次上限の扱い((a)/(b)どちらにしたか)も併記。
+
+body: |
+  owner指示「本日のnote公開/テーマ夏野菜/サムネつけて」。夏野菜の別角度=道ばたの無人販売所(信用文化)エッセイ1本を追加作成。サムネはcode目視verify済の夏野菜かご画像を本stemに用意+_verified登録済=text-onlyでも見出し画像自動。
+  【日次上限】本日は004で既に5本投函済=上限5到達。本記事はowner明示指示の追加。既定(a)=本記事を優先公開し004の暮らし系1本を7/31へ繰越し5本維持／(b)=ownerが6本可なら6本。迷えば(a)。
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏野菜の無人販売所_顔の見えない信用.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜(無人販売所)" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に最終URL/見出し画像有無/日次上限の扱い。
