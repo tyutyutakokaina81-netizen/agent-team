@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T11:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】夏野菜(無人販売所)記事をnote公開（サムネ検証済・見出し画像付き）
 ---
 
@@ -50,3 +50,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏野菜の無人販売所_顔の見えない信用.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜(無人販売所)" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に最終URL/見出し画像有無/日次上限の扱い。
+
+
+---
+
+## 結果 (2026-07-30T11:09:22+00:00)
+
+✅公開 https://note.com/safe_canna441/n/n8df70f2edca6 見出し画像入り。ownerがgit push origin mainで永続化済(4166805)。
