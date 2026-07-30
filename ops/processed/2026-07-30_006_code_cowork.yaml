@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T20:30:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】夏野菜あと2本(スイカ/枝豆)をnote公開（サムネ検証済・見出し画像付き）
 ---
 
@@ -51,3 +51,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(スイカ/枝豆)" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に2本のURLと見出し画像有無。
+
+
+---
+
+## 結果 (2026-07-30T11:26:56+00:00)
+
+✅公開2本: スイカ=https://note.com/safe_canna441/n/n3372e1361808 枝豆=https://note.com/safe_canna441/n/ne1447c7fa2e8 いずれも見出し画像入り。registryはmainへpush済(cdab353)。
