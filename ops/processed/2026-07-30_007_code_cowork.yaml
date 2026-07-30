@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T21:30:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】夏野菜あと2本(トマト/とうもろこし)をnote公開（サムネ暫定流用・見出し画像付き）
 ---
 
@@ -44,3 +44,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏のとうもろこし_もぎたての甘さ.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(トマト/とうもろこし)" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に2本のURLと見出し画像有無。
+
+
+---
+
+## 結果 (2026-07-30T17:58:47+00:00)
+
+✅公開2本: とうもろこし=https://note.com/safe_canna441/n/n21ee5c9c09e6 トマト=https://note.com/safe_canna441/n/nd89da256a68d (トマトは題材ゲート誤衝突→--allow-topic-dupで再実行)。いずれも見出し画像入り。registry=74・mainへpush済(37f87e2)。
