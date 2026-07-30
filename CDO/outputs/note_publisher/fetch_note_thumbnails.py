@@ -70,6 +70,8 @@ RULES = [
     ("とうもろこし", "grilled corn on the cob food"), ("とうきび", "grilled corn on the cob food"), ("コーン", "corn on the cob food"),
     ("トマト", "fresh tomato food"), ("ピーマン", "green bell pepper vegetable"),
     ("かぼちゃ", "kabocha squash japanese"), ("枝豆", "edamame soybeans"),
+    ("梅干し", "umeboshi pickled plum"), ("梅仕事", "umeboshi pickled plum drying"), ("土用干し", "umeboshi drying sun basket"),
+    ("打ち水", "water sprinkling wet stone street japan"), ("うちみず", "water sprinkling wet stone street japan"),
     ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
     ("浅漬け", "japanese pickles tsukemono"),
     # 過去記事QCで判明した誤サムネ(山夕景/無関係)の穴埋め・2026-07-29②追加（具体名を先に＝黒部ダムは黒部峡谷より前）
