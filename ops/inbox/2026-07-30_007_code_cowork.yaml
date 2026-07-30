@@ -1,0 +1,46 @@
+---
+id: 2026-07-30_007
+from: code
+to: cowork
+created: 2026-07-30T21:30:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】夏野菜あと2本(トマト/とうもろこし)をnote公開（サムネ暫定流用・見出し画像付き）
+---
+
+owner「続き」への対応。夏野菜シリーズの続き2本を作成。両方 _verified.txt登録済＝**text-onlyでも見出し画像が自動で入る**（owner承認の暫定流用サムネ＝夏野菜かご画像）。実行時「🖼️ 自動サムネ候補: …jpg」表示を確認。
+
+【対象記事（2本）】
+1. `CMO/outputs/2026-07-30_note記事_夏のトマト_丸かじりの贅沢.md`
+2. `CMO/outputs/2026-07-30_note記事_夏のとうもろこし_もぎたての甘さ.md`
+
+【重要・㉞の教訓＝Macは常時main運用なので先にmain反映してから公開】
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開の間で台帳リセットしない。2本連続可。公開後 registry を commit & push。
+
+【1日上限】本日(7/30)の実公開は 無人販売所/スイカ/枝豆 の3本。本2本を足して計5本＝日次上限5ちょうど。**本日はこれで打ち止め**（以降7/30分は公開しない）。
+
+【実行コマンド（agent-team-run・完全パス）】
+```
+cd ~/agent-team-run
+git checkout main
+git pull origin claude/note-summer-vegetables-jzwjnd
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏のトマト_丸かじりの贅沢.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏のとうもろこし_もぎたての甘さ.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(トマト/とうもろこし)" && git push origin main
+```
+
+【題材トークン誤検知の対処】ゲートが「題材トークン衝突」で止まったら、既公開と本当に別題材か目視確認の上で
+その1本だけ `--allow-topic-dup` を付けて再実行。
+
+【報告(outbox)】公開した2本の最終URL（HTTP200ライブ確認）＋各見出し画像が入ったか。
+
+body: |
+  owner「続き」。夏野菜シリーズ続き2本(トマト/とうもろこし)を作成。両方_verified登録済=text-onlyでも見出し画像自動(owner承認の暫定流用=夏野菜かご画像)。㉞教訓=先にbranch→mainへFF反映してからmainのまま--article公開。重複防止=最初にcheckout registry、公開の間は台帳リセットしない、公開後registryをcommit&push。本日実公開=無人販売所/スイカ/枝豆の3本+本2本=計5本で上限ちょうど=本日打ち止め。
+  cd ~/agent-team-run
+  git checkout main
+  git pull origin claude/note-summer-vegetables-jzwjnd
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏のトマト_丸かじりの贅沢.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏のとうもろこし_もぎたての甘さ.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(トマト/とうもろこし)" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に2本のURLと見出し画像有無。

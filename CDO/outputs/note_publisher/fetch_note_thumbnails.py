@@ -67,6 +67,7 @@ RULES = [
     ("肉じゃが", "nikujaga potato stew japanese"), ("ポテトサラダ", "potato salad food"),
     ("じゃがバター", "baked potato butter"), ("新じゃが", "boiled small potatoes food"),
     ("じゃがいも", "potato dish japanese food"),
+    ("とうもろこし", "grilled corn on the cob food"), ("とうきび", "grilled corn on the cob food"), ("コーン", "corn on the cob food"),
     ("トマト", "fresh tomato food"), ("ピーマン", "green bell pepper vegetable"),
     ("かぼちゃ", "kabocha squash japanese"), ("枝豆", "edamame soybeans"),
     ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
