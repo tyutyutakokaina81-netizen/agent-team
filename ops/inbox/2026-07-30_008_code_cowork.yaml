@@ -1,0 +1,43 @@
+---
+id: 2026-07-30_008
+from: code
+to: cowork
+created: 2026-07-30T22:15:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】FIRE(早期退職)エッセイをnote公開（無サムネ・タイトルFIRE）
+---
+
+owner指示「公開しておいて／タイトルはFIRE」への対応。早期退職の一人称エッセイを**タイトルをFIREに変更**して公開する。
+
+【対象記事】
+- `CMO/outputs/2026-07-30_note記事_早期退職_今日で会社を辞めた.md`
+- タイトル＝「FIRE ——今日で、会社を辞めました。こわくて静かな一歩」／#FIRE 追加済
+- **サムネ＝無し**（抽象テーマで適合フリー画像なし＝無サムネが安全。owner実写があれば後日 note手動で差込）。実行時「🖼️ 自動サムネ候補: なし」でOK。
+
+【日次上限の扱い】本日(7/30)は夏野菜5本で上限到達済。本記事は **owner明示指示による追加（6本目）**。owner承認済につき公開してよい。
+
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開後 registry を commit & push。
+
+【実行コマンド（agent-team-run・完全パス）】
+```
+cd ~/agent-team-run
+git checkout main
+git pull origin claude/note-summer-vegetables-jzwjnd
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_早期退職_今日で会社を辞めた.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE(早期退職)" && git push origin main
+```
+
+【題材トークン誤検知の対処】ゲートが「題材トークン衝突」で止まったら、別題材確認の上その1本だけ `--allow-topic-dup` を付けて再実行。
+
+【報告(outbox)】公開した最終URL（HTTP200ライブ確認）。
+
+body: |
+  owner「公開しておいて/タイトルはFIRE」。早期退職の一人称エッセイをタイトルFIREに変更して公開。#FIRE追加済。サムネ無し(抽象で無サムネが安全・owner実写あれば後日差込)。本日は夏野菜5本で上限到達だがowner明示指示の追加(6本目)=公開可。
+  cd ~/agent-team-run
+  git checkout main
+  git pull origin claude/note-summer-vegetables-jzwjnd
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_早期退職_今日で会社を辞めた.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE(早期退職)" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に最終URL。
