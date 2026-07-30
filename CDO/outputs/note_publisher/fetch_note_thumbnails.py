@@ -148,6 +148,7 @@ RULES = [
     ("火を使わない", "somen noodles cold bowl japanese"), ("そうめん", "somen noodles cold bowl japanese"),
     ("鱒寿司", "salmon sushi rice japanese"), ("ますのすし", "salmon sushi rice japanese"),
     ("かき氷", "kakigori shaved ice dessert"),
+    ("お盆", "bon odori festival lanterns night"), ("盆踊り", "bon odori festival lanterns night"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
