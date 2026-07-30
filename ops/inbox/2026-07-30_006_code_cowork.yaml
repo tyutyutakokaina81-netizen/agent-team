@@ -1,0 +1,53 @@
+---
+id: 2026-07-30_006
+from: code
+to: cowork
+created: 2026-07-30T20:30:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】夏野菜あと2本(スイカ/枝豆)をnote公開（サムネ検証済・見出し画像付き）
+---
+
+owner指示「あと2本記事かいて公開して／サムネつき」への対応。夏野菜シリーズの続き2本を作成した。
+両方 code目視verify済サムネを本stemに用意＋_verified.txt登録済＝**text-onlyでも見出し画像が自動で入る**（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。
+
+【対象記事（2本）】
+1. `CMO/outputs/2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉.md`（サムネ=入善スイカ・検証済）
+2. `CMO/outputs/2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌.md`（サムネ=冷えたグラス・検証済）
+
+【重要・㉞の教訓＝Macは常時main運用なので先にmain反映】
+- 前回(無人販売所)は branch を直接 checkout しようとして pathspec で詰まった。今回は**先に branch を main へFF反映**してから main のまま `--article` で公開する（摩擦最小）。
+
+【重複防止（じゃがいも二重投稿の教訓）】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開コマンドの間で台帳(registry)をリセット/pullしない。2本は連続実行してよい（タイトル別で相互重複しない）。公開後 registry を commit & push。
+
+【1日上限】本日(7/30)の実公開は無人販売所の1本のみ（004の5本は未公開＝下書き/保留）。本2本を足しても計3本＝日次上限5以内。
+
+【実行コマンド（agent-team-run・完全パス）】
+```
+cd ~/agent-team-run
+git checkout main
+git pull origin claude/note-summer-vegetables-jzwjnd   # branchの2記事+サムネをmainへFF取り込み
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(スイカ/枝豆)" && git push origin main
+```
+
+【題材トークン誤検知の対処】ゲートが「題材トークン衝突」で止まったら、既公開と本当に別題材か目視確認の上で
+その1本だけ `--allow-topic-dup` を付けて再実行（花火の前例と同じ）。
+
+【報告(outbox)】公開した2本の最終URL（HTTP200ライブ確認）＋各見出し画像（スイカ/冷えたグラス）が入ったか。
+
+body: |
+  owner「あと2本かいて公開/サムネつき」。夏野菜シリーズの続き2本を作成。両方code目視verify済サムネを本stemに用意+_verified登録済=text-onlyでも見出し画像自動。
+  1. 2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉.md（サムネ=入善スイカ）
+  2. 2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌.md（サムネ=冷えたグラス）
+  ㉞の教訓=Macは常時main運用→先にbranchをmainへFF反映してからmainのまま--articleで公開(摩擦最小)。重複防止=最初にcheckout registry、公開の間は台帳リセットしない、公開後registryをcommit&push。本日実公開は無人販売所1本のみ=2本足して計3本で上限5以内。
+  cd ~/agent-team-run
+  git checkout main
+  git pull origin claude/note-summer-vegetables-jzwjnd
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏野菜あと2本(スイカ/枝豆)" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に2本のURLと見出し画像有無。
