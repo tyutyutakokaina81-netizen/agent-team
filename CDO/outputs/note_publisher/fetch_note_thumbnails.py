@@ -74,6 +74,8 @@ RULES = [
     ("打ち水", "water sprinkling wet stone street japan"), ("うちみず", "water sprinkling wet stone street japan"),
     ("ところてん", "tokoroten jelly noodles bowl"), ("心太", "tokoroten jelly noodles bowl"),
     ("ラジオ体操", "morning exercise park people"), ("体操", "morning exercise group"),
+    ("冷やし中華", "hiyashi chuka cold noodles"), ("冷し中華", "hiyashi chuka cold noodles"),
+    ("蚊取り線香", "mosquito coil incense smoke"), ("蚊遣り", "mosquito coil incense"), ("蚊取", "mosquito coil incense"),
     ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
     ("浅漬け", "japanese pickles tsukemono"),
     # 過去記事QCで判明した誤サムネ(山夕景/無関係)の穴埋め・2026-07-29②追加（具体名を先に＝黒部ダムは黒部峡谷より前）
