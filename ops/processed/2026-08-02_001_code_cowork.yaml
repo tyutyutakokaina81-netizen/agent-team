@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-02T09:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】7/31分5記事をnote公開（お盆はサムネ✅・他4本は暫定無サムネ）
 ---
 
@@ -47,3 +47,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_夏休みのラジオ体操_朝の広場.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/31 5本" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に5本のURL。8/1分5本・8/2分1本は翌日以降。
+
+
+---
+
+## 結果 (2026-07-31T07:18:42+00:00)
+
+7/31を実公開4本(梅干しn626ece1c9c6f/打ち水n8acc12f6a576/ところてんn54f74e74a12e/ラジオ体操n44f7f928b501)。お盆は題材ゲート保留=要--allow-topic-dup再実行。Action取得サムネverify=冷やし中華✅/セミ✅/梅干し可 登録、ラジオ体操FARS透かし却下削除。
