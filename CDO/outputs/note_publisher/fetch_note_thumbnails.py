@@ -68,6 +68,8 @@ RULES = [
     ("じゃがバター", "baked potato butter"), ("新じゃが", "boiled small potatoes food"),
     ("じゃがいも", "potato dish japanese food"),
     ("とうもろこし", "grilled corn on the cob food"), ("とうきび", "grilled corn on the cob food"), ("コーン", "corn on the cob food"),
+    ("みょうが", "myoga ginger bud"), ("茗荷", "myoga ginger bud"),
+    ("お中元", "japanese gift box noshi"), ("中元", "japanese gift box noshi"),
     ("トマト", "fresh tomato food"), ("ピーマン", "green bell pepper vegetable"),
     ("かぼちゃ", "kabocha squash japanese"), ("枝豆", "edamame soybeans"),
     ("梅干し", "umeboshi pickled plum"), ("梅仕事", "umeboshi pickled plum drying"), ("土用干し", "umeboshi drying sun basket"),
