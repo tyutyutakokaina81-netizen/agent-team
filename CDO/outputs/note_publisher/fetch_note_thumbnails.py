@@ -70,6 +70,7 @@ RULES = [
     ("とうもろこし", "grilled corn on the cob food"), ("とうきび", "grilled corn on the cob food"), ("コーン", "corn on the cob food"),
     ("みょうが", "myoga ginger bud"), ("茗荷", "myoga ginger bud"),
     ("オクラ", "okra vegetable pods"), ("すだれ", "japanese bamboo blind sudare"), ("よしず", "reed screen yoshizu window"),
+    ("ゴーヤ", "bitter melon goya"), ("にがうり", "bitter melon goya"), ("金魚すくい", "goldfish scooping festival"), ("金魚", "goldfish tank red"),
 
     ("お中元", "japanese gift box noshi"), ("中元", "japanese gift box noshi"),
     ("トマト", "fresh tomato food"), ("ピーマン", "green bell pepper vegetable"),
