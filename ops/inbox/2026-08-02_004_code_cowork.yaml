@@ -1,0 +1,45 @@
+---
+id: 2026-08-02_004
+from: code
+to: cowork
+created: 2026-08-02T15:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】アウディを買ってよかった記事をnote公開（無サムネ）
+---
+
+owner指示「アウディ買ってよかった話を書いて／アウディ明記で公開まで」への対応。main反映済。
+
+【対象記事】
+- `CMO/outputs/2026-08-02_note記事_アウディを買ってよかった_地方で車を選ぶ.md`
+- タイトル「アウディを買ってよかった、という話。— 地方で、車を選ぶということ」
+- **サムネ＝無し**（ブランド/商標の観点でcode自動取得はしない）。実行時「🖼️ 自動サムネ候補: なし」でOK。
+   owner実写（自分のアウディ/車のある風景）があれば、note編集画面で見出し画像に設定するのが最適。
+
+【題材トークン注意】既存の車記事（車は第二の部屋 等）と「車」で題材トークン衝突する可能性→止まったら
+別題材確認の上その1本だけ `--allow-topic-dup` を付けて再実行。
+
+【1日最大5本ガード】同じ稼働日に既に公開済みがある場合、ガードで翌日繰り越しになることがある。
+
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開後 registry を commit & push。
+
+【実行コマンド（agent-team-run・完全パス）】
+```
+cd ~/agent-team-run
+git checkout main && git pull origin main
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_アウディを買ってよかった_地方で車を選ぶ.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: アウディ" && git push origin main
+```
+
+【報告(outbox)】公開した最終URL（HTTP200ライブ確認）。
+
+body: |
+  owner「アウディ買ってよかった話を/アウディ明記で公開まで」。main反映済。無サムネ(商標観点でcode取得せず・owner実写あれば手動差込)。車記事と「車」題材トークン衝突の可能性→--allow-topic-dup付き。1日最大5本ガード留意。
+  cd ~/agent-team-run
+  git checkout main && git pull origin main
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_アウディを買ってよかった_地方で車を選ぶ.md" --text-only --allow-topic-dup
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: アウディ" && git push origin main
+  報告に最終URL。
