@@ -1,0 +1,45 @@
+---
+id: 2026-08-02_003
+from: code
+to: cowork
+created: 2026-08-02T13:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示おまかせ】FIREご報告記事をnote公開（無サムネ・要--allow-topic-dup）
+---
+
+owner「おまかせで公開」への対応。FIREのご報告記事を公開する。main反映済。
+
+【対象記事】
+- `CMO/outputs/2026-08-02_note記事_FIRE報告_本日FIREしました.md`
+- タイトル「ご報告。本日、FIREしました。— お金持ちの引退ではなく、時間の主導権を取り戻す」
+- **サムネ＝無し**（抽象テーマ・無サムネが安全）。実行時「🖼️ 自動サムネ候補: なし」でOK。
+
+【重要・題材トークン】既存のFIREエッセイ(公開済 n0d7f17843c1b)と"FIRE"が題材トークン衝突する見込み。
+本稿は別記事(報告調・別内容)なので、**最初から `--allow-topic-dup` を付けて実行**してよい
+（note検索の重複ゲートは別途走るので実重複は防げる）。
+
+【1日最大5本ガード】本日すでに公開が進んでいる場合、ガードで翌日繰り越しになることがある。当たったら翌日に実行。
+
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開後 registry を commit & push。
+
+【実行コマンド（agent-team-run・完全パス）】
+```
+cd ~/agent-team-run
+git checkout main && git pull origin main
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_FIRE報告_本日FIREしました.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE報告" && git push origin main
+```
+
+【報告(outbox)】公開した最終URL（HTTP200ライブ確認）。
+
+body: |
+  owner「おまかせで公開」。FIREご報告記事を公開。main反映済。無サムネ(抽象で無サムネが安全)。既存FIREエッセイと"FIRE"題材トークン衝突見込み→最初から--allow-topic-dup可(note検索ゲートは別途走る)。1日最大5本ガードに当たったら翌日。
+  cd ~/agent-team-run
+  git checkout main && git pull origin main
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_FIRE報告_本日FIREしました.md" --text-only --allow-topic-dup
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE報告" && git push origin main
+  報告に最終URL。
