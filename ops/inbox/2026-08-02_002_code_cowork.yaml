@@ -1,0 +1,51 @@
+---
+id: 2026-08-02_002
+from: code
+to: cowork
+created: 2026-08-02T12:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】8/1分5記事をnote公開（冷やし中華はサムネ✅・他4本は無サムネ）
+---
+
+owner「公開して」への対応。**8/1分の5本**を公開する（日次上限5に一致）。全てmain反映済。
+**冷やし中華はcode目視verify済サムネ✅**（実行時「🖼️ 自動サムネ候補: …jpg」表示）、他4本（蚊取り線香/麦茶/風鈴/甘酒）は**無サムネ**（誤サムネより無サムネが正・A5）。
+
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開の間で台帳リセットしない。公開後 registry を commit & push。
+
+【題材トークン誤検知に注意】「冷やし中華」と「冷やし甘酒」は"冷やし"が題材トークン衝突する可能性あり。
+止まったら別題材（中華麺 vs 甘酒＝別物）を確認の上、その1本だけ `--allow-topic-dup` を付けて再実行。
+
+【実行コマンド（agent-team-run・完全パス・全てmainにあり）】
+```
+cd ~/agent-team-run
+git checkout main && git pull origin main
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_冷やし中華始めました_夏の合図.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_蚊取り線香_夏の夜のにおい.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_風鈴_音で涼む夏.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 8/1 5本" && git push origin main
+```
+
+【1日最大5本ガードに注意】publisherは同日5本を超えると公開しない安全ガードあり。同じ稼働日に既に公開済みがある場合、
+一部が翌日繰り越しになることがある（ガードが働いたら翌日に残りを実行）。
+
+【お盆(7/31保留分)を先に出す場合】別途1本、`--allow-topic-dup`付きで（㊷参照）。同日5本ガードに留意。
+
+【報告(outbox)】公開した5本の最終URL（HTTP200ライブ確認）＋冷やし中華に見出し画像が入ったか。
+
+body: |
+  owner「公開して」。8/1分5本を公開(日次上限5)。全main反映済。冷やし中華=サムネ✅/他4本=無サムネ。重複防止=最初にcheckout registry、公開の間は台帳リセットしない、公開後registryをcommit&push。冷やし中華と冷やし甘酒は"冷やし"衝突の可能性→止まったら別題材確認の上その1本だけ--allow-topic-dup。1日最大5本ガードに留意(超過分は翌日)。
+  cd ~/agent-team-run
+  git checkout main && git pull origin main
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_冷やし中華始めました_夏の合図.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_蚊取り線香_夏の夜のにおい.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_風鈴_音で涼む夏.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 8/1 5本" && git push origin main
+  報告に5本のURLと冷やし中華の見出し画像有無。
