@@ -76,6 +76,8 @@ RULES = [
     ("ラジオ体操", "morning exercise park people"), ("体操", "morning exercise group"),
     ("冷やし中華", "hiyashi chuka cold noodles"), ("冷し中華", "hiyashi chuka cold noodles"),
     ("麦茶", "barley tea glass pitcher"), ("むぎ茶", "barley tea glass pitcher"),
+    ("甘酒", "amazake rice drink glass"), ("冷やし甘酒", "amazake rice drink glass"),
+    ("セミ", "cicada tree summer"), ("蝉", "cicada tree summer"),
     ("蚊取り線香", "mosquito coil incense smoke"), ("蚊遣り", "mosquito coil incense"), ("蚊取", "mosquito coil incense"),
     ("味噌汁", "miso soup japanese"), ("漬物", "japanese pickles tsukemono"),
     ("浅漬け", "japanese pickles tsukemono"),
