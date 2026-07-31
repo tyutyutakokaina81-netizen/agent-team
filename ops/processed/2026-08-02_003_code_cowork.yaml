@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-02T13:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示おまかせ】FIREご報告記事をnote公開（無サムネ・要--allow-topic-dup）
 ---
 
@@ -43,3 +43,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_FIRE報告_本日FIREしました.md" --text-only --allow-topic-dup
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE報告" && git push origin main
   報告に最終URL。
+
+
+---
+
+## 結果 (2026-07-31T09:26:39+00:00)
+
+✅公開 FIRE報告=https://note.com/safe_canna441/n/n7346ca10c14e / お盆も同便で公開=https://note.com/safe_canna441/n/ne6ab4cc3191d(サムネ✅)。両方--allow-topic-dupで通過。
