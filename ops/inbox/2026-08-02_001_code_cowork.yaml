@@ -1,0 +1,49 @@
+---
+id: 2026-08-02_001
+from: code
+to: cowork
+created: 2026-08-02T09:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】7/31分5記事をnote公開（お盆はサムネ✅・他4本は暫定無サムネ）
+---
+
+owner「記事を公開」への対応。書き溜めた未公開分のうち、まず**7/31分の5本**を公開する（日次上限5に一致）。
+全てmain反映済。**お盆はcode目視verify済サムネ付き**、他4本（梅干し/打ち水/ところてん/ラジオ体操）は**暫定無サムネ**
+（誤サムネより無サムネが正・A5）。クラウドActionがサムネ取得中＝取得・code目視verify後に差替え可（別便）。
+
+【重複防止】最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json`。公開の間で台帳リセットしない。公開後 registry を commit & push。
+
+【実行コマンド（agent-team-run・完全パス・全てmainにあり）】
+```
+cd ~/agent-team-run
+git checkout main && git pull origin main
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_お盆_家族が帰ってくる夏.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_梅干しと梅仕事_夏の保存食.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_打ち水_夕方のささやかな涼.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_夏休みのラジオ体操_朝の広場.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/31 5本" && git push origin main
+```
+
+【題材トークン誤検知の対処】ゲートが「題材トークン衝突」で止まったら、既公開と本当に別題材か目視確認の上で
+その1本だけ `--allow-topic-dup` を付けて再実行。
+
+【報告(outbox)】公開した5本の最終URL（HTTP200ライブ確認）。
+
+【次便予定】8/1分5本・8/2分1本は翌日以降に順次（日次上限5）。サムネはActionの取得分をcodeが目視verify→適合登録後に本便同様に。
+
+body: |
+  owner「記事を公開」。未公開の書き溜めから7/31分5本を公開(日次上限5)。全てmain反映済。お盆はサムネ✅、他4本は暫定無サムネ(無サムネが正)。重複防止=最初にcheckout registry、公開の間は台帳リセットしない、公開後registryをcommit&push。
+  cd ~/agent-team-run
+  git checkout main && git pull origin main
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_お盆_家族が帰ってくる夏.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_梅干しと梅仕事_夏の保存食.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_打ち水_夕方のささやかな涼.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-31_note記事_夏休みのラジオ体操_朝の広場.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/31 5本" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に5本のURL。8/1分5本・8/2分1本は翌日以降。
