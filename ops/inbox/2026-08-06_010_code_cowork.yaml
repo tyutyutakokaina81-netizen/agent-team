@@ -1,0 +1,50 @@
+---
+id: 2026-08-06_010
+from: code
+to: cowork
+created: 2026-08-06T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】夏の行事/遊び3記事をnote公開（七夕/線香花火/金魚すくい・全てサムネ✅）
+---
+
+owner『公開して』。下記3記事を publish_to_note.py で公開する。**3本とも code 目視verify済みサムネが _verified.txt 登録済**
+＝publisher修正によりtext-onlyでも見出し画像が自動で入る（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。
+
+【重複防止（過去のじゃがいも二重投稿の教訓）】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。
+- 公開コマンドの"間"では台帳(registry)をリセット/pullしない。3本は連続実行可（タイトルが別で相互重複しない）。
+- 公開後、追記された registry を `git add … && git commit -m "publish: 夏の行事3本" && git push origin main`。
+
+【1日上限】publisher内蔵の日次ゲート(最大5本)に従う。他の未消化の公開指示もあるため、上限に達したら残りは翌日へ。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-03_note記事_七夕_願いを吊るす夏の街.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-04_note記事_線香花火_夏を終わらせる小さな火.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-05_note記事_金魚すくい_紙の網ですくう夏.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 七夕/線香花火/金魚すくい" && git push origin main
+```
+
+【題材トークン誤検知の対処】花火系(七夕/線香花火)や既存記事とゲートが「題材トークン衝突」で止まったら、
+別題材か目視確認の上でその1本だけ `--allow-topic-dup` を付けて再実行。
+
+【あわせて】朝顔(2026-08-06)はサムネ登録後に別途公開指示を出す（本便には含めない）。
+
+【報告(outbox)】公開した記事の最終URL（HTTP200ライブ確認）＋見出し画像が入ったか。ゲートで保留にしたものは理由。
+
+body: |
+  owner『公開して』。夏の行事/遊び3本(七夕/線香花火/金魚すくい)を公開。3本とも_verified登録済=text-onlyでサムネ自動。
+  重複防止=最初にcheckout registry→pull、公開の間は台帳リセットしない、3本連続可、公開後registryをcommit&push。日次上限5はpublisherゲートに従う。
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-03_note記事_七夕_願いを吊るす夏の街.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-04_note記事_線香花火_夏を終わらせる小さな火.md" --text-only
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-05_note記事_金魚すくい_紙の網ですくう夏.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 七夕/線香花火/金魚すくい" && git push origin main
+  題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。朝顔はサムネ登録後に別途。報告にURLと見出し画像有無。
