@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-06T00:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】夏の行事/遊び3記事をnote公開（七夕/線香花火/金魚すくい・全てサムネ✅）
 ---
 
@@ -48,3 +48,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-05_note記事_金魚すくい_紙の網ですくう夏.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 七夕/線香花火/金魚すくい" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。朝顔はサムネ登録後に別途。報告にURLと見出し画像有無。
+
+
+---
+
+## 結果 (2026-08-01T22:51:35+09:00)
+
+七夕/線香花火/金魚すくい3本+7/30分2本(かき氷/日帰り温泉)公開・全5本HTTP200ライブ・サムネ入り。日次5本上限到達
