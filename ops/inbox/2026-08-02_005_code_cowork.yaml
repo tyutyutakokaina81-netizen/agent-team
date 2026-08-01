@@ -1,0 +1,43 @@
+---
+id: 2026-08-02_005
+from: code
+to: cowork
+created: 2026-08-02T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】クラフトコーラ記事をnote公開（owner実写サムネ✅・約2000字）
+---
+
+owner『2000文字 公開して』。クラフトコーラ記事（本文を約2000字に加筆済み）を publish_to_note.py で公開する。
+**owner実写サムネ（七輪のメスティンでスパイスを煮出す・IMG_0298）を _verified.txt 登録済**
+＝publisher修正により見出し画像が自動で入る（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。owner写真ありなので `--text-only` は付けない（本文の[写真①②]placeholderは実写1枚のためpublisher側で処理。もし本文写真挿入で不都合が出たら `--text-only` を付けて再実行＝サムネは_verified登録分が自動採用される）。
+
+【重複防止（過去のじゃがいも二重投稿の教訓）】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。
+- 公開後、追記された registry を commit & push。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md"
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: クラフトコーラ" && git push origin main
+```
+
+【題材トークン誤検知の対処】既存の飲みもの記事(麦茶/冷やし甘酒 等)とゲートが「題材トークン衝突」で止まったら、
+別題材(スパイスから煮出す自家製コーラ)であることを確認の上、`--allow-topic-dup` を付けて再実行。
+
+【報告(outbox)】公開した記事の最終URL（HTTP200ライブ確認）＋見出し画像（owner実写）が入ったか。
+
+body: |
+  owner『2000文字 公開して』。クラフトコーラ記事(本文約2000字に加筆済)を公開。owner実写サムネ(IMG_0298)_verified登録済=見出し画像自動。
+  owner写真ありなので--text-onlyは付けない(不都合出たら--text-only再実行=サムネは_verified自動)。
+  重複防止=最初にcheckout registry→pull、公開後registryをcommit&push。
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md"
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: クラフトコーラ" && git push origin main
+  題材トークン誤検知(麦茶/甘酒等)で止まったら別題材確認の上--allow-topic-dup。報告に最終URLと見出し画像(owner実写)有無。
