@@ -169,6 +169,7 @@ RULES = [
     ("朝顔", "morning glory flower blue purple"), ("あさがお", "morning glory flower blue purple"),
     ("灯籠流し", "floating lanterns river night"), ("精霊流し", "floating lanterns river night"),
     ("夏の魚", "sashimi assorted japanese"), ("漬け丼", "sashimi rice bowl donburi"), ("南蛮漬け", "fried fish vinegar marinade"),
+    ("うなぎ", "grilled eel unagi kabayaki rice"), ("土用の丑", "grilled eel unagi kabayaki rice"), ("鰻", "grilled eel unagi kabayaki rice"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
