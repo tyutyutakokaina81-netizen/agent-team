@@ -164,6 +164,7 @@ RULES = [
     ("かき氷", "kakigori shaved ice dessert"),
     ("お盆", "bon odori festival lanterns night"), ("盆踊り", "bon odori festival lanterns night"),
     ("七夕", "tanabata festival colorful streamers"), ("たなばた", "tanabata festival colorful streamers"),
+    ("線香花火", "sparkler senko hanabi sparks night"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
