@@ -166,6 +166,7 @@ RULES = [
     ("七夕", "tanabata festival colorful streamers"), ("たなばた", "tanabata festival colorful streamers"),
     ("線香花火", "sparkler senko hanabi sparks night"),
     ("金魚すくい", "goldfish scooping festival"), ("金魚", "goldfish red water"),
+    ("朝顔", "morning glory flower blue purple"), ("あさがお", "morning glory flower blue purple"),
     # 仕事・実務（フリーランス系は写真風のデスク/作業で統一）
     ("メール", "laptop email desk"), ("時給", "minimal desk laptop calculator"),
     ("値上げ", "laptop email writing desk"), ("値段", "notebook pen desk pricing"),
