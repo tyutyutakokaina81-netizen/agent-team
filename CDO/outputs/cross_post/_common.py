@@ -53,6 +53,11 @@ def find_article(arg: str | None) -> Path:
         p = Path(arg).expanduser()
         if p.is_absolute() or p.exists():
             return p
+        # リポジトリルート基準の相対パス("CMO/outputs/xxx.md")をどのcwdからでも解決
+        # (2026-08-03: gen_all は自ディレクトリで動くため相対--articleが解決できずTracebackしていた根治)
+        rp = REPO_ROOT / arg
+        if rp.exists():
+            return rp
         return ARTICLES_DIR / arg
     candidates = sorted(ARTICLES_DIR.glob("*_note記事_*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
     if not candidates:
