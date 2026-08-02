@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-02T12:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】8/1分5記事をnote公開（冷やし中華はサムネ✅・他4本は無サムネ）
 ---
 
@@ -49,3 +49,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 8/1 5本" && git push origin main
   報告に5本のURLと冷やし中華の見出し画像有無。
+
+
+---
+
+## 結果 (2026-08-02T00:04:29+00:00)
+
+8/1分5本すべて既公開を報告2026-08-01_050で確認・close(冷やし中華n688348718444等)

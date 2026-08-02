@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T22:15:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】FIRE(早期退職)エッセイをnote公開（無サムネ・タイトルFIRE）
 ---
 
@@ -41,3 +41,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_早期退職_今日で会社を辞めた.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: FIRE(早期退職)" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に最終URL。
+
+
+---
+
+## 結果 (2026-08-02T00:04:29+00:00)
+
+既公開(FIRE早期退職 n0d7f17843c1b)を報告2026-08-01_050で確認・close

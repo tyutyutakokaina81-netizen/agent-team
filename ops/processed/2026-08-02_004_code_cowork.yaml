@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-02T15:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】アウディを買ってよかった記事をnote公開（無サムネ）
 ---
 
@@ -43,3 +43,10 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-02_note記事_アウディを買ってよかった_地方で車を選ぶ.md" --text-only --allow-topic-dup
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: アウディ" && git push origin main
   報告に最終URL。
+
+
+---
+
+## 結果 (2026-08-02T00:04:29+00:00)
+
+アウディ既公開(n4820e9f55ff2)を報告2026-08-01_050で確認・close
