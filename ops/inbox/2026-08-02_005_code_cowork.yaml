@@ -11,7 +11,7 @@ title: 【公開・owner指示】クラフトコーラ記事をnote公開（owne
 
 owner『2000文字 公開して』。クラフトコーラ記事（本文を約2000字に加筆済み）を publish_to_note.py で公開する。
 **owner実写サムネ（七輪のメスティンでスパイスを煮出す・IMG_0298）を _verified.txt 登録済**
-＝publisher修正により見出し画像が自動で入る（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。owner写真ありなので `--text-only` は付けない（本文の[写真①②]placeholderは実写1枚のためpublisher側で処理。もし本文写真挿入で不都合が出たら `--text-only` を付けて再実行＝サムネは_verified登録分が自動採用される）。
+＝publisher修正により見出し画像が自動で入る（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。**⚠️訂正：本文に[写真①②]placeholderがあるため `--text-only` は必須**（付けないと「--photosに写真がありません」で中断＝2026-08-02実際に中断を確認）。`--text-only` を付けても _verified 登録済みの owner実写サムネは見出し画像に自動採用されるので問題なし。
 
 【重複防止（過去のじゃがいも二重投稿の教訓）】
 - 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。
@@ -22,7 +22,7 @@ owner『2000文字 公開して』。クラフトコーラ記事（本文を約2
 cd ~/agent-team-run
 git checkout -- CDO/outputs/note_publisher/published_registry.json
 git pull origin main
-python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md"
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md" --text-only
 git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: クラフトコーラ" && git push origin main
 ```
 
@@ -33,11 +33,11 @@ git add CDO/outputs/note_publisher/published_registry.json && git commit -m "pub
 
 body: |
   owner『2000文字 公開して』。クラフトコーラ記事(本文約2000字に加筆済)を公開。owner実写サムネ(IMG_0298)_verified登録済=見出し画像自動。
-  owner写真ありなので--text-onlyは付けない(不都合出たら--text-only再実行=サムネは_verified自動)。
+  ⚠️訂正：本文に[写真①②]placeholderありのため--text-onlyは必須(付けないと中断)。--text-onlyでも_verifiedのowner実写サムネは自動採用。
   重複防止=最初にcheckout registry→pull、公開後registryをcommit&push。
   cd ~/agent-team-run
   git checkout -- CDO/outputs/note_publisher/published_registry.json
   git pull origin main
-  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md"
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: クラフトコーラ" && git push origin main
   題材トークン誤検知(麦茶/甘酒等)で止まったら別題材確認の上--allow-topic-dup。報告に最終URLと見出し画像(owner実写)有無。
