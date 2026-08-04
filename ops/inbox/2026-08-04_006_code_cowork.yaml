@@ -1,0 +1,53 @@
+---
+id: 2026-08-04_006
+from: code
+to: cowork
+created: 2026-08-04T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示「公開して」】未公開の夏連作40本(8/3-8/12)を1日5本ずつ全量公開
+---
+
+owner『公開して』。5/28〜8/12の夏連作が全日5本充足済み。**未公開の40本(8/3〜8/12)を、日次上限5本ずつ、下記の順で全量公開**する。数日かけて消化してよい。
+
+【共通ルール】
+- **全記事 `--text-only` 必須**（本文に[写真①②]placeholderがあるため。付けないと「--photosに写真がありません」で中断）。`--text-only` でも `_verified` 登録済みサムネ（下記✅印）は見出し画像に自動採用される。
+- **重複ゲート**：既公開はpublisher台帳(registry)で自動スキップされる（8/1-8/2やmi既公開分が混じっても安全）。題材トークン誤検知で止まったら、別題材を確認の上その1本だけ `--allow-topic-dup` を付けて再実行。
+- **スイカ(8/3)は既公開きゅうりと「冷やして」がトークン衝突するので最初から `--allow-topic-dup` 付き**。
+- **重複防止**：各実行の最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。公開の"間"では台帳をリセット/pullしない。1日分を公開したら registry を commit & push。
+- **1日上限5本**：publisher内蔵の日次ゲートに従う。上限に達したら残りは翌日、同じ続きから。
+
+【サムネ✅登録済み（公開時に自動で見出し画像が入る）】
+スイカ/冷ややっこ/ざるそば/ゴーヤチャンプルー/天ぷら/たこ焼き/おにぎり/クラフトコーラ(owner実写)/みたらし団子(owner実写)/牛の昆布締め(owner実写)/夏の魚料理/うなぎ/灯籠流し。他は無サムネ(text-onlyでテキストのみ公開＝可)。
+
+【公開順（40本・上から5本ずつ）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-03_note記事_スイカ_冷やして塩をふる夏.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-04_note記事_冷ややっこ_何もしない料理.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-05_note記事_ざるそば_つゆにちょんとつける.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-07_note記事_ゴーヤチャンプルー_苦いのがいい.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-08_note記事_天ぷら_揚げたてを立って食べる.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 夏連作 day1(サムネ5本)" && git push origin main
+```
+2日目以降（同じ手順の先頭3行→5本→registry commit&push）で、残りを下記の順に：
+- day2: たこ焼き(8/9)✅ / おにぎり(8/11)✅ / みたらし団子(8/10)✅ / クラフトコーラ(8/11)✅ / 牛の昆布締め(8/12)✅
+- day3: 夏の魚料理(8/8)✅ / うなぎ(8/9)✅ / 灯籠流し(8/7)✅ / 朝顔(8/6) / 扇風機(8/4)
+- day4: 鮎(8/4) / 夏の高校野球(8/4) / 桃(8/5) / 夏の星空(8/5) / 蚊帳(8/5)
+- day5: わらび餅(8/7) / 夏のプール(8/7) / 夏の夕焼け(8/7) / 夏の昼寝(8/8) / 夏の草むしり(8/8)
+- day6: 田んぼの夏(8/8) / スイカ割り(8/9) / 日焼け(8/9) / 麦わら帽子(8/9) / うちわ(8/10)
+- day7: 寝苦しい夜(8/10) / 焼きそば(8/10) / 行水(8/10) / サンダル(8/11) / 水鉄砲(8/11)
+- day8: 汗(8/11) / あんみつ(8/12) / 夏の終わりの気配(8/12) / 浴衣(8/12) / 盆踊り(8/12)
+
+※day2以降のフルパスは day1 と同形式（`CMO/outputs/<ファイル名>.md` を --text-only で）。ファイル名は台帳(CMO/_index.md)参照。owner写真3本(みたらし団子/クラフトコーラ/牛の昆布締め)も --text-only でサムネ自動。
+
+【報告(outbox)】各日、公開した記事の最終URL（HTTP200ライブ確認）＋見出し画像の有無。ゲートで保留にしたものは理由。全40本消化まで継続。
+
+body: |
+  owner『公開して』。未公開の夏連作40本(8/3-8/12)を日次5本ずつ全量公開。全記事--text-only必須(本文placeholder)。_verified登録済みサムネ(スイカ/冷ややっこ/ざるそば/ゴーヤチャンプルー/天ぷら/たこ焼き/おにぎり/クラフトコーラ/みたらし団子/牛の昆布締め/夏の魚料理/うなぎ/灯籠流し)は自動で見出し画像。スイカは--allow-topic-dup。各実行の最初にcheckout registry→pull、公開後registry commit&push、間はリセットしない。題材トークン誤検知は別題材確認の上その1本だけ--allow-topic-dup。日次上限5に従い数日で全量。報告に各日のURLと見出し画像有無。
+  day1: cd ~/agent-team-run; git checkout -- ...registry; git pull origin main;
+  publish スイカ(--allow-topic-dup)/冷ややっこ/ざるそば/ゴーヤチャンプルー/天ぷら (各--text-only); registry commit&push
+  day2-8は台帳順に残り35本を同手順で。
