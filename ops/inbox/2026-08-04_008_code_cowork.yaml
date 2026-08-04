@@ -1,0 +1,44 @@
+---
+id: 2026-08-04_008
+from: code
+to: cowork
+created: 2026-08-04T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示「公開して」】メジマグロ記事をnote公開（owner実写サムネ✅）
+---
+
+owner『公開して』。メジマグロ記事（富山湾の船釣りの一次体験・owner写真5枚の題材）を publish_to_note.py で公開する。
+**owner実写サムネ（釣って持ち帰った釣果・IMG_0071）を _verified.txt 登録済**＝見出し画像が自動で入る（実行時「🖼️ 自動サムネ候補: …jpg」表示を確認）。
+**本文に[写真①②]placeholderがあるため `--text-only` 必須**（付けないと「--photosに写真がありません」で中断）。--text-only でも _verified 登録サムネは自動採用される。
+
+【A5（公開時も本文の注記を削らない）】
+- 本文に「クロマグロは資源管理・遊漁ルール/報告の対象＝ルールを守り確認・誇らず・感謝していただく」の注記あり。**この注記は必ず残す**（削除・改変しない）。
+
+【重複防止】
+- 最初に `git checkout -- CDO/outputs/note_publisher/published_registry.json` → `git pull origin main`。公開後、追記された registry を commit & push。
+
+【実行コマンド（agent-team-run・mainのまま・完全パス）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-13_note記事_メジマグロ_夜明けの海から食卓まで.md" --text-only
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: メジマグロ" && git push origin main
+```
+
+【題材トークン誤検知の対処】既存の魚介記事(ぶり/鮎/夏の魚料理 等)とゲートが止まったら、別題材(自分で釣ったメジマグロの一次体験)を確認の上 `--allow-topic-dup` を付けて再実行。
+
+【報告(outbox)】公開した記事の最終URL（HTTP200ライブ）＋見出し画像（owner実写）が入ったか。
+
+body: |
+  owner『公開して』。メジマグロ記事(富山湾の船釣り一次体験)を公開。owner実写サムネ(IMG_0071釣果)_verified登録済=見出し画像自動。本文placeholderのため--text-only必須。
+  A5=本文のクロマグロ資源管理/遊漁ルールの注記は必ず残す(削除改変しない)。
+  重複防止=最初にcheckout registry→pull、公開後registry commit&push。
+  cd ~/agent-team-run
+  git checkout -- CDO/outputs/note_publisher/published_registry.json
+  git pull origin main
+  python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-08-13_note記事_メジマグロ_夜明けの海から食卓まで.md" --text-only
+  git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: メジマグロ" && git push origin main
+  題材トークン誤検知(魚介系)は別題材確認の上--allow-topic-dup。報告に最終URLと見出し画像有無。
