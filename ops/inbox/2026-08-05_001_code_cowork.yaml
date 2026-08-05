@@ -1,0 +1,29 @@
+---
+id: 2026-08-05_001
+from: code
+to: cowork
+created: 2026-08-05T22:08:42+00:00
+priority: normal
+type: instruction
+status: open
+title: 【公開・owner『公開までして』】drafts/queue(51本・富山弁いじくらしい/きのどくな含む)を全量公開
+---
+
+owner『公開までして』。直近の富山弁2本(きのどくな8/14・いじくらしい8/15)を含む未公開51本がdrafts/queue/にstage済。**キュー方式に一本化**して全量公開する（従来の006/007/008の個別手配はこのキュー実行で吸収される）。
+
+【実行（Macで1コマンド）】
+  cd ~/agent-team-run
+  git merge --abort 2>/dev/null; git rebase --abort 2>/dev/null
+  git fetch origin main && git reset --hard origin/main
+  bash ops/publish_today.sh --all
+
+【仕様（スクリプト内蔵で自動）】
+- publish_today.sh は drafts/queue/*.md を --text-only で順に公開（本文[写真]placeholder対応・_verified登録サムネは自動採用）。
+- publisher内蔵の日次上限5本＋registry重複スキップ＋オンラインnote検索重複ガードで、安全に数日かけて消化。
+- 公開できた分は drafts/published/ へ move し、commit&push（＝codeが結果を確認できる）。
+- 富山弁3本ときのどくな/いじくらしい/ひまわり等は無サムネ（text-onlyでテキストのみ公開＝可）。
+- スイカのみ題材トークン誤検知で止まりうる→その1本だけ手動 --allow-topic-dup で再実行。
+
+【無人運用したい場合】
+  bash ops/install_publish_schedule.sh 8 0   # 毎日08:00に上記を自動実行（インラインコメント不可）
+公開結果は ops/outbox/ と ops/logs/ に残す。
