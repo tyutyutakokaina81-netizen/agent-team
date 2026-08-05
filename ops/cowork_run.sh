@@ -29,6 +29,7 @@ failed=0
 ok_list=""
 fail_list=""
 thumb_fail=0
+login_fail=0
 
 for f in drafts/queue/*.md; do
   name="$(basename "$f")"
@@ -39,6 +40,11 @@ for f in drafts/queue/*.md; do
   # 写真サムネ未設定（=noteの既定サムネ適用）を集計。失敗ではなく情報として数える。
   if echo "$out" | grep -q "写真サムネは未設定"; then
     thumb_fail=$((thumb_fail+1))
+  fi
+  # ★ログイン切れ/未ログインを検知（publisherが未ログイン時に出す定型文）。無人では自動ログインできないため
+  #   outboxに「要ログイン」をはっきり残し、owner が --login すべきと分かるようにする（0/N全滅の原因特定用）。
+  if echo "$out" | grep -qE "ログインしていない|初回ログインがまだ"; then
+    login_fail=1
   fi
   if [ $rc -eq 0 ]; then
     mkdir -p drafts/published
@@ -53,6 +59,10 @@ echo "=== summary: published=${published} failed=${failed} thumb_fail=${thumb_fa
 
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用)（log: ${LOG}）"
+# ★ログイン切れ検知時は先頭に大きく警告（無人では復旧不可＝owner対応が必要）
+if [ $login_fail -eq 1 ]; then
+  body="⚠️【要対応】noteログイン切れ/未ログインで公開できません。owner は Mac で \`python3 CDO/outputs/note_publisher/publish_to_note.py --login\` を実行しnoteにログイン→再度公開してください。 || ${body}"
+fi
 [ -n "$ok_list" ]   && body="${body} | OK:${ok_list}"
 [ -n "$fail_list" ] && body="${body} | NG:${fail_list}"
 python3 ops/process_inbox.py post --from cowork --to code --type report \
