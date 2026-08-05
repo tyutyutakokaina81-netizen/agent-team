@@ -29,7 +29,7 @@ thumb_fail=0
 for f in drafts/queue/*.md; do
   name="$(basename "$f")"
   echo "--- 公開試行: ${name} ---"
-  out="$(python3 "$PUB" --article "$f" 2>&1)"
+  out="$(python3 "$PUB" --text-only --article "$f" 2>&1)"
   rc=$?
   echo "$out"
   # 写真サムネ未設定（=noteの既定サムネ適用）を集計。失敗ではなく情報として数える。
