@@ -12,6 +12,12 @@ set -euo pipefail
 
 HOUR="${1:-8}"
 MIN="${2:-0}"
+# 貼り付け時にコメント文(例: "# 毎日08:00…")が引数に混ざっても壊れないよう、数値以外は既定に戻す
+case "$HOUR" in ''|*[!0-9]*) HOUR=8 ;; esac
+case "$MIN"  in ''|*[!0-9]*) MIN=0 ;; esac
+# 24h/60m 範囲外も既定に
+[ "$HOUR" -ge 0 ] 2>/dev/null && [ "$HOUR" -le 23 ] 2>/dev/null || HOUR=8
+[ "$MIN"  -ge 0 ] 2>/dev/null && [ "$MIN"  -le 59 ] 2>/dev/null || MIN=0
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 LA="$HOME/Library/LaunchAgents"
 PLIST="$LA/com.agentteam.publish.plist"

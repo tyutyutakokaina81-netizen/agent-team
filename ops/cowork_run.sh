@@ -16,7 +16,11 @@ LOG="ops/logs/publish_${TS}.log"
 exec > >(tee -a "$LOG") 2>&1
 
 echo "=== publish run ${TS} (branch=${BR}) ==="
-git pull --rebase origin "$BR" || git pull origin "$BR" || true
+# 自己修復: 前回の未完マージ/リベースや残骸ロックがあると git 同期が全部詰まるので先に解消
+find .git -name '*.lock' -delete 2>/dev/null || true
+git merge --abort  2>/dev/null || true
+git rebase --abort 2>/dev/null || true
+git pull --rebase origin "$BR" || git pull origin "$BR" || { echo "⚠️ pull失敗→origin/${BR}へ強制同期(Macはミラー)"; git fetch origin "$BR" && git reset --hard "origin/${BR}"; }
 
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
 shopt -s nullglob

@@ -22,6 +22,9 @@ done
 
 echo "== ① git lock 掃除（場所を問わず再帰削除・zsh安全）=="
 find .git -name '*.lock' -print -delete 2>/dev/null || true
+# 前回の未完マージ/リベースがあると checkout も詰まるので先に解消（Macはミラー＝origin/main が正）
+git merge --abort  2>/dev/null || true
+git rebase --abort 2>/dev/null || true
 
 echo "== ② main 同期 =="
 git fetch origin main && git checkout -B main origin/main || { echo "✗ git同期失敗。lockが残っていないか確認。"; exit 1; }
