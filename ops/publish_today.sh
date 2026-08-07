@@ -13,12 +13,16 @@ cd "$(dirname "$0")/.." || exit 1
 
 LOGIN=0
 ALL=0
+DUP=0
 for a in "$@"; do
   case "$a" in
     --login) LOGIN=1 ;;
     --all)   ALL=1 ;;
+    --dup)   DUP=1 ;;   # 題材トークン重複ゲートを無視（別切り口の別記事を出す時）。タイトル一致dedupは残るので既公開は自動スキップ
   esac
 done
+EXTRA=""
+[ $DUP -eq 1 ] && EXTRA="--allow-topic-dup"
 
 echo "== ① git lock 掃除（場所を問わず再帰削除・zsh安全）=="
 find .git -name '*.lock' -print -delete 2>/dev/null || true
@@ -55,7 +59,7 @@ fi
 ok=0; ng=0
 for f in "${files[@]}"; do
   echo ""; echo "========== 公開: $(basename "$f") =========="
-  if python3 "$PUB" --text-only --article "$f"; then
+  if python3 "$PUB" --text-only $EXTRA --article "$f"; then
     ok=$((ok+1))
     mkdir -p drafts/published
     git mv "$f" "drafts/published/$(basename "$f")" 2>/dev/null || mv "$f" "drafts/published/$(basename "$f")"
