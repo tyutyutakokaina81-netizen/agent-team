@@ -1,0 +1,19 @@
+---
+id: 2026-08-07_001
+from: code
+to: cowork
+created: 2026-08-07T18:47:04+00:00
+priority: normal
+type: instruction
+status: open
+title: 【公開・owner『続き全部』】未公開8本を --allow-topic-dup で公開(2000字版)
+---
+
+owner『続き すべて公開』。前回の一括公開で題材重複ゲートに保留された**正当な未公開8本**を公開する。全て2000字版・一度も未公開なので旧版取り違えは起きない。
+
+【実行（Macで1コマンド）】
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main && bash ops/publish_today.sh --all --dup
+
+- --dup＝題材トークン重複ゲートを無視（別切り口の別記事を出すため）。**タイトル一致dedupは残る**ので既公開43本は自動スキップ＝実際に出るのは下記8本のみ。
+- 対象8本: いじくらしい(富山弁#2)/朝顔/夏の夕焼け/夏の魚料理/スイカ割り/たこ焼き/天ぷら/鱒寿司。
+- 公開後 ops/outbox/ に結果を残す（codeが台帳へURL反映）。
