@@ -1,0 +1,500 @@
+<title>よあけの絵本 — アコースティック</title>
+<style>
+  :root{
+    /* light = "morning page" */
+    --bg:#efe7da;
+    --bg2:#f7f1e6;
+    --ink:#2a2436;
+    --ink-soft:#5c5468;
+    --muted:#8a8194;
+    --line:#dccfba;
+    --card:#fbf6ec;
+    --amber:#e08b3c;
+    --coral:#d96a74;
+    --rose:#c98aa0;
+    --glow:#f0a868;
+    --hi:#fbe6cf;         /* highlight wash for active section */
+    --shadow:rgba(60,45,30,.14);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#16172a;
+      --bg2:#1e1d34;
+      --ink:#f2ebde;
+      --ink-soft:#c3bcd0;
+      --muted:#8d86a4;
+      --line:#33324f;
+      --card:#20203a;
+      --amber:#f0a868;
+      --coral:#e8748c;
+      --rose:#d99ab4;
+      --glow:#f2b070;
+      --hi:#2c2b48;
+      --shadow:rgba(0,0,0,.4);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16172a;--bg2:#1e1d34;--ink:#f2ebde;--ink-soft:#c3bcd0;--muted:#8d86a4;
+    --line:#33324f;--card:#20203a;--amber:#f0a868;--coral:#e8748c;--rose:#d99ab4;
+    --glow:#f2b070;--hi:#2c2b48;--shadow:rgba(0,0,0,.4);color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,system-ui,sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mincho{font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;}
+
+  .wrap{max-width:680px;margin:0 auto;padding:28px 22px 72px;}
+
+  /* ---- header ---- */
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .eyebrow{
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;
+  }
+  .toggle{
+    border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+    border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;
+    letter-spacing:.04em;transition:border-color .2s,color .2s;
+  }
+  .toggle:hover{border-color:var(--amber);color:var(--ink);}
+  .toggle:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
+
+  h1{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    font-weight:600;
+    font-size:clamp(38px,9vw,60px);
+    letter-spacing:.04em;
+    margin:.28em 0 .12em;
+    line-height:1.12;
+    text-wrap:balance;
+  }
+  .sub{color:var(--ink-soft);font-size:15px;margin:0;}
+  .sub .en{color:var(--muted);font-style:italic;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;}
+  .chip{
+    font-size:12.5px;color:var(--ink-soft);background:var(--card);
+    border:1px solid var(--line);border-radius:999px;padding:5px 12px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---- player / dawn hero ---- */
+  .stage{
+    position:relative;margin:26px 0 0;border-radius:22px;overflow:hidden;
+    border:1px solid var(--line);box-shadow:0 18px 40px -24px var(--shadow);
+    background:var(--bg2);
+  }
+  canvas#sky{display:block;width:100%;height:230px;}
+  .controls{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:16px;
+  }
+  .play{
+    width:82px;height:82px;border-radius:50%;border:none;cursor:pointer;
+    background:radial-gradient(circle at 38% 32%,var(--glow),var(--amber) 70%,var(--coral));
+    color:#241a10;display:grid;place-items:center;
+    box-shadow:0 0 0 8px rgba(240,168,104,.16),0 14px 30px -8px rgba(200,110,40,.6);
+    transition:transform .18s ease,box-shadow .3s;
+  }
+  .play:hover{transform:scale(1.06);}
+  .play:active{transform:scale(.97);}
+  .play:focus-visible{outline:3px solid #fff;outline-offset:4px;}
+  .play svg{width:34px;height:34px;margin-left:3px;fill:#241a10;}
+  .play.playing svg{margin-left:0;}
+  .nowline{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    font-size:14px;color:#fff8ee;letter-spacing:.14em;
+    text-shadow:0 1px 8px rgba(40,20,0,.55);min-height:1.2em;
+  }
+  .nowchord{font-weight:700;color:#fff;}
+
+  .transport{display:flex;align-items:center;gap:12px;padding:14px 18px;
+    border-top:1px solid var(--line);background:var(--card);}
+  .time{font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);min-width:38px;}
+  .bar{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden;cursor:pointer;}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--coral));transition:width .1s linear;}
+
+  /* ---- song sheet ---- */
+  .sheet{margin:34px 0 0;}
+  .sheet h2{
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;margin:0 0 16px;
+  }
+  .sect{
+    border-left:3px solid transparent;padding:12px 4px 12px 16px;margin:0 0 6px;
+    border-radius:0 10px 10px 0;transition:background .35s,border-color .35s;
+  }
+  .sect.active{background:var(--hi);border-left-color:var(--amber);}
+  .sect .tag{
+    font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--coral);font-weight:700;margin:0 0 8px;
+  }
+  .row{margin:0 0 10px;}
+  .chords{
+    font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;
+    font-size:13px;color:var(--amber);font-weight:600;letter-spacing:.02em;
+    white-space:pre-wrap;margin:0 0 1px;
+  }
+  .lyric{
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    font-size:18px;color:var(--ink);margin:0;letter-spacing:.03em;
+  }
+  .lyric.inst{color:var(--muted);font-style:italic;font-size:15px;}
+
+  /* ---- tab ---- */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;margin:30px 0 0;
+  }
+  .card h3{margin:0 0 4px;font-size:15px;letter-spacing:.02em;}
+  .card p{margin:6px 0 0;color:var(--ink-soft);font-size:14px;}
+  .tab{
+    overflow-x:auto;margin:14px 0 0;
+  }
+  .tab pre{
+    font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;
+    font-size:12.5px;line-height:1.55;color:var(--ink-soft);margin:0;
+    white-space:pre;
+  }
+  .note{color:var(--muted);font-size:13px;margin-top:22px;line-height:1.7;}
+  a{color:var(--coral);}
+  @media (prefers-reduced-motion:reduce){
+    .play,.fill{transition:none;}
+  }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div class="eyebrow">Acoustic · 読み聞かせフォーク</div>
+    <button class="toggle" id="themeBtn" aria-label="テーマ切替">◐ テーマ</button>
+  </div>
+
+  <h1>よあけの絵本</h1>
+  <p class="sub mincho">Yoake no Ehon <span class="en">— a picture book, opened at dawn</span></p>
+
+  <div class="chips">
+    <span class="chip">Capo 2</span>
+    <span class="chip">4/4</span>
+    <span class="chip">♩ = 88</span>
+    <span class="chip">Key of G (sounds A)</span>
+    <span class="chip">フィンガースタイル</span>
+  </div>
+
+  <div class="stage">
+    <canvas id="sky" width="1360" height="460"></canvas>
+    <div class="controls">
+      <button class="play" id="play" aria-label="再生">
+        <svg id="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <div class="nowline" id="now">▶ おして、朝をひらく</div>
+    </div>
+    <div class="transport">
+      <span class="time" id="cur">0:00</span>
+      <div class="bar" id="seek"><div class="fill" id="fill"></div></div>
+      <span class="time" id="dur">0:00</span>
+    </div>
+  </div>
+
+  <div class="sheet" id="sheet">
+    <h2>歌詞 &amp; コード</h2>
+  </div>
+
+  <div class="card">
+    <h3>ピッキング・パターン（1小節ぶん）</h3>
+    <p>親指でベース、人差し〜薬指で内声を転がす軽いスリーフィンガー。カポ2で下の押さえのまま。</p>
+    <div class="tab"><pre id="tab">例：G / Cadd9
+
+      1 &amp; 2 &amp; 3 &amp; 4 &amp;
+e|-------0-------0---|
+B|-----3-------3-----|
+G|---0-------0-------|   ← 内声を軽く転がす
+D|-0-------0--------|
+A|------------------|
+E|3-------3---------|    ← 親指のベースは 1・3拍
+</pre></div>
+  </div>
+
+  <p class="note">
+    ※「ehon」というバンドは今回はっきり特定できませんでした（検索では HONEBONE / んoon / Enon などが混在）。
+    なので “絵本” の世界観＝やさしい読み聞かせ系アコースティックとして書いた<strong>オリジナル曲</strong>です。
+    公式リンクや曲名を1つ教えてもらえれば、その音楽性に寄せて作り直します。<br>
+    音はブラウザ内でギター弦の振動をシミュレート（Karplus–Strong 合成）して鳴らしています。実機のギターで弾くと、より生きた音になります。
+  </p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ SONG DATA ============ */
+  const BPM = 88;
+  const beat = 60 / BPM;          // sec per quarter
+  const barLen = beat * 4;
+
+  // chord voicings (low -> high), chosen for a warm fingerstyle shimmer
+  const V = {
+    G:     ["G2","D3","G3","B3","D4"],
+    Cadd9: ["C3","G3","C4","D4","G4"],
+    Em7:   ["E2","B2","E3","G3","D4"],
+    D:     ["D3","A3","D4","F#4","A4"],
+    Am7:   ["A2","E3","G3","C4","E4"],
+    C:     ["C3","G3","C4","E4","G4"],
+    Em:    ["E2","B2","E3","G3","B3"]
+  };
+
+  // sections: each bar = one chord; lyric lines shown per section
+  const SONG = [
+    {tag:"Intro", inst:true, bars:["G","Cadd9"],
+      lyrics:["（アルペジオ、そっと）"]},
+    {tag:"1番", bars:["G","Em7","Cadd9","D"],
+      lyrics:["めくるたび しずかに 朝がくる","ページの端に のこる ゆめのつづき"]},
+    {tag:"Pre", bars:["Am7","D"],
+      lyrics:["まだ うすい ひかりだけど"]},
+    {tag:"サビ", chorus:true, bars:["C","G","D","Em"],
+      lyrics:["よあけの絵本を ひらいて","きみと 読みかけの うたを"]},
+    {tag:"2番", bars:["G","Em7","Cadd9","D"],
+      lyrics:["きのうの なみだも 挿絵になる","わすれた頃に また めくればいい"]},
+    {tag:"Pre", bars:["Am7","D"],
+      lyrics:["ゆびで なぞる ドレミが"]},
+    {tag:"サビ", chorus:true, bars:["C","G","D","Em"],
+      lyrics:["よあけの絵本を ひらいて","そっと 部屋を あたためる"]},
+    {tag:"Outro", inst:true, bars:["Cadd9","G"],
+      lyrics:["（ひかりの中へ とけていく）"]}
+  ];
+
+  // chorus melody: [noteName, beats] per bar, aligned to chorus bars C G D Em
+  const MEL = {
+    C:  [["E4",1],["G4",1],["E4",.5],["D4",.5],["C4",1]],
+    G:  [["D4",1],["B3",1],["D4",2]],
+    D:  [["F#4",1],["A4",1],["F#4",.5],["E4",.5],["D4",1]],
+    Em: [["E4",1],["G4",1],["E4",2]]
+  };
+
+  /* ============ NOTE -> FREQUENCY ============ */
+  const SEMI = {C:0,"C#":1,Db:1,D:2,"D#":3,Eb:3,E:4,F:5,"F#":6,Gb:6,G:7,"G#":8,Ab:8,A:9,"A#":10,Bb:10,B:11};
+  function freq(n){
+    const m = n.match(/^([A-G]#?b?)(\d)$/);
+    const semis = SEMI[m[1]] + (parseInt(m[2],10)+1)*12; // C0 = 12
+    return 440 * Math.pow(2,(semis-69)/12);
+  }
+
+  /* ============ AUDIO ENGINE (Karplus-Strong pluck) ============ */
+  let ctx, master, reverb, verbGain, dryGain;
+  function initAudio(){
+    if(ctx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = 0.9;
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value=-18; comp.ratio.value=3; comp.attack.value=.005; comp.release.value=.25;
+    // simple algorithmic reverb impulse
+    reverb = ctx.createConvolver();
+    const len = Math.floor(ctx.sampleRate*1.7), ir = ctx.createBuffer(2,len,ctx.sampleRate);
+    for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);
+      for(let i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6);}}
+    reverb.buffer = ir;
+    verbGain = ctx.createGain(); verbGain.gain.value = 0.22;
+    dryGain = ctx.createGain(); dryGain.gain.value = 0.92;
+    master.connect(comp); comp.connect(dryGain); dryGain.connect(ctx.destination);
+    comp.connect(reverb); reverb.connect(verbGain); verbGain.connect(ctx.destination);
+  }
+
+  // render one plucked string into a buffer & schedule it
+  function pluck(f, t, dur, gain){
+    const N = Math.max(2, Math.round(ctx.sampleRate / f));
+    const total = Math.floor(ctx.sampleRate * dur);
+    const buf = ctx.createBuffer(1, total, ctx.sampleRate);
+    const out = buf.getChannelData(0);
+    const line = new Float32Array(N);
+    for(let i=0;i<N;i++) line[i] = Math.random()*2-1;
+    const damp = 0.995 - Math.min(f,660)/660*0.006; // higher notes decay a touch faster
+    let idx=0, prev=0;
+    for(let i=0;i<total;i++){
+      const cur = line[idx];
+      const v = damp * 0.5 * (cur + prev);
+      line[idx] = v; prev = cur;
+      out[i] = v;
+      idx = (idx+1)%N;
+    }
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const g = ctx.createGain();
+    const now = t;
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(gain, now+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+dur);
+    const lp = ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=3200; lp.Q.value=0.3;
+    src.connect(lp); lp.connect(g); g.connect(master);
+    src.start(now); src.stop(now+dur);
+  }
+
+  /* ============ SCHEDULE THE WHOLE SONG ============ */
+  // rolling fingerstyle pattern (8th notes) -> indices into voicing (low..high, len 5)
+  const PAT = [0,3,2,4,1,3,2,4];
+  let barTimes = [];   // absolute start time per bar (for UI)
+  let sectOfBar = [];  // which section index each bar belongs to
+  let totalDur = 0;
+
+  function buildTimeline(){
+    barTimes = []; sectOfBar = [];
+    let b = 0;
+    SONG.forEach((s,si)=>{ s.bars.forEach(()=>{ sectOfBar[b]=si; b++; }); });
+    totalDur = b*barLen + 1.2;
+  }
+
+  function scheduleSong(startAt){
+    let b = 0;
+    SONG.forEach((s)=>{
+      s.bars.forEach((chName)=>{
+        const t0 = startAt + b*barLen;
+        barTimes[b] = t0;
+        const voic = V[chName].map(freq);
+        // arpeggio
+        for(let i=0;i<8;i++){
+          const t = t0 + i*(beat/2);
+          const fi = PAT[i] % voic.length;
+          const g = (i===0)?0.34:0.2 + (fi>=3?0.03:0); // accent bass
+          pluck(voic[fi], t + (Math.random()*0.008), beat*1.9, g);
+        }
+        // melody on chorus
+        if(s.chorus && MEL[chName]){
+          let mt = t0;
+          MEL[chName].forEach(([nn,bl])=>{
+            pluck(freq(nn), mt+0.01, beat*bl*1.05, 0.3);
+            mt += beat*bl;
+          });
+        }
+        b++;
+      });
+    });
+  }
+
+  /* ============ RENDER SHEET ============ */
+  const sheet = document.getElementById("sheet");
+  const sectEls = [];
+  SONG.forEach((s,si)=>{
+    const el = document.createElement("div");
+    el.className = "sect";
+    let html = '<p class="tag">'+s.tag+' · '+s.bars.join(" ")+'</p>';
+    s.lyrics.forEach((ly,li)=>{
+      const chordsForLine = (!s.inst && s.bars.length>=2)
+        ? s.bars.slice(li*2, li*2+2).join("        ")
+        : s.bars.join("   ");
+      html += '<div class="row">';
+      if(!s.inst) html += '<p class="chords">'+chordsForLine+'</p>';
+      html += '<p class="lyric'+(s.inst?' inst':'')+'">'+ly+'</p></div>';
+    });
+    el.innerHTML = html;
+    sheet.appendChild(el);
+    sectEls[si]=el;
+  });
+
+  /* ============ TRANSPORT / UI ============ */
+  const playBtn=document.getElementById("play"), icon=document.getElementById("icon");
+  const now=document.getElementById("now"), fill=document.getElementById("fill");
+  const curT=document.getElementById("cur"), durT=document.getElementById("dur");
+  const seek=document.getElementById("seek");
+  let playing=false, startTime=0, raf=0;
+
+  function fmt(s){s=Math.max(0,s|0);return (s/60|0)+":"+String(s%60).padStart(2,"0");}
+  buildTimeline(); durT.textContent = fmt(totalDur);
+
+  function stop(){
+    playing=false; icon.innerHTML='<path d="M8 5v14l11-7z"/>';
+    playBtn.classList.remove("playing"); cancelAnimationFrame(raf);
+    if(ctx){ try{ctx.close();}catch(e){} ctx=null; }
+    fill.style.width="0%"; curT.textContent="0:00";
+    now.textContent="▶ おして、朝をひらく";
+    sectEls.forEach(e=>e.classList.remove("active"));
+  }
+
+  function start(){
+    initAudio();
+    if(ctx.state==="suspended") ctx.resume();
+    startTime = ctx.currentTime + 0.15;
+    scheduleSong(startTime);
+    playing=true;
+    icon.innerHTML='<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+    playBtn.classList.add("playing");
+    loop();
+  }
+
+  function loop(){
+    if(!playing) return;
+    const el = ctx.currentTime - startTime;
+    const p = Math.min(1, el/totalDur);
+    fill.style.width = (p*100)+"%";
+    curT.textContent = fmt(el);
+    // active bar
+    let bar=0; for(let i=0;i<barTimes.length;i++){ if(el >= barTimes[i]-startTime) bar=i; }
+    const si = sectOfBar[bar];
+    sectEls.forEach((e,i)=>e.classList.toggle("active", i===si && el>=0));
+    const s = SONG[si];
+    const within = (el - (barTimes[bar]-startTime));
+    const ch = s.bars[ Math.min(s.bars.length-1, Math.floor(within/barLen)) ] || s.bars[0];
+    now.innerHTML = '<span class="nowchord">'+ (s.bars[Math.max(0,bar - firstBarOf(si))]||ch) +'</span> · '+s.tag;
+    drawSky(p);
+    if(el >= totalDur){ stop(); return; }
+    raf = requestAnimationFrame(loop);
+  }
+  function firstBarOf(si){ return sectOfBar.indexOf(si); }
+
+  playBtn.addEventListener("click", ()=> playing?stop():start());
+  seek.addEventListener("click",(e)=>{ /* restart-only: seeking not supported with one-shot schedule */
+    if(!playing) start();
+  });
+
+  /* ============ DAWN CANVAS ============ */
+  const cv=document.getElementById("sky"), g=cv.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let motes = Array.from({length:26},()=>({x:Math.random(),y:Math.random(),s:Math.random()*1.6+.4,v:Math.random()*.0006+.0002}));
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function drawSky(p){
+    const W=cv.width,H=cv.height;
+    // sky gradient shifts from night (p=0) to dawn (p=1)
+    const grd=g.createLinearGradient(0,0,0,H);
+    grd.addColorStop(0, mix([28,26,54],[46,40,86],p));
+    grd.addColorStop(.55, mix([46,40,86],[210,120,110],p*.9));
+    grd.addColorStop(1, mix([28,26,54],[240,178,120],p));
+    g.fillStyle=grd; g.fillRect(0,0,W,H);
+    // rising sun
+    const sunY = lerp(H*1.12, H*0.42, p);
+    const r = lerp(46,78,p);
+    const halo=g.createRadialGradient(W*0.5,sunY,0,W*0.5,sunY,r*3.4);
+    halo.addColorStop(0,"rgba(255,214,150,"+(0.5+0.4*p)+")");
+    halo.addColorStop(1,"rgba(255,214,150,0)");
+    g.fillStyle=halo; g.beginPath(); g.arc(W*.5,sunY,r*3.4,0,7); g.fill();
+    const sun=g.createRadialGradient(W*.5,sunY-r*.2,r*.2,W*.5,sunY,r);
+    sun.addColorStop(0,"#fff6e2"); sun.addColorStop(1, p>.5?"#f2a860":"#e88b5a");
+    g.fillStyle=sun; g.beginPath(); g.arc(W*.5,sunY,r,0,7); g.fill();
+    // light motes
+    g.globalCompositeOperation="lighter";
+    motes.forEach(m=>{
+      if(!reduce && playing){ m.y-=m.v; if(m.y<-.05){m.y=1.05;m.x=Math.random();} }
+      g.fillStyle="rgba(255,236,200,"+(0.16+0.14*p)+")";
+      g.beginPath(); g.arc(m.x*W, m.y*H, m.s, 0, 7); g.fill();
+    });
+    g.globalCompositeOperation="source-over";
+  }
+  function mix(a,b,t){t=Math.max(0,Math.min(1,t));
+    return "rgb("+a.map((v,i)=>Math.round(lerp(v,b[i],t))).join(",")+")";}
+  drawSky(0);
+  // gentle idle shimmer of motes even when paused (unless reduced motion)
+  (function idle(){ if(!playing) drawSky(0); requestAnimationFrame(idle); })();
+
+  /* ============ THEME TOGGLE ============ */
+  document.getElementById("themeBtn").addEventListener("click",()=>{
+    const r=document.documentElement;
+    const dark = getComputedStyle(r).getPropertyValue("--bg").trim()==="#16172a";
+    r.setAttribute("data-theme", dark?"light":"dark");
+  });
+})();
+</script>
