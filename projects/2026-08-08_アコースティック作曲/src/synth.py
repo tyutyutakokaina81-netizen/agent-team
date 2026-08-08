@@ -203,9 +203,9 @@ for s in SONG:
             mt += beat*bl
 
 # ---- mix: dry + convolution reverb ----
-predry = (guit*1.0 + padb*0.7 + bell*0.8 + lead*0.75
+predry = (guit*0.62 + padb*0.8 + bell*0.8 + lead*0.8
           + drums*0.95 + bass*1.0)
-prewet = (guit*0.5 + padb*1.0 + bell*0.9 + lead*1.0
+prewet = (guit*0.34 + padb*1.05 + bell*0.9 + lead*1.05
           + drums*0.12 + bass*0.08)
 
 def make_ir(seed, decay=2.2, dur=2.6):
