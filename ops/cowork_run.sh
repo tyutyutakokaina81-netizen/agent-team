@@ -30,6 +30,7 @@ ok_list=""
 fail_list=""
 thumb_fail=0
 login_fail=0
+fail_reasons=""
 
 for f in drafts/queue/*.md; do
   name="$(basename "$f")"
@@ -52,6 +53,12 @@ for f in drafts/queue/*.md; do
     published=$((published+1)); ok_list="${ok_list} ${name}"
   else
     failed=$((failed+1)); fail_list="${fail_list} ${name}"
+    # ★失敗理由を1行だけ抽出（ログはgitignoreでcode側から読めないため、報告に理由を残す）。
+    #   ✗/エラー/Error/重複/ログイン 等を含む代表行を拾う。無ければ末尾行。
+    reason="$(echo "$out" | grep -m1 -E '✗|エラー|Error|重複ゲート|ログイン|Timeout|タイムアウト|中断' | sed 's/^[[:space:]]*//' | cut -c1-100)"
+    [ -z "$reason" ] && reason="$(echo "$out" | tail -1 | cut -c1-100)"
+    fail_reasons="${fail_reasons}
+    - ${name}: ${reason}"
   fi
 done
 
@@ -65,6 +72,9 @@ if [ $login_fail -eq 1 ]; then
 fi
 [ -n "$ok_list" ]   && body="${body} | OK:${ok_list}"
 [ -n "$fail_list" ] && body="${body} | NG:${fail_list}"
+# ★失敗理由の明細（原因即特定用）
+[ -n "$fail_reasons" ] && body="${body}
+【失敗理由】${fail_reasons}"
 python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "auto-publish 結果 ${TS}" --body "$body" || true
 
