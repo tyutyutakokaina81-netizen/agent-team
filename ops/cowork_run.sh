@@ -37,6 +37,14 @@ for f in drafts/queue/*.md; do
   echo "--- 公開試行: ${name} ---"
   out="$(python3 "$PUB" --text-only --article "$f" 2>&1)"
   rc=$?
+  # ★一過性のnote不調(タイムアウト/UIのちらつき等)を無人で拾い直す＝自動リトライ1回。
+  #   ログイン切れ/題材重複など恒久失敗は2回目も同じく失敗し、失敗理由として報告される。
+  if [ $rc -ne 0 ] && ! echo "$out" | grep -qE "重複ゲート|ログインしていない|初回ログインがまだ|有料"; then
+    sleep 15
+    out2="$(python3 "$PUB" --text-only --article "$f" 2>&1)"; rc=$?
+    out="${out}
+    [retry] ${out2}"
+  fi
   echo "$out"
   # 写真サムネ未設定（=noteの既定サムネ適用）を集計。失敗ではなく情報として数える。
   if echo "$out" | grep -q "写真サムネは未設定"; then
