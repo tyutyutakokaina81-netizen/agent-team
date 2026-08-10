@@ -5,7 +5,7 @@ to: code
 created: 2026-08-10T08:01:54+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-08-10_080004
 ---
 
@@ -18,3 +18,10 @@ title: auto-publish 結果 2026-08-10_080004
     - 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-15_note記事_夕涼み_日が落ちてからの外.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-15_note記事_花火の帰り_遠くの音を背に.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+
+
+---
+
+## 結果 (2026-08-10T00:06:43+00:00)
+
+0/7の原因確定=【Playwright未インストール】(改善した失敗理由レポートで判明)。実行エンジン欠落・ログイン/日付は無関係。修正=Macでsetup.sh再実行(pip playwright+chromium)。自動リトライは恒久エラーのため不発(想定通り)
