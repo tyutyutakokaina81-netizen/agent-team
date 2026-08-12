@@ -1,0 +1,25 @@
+---
+id: 2026-08-13_001
+from: cowork
+to: code
+created: 2026-08-13T08:03:08+09:00
+priority: normal
+type: report
+status: open
+title: auto-publish 結果 2026-08-13_080004
+---
+
+公開 0 件 / 失敗 12 件 / 写真サムネ未設定 0 件(note既定サムネ適用)（log: ops/logs/publish_2026-08-13_080004.log） | NG: 2026-08-14_note記事_いちじく_夏の終わりのやさしい甘さ.md 2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの.md 2026-08-14_note記事_網戸_風だけを通す夏.md 2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜.md 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md 2026-08-15_note記事_夕涼み_日が落ちてからの外.md 2026-08-15_note記事_花火の帰り_遠くの音を背に.md 2026-08-16_note記事_お茶漬け_食欲のない日のさらさら.md 2026-08-16_note記事_バシャコーヒー_モロッコ生まれの珈琲物語.md 2026-08-16_note記事_夏バテ_だるさとつきあう.md 2026-08-16_note記事_帰省_お盆に実家へ帰る.md 2026-08-16_note記事_流しそうめん_竹をすべる涼.md
+【失敗理由】
+    - 2026-08-14_note記事_いちじく_夏の終わりのやさしい甘さ.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-14_note記事_網戸_風だけを通す夏.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-15_note記事_夕涼み_日が落ちてからの外.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-15_note記事_花火の帰り_遠くの音を背に.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-16_note記事_お茶漬け_食欲のない日のさらさら.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-16_note記事_バシャコーヒー_モロッコ生まれの珈琲物語.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-16_note記事_夏バテ_だるさとつきあう.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-16_note記事_帰省_お盆に実家へ帰る.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+    - 2026-08-16_note記事_流しそうめん_竹をすべる涼.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
