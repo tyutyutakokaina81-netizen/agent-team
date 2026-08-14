@@ -5,7 +5,7 @@ to: code
 created: 2026-08-14T08:03:07+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-08-14_080003
 ---
 
@@ -23,3 +23,10 @@ title: auto-publish 結果 2026-08-14_080003
     - 2026-08-16_note記事_夏バテ_だるさとつきあう.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-16_note記事_帰省_お盆に実家へ帰る.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-16_note記事_流しそうめん_竹をすべる涼.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+
+
+---
+
+## 結果 (2026-08-14T00:08:46+00:00)
+
+既知のPlaywright未インストール(0/12)。setup.sh(PEP668対応済)再実行待ち。新規原因なし
