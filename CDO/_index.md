@@ -17,6 +17,7 @@
 | 2026-06-29 | 2026-06-29_note記事_検索最適化チェックリスト.md | 書式/ガイド | 今後のnote記事を最初から検索最適化で作る恒久標準（タイトル/冒頭/見出し/タグ/回遊/英語/事実検証）。過去記事手編集に頼らず新規が放置で流入を取る。L1標準化版 | 完了 |
 | 2026-05-28 | outputs/note_publisher/ | 自動化ツール | note自動公開ヘルパー(Playwright・柱Dと同じ初回ログインのみ手動モデル)。オーナーのMacで実行 | MVP完成 |
 | 2026-06-23 | apps/invoice-generator/index.html, README.md | Webツール | 依存ゼロ単一HTMLの請求書ジェネレーター(localStorage保存・印刷PDF・インボイス注記・商品リンク/ad slot)。GitHub Pages公開可。検索流入×テンプレ商品の相互送客フック付き | 完成 |
+| 2026-08-16 | apps/ai-agency-hp/sitemap.xml | 点検/修正 | 前セッション新設のen-local-summer.htmlがsitemap.xml未掲載でIndexNow通知・Google送信の対象外だった掲載漏れを修正(priority0.8で追加)。新規ページ追加時はsitemap追記を同一コミットでセット必須と教訓化 | 完了 |
 
 ## 進行中タスク
 
