@@ -1,0 +1,79 @@
+---
+id: 2026-08-16_001
+from: code
+to: cowork
+created: 2026-08-16T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示「noteに公開してマガジンにする」】連載小説『雨晴を待つ』全12話を順に公開＋マガジン編成
+---
+
+owner『noteに公開までして／noteのマガジンにしとくか』。長編恋愛小説を **note 連載小説マガジン**として公開する。
+実投稿は A1（code は外部ネット不可）ゆえ cowork/owner 側で実行。原稿・貼り付け文・マガジン設定はすべて用意済み。
+
+対象ファイル: `projects/2026-08-16_恋愛小説_180p/note公開/`
+- `00_マガジン設定_owner貼り付け用.md` … マガジン名・説明文・タグ・収録話一覧・手順
+- `連載_雨晴を待つ_第01話_*.md` 〜 `第12話_*.md` … 各話の note 記事（`## タイトル` / `## 本文` 形式＝publisher 適合）
+
+【ステップ0：マガジン作成（owner が1回だけ）】
+- note →自分のページ →「マガジン」→新規作成。`00_マガジン設定_...md` の「マガジン名」「説明文」をコピペ。無料マガジン。
+
+【ステップ1：全12話を第1話→第12話の**順番どおり**に公開】
+- publisher: `CDO/outputs/note_publisher/publish_to_note.py --article <path> --text-only`
+- 本文に写真placeholderは無い（純テキスト）ので `--text-only` で公開＝画像なし記事。サムネは owner が後から雨晴海岸/女岩/立山の実写を手動設定してよい。
+- **第2話以降は連載共通タイトル「雨晴を待つ」がトークン衝突するため `--allow-topic-dup` を必ず付ける**（第1話は不要）。
+- **1日上限5本**：publisher の日次ゲートに従う。12話＝約3日に分けて消化してよい（順番は厳守）。
+- 各実行の最初に registry を pull、その日の分を公開したら registry を commit & push（既存運用と同じ）。
+
+【day1（第1〜5話）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+BASE="projects/2026-08-16_恋愛小説_180p/note公開"
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第01話_海の見える駅.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第02話_汀という喫茶店.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第03話_ほたるいかの夜.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第04話_女岩の約束.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第05話_白えびの季節.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 連載雨晴 day1(第1-5話)" && git push origin main
+```
+
+【day2（第6〜10話）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+BASE="projects/2026-08-16_恋愛小説_180p/note公開"
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第06話_海王丸の帆.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第07話_開かずの引き出し.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第08話_すれ違いの秋.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第09話_新湊の夕暮れ.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第10話_寒ぶり起こし.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 連載雨晴 day2(第6-10話)" && git push origin main
+```
+
+【day3（第11〜12話）】
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json
+git pull origin main
+BASE="projects/2026-08-16_恋愛小説_180p/note公開"
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第11話_雪の予報.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/連載_雨晴を待つ_第12話_冬の夜明け.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 連載雨晴 day3(第11-12話・完結)" && git push origin main
+```
+
+【ステップ2：各話をマガジンに追加】
+- 公開できた記事を、作成した「連載小説『雨晴を待つ』」マガジンへ **第1話→第12話の順**に追加。
+- 可能なら各話末尾の「次話へ続く」に次話URLをリンク（回遊UP・任意）。
+
+【報告】
+- outbox へ：公開できた話数（例 5/12）、各話の公開URL、マガジンURL、失敗があれば理由（既知の Playwright 認証/UI 起因かどうか）。
+- ★既知の課題：8月に入り自動公開が Playwright 起因で 0/N が続いている。もし今回も同事象なら、**まず認証セッション再取得（login state 更新）を試し**、それでも駄目なら owner が手動でコピペ公開（`00_マガジン設定_...md` の本文をそのまま貼る）に切替。手動でも順番は第1話→第12話厳守。
+
+【厳守】
+- A5：煽り・誇張タイトルにしない（原文のまま）。連投スパムにしない（1日上限5本・順番厳守）。
+- A4：本文は市/公共施設レベルのみ（対応不要・既に順守済み）。
+- 規約順守：note の連載/マガジン仕様に沿う。多重投稿・自動化がアカウントリスクにならない範囲で。
