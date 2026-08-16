@@ -14,7 +14,7 @@ code側で"公開できる形"まで用意済み（実投稿はA1でcode不可�
 
 対象: `projects/2026-08-16_恋愛小説_180p/note公開_有料併記/`
 - `00_有料マガジン設定とサムネ仕様.md` … マガジン名/説明文(日英)/価格/構成/サムネ検索語表/表紙案
-- `01〜12_雨晴を待つ_第NN話_*.md` … 各話（**日英併記**）。第1-3話=無料(`##本文`)、第4-12話=有料(`##無料部分/##有料部分`, `<!-- PAYWALL price=500 -->`)。全12話パーサー検証OK。
+- `01〜12_雨晴を待つ_第NN話_*.md` … 各話（**日英併記**）。第1-3話=無料(`##本文`)、第4-12話=有料(`##無料部分/##有料部分`, `<!-- PAYWALL price=800 -->`)。全12話パーサー検証OK。
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 【STEP A：サムネ＝★実写のフリー写真（owner指示「実写がいい」）】
@@ -37,7 +37,7 @@ code側で"公開できる形"まで用意済み（実投稿はA1でcode不可�
 
 【STEP B：有料マガジンを作成（owner・1回）】
 - note→マガジン→新規作成。`00_…サムネ仕様.md` の「マガジン名／説明文(日英)」を貼付。
-- **有料マガジン・¥500（一括買い切り）** に設定（価格はCFO/owner最終判断＝¥300〜¥500目安）。表紙画像を設定。
+- **有料マガジン・¥800（一括買い切り・owner決定）** に設定（任意でローンチ2週¥500先行も可）。表紙画像を設定。
 
 【STEP C：第1〜3話（無料看板）を公開】※順番厳守・第2,3話は連載共通タイトルゆえ --allow-topic-dup
 ```
@@ -57,10 +57,10 @@ git add CDO/outputs/note_publisher/published_registry.json && git commit -m "pub
 cd ~/agent-team-run
 BASE="projects/2026-08-16_恋愛小説_180p/note公開_有料併記"
 # 下書き確認（--publishなし＝タダ公開しない安全既定）
-python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 500
+python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 800
 # 内容/有料ライン/価格OKなら公開
-python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 500 --publish
-# 以下 05〜12 も同様（各話 --price 500、確認→--publish）
+python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 800 --publish
+# 以下 05〜12 も同様（各話 --price 800、確認→--publish）
 ```
 - 各有料記事は公開後、**STEP B の有料マガジンに追加**（第1→第12話の順）。マガジン購入で第4-12話が解放される。
 
