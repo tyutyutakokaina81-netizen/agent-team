@@ -17,11 +17,14 @@ code側で"公開できる形"まで用意済み（実投稿はA1でcode不可�
 - `01〜12_雨晴を待つ_第NN話_*.md` … 各話（**日英併記**）。第1-3話=無料(`##本文`)、第4-12話=有料(`##無料部分/##有料部分`, `<!-- PAYWALL price=500 -->`)。全12話パーサー検証OK。
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-【STEP A：実写サムネの取得（A2/A3＝無料実写のみ・画像生成AI禁止）】
-- GitHub Actions「Generate note thumbnails」を手動 Run、または owner が `00_…サムネ仕様.md` の検索語で
-  Wikimedia Commons(キー不要)→Pexels(無料)から各話1枚の写真風を取得し `thumbnails/amaharashi_epNN.jpg` に保存。
-- **owner が目視 verify → `CDO/outputs/note_publisher/_verified.txt` に stem 登録**（未検証は無サムネ公開＝誤サムネ事故ゼロ）。
-- マガジン表紙＝第12話題材(冬の雨晴・女岩越し立山)。Wikimedia の CC 表記を記事末に付す。
+【STEP A：サムネ＝★code側で作成・登録済み（作業不要）】
+- code が PIL で「雨晴海岸の夜明け(海・女岩の松・立山連峰・朝日)」の**統一デザイン表紙**を生成済み（画像生成AI不使用/外部素材なし＝A2/¥0原則順守）。
+  - 表紙: `thumbnails/amaharashi_cover.jpg`（マガジン表紙に設定）
+  - 各話: `thumbnails/amaharashi_ep01〜12.jpg`（1280x670・note見出し比率）
+  - publisher用に記事stem名で配置済み: `CDO/outputs/note_publisher/thumbnails/{記事stem}.jpg` ＋ `_verified.txt` 登録済み。
+- ゆえに **無料3話(publish_to_note)は見出し画像が自動採用**される（検証済み find_thumbnail_for=✅）。
+- **有料9話(publish_paid_note)は自動サムネ機構が無い**ので、公開時に **owner が同じ `amaharashi_epNN.jpg` を見出し画像として手動設定**（または --photos 相当で添付）。
+- ※もし「実写写真がよい」場合の代替: GitHub Actions「Generate note thumbnails」or `00_…サムネ仕様.md` の検索語で Wikimedia/Pexels 取得→目視verify→_verified.txt 差し替え。その場合は CC 表記を記事末に付す。
 
 【STEP B：有料マガジンを作成（owner・1回）】
 - note→マガジン→新規作成。`00_…サムネ仕様.md` の「マガジン名／説明文(日英)」を貼付。
