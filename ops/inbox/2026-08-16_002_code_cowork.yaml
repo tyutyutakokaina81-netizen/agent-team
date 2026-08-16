@@ -17,17 +17,23 @@ code側で"公開できる形"まで用意済み（実投稿はA1でcode不可�
 - `01〜12_雨晴を待つ_第NN話_*.md` … 各話（**日英併記**）。第1-3話=無料(`##本文`)、第4-12話=有料(`##無料部分/##有料部分`, `<!-- PAYWALL price=500 -->`)。全12話パーサー検証OK。
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-【STEP A：サムネ＝note「みんなのフォトギャラリー(みんフォト)」の無料素材（owner が編集画面で選ぶ）】
-- ★方針変更(owner指示)：自作デザイン画像は撤去済み（`_verified.txt`登録解除・ファイル削除）。**無料フリー素材**に切替。
-- **publisher は見出し画像なしで公開**する（自作サムネ無し）。**見出し画像は owner が note 編集画面で みんフォトから選んで載せる**。
-  - 手順：記事編集→見出し画像「画像を追加」→「記事にあう画像を選ぶ（みんなのフォトギャラリー）」→下記キーワードで検索→1枚選択（クレジット自動）。
-  - マガジン表紙も同様に「雨晴海岸／立山連峰／海越しのアルプス」で選ぶ。
-- **各話キーワード**（詳細は `00_有料マガジン設定とサムネ仕様.md` §3）：
-  1海の見える駅=雨晴海岸/海 夜明け ／2喫茶店=喫茶店/コーヒー ／3ホタルイカ=ホタルイカ/夜の海 ／4女岩=雨晴海岸 女岩/立山連峰 海 ／
-  5白えび=白えび/富山 海鮮 ／6海王丸=海王丸/帆船 ／7引き出し=古い手紙/セピア 写真 ／8秋=秋の海/曇り 海 ／
-  9新湊=新湊 内川/運河 夕暮れ ／10寒ぶり=寒ぶり/冬の海 富山 ／11雪の予報=雪 海辺/冬 日本海 ／12冬の夜明け=立山連峰 朝日/雨晴 冬 立山。
-- A4/A5：特定の私有地・個人が写る素材は選ばない。
-- ※ファイルで持ちたい場合の代替：Wikimedia(キー不要)/Pexels(無料)→`CDO/outputs/note_publisher/thumbnails/{記事stem}.jpg`→`_verified.txt`登録（CC表記を記事末に）。取得はA1でcode不可＝Actions「Generate note thumbnails」かowner。
+【STEP A：サムネ＝★実写のフリー写真（owner指示「実写がいい」）】
+- 舞台は実在地（雨晴海岸/女岩/立山連峰/海王丸/新湊内川）＝**Wikimedia Commons に実写が豊富**。無料・実写で authentic に。
+- 取得元（無料・実写）：①Wikimedia Commons(キー不要・本命)→②Pexels(無料・一般カット補完)→③note みんフォト(owner編集画面で「写真」を選ぶ)。
+- **取得〜採用（cloud/owner。A1でcodeは画像取得不可）**：
+  1. 下記検索語で各話1枚の横長・写真を取得。
+  2. `CDO/outputs/note_publisher/thumbnails/{記事stem}.jpg` に保存。
+  3. owner 目視verify → `CDO/outputs/note_publisher/thumbnails/_verified.txt` に stem 追記。
+     → **無料3話(publish_to_note)は見出し画像自動採用**、**有料9話(publish_paid_note)は編集画面で同画像を見出しに設定**。
+  4. Wikimedia実写は**記事末にCC表記**（作者/ライセンス/リンク）必須。
+- 検索語（Wikimedia/Pexels・詳細は `00_…サムネ仕様.md` §3）：
+  1=Amaharashi Coast Toyama sunrise sea ／2=seaside cafe coffee window sea japan ／3=firefly squid Toyama night sea ／
+  4=Amaharashi Meiwa rock Tateyama sea ／5=shiraebi white shrimp Toyama ／6=Kaiwo Maru sailing ship full sail ／
+  7=old letters sepia photograph drawer ／8=autumn sea coast japan grey ／9=Shinminato Uchikawa canal sunset Toyama ／
+  10=yellowtail buri fish winter Toyama ／11=snow coast japan winter sea ／12=Tateyama snow sunrise sea Amaharashi ／
+  表紙=Amaharashi Coast Tateyama mountains sea sunrise。
+- 自動取得を回すなら Actions「Generate note thumbnails」手動Run（既定対象は CMO/outputs のため、本連載を含めるには owner手動取得 or CDOへ対象パス追加依頼）。当面は owner手動取得＋verify が確実。
+- A4/A5：特定の私有地・個人が写る写真は選ばない。誇張キャプションにしない。
 
 【STEP B：有料マガジンを作成（owner・1回）】
 - note→マガジン→新規作成。`00_…サムネ仕様.md` の「マガジン名／説明文(日英)」を貼付。
