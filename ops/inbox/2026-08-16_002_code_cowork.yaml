@@ -1,0 +1,64 @@
+---
+id: 2026-08-16_002
+from: code
+to: cowork
+created: 2026-08-16T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示「サムネ入れて/有料マガジン/日英併記/公開」】連載『雨晴を待つ』日英併記を有料マガジンで公開＋実写サムネ取得
+---
+
+owner『サムネも入れて／noteの有料マガジンにして／日本語と英語を併記して／公開』。
+code側で"公開できる形"まで用意済み（実投稿はA1でcode不可＝cowork/owner=Playwright実行、サムネ実画像はA2/A3でクラウド/owner取得）。
+
+対象: `projects/2026-08-16_恋愛小説_180p/note公開_有料併記/`
+- `00_有料マガジン設定とサムネ仕様.md` … マガジン名/説明文(日英)/価格/構成/サムネ検索語表/表紙案
+- `01〜12_雨晴を待つ_第NN話_*.md` … 各話（**日英併記**）。第1-3話=無料(`##本文`)、第4-12話=有料(`##無料部分/##有料部分`, `<!-- PAYWALL price=500 -->`)。全12話パーサー検証OK。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【STEP A：実写サムネの取得（A2/A3＝無料実写のみ・画像生成AI禁止）】
+- GitHub Actions「Generate note thumbnails」を手動 Run、または owner が `00_…サムネ仕様.md` の検索語で
+  Wikimedia Commons(キー不要)→Pexels(無料)から各話1枚の写真風を取得し `thumbnails/amaharashi_epNN.jpg` に保存。
+- **owner が目視 verify → `CDO/outputs/note_publisher/_verified.txt` に stem 登録**（未検証は無サムネ公開＝誤サムネ事故ゼロ）。
+- マガジン表紙＝第12話題材(冬の雨晴・女岩越し立山)。Wikimedia の CC 表記を記事末に付す。
+
+【STEP B：有料マガジンを作成（owner・1回）】
+- note→マガジン→新規作成。`00_…サムネ仕様.md` の「マガジン名／説明文(日英)」を貼付。
+- **有料マガジン・¥500（一括買い切り）** に設定（価格はCFO/owner最終判断＝¥300〜¥500目安）。表紙画像を設定。
+
+【STEP C：第1〜3話（無料看板）を公開】※順番厳守・第2,3話は連載共通タイトルゆえ --allow-topic-dup
+```
+cd ~/agent-team-run
+git checkout -- CDO/outputs/note_publisher/published_registry.json && git pull origin main
+BASE="projects/2026-08-16_恋愛小説_180p/note公開_有料併記"
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/01_雨晴を待つ_第01話_海の見える駅.md" --text-only
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/02_雨晴を待つ_第02話_汀という喫茶店.md" --text-only --allow-topic-dup
+python3 CDO/outputs/note_publisher/publish_to_note.py --article "$BASE/03_雨晴を待つ_第03話_ほたるいかの夜.md" --text-only --allow-topic-dup
+git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 雨晴 無料看板 第1-3話(日英)" && git push origin main
+```
+- サムネ verify 済みなら見出し画像は自動採用。未verifyなら無サムネで公開→後から owner が手動設定可。
+
+【STEP D：第4〜12話（有料）を公開】※publish_paid_note.py・安全ゲート付き（既定は下書き保存で止まる）
+- まず1本を下書きで確認 → 問題なければ --publish。**1日上限を意識し数日に分けてよい**。
+```
+cd ~/agent-team-run
+BASE="projects/2026-08-16_恋愛小説_180p/note公開_有料併記"
+# 下書き確認（--publishなし＝タダ公開しない安全既定）
+python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 500
+# 内容/有料ライン/価格OKなら公開
+python3 CDO/outputs/note_publisher/publish_paid_note.py --article "$BASE/04_雨晴を待つ_第04話_女岩の約束.md" --price 500 --publish
+# 以下 05〜12 も同様（各話 --price 500、確認→--publish）
+```
+- 各有料記事は公開後、**STEP B の有料マガジンに追加**（第1→第12話の順）。マガジン購入で第4-12話が解放される。
+
+【STEP E：報告（outbox）】
+- サムネ取得/verify 数、無料3話の公開URL、有料9話の公開URL、マガジンURL、価格。失敗は理由（特に既知の Playwright 認証/UI 起因か）。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+【厳守・注意】
+- **絶対にタダで有料話を公開しない**：publish_paid_note.py は有料ライン＋価格が確定した時のみ公開（未確定は下書きで停止）。--publish を付けるのは下書き確認後。
+- **A5**：煽りタイトル/誇張しない（原文のまま）。日英併記の本文はそのまま。連投スパムにしない（順番厳守）。
+- **A4**：本文・サムネとも市/公共施設レベルのみ（対応不要＝既に順守）。特定私有地/個人が写る写真は選ばない。
+- **既知課題**：8月に入り自動公開が Playwright 起因で 0/N。今回も同事象なら①認証セッション再取得→②手動でコピペ公開（無料話は本文、有料話は無料部分＝公開領域/有料部分＝有料エリアに貼り分け）。順番は第1→第12話厳守。
+- ライセンス：Wikimedia 実写を使う場合は各記事末に CC 表記（作者/ライセンス/リンク）を付す。
