@@ -34,10 +34,12 @@ echo "== ② main 同期 =="
 git fetch origin main && git checkout -B main origin/main || { echo "✗ git同期失敗。lockが残っていないか確認。"; exit 1; }
 
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
+# ★Python3.14/PEP668対策：setup.shが作る専用venvがあれば自動でそれを使う（無ければsystem python3）
+PYBIN="python3"; [ -x "$HOME/.note_venv/bin/python" ] && PYBIN="$HOME/.note_venv/bin/python"
 
 if [ $LOGIN -eq 1 ] || [ ! -d "$HOME/.note_publisher_profile" ]; then
   echo "== ③ noteログイン（ブラウザが開きます。ログイン済みなら Enter）=="
-  python3 "$PUB" --login || { echo "✗ ログイン中断"; exit 1; }
+  "$PYBIN" "$PUB" --login || { echo "✗ ログイン中断"; exit 1; }
 fi
 
 shopt -s nullglob
@@ -59,7 +61,7 @@ fi
 ok=0; ng=0
 for f in "${files[@]}"; do
   echo ""; echo "========== 公開: $(basename "$f") =========="
-  if python3 "$PUB" --text-only $EXTRA --article "$f"; then
+  if "$PYBIN" "$PUB" --text-only $EXTRA --article "$f"; then
     ok=$((ok+1))
     mkdir -p drafts/published
     git mv "$f" "drafts/published/$(basename "$f")" 2>/dev/null || mv "$f" "drafts/published/$(basename "$f")"

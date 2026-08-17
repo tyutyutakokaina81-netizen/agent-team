@@ -23,6 +23,8 @@ git rebase --abort 2>/dev/null || true
 git pull --rebase origin "$BR" || git pull origin "$BR" || { echo "⚠️ pull失敗→origin/${BR}へ強制同期(Macはミラー)"; git fetch origin "$BR" && git reset --hard "origin/${BR}"; }
 
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
+# ★Python3.14/PEP668対策：setup.shが作る専用venvがあれば自動でそれを使う
+PYBIN="python3"; [ -x "$HOME/.note_venv/bin/python" ] && PYBIN="$HOME/.note_venv/bin/python"
 shopt -s nullglob
 published=0
 failed=0
@@ -35,13 +37,13 @@ fail_reasons=""
 for f in drafts/queue/*.md; do
   name="$(basename "$f")"
   echo "--- 公開試行: ${name} ---"
-  out="$(python3 "$PUB" --text-only --article "$f" 2>&1)"
+  out="$("$PYBIN" "$PUB" --text-only --article "$f" 2>&1)"
   rc=$?
   # ★一過性のnote不調(タイムアウト/UIのちらつき等)を無人で拾い直す＝自動リトライ1回。
   #   ログイン切れ/題材重複など恒久失敗は2回目も同じく失敗し、失敗理由として報告される。
   if [ $rc -ne 0 ] && ! echo "$out" | grep -qE "重複ゲート|ログインしていない|初回ログインがまだ|有料"; then
     sleep 15
-    out2="$(python3 "$PUB" --text-only --article "$f" 2>&1)"; rc=$?
+    out2="$("$PYBIN" "$PUB" --text-only --article "$f" 2>&1)"; rc=$?
     out="${out}
     [retry] ${out2}"
   fi
