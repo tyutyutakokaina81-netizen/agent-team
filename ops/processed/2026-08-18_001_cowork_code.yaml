@@ -5,7 +5,7 @@ to: code
 created: 2026-08-18T08:03:08+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-08-18_080004
 ---
 
@@ -23,3 +23,10 @@ title: auto-publish 結果 2026-08-18_080004
     - 2026-08-16_note記事_夏バテ_だるさとつきあう.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-16_note記事_帰省_お盆に実家へ帰る.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
     - 2026-08-16_note記事_流しそうめん_竹をすべる涼.md:     [retry] Playwrightが未インストールです。setup.sh を実行してください。
+
+
+---
+
+## 結果 (2026-08-18T00:04:25+00:00)
+
+既知Playwright未導入(0/12)。この実行はvenv化fix(94f5368)適用前の朝の分。ownerがsetup.sh(venv版)再実行で解消見込み。新規原因なし
