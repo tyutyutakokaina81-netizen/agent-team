@@ -263,32 +263,38 @@ def _try_set_price_on_publish(page, price: int) -> bool:
                         break
                 except Exception:
                     continue
-        # 2) 価格入力＝実キーボード（React onChange を発火させる）
-        for sel in ('input[placeholder="300"]', 'input[type="number"]',
-                    'input[inputmode="numeric"]', 'input[placeholder*="価格"]', 'input[placeholder*="金額"]'):
-            try:
-                inp = page.locator(sel).first
-                if inp.is_visible(timeout=2000):
-                    try:
-                        inp.scroll_into_view_if_needed(timeout=1500)
-                    except Exception:
-                        pass
-                    box = inp.bounding_box()
-                    if not box:
-                        continue
-                    page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-                    page.wait_for_timeout(250)
-                    page.keyboard.press("Meta+A")       # macOS 全選択
-                    page.keyboard.press("Control+A")     # 保険（他OS）
-                    page.keyboard.press("Backspace")
-                    page.wait_for_timeout(150)
-                    page.keyboard.type(str(price), delay=120)
-                    page.wait_for_timeout(250)
-                    page.keyboard.press("Tab")           # blur で確定
-                    page.wait_for_timeout(700)
-                    break
-            except Exception:
-                continue
+        # 2) 価格入力＝React制御inputに「ネイティブsetterで上書き＋input/changeイベント発火」。
+        #    2026-08-19 実測：キーボード方式(Meta+A→Backspace→type)は既存値をクリアできず
+        #    300→300300→300300300 と"累積"して価格確定に失敗していた（可視ログで判明）。
+        #    ネイティブsetterは値を確実に「置換」し、React内部stateにも反映される（onChange発火）。
+        sels = ['input[placeholder="300"]', 'input[type="number"]',
+                'input[inputmode="numeric"]', 'input[placeholder*="価格"]', 'input[placeholder*="金額"]']
+        try:
+            page.evaluate(
+                "([sels,val])=>{for(const s of sels){const i=document.querySelector(s);"
+                "if(i){const set=Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set;"
+                "i.focus();set.call(i,'');i.dispatchEvent(new Event('input',{bubbles:true}));"
+                "set.call(i,String(val));i.dispatchEvent(new Event('input',{bubbles:true}));"
+                "i.dispatchEvent(new Event('change',{bubbles:true}));i.blur();return i.value;}}return null;}",
+                [sels, price])
+            page.wait_for_timeout(500)
+        except Exception:
+            pass
+        # フォールバック：それでも不一致なら、三連クリックで全選択→削除→キー入力（累積を避ける）
+        try:
+            if str(_price_value()) != str(price):
+                for sel in sels:
+                    inp = page.locator(sel).first
+                    if inp.is_visible(timeout=1500):
+                        inp.click(click_count=3)     # フィールド内テキストを全選択（Meta+A不発対策）
+                        page.keyboard.press("Backspace")
+                        page.wait_for_timeout(150)
+                        page.keyboard.type(str(price), delay=120)
+                        page.keyboard.press("Tab")
+                        page.wait_for_timeout(600)
+                        break
+        except Exception:
+            pass
         # 3) paid選択 と 価格==price をDOMで検証（両方揃って初めて価格確定とみなす）
         try:
             paid_ok = bool(_paid_checked())
