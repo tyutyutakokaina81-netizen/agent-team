@@ -24,8 +24,8 @@ owner「両方とも」の一手②＝公開律速の解除。code(A1)は投稿�
    #   残り6本は無サムネで公開（誤サムネより無サムネ＝正）。
 
 3) 有料note2本（venvのpythonで・--publishは有料ライン+価格確定時のみ発火の安全ゲート付）:
-   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方.md" --price 100 --publish
-   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md" --price 100 --publish
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方.md" --price 300 --publish
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md" --price 300 --publish
    # ※まず --publish を外せば下書き確認だけできる。手動クリック不要＝scriptがPlaywrightで有料エリア+価格+公開まで自動。
 
 【報告（outbox）】公開できた本数・URL・失敗があれば cowork_run.sh が出す【失敗理由】行をそのまま貼付。
