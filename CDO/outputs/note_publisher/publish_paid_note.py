@@ -169,6 +169,10 @@ def parse_paid_article(md_path: Path, title_override=None, price_override=None):
         sys.exit("✗ 有料エリアの本文が空です。境界の位置を確認してください。")
     if price is None:
         sys.exit("✗ 価格が不明です。--price 300 を指定してください。")
+    # note の有料記事は ¥100〜¥50,000。範囲外は事故（例：¥50 で弾かれる/桁ミス）なので明示的に止める。
+    if not (100 <= price <= 50000):
+        sys.exit(f"✗ 価格 ¥{price} は note の有料範囲（¥100〜¥50,000）外です。--price で修正してください。")
+    print(f"🧾 記事解析OK：タイトル『{title[:30]}…』 価格=¥{price} 無料{len(free_body)}字/有料{len(paid_body)}字")
     return title, free_body, paid_body, price, tags
 
 
@@ -236,9 +240,16 @@ def _try_set_price_on_publish(page, price: int) -> bool:
         return page.evaluate(
             "()=>{const r=document.querySelector('input[name=is_paid][value=paid]');return r?r.checked:false;}")
     def _price_value():
+        # 価格欄は placeholder="300" 固定とは限らない（note UI変更・数値/価格系のいずれか）。
+        # 入力に使うのと同じ候補セレクタ群から最初に見つかった値を読み、数字だけに正規化して返す
+        # （"¥1,000"→"1000"）。ここが placeholder 固定だと ¥100 の確定検証が空振りしていた。
         return page.evaluate(
-            "()=>{const i=document.querySelector('input[placeholder=\"300\"]');return i?i.value:null;}")
+            "()=>{const sels=['input[placeholder=\"300\"]','input[type=\"number\"]',"
+            "'input[inputmode=\"numeric\"]','input[placeholder*=\"価格\"]','input[placeholder*=\"金額\"]'];"
+            "for(const s of sels){const i=document.querySelector(s);"
+            "if(i&&i.value!==''&&i.value!=null){return (i.value+'').replace(/[^0-9]/g,'');}}return null;}")
 
+    print(f"💰 価格を設定します：目標=¥{price}")
     for attempt in range(3):
         # 1) 「有料」を選択（labelクリックでpaid radioをオン）
         if not _paid_checked():
@@ -280,11 +291,17 @@ def _try_set_price_on_publish(page, price: int) -> bool:
                 continue
         # 3) paid選択 と 価格==price をDOMで検証（両方揃って初めて価格確定とみなす）
         try:
-            if bool(_paid_checked()) and str(_price_value()) == str(price):
+            paid_ok = bool(_paid_checked())
+            got = _price_value()
+            print(f"   試行{attempt+1}: 有料選択={paid_ok} / 入力欄の価格={got}（目標¥{price}）")
+            if paid_ok and str(got) == str(price):
+                print(f"✅ 価格確定：¥{price}")
                 return True
         except Exception:
             pass
         page.wait_for_timeout(1500)  # settle 待ちして再試行
+    print(f"⚠️ 価格が¥{price}で確定できませんでした（下書き止め＝全文無料事故を防止）。"
+          f" note編集画面で価格欄を目視し、必要なら手入力してください。")
     return False
 
 
