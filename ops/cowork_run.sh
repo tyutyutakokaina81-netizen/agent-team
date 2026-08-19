@@ -72,10 +72,52 @@ for f in drafts/queue/*.md; do
   fi
 done
 
-echo "=== summary: published=${published} failed=${failed} thumb_fail=${thumb_fail} ==="
+echo "=== summary(無料): published=${published} failed=${failed} thumb_fail=${thumb_fail} ==="
+
+# ---- 有料note（drafts/paid_queue/*.txt = 記事パスを1行書いたポインタ） ----
+# 無料キューと分離する理由：有料は取り消しがきかず単価も持つため、明示的に投函された分だけを公開する。
+# 価格は記事の <!-- PAYWALL price=NNN --> を publish_paid_note.py が読む（ここでは指定しない＝二重管理を避ける）。
+PAID_PUB="CDO/outputs/note_publisher/publish_paid_note.py"
+paid_ok=0
+paid_ng=0
+paid_urls=""
+for q in drafts/paid_queue/*.txt; do
+  qname="$(basename "$q")"
+  art="$(grep -v '^[[:space:]]*#' "$q" | grep -v '^[[:space:]]*$' | head -1 | sed 's/[[:space:]]*$//')"
+  if [ -z "$art" ] || [ ! -f "$art" ]; then
+    echo "--- 有料スキップ: ${qname}（記事が見つかりません: ${art:-空}）---"
+    paid_ng=$((paid_ng+1)); fail_reasons="${fail_reasons}
+    - ${qname}: 記事ファイルが見つかりません (${art:-空})"
+    continue
+  fi
+  echo "--- 有料公開試行: $(basename "$art") ---"
+  pout="$("$PYBIN" "$PAID_PUB" --article "$art" --publish 2>&1)"; prc=$?
+  echo "$pout"
+  # 公開成立の判定は定型行 PAID_PUBLISHED と終了コードの両方で行う（安全側）。
+  pid="$(echo "$pout" | grep -m1 -E '^PAID_PUBLISHED' | cut -f2)"
+  if [ $prc -eq 0 ] && [ -n "$pid" ]; then
+    mkdir -p drafts/paid_published
+    git mv "$q" "drafts/paid_published/$qname" 2>/dev/null || mv "$q" "drafts/paid_published/$qname"
+    paid_ok=$((paid_ok+1))
+    paid_urls="${paid_urls} https://note.com/safe_canna441/n/${pid}"
+  else
+    paid_ng=$((paid_ng+1))
+    preason="$(echo "$pout" | grep -m1 -E '✗|安全のため公開を中止|エラー|Error|ログイン|Timeout|タイムアウト' | sed 's/^[[:space:]]*//' | cut -c1-100)"
+    [ -z "$preason" ] && preason="$(echo "$pout" | tail -1 | cut -c1-100)"
+    fail_reasons="${fail_reasons}
+    - 有料 $(basename "$art"): ${preason}"
+    echo "$pout" | grep -qE "ログインしていない|初回ログインがまだ" && login_fail=1
+  fi
+done
+echo "=== summary(有料): published=${paid_ok} failed=${paid_ng} ==="
 
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用)（log: ${LOG}）"
+if [ $((paid_ok + paid_ng)) -gt 0 ]; then
+  body="${body}
+【有料note】公開 ${paid_ok} 件 / 失敗 ${paid_ng} 件"
+  [ -n "$paid_urls" ] && body="${body} | URL:${paid_urls}"
+fi
 # ★ログイン切れ検知時は先頭に大きく警告（無人では復旧不可＝owner対応が必要）
 if [ $login_fail -eq 1 ]; then
   body="⚠️【要対応】noteログイン切れ/未ログインで公開できません。owner は Mac で \`python3 CDO/outputs/note_publisher/publish_to_note.py --login\` を実行しnoteにログイン→再度公開してください。 || ${body}"
@@ -89,8 +131,8 @@ python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "auto-publish 結果 ${TS}" --body "$body" || true
 
 git add -A
-git commit -m "cowork auto: publish ${published}/$((published+failed)) thumb_fail=${thumb_fail} (${TS})" || true
+git commit -m "cowork auto: publish ${published}/$((published+failed)) paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail} (${TS})" || true
 for i in 1 2 3 4; do
   git push origin "$BR" && break || sleep $((2**i))
 done
-echo "done. published=${published} failed=${failed} thumb_fail=${thumb_fail}  log=${LOG}"
+echo "done. published=${published} failed=${failed} paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail}  log=${LOG}"

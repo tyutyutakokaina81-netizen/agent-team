@@ -27,7 +27,16 @@ owner「収益あげたいので全部見直して」への回答として、CFO
 処理されていません。無料キューは既に消化された形跡がある（published_registry更新済）ので、
 **残っているのは手順3（有料note3本のpublish）だけ**の可能性が高いです。
 
-【今すぐやること】
+★★2026-08-19 再追記：**手打ちコマンドは不要になりました**★★
+`ops/cowork_run.sh`（既存の無人公開デーモン）に**有料note対応を追加**しました。
+3本は `drafts/paid_queue/` に投函済みなので、**次回の定期実行でそのまま公開されます**。
+owner がやることは「Macでcowork_run.shが回る状態にしておく」だけ（noteログインが切れていれば `--login` のみ）。
+- 価格は記事内の `<!-- PAYWALL price=300 -->` を読むので二重管理なし。
+- 公開できた分だけ `drafts/paid_published/` へ移動。**失敗した分はキューに残って次回再試行**（取りこぼしません）。
+- 結果（公開URL・失敗理由）は自動で outbox に報告されます。
+※下の手動手順は、定期実行を待たずに今すぐ公開したい場合のみ使ってください。
+
+【今すぐやること（急ぐ場合のみ・手動）】
 1. `ops/inbox/2026-08-18_001_code_cowork.yaml` の手順3だけでも先に実行してください:
    ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方.md" --price 300 --publish
    ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md" --price 300 --publish

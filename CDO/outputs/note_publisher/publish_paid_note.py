@@ -562,6 +562,8 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
             published_id = m.group(1) if m else None
             print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
             if published_id:
+                # 無人実行(cowork_run.sh)がログから機械的に拾う定型行。書式を変えないこと。
+                print(f"PAID_PUBLISHED\t{published_id}\t{price}\t{md_path.name}")
                 print(f"🔗 想定公開URL: https://note.com/safe_canna441/n/{published_id}")
         except Exception as e:
             print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}（画面で手動公開してください）")
@@ -599,8 +601,12 @@ def main():
         sys.exit(f"記事が見つかりません: {md_path}")
 
     tags = [t.strip().lstrip("#") for t in args.tags.split(",")] if args.tags else None
-    publish(md_path, do_publish=args.publish, title_override=args.title,
-            price_override=args.price, tags_override=tags, no_thumb=args.no_thumb)
+    published_id = publish(md_path, do_publish=args.publish, title_override=args.title,
+                           price_override=args.price, tags_override=tags, no_thumb=args.no_thumb)
+    # --publish を指示したのに公開されなかった場合は非ゼロで終わる。
+    # 無人実行(cowork_run.sh)が「安全のため中止」を成功と誤判定してキューから消すのを防ぐ。
+    if args.publish and not published_id:
+        sys.exit(3)
 
 
 if __name__ == "__main__":

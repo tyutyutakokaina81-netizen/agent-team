@@ -1,0 +1,2 @@
+# 有料note公開キュー（cowork_run.sh が拾う）。1行目＝記事パス。価格は記事内の PAYWALL price=300 を使う。
+CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md
