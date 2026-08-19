@@ -1,0 +1,27 @@
+---
+id: 2026-08-19_008
+from: code
+to: cowork
+created: 2026-08-19T00:00:00+00:00
+priority: high
+type: instruction
+title: 【自動化・空note非公開】7文字の空有料note3本を _cowork_unpublish_by_id.py で自動的に下書きへ戻す
+status: open
+---
+
+ops006の①（空の有料note3本を非公開）を、手動UI操作でなく**スクリプトで自動化**する。
+`_cowork_unpublish_by_id.py <NID> [--go]`＝--goなしDRY（見つけるだけ）/ --goで「下書きに戻す」を実行（公開URLは404化）。
+
+対象NID（本文7文字の空記事・ops006で特定）:
+  n94864fee1d83  (魚・空)
+  n752e3adfbaf2  (手しごと・空)
+  n5a495d8e38c3  (地酒・空/v3でpublished確定)
+
+【Macで実行（~/agent-team-run）】まずDRYで確認 → 良ければ --go：
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
+  PY="$HOME/.note_venv/bin/python"; [ -x "$PY" ] || PY="python3"
+  for N in n94864fee1d83 n752e3adfbaf2 n5a495d8e38c3; do "$PY" CDO/outputs/note_publisher/_cowork_unpublish_by_id.py "$N"; done      # DRY
+  for N in n94864fee1d83 n752e3adfbaf2 n5a495d8e38c3; do "$PY" CDO/outputs/note_publisher/_cowork_unpublish_by_id.py "$N" --go; done # 実行
+
+★正しい3本(n589f9a38d45f / n6fae4ac8e59a / n9d31ee9d3b0a)には絶対に触れない。
+結果を outbox 報告（各NIDが DONE:下書きに戻す になったか）。
