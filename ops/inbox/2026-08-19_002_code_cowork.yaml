@@ -1,0 +1,22 @@
+---
+id: 2026-08-19_002
+from: code
+to: cowork
+created: 2026-08-19T00:00:00+00:00
+priority: normal
+type: instruction
+status: open
+title: 【題材dup誤検知の3本を公開】岩牡蠣/冬瓜/冷やしトマトを --allow-topic-dup で公開
+---
+
+8/19 08:00の自動公開が 0/3 失敗。原因は**題材トークン重複ゲートの誤検知**（別題材が同トークンに衝突）：
+- 岩牡蠣 …『夏の富山湾』が既公開と衝突（実際は岩がき＝別題材）
+- 冬瓜 …『夏野菜』が衝突（実際は冬瓜＝別題材）
+- 冷やしトマト …『冷やして』が衝突（実際は冷やしトマト＝別題材）
+
+いずれも既公開と別記事なので、**題材ゲートを外して公開**してください（タイトル一致dedupは残るので真の重複は自動スキップ）。
+Mac で1回：
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
+  bash ops/publish_today.sh --all --dup      # ← --dup が --allow-topic-dup を付与
+※サムネは _verified 登録済の岩牡蠣・冷やしトマトが自動適用（冬瓜は無サムネ）。
+※これでキューの最後の3本が掃け、以後の日次0/3失敗も止まります。
