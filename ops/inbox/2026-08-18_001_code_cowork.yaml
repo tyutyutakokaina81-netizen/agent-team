@@ -6,7 +6,7 @@ created: 2026-08-18T00:00:00+00:00
 priority: high
 type: instruction
 status: open
-title: 【公開エンジン復旧・最優先】venv化fix適用→無料12本＋有料2本を公開（Playwright/PEP668の恒久対処済）
+title: 【公開エンジン復旧・最優先】venv化fix適用→無料12本＋有料3本(¥300)を公開（Playwright/PEP668の恒久対処済）
 ---
 
 owner「両方とも」の一手②＝公開律速の解除。code(A1)は投稿不可のため Mac(cowork/owner) で1回だけ実行してください。
@@ -23,9 +23,10 @@ owner「両方とも」の一手②＝公開律速の解除。code(A1)は投稿�
    # → 無料キュー12本を公開。サムネは _verified 登録の6本(岩牡蠣/冷やしトマト/お茶漬け/流しそうめん/バシャコーヒー/花火の帰り)が自動で見出し画像に。
    #   残り6本は無サムネで公開（誤サムネより無サムネ＝正）。
 
-3) 有料note2本（venvのpythonで・--publishは有料ライン+価格確定時のみ発火の安全ゲート付）:
+3) 有料note3本(すべて¥300・venvのpythonで・--publishは有料ライン+価格確定時のみ発火の安全ゲート付）:
    ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方.md" --price 300 --publish
    ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md" --price 300 --publish
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-19_有料note_富山の地酒_選び方と楽しみ方.md" --price 300 --publish
    # ※まず --publish を外せば下書き確認だけできる。手動クリック不要＝scriptがPlaywrightで有料エリア+価格+公開まで自動。
 
 【報告（outbox）】公開できた本数・URL・失敗があれば cowork_run.sh が出す【失敗理由】行をそのまま貼付。
