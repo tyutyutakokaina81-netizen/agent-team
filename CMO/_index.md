@@ -13,6 +13,7 @@
 
 | 日付 | ファイル名 | 種別 | 概要 | ステータス |
 |------|-----------|------|------|-----------|
+| 2026-08-19 | apps/toyama-guide/ja-local-{spring,summer,autumn,winter}.html（4本）＋hreflang/switcher/ハブ更新 | 発信/多言語 | owner「日本語のも公開して」。季節シリーズの日本語版4本を新設（英/韓/繁/西に続き**日本語＝母語版**）。各記事にja hreflang追加で全季節クラスタが6言語相互（ja/en/ko/zh-Hant/es/x-default）・既存16ページの言語切替「日本語」を総合トップから各日本語季節ページへ向け直し・ハブen-seasonsに日本語行追加(5言語表記に修正)・sitemap 171URL・壊れリンク0。A5正直・A4クリーン。GitHub Pages main反映=公開 | 公開（main反映） |
 | 2026-08-19 | 2026-08-19_有料note_富山の地酒_選び方と楽しみ方.md | 有料note | 「1日ひとつ」第3号・¥300。魚(第1)・手しごと(第2)と別軸＝日本酒の選び方(料理と温度で選ぶ／タイプ別/合わせ方/温度/ラベル/楽しみ方)。無料1389字＋有料1284字。A5全編ヘッジ＋飲酒注意＋出典・A4銘柄/蔵/店なし・英語ブロック(海外の日本酒ファン)。公開=publish_paid_note.py --price 300(Mac) | 未公開(要Mac) |
 | 2026-08-19 | apps/toyama-guide/{en,ko,zh-tw,es}-local-spring.html（4本）＋ハブ/導線更新 | 海外展開/多言語 | owner「続けて」。季節シリーズを四季完全体に＝春を4言語で新設(雪の大谷/ホタルイカ/遅い桜×雪の立山)。hreflang完全相互(x-default)・既存12ページに春リンク配線・ハブen-seasons更新・en.html surface・sitemap登録・A5正直・A4クリーン。これで4言語×四季=16ページ完全体。GitHub Pages main反映=公開 | 公開（main反映） |
 | 2026-08-18 | apps/toyama-guide/en-seasons.html（ハブ新設）＋en.html導線修復 | 発見/内部リンク | owner「続けて」。CAO本丸=発見律速を叩く。季節シリーズのハブ「A local's year in Toyama」を新設(夏秋冬×EN/KO/ZH-TW/ES＋エッセイを束ねる内部リンク集約)。en.html季節欄の欠落(en-local-autumn)を追加＋ハブ/エッセイをsurface。ハブへ権威ページ3本(en/when-to-go/things-to-do)から被リンク。sitemap登録(163 URL)。作った資産を効かせる導線整備 | 公開（main反映） |
