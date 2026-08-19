@@ -682,12 +682,17 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 #   ②「画像をアップロード」を押すとOSのファイル選択が開く(input[type=file]はDOMに存在しない)
                 #     → expect_file_chooser で捕捉して set_files
                 # 旧コードは存在しない input[type=file] を待って30秒Timeoutで失敗していた。
+                # 2026-08-19 実測: このセレクタが30秒待っても解決せずサムネが全滅した
+                # （note側UI変更）。候補を広げ、待ちも 30s→6s に短縮する。
                 page.locator(
-                    'button[aria-label="画像を追加"], button:has-text("見出し画像"), [aria-label*="見出し画像"]'
-                ).first.click()
+                    'button[aria-label="画像を追加"], button[aria-label*="画像"], '
+                    'button:has-text("画像を追加"), button:has-text("見出し画像"), '
+                    '[aria-label*="見出し画像"], [data-name*="eyecatch"], [class*="eyecatch"] button'
+                ).first.click(timeout=6000)
                 page.wait_for_timeout(800)
                 with page.expect_file_chooser() as fc:
-                    page.locator('button:has-text("画像をアップロード")').first.click()
+                    page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
+                                 ).first.click(timeout=6000)
                 fc.value.set_files(str(thumb_to_use))
                 page.wait_for_timeout(2500)  # アップロード＆トリミングダイアログ表示待ち
                 # トリミング/位置調整ダイアログの確定（「保存」が本命）。

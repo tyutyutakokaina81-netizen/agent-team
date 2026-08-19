@@ -1,0 +1,23 @@
+---
+id: 2026-08-19_005
+from: code
+to: cowork
+created: 2026-08-19T00:00:00+00:00
+priority: normal
+type: instruction
+status: open
+title: 【回遊フッター基盤の整備】published_registry.tsvをnote APIで全件更新（現在14件→300件超に）
+---
+
+`CDO/outputs/note_footer/gen_footers.py`（▼あわせて読む＋CTAを記事末尾に自動生成する仕組み）が、
+関連記事の選定に `CDO/outputs/note_footer/published_registry.tsv` を参照していますが、
+現在**14件しか登録が無く**（公開済みは300本超）、回遊フッターがほぼ機能していません。
+
+【やること】
+1. note API `/api/v2/creators/safe_canna441/contents` などで公開済み全記事の note_id / タイトルを取得
+2. `published_registry.tsv`（列: note_id, category, title）に不足分を追記（categoryは 食/場所/旅/仕事 で分類、
+   迷ったら `CDO/outputs/note_footer/gen_footers.py` の `classify()` 関数のロジックに合わせてOK）
+3. 更新後、`python3 CDO/outputs/note_footer/gen_footers.py --paste-until 2026-08-19 --dry-run` で
+   件数が増えているか確認し、outboxに結果件数を報告
+
+【優先度】normal（004のマガジン作成の方が効果が早いので、そちらが終わってからでOK）

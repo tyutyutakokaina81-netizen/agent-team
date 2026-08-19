@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-19T00:00:00+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【題材dup誤検知の3本を公開】岩牡蠣/冬瓜/冷やしトマトを --allow-topic-dup で公開
 ---
 
@@ -20,3 +20,10 @@ Mac で1回：
   bash ops/publish_today.sh --all --dup      # ← --dup が --allow-topic-dup を付与
 ※サムネは _verified 登録済の岩牡蠣・冷やしトマトが自動適用（冬瓜は無サムネ）。
 ※これでキューの最後の3本が掃け、以後の日次0/3失敗も止まります。
+
+
+---
+
+## 結果 (2026-08-19T07:26:34+00:00)
+
+drafts/publishedとpublished_registry.jsonで岩牡蠣/冬瓜/冷やしトマトの公開を確認済み(冷やしトマトはregistry記録あり)。code側で完了確認・processedへ移動。

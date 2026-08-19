@@ -93,6 +93,62 @@ def load_context(playwright):
     return _launch(playwright)
 
 
+# ---------- サムネ（見出し画像・publish_to_note.py と同じ allowlist 方式） ----------
+
+def _verified_thumb_stems() -> set:
+    f = Path(__file__).resolve().parent / "thumbnails" / "_verified.txt"
+    if not f.exists():
+        return set()
+    return {ln.strip() for ln in f.read_text(encoding="utf-8").splitlines()
+            if ln.strip() and not ln.strip().startswith("#")}
+
+
+def find_thumbnail_for(md_path: Path) -> Path | None:
+    """_verified.txt 掲載stem のみ返す（未検証サムネは使わない＝誤サムネより無サムネが正）。"""
+    if md_path.stem not in _verified_thumb_stems():
+        return None
+    thumbs = Path(__file__).resolve().parent / "thumbnails"
+    for ext in ("jpg", "jpeg", "png", "webp", "JPG", "PNG"):
+        p = thumbs / f"{md_path.stem}.{ext}"
+        if p.exists():
+            return p
+    return None
+
+
+def _set_header_image(page, thumb: Path) -> bool:
+    """新エディタの見出し画像を設定する（publish_to_note.py の実測フローを踏襲）。"""
+    # 2026-08-19 実測: 既存セレクタが30秒待っても解決せず、無料/有料とも全滅した
+    # （note側UI変更）。候補を広げ、待ちも 30s→6s に短縮する（3本で90秒待たされていた）。
+    # 当たらない場合は無サムネで進み、記事URLを出して手動設定に回す＝公開自体は止めない。
+    opener = ('button[aria-label="画像を追加"], button[aria-label*="画像"], '
+              'button:has-text("画像を追加"), button:has-text("見出し画像"), '
+              '[aria-label*="見出し画像"], [data-name*="eyecatch"], [class*="eyecatch"] button')
+    try:
+        page.locator(opener).first.click(timeout=6000)
+        page.wait_for_timeout(800)
+        with page.expect_file_chooser() as fc:
+            page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
+                         ).first.click(timeout=6000)
+        fc.value.set_files(str(thumb))
+        page.wait_for_timeout(2500)
+        crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
+        for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
+            try:
+                btn = page.locator(f'{crop_dialog} >> button:has-text("{label}")').last
+                if btn.is_visible(timeout=600):
+                    btn.click()
+                    page.wait_for_timeout(800)
+                    break
+            except Exception:
+                continue
+        return True
+    except Exception as e:
+        print(f"⚠️  サムネ自動設定に失敗: {type(e).__name__}（見出し画像は手動で設定してください）")
+        print(f"   手動設定用に開くURL: {page.url}")
+        print(f"   使う画像: {thumb}")
+        return False
+
+
 # ---------- パース ----------
 
 def _clean_lines(block: str) -> str:
@@ -102,8 +158,13 @@ def _clean_lines(block: str) -> str:
 
 
 def _extract_block(text: str, header: str):
-    """`## <header>` 直下の ``` コードブロックを返す。無ければ None。"""
-    m = re.search(rf"##\s*{re.escape(header)}.*?\n```\n(.+?)\n```", text, re.S)
+    """`## <header>` 直下の ``` コードブロックを返す。無ければ None。
+
+    見出しは行頭・行全体で一致させる。緩い一致だと `## 本文` ブロック内の説明文
+    （例：「## 無料部分」「## 有料部分」という案内）を見出しと誤認し、本文が数文字だけ
+    抽出されたまま公開されてしまう。"""
+    m = re.search(rf"^##[ \t]*{re.escape(header)}[ \t]*$\n+```[^\n]*\n(.+?)\n```",
+                  text, re.S | re.M)
     return m.group(1).strip() if m else None
 
 
@@ -167,6 +228,15 @@ def parse_paid_article(md_path: Path, title_override=None, price_override=None):
 
     if not paid_body:
         sys.exit("✗ 有料エリアの本文が空です。境界の位置を確認してください。")
+    # 2026-08-19 インシデント：見出し抽出バグで本文が7文字になったまま、価格と境界の
+    # ゲートは「確定✅」を返し、¥300の値札が付いた空の記事が公開された。ゲートが本文の
+    # 長さを一切見ていなかったのが原因。抽出ミスは短さとして必ず現れるので、ここで止める。
+    MIN_FREE, MIN_PAID = 200, 200
+    if len(free_body) < MIN_FREE or len(paid_body) < MIN_PAID:
+        sys.exit(
+            f"✗ 本文が短すぎます（無料{len(free_body)}字/有料{len(paid_body)}字・各{MIN_FREE}字以上必要）。\n"
+            "  抽出ミスの可能性が高いので公開しません。`## 無料部分` / `## 有料部分` の\n"
+            "  見出しとコードブロックが正しく閉じているか確認してください。")
     if price is None:
         sys.exit("✗ 価格が不明です。--price 300 を指定してください。")
     # note の有料記事は ¥100〜¥50,000。範囲外は事故（例：¥50 で弾かれる/桁ミス）なので明示的に止める。
@@ -358,7 +428,8 @@ def _verify_paid_published(nid: str, price: int) -> bool:
         return False
 
 
-def publish(md_path: Path, do_publish: bool, title_override, price_override, tags_override):
+def publish(md_path: Path, do_publish: bool, title_override, price_override, tags_override,
+            no_thumb: bool = False):
     title, free_body, paid_body, price, file_tags = parse_paid_article(
         md_path, title_override, price_override)
     tags = tags_override if tags_override else file_tags
@@ -369,6 +440,9 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
     print(f"🆓 無料パート: {len(free_body)} 文字 / 🔒 有料パート: {len(paid_body)} 文字")
     print(f"🔖 タグ: {', '.join(tags) if tags else 'なし'}")
     print(f"🚦 モード: {'公開まで(--publish)' if do_publish else '下書き保存（安全・既定）'}")
+
+    thumb = None if no_thumb else find_thumbnail_for(md_path)
+    print(f"🖼️  サムネ(見出し画像): {thumb.name if thumb else 'なし（_verified.txt 未登録）'}")
 
     with sync_playwright() as p:
         ctx = load_context(p)
@@ -415,6 +489,10 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
         page.wait_for_timeout(200)
         _type_body(page, paid_body)
         print("✅ 有料パート入力完了")
+
+        # サムネ（見出し画像）＝本文確定後・下書き保存の前に設定する
+        if thumb and _set_header_image(page, thumb):
+            print(f"✅ サムネ(見出し画像)に {thumb.name} を設定")
 
         # 下書き保存で状態確定
         try:
@@ -500,6 +578,8 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
             published_id = m.group(1) if m else None
             print(f"✅ 公開リクエスト送信。最終URL: {page.url}")
             if published_id:
+                # 無人実行(cowork_run.sh)がログから機械的に拾う定型行。書式を変えないこと。
+                print(f"PAID_PUBLISHED\t{published_id}\t{price}\t{md_path.name}")
                 print(f"🔗 想定公開URL: https://note.com/safe_canna441/n/{published_id}")
         except Exception as e:
             print(f"⚠️  公開ボタン(投稿する)自動クリック失敗: {e}（画面で手動公開してください）")
@@ -523,6 +603,8 @@ def main():
     ap.add_argument("--price", type=int, default=None)
     ap.add_argument("--title", type=str, default=None)
     ap.add_argument("--tags", type=str, default=None)
+    ap.add_argument("--no-thumb", action="store_true",
+                    help="_verified.txt 掲載のサムネがあっても見出し画像を設定しない")
     args = ap.parse_args()
 
     if args.login:
@@ -535,8 +617,12 @@ def main():
         sys.exit(f"記事が見つかりません: {md_path}")
 
     tags = [t.strip().lstrip("#") for t in args.tags.split(",")] if args.tags else None
-    publish(md_path, do_publish=args.publish, title_override=args.title,
-            price_override=args.price, tags_override=tags)
+    published_id = publish(md_path, do_publish=args.publish, title_override=args.title,
+                           price_override=args.price, tags_override=tags, no_thumb=args.no_thumb)
+    # --publish を指示したのに公開されなかった場合は非ゼロで終わる。
+    # 無人実行(cowork_run.sh)が「安全のため中止」を成功と誤判定してキューから消すのを防ぐ。
+    if args.publish and not published_id:
+        sys.exit(3)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,49 @@
+---
+id: 2026-08-19_003
+from: code
+to: cowork
+created: 2026-08-19T00:00:00+00:00
+priority: urgent
+type: instruction
+status: open
+title: 【最優先・再送】有料note3本(¥300×3・サムネ付き)がまだ未公開＝現在の収益はまだ¥0。今日中に公開してください
+---
+
+★2026-08-19 追記（公開前に必ず git pull すること）★
+①**重大バグを修正済**：`publish_paid_note.py` の見出し抽出が `## 本文` ブロック内の説明文
+（「## 無料部分」「## 有料部分」という案内文字列）を見出しと誤認し、**無料/有料とも本文7文字だけで
+公開されるところだった**。行頭・行全体一致に修正し、全有料記事7本でparse再検証済（本文字数正常）。
+→ **修正前のスクリプトで公開すると空記事が出るので、必ず最新mainを取得してから実行**してください。
+②**サムネ対応を追加**：`publish_paid_note.py` が `_verified.txt` 掲載stemの見出し画像を自動設定します
+（無料版publisherと同じallowlist方式＝誤サムネは構造的に起きない）。3本ともサムネ登録済み：
+魚=富山湾の海岸線／手しごと=高岡大仏（緑青の銅像）／地酒=庭を背にした一杯のグラス。
+付けたくない場合のみ `--no-thumb` を付けてください。
+③本文を全面リライト済（owner「記事はおもしろくない」→箇条書き列挙を情景のある読み物に。新文体52準拠）。
+
+
+owner「収益あげたいので全部見直して」への回答として、CFOで確認済み＝**現時点の着金はまだ¥0**。
+在庫として既に完成している有料note3本(合計¥900相当)が未公開のまま24時間以上止まっている＝
+最速で"最初の1円"に近づく一手。`ops/inbox/2026-08-18_001`（venv化fix適用手順）がまだ`status: open`のまま
+処理されていません。無料キューは既に消化された形跡がある（published_registry更新済）ので、
+**残っているのは手順3（有料note3本のpublish）だけ**の可能性が高いです。
+
+★★2026-08-19 再追記：**手打ちコマンドは不要になりました**★★
+`ops/cowork_run.sh`（既存の無人公開デーモン）に**有料note対応を追加**しました。
+3本は `drafts/paid_queue/` に投函済みなので、**次回の定期実行でそのまま公開されます**。
+owner がやることは「Macでcowork_run.shが回る状態にしておく」だけ（noteログインが切れていれば `--login` のみ）。
+- 価格は記事内の `<!-- PAYWALL price=300 -->` を読むので二重管理なし。
+- 公開できた分だけ `drafts/paid_published/` へ移動。**失敗した分はキューに残って次回再試行**（取りこぼしません）。
+- 結果（公開URL・失敗理由）は自動で outbox に報告されます。
+※下の手動手順は、定期実行を待たずに今すぐ公開したい場合のみ使ってください。
+
+【今すぐやること（急ぐ場合のみ・手動）】
+1. `ops/inbox/2026-08-18_001_code_cowork.yaml` の手順3だけでも先に実行してください:
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方.md" --price 300 --publish
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方.md" --price 300 --publish
+   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py --article "CMO/outputs/2026-08-19_有料note_富山の地酒_選び方と楽しみ方.md" --price 300 --publish
+   （venv導入がまだなら先に `bash CDO/outputs/note_publisher/setup.sh` を実行）
+2. 各コマンドがターミナルに出す「価格確定：¥300」のログを確認し、outboxに3本分のURLを報告してください。
+3. 1本でも「価格確定」ログが出ない/失敗する場合は、そのエラーメッセージをそのままoutboxに貼ってください（parse不良か価格欄検出失敗かをcode側で切り分けます）。
+
+【背景】ops/inbox 2026-08-18_001は`status: open`のまま数日経過＝処理漏れの可能性。本タスク完了後は
+2026-08-18_001もあわせて`done`にしてください（同じ作業のため二重実行不要）。
