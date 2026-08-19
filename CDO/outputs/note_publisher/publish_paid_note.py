@@ -117,13 +117,18 @@ def find_thumbnail_for(md_path: Path) -> Path | None:
 
 def _set_header_image(page, thumb: Path) -> bool:
     """新エディタの見出し画像を設定する（publish_to_note.py の実測フローを踏襲）。"""
+    # 2026-08-19 実測: 既存セレクタが30秒待っても解決せず、無料/有料とも全滅した
+    # （note側UI変更）。候補を広げ、待ちも 30s→6s に短縮する（3本で90秒待たされていた）。
+    # 当たらない場合は無サムネで進み、記事URLを出して手動設定に回す＝公開自体は止めない。
+    opener = ('button[aria-label="画像を追加"], button[aria-label*="画像"], '
+              'button:has-text("画像を追加"), button:has-text("見出し画像"), '
+              '[aria-label*="見出し画像"], [data-name*="eyecatch"], [class*="eyecatch"] button')
     try:
-        page.locator(
-            'button[aria-label="画像を追加"], button:has-text("見出し画像"), [aria-label*="見出し画像"]'
-        ).first.click()
+        page.locator(opener).first.click(timeout=6000)
         page.wait_for_timeout(800)
         with page.expect_file_chooser() as fc:
-            page.locator('button:has-text("画像をアップロード")').first.click()
+            page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
+                         ).first.click(timeout=6000)
         fc.value.set_files(str(thumb))
         page.wait_for_timeout(2500)
         crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
@@ -138,7 +143,9 @@ def _set_header_image(page, thumb: Path) -> bool:
                 continue
         return True
     except Exception as e:
-        print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定してください）")
+        print(f"⚠️  サムネ自動設定に失敗: {type(e).__name__}（見出し画像は手動で設定してください）")
+        print(f"   手動設定用に開くURL: {page.url}")
+        print(f"   使う画像: {thumb}")
         return False
 
 
@@ -221,6 +228,15 @@ def parse_paid_article(md_path: Path, title_override=None, price_override=None):
 
     if not paid_body:
         sys.exit("✗ 有料エリアの本文が空です。境界の位置を確認してください。")
+    # 2026-08-19 インシデント：見出し抽出バグで本文が7文字になったまま、価格と境界の
+    # ゲートは「確定✅」を返し、¥300の値札が付いた空の記事が公開された。ゲートが本文の
+    # 長さを一切見ていなかったのが原因。抽出ミスは短さとして必ず現れるので、ここで止める。
+    MIN_FREE, MIN_PAID = 200, 200
+    if len(free_body) < MIN_FREE or len(paid_body) < MIN_PAID:
+        sys.exit(
+            f"✗ 本文が短すぎます（無料{len(free_body)}字/有料{len(paid_body)}字・各{MIN_FREE}字以上必要）。\n"
+            "  抽出ミスの可能性が高いので公開しません。`## 無料部分` / `## 有料部分` の\n"
+            "  見出しとコードブロックが正しく閉じているか確認してください。")
     if price is None:
         sys.exit("✗ 価格が不明です。--price 300 を指定してください。")
     # note の有料記事は ¥100〜¥50,000。範囲外は事故（例：¥50 で弾かれる/桁ミス）なので明示的に止める。
