@@ -15,8 +15,11 @@ owner「noteにほんとに売れる記事書いて」→ **題材そのもの�
 
 【公開コマンド（Mac・Playwright要）】まず --publish なしで下書き確認 → 価格ログ確認 → 本公開
 
-  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
-  # ① 下書きだけ作る（価格・境界の目視確認用）
+  # ★このファイルは作業ブランチ側にあります。main を reset すると記事が消えるので注意。
+  cd ~/agent-team-run
+  git fetch origin claude/note-high-sales-article-c2z5sp
+  git reset --hard origin/claude/note-high-sales-article-c2z5sp
+  # ① 下書きだけ作る（価格・境界の目視確認用／※行末にコメントを付けないこと）
   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py \
     --article "CMO/outputs/2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md" \
     --price 500
@@ -50,3 +53,13 @@ owner「noteにほんとに売れる記事書いて」→ **題材そのもの�
 【報告（outbox）】公開URL／有料ラインが正しい位置に入ったか／価格表示が¥500になっているか。
 可能なら公開後24hのPVとスキ数も一言お願いします（本稿は"売れるか"の検証が目的なので、
 公開できた事実より**その先の数字**が知りたいです）。
+
+
+【追記 2026-08-21】無料の入口記事もセットで用意しました。
+`CMO/outputs/2026-08-21_note記事_AIは一度もやめましょうと言わなかった.md`（無料・本文2,310字）
+公開済み161本のうちAI/仕事に触れる記事は実質5本しかなく、この¥500noteには内部流入がほぼありません。
+そのための入口です。**必ずこの順で**お願いします。
+  ① 有料note(¥500)を公開 → ② URLを控える
+  ③ 無料記事の本文中 `<<有料noteURL>>` を②のURLに置換
+  ④ 無料記事を公開（publish_to_note.py）
+順序を逆にすると導線が死にます（無料記事だけ先に出ると、行き先の無いリンクが残る）。
