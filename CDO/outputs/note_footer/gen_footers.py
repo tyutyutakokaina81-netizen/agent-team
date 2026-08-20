@@ -239,6 +239,41 @@ def paste_paid(path: Path, outdir: Path, dry: bool) -> str:
     return f"paid -> {out.name}"
 
 
+def _norm(s: str) -> str:
+    return re.sub(r"[\s—\-–、。「」『』【】…!！?？]", "", s)
+
+
+def write_manifest(dry: bool) -> int:
+    """append_paid_footer.py が読む manifest を書き出す。
+
+    published_registry.json（公開時に note_id が記録される）とタイトルで突合し、
+    「どの記事に・どの文面を貼るか」を機械可読にする。突合できない記事は載せない
+    （note_id が無いと編集画面を開けないため）。
+    """
+    import json
+    reg_path = REPO / "CDO" / "outputs" / "note_publisher" / "published_registry.json"
+    reg = json.loads(reg_path.read_text(encoding="utf-8")) if reg_path.exists() else []
+    indexed = [(_norm(r["title"]), r) for r in reg if r.get("url")]
+
+    items = []
+    for p in article_files():
+        title = get_title(p.read_text(encoding="utf-8"), p)
+        footer = build_paid_footer(title)
+        if not footer:
+            continue
+        nt = _norm(title)
+        hit = next((r for k, r in indexed
+                    if k == nt or (len(nt) > 10 and (nt in k or k in nt))), None)
+        if not hit:
+            continue
+        note_id = hit["url"].rstrip("/").split("/")[-1]
+        items.append({"note_id": note_id, "title": title, "stem": p.stem, "footer": footer})
+    if not dry:
+        (HERE / "paid_footer_manifest.json").write_text(
+            json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")
+    return len(items)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--embed-from", help="この日付以降（ファイル名）の記事に直接埋め込む")
@@ -255,6 +290,10 @@ def main():
             if r.startswith("paid"):
                 made += 1
         print(f"有料導線ブロックを {made} 本ぶん出力しました → {HERE / 'paid_footers'}")
+        n = write_manifest(args.dry_run)
+        print(f"追記スクリプト用マニフェストを出力しました（{n}本・公開URL判明分）→ "
+              f"{HERE / 'paid_footer_manifest.json'}")
+        print("  次: python3 CDO/outputs/note_footer/append_paid_footer.py --apply --limit 2")
         return
 
     for p in article_files():

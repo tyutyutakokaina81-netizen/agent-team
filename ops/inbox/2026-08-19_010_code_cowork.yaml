@@ -1,0 +1,43 @@
+---
+id: 2026-08-19_010
+from: code
+to: owner
+created: 2026-08-19T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【ターミナルで実行】公開済み43本への有料note導線の追記を自動化（手貼り不要）
+---
+
+「43本に手で貼る」をなくすスクリプトを用意しました。**Macのターミナルに貼るだけ**です。
+
+【手順（~/agent-team-run で・上から順に）】
+
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
+
+  # 1) まず何をするか見るだけ（保存しない・既定がdry-run）
+  ~/.note_venv/bin/python CDO/outputs/note_footer/append_paid_footer.py --limit 3
+
+  # 2) 本当に2本だけ追記して、note の画面で仕上がりを確認する
+  ~/.note_venv/bin/python CDO/outputs/note_footer/append_paid_footer.py --apply --limit 2
+
+  # 3) 見て問題なければ残り全部
+  ~/.note_venv/bin/python CDO/outputs/note_footer/append_paid_footer.py --apply
+
+  # (失敗した分だけやり直したいとき)
+  ~/.note_venv/bin/python CDO/outputs/note_footer/append_paid_footer.py --apply --retry-failed
+
+【安全側の作り】
+- 既定は dry-run。`--apply` を付けたときだけ保存します。**まず --limit 2 で確認してください。**
+- 追記のみ。既存の本文は消しません。
+- 既に同じ有料URLが本文にあればスキップ（二重貼り防止）。
+- **有料note3本は対象外**（IDを明示除外）＝価格や有料ラインに触れる余地をなくしています。
+- 済んだ分は記録され、中断しても続きから再開できます。二重実行しても貼り直しません。
+
+【正直な注記】
+A1でcodeはnote.comに接続できないため、**このスクリプトは実機未検証**です。
+分岐（dry-run/二重貼り検知/未ログイン/ボタン欠落/正常系）はモックで確認済みですが、
+note のUIセレクタが実際に当たるかは①②で確かめてください。②で失敗する場合は
+ターミナルの出力をそのまま貼ってもらえれば直します。
+
+【報告】更新できた本数と、失敗があればその行。
