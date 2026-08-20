@@ -62,9 +62,8 @@ for f in "$PAID" "$FREE"; do
 done
 if [ $missing -eq 1 ]; then
   echo ""
-  echo "この2本は作業ブランチにあります。取り直してから再実行してください:"
-  echo "  git fetch origin claude/note-high-sales-article-c2z5sp"
-  echo "  git reset --hard origin/claude/note-high-sales-article-c2z5sp"
+  echo "取り直してから再実行してください:"
+  echo "  git fetch origin main && git reset --hard origin/main"
   exit 1
 fi
 

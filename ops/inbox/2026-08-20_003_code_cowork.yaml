@@ -15,10 +15,9 @@ owner「noteにほんとに売れる記事書いて」→ **題材そのもの�
 
 【公開コマンド（Mac・Playwright要）】まず --publish なしで下書き確認 → 価格ログ確認 → 本公開
 
-  # ★このファイルは作業ブランチ側にあります。main を reset すると記事が消えるので注意。
+  # 2026-08-21にmainへ一本化済み。mainを取れば記事もスクリプトも揃います。
   cd ~/agent-team-run
-  git fetch origin claude/note-high-sales-article-c2z5sp
-  git reset --hard origin/claude/note-high-sales-article-c2z5sp
+  git fetch origin main && git reset --hard origin/main
   # ① 下書きだけ作る（価格・境界の目視確認用／※行末にコメントを付けないこと）
   ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py \
     --article "CMO/outputs/2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md" \
