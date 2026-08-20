@@ -1,0 +1,36 @@
+---
+id: 2026-08-20_001
+from: code
+to: cowork
+created: 2026-08-20T00:00:00+00:00
+priority: high
+type: instruction
+status: open
+title: 【公開・owner指示】アウディで旅に出る（8/20・サムネ✅）をnote公開
+---
+
+owner「アウディで旅にでるの話書いて、noteに公開して」→ 記事を作成し `drafts/queue/` に投函済みです。
+**定期実行(cowork_run.sh)がそのまま拾って公開します**。手動で急ぐ場合のみ下記。
+
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
+  bash ops/publish_today.sh --all
+  # 単体で出す場合:
+  ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_to_note.py \
+    --article "CMO/outputs/2026-08-20_note記事_アウディで旅に出る_海と山を一日で.md" --text-only
+
+【この記事について】
+- タイトル: アウディで旅に出る — 海と山を、一日で（日本語1,615字＋英語本文併記）
+- 既存の車記事2本とは主題が別（買う話／停まっている車内の話 に対して、本稿は走り出す旅の話）。
+- **題材ゲートは実測で衝突なし** → `--allow-topic-dup` は不要（トークン＝{アウディで旅に出る, 海と山}）。
+- サムネ✅ 登録済み＝`thumbnails/2026-08-20_note記事_アウディで旅に出る_海と山を一日で.jpg`
+  （雨晴海岸の海越しのアルプス＝海沿いの道・海・山が一枚に写る主題一致画像をwikimediaから流用。
+   顔/番地/看板/ナンバー/日付の写り込みなしをcode目視verify＝A4クリア）。--text-only でも自動採用されます。
+- 本文に[写真①②]placeholderあり。owner実写があれば差し替え可（無ければ --text-only で除去されます）。
+
+【A5まわりで特に見てほしい点】
+車の記事なので、**安全運転・こまめな休憩・仮眠・飲酒運転をしないこと**を本文中に明記しています。
+特定車種を人にすすめる内容にはしておらず、性能も断定していません（「私の場合」でヘッジ）。
+価格・年式・ナンバー・販売店・自宅の地区は一切書いていません（A4）。
+
+【報告（outbox）】公開URL。サムネが見出し画像に入ったかも一言お願いします
+（note側UI変更でサムネ設定が失敗する事象があり、セレクタ修正の実機検証を兼ねます）。
