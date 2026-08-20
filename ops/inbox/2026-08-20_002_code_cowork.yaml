@@ -1,0 +1,42 @@
+---
+id: 2026-08-20_002
+from: code
+to: owner
+created: 2026-08-20T00:00:00+00:00
+priority: urgent
+type: instruction
+status: open
+title: 【1回で全部片づく】ops/finish_pending.sh ＝ 空note下げ＋アウディ記事の公開
+---
+
+保留中の note.com 作業が2件たまっています。**バラバラに実行せず、これ1本にまとめました。**
+
+  cd ~/agent-team-run && git fetch origin main && git reset --hard origin/main
+
+  # 1) 何をするか見るだけ（保存しない）
+  bash ops/finish_pending.sh
+
+  # 2) 実行（noteログインが切れていれば --login も付ける）
+  bash ops/finish_pending.sh --go
+  bash ops/finish_pending.sh --go --login
+
+【中身（この順で実行されます）】
+① **空の有料note3本を「下書きに戻す」**（最優先・削除ではなく取り消しの利く方）
+   n94864fee1d83 / n752e3adfbaf2 / n5a495d8e38c3
+   ＝8/19の事故で、本文7文字のまま¥300で公開されたもの。まだ値札が付いたままです。
+② **アウディ記事を公開**（drafts/queue の1本）
+   「アウディで旅に出る — 海と山を、一日で」サムネ✅付き
+③ 結果を outbox に報告して commit & push
+
+【事前に確認済み（推測ではありません）】
+アウディ記事は公開経路の4つのゲートを実測で通過しています：
+  題材トークン衝突なし ／ registry衝突なし ／ 既存アウディ記事とのタイトル一致=False ／ サムネ解決OK
+→ `--allow-topic-dup` は不要です。
+
+【見てほしいこと】
+- ①で `CARD_NOT_FOUND` が出た記事は「一覧に無い」だけで、**下書き化できたとは限りません**。
+  その場合はnoteの記事一覧を目視して、まだ公開中でないか確認してください。
+- ②の公開後、**見出し画像（サムネ）が入ったかどうか**を教えてください。
+  note側UI変更でサムネ設定が全滅した件のセレクタを修正済みで、これが実機検証になります。
+
+【報告】公開URLと、①の結果（何本下書きに戻せたか）。
