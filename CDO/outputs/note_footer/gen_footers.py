@@ -34,6 +34,45 @@ GUIDE_URL = "https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en.ht
 GUIDE_CTA = ("🌍 For overseas readers (海外の方・海外の友人へ): a local's free English guide to "
              "Toyama, Takaoka & Himi → " + GUIDE_URL)
 
+# 有料note（2026-08-19 公開・各¥300）。無料記事から"題材が近い1本だけ"を案内する。
+# 収益の実態＝無料279本に対し有料への導線が4本しか無かった＝作った商品が発見されない状態。
+# 全記事に同じ広告を貼るのでなく、記事の題材に噛み合う1本を出す（外れた案内は読者の信用を削る）。
+PAID_NOTES = {
+    "魚": ("富山湾の魚、地元民の選び方・旬・食べ方【保存版】",
+           NOTE_BASE + "n589f9a38d45f",
+           "旬・鮮度の見分け方・買い方まで、保存版にまとめました"),
+    "工芸": ("高岡の手しごと、地元民の選び方と楽しみ方【保存版】",
+             NOTE_BASE + "n6fae4ac8e59a",
+             "銅器・錫・漆・ガラスの選び方と手入れを、保存版にまとめました"),
+    "酒": ("富山の地酒、地元民の選び方と楽しみ方【保存版】",
+           NOTE_BASE + "n9d31ee9d3b0a",
+           "料理と温度で選ぶ考え方を、保存版にまとめました"),
+}
+# 題材の近さで選ぶ（上から順に判定）。どれにも当たらなければ有料案内は出さない＝無理に売らない。
+PAID_MATCH = [
+    ("酒",   ["酒", "地酒", "日本酒", "ビール", "甘酒", "晩酌", "焼酎", "ワイン"]),
+    ("魚",   ["魚", "刺身", "寿司", "鮨", "ブリ", "フクラギ", "ノドグロ", "白えび", "ホタルイカ",
+              "バイ貝", "かに", "ずわい", "干物", "昆布じめ", "昆布締め", "牡蠣", "いか", "イカ",
+              "海鮮", "漁", "富山湾", "鱒", "へしこ", "たら汁", "アラ", "キス", "メゴチ", "鮎", "マグロ"]),
+    ("工芸", ["銅器", "鋳物", "錫", "漆", "ガラス", "工芸", "職人", "手しごと", "金屋町", "高岡大仏"]),
+]
+# 字面だけ一致して題材が違うものを弾く（実測した誤爆）。
+# 例：「金魚すくい」「魚津の蜃気楼（地名）」に魚の買い方ガイドを出すのは読者の信用を削る。
+PAID_EXCLUDE = ["金魚", "魚津", "不器用"]
+
+
+def pick_paid(title: str, category: str):
+    """記事の題材に噛み合う有料note を1本返す。当たらなければ None（＝案内しない）。"""
+    if any(x in title for x in PAID_EXCLUDE):
+        return None
+    for key, words in PAID_MATCH:
+        if any(w in title for w in words):
+            return PAID_NOTES[key]
+    # 題材語で当たらない食記事は、いちばん広く効く「魚」を出す（富山の食＝富山湾が土台のため）。
+    if category == "食":
+        return PAID_NOTES["魚"]
+    return None
+
 FOOD = ["食", "丼", "寿司", "うどん", "そば", "そうめん", "ラーメン", "おでん", "大根", "昆布", "かまぼこ",
         "ブリ", "フクラギ", "ノドグロ", "白えび", "ホタルイカ", "バイ貝", "鮎", "かに", "ずわい", "干物",
         "へしこ", "黒造り", "豆腐", "薄氷", "柿", "煮", "汁", "コロッケ", "せんべい", "和菓子", "地酒",
@@ -110,11 +149,17 @@ def build_footer(title: str) -> str:
     a, b = pick_related(cat, title, registry)
     h = int(hashlib.md5(title.encode()).hexdigest(), 16)
     cta = CTAS[cat][h % len(CTAS[cat])]
+    paid = pick_paid(title, cat)
+    paid_block = ""
+    if paid:
+        p_title, p_url, p_desc = paid
+        paid_block = f"\n📘 {p_desc}。\n・{p_title}\n{p_url}\n"
     return (
         "\n---\n\n"
         f"{FOOTER_MARK}\n"
         f"・{a['title']}\n{NOTE_BASE}{a['note_id']}\n"
-        f"・{b['title']}\n{NOTE_BASE}{b['note_id']}\n\n"
+        f"・{b['title']}\n{NOTE_BASE}{b['note_id']}\n"
+        f"{paid_block}\n"
         f"{cta}\n\n"
         f"{GUIDE_CTA}"
     )
@@ -161,12 +206,56 @@ def paste_file(path: Path, outdir: Path, dry: bool) -> str:
     return f"paste -> {out.name}"
 
 
+def build_paid_footer(title: str):
+    """公開済み記事に後から貼る用の、有料note案内だけの短いブロック。
+
+    「▼あわせて読む」を外す理由：published_registry.tsv がまだ14件しかなく、
+    数百本に貼ると同じ14本が延々と並んで逆効果になる。ここでの目的は
+    無料→有料の導線を通すことなので、噛み合う1本と英語ガイドだけに絞る。
+    """
+    paid = pick_paid(title, classify(title))
+    if not paid:
+        return None
+    p_title, p_url, p_desc = paid
+    return (
+        "\n---\n\n"
+        f"📘 {p_desc}。\n"
+        f"・{p_title}\n{p_url}\n\n"
+        f"{GUIDE_CTA}"
+    )
+
+
+def paste_paid(path: Path, outdir: Path, dry: bool) -> str:
+    text = path.read_text(encoding="utf-8")
+    title = get_title(text, path)
+    footer = build_paid_footer(title)
+    if not footer:
+        return "skip(噛み合う有料noteなし)"
+    out = outdir / (path.stem + ".paid.txt")
+    if not dry:
+        outdir.mkdir(parents=True, exist_ok=True)
+        out.write_text(f"# 貼り付け先: {title}\n# note編集画面で本文の最後に以下を貼る\n{footer}\n",
+                       encoding="utf-8")
+    return f"paid -> {out.name}"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--embed-from", help="この日付以降（ファイル名）の記事に直接埋め込む")
     ap.add_argument("--paste-until", help="この日付以前の記事のフッターを footers/ に出力")
+    ap.add_argument("--paid-only", action="store_true",
+                    help="公開済み記事に貼る「有料note案内だけ」のブロックを paid_footers/ に出力")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+
+    if args.paid_only:
+        made = 0
+        for p in article_files():
+            r = paste_paid(p, HERE / "paid_footers", args.dry_run)
+            if r.startswith("paid"):
+                made += 1
+        print(f"有料導線ブロックを {made} 本ぶん出力しました → {HERE / 'paid_footers'}")
+        return
 
     for p in article_files():
         date = p.name[:10]
