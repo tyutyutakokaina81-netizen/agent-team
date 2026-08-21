@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-19T00:00:00+00:00
 priority: urgent
 type: instruction
-status: open
+status: done
 title: 【最優先・再送】有料note3本(¥300×3・サムネ付き)がまだ未公開＝現在の収益はまだ¥0。今日中に公開してください
 ---
 
@@ -47,3 +47,10 @@ owner がやることは「Macでcowork_run.shが回る状態にしておく」�
 
 【背景】ops/inbox 2026-08-18_001は`status: open`のまま数日経過＝処理漏れの可能性。本タスク完了後は
 2026-08-18_001もあわせて`done`にしてください（同じ作業のため二重実行不要）。
+
+
+---
+
+## 結果 (2026-08-20T04:44:59+00:00)
+
+完了：有料3本を¥300で公開（魚 n589f9a38d45f／手しごと n6fae4ac8e59a／地酒 n9d31ee9d3b0a）。3本ともv3検証 price=300/can_read=False/status=published。※同時に空記事インシデント発生→2026-08-19_006で対処依頼中。

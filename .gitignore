@@ -69,3 +69,6 @@ CDO/outputs/note_publisher/thumbnails/
 
 # かいちLINE特典の生素材＝学習目的限定・再配布しない(著作権配慮)。学びメモ(.md)のみ追跡。
 CAO/research/kaichi_line_tokuten/
+
+# 追記スクリプトの進捗ファイル（Mac実行時のローカル状態・共有不要）
+CDO/outputs/note_footer/.append_state.json
