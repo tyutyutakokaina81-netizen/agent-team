@@ -22,6 +22,8 @@
 
 - note_publisher: 初回運用後にUIセレクタ調整が必要な可能性（noteのDOM変更追従）
 
+| 2026-08-21 | site_audit/audit_pages.py (+README) | ツール/監査 | 「能力向上」→Pages発見インフラを1コマンドで機械監査する常設ツールを新設(ゼロ依存・exit code対応・CIゲート化可)。sitemap網羅/リンク切れ/hreflang(x-default)/孤立/アセット実在の6項目。初回実行で10ページのx-default欠落を検知→修正しerrors=0。競合回避でnote_publisher外の新レーンに配置 | 運用中 |
+
 ## メモ・引き継ぎ事項
 
 - note_publisherはCMO/outputs/の最新記事を自動選択。写真は ~/Pictures/note/YYYY-MM-DD/photo_NN.jpg 命名規則。
