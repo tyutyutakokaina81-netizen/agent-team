@@ -96,6 +96,22 @@ def hreflang_set(txt):
     return tuple(sorted(re.findall(r'<link[^>]*hreflang="([^"]+)"', txt)))
 
 
+def hreflang_pairs(txt):
+    """(lang, href-basename) のリスト。href/hreflang の順序どちらの記法にも対応。"""
+    pairs = []
+    for m in re.finditer(r'<link\b[^>]*>', txt):
+        tag = m.group(0)
+        lang = re.search(r'hreflang="([^"]+)"', tag)
+        href = re.search(r'href="([^"]+)"', tag)
+        if lang and href:
+            base = href.group(1).split("#")[0].split("?")[0].rstrip("/").split("/")[-1]
+            # 公開ルート(/toyama/ や /toyama)は index.html を指す
+            if base in ("", "toyama"):
+                base = "index.html"
+            pairs.append((lang.group(1), base))
+    return pairs
+
+
 def resolve_asset(page_name, ref):
     """ページからの相対/絶対アセット参照を実ファイルパスに解決して存在確認。"""
     if ref.startswith("/agent-team/"):
@@ -135,7 +151,9 @@ def audit():
 
     # 3. リンク切れ + 5素材収集 + 4 hreflang + 6 アセット
     broken, inbound = {}, {f: 0 for f in files}
-    hre = {}
+    hre = {}           # f -> sorted lang tuple
+    hre_targets = {}    # f -> set(同一サイトの alternate 先 basename, x-default/自己は除く)
+    hre_missing = {}    # f -> [実在しない alternate 先]
     asset_missing = {}
     for f in files:
         txt = read(os.path.join(PAGES_DIR, f))
@@ -145,6 +163,15 @@ def audit():
             elif t != f:
                 inbound[t] += 1
         hre[f] = hreflang_set(txt)
+        tset = set()
+        for lang, base in hreflang_pairs(txt):
+            if not base.endswith(".html"):
+                continue
+            if base not in fileset:
+                hre_missing.setdefault(f, []).append(base)  # alternate先が実在しない
+            if lang != "x-default" and base != f:
+                tset.add(base)
+        hre_targets[f] = tset
         for ref in local_asset_refs(txt):
             p = resolve_asset(f, ref)
             if p is not None and not os.path.exists(p):
@@ -152,18 +179,30 @@ def audit():
     if broken:
         result["errors"]["broken_internal_links"] = {k: sorted(v) for k, v in broken.items()}
 
-    # 4. hreflang相互性: 同じ alternate 集合を宣言するページ群はクラスタ。
-    #    各クラスタで (a)全員が同一集合を宣言 (b)x-defaultを含む を満たすか。
-    hre_pages = {f: s for f, s in hre.items() if s}  # hreflangを持つページのみ対象
+    # 4. hreflang健全性: (a)x-default欠落 (b)alternate先が実在しない (c)非相互(A→BなのにB↛A)
+    hreflang_problems = {}
+    hre_pages = {f: s for f, s in hre.items() if s}
     clusters = {}
     for f, s in hre_pages.items():
         clusters.setdefault(s, []).append(f)
-    hreflang_problems = {}
     for s, members in clusters.items():
         if "x-default" not in s:
             hreflang_problems.setdefault("no_x_default", []).extend(sorted(members))
+    if hre_missing:
+        hreflang_problems["alternate_target_missing"] = {k: sorted(v) for k, v in hre_missing.items()}
     if hreflang_problems:
         result["errors"]["hreflang"] = hreflang_problems
+
+    # 非相互(A→BなのにB↛A)は warning。多くは「英語サブページが日本語トップを alternate に
+    # 指すが、トップは全サブページを相互宣言できない」型＝Googleは無視するだけ(ペナルティ無)で、
+    # 正す=各ページの真の対訳を決めるコンテンツ判断。機械では直さず可視化に留める。
+    non_recip = {}
+    for f, tset in hre_targets.items():
+        for t in tset:
+            if t in fileset and f not in hre_targets.get(t, set()):
+                non_recip.setdefault(f, []).append(t)  # f は t を指すが t は f を指さない
+    if non_recip:
+        result["warnings"]["hreflang_non_reciprocal"] = {k: sorted(v) for k, v in non_recip.items()}
 
     # 5. 孤立（sitemapにあるが inbound 0）: index.html は入口なので除外
     orphans = [f for f in files if f != "index.html" and inbound[f] == 0]
@@ -197,6 +236,7 @@ def main():
             "hreflang": "hreflang不整合",
             "orphan_pages": "孤立ページ(inbound 0)",
             "missing_local_assets": "参照アセットが実在しない",
+            "hreflang_non_reciprocal": "hreflang非相互(要人手判断・Google無視で無害)",
         }
         if not r["errors"]:
             print("  ✅ 致命的欠陥: なし（sitemap網羅・リンク切れ0・hreflang整合）")
