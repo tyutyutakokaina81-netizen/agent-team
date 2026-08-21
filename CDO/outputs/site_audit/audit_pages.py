@@ -216,8 +216,76 @@ def audit():
     return result
 
 
+def fix_pages():
+    """機械的に安全な欠陥だけ自動修復する（idempotent）。
+      - x-default欠落 → 各ページの英語版と同じURLの x-default を追加
+      - 日本語トップ(index.html)への非相互hreflang → その注釈を削除
+        （英語ページがトップを"対訳"と偽る誤りを消すのは常に改善。トップは多対一で相互宣言不能）
+    判断が要る修復（真の対訳を新設する等）はここでは一切やらない。"""
+    files = html_files()
+    texts = {f: read(os.path.join(PAGES_DIR, f)) for f in files}
+    hre_targets = {}
+    for f in files:
+        tset = set()
+        for lang, base in hreflang_pairs(texts[f]):
+            if base.endswith(".html") and lang != "x-default" and base != f:
+                tset.add(base)
+        hre_targets[f] = tset
+    home_reciprocated = hre_targets.get("index.html", set())
+    changes = []
+    for f in files:
+        txt = orig = texts[f]
+        # 1. x-default欠落を補う
+        if "hreflang=" in txt and 'hreflang="x-default"' not in txt:
+            m = re.search(r'(<link rel="alternate" hreflang="en" href="([^"]+)"\s*/?>)', txt)
+            if m:
+                href = m.group(2)
+                ls = txt.rfind("\n", 0, m.start()) + 1
+                indent = txt[ls:m.start()]
+                xdef = f'<link rel="alternate" hreflang="x-default" href="{href}">'
+                txt = txt[:m.end()] + "\n" + indent + xdef + txt[m.end():]
+                changes.append((f, "add x-default"))
+        # 2. トップへの非相互hreflangを削除（f≠トップ かつ トップがfを相互宣言していない）
+        if f != "index.html" and f not in home_reciprocated:
+            def _rm(mm):
+                tag = mm.group(0)
+                lg = re.search(r'hreflang="([^"]+)"', tag)
+                hh = re.search(r'href="([^"]+)"', tag)
+                if lg and hh and lg.group(1) != "x-default":
+                    b = hh.group(1).split("#")[0].split("?")[0].rstrip("/").split("/")[-1]
+                    if b in ("", "toyama", "index.html"):
+                        return ""  # 行ごと削除
+                return mm.group(0)
+            new = re.sub(r'[ \t]*<link\b[^>]*hreflang="[^"]*"[^>]*>\n?', _rm, txt)
+            if new != txt:
+                txt = new
+                changes.append((f, "remove non-reciprocal hreflang -> homepage"))
+        if txt != orig:
+            with open(os.path.join(PAGES_DIR, f), "w", encoding="utf-8") as fh:
+                fh.write(txt)
+    return changes
+
+
 def main():
     args = set(sys.argv[1:])
+
+    if "--fix" in args:
+        before = audit()
+        changed = fix_pages()
+        after = audit()
+        print("■ 自動修復 (--fix)")
+        if not changed:
+            print("  修復対象なし（既に健全 or 機械修復できない項目のみ）")
+        else:
+            for f, what in changed:
+                print(f"  ✔ {f}: {what}")
+        eb = sum(len(v) for v in before["errors"].values())
+        ea = sum(len(v) for v in after["errors"].values())
+        wb = sum(len(v) for v in before["warnings"].values())
+        wa = sum(len(v) for v in after["warnings"].values())
+        print(f"  errors {eb}→{ea} / warnings {wb}→{wa}")
+        sys.exit(1 if ea > 0 else 0)
+
     r = audit()
     err_n = sum(len(v) for v in r["errors"].values())
     warn_n = sum(len(v) for v in r["warnings"].values())

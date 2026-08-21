@@ -1,0 +1,66 @@
+name: Audit & auto-fix Pages (discovery integrity)
+
+# 海外読者リーチ(North Star)の律速＝「発見」。作った多言語Pagesが技術的に発見可能な状態を
+# 保っているかを push のたびに機械監査し、"機械的に安全な欠陥"は自動修復してコミットし返す。
+# ＝ owner/code が手作業で気づいて直す必要をなくす（「なぜ自動で直さないのか」への回答）。
+#
+# 監査/修復ツール: CDO/outputs/site_audit/audit_pages.py（ゼロ依存・完全ローカル・A1準拠）
+#  自動修復する安全な欠陥:
+#   - x-default 欠落 → 各ページの英語版と同じURLの x-default を追加
+#   - 日本語トップ(index.html)への非相互hreflang → その誤った注釈を削除
+#     （英語ページがトップを"対訳"と偽る誤りを消すのは常に改善。トップは多対一で相互宣言不能）
+#  自動修復しない（人手/コンテンツ判断が要る）欠陥は job を失敗させて可視化する:
+#   - sitemap漏れ / リンク切れ / alternate先の実ファイル欠落 等
+#
+# ループ安全性: --fix は idempotent。bot commit が本workflowを再トリガーしても、2回目は
+#  修復対象ゼロ＝差分なし＝commitしない＝停止する。bot は apps/toyama-guide/*.html のみ触る。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/toyama-guide/**"
+      - "apps/ai-agency-hp/sitemap.xml"
+      - "CDO/outputs/site_audit/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site-audit
+  cancel-in-progress: false
+
+jobs:
+  audit-and-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1) 機械的に安全な欠陥を自動修復（x-default補完・トップへの非相互hreflang削除）
+      - name: Auto-fix safe defects
+        run: python3 CDO/outputs/site_audit/audit_pages.py --fix || true
+
+      # 2) 修復差分があればコミットし返す（bot は apps/toyama-guide のみ）
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f apps/toyama-guide/*.html || true
+          if git diff --cached --quiet; then
+            echo "修復差分なし（既に健全）＝commit/pushしない"
+            exit 0
+          fi
+          git commit -m "auto: fix Pages hreflang defects (x-default / non-reciprocal-to-home)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && { echo "push成功"; exit 0; }
+            echo "push失敗（$i回目）→再取得して再試行"
+            sleep 3
+          done
+          echo "::error::5回試しても push できませんでした"
+          exit 1
+
+      # 3) 修復後に再監査。機械で直せない致命的欠陥（sitemap漏れ/リンク切れ等）が残れば失敗させて可視化。
+      #    非相互warning等は exit=0（無害・人手判断）。厳格運用したい時は --strict に変える。
+      - name: Verify no fatal defects remain
+        run: python3 CDO/outputs/site_audit/audit_pages.py

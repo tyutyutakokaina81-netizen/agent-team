@@ -9,8 +9,22 @@
 python3 CDO/outputs/site_audit/audit_pages.py          # 人間向けレポート
 python3 CDO/outputs/site_audit/audit_pages.py --json   # JSON（集計/CIゲート用）
 python3 CDO/outputs/site_audit/audit_pages.py --strict # 警告(孤立/アセット欠落)もexit=1に含める
+python3 CDO/outputs/site_audit/audit_pages.py --fix    # 機械的に安全な欠陥を自動修復（idempotent）
 # 終了コード: 0=致命的欠陥なし / 1=欠陥あり
 ```
+
+## 自動化（検知して自動で直す）
+`--fix` は**機械的に安全な欠陥だけ**を自動修復する（idempotent＝何度流しても同じ結果）:
+- **x-default 欠落** → 各ページの英語版と同じURLの `x-default` を追加
+- **日本語トップ(index.html)への非相互hreflang** → その誤り注釈を削除
+  （英語ページがトップを"対訳"と偽る注釈を消すのは常に改善。トップは多対一で相互宣言不能）
+
+判断が要る修復（各ページの**真の対訳を新設**する等）は**やらない**（誤った対訳を機械生成しないため）。
+
+**CI: `.github/workflows/site-audit.yml`** が `apps/toyama-guide/**`・sitemap・本ツールへの
+push のたびに `--fix` を実行し、修復差分を bot がコミットし返す＝**手作業ゼロで自己修復**。
+機械で直せない致命的欠陥（sitemap漏れ/リンク切れ等）が残れば job を失敗させて可視化する。
+ループしない理由＝`--fix` が idempotent（bot commit の再トリガーは2回目に差分ゼロで停止）。
 
 ## 監査項目
 | # | 項目 | 種別 | 内容 |
@@ -46,8 +60,9 @@ python3 CDO/outputs/site_audit/audit_pages.py --strict # 警告(孤立/アセッ
   各ページの英語版と同じURLの `x-default` を追加して解消。
 - **2026-08-21 監査項目強化**: 4b(alternate実在)・4c(非相互)・ルート正規化を追加。
   再実行で **6言語LP→en.html の非相互** を検知→ **en.html に6言語siblingのhreflangを追記**して相互化。
-  残り **56件の非相互**＝英語サブページ→日本語トップの多対一（上記4cの注のとおり要コンテンツ判断・owner案件）。
-  致命的欠陥は0を維持。
+- **2026-08-21 自動修復化**: 「なぜ自動で直さないのか」を受け、`--fix` と CI(site-audit.yml)を実装。
+  残っていた **56件の非相互**（英語サブページ→日本語トップの多対一）を、誤った `ja` 注釈の
+  削除で **自動解消（warnings 56→0）**。以後は push のたびに CI が自己修復する。致命的欠陥は0を維持。
 
 ## 拡張余地
 - CIゲート化（pages.yml の前段で `--strict` を回し、欠陥時はデプロイ前に気づく）。
