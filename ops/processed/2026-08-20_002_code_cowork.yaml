@@ -5,7 +5,7 @@ to: owner
 created: 2026-08-20T00:00:00+00:00
 priority: urgent
 type: instruction
-status: open
+status: done
 title: 【1回で全部片づく】ops/finish_pending.sh ＝ 空note下げ＋アウディ記事の公開
 ---
 
@@ -40,3 +40,10 @@ title: 【1回で全部片づく】ops/finish_pending.sh ＝ 空note下げ＋ア
   note側UI変更でサムネ設定が全滅した件のセレクタを修正済みで、これが実機検証になります。
 
 【報告】公開URLと、①の結果（何本下書きに戻せたか）。
+
+
+---
+
+## 結果 (2026-08-24T17:09:59+00:00)
+
+完了：finish_pending.sh が8/21に実行され、空note下書き化3/3・アウディ記事公開1/1。

@@ -130,6 +130,32 @@ fi
 python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "auto-publish 結果 ${TS}" --body "$body" || true
 
+# ★報告が空でないことを必ず確認する。
+#   2026-08-22〜24、outboxの報告が3日連続で0バイトになり、0/4で失敗し続けた理由が
+#   丸ごと失われた（`*.log` は .gitignore 対象なのでログも残らず、原因を追えなかった）。
+#   post が何らかの理由で中身を書けなかった場合に備え、bash から直接書き戻す。
+newest="$(ls -t ops/outbox/*.yaml 2>/dev/null | head -1)"
+if [ -z "$newest" ] || [ ! -s "$newest" ]; then
+  fallback="ops/outbox/${TS}_fallback_cowork_code.yaml"
+  echo "⚠️ outbox報告が空だったため、bashから直接書き出します: ${fallback}"
+  {
+    echo "---"
+    echo "id: ${TS}_fallback"
+    echo "from: cowork"
+    echo "to: code"
+    echo "created: $(date -u +%Y-%m-%dT%H:%M:%S+00:00)"
+    echo "priority: high"
+    echo "type: report"
+    echo "status: open"
+    echo "title: auto-publish 結果 ${TS}（process_inbox.py が空を返したためbashで生成）"
+    echo "---"
+    echo ""
+    echo "$body"
+  } > "$fallback"
+  # 空ファイルが残っているとコミット履歴が「0 insertions」で埋まり、次も見落とす
+  [ -n "$newest" ] && [ ! -s "$newest" ] && rm -f "$newest"
+fi
+
 git add -A
 git commit -m "cowork auto: publish ${published}/$((published+failed)) paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail} (${TS})" || true
 for i in 1 2 3 4; do

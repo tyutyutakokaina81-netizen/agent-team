@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-20T00:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【公開・owner指示】アウディで旅に出る（8/20・サムネ✅）をnote公開
 ---
 
@@ -34,3 +34,10 @@ owner「アウディで旅にでるの話書いて、noteに公開して」→ �
 
 【報告（outbox）】公開URL。サムネが見出し画像に入ったかも一言お願いします
 （note側UI変更でサムネ設定が失敗する事象があり、セレクタ修正の実機検証を兼ねます）。
+
+
+---
+
+## 結果 (2026-08-24T17:09:59+00:00)
+
+完了：アウディ記事は2026-08-21に公開 → https://note.com/safe_canna441/n/n6540e46eda96

@@ -5,9 +5,16 @@ to: code
 created: 2026-08-21T03:59:27+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: finish_pending 結果 2026-08-21_035835
 ---
 
 【空note下書き化】成功 3 / 失敗 0 ― n94864fee1d83:下書きに戻した n752e3adfbaf2:下書きに戻した n5a495d8e38c3:下書きに戻した
 【無料公開】公開 1 件 / 失敗 0 件（log: ops/logs/finish_2026-08-21_035835.log） | OK: 2026-08-20_note記事_アウディで旅に出る_海と山を一日で.md
+
+
+---
+
+## 結果 (2026-08-24T17:09:59+00:00)
+
+確認済み：空note3本の下書き化＝成功3/失敗0、アウディ記事を公開＝ https://note.com/safe_canna441/n/n6540e46eda96 （registry登録済）。finish_pending.sh は意図どおり動作した。
