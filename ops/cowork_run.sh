@@ -162,3 +162,20 @@ for i in 1 2 3 4; do
   git push origin "$BR" && break || sleep $((2**i))
 done
 echo "done. published=${published} failed=${failed} paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail}  log=${LOG}"
+
+# ---- 売る導線(sell_flow)が未完なら、ここで続けて実行する ----
+# owner指示(ops/inbox/2026-08-20_003)の ¥500 有料note と入口記事が、
+# 「手で叩く必要がある」というだけの理由で5日間出ないままだった。日次実行に乗せる。
+# 自前で pull/commit/push するので、上の push が終わったこの位置から呼ぶ（履歴が絡まないように）。
+# 冪等性は sell_flow.sh 側が持つ：プレースホルダが残っているか＝①②が未了、
+# STATE の free_published= の有無＝③が未了。両方とも済んでいれば即座に何もせず終わる。
+SELL_FREE="CMO/outputs/2026-08-21_note記事_AIは一度もやめましょうと言わなかった.md"
+SELL_STATE="ops/.sell_flow_state"
+if [ -f ops/sell_flow.sh ] && [ -f "$SELL_FREE" ]; then
+  if grep -qF "<<有料noteURL>>" "$SELL_FREE" 2>/dev/null || \
+     ! grep -q "^free_published=" "$SELL_STATE" 2>/dev/null; then
+    echo ""
+    echo "=== 売る導線(sell_flow)が未完のため続けて実行します ==="
+    bash ops/sell_flow.sh --go || echo "⚠️ sell_flow が途中で止まりました（上のログに理由）"
+  fi
+fi
