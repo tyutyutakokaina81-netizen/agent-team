@@ -179,3 +179,35 @@ if [ -f ops/sell_flow.sh ] && [ -f "$SELL_FREE" ]; then
     bash ops/sell_flow.sh --go || echo "⚠️ sell_flow が途中で止まりました（上のログに理由）"
   fi
 fi
+
+# ---- 公開済み記事への有料note導線の差し込みを、少しずつ進める ----
+# 無料記事279本に対し有料への導線が4本しか無い＝作った商品が読者に見つからない。
+# append_paid_footer.py は**実機未検証**（A1でcodeはnote.comに繋げない）。
+# 公開中の記事を編集するので、初回は1日2本だけ流して「セレクタが当たるか」を実地で確かめる。
+# 成功が2件以上たまったら1日10本へ上げる＝当たると分かってから量を出す。
+FOOTER_SCRIPT="CDO/outputs/note_footer/append_paid_footer.py"
+FOOTER_STATE="CDO/outputs/note_footer/.append_state.json"
+if [ -f "$FOOTER_SCRIPT" ] && [ -f "CDO/outputs/note_footer/paid_footer_manifest.json" ]; then
+  done_n="$(python3 -c "
+import json,pathlib
+p=pathlib.Path('$FOOTER_STATE')
+print(len(json.loads(p.read_text()).get('done',[])) if p.exists() else 0)
+" 2>/dev/null || echo 0)"
+  if [ "${done_n:-0}" -ge 2 ]; then FOOTER_LIMIT=10; else FOOTER_LIMIT=2; fi
+  echo ""
+  echo "=== 有料note導線の差し込み（済 ${done_n} 本／今回 ${FOOTER_LIMIT} 本まで）==="
+  fout="$("$PYBIN" "$FOOTER_SCRIPT" --apply --limit "$FOOTER_LIMIT" 2>&1)"
+  echo "$fout"
+  # ★結果を必ず報告に残す。ログは *.log で .gitignore 対象＝報告しないと結果が消える
+  #   （8/22〜24に「0/4」の理由を丸ごと失ったのと同じ失敗を繰り返さない）。
+  fsum="$(echo "$fout" | grep -m1 -E '^=== 結果:' || echo '結果行なし（途中で落ちた可能性）')"
+  ffail="$(echo "$fout" | grep -E '^    (fail|skip)' | head -5)"
+  python3 ops/process_inbox.py post --from cowork --to code --type report \
+    --title "有料note導線の差し込み ${TS}" \
+    --body "${fsum}（済 ${done_n} 本→今回上限 ${FOOTER_LIMIT}）
+※このスクリプトは実機未検証のまま日次に載せている。失敗が続くならセレクタが当たっていない。
+${ffail}" || true
+  git add -A
+  git commit -m "cowork: paid-footer insertion pass (${TS})" || true
+  for i in 1 2 3 4; do git push origin "$BR" && break || sleep $((2**i)); done
+fi
