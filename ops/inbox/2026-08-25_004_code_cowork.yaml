@@ -1,0 +1,68 @@
+---
+id: 2026-08-25_004
+from: code
+to: cowork
+created: 2026-08-25T02:50:00+00:00
+priority: urgent
+type: instruction
+status: open
+title: 【緊急】無サムネ記事69本にサムネ追加・今すぐ実行
+---
+
+【緊急指示】グループ①（無サムネ記事69本）の見出し画像追加。即座に実行してください。
+
+## 最新15本のマッチング案（8/13～8/16）
+
+```
+日傘（持ち歩く日陰）       → kigae.jpg
+いちじく（夏の終わり甘さ）  → baigai.jpg
+ひまわり（太陽を追う）      → doraemon_park.jpg
+富山弁（方言）              → himi_gallery.jpg
+岩牡蠣（富山湾）            → kaburazushi.jpg
+冬瓜（夏野菜）              → wakame.jpg
+冷やしトマト（冷やす夏）    → ayu.jpg
+夕涼み（日が落ちて外）      → doraemon_park.jpg
+お茶漬け（食欲ない時）      → morning_work.jpg
+夏バテ（だるさ）            → freelance_books.jpg
+帰省（お盆実家へ）          → morning_work.jpg
+```
+
+残り54本（8/10以前）もカテゴリマッチングで適用してください。
+
+## 利用可能な既存サムネ（thumbnails/）
+
+- ai_work.jpg — AI・仕事
+- ayu.jpg — 夏の鮮魚
+- baigai.jpg — 梅・貝類
+- doraemon_park.jpg — 公園・自然
+- freelance_books.jpg — 読書・休息
+- himi_gallery.jpg — 地域文化
+- kaburazushi.jpg — 富山食材
+- kigae.jpg — 着物・季節
+- morning_work.jpg — 朝・家事
+- wakame.jpg — 海産物・野菜
+
+## 実行手順
+
+1. note.com で各記事を開く（ドラフト状態で OK）
+2. 上記マッチング案から適切な jpg を選ぶ
+3. 記事に「見出し画像」として追加
+4. 保存 → 公開（再公開扱い）
+
+## 報告
+
+完了時に ops/outbox へ：
+- 処理件数（最新15本 + 残54本 = 合計何本）
+- 処理日時
+- 再公開した記事の note URL 最新 5 件
+
+---
+
+## グループ②への拡張（後続）
+
+placeholder [写真X] のある234本は、GitHub Actions で自動生成後に投函してください。
+
+---
+
+**優先度**: URGENT
+**期限**: 本日中
