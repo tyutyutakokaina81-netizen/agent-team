@@ -130,9 +130,84 @@ fi
 python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "auto-publish 結果 ${TS}" --body "$body" || true
 
+# ★報告が空でないことを必ず確認する。
+#   2026-08-22〜24、outboxの報告が3日連続で0バイトになり、0/4で失敗し続けた理由が
+#   丸ごと失われた（`*.log` は .gitignore 対象なのでログも残らず、原因を追えなかった）。
+#   post が何らかの理由で中身を書けなかった場合に備え、bash から直接書き戻す。
+newest="$(ls -t ops/outbox/*.yaml 2>/dev/null | head -1)"
+if [ -z "$newest" ] || [ ! -s "$newest" ]; then
+  fallback="ops/outbox/${TS}_fallback_cowork_code.yaml"
+  echo "⚠️ outbox報告が空だったため、bashから直接書き出します: ${fallback}"
+  {
+    echo "---"
+    echo "id: ${TS}_fallback"
+    echo "from: cowork"
+    echo "to: code"
+    echo "created: $(date -u +%Y-%m-%dT%H:%M:%S+00:00)"
+    echo "priority: high"
+    echo "type: report"
+    echo "status: open"
+    echo "title: auto-publish 結果 ${TS}（process_inbox.py が空を返したためbashで生成）"
+    echo "---"
+    echo ""
+    echo "$body"
+  } > "$fallback"
+  # 空ファイルが残っているとコミット履歴が「0 insertions」で埋まり、次も見落とす
+  [ -n "$newest" ] && [ ! -s "$newest" ] && rm -f "$newest"
+fi
+
 git add -A
 git commit -m "cowork auto: publish ${published}/$((published+failed)) paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail} (${TS})" || true
 for i in 1 2 3 4; do
   git push origin "$BR" && break || sleep $((2**i))
 done
 echo "done. published=${published} failed=${failed} paid=${paid_ok}/$((paid_ok+paid_ng)) thumb_fail=${thumb_fail}  log=${LOG}"
+
+# ---- 売る導線(sell_flow)が未完なら、ここで続けて実行する ----
+# owner指示(ops/inbox/2026-08-20_003)の ¥500 有料note と入口記事が、
+# 「手で叩く必要がある」というだけの理由で5日間出ないままだった。日次実行に乗せる。
+# 自前で pull/commit/push するので、上の push が終わったこの位置から呼ぶ（履歴が絡まないように）。
+# 冪等性は sell_flow.sh 側が持つ：プレースホルダが残っているか＝①②が未了、
+# STATE の free_published= の有無＝③が未了。両方とも済んでいれば即座に何もせず終わる。
+SELL_FREE="CMO/outputs/2026-08-21_note記事_AIは一度もやめましょうと言わなかった.md"
+SELL_STATE="ops/.sell_flow_state"
+if [ -f ops/sell_flow.sh ] && [ -f "$SELL_FREE" ]; then
+  if grep -qF "<<有料noteURL>>" "$SELL_FREE" 2>/dev/null || \
+     ! grep -q "^free_published=" "$SELL_STATE" 2>/dev/null; then
+    echo ""
+    echo "=== 売る導線(sell_flow)が未完のため続けて実行します ==="
+    bash ops/sell_flow.sh --go || echo "⚠️ sell_flow が途中で止まりました（上のログに理由）"
+  fi
+fi
+
+# ---- 公開済み記事への有料note導線の差し込みを、少しずつ進める ----
+# 無料記事279本に対し有料への導線が4本しか無い＝作った商品が読者に見つからない。
+# append_paid_footer.py は**実機未検証**（A1でcodeはnote.comに繋げない）。
+# 公開中の記事を編集するので、初回は1日2本だけ流して「セレクタが当たるか」を実地で確かめる。
+# 成功が2件以上たまったら1日10本へ上げる＝当たると分かってから量を出す。
+FOOTER_SCRIPT="CDO/outputs/note_footer/append_paid_footer.py"
+FOOTER_STATE="CDO/outputs/note_footer/.append_state.json"
+if [ -f "$FOOTER_SCRIPT" ] && [ -f "CDO/outputs/note_footer/paid_footer_manifest.json" ]; then
+  done_n="$(python3 -c "
+import json,pathlib
+p=pathlib.Path('$FOOTER_STATE')
+print(len(json.loads(p.read_text()).get('done',[])) if p.exists() else 0)
+" 2>/dev/null || echo 0)"
+  if [ "${done_n:-0}" -ge 2 ]; then FOOTER_LIMIT=10; else FOOTER_LIMIT=2; fi
+  echo ""
+  echo "=== 有料note導線の差し込み（済 ${done_n} 本／今回 ${FOOTER_LIMIT} 本まで）==="
+  fout="$("$PYBIN" "$FOOTER_SCRIPT" --apply --limit "$FOOTER_LIMIT" 2>&1)"
+  echo "$fout"
+  # ★結果を必ず報告に残す。ログは *.log で .gitignore 対象＝報告しないと結果が消える
+  #   （8/22〜24に「0/4」の理由を丸ごと失ったのと同じ失敗を繰り返さない）。
+  fsum="$(echo "$fout" | grep -m1 -E '^=== 結果:' || echo '結果行なし（途中で落ちた可能性）')"
+  ffail="$(echo "$fout" | grep -E '^    (fail|skip)' | head -5)"
+  python3 ops/process_inbox.py post --from cowork --to code --type report \
+    --title "有料note導線の差し込み ${TS}" \
+    --body "${fsum}（済 ${done_n} 本→今回上限 ${FOOTER_LIMIT}）
+※このスクリプトは実機未検証のまま日次に載せている。失敗が続くならセレクタが当たっていない。
+${ffail}" || true
+  git add -A
+  git commit -m "cowork: paid-footer insertion pass (${TS})" || true
+  for i in 1 2 3 4; do git push origin "$BR" && break || sleep $((2**i)); done
+fi

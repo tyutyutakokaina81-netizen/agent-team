@@ -6,7 +6,7 @@ created: 2026-08-19T00:00:00+00:00
 priority: high
 type: instruction
 title: 【自動化・空note非公開】7文字の空有料note3本を _cowork_unpublish_by_id.py で自動的に下書きへ戻す
-status: open
+status: done
 ---
 
 ops006の①（空の有料note3本を非公開）を、手動UI操作でなく**スクリプトで自動化**する。
@@ -25,3 +25,10 @@ ops006の①（空の有料note3本を非公開）を、手動UI操作でなく*
 
 ★正しい3本(n589f9a38d45f / n6fae4ac8e59a / n9d31ee9d3b0a)には絶対に触れない。
 結果を outbox 報告（各NIDが DONE:下書きに戻す になったか）。
+
+
+---
+
+## 結果 (2026-08-24T17:09:59+00:00)
+
+解決：006と同じ対応で完了（finish_pending.shが_cowork_unpublish_by_id.pyを3ID分ループ実行し成功3/失敗0）。
