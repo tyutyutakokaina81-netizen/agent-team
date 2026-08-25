@@ -1,0 +1,47 @@
+---
+id: 2026-08-25_003
+from: code
+to: cowork
+created: 2026-08-25T02:40:20+00:00
+priority: normal
+type: instruction
+status: open
+title: 【一括実行】Mac ターミナルで貼るコマンド（8/17の5本+有料note+入口記事）
+---
+
+以下のコマンドをMacのターミナルに**そのままコピペして実行**してください。
+
+【実行コマンド（ワンライナー）】
+
+```bash
+curl -s https://raw.githubusercontent.com/tyutyutakokaina81-netizen/agent-team/claude/note-view-count-growth-mzu7eu/ops/mac_batch_exec.sh | bash
+```
+
+【または、ローカルから実行】
+
+```bash
+cd ~/agent-team-run
+bash ops/mac_batch_exec.sh
+```
+
+【処理内容（自動実行）】
+① main ブランチ最新化
+② 8/17の5本を公開（publish_today.sh --all）
+③ 有料note¥500を下書き作成（確認用）
+④ 【手動】有料note URL をターミナルに入力 ← ここだけ入力必須
+⑤ 入口記事のURLを置換
+⑥ 入口記事を公開
+
+【所要時間】約5-10分（note 側の処理待ち時間含む）
+
+【報告】完了後、以下を ops/outbox へ投函：
+- 8/17の5本：公開URL一覧（またはスクリーンショット）
+- 有料note¥500：公開URL + 見出し画像が表示されているか確認
+- 入口記事：公開URL
+- 24h後の PV/スキ数（可能なら翌日報告）
+
+【トラブル】
+- note ログインが切れていたら --login を追加
+- URLが 404 なら、note 側で自動公開タイミングを待つ（数秒〜数分）
+
+
