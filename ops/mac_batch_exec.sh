@@ -7,12 +7,36 @@ git fetch origin main && git reset --hard origin/main
 echo "✅ main最新化完了"
 
 echo ""
-echo "【ステップ2】8/17の5本を公開（publish_today.sh）"
+echo "【ステップ2】8/17の5本にサムネ生成プロンプトを追加"
+# かき氷 - 削りたて
+sed -i "" 's/\[写真①\]/🖼️ サムネ: 削りたてのかき氷（色鮮やかなシロップ、器の冷たさが伝わる写真、夏の定番の見た目）/g' \
+  CMO/outputs/2026-08-17_note記事_かき氷_削りたてを急いで食べる.md
+
+# ラジオ体操 - 朝の広場
+sed -i "" 's/\[写真①\]/🖼️ サムネ: 夏休みの朝、広場でラジオ体操をする人たち（逆光、朝日が眩しい、集団の動き、時刻が朝だとわかる雰囲気）/g' \
+  CMO/outputs/2026-08-17_note記事_ラジオ体操_夏休みの朝の広場.md
+
+# 入道雲と夕立 - 山の上の白
+sed -i "" 's/\[写真①\]/🖼️ サムネ: 平野越しに立山連峰の上に浮かぶ入道雲（白く盛り上がった雲、その下の暗い雲、山の輪郭、空と山のコントラスト）/g' \
+  CMO/outputs/2026-08-17_note記事_入道雲と夕立_山の上に立つ白.md
+
+# 枝豆 - 茹でたて塩
+sed -i "" 's/\[写真①\]/🖼️ サムネ: 茹でたての枝豆をザルに盛ったもの（湯気が少し出ている、塩がふりかかっているの見える、夏の色、豆のつやつや感）/g' \
+  CMO/outputs/2026-08-17_note記事_枝豆_茹でたてを塩でつまむ.md
+
+# 蚊取り線香 - 煙の形
+sed -i "" 's/\[写真①\]/🖼️ サムネ: 蚊取り線香の煙が立ち上る（渦巻き線香、煙の形がはっきり見える、薄暗い背景で煙が浮かぶ、懐かしさと夏らしさ）/g' \
+  CMO/outputs/2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す.md
+
+echo "✅ サムネプロンプト追加完了"
+
+echo ""
+echo "【ステップ3】8/17の5本を公開（publish_today.sh）"
 bash ops/publish_today.sh --all
 echo "✅ 8/17の5本を公開完了"
 
 echo ""
-echo "【ステップ3】有料note¥500を下書き作成（確認用）"
+echo "【ステップ4】有料note¥500を下書き作成（確認用）"
 ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_paid_note.py \
   --article "CMO/outputs/2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md" \
   --price 500
@@ -20,17 +44,17 @@ echo "✅ 有料note下書き作成完了"
 echo "🔍 ↑のURLをコピーしてください（次のステップで必要）"
 
 echo ""
-echo "【ステップ4】有料note URL入力"
+echo "【ステップ5】有料note URL入力"
 read -p "有料note の公開URL (https://note.com/...) を入力: " PAID_URL
 
 echo ""
-echo "【ステップ5】入口記事のURLを置換"
+echo "【ステップ6】入口記事のURLを置換"
 sed -i "" "s|<<有料noteURL>>|$PAID_URL|g" \
   CMO/outputs/2026-08-21_note記事_AIは一度もやめましょうと言わなかった.md
 echo "✅ URL置換完了: $PAID_URL"
 
 echo ""
-echo "【ステップ6】入口記事を公開"
+echo "【ステップ7】入口記事を公開"
 ~/.note_venv/bin/python CDO/outputs/note_publisher/publish_to_note.py \
   --article "CMO/outputs/2026-08-21_note記事_AIは一度もやめましょうと言わなかった.md"
 echo "✅ 入口記事公開完了"
