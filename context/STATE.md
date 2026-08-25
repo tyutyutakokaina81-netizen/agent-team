@@ -1739,3 +1739,25 @@ note.com (safe_canna441) にバックログ5本を公開＝本日分到達。食
 
 **ブランチ**: claude/note-view-count-growth-mzu7eu へ全commit完了・push✅
 
+
+## 2026-08-25(120) — 問題検査＆状態整理
+
+**問題特定・修正**:
+1. **8/17の5本**: published に誤移動していた「入道雲と夕立」を queue に戻した✅
+   - 理由: gitのリネーム誤認により published へ移動（STATE.md 118で記録された既知バグ）
+   - 現在: drafts/queue に5本揃っている
+2. **有料note¥500＋入口記事**: ops/inbox/2026-08-20_003 で Mac 実行待ち
+   - 状態: "open" のまま未実行 → ops/inbox/2026-08-25_002 で催促指示投函
+   - 公開順序: ① 有料note → ②URL取得 → ③入口記事に置換 → ④入口記事公開（順序失敗=導線死）
+
+**待機中タスク**:
+| ID | 内容 | 状態 | 実行者 |
+|----|------|------|--------|
+| 8/17の5本 | drafts/queue から公開 | open | Mac: publish_today.sh --all |
+| 2026-08-20_003 | 有料note¥500公開 | open | Mac: publish_paid_note.py --price 500 |
+| 入口記事 | 有料note公開後に公開 | open | Mac: 03のURL置換+publish_to_note.py |
+| 2026-08-25_001 | 無サムネ303本の処理 | open | Mac: thumbnail追加＋再公開 |
+| 2026-08-25_002 | 上記の催促指示 | new | - |
+
+**サムネ作業**: 別途 2026-08-25_001 で303本の一括処理指示投函済み。
+
