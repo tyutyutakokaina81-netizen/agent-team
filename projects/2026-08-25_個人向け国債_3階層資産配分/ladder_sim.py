@@ -172,6 +172,29 @@ def auto_report(lots=12, years=5):
     return "\n".join(out)
 
 
+def schedule_report(face, lots, start_ym):
+    """購入カレンダーを出す。start_ym は 'YYYY-MM'（本番ラダーの初月）。
+    解禁月＝発行日の1年後。発行日は募集月の翌月15日が基本のため、購入月+13ヶ月で概算する（要確認）。"""
+    y, m = (int(v) for v in start_ym.split("-"))
+    base, k = ladder(face, lots)
+    rows = []
+    for i in range(lots):
+        yy, mm = divmod((y * 12 + (m - 1)) + i, 12)
+        amount = base + (UNIT if i < k else 0)
+        ry, rm = divmod((y * 12 + (m - 1)) + i + 13, 12)
+        rows.append((f"{yy}-{mm+1:02d}", amount, f"{ry}-{rm+1:02d}"))
+    print("=" * 64)
+    print(f"■ 購入カレンダー（{lots}回・合計 {yen(face)}）")
+    print("=" * 64)
+    print(f"{'回':>2} | {'購入月':>8} | {'購入額':>10} | 解禁月（この月以降いつでも換金可）")
+    print("-" * 64)
+    for i, (ym, amt, rel) in enumerate(rows, 1):
+        print(f"{i:>2} | {ym:>8} | {yen(amt):>10} | {rel}")
+    print()
+    print("※解禁月は「購入月+13ヶ月」で概算（発行日は募集月の翌月15日が基本＝要確認）。")
+    print("※実際の発行日は購入時の回号ごとに確定するので、記録シートに控えること。")
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--total", type=int, default=3_000_000, help="運用に回せる総額（既定=モデル値300万円）")
@@ -180,6 +203,8 @@ def main():
     p.add_argument("--rates", type=str, default="0.05,0.3,0.6,1.0,1.5", help="仮定する年利（%）のカンマ区切り")
     p.add_argument("--years", type=int, default=5, help="保有年数")
     p.add_argument("--lots", type=int, default=12, help="第3層を何回に分けて買うか（ラダー本数・既定12=毎月）")
+    p.add_argument("--schedule", metavar="YYYY-MM",
+                   help="本番ラダーの初月を指定して購入カレンダーを出す（例 --schedule 2026-09）")
     p.add_argument("--auto", action="store_true",
                    help="実額を渡さずに早見表を全パターン自動計算し、Markdownで出力する")
     a = p.parse_args()
@@ -211,6 +236,10 @@ def main():
     print(f"  1〜{a.lots}ヶ月目 : どのロットも中途換金不可（発行後1年ルール）")
     print(f"  {a.lots+1}ヶ月目以降: 毎月1ロットずつ「いつでも換金できる資金」に変わる")
     print(f"  → {a.lots*2}ヶ月目には第3層の全額が換金可能な状態になる（利回りは維持したまま）")
+
+    if a.schedule:
+        print()
+        schedule_report(face, a.lots, a.schedule)
 
     print()
     print("=" * 64)
