@@ -266,6 +266,29 @@ def main():
         print(f"  年{r:>5.2f}% : 差引額 約{yen(half*2):>11}"
               f" / 1年で換金→実質0円、1.5年→約{yen(half)}、2年→約{yen(half*2)} が手元に残る")
 
+    print()
+    print("=" * 64)
+    print("■ 出口別「結局いくら増えるか」（税引後・手元に残る額）")
+    print("=" * 64)
+    print("受け取った利子の合計ではなく、**解約後に手元に残る額**（中途換金調整額を引いた後）。")
+    print("満期(10年)まで持てば自動で償還され、調整額は引かれない。")
+    print()
+    header = "  出口        | " + " | ".join(f"年{r:.2f}%".rjust(10) for r in rates)
+    print(header)
+    print("-" * len(header))
+    for years_held, label in [(1, "1年で解約"), (2, "2年で解約"), (3, "3年で解約"),
+                              (5, "5年で解約"), (10, "10年=満期償還")]:
+        cells = []
+        for r in rates:
+            half = after_tax_coupon(face, max(r, MIN_RATE))
+            # 満期は調整額なし(利払い20回)、中途解約は直前2回分を返す
+            coupons = years_held * 2 if years_held >= 10 else max(0, years_held * 2 - 2)
+            cells.append(yen(half * coupons).rjust(10))
+        print(f"  {label:<11} | " + " | ".join(cells))
+    print()
+    print("※元本は上表のどの時点でも満額戻る（名目の元本割れなし）。")
+    print("※満期償還は自動で入金される。中途換金は自分で販売会社に申し込む必要がある（自動ではない）。")
+
 
 if __name__ == "__main__":
     main()
