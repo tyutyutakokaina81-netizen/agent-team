@@ -1722,3 +1722,20 @@ note.com (safe_canna441) にバックログ5本を公開＝本日分到達。食
 2. ローカル全履歴はPATの`workflow`スコープ不足で push 不可（.github/workflows変更を含むため）。
 3. コンテナの作業マウントは unlink(削除) システムコールが全面ブロックされており、git のロック後始末が失敗する（stale .git/index.lock が残る）。本タスクはサンドボックスローカルに clone し直して回避。
 → 推奨: (a) 正しいリモート/PATスコープの確認、(b) main 履歴の統合方針決定、(c) ローカルmainの保全。
+
+## 2026-08-25(119) — ラーメン記事＋自動点検完了
+
+**完了**: 「ラーメンは日本でも2000円なのか」記事（ja/en-ramen.html）を作成・公開準備完了。
+- 記事：地元民視点でラーメン価格の誤解を解く（2000円は最高値/1000円が標準） 
+- 約2100字・行間1.65（ユーザー要求「行間つめて」対応） + 英語併記
+- A5準拠：数字は参考までに・人件費変動の可能性・事実検証ノート明記
+- ファイル: CMO/outputs/2026-08-25_note記事_*.html + apps/toyama-guide/{ja,en}-ramen.html
+- hreflang: 相互リンク完備・x-default→en
+- sitemap.xml: 両エントリ追加 (lastmod=2026-08-25)
+- audit: errors=0, warnings=0 ✅
+- 次: Mac/cowork が ops キューから自動公開（thumbnail生成＋note投稿）
+
+**自動点検**: ops/inbox/2026-08-21_001 を processed へ移動（8/19事故後片づけ＋8/20アウディ公開をCMO台帳に反映済）。8/23-08/25の日次点検通知3件に対応＝新規要対応なし。
+
+**ブランチ**: claude/note-view-count-growth-mzu7eu へ全commit完了・push✅
+
