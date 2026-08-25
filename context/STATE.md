@@ -1763,3 +1763,26 @@ note.com (safe_canna441) にバックログ5本を公開＝本日分到達。食
 
 **サムネ作業**: 別途 2026-08-25_001 で303本の一括処理指示投函済み。
 
+## 2026-08-25(124) — CRITICAL優先度実行指示投函完了
+
+**実行指示投函**: ops/inbox/2026-08-25_005_code_cowork.yaml を作成（priority=critical）
+- **コマンド**: `bash ~/agent-team-run/ops/mac_batch_exec.sh`
+- **内容**: 
+  - ステップ1: main最新化
+  - ステップ2: 8/17の5本にsedでサムネプロンプト注入
+  - ステップ3: `bash ops/publish_today.sh --all` で5本公開
+  - ステップ4-7: 有料note¥500 作成→URL手動入力→入口記事URL置換→入口記事公開
+- **所要時間**: 約15分（自動10分＋手動5分）
+- **期限**: 本日2026-08-25 18:00まで
+- **報告**: 完了後、ops/outboxへ公開URL一覧を報告
+
+**ステータス**: 
+- 9本すべてqueue状態（8/17×5 + 8/25×4）✅
+- ops/mac_batch_exec.sh 検証OK✅  
+- CMO/_index.md記録完了✅
+- context/STATE.md更新完了✅
+- main へ全commit&push 完了✅
+- ⚠️ 8/25の新規4本は sed 未対応（デフォルトサムネで公開される可能性あり）
+
+**次**: cowork側でMac bash実行 → ops/outbox に結果報告待機
+
