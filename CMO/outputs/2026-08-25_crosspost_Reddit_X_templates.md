@@ -255,3 +255,49 @@ Meta Description: "A castle town where medieval streets meet 1970s factory cultu
 **リターゲティング**:
 - 高反応投稿（>1000 upvotes）は、Instagram Reels化（30秒ショート版）
 - コメント質が高い場合は、フォローアップ投稿（関連話題の深掘り）
+
+---
+
+# 【2026-08-26 追加】富山の田んぼ（収穫前）クロスポスト
+
+## Reddit（r/JapanTravel, r/japanpics, r/farming, r/Japan）
+
+**タイトル**:
+```
+In late August, Toyama's rice fields quietly turn from green to gold — the month that decides the harvest
+```
+
+**本文**:
+```
+Right now, if you drive across the Toyama plain in western Japan, you can watch the rice fields changing color. A few weeks ago they were deep green. Now the tips are fading to pale gold. By September, whole stretches of the plain will glow amber, and the harvest comes.
+
+What looks like the laziest month is actually the busiest one for the plant. The rice is flowering, pollinating, and packing starch into each grain — this single month decides most of the crop's yield and flavor.
+
+Two things keep farmers up at night:
+- **Water**: they flood the field to swell the grain, then drain it to firm the ground for machines. Every day is a judgment call, watching the weather.
+- **Typhoons**: late August–September is peak typhoon season. Heavy, ripening rice flattens easily in a storm, and flattened rice is hard to harvest. Cut too early or wait it out? Experience + forecast.
+
+Stand at the edge of a paddy and you notice the shift — a drier, faintly sweet smell, the rustle of hardening ears, dragonflies skimming low. Behind it all, the 3,000m Tateyama range.
+
+It's not a famous tourist sight. But this green-to-gold plain is the quiet backbone of the region. Knowing what's happening in the field changes how a single bowl of rice looks.
+```
+
+**ハッシュタグ**: #Japan #Toyama #rice #satoyama #JapanTravel #countryside #harvest #ricefield #ruraljapan
+
+## X / Twitter スレッド
+
+```
+1/ Right now in Toyama, the rice fields are turning from green to gold. It looks like the quietest month of the year. It's actually the most important one. 🌾🧵
+
+2/ What looks idle is the plant's hardest work: flowering, pollinating, filling each grain with starch. This single month decides most of the year's yield and flavor.
+
+3/ Farmers watch two things obsessively:
+• Water — flood to swell the grain, then drain to firm the ground for machines
+• Typhoons — late Aug–Sept storms flatten heavy, ripening rice. Cut early or wait it out?
+
+4/ Walk the edge of a paddy now: a drier, faintly sweet smell, the rustle of hardening ears, dragonflies skimming low. Behind it, the 3,000m Tateyama range.
+
+5/ It's not a tourist sight. But this green-to-gold plain is the backbone of the region — and knowing what's happening in the field changes how a bowl of rice looks.
+
+#Toyama #Japan #rice #ruraljapan
+```
