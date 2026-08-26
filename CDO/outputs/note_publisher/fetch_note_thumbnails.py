@@ -41,6 +41,8 @@ RULES = [
     ("高岡で食べる", "sushi japan"),
     ("散居村", "satoyama rice field farmhouse japan"),
     ("砺波平野", "satoyama rice field farmhouse japan"),
+    ("田んぼ", "green rice paddy field japan summer"),
+    ("稲穂", "golden rice ears field japan"),
     ("屋敷林", "farmhouse trees rural japan"),
     ("北アルプス", "Tateyama mountain range snow japan"),
     ("富山の水", "clear mountain stream water japan"),
