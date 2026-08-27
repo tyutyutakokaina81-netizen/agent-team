@@ -449,3 +449,18 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 - 狙い: note URLやReddit投稿（人手・A1）に依存せず、**Google検索経由で海外読者が直接到達**する導線を増やす＝North Star直撃。
 - 検証: 両ページHTML妥当性10項目OK・hreflang相互性OK・ハブ2箇所へのリンク追加確認。
 - 派生元: 2026-08-27_note記事_富山の水道水（同題材の記事版はキューで公開待ち）。
+
+---
+
+## 【2026-08-27 英語SEO増産＋セット運用の仕組み化（owner「すべて進めて」）】
+
+| ファイル | 種別 | 概要 | 状態 |
+|---------|------|------|------|
+| apps/toyama-guide/en-takaoka-croquette.html | 英語SEO | 高岡コロッケ（側→主菜の食文化）。既存en-food/en-toyama-black群にリンク。EN単独(hreflang self)。 | ✅ 公開 |
+| apps/toyama-guide/en-rice-fields.html | 英語SEO | 収穫前の田んぼ（緑→金）。en-autumn群にリンク。EN単独。rice.html(お取り寄せ)と主題分離。 | ✅ 公開 |
+| CDO/outputs/note_publisher/en_seo_page_template.html | テンプレ | {{...}}置換式の英語SEOページ雛形（canonical/hreflang/JSON-LD/fact-check/ebook CTA固定）。 | ✅ |
+| CDO/outputs/note_publisher/2026-08-27_note+英語SEOセット運用ガイド.md | 運用ガイド | 「新記事1本=note＋英語SEOページ＋ハブ内部リンク」を標準セット化。重複回避・品質チェック・デプロイ手順。 | ✅ |
+
+- **仕組み化の要点**: 今後の新規note記事は「英語SEOページも1枚」を標準に→公開のたび海外流入の入口が自動増（人手/URL非依存）。
+- CAO: 比較E（英語SEO organic・Search Console計測枠）を追加。
+- 検証: 2ページHTML妥当性OK・en.html内部リンク各1確認。

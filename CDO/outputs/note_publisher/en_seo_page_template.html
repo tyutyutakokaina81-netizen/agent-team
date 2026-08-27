@@ -1,0 +1,71 @@
+<!-- ===================================================================
+  英語SEOページ テンプレ（apps/toyama-guide/ 用）
+  使い方: {{...}} を置換して apps/toyama-guide/en-<slug>.html として保存。
+  置換トークン:
+    {{SLUG}}        … ファイル名の識別子（例 tap-water）※ en-<slug>.html
+    {{TITLE}}       … <title>用（例 Can You Drink the Tap Water in Toyama, Japan?）
+    {{H1}}          … 本文見出し（TITLEと同じでも可）
+    {{DESC}}        … meta description（120〜160字目安・要点＋結論）
+    {{OGDESC}}      … og:description（DESCの短縮版）
+    {{LEAD}}        … 導入段落（結論を先に・海外読者の驚き/疑問起点）
+    {{H2_1}}{{P_1}} … 見出しと段落（3〜5本）
+    {{FC_LI}}       … fact-checkの<li>群（✅事実/⚠️ヘッジ・A5厳守）
+    {{FOOTER_A}} {{FOOTER_B}} … 関連ページ（en-*.html）2つ
+  ルール:
+    - 基本 EN 単独（hreflang は en + x-default を self に。ja版を作る場合のみ ja alternate を追加し、ja側にも相互リンク）
+    - A4=地区名/店名/個人名なし（市/県レベル）／A5=断定回避・「一般に」「説」でヘッジ・fact-checkノート必須
+    - canonical/JSON-LD/analytics.js/affiliates.js/ebook CTA は固定
+    - 作成後: en.html（英語ハブ）の該当クラスタに <br><a href="en-<slug>.html">…→</a> を1行追加（内部リンク=Google発見）
+==================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} | Toyama Local Guide</title>
+<meta name="description" content="{{DESC}}">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{OGDESC}}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-{{SLUG}}.html">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:site_name" content="Toyama Local Guide">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-{{SLUG}}.html">
+<link rel="alternate" hreflang="en" href="https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-{{SLUG}}.html">
+<link rel="alternate" hreflang="x-default" href="https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-{{SLUG}}.html">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#1d2a2a;line-height:1.65;max-width:740px;margin:0 auto;padding:32px 20px 70px}
+  h1{font-size:27px;line-height:1.35}h2{font-size:20px;margin-top:28px;color:#1f6b58}
+  p,li{color:#33403f;font-size:16px}a{color:#1f8a70}
+  .pr{font-size:12.5px;color:#5b6a6a;background:#fffbe6;border:1px solid #f0e6b0;border-radius:8px;padding:8px 12px;margin:12px 0}
+  .fc{font-size:14.5px;color:#33403f;background:#f2f8f5;border:1px solid #cfe6dc;border-radius:8px;padding:10px 14px;margin:16px 0}
+  .ebook{display:block;background:#0f3d2e;color:#fff;text-decoration:none;font-weight:700;padding:13px 18px;border-radius:10px;margin:18px 0;font-size:15px}
+  .muted{color:#5b6a6a;font-size:14px}.tag{color:#5b6a6a;font-size:13px}.lang{font-size:13px}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"{{TITLE}}","inLanguage":"en","url":"https://tyutyutakokaina81-netizen.github.io/agent-team/toyama/en-{{SLUG}}.html","publisher":{"@type":"Organization","name":"Toyama Local Guide"}}</script>
+<script defer src="/agent-team/analytics.js"></script>
+</head>
+<body>
+<p class="lang"><a href="index.html">日本語トップ</a> · <a href="en.html">English guide</a></p>
+<p class="tag">Travel · Toyama · A local's guide</p>
+<h1>{{H1}}</h1>
+<p>{{LEAD}}</p>
+<h2>{{H2_1}}</h2>
+<p>{{P_1}}</p>
+<h2>{{H2_2}}</h2>
+<p>{{P_2}}</p>
+<h2>{{H2_3}}</h2>
+<p>{{P_3}}</p>
+<div class="fc"><strong>Fact-check note</strong><br>
+<ul>
+{{FC_LI}}
+</ul>
+<p>---</p>
+<p><strong>Before you go:</strong> Details like hours and prices change—check locally before relying on them.</p>
+<a class="ebook" href="https://note.com/safe_canna441/n/nba958ccd6cb8" target="_blank" rel="noopener">📘 Want more about Toyama food and culture? Get the pocket guide — "Toyama, Takaoka &amp; Himi: 12 things a local won't skip" (¥100 on note) →</a></div>
+<p class="tag"><a href="en.html">Toyama Local Guide home →</a> · <a href="{{FOOTER_A}}">Related →</a> · <a href="{{FOOTER_B}}">Related →</a></p>
+<script defer src="/agent-team/toyama/affiliates.js"></script>
+</body>
+</html>
