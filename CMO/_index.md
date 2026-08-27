@@ -436,3 +436,16 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 - **クロスポスト全6本カバー完了**＋**配布ガイド追記**（投稿順序・Reddit/X安全カデンス・URL差し込み手順）＝2026-08-25_crosspost_Reddit_X_templates.md
 - **cowork発注 2026-08-27_001**＝公開6本のnote URL収集（実投稿ではなくデータ収集・Reddit/X投稿はowner判断）
 - **CAO効果検証シート 比較D 追加**＝公開6本の型検証（H1長文深掘り/H2実用ガイド/H3実写サムネ/H4食×ハイパーローカル）＋判定ルール＝CAO/outputs/2026-06-29_note施策_効果検証シート.md
+
+---
+
+## 【2026-08-27 英語SEOサイト拡充（North Star直接前進・URL/人手不要）】
+
+| 日付 | ファイル | 種別 | 概要 | ステータス |
+|------|---------|------|------|-----------|
+| 2026-08-27 | apps/toyama-guide/en-tap-water.html | 英語SEOページ | 高需要クエリ「Can you drink the tap water in Toyama/Japan?」に対応。立山の雪解け水→地下ろ過→軟水→米/酒/豆腐。fact-checkノート・ebook CTA・JSON-LD・hreflang完備。en.html実用リンク群に追加。 | ✅ 公開（Pages） |
+| 2026-08-27 | apps/toyama-guide/ja-tap-water.html | 日本語版（hreflang相互） | 上記の日本語版。index.html「読みもの」セクションに追加。en↔ja相互hreflang検証済。 | ✅ 公開（Pages） |
+
+- 狙い: note URLやReddit投稿（人手・A1）に依存せず、**Google検索経由で海外読者が直接到達**する導線を増やす＝North Star直撃。
+- 検証: 両ページHTML妥当性10項目OK・hreflang相互性OK・ハブ2箇所へのリンク追加確認。
+- 派生元: 2026-08-27_note記事_富山の水道水（同題材の記事版はキューで公開待ち）。
