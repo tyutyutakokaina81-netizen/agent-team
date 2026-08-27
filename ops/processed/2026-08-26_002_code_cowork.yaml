@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-26T00:00:00+00:00
 priority: critical
 type: instruction
-status: open
+status: done
 title: 【最新・005/006を置換】強化版6本を公開・キュー刷新済み
 ---
 
@@ -67,3 +67,10 @@ python3 publish_to_note.py --text-only          # 写真なしで公開（サム
 ---
 **優先度**: CRITICAL
 **期限**: 本日中
+
+
+---
+
+## 結果 (2026-08-27T01:42:13+00:00)
+
+auto-publishで6本公開完了（田んぼ+強化版5本）。富山の夏は改題で次サイクル。

@@ -301,3 +301,90 @@ It's not a famous tourist sight. But this green-to-gold plain is the quiet backb
 
 #Toyama #Japan #rice #ruraljapan
 ```
+
+---
+
+# 【2026-08-27 追加】残り公開2本のクロスポスト（全6本カバー完了）
+
+## 富山2日完璧ガイド
+
+### Reddit（r/JapanTravel, r/JapanTravelTips, r/solotravel）
+**タイトル**:
+```
+The perfect 2-day Toyama itinerary: fishing port + castle town, sea to mountains
+```
+**本文**:
+```
+If you only have 2 days in Toyama (western Japan), here's the route that shows you the whole prefecture through contrast: a fishing port and a castle town.
+
+DAY 1 — HIMI (the sea)
+- Arrive at dawn, watch the 5 AM fish auction (boats returning, buyers calling)
+- Breakfast from that morning's catch: firefly squid (spring), white shrimp (summer), yellowtail (autumn), snapper (winter)
+- Watch locals buy at a real market — not the tourist one
+- Conveyor-belt sushi lunch (every plate = what the sea gave today)
+- Coastline walk as the light changes, then drive 45 min south to Takaoka
+
+DAY 2 — TAKAOKA (the mountains/history)
+- Morning walk through the castle park + Edo-era streets while locals go about their day
+- Copper workshop (craftspeople using 400-year-old hand techniques)
+- The 16m Buddha, cast from Takaoka copper, standing on a street (not a shrine)
+- Lunch: a croquette SET meal (in Takaoka, the croquette is the main dish, not a side)
+- Old trolley ride if time permits
+
+Cost: roughly ¥54,000–88,000 per person ($370–600) incl. flight, car, 2 nights, meals.
+The only rule: surrender to the weather. If the boats don't sail, you eat what's frozen. If it rains, you read in a cafe. That's Toyama.
+
+Full breakdown with timings in the comments. What would you add for a day 3?
+```
+**ハッシュタグ**: #JapanTravel #Toyama #Himi #Takaoka #itinerary #offthebeatenpath #JapanTrip #travelplanning
+
+### X スレッド
+```
+1/ The perfect 2-day Toyama itinerary: a fishing port and a castle town, sea to 3,000m mountains. One route, the whole prefecture. 🧵🇯🇵
+
+2/ DAY 1 — HIMI (the sea). Dawn fish auction. Breakfast from the morning's catch. Watch locals buy at the REAL market. Conveyor-belt sushi = whatever the sea gave today. Then drive 45 min south.
+
+3/ DAY 2 — TAKAOKA (history). Edo-era streets still lived in. Copper craftspeople using 400-year-old techniques. A 16m Buddha standing on a street. And lunch: a croquette SET — the croquette is the MAIN dish here.
+
+4/ Cost: ~¥54–88k/person ($370–600) incl. flight, car, 2 nights, meals. The only rule: surrender to the weather. Boats don't sail → you eat frozen. Rain → you read in a cafe. That's Toyama.
+
+#JapanTravel #Toyama #itinerary
+```
+
+## 富山の8月（August のリズム）
+
+### Reddit（r/JapanTravel, r/japanlife, r/Japan）
+**タイトル**:
+```
+August in Toyama: two homecoming waves, festivals all month, and farmers who never stop
+```
+**本文**:
+```
+August in Toyama (western Japan) runs differently from the rest of the country.
+
+Most of Japan has one fixed Obon (mid-August) when everyone returns to their hometown. Toyama has TWO waves:
+1. Mid-August Obon — families return, visit graves, share meals
+2. Late August — local festivals and fireworks pull people back again
+
+Meanwhile, rice farmers never stop. In peak summer heat, paddies need constant water management — early mornings, late nights, adjusting flows so the rice doesn't cook. A few days off for Obon, then straight back.
+
+And the festivals spread across the whole month. Bon-Odori dances in neighborhood shrines, fireworks in several towns on different weekends. Unlike Tokyo's one-day Sumida fireworks or Kyoto's fixed July Gion festival, Toyama's August IS "festival season" — spread out, recurring, local.
+
+A visitor in August sees Toyama the way it was decades ago: agriculture-driven, family-centered, the whole month pulsing with reunion and tradition.
+
+Anyone else know regions with a rhythm this different from the national calendar?
+```
+**ハッシュタグ**: #Japan #Toyama #Obon #matsuri #JapanTravel #ruraljapan #japanlife #summerinjapan
+
+### X スレッド
+```
+1/ August in Toyama runs differently from the rest of Japan. Two homecoming waves, festivals all month, and rice farmers who never stop. 🧵🎆
+
+2/ Most of Japan: one fixed Obon (mid-Aug), everyone returns home. Toyama: TWO waves — mid-Aug Obon, then late-Aug when local festivals pull people back again.
+
+3/ Meanwhile rice farmers don't rest. Peak-heat paddies need constant water management — dawn and dusk, every day, so the rice doesn't cook. A few days off for Obon, then back.
+
+4/ Festivals spread across the WHOLE month — neighborhood Bon-Odori, fireworks in different towns on different weekends. Not one big day. A whole season. That's Toyama in August.
+
+#Japan #Toyama #Obon #matsuri
+```
