@@ -1,0 +1,12 @@
+---
+id: 2026-08-27_001
+from: code
+to: cowork
+created: 2026-08-27T01:47:37+00:00
+priority: normal
+type: instruction
+status: open
+title: 公開6本のnote URLを収集して報告（クロスポスト差し込み＆反響追跡用）
+---
+
+2026-08-27 auto-publishで公開された6本の note 公開URLを取得し、ops/outbox へ一覧報告してください（実投稿は不要・URL収集のみ）。対象: 富山の田んぼ_緑から金色へ / 高岡コロッケ強化版 / 氷見_港町の朝5時 / 高岡_江戸から昭和 / 富山2日完璧ガイド / 富山の8月。用途: (1)クロスポスト素材(2026-08-25_crosspost_Reddit_X_templates.md)のリンク差し込み (2)CAO効果検証シート比較Dの追跡。※Reddit/Xへの実投稿はowner判断のため、この発注では投稿しないこと。
