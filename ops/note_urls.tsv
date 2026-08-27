@@ -1,0 +1,7 @@
+# 公開note URL 入力ファイル（1行 = key<TAB>url）
+# key部分一致: コロッケ / 氷見 / 高岡 / 2日(ガイド) / 8月 / 田んぼ / 水道水 / 避暑(標高)
+# url: https://note.com/<author>/n/nXXXXXX 形式のみ受理（誤リンク混入を自動で弾く）
+# 記入後: python3 ops/insert_note_urls.py        （DRY-RUN確認）
+#         python3 ops/insert_note_urls.py --go   （クロスポスト＆台帳へ反映）
+# 例:
+# コロッケ	https://note.com/xxxx/n/nabcdef123456

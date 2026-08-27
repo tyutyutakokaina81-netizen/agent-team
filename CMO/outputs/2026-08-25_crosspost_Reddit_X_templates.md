@@ -420,3 +420,20 @@ Anyone else know regions with a rhythm this different from the national calendar
 1. cowork/owner が公開6本の note URL を取得（下記ops発注）。
 2. 各テンプレの末尾リンク欄／プロフィール誘導に URL を反映。
 3. CAO/outputs/2026-06-29_note施策_効果検証シート.md 比較D にも URL を控える（反響追跡用）。
+
+---
+
+# URL一括差し込みツール（2026-08-27・CDO）
+
+公開note URLが届いたら、手作業でなく **`ops/insert_note_urls.py`** で一括反映する。
+
+```bash
+# 1) ops/note_urls.tsv に  key<TAB>url  を記入（key: コロッケ/氷見/高岡/2日/8月/田んぼ/水道水/避暑）
+# 2) 確認（書き込まない）
+python3 ops/insert_note_urls.py
+# 3) 反映（このファイルの <!-- URLS:START/END --> ブロックとCMO/outputs/note_published_urls.tsv を更新）
+python3 ops/insert_note_urls.py --go
+```
+
+- note実URL形式のみ受理（`note.com/notes/…` 等の壊れリンクは自動で弾く＝過去の誤リンク事故の再発防止）。
+- 冪等（何度実行してもURLブロックは1つ）。Reddit本文には貼らずプロフィール/コメント用の参照一覧として保持。
