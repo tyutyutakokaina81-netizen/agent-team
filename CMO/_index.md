@@ -487,3 +487,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | apps/toyama-guide/en-new-rice.html | 英語SEO | Shinmai解説（why new-crop rice tastes different）。en.htmlフード群+en-rice-fields相互リンク。EN単独hreflang。 | ✅ 公開（Pages） |
 
 - セット運用（note＋英語SEOページ）を継続適用。検証: 記事抽出OK・EN妥当性OK・en.html内部リンク確認。
+
+---
+
+## 【2026-08-30 新規1本＋英語SEO（owner「続けて」・標準セット）】
+
+| ファイル | 種別 | 概要 | 状態 |
+|---------|------|------|------|
+| CMO/outputs/2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え.md | 非食/暦・季節・農 | 二百十日（立春210日目・9/1頃の農家の厄日）。稲の登熟×台風の重なり・暦=予報だった時代・風鎮めの願い。本文約1,550字+English+検証。おわら(既出)と題材分離（暦の概念に限定）。実写サムネquery=dramatic sky clouds rice field japan。A4/A5準拠・[写真①]。田んぼ/新米と稲クラスタ連関。 | ✅ キュー投函 |
+| apps/toyama-guide/en-nihyakutoka.html | 英語SEO | Nihyaku-tōka解説（210th-day storm warning）。en.html季節群+en-rice-fields/autumn相互リンク。EN単独hreflang。 | ✅ 公開（Pages） |
+
+- 稲クラスタ（田んぼ→新米→二百十日）が日英で厚くなった。検証: 記事抽出OK・EN妥当性OK・内部リンク確認。
