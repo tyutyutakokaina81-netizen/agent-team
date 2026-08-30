@@ -483,7 +483,7 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 
 | ファイル | 種別 | 概要 | 状態 |
 |---------|------|------|------|
-| CMO/outputs/2026-08-30_note記事_富山の新米_秋いちばんの一杯.md | 食/季節・米 | 初秋の新米（新米:0でクリーン）。水分/香り/寒暖差・食べ方・海外は「米は一年中同じ」感覚起点。本文約1,950字+English+検証。実写サムネquery=freshly cooked white rice bowl japan（fetcherにRULES追加）。A4/A5準拠・[写真①]。田んぼ/水道水と米クラスタ連関。 | ✅ キュー投函（次auto-publish） |
+| CMO/outputs/2026-08-30_note記事_富山の新米_秋いちばんの一杯.md | 食/季節・米 | 初秋の新米（新米:0でクリーン）。水分/香り/寒暖差・食べ方・海外は「米は一年中同じ」感覚起点。本文約2,000字+English+検証（owner「2000文字」で拡張・買いどき/炊く水の節追加）。実写サムネquery=freshly cooked white rice bowl japan（fetcherにRULES追加）。A4/A5準拠・[写真①]。田んぼ/水道水と米クラスタ連関。 | ✅ キュー投函（次auto-publish） |
 | apps/toyama-guide/en-new-rice.html | 英語SEO | Shinmai解説（why new-crop rice tastes different）。en.htmlフード群+en-rice-fields相互リンク。EN単独hreflang。 | ✅ 公開（Pages） |
 
 - セット運用（note＋英語SEOページ）を継続適用。検証: 記事抽出OK・EN妥当性OK・en.html内部リンク確認。
