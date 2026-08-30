@@ -121,6 +121,8 @@ tr.total td{font-weight:700; background:var(--surface-2)}
 tr.rec td{background:var(--accent-soft)}
 td.recmark{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--accent-ink)}
 table.cmp td:not(:first-child),table.cmp th:not(:first-child){text-align:right}
+table.steps td,table.steps th{text-align:left}
+td.nw,th.nw{white-space:nowrap}
 caption{caption-side:bottom; text-align:left; padding:10px 14px; font-size:12px; color:var(--muted)}
 
 /* ---------- charts ---------- */
@@ -143,6 +145,7 @@ figcaption{font-size:12.5px; color:var(--muted); margin-top:14px; line-height:1.
 .bars{display:flex; flex-direction:column; gap:9px}
 .bar-row{display:grid; grid-template-columns:minmax(96px,150px) 1fr auto; align-items:center; gap:12px; cursor:default}
 .bar-row .lb{font-size:12.5px; color:var(--ink-2); text-align:right; line-height:1.45}
+.bar-row .lb .mono{letter-spacing:.08em}
 .bar-track{position:relative; height:16px}
 .bar-fill{height:16px; border-radius:0 4px 4px 0; transition:filter .15s}
 .bar-row:hover .bar-fill{filter:brightness(1.12)}
@@ -200,7 +203,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 <header>
   <div class="eyebrow">180日 / 18カ国 / 東回り一筆書き</div>
   <h1>世界一周 180日の設計図</h1>
-  <p class="lede">日本を4月に出て、9月末に戻る。北米から中南米、欧州、コーカサスを抜けて中央アジアから帰る東回りルートと、その総額 ¥3,040,000 の内訳・貯め方。ルートは「良い季節だけを拾う」ために組んであり、予算は削れる場所が最初から見えるように積み上げてある。</p>
+  <p class="lede">日本を4月に出て、9月末に戻る。北米から中南米、欧州、コーカサスを抜けて中央アジアから帰る東回りルートと、その総額 ¥3,040,000 の内訳・貯め方。ルートは「良い季節だけを拾う」ために組んであり、予算は削れる場所が最初から見えるように積み上げてある。現地ガイドを付けた場合の費用と配分は §07 に分けてある。</p>
   <div class="route-strip">
     <span>日本</span><i>→</i><span>北米</span><i>→</i><span>メキシコ・中米</span><i>→</i><span>アンデス</span><i>→</i><span>南米大西洋岸</span><i>→</i><span>イベリア半島</span><i>→</i><span>バルカン</span><i>→</i><span>トルコ・コーカサス</span><i>→</i><span>中央アジア</span><i>→</i><span>日本</span>
   </div>
@@ -473,7 +476,119 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">07</span><h2>出発日の逆算</h2></div>
+  <div class="sec-head"><span class="n">07</span><h2>ガイドあり版</h2></div>
+  <p class="sec-sub">現地ガイド・ツアー同行を前提にした場合。結論から言うと、<strong>ガイドを付けても総額はほとんど変わらない</strong>。ガイドが移動と下調べの時間を消すぶん、同じ体験量を30日短く回せるからで、短縮した日数分の生活費がガイド代を上回る。</p>
+
+  <div class="tw">
+    <table class="steps">
+      <thead><tr><th></th><th class="n">① スポットガイド</th><th class="n">② 区間ガイド</th><th class="n">③ フルエスコート</th></tr></thead>
+      <tbody>
+        <tr><td>内容</td><td>遺跡・難所だけ半日〜1日で雇う</td><td>アンデス・マヤ・中央アジアを通しでツアー同行</td><td>全行程にガイドが同行</td></tr>
+        <tr><td>ガイドの日数</td><td>180日中およそ20日</td><td>およそ38日</td><td>180日</td></tr>
+        <tr><td>手配</td><td>現地または前日予約</td><td>事前に現地ツアー会社へ</td><td>旅行会社経由</td></tr>
+        <tr><td>追加費用</td><td class="n">+¥250,000</td><td class="n">+¥650,000</td><td class="n">+¥720万〜990万</td></tr>
+        <tr class="total"><td>総額（180日）</td><td class="n">¥3,290,000</td><td class="n">¥3,690,000</td><td class="n">¥1,020万〜1,290万</td></tr>
+        <tr><td>判定</td><td class="recmark">推奨</td><td>予算が許すなら</td><td>非現実的</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p><strong>③が現実的でない理由。</strong>プライベートガイドを区間をまたいで同行させる場合、<strong>日当に加えてガイドの宿泊・移動・食事を依頼側が負担するのが通例</strong>。1日 ¥40,000〜55,000 が上乗せになり、180日では ¥720万〜990万に達する。</p>
+    <p>代替として旅行会社の添乗員付き世界一周パッケージがあるが、日数は30〜60日に圧縮され訪問地も固定される（目安 ¥300万〜600万・要確認）。「世界一周を自分で設計する」という本計画とは別物になる。</p>
+  </div>
+
+  <figure>
+    <div class="fig-title">総額の比較</div>
+    <div class="fig-note">スポットガイドを付けて150日に詰めると、独立旅180日より安くなる。</div>
+    <div class="bars">
+      <div class="bar-row" data-tip="ガイドあり 150日|¥2,980,000|1日あたり ¥19,900|ガイド代 ¥250,000 を、短縮30日分の生活費 ¥285,000 が上回る" tabindex="0"><div class="lb">ガイドあり 150日<br><span class="mono" style="font-size:10.5px;color:var(--accent-ink)">最安</span></div><div class="bar-track"><div class="bar-fill" style="width:80.8%;background:var(--s1)"></div></div><div class="bar-val">¥2,980,000 <em>150日</em></div></div>
+      <div class="bar-row" data-tip="独立旅 180日|¥3,040,000|1日あたり ¥16,900|ガイドなし・基準プラン" tabindex="0"><div class="lb">独立旅 180日<br><span class="mono" style="font-size:10.5px;color:var(--muted)">基準</span></div><div class="bar-track"><div class="bar-fill" style="width:82.4%;background:var(--s1)"></div></div><div class="bar-val">¥3,040,000 <em>180日</em></div></div>
+      <div class="bar-row" data-tip="ガイドあり 180日|¥3,290,000|1日あたり ¥18,300|日数を詰めず、余裕を残したままガイドを足す形" tabindex="0"><div class="lb">ガイドあり 180日<br><span class="mono" style="font-size:10.5px;color:var(--accent-ink)">推奨</span></div><div class="bar-track"><div class="bar-fill" style="width:89.2%;background:var(--s1)"></div></div><div class="bar-val">¥3,290,000 <em>180日</em></div></div>
+      <div class="bar-row" data-tip="区間ガイド 180日|¥3,690,000|1日あたり ¥20,500|アンデス・マヤ・中央アジアを通しでツアー同行" tabindex="0"><div class="lb">区間ガイド 180日</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--s1)"></div></div><div class="bar-val">¥3,690,000 <em>180日</em></div></div>
+    </div>
+    <figcaption>③フルエスコート（¥1,020万〜1,290万）は桁が違うため、この比較からは外してある。</figcaption>
+  </figure>
+
+  <h3>推奨：スポットガイド ＋ 150日</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>区分</th><th class="n">独立旅 180日</th><th class="n">ガイドあり 150日</th><th class="n">差</th></tr></thead>
+      <tbody>
+        <tr><td>現地生活費</td><td class="n">¥1,710,000</td><td class="n">¥1,425,000</td><td class="n">−¥285,000</td></tr>
+        <tr><td>スポットガイド代</td><td class="n">¥0</td><td class="n">¥250,000</td><td class="n">+¥250,000</td></tr>
+        <tr><td>航空券</td><td class="n">¥520,000</td><td class="n">¥520,000</td><td class="n">±0</td></tr>
+        <tr><td>準備費（保険が1ヶ月短い）</td><td class="n">¥560,000</td><td class="n">¥535,000</td><td class="n">−¥25,000</td></tr>
+        <tr><td>予備費</td><td class="n">¥250,000</td><td class="n">¥250,000</td><td class="n">±0</td></tr>
+        <tr class="total"><td>総額</td><td class="n">¥3,040,000</td><td class="n">¥2,980,000</td><td class="n">−¥60,000</td></tr>
+        <tr><td>1日あたり</td><td class="n">¥16,900</td><td class="n">¥19,900</td><td class="n">+¥3,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>総額が同じでも<strong>「1日の密度」が上がっている</strong>、という理解が正しい。30日の短縮は、各区間から2〜5日ずつと予備日3日を削って作る。</p>
+  <div class="note"><p><span class="flag">要注意</span>150日にすると<strong>予備日が7日から4日に減り、行程の余裕も減る</strong>。長期旅行は必ず何かが起きる。資金が許すなら<strong>180日のままガイドを足す（¥3,290,000）</strong>ほうが安全側で、こちらを推奨する。</p></div>
+
+  <h3>ガイドが効く区間・効かない区間</h3>
+  <p>ここを見分けるのが、ガイド代の費用対効果を決める。<strong>全区間に均等に付けるのが、いちばんもったいない使い方。</strong></p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>優先度</th><th>場所</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td class="nw">必須級</td><td>ウユニ塩湖</td><td>4WDツアー以外に行く現実的な手段がない。ガイド代というより交通費</td></tr>
+        <tr><td class="nw">必須級</td><td>マチュピチュ・クスコ</td><td>解説がないと石積みの集合体で終わる。遺跡は情報量がすべて</td></tr>
+        <tr><td class="nw">高</td><td>マヤ遺跡（パレンケ・ウシュマル）</td><td>表示が少なく、自力では読み解けない</td></tr>
+        <tr><td class="nw">高</td><td>サマルカンド・ブハラ</td><td>イスラム建築とシルクロード史の文脈がないと「きれいなタイル」で終わる</td></tr>
+        <tr><td class="nw">高</td><td>サラエボ・モスタル</td><td>現地の人の語りそのものが体験になる、数少ない場所</td></tr>
+        <tr><td class="nw">中</td><td>カッパドキア</td><td>地下都市と岩窟教会は解説の価値が高い</td></tr>
+        <tr><td class="nw">中</td><td>グランドキャニオン</td><td>ガイドというより交通手段として必要</td></tr>
+        <tr><td class="nw">中</td><td>ワラスのトレッキング</td><td>高所での安全確保が主目的</td></tr>
+        <tr><td class="nw">低</td><td>イグアスの滝</td><td>案内表示が整っていて自力で回れる</td></tr>
+        <tr><td class="nw">不要</td><td>欧州の街歩き</td><td>無料ウォーキングツアーが充実している</td></tr>
+        <tr><td class="nw">不要</td><td>バルカンの移動・街歩き</td><td>バス網が機能しており自力で十分</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>日本語ガイドにする場合</h3>
+  <p><strong>英語ガイドの1.5〜2.5倍が目安。</strong>スポットガイドを全部日本語にすると ¥250,000 が ¥450,000〜600,000 になる。手配しやすいのはペルー・トルコ・メキシコ・スペイン・ブラジル・ウズベキスタン。手配しにくいのはボリビア・グアテマラ・ジョージア・バルカン諸国（⚠️ 時期により変わる）。</p>
+  <div class="note"><p><strong>現実的な折衷案は「遺跡だけ日本語、街歩きは英語」。</strong>解説の情報量が価値の中心になる場所（マチュピチュ・マヤ遺跡・サマルカンド）に日本語を集中させ、それ以外は英語ガイドか自力にする。この配分なら <strong>¥320,000前後</strong>に収まる。</p></div>
+
+  <h3>手配の方法</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>方法</th><th>費用</th><th>向く場面</th></tr></thead>
+      <tbody>
+        <tr><td>現地の宿・ツーリストオフィスで前日手配</td><td class="nw">いちばん安い</td><td>中南米・バルカン・中央アジア。融通も利く</td></tr>
+        <tr><td>オンライン予約サイトで事前予約</td><td class="nw">中間</td><td>枠が埋まる人気ツアー（ウユニ・カッパドキア・グランドキャニオン）</td></tr>
+        <tr><td>日本の旅行会社経由</td><td class="nw">割高</td><td>日本語ガイドが必須の場合、トラブル時の窓口が欲しい場合</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>原則：枠が埋まるものだけ事前予約、それ以外は現地手配。</strong>事前に全部押さえると、体調や天候で動けなくなったときにキャンセル料がそのまま損になる。</p>
+
+  <h3>費用以外の損得</h3>
+  <p>得るものは、遺跡・歴史の情報量（自力で得られる量とは桁が違う）、治安面の実質的な保険、そして移動と下調べの時間が消えること。<strong>失うものは、迷う時間が消えること</strong>。短期旅行なら純粋な利点だが、長期旅行では迷った時間そのものが体験になる面がある。行程も固定され、「気に入ったから3日延ばす」がやりにくくなる。</p>
+  <p><strong>だからこそ全行程ではなく、スポットで入れるのが合理的。</strong>情報量が価値になる場所だけガイドを使い、それ以外は自力で歩く。費用の面でも旅の質の面でも、この配分が最もバランスが良い。</p>
+
+  <h3>積立の逆算（ガイドあり版）</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>出発時期</th><th class="n">積立月数</th><th class="n">ガイド150日 ¥298万</th><th class="n">ガイド180日 ¥329万</th><th class="n">区間ガイド ¥369万</th></tr></thead>
+      <tbody>
+        <tr><td>2027年4月</td><td class="n">7</td><td class="n">¥426,000</td><td class="n">¥470,000</td><td class="n">¥527,000</td></tr>
+        <tr><td>2027年10月</td><td class="n">13</td><td class="n">¥229,000</td><td class="n">¥253,000</td><td class="n">¥284,000</td></tr>
+        <tr class="rec"><td>2028年4月</td><td class="n">19</td><td class="n">¥157,000</td><td class="n">¥173,000</td><td class="n">¥194,000</td></tr>
+        <tr><td>2028年10月</td><td class="n">25</td><td class="n">¥119,000</td><td class="n">¥132,000</td><td class="n">¥148,000</td></tr>
+        <tr><td>2029年4月</td><td class="n">31</td><td class="n">¥96,000</td><td class="n">¥106,000</td><td class="n">¥119,000</td></tr>
+      </tbody>
+      <caption>単位は月あたりの積立額。網掛けが推奨行。</caption>
+    </table>
+  </div>
+  <p><strong>推奨は変わらない：2028年4月出発。</strong>ガイドあり180日（¥329万）でも月 ¥173,000 で、独立旅の ¥160,000 との差は月 ¥13,000。<strong>この差でガイドが付くなら、付けたほうがいい。</strong></p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">08</span><h2>出発日の逆算</h2></div>
   <p class="sec-sub">2026年9月から積み立てを始める前提。すでに貯蓄がある場合は、必要額から差し引いてから月数で割ればよい。</p>
   <div class="tw">
     <table>
@@ -506,7 +621,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">08</span><h2>別枠：日本を空ける間に出ていくお金</h2></div>
+  <div class="sec-head"><span class="n">09</span><h2>別枠：日本を空ける間に出ていくお金</h2></div>
   <p class="sec-sub">これは ¥304万 に含まれていない。所得・契約状況で金額が丸ごと変わるため、実額を埋めて別途確保する。</p>
   <div class="tw">
     <table>
@@ -528,7 +643,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">09</span><h2>お金の持ち方と守り方</h2></div>
+  <div class="sec-head"><span class="n">10</span><h2>お金の持ち方と守り方</h2></div>
   <div class="tw">
     <table>
       <thead><tr><th>手段</th><th>役割</th><th class="n">配分</th></tr></thead>
@@ -549,7 +664,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">10</span><h2>出発前チェックリスト</h2></div>
+  <div class="sec-head"><span class="n">11</span><h2>出発前チェックリスト</h2></div>
   <p class="sec-sub">出発日を D として逆算。いちばん見落とされるのは予防接種で、全部揃えるのに3〜6ヶ月かかる。</p>
 
   <div class="phase">
@@ -626,28 +741,29 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">11</span><h2>事実検証ノート</h2></div>
+  <div class="sec-head"><span class="n">12</span><h2>事実検証ノート</h2></div>
   <p class="sec-sub">この計画で「確かなこと」と「出発前に自分で確かめること」を分けてある。金額と規則は変動する前提で読むこと。</p>
   <div class="fc">
     <div class="fc-item">
       <span class="tag ok">確実</span><b>設計の前提として動かないもの</b>
-      <p>シェンゲン圏は「直近180日で90日」の滞在制限がある／クロアチアはシェンゲン加盟済み／南米の6〜7月は南半球の冬／中央アジアは9月が過ごしやすい／クレジットカード付帯の海外旅行保険には日数上限があり長期旅行では別途加入が必要／準備費と航空券は旅行日数で割り算されないため短期ほど1日単価が上がる／多くの国が入国時にパスポート残存6ヶ月以上を要求する</p>
+      <p>シェンゲン圏は「直近180日で90日」の滞在制限がある／クロアチアはシェンゲン加盟済み／南米の6〜7月は南半球の冬／中央アジアは9月が過ごしやすい／クレジットカード付帯の海外旅行保険には日数上限があり長期旅行では別途加入が必要／準備費と航空券は旅行日数で割り算されないため短期ほど1日単価が上がる／多くの国が入国時にパスポート残存6ヶ月以上を要求する／プライベートガイドを区間をまたいで同行させる場合、ガイドの宿泊・移動・食事を依頼側が負担するのが一般的／欧州の主要都市には無料のウォーキングツアーが広く存在する</p>
     </div>
     <div class="fc-item">
       <span class="tag warn">要確認</span><b>出発3ヶ月前と1ヶ月前の2回、必ず自分で確認する</b>
-      <p>各国のビザ要否と滞在可能日数（変更が頻繁）／ETIASの開始時期／航空券相場（時期と購入タイミングで±40%動く）／保険料（年齢・補償内容で変動）／予防接種の必要種別と費用（医療機関差が大きい）／ESTA等の料金（改定あり）／マチュピチュの予約枠と料金／海外転出届の適用可否と国民年金の免除・猶予（自治体判断）／為替（本計画は 1USD=¥155 で計算しており、円安が進めば現地費用はそのまま増える）</p>
+      <p>各国のビザ要否と滞在可能日数（変更が頻繁）／ETIASの開始時期／航空券相場（時期と購入タイミングで±40%動く）／保険料（年齢・補償内容で変動）／予防接種の必要種別と費用（医療機関差が大きい）／ESTA等の料金（改定あり）／マチュピチュの予約枠と料金／海外転出届の適用可否と国民年金の免除・猶予（自治体判断）／為替（本計画は 1USD=¥155 で計算しており、円安が進めば現地費用はそのまま増える）／本書のガイド料金はすべて目安であり、季節・人数・言語・会社で大きく変動する／日本語ガイドの手配しやすさの国別傾向／添乗員付き世界一周パッケージの価格帯と内容</p>
     </div>
     <div class="fc-item">
       <span class="tag grey">諸説あり</span><b>情報源によって意見が割れるもの</b>
-      <p>ウユニ塩湖の鏡張りの見頃時期（年ごとの降雨で前後する）／各都市の治安評価（外務省の海外安全ホームページを一次情報とすること）／世界一周航空券と個別手配のどちらが得か（ルートの区間数と陸路の割合で逆転する）／バックパックの最適容量（体格と洗濯頻度で決まるので、詰めて背負って決めるのが確実）</p>
+      <p>ウユニ塩湖の鏡張りの見頃時期（年ごとの降雨で前後する）／各都市の治安評価（外務省の海外安全ホームページを一次情報とすること）／世界一周航空券と個別手配のどちらが得か（ルートの区間数と陸路の割合で逆転する）／バックパックの最適容量（体格と洗濯頻度で決まるので、詰めて背負って決めるのが確実）／ガイドを入れて日数を30日短縮できるかどうか（短縮幅は旅のスタイルに強く依存し、ゆっくり滞在したい人は短縮せず180日のままガイドを足す形が合う）</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">12</span><h2>次の一手</h2></div>
+  <div class="sec-head"><span class="n">13</span><h2>次の一手</h2></div>
   <ol class="rules">
-    <li><b>プランを1つ選ぶ。</b>節約 ¥148万 / 標準 ¥304万 / 快適 ¥520万。ここが決まらないと積立額が決まらない。</li>
+    <li><b>プランを1つ選ぶ。</b>節約 ¥148万 / 標準 ¥304万 / 快適 ¥520万、またはガイドあり ¥298万〜369万。ここが決まらないと積立額が決まらない。</li>
+    <li><b>ガイドの入れ方を決める。</b>スポットガイド（+¥250,000）を推奨。日本語が必要かどうかで ¥250,000 と ¥320,000〜600,000 に分かれるので、ここは先に決めておく。</li>
     <li><b>現在の貯蓄額を出し、逆算表に当てて出発時期を仮決めする。</b>必要額から貯蓄を引いて月数で割るだけ。</li>
     <li><b>旅行専用口座を作って自動振替を設定する。</b>今月からできる唯一のことで、これをやらないと計画は前に進まない。</li>
     <li><b>「別枠」の6項目の実額を埋める。</b>家賃・国保・年金・住民税・通信・サブスク。ここが空欄のままだと総額が確定しない。</li>
