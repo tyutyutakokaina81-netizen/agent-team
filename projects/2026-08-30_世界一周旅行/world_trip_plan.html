@@ -123,6 +123,8 @@ td.recmark{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ac
 table.cmp td:not(:first-child),table.cmp th:not(:first-child){text-align:right}
 table.steps td,table.steps th{text-align:left}
 td.nw,th.nw{white-space:nowrap}
+.no,.yes{font-family:"IBM Plex Mono",monospace; font-size:14px; font-weight:600}
+.no{color:var(--s4)} .yes{color:var(--ok)}
 caption{caption-side:bottom; text-align:left; padding:10px 14px; font-size:12px; color:var(--muted)}
 
 /* ---------- charts ---------- */
@@ -203,7 +205,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 <header>
   <div class="eyebrow">180日 / 18カ国 / 東回り一筆書き</div>
   <h1>世界一周 180日の設計図</h1>
-  <p class="lede">日本を4月に出て、9月末に戻る。北米から中南米、欧州、コーカサスを抜けて中央アジアから帰る東回りルートと、その総額 ¥3,040,000 の内訳・貯め方。ルートは「良い季節だけを拾う」ために組んであり、予算は削れる場所が最初から見えるように積み上げてある。現地ガイドを付けた場合の費用と配分は §07 に分けてある。</p>
+  <p class="lede">日本を4月に出て、9月末に戻る。北米から中南米、欧州、コーカサスを抜けて中央アジアから帰る東回りルートと、その総額 ¥3,040,000 の内訳・貯め方。ルートは「良い季節だけを拾う」ために組んであり、予算は削れる場所が最初から見えるように積み上げてある。現地ガイドを付けた場合は §07、船で行く場合は §08 に分けてある。</p>
   <div class="route-strip">
     <span>日本</span><i>→</i><span>北米</span><i>→</i><span>メキシコ・中米</span><i>→</i><span>アンデス</span><i>→</i><span>南米大西洋岸</span><i>→</i><span>イベリア半島</span><i>→</i><span>バルカン</span><i>→</i><span>トルコ・コーカサス</span><i>→</i><span>中央アジア</span><i>→</i><span>日本</span>
   </div>
@@ -588,7 +590,155 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">08</span><h2>出発日の逆算</h2></div>
+  <div class="sec-head"><span class="n">08</span><h2>船旅版</h2></div>
+  <p class="sec-sub">船で世界一周した場合。<strong>費用は思ったより変わらない。日数が短いから。</strong>日本発の地球一周クルーズは ¥180万〜250万／約100日で、陸路プラン（¥304万／180日）より安い。1日単価は上がるが、日数が80日短いぶん総額では逆転する。</p>
+
+  <div class="note">
+    <p><strong>ただし、行き先が丸ごと入れ替わる。</strong>本計画の見どころ12ヶ所のうち、寄港地からの日帰りで届くものはほぼ無い。マチュピチュ、ウユニ、サマルカンド、カッパドキア、グランドキャニオンは全部内陸で、船では届かない。</p>
+    <p><strong>船旅は「同じ旅を船で行く」ことではなく、別の旅。</strong>内陸の遺跡と高地が消え、代わりに島・港町・運河・岬が入る。どちらが良いかではなく、<strong>何を見たいかで決める話</strong>になる。</p>
+  </div>
+
+  <figure>
+    <div class="fig-title">方式別の総額</div>
+    <div class="fig-note">日本発のクルーズは陸路プランより安い。海外船社のクルーズだけが明確に高い。</div>
+    <div class="bars">
+      <div class="bar-row" data-tip="① 日本発 地球一周クルーズ|¥2,150,000|約100日・1日あたり ¥21,500|往復航空券が不要。最も現実的" tabindex="0"><div class="lb">日本発クルーズ<br><span class="mono" style="font-size:10.5px;color:var(--muted)">最も現実的</span></div><div class="bar-track"><div class="bar-fill" style="width:61.4%;background:var(--s1)"></div></div><div class="bar-val">¥2,150,000 <em>100日</em></div></div>
+      <div class="bar-row" data-tip="③ 貨物船（フレイター）|¥2,450,000|110日・1日あたり ¥22,300|乗船枠が少なく、年齢上限と健康診断がある" tabindex="0"><div class="lb">貨物船</div><div class="bar-track"><div class="bar-fill" style="width:70.0%;background:var(--s1)"></div></div><div class="bar-val">¥2,450,000 <em>110日</em></div></div>
+      <div class="bar-row" data-tip="基準：陸路・空路|¥3,040,000|180日・1日あたり ¥16,900|内陸の遺跡と高地に届く唯一の方式" tabindex="0"><div class="lb">陸路・空路<br><span class="mono" style="font-size:10.5px;color:var(--muted)">基準</span></div><div class="bar-track"><div class="bar-fill" style="width:86.9%;background:var(--s2)"></div></div><div class="bar-val">¥3,040,000 <em>180日</em></div></div>
+      <div class="bar-row" data-tip="④ 折衷（横断だけ船）|¥3,400,000|180日・1日あたり ¥18,900|大洋を渡る時間と内陸の見どころを両取り" tabindex="0"><div class="lb">折衷・横断だけ船<br><span class="mono" style="font-size:10.5px;color:var(--accent-ink)">推奨</span></div><div class="bar-track"><div class="bar-fill" style="width:97.1%;background:var(--s2)"></div></div><div class="bar-val">¥3,400,000 <em>180日</em></div></div>
+      <div class="bar-row" data-tip="② 海外船社の世界一周クルーズ|¥3,500,000|110日・1日あたり ¥31,800|往復航空券・チップ・飲料・Wi-Fiが別途" tabindex="0"><div class="lb">海外船社クルーズ</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--s1)"></div></div><div class="bar-val">¥3,500,000 <em>110日</em></div></div>
+    </div>
+    <div class="legend">
+      <div><span class="sw" style="background:var(--s1)"></span>船が主</div>
+      <div><span class="sw" style="background:var(--s2)"></span>陸が主</div>
+    </div>
+    <figcaption>各方式の中間値。船室グレード（相部屋／内側／海側／バルコニー）で2〜4倍動くため、「いちばん安い部屋の値段」と実際に払う額の差は陸の旅より大きい。</figcaption>
+  </figure>
+
+  <h3>4つの方法</h3>
+  <div class="tw">
+    <table class="steps">
+      <thead><tr><th></th><th>① 日本発クルーズ</th><th>② 海外船社クルーズ</th><th>③ 貨物船</th><th>④ 折衷・横断だけ船</th></tr></thead>
+      <tbody>
+        <tr><td class="nw">日数</td><td>約100日</td><td>100〜120日</td><td>100〜120日</td><td>180日（船上20〜25日）</td></tr>
+        <tr><td class="nw">発着</td><td>日本</td><td>英国・米国・欧州など</td><td>欧州・アジアの港</td><td>日本</td></tr>
+        <tr><td class="nw">往復航空券</td><td>不要</td><td>必要（¥20〜30万）</td><td>必要</td><td>既存プランに含む</td></tr>
+        <tr><td class="nw">乗船料の目安</td><td>¥130万〜（相部屋）</td><td>¥180万〜300万（内側）</td><td>1日 ¥16,000〜21,000</td><td>¥27万〜50万（横断2本）</td></tr>
+        <tr><td class="nw">主な追加費用</td><td>寄港地ツアー・港湾税</td><td>チップ・飲料・Wi-Fi・ツアー</td><td>保険・往復航空券</td><td>少ない</td></tr>
+        <tr class="total"><td class="nw">総額の目安</td><td>¥180万〜250万</td><td>¥300万〜400万</td><td>¥200万〜290万</td><td>¥330万〜350万</td></tr>
+        <tr><td class="nw">判定</td><td>最も現実的</td><td>快適だが高い</td><td>条件が厳しい</td><td class="recmark">推奨</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>③貨物船の条件が厳しい理由。</strong>個室・食事込みで1日 €100〜130 と安いが、乗船枠が数名しかなく<strong>手配できる代理店が世界に数社</strong>しかない。年齢上限（79歳前後）と健康診断書が要り、スケジュールは荷役の都合で動く。寄港地の滞在は数時間〜1日で、港が街から遠い。⚠️ 近年は受け入れを縮小した会社が多く、<strong>空きと運航の確認が最初の関門</strong>になる。</p>
+
+  <h3>決定的な違い：行ける場所が入れ替わる</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>見どころ</th><th class="nw">船から届くか</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>グランドキャニオン</td><td class="nw"><span class="no">✕</span></td><td>内陸。最寄り港から往復1,000km超</td></tr>
+        <tr><td>テオティワカン</td><td class="nw"><span class="no">✕</span></td><td>メキシコシティは内陸</td></tr>
+        <tr><td>オアハカ・パレンケ・サンクリストバル</td><td class="nw"><span class="no">✕</span></td><td>すべて内陸</td></tr>
+        <tr><td>アティトラン湖</td><td class="nw"><span class="no">✕</span></td><td>グアテマラ高地</td></tr>
+        <tr><td>ワラス（アンデス トレッキング）</td><td class="nw"><span class="no">✕</span></td><td>標高3,000m超の内陸</td></tr>
+        <tr><td><strong>マチュピチュ・クスコ</strong></td><td class="nw"><span class="no">✕</span></td><td>カヤオ港からリマ日帰りが限界。クスコは航空便で片道1時間＋高地順応が要る</td></tr>
+        <tr><td><strong>ウユニ塩湖</strong></td><td class="nw"><span class="no">✕</span></td><td>ボリビアは内陸国。海に面していない</td></tr>
+        <tr><td>イグアスの滝</td><td class="nw"><span class="no">✕</span></td><td>内陸</td></tr>
+        <tr><td>サラエボ・モスタル</td><td class="nw"><span class="no">✕</span></td><td>内陸。ドゥブロヴニクから陸路往復は1日では厳しい</td></tr>
+        <tr><td>カッパドキア</td><td class="nw"><span class="no">✕</span></td><td>トルコ内陸</td></tr>
+        <tr><td><strong>サマルカンド・ブハラ</strong></td><td class="nw"><span class="no">✕</span></td><td>ウズベキスタンは二重内陸国。海まで2ヶ国はさむ</td></tr>
+        <tr><td>リスボン・バルセロナ・イスタンブール・リオ・ブエノスアイレス</td><td class="nw"><span class="yes">○</span></td><td>港町。むしろ船のほうが街の中心に着く</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><p><span class="flag">要注意</span>一部のクルーズは1〜2泊のオーバーナイト・エクスカーション（マチュピチュ等）を設定することがあるが、別料金かつ枠が限られる。<strong>あるものとして計画しないほうがいい。</strong></p></div>
+
+  <h3>逆に、船でなければ行けない場所</h3>
+  <p>公平のために書いておくと、<strong>船が圧倒的に有利な場所もある</strong>。<strong>パナマ運河の通航</strong>は船でしか体験できない。<strong>南太平洋の島々</strong>（タヒチ・フィジー・サモア）は陸路で繋げず、個別に飛ぶと航空券が跳ね上がる。カリブ海の島渡り、喜望峰・ホーン岬回り、ノルウェーのフィヨルドも同様に海から見る前提の地形になる。</p>
+  <p><strong>内陸の遺跡と高地を取るなら陸路、島と港町と運河を取るなら船。</strong>ここが選択の軸になる。</p>
+
+  <h3>費用構造が逆転する</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>陸路・空路 180日</th><th>船旅 100日</th></tr></thead>
+      <tbody>
+        <tr><td class="nw">宿泊</td><td>毎日払う（生活費の約4割）</td><td>乗船料に込み</td></tr>
+        <tr><td class="nw">食事</td><td>毎日払う</td><td>乗船料に込み（3食）</td></tr>
+        <tr><td class="nw">移動</td><td>航空券＋陸路交通</td><td>乗船料に込み</td></tr>
+        <tr><td class="nw">主な追加支出</td><td>ほぼ全部が追加</td><td>寄港地ツアー・チップ・飲料・Wi-Fi</td></tr>
+        <tr><td class="nw">予算の読みやすさ</td><td>日々ブレる</td><td>出発前にほぼ確定する</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>船旅の長所は「予算が事前に確定すること」。</strong>陸の旅のように「使いすぎた」が起きにくい。</p>
+  <div class="note"><p><span class="flag">要注意</span><strong>船内費用が積み上がるのが、この分野の定番の落とし穴。</strong>海外船社の場合、チップ（1日 $16〜25）、飲料パッケージ（1日 $60〜100）、Wi-Fi（1日 $20〜30）、寄港地ツアー（1回 $80〜200）で、<strong>乗船料の3〜5割が上乗せになる</strong>と見ておくのが安全。日本発のクルーズはチップ不要のことが多い（⚠️要確認）。</p></div>
+
+  <h3>推奨：横断だけ船にする折衷案</h3>
+  <p><strong>船旅のいちばんおいしい部分は「大洋を何日もかけて渡る時間」</strong>で、これは横断1本で味わえる。内陸の見どころを捨てずに、それを足す。</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>追加する区間</th><th class="n">日数</th><th class="n">目安</th></tr></thead>
+      <tbody>
+        <tr><td>大西洋横断（英国 → 米国東海岸、定期客船）</td><td class="n">7泊</td><td class="n">¥150,000〜250,000</td></tr>
+        <tr><td>太平洋またはリポジショニングクルーズ</td><td class="n">10〜18泊</td><td class="n">¥120,000〜250,000</td></tr>
+        <tr><td>航空券が2本不要になる分</td><td class="n">—</td><td class="n">−¥100,000</td></tr>
+        <tr class="total"><td>純増</td><td class="n">17〜25日</td><td class="n">+¥170,000〜400,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>総額の目安 ¥3,340,000（180日）。</strong>リポジショニングクルーズ（船会社が季節ごとに船を回航させる便）は<strong>同じ航路の通常クルーズより大幅に安い</strong>のが特徴で、日程が合えばここが最も費用対効果が高い。</p>
+  <div class="note"><p>ルートの組み替えが要る点に注意。本計画は南米からリスボンへ飛ぶ構成なので、大西洋横断を入れるなら<strong>北米 → 欧州の順を入れ替える</strong>か、南米から欧州への横断便を探すことになる。</p></div>
+
+  <h3>船旅で変わる実務</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>項目</th><th>陸路・空路</th><th>船旅</th></tr></thead>
+      <tbody>
+        <tr><td class="nw">荷物</td><td>バックパック40〜50L</td><td>スーツケースで良い。大型客船はフォーマルウェアが要る</td></tr>
+        <tr><td class="nw">ビザ</td><td>自分で全部手配</td><td>船会社が一括手配することが多い（実務負担が大幅に減る）</td></tr>
+        <tr><td class="nw">通信</td><td>国別eSIM</td><td>海上は衛星回線で遅く高い。寄港地でのみ実用的</td></tr>
+        <tr><td class="nw">保険</td><td>一般の海外旅行保険</td><td>クルーズ対応の保険。緊急下船・搬送は高額</td></tr>
+        <tr><td class="nw">医療</td><td>現地の病院</td><td>船医はいるが専門治療は下船して対応</td></tr>
+        <tr><td class="nw">装備費</td><td>¥120,000</td><td>¥60,000程度に下がる（トレッキング装備が不要）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>見落としやすい負担が4つある。</strong>①<strong>海上日が全体の4〜5割</strong>で、100日のうち40〜50日は寄港しない。②<strong>同じ船に100日</strong>、逃げ場のない閉鎖環境で人間関係の相性が旅の質を左右する。③<strong>船酔い</strong>は乗ってみないと分からないので、短いクルーズで試してから決めるのが安全。④<strong>寄港地の滞在は8〜10時間</strong>で、「街を歩いた」で終わり深く入る旅にはならない。</p>
+
+  <h3>選び方</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>優先したいこと</th><th>選ぶべき方式</th></tr></thead>
+      <tbody>
+        <tr><td>内陸の遺跡・高地・自然（マチュピチュ、ウユニ、サマルカンド）</td><td>陸路・空路 180日（基準プラン）</td></tr>
+        <tr><td>費用を抑えて、世界一周という体験そのものを取る</td><td>① 日本発 地球一周クルーズ</td></tr>
+        <tr><td>大洋を渡る時間と、内陸の見どころを両方取る</td><td class="recmark">④ 折衷（推奨）</td></tr>
+        <tr><td>快適さと船内サービス</td><td>② 海外船社のクルーズ</td></tr>
+        <tr><td>変わった体験・少人数・静かな環境</td><td>③ 貨物船</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>積立の逆算（船旅版）</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>出発時期</th><th class="n">積立月数</th><th class="n">①クルーズ ¥215万</th><th class="n">③貨物船 ¥245万</th><th class="n">④折衷 ¥340万</th><th class="n">②海外 ¥350万</th></tr></thead>
+      <tbody>
+        <tr><td>2027年4月</td><td class="n">7</td><td class="n">¥307,000</td><td class="n">¥350,000</td><td class="n">¥486,000</td><td class="n">¥500,000</td></tr>
+        <tr><td>2027年10月</td><td class="n">13</td><td class="n">¥165,000</td><td class="n">¥188,000</td><td class="n">¥262,000</td><td class="n">¥269,000</td></tr>
+        <tr class="rec"><td>2028年4月</td><td class="n">19</td><td class="n">¥113,000</td><td class="n">¥129,000</td><td class="n">¥179,000</td><td class="n">¥184,000</td></tr>
+        <tr><td>2028年10月</td><td class="n">25</td><td class="n">¥86,000</td><td class="n">¥98,000</td><td class="n">¥136,000</td><td class="n">¥140,000</td></tr>
+        <tr><td>2029年4月</td><td class="n">31</td><td class="n">¥69,000</td><td class="n">¥79,000</td><td class="n">¥110,000</td><td class="n">¥113,000</td></tr>
+      </tbody>
+      <caption>単位は月あたりの積立額。網掛けが推奨行。</caption>
+    </table>
+  </div>
+  <p><strong>日本発の地球一周クルーズなら、2028年4月出発で月 ¥113,000。</strong>陸路プラン（¥160,000）より月 ¥47,000 軽い。資金面だけを見るなら、<strong>船のほうが世界一周のハードルは低い</strong>。</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="n">09</span><h2>出発日の逆算</h2></div>
   <p class="sec-sub">2026年9月から積み立てを始める前提。すでに貯蓄がある場合は、必要額から差し引いてから月数で割ればよい。</p>
   <div class="tw">
     <table>
@@ -621,7 +771,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">09</span><h2>別枠：日本を空ける間に出ていくお金</h2></div>
+  <div class="sec-head"><span class="n">10</span><h2>別枠：日本を空ける間に出ていくお金</h2></div>
   <p class="sec-sub">これは ¥304万 に含まれていない。所得・契約状況で金額が丸ごと変わるため、実額を埋めて別途確保する。</p>
   <div class="tw">
     <table>
@@ -643,7 +793,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">10</span><h2>お金の持ち方と守り方</h2></div>
+  <div class="sec-head"><span class="n">11</span><h2>お金の持ち方と守り方</h2></div>
   <div class="tw">
     <table>
       <thead><tr><th>手段</th><th>役割</th><th class="n">配分</th></tr></thead>
@@ -664,7 +814,7 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">11</span><h2>出発前チェックリスト</h2></div>
+  <div class="sec-head"><span class="n">12</span><h2>出発前チェックリスト</h2></div>
   <p class="sec-sub">出発日を D として逆算。いちばん見落とされるのは予防接種で、全部揃えるのに3〜6ヶ月かかる。</p>
 
   <div class="phase">
@@ -741,28 +891,29 @@ footer{margin-top:64px; border-top:1px solid var(--line-strong); padding-top:18p
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">12</span><h2>事実検証ノート</h2></div>
+  <div class="sec-head"><span class="n">13</span><h2>事実検証ノート</h2></div>
   <p class="sec-sub">この計画で「確かなこと」と「出発前に自分で確かめること」を分けてある。金額と規則は変動する前提で読むこと。</p>
   <div class="fc">
     <div class="fc-item">
       <span class="tag ok">確実</span><b>設計の前提として動かないもの</b>
-      <p>シェンゲン圏は「直近180日で90日」の滞在制限がある／クロアチアはシェンゲン加盟済み／南米の6〜7月は南半球の冬／中央アジアは9月が過ごしやすい／クレジットカード付帯の海外旅行保険には日数上限があり長期旅行では別途加入が必要／準備費と航空券は旅行日数で割り算されないため短期ほど1日単価が上がる／多くの国が入国時にパスポート残存6ヶ月以上を要求する／プライベートガイドを区間をまたいで同行させる場合、ガイドの宿泊・移動・食事を依頼側が負担するのが一般的／欧州の主要都市には無料のウォーキングツアーが広く存在する</p>
+      <p>シェンゲン圏は「直近180日で90日」の滞在制限がある／クロアチアはシェンゲン加盟済み／南米の6〜7月は南半球の冬／中央アジアは9月が過ごしやすい／クレジットカード付帯の海外旅行保険には日数上限があり長期旅行では別途加入が必要／準備費と航空券は旅行日数で割り算されないため短期ほど1日単価が上がる／多くの国が入国時にパスポート残存6ヶ月以上を要求する／プライベートガイドを区間をまたいで同行させる場合、ガイドの宿泊・移動・食事を依頼側が負担するのが一般的／欧州の主要都市には無料のウォーキングツアーが広く存在する／ボリビアとウズベキスタンは内陸国で海に面していない（ウズベキスタンは二重内陸国）／クルーズの乗船料には宿泊・食事・移動が含まれる／貨物船の旅は乗船枠が少なく手配できる代理店が限られる</p>
     </div>
     <div class="fc-item">
       <span class="tag warn">要確認</span><b>出発3ヶ月前と1ヶ月前の2回、必ず自分で確認する</b>
-      <p>各国のビザ要否と滞在可能日数（変更が頻繁）／ETIASの開始時期／航空券相場（時期と購入タイミングで±40%動く）／保険料（年齢・補償内容で変動）／予防接種の必要種別と費用（医療機関差が大きい）／ESTA等の料金（改定あり）／マチュピチュの予約枠と料金／海外転出届の適用可否と国民年金の免除・猶予（自治体判断）／為替（本計画は 1USD=¥155 で計算しており、円安が進めば現地費用はそのまま増える）／本書のガイド料金はすべて目安であり、季節・人数・言語・会社で大きく変動する／日本語ガイドの手配しやすさの国別傾向／添乗員付き世界一周パッケージの価格帯と内容</p>
+      <p>各国のビザ要否と滞在可能日数（変更が頻繁）／ETIASの開始時期／航空券相場（時期と購入タイミングで±40%動く）／保険料（年齢・補償内容で変動）／予防接種の必要種別と費用（医療機関差が大きい）／ESTA等の料金（改定あり）／マチュピチュの予約枠と料金／海外転出届の適用可否と国民年金の免除・猶予（自治体判断）／為替（本計画は 1USD=¥155 で計算しており、円安が進めば現地費用はそのまま増える）／本書のガイド料金はすべて目安であり、季節・人数・言語・会社で大きく変動する／日本語ガイドの手配しやすさの国別傾向／添乗員付き世界一周パッケージの価格帯と内容／各社の2027〜2028年の世界一周クルーズの実際の料金と日程／貨物船の受け入れ状況・年齢上限・健康診断の要件／クルーズのチップの要否（船会社と船籍による）／船上の通信環境（高速衛星通信の導入が進み状況が変わりつつある）／寄港地でのオーバーナイト・エクスカーションの有無</p>
     </div>
     <div class="fc-item">
       <span class="tag grey">諸説あり</span><b>情報源によって意見が割れるもの</b>
-      <p>ウユニ塩湖の鏡張りの見頃時期（年ごとの降雨で前後する）／各都市の治安評価（外務省の海外安全ホームページを一次情報とすること）／世界一周航空券と個別手配のどちらが得か（ルートの区間数と陸路の割合で逆転する）／バックパックの最適容量（体格と洗濯頻度で決まるので、詰めて背負って決めるのが確実）／ガイドを入れて日数を30日短縮できるかどうか（短縮幅は旅のスタイルに強く依存し、ゆっくり滞在したい人は短縮せず180日のままガイドを足す形が合う）</p>
+      <p>ウユニ塩湖の鏡張りの見頃時期（年ごとの降雨で前後する）／各都市の治安評価（外務省の海外安全ホームページを一次情報とすること）／世界一周航空券と個別手配のどちらが得か（ルートの区間数と陸路の割合で逆転する）／バックパックの最適容量（体格と洗濯頻度で決まるので、詰めて背負って決めるのが確実）／ガイドを入れて日数を30日短縮できるかどうか（短縮幅は旅のスタイルに強く依存し、ゆっくり滞在したい人は短縮せず180日のままガイドを足す形が合う）／船内追加費用が乗船料の何割になるか（飲まない・ツアーに出ないなら大幅に下がる）／船酔いの影響度（体質差が非常に大きい）</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="sec-head"><span class="n">13</span><h2>次の一手</h2></div>
+  <div class="sec-head"><span class="n">14</span><h2>次の一手</h2></div>
   <ol class="rules">
     <li><b>プランを1つ選ぶ。</b>節約 ¥148万 / 標準 ¥304万 / 快適 ¥520万、またはガイドあり ¥298万〜369万。ここが決まらないと積立額が決まらない。</li>
+    <li><b>陸か船かを決める。</b>内陸の遺跡・高地（マチュピチュ・ウユニ・サマルカンド）を取るなら陸路、島と港町と運河を取るなら船。ここで訪問地リストが丸ごと入れ替わるので、いちばん先に決める。</li>
     <li><b>ガイドの入れ方を決める。</b>スポットガイド（+¥250,000）を推奨。日本語が必要かどうかで ¥250,000 と ¥320,000〜600,000 に分かれるので、ここは先に決めておく。</li>
     <li><b>現在の貯蓄額を出し、逆算表に当てて出発時期を仮決めする。</b>必要額から貯蓄を引いて月数で割るだけ。</li>
     <li><b>旅行専用口座を作って自動振替を設定する。</b>今月からできる唯一のことで、これをやらないと計画は前に進まない。</li>
