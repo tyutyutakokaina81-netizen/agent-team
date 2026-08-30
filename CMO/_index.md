@@ -498,3 +498,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | apps/toyama-guide/en-nihyakutoka.html | 英語SEO | Nihyaku-tōka解説（210th-day storm warning）。en.html季節群+en-rice-fields/autumn相互リンク。EN単独hreflang。 | ✅ 公開（Pages） |
 
 - 稲クラスタ（田んぼ→新米→二百十日）が日英で厚くなった。検証: 記事抽出OK・EN妥当性OK・内部リンク確認。
+
+---
+
+## 【2026-08-30 新規1本（コスモス）＋英語SEO（owner「続けて」・軸を稲→花に変更）】
+
+| ファイル | 種別 | 概要 | 状態 |
+|---------|------|------|------|
+| CMO/outputs/2026-08-30_note記事_コスモス_チューリップの富山が静かに咲かせる秋の花.md | 非食/季節・花・風景 | 春チューリップで有名な富山の「知られざる秋」＝コスモス（秋桜）。脇役の季節・風に揺れる美・外来種が風景になる話・立山背景。本文約1,450字+English+検証。コスモス:0でクリーン。実写サムネquery=cosmos flowers field autumn japan。A4/A5準拠・[写真①]。en-tulips(春)と対。 | ✅ キュー投函 |
+| apps/toyama-guide/en-cosmos.html | 英語SEO | Cosmos解説（春tulips→秋cosmosの対比）。en.htmlのen-tulips隣+en-autumn相互リンク。EN単独hreflang。 | ✅ 公開（Pages） |
+
+- キュー計3本（新米・二百十日・コスモス）。英語SEO計7ページ。稲一辺倒を避け花軸で多様化。検証: 記事抽出OK・EN妥当性OK・内部リンク確認。

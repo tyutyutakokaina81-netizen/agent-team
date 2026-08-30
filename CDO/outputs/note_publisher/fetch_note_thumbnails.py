@@ -46,6 +46,8 @@ RULES = [
     ("新米", "freshly cooked white rice bowl japan"),
     ("二百十日", "dramatic sky clouds rice field japan"),
     ("二百二十日", "dramatic sky clouds rice field japan"),
+    ("コスモス", "cosmos flowers field autumn japan"),
+    ("秋桜", "cosmos flowers field autumn japan"),
     ("屋敷林", "farmhouse trees rural japan"),
     ("北アルプス", "Tateyama mountain range snow japan"),
     ("富山の水", "clear mountain stream water japan"),
