@@ -43,6 +43,7 @@ RULES = [
     ("砺波平野", "satoyama rice field farmhouse japan"),
     ("田んぼ", "green rice paddy field japan summer"),
     ("稲穂", "golden rice ears field japan"),
+    ("新米", "freshly cooked white rice bowl japan"),
     ("屋敷林", "farmhouse trees rural japan"),
     ("北アルプス", "Tateyama mountain range snow japan"),
     ("富山の水", "clear mountain stream water japan"),
