@@ -437,3 +437,39 @@ python3 ops/insert_note_urls.py --go
 
 - note実URL形式のみ受理（`note.com/notes/…` 等の壊れリンクは自動で弾く＝過去の誤リンク事故の再発防止）。
 - 冪等（何度実行してもURLブロックは1つ）。Reddit本文には貼らずプロフィール/コメント用の参照一覧として保持。
+
+---
+
+# 【2026-08-31 追加】新群4本のクロスポスト（チャネル分裂の解消）
+
+## 富山の水道水（tap water）
+**Reddit（r/JapanTravel, r/travel, r/JapanLife）** — タイトル: `You can drink the tap water in Toyama, Japan — and it actually tastes good. Here's why.`
+```
+In much of Japan you can drink tap water straight, and in Toyama locals say it actually tastes good. The reason is geography: heavy winter snow on the 3,000m Tateyama range melts, seeps underground, and travels for years through rock that filters it naturally before reaching the plain. It's still treated at municipal plants, but a clean source means minimal processing and little off-taste. Japanese water is soft (low mineral), which many find smooth. And good water shows up in the rice, sake, and tofu too. If you come from a place where you boil water or buy bottles, drinking straight from the tap is a small, real surprise. (Bring a reusable bottle and refill.)
+```
+**X**: `In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. 🏔️🚰 #Japan #Toyama`
+ハッシュタグ: #Japan #Toyama #JapanTravel #traveltips
+
+## 富山の新米（shinmai / new-crop rice）
+**Reddit（r/JapanTravel, r/JapanFood, r/food）** — タイトル: `Japan's new-crop rice (shinmai) arrives in September — and the first bowl really does taste different`
+```
+Every September, "shinmai" — new-crop rice — appears in Japan. Even same variety, same region, it eats differently from rice stored since last year. The difference is mostly moisture: fresh grains cook up plump, glossy, faintly sweet, with a green aroma. (Use a little less water; some people actually prefer rested rice.) Toyama is rice country — Tateyama snowmelt, a wide plain, warm days and cool nights near harvest. Best way to eat it: plain first, a steaming bowl, then a pinch of salt, then simple sides. In Japan even rice has a season, and the year's first bowl is the finale.
+```
+**X**: `Every September Japan gets "shinmai" — new-crop rice. Fresher grains, more moisture: plump, glossy, faintly sweet. Eat it plain first, then a pinch of salt. In Japan, even rice has a season — and the first bowl is the finale. 🍚🌾 #Japan #JapanFood #Toyama`
+ハッシュタグ: #Japan #JapanFood #Toyama #rice #shinmai
+
+## 二百十日（nihyaku-tōka / the 210th day）
+**Reddit（r/JapanTravel, r/Japan, r/askhistorians向けの軽い版）** — タイトル: `Japan's old calendar has a "storm-warning day" around Sept 1 — nihyaku-tōka. Here's the weather-lore behind it.`
+```
+Around September 1, Japan's traditional calendar marks nihyaku-tōka — the 210th day from the start of spring. No holiday, just a small note, but old farmers dreaded it. Two things overlap now: rice heavy with ripening ears weeks from harvest, and typhoon season peaking. A storm can flatten a year's work in one night. In an age with no forecasts, a named day did the job of a weather alert — encoding risk so it passed down the generations. It doesn't storm every year (most years it doesn't), but the word survives, and knowing it lets you feel the turn of the season.
+```
+**X**: `Around Sept 1, Japan's old calendar marks nihyaku-tōka — the "210th day." Ripe rice + peak typhoon season = a year's work at risk in one night. Before forecasts, a named day was the weather alert. Weather-lore folded into a date. 🌾🌀 #Japan #Toyama`
+ハッシュタグ: #Japan #Toyama #JapaneseCulture #history
+
+## コスモス（cosmos / akizakura）
+**Reddit（r/JapanTravel, r/japanpics, r/flowers）** — タイトル: `Toyama is famous for spring tulips — but its quiet autumn cosmos may be the better view`
+```
+Toyama's spring tulips fill the guidebooks. Less known: the same plain blooms again in autumn with cosmos (in Japanese, "akizakura," autumn cherry). No crowds, no signs — often self-seeded along paddy edges and riverbanks, just swaying in the wind. Cosmos is thin-stemmed and bends easily; September typhoons can flatten it. But that fragility is the beauty: a whole field ripples like waves, and in autumn's clear light the faint Tateyama range rises behind. Skip the closed tulip park and walk the quiet plain instead.
+```
+**X**: `Toyama is famous for spring tulips. Its quiet autumn cosmos (akizakura) may be the better view — no crowds, self-seeded along the paddies, rippling in the wind with the Tateyama range behind. The unknown autumn of a place known for spring. 🌸🍂 #Japan #Toyama`
+ハッシュタグ: #Japan #Toyama #japanpics #flowers #autumn
