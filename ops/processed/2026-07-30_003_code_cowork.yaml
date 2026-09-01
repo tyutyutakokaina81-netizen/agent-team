@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T00:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: superseded
 title: 【毎便必須】note コメント自動返信を実行（英語コメントは英語で返信・North Star）
 ---
 
@@ -28,3 +28,5 @@ body: |
   通知＋直近公開10本のコメント欄を確認→未返信に返信（てつ/感謝＋具体1点/使い回し禁止/1コメント1返信/A5）。
   ★英語コメントは英語で返信（North Star=海外読者）。質問は事実検証ノート範囲で正直に。
   苦情/事実誤り指摘/スパム/PIIは返信せずoutbox全文報告。報告に返信件数と対象記事（無ければ新規コメントなし1行）。
+
+# closed 2026-09-01 (R9 backlog triage): 新指示2026-09-01_003(コメント自動返信パイプライン)に置換

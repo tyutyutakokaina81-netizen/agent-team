@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-19T00:00:00+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【被リンク・多言語】EN/KO/ZH-TW/ES コミュニティへ価値先行回答＋各言語Pagesへ1リンク
 ---
 
@@ -17,3 +17,5 @@ CAOの本丸＝発見(被リンク)の解除。多言語Pages(住人の日常5�
 - recent/低回答スレ優先。飽和スレ禁止。
 - 投稿したスレURLを outbox 報告→CAOが site:index・実流入でチャネルROI更新（制作本数はKPIにしない）。
 ※投稿はブラウザ/アカウント要（A1でcode不可）。無理な言語は保留報告で可。既存EN素材(2026-08-16)と併用可。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

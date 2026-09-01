@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-30T00:30:00+00:00
 priority: high
 type: instruction
-status: open
+status: closed-stale
 title: 【公開】7/30分の5記事をnote公開（全てサムネ検証済み・見出し画像付き）
 ---
 
@@ -49,3 +49,5 @@ body: |
   python3 CDO/outputs/note_publisher/publish_to_note.py --article "CMO/outputs/2026-07-30_note記事_日帰り温泉_富山の湯の暮らし.md" --text-only
   git add CDO/outputs/note_publisher/published_registry.json && git commit -m "publish: 7/30 5本" && git push origin main
   題材トークン誤検知で止まったら別題材確認の上その1本だけ--allow-topic-dup。報告に5本のURLと見出し画像有無。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

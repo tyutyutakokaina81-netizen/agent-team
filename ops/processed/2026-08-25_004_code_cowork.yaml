@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-25T02:50:00+00:00
 priority: urgent
 type: instruction
-status: open
+status: closed-stale
 title: 【緊急】無サムネ記事69本にサムネ追加・今すぐ実行
 ---
 
@@ -69,3 +69,5 @@ placeholder [写真X] のある234本は、GitHub Actions で自動生成後に�
 
 **優先度**: URGENT
 **期限**: 本日中
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

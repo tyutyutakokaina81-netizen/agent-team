@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-20T12:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: closed-stale
 title: 【有料公開・owner指示】「AIに会社を運営させて3か月／161本公開して売上0円」を¥500で公開
 ---
 
@@ -62,3 +62,5 @@ owner「noteにほんとに売れる記事書いて」→ **題材そのもの�
   ③ 無料記事の本文中 `<<有料noteURL>>` を②のURLに置換
   ④ 無料記事を公開（publish_to_note.py）
 順序を逆にすると導線が死にます（無料記事だけ先に出ると、行き先の無いリンクが残る）。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

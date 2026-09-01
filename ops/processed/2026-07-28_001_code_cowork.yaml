@@ -5,8 +5,10 @@ to: cowork
 created: 2026-07-28T02:17:42+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 被リンクfinder v2運用: recent/低回答スレ優先で探索→手動1回投稿(飽和スレ禁止)
 ---
 
 詰まり(2026-07-28_001)=良質な鮮度スレ不在への対策。projects/2026-07-12_集客KDP_10ワーカー/2026-07-28_被リンクfinder_v2_recent低回答優先.md の探索クエリを使い、(1)Google時間フィルタ+site:quora.com と (2)Reddit search sort=new で、投稿30日以内・回答5件未満・具体質問・batch3ページ直結の3〜5スレだけを surface。飽和スレ(数百upvote/19回答超)は捨てる。用意済みドラフト9本(quora_reddit_batch3_newpages_EN.md)を文脈に一文合わせ手動1回投稿(自動投稿禁止・Quora/Redditとも初週はリンク無し良回答で信頼構築優先・9:1/self-promo規約順守・A5厳守)。適地0の日は無理に投下せずリンク無し良回答1本+正直に記録(fake完了宣言禁止)。投稿URL/日付/リンク先を報告。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

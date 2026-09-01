@@ -5,7 +5,7 @@ to: owner
 created: 2026-08-19T00:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: closed-fulfilled
 title: 【ターミナルで実行】公開済み43本への有料note導線の追記を自動化（手貼り不要）
 ---
 
@@ -41,3 +41,5 @@ note のUIセレクタが実際に当たるかは①②で確かめてくださ�
 ターミナルの出力をそのまま貼ってもらえれば直します。
 
 【報告】更新できた本数と、失敗があればその行。
+
+# closed 2026-09-01 (R9 backlog triage): 日次ルーティン(有料note導線=R7)に吸収済み

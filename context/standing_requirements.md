@@ -33,7 +33,7 @@
 | R6 | note コメント自動返信 | cowork取得+code下書き | ops/comments/replies.tsv の POSTED | コメント発生時 | ⏸ 空 | cowork: note-login取得 |
 | R7 | 有料note導線の差し込み | cowork | cowork日次報告(有料導線) | 日次 | ✅ | — |
 | R8 | 日次点検の生存 | code(点検トリガー) | context/STATE.md 最終更新の鮮度 | 日次 | ✅ | — |
-| R9 | ops指示の滞留防止 | code | ops/inbox の open 件数(過多で警告) | 常時 | ⚠️ open多数 | — |
+| R9 | ops指示の滞留防止 | code | ops/inbox の open 件数(過多で警告) | 常時 | ✅ (open 2件・2026-09-01棚卸し) | — |
 
 > **凡例**：✅OK ／ ⚠️注意 ／ ❌BROKEN(動くべきなのにゼロ) ／ ⏸未着手(入力待ち) ／ BLOCKED(owner/cowork の前提待ち)
 

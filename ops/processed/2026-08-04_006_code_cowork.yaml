@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-04T00:00:00+00:00
 priority: high
 type: instruction
-status: open
+status: closed-stale
 title: 【公開・owner指示「公開して」】未公開の夏連作40本(8/3-8/12)を1日5本ずつ全量公開
 ---
 
@@ -51,3 +51,5 @@ body: |
   day1: cd ~/agent-team-run; git checkout -- ...registry; git pull origin main;
   publish スイカ(--allow-topic-dup)/冷ややっこ/ざるそば/ゴーヤチャンプルー/天ぷら (各--text-only); registry commit&push
   day2-8は台帳順に残り35本を同手順で。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-05T22:08:42+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【公開・owner『公開までして』】drafts/queue(51本・富山弁いじくらしい/きのどくな含む)を全量公開
 ---
 
@@ -27,3 +27,5 @@ owner『公開までして』。直近の富山弁2本(きのどくな8/14・い
 【無人運用したい場合】
   bash ops/install_publish_schedule.sh 8 0   # 毎日08:00に上記を自動実行（インラインコメント不可）
 公開結果は ops/outbox/ と ops/logs/ に残す。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

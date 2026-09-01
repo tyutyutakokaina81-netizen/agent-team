@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-19T00:00:00+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【回遊フッター基盤の整備】published_registry.tsvをnote APIで全件更新（現在14件→300件超に）
 ---
 
@@ -21,3 +21,5 @@ title: 【回遊フッター基盤の整備】published_registry.tsvをnote API�
    件数が増えているか確認し、outboxに結果件数を報告
 
 【優先度】normal（004のマガジン作成の方が効果が早いので、そちらが終わってからでOK）
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

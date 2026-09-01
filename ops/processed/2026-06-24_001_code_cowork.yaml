@@ -2,7 +2,7 @@ id: 2026-06-24_001
 from: code
 to: cowork
 type: instruction
-status: open
+status: closed-stale
 title: CrowdWorks受託に応募を送る（応募文は準備済・送信を実行）
 priority: 1
 body: |
@@ -29,3 +29,5 @@ body: |
   ## 送れたら
   - outbox に「応募N件送信済（案件URL）」を報告 → code が jobs.py に記録。
   - 返信/受注が来たら outbox に貼る → code が納品物を即制作。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

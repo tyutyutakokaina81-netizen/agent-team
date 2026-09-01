@@ -5,7 +5,7 @@ to: cowork
 created: 2026-07-02T11:35:32+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【売れる化】Vol.1販売ページ差し替え＋仕事系12記事に商品CTA差し込み
 ---
 
@@ -16,3 +16,5 @@ owner『売れるように改善して』。参照: CMO/outputs/2026-07-01_売�
 3. 富山・旅行系の記事には入れない（読者が違う=A5）。
 4. 販売ページのビュー/販売数を週次でoutbox報告（CFOトラッキングへ反映する）。
 ¥0・誇張なし・返金約束なし。完了報告はoutboxへ。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

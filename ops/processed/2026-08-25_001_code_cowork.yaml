@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-25T02:23:15+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 全サムネなし記事への画像追加＋再公開/登録
 ---
 
@@ -43,3 +43,5 @@ title: 全サムネなし記事への画像追加＋再公開/登録
 - 既に無サムネで公開済みのものは再公開扱いで OK
 
 報告: 処理完了時に件数・処理日時・再公開URL一覧を ops/outbox へ
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-13T06:27:24+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【被リンク・価値先行】Quora/Reddit で Toyama/Takaoka の質問に価値先行回答＋英語Pagesへ1リンク
 ---
 
@@ -16,3 +16,5 @@ CAO分析の第2の一手＝index律速(被リンク)の解除。素材=EN/outpu
 ※投稿はブラウザ/アカウント要(A1でcode不可)。無理な場合は保留報告で可。
 
 【2026-08-18 追記】リンク先の en-local-summer.html / en-local-winter.html を sitemap に登録済み（IndexNow能動送信・main反映後に発火）＝クロール対象化。この2本は"住人の夏/冬の日常"で旅行intent(beyond Kanazawa/off the beaten path)に最も合う被リンク先。回答文脈に合う方を1リンクだけ自然に。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

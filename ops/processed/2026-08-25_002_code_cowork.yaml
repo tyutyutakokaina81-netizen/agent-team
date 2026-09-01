@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-25T02:37:05+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【待ち中】8/17の5本＋有料note公開フロー・順序督促
 ---
 
@@ -33,3 +33,5 @@ title: 【待ち中】8/17の5本＋有料note公開フロー・順序督促
 
 【優先順】① → ② → ③ の順序でお願いします。
 報告: 各ステップの完了時に ops/outbox/2026-08-25_002 などで報告ください。
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)

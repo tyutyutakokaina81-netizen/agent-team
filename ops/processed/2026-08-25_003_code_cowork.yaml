@@ -5,7 +5,7 @@ to: cowork
 created: 2026-08-25T02:40:20+00:00
 priority: normal
 type: instruction
-status: open
+status: closed-stale
 title: 【一括実行】Mac ターミナルで貼るコマンド（8/17の5本+有料note+入口記事）
 ---
 
@@ -45,3 +45,5 @@ bash ops/mac_batch_exec.sh
 - URLが 404 なら、note 側で自動公開タイミングを待つ（数秒〜数分）
 
 
+
+# closed 2026-09-01 (R9 backlog triage): R9棚卸し2026-09-01: 一度きりの期日超過/後続作業に上書きされ現行では非該当(要れば再発行)
