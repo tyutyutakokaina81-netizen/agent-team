@@ -473,3 +473,31 @@ Toyama's spring tulips fill the guidebooks. Less known: the same plain blooms ag
 ```
 **X**: `Toyama is famous for spring tulips. Its quiet autumn cosmos (akizakura) may be the better view — no crowds, self-seeded along the paddies, rippling in the wind with the Tateyama range behind. The unknown autumn of a place known for spring. 🌸🍂 #Japan #Toyama`
 ハッシュタグ: #Japan #Toyama #japanpics #flowers #autumn
+
+---
+
+# 【2026-09-01 追加】彼岸花（red spider lily）クロスポスト
+
+## Reddit（r/JapanTravel, r/japanpics, r/flowers, r/Japan）
+**タイトル**: `In mid-September, red spider lilies suddenly line Japan's rice-paddy edges — here's the story`
+```
+Every mid-September, as Japan's rice turns gold, a vivid red flower springs up along the paddy edges: higanbana, the red spider lily (also manjushage). A few days earlier there's nothing — then a bare stem shoots up and opens a brilliant red bloom, with no leaves at all. That's its oddity: flower and leaves never appear at the same time, so people tell it as a story of two who can never meet.
+
+It clusters on paddy banks and around graves. The folklore (several versions): its bulb is toxic, so people planted it to keep moles and rats out of the fields. The name comes from higan, the week around the autumn equinox when people honor their ancestors — higan also means "the far shore," which gives the flower a quiet link to death and parting. Some regions call it "ghost flower."
+
+The window is brief — gold rice and red lilies overlap for only a few days before harvest. Not a famous sight; just a flower that returns each year to the paddy's edge, with the Tateyama mountains behind.
+```
+ハッシュタグ: #Japan #Toyama #japanpics #flowers #higanbana #autumn
+
+## X スレッド
+```
+1/ Every mid-September, red spider lilies (higanbana) suddenly line Japan's rice-paddy edges — a red line along the gold fields. 🧵🌾🔴
+
+2/ Its oddity: flower and leaves never appear together. It blooms leafless in autumn; leaves come only after. People tell it as a story of two who can never meet.
+
+3/ It grows on paddy banks and near graves. Folklore: the bulb is toxic, so it was planted to keep moles & rats from the fields. (Don't eat or pick it — view only.)
+
+4/ The name comes from "higan," the equinox week for honoring ancestors — which also means "the far shore." Hence its quiet link to parting. Some call it "ghost flower."
+
+5/ Gold rice + red lilies overlap for only a few days before harvest, with the Tateyama range behind. The shortest red landscape of Toyama's early autumn. #Japan #Toyama #higanbana
+```

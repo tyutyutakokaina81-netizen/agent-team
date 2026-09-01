@@ -41,6 +41,8 @@ RULES = [
     ("高岡で食べる", "sushi japan"),
     ("散居村", "satoyama rice field farmhouse japan"),
     ("砺波平野", "satoyama rice field farmhouse japan"),
+    ("彼岸花", "red spider lily higanbana field japan"),
+    ("曼珠沙華", "red spider lily higanbana field japan"),
     ("田んぼ", "green rice paddy field japan summer"),
     ("稲穂", "golden rice ears field japan"),
     ("新米", "freshly cooked white rice bowl japan"),
