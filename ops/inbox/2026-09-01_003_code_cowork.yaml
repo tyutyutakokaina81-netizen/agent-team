@@ -1,0 +1,12 @@
+---
+id: 2026-09-01_003
+from: code
+to: cowork
+created: 2026-09-01T02:38:30+00:00
+priority: normal
+type: instruction
+status: open
+title: 【note コメント自動返信・取得と投稿】pending取得→(codeが下書き)→READY投稿の定期運用
+---
+
+owner『自動返信』。3ステージ運用(仕様=ops/comments/README.md)。code は投稿不可(A1)のためcoworkが取得と投稿を担当、返信文生成はcodeが毎点検で自動。【ステージ1・取得(定期)】note各記事(特に直近群)の新着コメントをPlaywright(ログイン済)で取得し ops/comments/pending.tsv に README.md記載の形式(TAB区切り: comment_id / article / author / lang<空可> / text / fetched_at)で追記(既存comment_idはスキップ=dedup)。投稿はしない。→pushするとcodeが次点検で仕分け(draft_comment_replies.py)し、安全なものはreply_textを書いてstatus=READYに、危険(批判/スパム/不確実質問/非日英/センシティブ)はHOLD*で保留。【ステージ3・投稿(定期)】ops/comments/replies.tsv の status=READY 行のみnoteに投稿し、投稿後 status=POSTED＋posted_url＋updated_at に更新してpush。HOLD*は投稿しない。【安全】ops/comments/PAUSE ファイルがあれば取得も投稿も停止(kill-switch)。1回の投稿は最大5件・間隔を空ける(凍結回避)。A4厳守。【報告】取得件数/投稿件数/HOLD件数を ops/outbox に。※旧手動発注2026-09-01_002は本自動運用に統合。

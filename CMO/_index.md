@@ -545,3 +545,17 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/inbox/2026-09-01_001 | cowork発注 | X投稿の実行依頼(方法A=ツール/方法B=手動・安全カデンス・URL報告)。 | ✅ 発注 |
 
 - **重要**: code はX投稿不可(A1)。実投稿はowner/cowork側。¥0原則=Free tierのみ・機密=キーは環境変数のみ(リポジトリに置かない)。
+
+---
+
+## 【2026-09-01 note コメント自動返信パイプライン（owner再指示「自動返信」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| ops/comments/README.md | 仕様 | 3ステージ(cowork取得→code自動下書き→cowork投稿READYのみ)・危険はHOLD・kill-switch・A5/A4。 |
+| ops/comments/pending.tsv / replies.tsv | データ | 取得コメント / 返信(status付)。dedupで二重処理防止。 |
+| ops/draft_comment_replies.py | ツール(CDO) | 新着の自動仕分け(dedup＋危険HOLD判定)。モック6件で検証済。DRAFT行はcodeが個別に返信文記入→READY。 |
+| ops/inbox/2026-09-01_003 | cowork発注 | 取得と投稿の定期運用。旧手動発注_002はsuperseded統合。 |
+
+- 「自動」だが**無検閲の全投稿ではない**＝称賛/簡単な質問は自動、批判/スパム/不確実質問/非日英/センシティブは自動HOLD→owner確認(A5/ブランド保護)。
+- code投稿不可(A1)=取得と投稿はcowork。code担当=返信文の自動生成と危険判定。
