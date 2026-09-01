@@ -585,3 +585,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 
 - これで「note公開→対応Xスレッド自動投稿」が実装済み。**稼働の前提=ownerのX API Free tierキー4つ(環境変数)**。キーが入るまで安全に空回り(投稿されない)。
 - 今後の新記事は3点セット(note+英語SEO+クロスポスト)に加え、x_queueへXスレッドとKEY_MAP登録を行えば公開時に自動でXへ流れる。
+
+## 【2026-09-01 新規1本（十五夜）＝過去ルール完全準拠の3点セット公開（owner「公開して 過去のルール守って」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜.md | 非食/暦・季節・文化 | 中秋の名月（十五夜:0でクリーン）。旧暦八月十五日で年により日付移動・すすき/団子/芋名月の由来は諸説・「何もしない贅沢」を海外向け起点に。稲刈り後の富山の田んぼに大きな月＝North Star連関。本文約2,000字+English併記+検証ノート。実写サムネquery="harvest full moon susuki grass japan autumn"（RULES順を十五夜/お月見/名月>田んぼに修正）。A4/A5/A6準拠・[写真①]。田んぼ/新米/二百十日/彼岸花と稲・秋クラスタ連関。 | ✅ キュー投函 |
+| apps/toyama-guide/en-tsukimi.html | 英語SEO | 専用EN記事（canonical/hreflang/JSON-LD Article/OGP）。en.htmlに導線追加。 |
+| CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 十五夜のReddit投稿文＋Xスレッド追記。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== tsukimi ===`4ツイート追加＋KEY_MAP(十五夜/お月見/名月→tsukimi)登録＝計12スレッド。公開時に自動でX流れる。 |
+
+- 3点セット完了＝1記事完了の基準を満たす（note本文+専用英語SEO+クロスポスト素材+X連動）。抽出regex/サムネquery/EN構文/DRY-RUN全て実機検証OK。彼岸花と併せキュー2本、次回08:00 JSTの自動公開待ち。

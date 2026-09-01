@@ -501,3 +501,26 @@ The window is brief — gold rice and red lilies overlap for only a few days bef
 
 5/ Gold rice + red lilies overlap for only a few days before harvest, with the Tateyama range behind. The shortest red landscape of Toyama's early autumn. #Japan #Toyama #higanbana
 ```
+
+---
+
+# 【2026-09-01 追加】十五夜 tsukimi（harvest moon）クロスポスト
+
+## Reddit（r/JapanTravel, r/japanpics, r/Japan, r/CasualConversation）
+**タイトル**: `Japan has a festival that's only about looking at the moon — tsukimi. Here's what it is.`
+```
+Each September–October, Japan has "tsukimi" — the mid-autumn harvest moon night (Jugoya). Families set out pampas grass (susuki), offer round dumplings (dango), and just… watch the moon. No fireworks, no stalls, no crowds. Only looking.
+
+The date follows the old lunar calendar, timed to when the air is clearest and the moon most beautiful. Its roots are gratitude for the rice harvest — alongside dumplings, people may offer taro, so it's also called the "potato moon." The susuki is said to stand in for rice ears (a wish for a good crop); the round dango, for the moon — though no single meaning is definitive.
+
+In rice-country Toyama, a great moon rises over paddies just cut to brown stubble, the year's work paused, the night still. In a life of constant notifications, a night meant only for watching the moon is its own luxury.
+```
+ハッシュタグ: #Japan #Toyama #tsukimi #harvestmoon #japanpics #autumn
+
+## X スレッド
+```
+1/ Japan has a festival that's only about looking at the moon: tsukimi, the mid-autumn harvest moon. No fireworks, no stalls. You set out pampas grass, offer round dumplings, and just watch. 🌕🎑
+2/ The date follows the old lunar calendar (Sept–Oct), timed to when the air is clearest and the moon most beautiful. Its roots: gratitude for the rice harvest.
+3/ Susuki grass stands in for rice ears (a wish for a good crop). Round dumplings echo the moon. Offer taro too and it's the "potato moon." (Meanings vary — none definitive.)
+4/ In rice-country Toyama, a great moon rises over paddies just cut to brown stubble. In a life of notifications, a night meant only for watching the moon is its own luxury. #Japan #Toyama #tsukimi
+```

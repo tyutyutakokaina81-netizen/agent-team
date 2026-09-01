@@ -26,6 +26,7 @@ MAXLEN = 280
 # 記事名の部分一致 → x_queue の slug（具体語を先に）
 KEY_MAP = [
     ("彼岸花", "higanbana"), ("曼珠沙華", "higanbana"),
+    ("十五夜", "tsukimi"), ("お月見", "tsukimi"), ("名月", "tsukimi"),
     ("コスモス", "cosmos"), ("秋桜", "cosmos"),
     ("水道水", "tap-water"),
     ("新米", "new-rice"),
