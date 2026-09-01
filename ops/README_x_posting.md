@@ -57,7 +57,9 @@ git add ops/x_queue.txt ops/logs/x_posted.tsv && git commit -m "x: posted <slug>
 
 ## 現在キューに入っている素材（seed済み・未投稿）
 
-- tap-water / new-rice / nihyakutoka / cosmos（各1ツイート・全て280字以内で検証済み）
+- 単発4本: tap-water / new-rice / nihyakutoka / cosmos（各1ツイート）
+- スレッド6本: croquette / himi / takaoka / rice-fields / two-day / august（末尾ハッシュタグは最終ツイートへ統合済）
+- 計10スレッド・全ツイート280字以内で検証済み（`python3 ops/x_poster.py` で確認可）
 
 ## トラブル時
 
