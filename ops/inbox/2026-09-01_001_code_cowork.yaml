@@ -1,0 +1,12 @@
+---
+id: 2026-09-01_001
+from: code
+to: cowork
+created: 2026-09-01T01:07:35+00:00
+priority: normal
+type: instruction
+status: open
+title: X投稿の実行（自動ツール ops/x_poster.py／owner X認証が必要・安全カデンス厳守）
+---
+
+owner希望でX拡散を開始。【前提】code はA1で投稿不可＝cowork/owner側で実行。【方法A・推奨】ops/README_x_posting.md の手順で ops/x_poster.py を使う：X Developer(Free tier)登録→Read and Write権限→OAuth1.0aの4キーを環境変数(X_API_KEY/X_API_SECRET/X_ACCESS_TOKEN/X_ACCESS_SECRET)に→pip install tweepy→`python3 ops/x_poster.py`(確認)→`--go`(先頭1スレッド投稿)。キューは ops/x_queue.txt(tap-water/new-rice/nihyakutoka/cosmos をseed済・全て280字以内検証済)。【方法B・手動】ops/x_queue.txt or crosspostテンプレの文面を手でXに貼る。【安全】1日1本・スレ末尾のみリンク・日本時間9-11時/18-20時・280字厳守・同文連投しない・大量ハッシュタグ禁止(凍結回避)。【課金】Free tierのみ(月間上限あり)。上限超過や有料化が要る規模はowner判断(¥0原則)。【機密】キーはリポジトリに置かない(環境変数のみ)。【報告】投稿できたら ops/outbox へ 投稿スレッドslug＋X投稿URL を報告。認証が用意できない/上限等で不可なら、その旨を報告。

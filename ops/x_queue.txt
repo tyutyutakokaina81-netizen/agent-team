@@ -1,0 +1,15 @@
+# X投稿キュー（owner/cowork がX認証を入れて `python3 ops/x_poster.py --go` で先頭1スレッドを投稿）
+# 区切り: === slug ===  / その下 1行=1ツイート / 投稿済みは自動で [POSTED] が付く
+# 追加は 2026-08-25_crosspost_Reddit_X_templates.md の X スレッドからコピペ。各行280字以内。
+
+=== tap-water ===
+In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. #Japan #Toyama
+
+=== new-rice ===
+Every September Japan gets "shinmai" — new-crop rice. Fresher grains, more moisture: plump, glossy, faintly sweet. Eat it plain first, then a pinch of salt. In Japan, even rice has a season — and the first bowl is the finale. #Japan #JapanFood #Toyama
+
+=== nihyakutoka ===
+Around Sept 1, Japan's old calendar marks nihyaku-tōka — the "210th day." Ripe rice + peak typhoon season = a year's work at risk in one night. Before forecasts, a named day was the weather alert. Weather-lore folded into a date. #Japan #Toyama
+
+=== cosmos ===
+Toyama is famous for spring tulips. Its quiet autumn cosmos (akizakura) may be the better view — no crowds, self-seeded along the paddies, rippling in the wind with the Tateyama range behind. The unknown autumn of a place known for spring. #Japan #Toyama
