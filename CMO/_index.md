@@ -571,3 +571,17 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | crosspost（彼岸花 Reddit+Xスレッド） | 素材 | 2026-08-25_crosspost_… に追記。3点セット完成。 | ✅ |
 
 - 標準3点セット（note＋専用EN＋クロスポスト）を最初から充足。サムネは実写自動取得。
+
+---
+
+## 【2026-09-01 note公開→X自動投稿の連動を実装（owner「実装して」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| ops/note_to_x.py | ツール(CDO) | note公開直後に記事→Xスレッド(KEY_MAP)を対応づけ、note URLを最終ツイートに追記して投稿。1記事=1スレッド・280字ガード・[POSTED]二重投稿防止・認証は環境変数。DRY-RUN検証OK(彼岸花→higanbana+URL/不明→skip/田んぼ→rice-fields)。 |
+| ops/x_queue.txt | データ | 彼岸花スレッド追加＝計11スレッド。 |
+| ops/README_x_posting.md | 手順 | note→X連動の使い方・安全・owner前提(Free tierキー)。 |
+| ops/inbox/2026-09-01_004 | cowork発注 | 公開デーモンへの組み込み(公開直後にnote_to_x.py --go)。旧X手動発注_001はsuperseded統合。 |
+
+- これで「note公開→対応Xスレッド自動投稿」が実装済み。**稼働の前提=ownerのX API Free tierキー4つ(環境変数)**。キーが入るまで安全に空回り(投稿されない)。
+- 今後の新記事は3点セット(note+英語SEO+クロスポスト)に加え、x_queueへXスレッドとKEY_MAP登録を行えば公開時に自動でXへ流れる。

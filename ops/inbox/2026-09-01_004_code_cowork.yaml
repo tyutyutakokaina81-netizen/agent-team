@@ -1,0 +1,12 @@
+---
+id: 2026-09-01_004
+from: code
+to: cowork
+created: 2026-09-01T12:50:06+00:00
+priority: normal
+type: instruction
+status: open
+title: 【note→X連動・実装】公開デーモンに note_to_x.py を組み込み(公開直後にXへ自動投稿)
+---
+
+owner『note記事はXにも同時投稿』を実装。手順=note公開デーモン(cowork/Mac)の**公開成功直後**に、公開できた記事ごとに `python3 ops/note_to_x.py --article "公開したmdのbasename" --note-url "その記事のnote URL" --go` を呼ぶ(認証は環境変数 X_API_KEY/SECRET/ACCESS_TOKEN/SECRET)。詳細=ops/README_x_posting.md。【安全】1記事=1スレッド・note URLは最終ツイートへ・280字超は中止・[POSTED]で二重投稿防止・複数記事は間隔を空けて呼ぶ(連投=凍結回避)・1日の投稿はFree tier上限内。【前提】ownerがX Developer(Free tier)でキー4つを取得し環境変数に入れるまでは投稿されない(キー無し=安全に空回り)。【報告】投稿できたら記事名+X投稿URLを ops/outbox へ。※旧X発注(2026-09-01_001手動投稿)は本連動へ発展。x_posted.tsv が実行記録。

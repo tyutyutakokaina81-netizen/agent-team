@@ -72,3 +72,25 @@ git add ops/x_queue.txt ops/logs/x_posted.tsv && git commit -m "x: posted <slug>
 
 **この経路の位置づけ**：X は「note＋英語SEO＋クロスポスト」の3チャネルのうちの拡散担当。
 実投稿は owner/cowork 側でしか行えない（A1）。code は素材・ツール・手順の整備までを担当する。
+
+---
+
+# note公開 → X自動投稿 の連動（2026-09-01 実装・owner指示）
+
+**目的**: note記事が公開されたら、対応するXスレッドを自動で投稿する（＝実質「同時投稿」）。
+**実行**: note公開デーモン（cowork/Mac・A1でcode不可）の**公開成功直後**に、記事ごとに1回呼ぶ。
+
+```bash
+# 公開できた記事 basename と そのnote URL を渡す（認証は環境変数）
+python3 ops/note_to_x.py --article "<公開したmd basename>" --note-url "<note記事URL>"        # DRY-RUN
+python3 ops/note_to_x.py --article "<...>" --note-url "https://note.com/.../n/nXXXX" --go     # 投稿
+```
+
+- 記事名→Xスレッド slug は `ops/note_to_x.py` の KEY_MAP（彼岸花/コスモス/水道水/新米/二百十日/田んぼ/コロッケ/氷見/高岡/2日/8月）。
+  **新題材を作るたびに、x_queue.txt にXスレッドを追加し、必要なら KEY_MAP にも1行足す**（3点セットのX担当）。
+- **安全**: 1呼び出し=1記事=1スレッドのみ。note URLは最終ツイートへ。280字超は中止。[POSTED]で二重投稿しない。
+- **複数記事が同時公開**なら、デーモンは**記事ごとに間隔を空けて**呼ぶ（連投=凍結回避）。1日の投稿数はFree tier上限内に。
+- 対応スレッドが無い記事は skip（＝そのうちKEY_MAP/x_queueに追加）。
+
+## 稼働の前提（owner）
+**X API Free tier のキー4つ（環境変数）が無いと投稿できない**。キーが入るまで、この連動は DRY-RUN 相当で「何も投稿しない」＝安全に空回りする。キーが入った瞬間から note公開のたびにXへ流れる。
