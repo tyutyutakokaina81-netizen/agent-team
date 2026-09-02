@@ -30,7 +30,7 @@
 | R3 | 英語SEOページ(3点セット) | code | apps/toyama-guide/en-*.html 総数(増加) | 新記事ごと | ✅ | — |
 | R4 | クロスポスト素材(3点セット) | code | 2026-08-25_crosspost_… の更新日 | 新記事ごと | ✅ | — |
 | R5 | **note→X 自動投稿** | cowork(note_to_x) | **ops/logs/x_posted.tsv の行数** | 公開ごと | ❌**BROKEN(0)** | **owner: X APIキー** |
-| R6 | note コメント自動返信 | cowork取得+code下書き | ops/comments/replies.tsv の POSTED | コメント発生時 | ⏸ 空 | cowork: note-login取得 |
+| R6 | note コメント自動返信（新着＋**過去記事の全件棚卸し**） | cowork取得+code下書き | ops/comments/replies.tsv の POSTED ＋ backlog_targets.tsv の swept割合 | コメント発生時／棚卸しは一度全件 | ⏸ 空・棚卸し0/78 | cowork: note-login取得＝過去記事の全件スイープ（owner再確認要件2026-09-02） |
 | R7 | 有料note導線の差し込み | cowork | cowork日次報告(有料導線) | 日次 | ✅ | — |
 | R8 | 日次点検の生存 | code(点検トリガー) | context/STATE.md 最終更新の鮮度 | 日次 | ✅ | — |
 | R9 | ops指示の滞留防止 | code | ops/inbox の open 件数(過多で警告) | 常時 | ✅ (open 2件・2026-09-01棚卸し) | — |

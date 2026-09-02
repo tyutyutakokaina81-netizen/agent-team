@@ -46,3 +46,16 @@ comment_id	article	lang	status	reply_text	posted_url	updated_at
 ## 位置づけ
 「自動」だが**無検閲の全投稿ではない**＝praise/簡単な質問は自動で返し、リスクのある少数だけ人へ回す。
 これがブランド保護(A5上位)と自動化の両立点。
+
+
+## Stage0：過去記事の全件棚卸し（owner再確認要件・2026-09-02）
+
+owner『過去記事に返信していないものを調べて、返信していなければ返信して』。**一度きりの全件パス**。
+
+- 対象一覧＝`ops/comments/backlog_targets.tsv`（公開78件・article / note_id_or_url / swept / comments_found / unreplied_found）。
+- cowork：各記事のコメント欄を開き**全コメント**（新着に限らない）を確認。
+  - 既に当方が返信済み → `replies.tsv` に `status=POSTED` で記録（＝二度と触らない・dedup）。
+  - 未返信 → `pending.tsv` に追記（→ code が下書き → READY → cowork 投稿）。
+  - 記事ごとに `backlog_targets.tsv` の `swept=YES`・件数を記入して push。
+- 進捗は `check_requirements.py` の R6 が `過去記事棚卸し N/78` として表示。全件YESで棚卸し完了。
+- note_id 空欄の記事は、note アカウントの記事一覧から辿る（code は一部URLを未把握）。

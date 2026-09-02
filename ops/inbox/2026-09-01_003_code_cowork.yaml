@@ -6,7 +6,16 @@ created: 2026-09-01T02:38:30+00:00
 priority: normal
 type: instruction
 status: open
-title: 【note コメント自動返信・取得と投稿】pending取得→(codeが下書き)→READY投稿の定期運用
+title: 【note コメント自動返信・過去全件棚卸し＋定期運用】backlog sweep→pending→(code下書き)→READY投稿
 ---
 
-owner『自動返信』。3ステージ運用(仕様=ops/comments/README.md)。code は投稿不可(A1)のためcoworkが取得と投稿を担当、返信文生成はcodeが毎点検で自動。【ステージ1・取得(定期)】note各記事(特に直近群)の新着コメントをPlaywright(ログイン済)で取得し ops/comments/pending.tsv に README.md記載の形式(TAB区切り: comment_id / article / author / lang<空可> / text / fetched_at)で追記(既存comment_idはスキップ=dedup)。投稿はしない。→pushするとcodeが次点検で仕分け(draft_comment_replies.py)し、安全なものはreply_textを書いてstatus=READYに、危険(批判/スパム/不確実質問/非日英/センシティブ)はHOLD*で保留。【ステージ3・投稿(定期)】ops/comments/replies.tsv の status=READY 行のみnoteに投稿し、投稿後 status=POSTED＋posted_url＋updated_at に更新してpush。HOLD*は投稿しない。【安全】ops/comments/PAUSE ファイルがあれば取得も投稿も停止(kill-switch)。1回の投稿は最大5件・間隔を空ける(凍結回避)。A4厳守。【報告】取得件数/投稿件数/HOLD件数を ops/outbox に。※旧手動発注2026-09-01_002は本自動運用に統合。
+owner『noteにコメントあったら自動返信して。これも要件。過去記事に返信していないものを調べ、返信していなければ返信して』。3ステージ運用(仕様=ops/comments/README.md)。code投稿不可(A1)のためcoworkが取得と投稿、返信文生成はcodeが毎点検で自動。
+
+■Stage0・過去記事の全件棚卸し(一度きり・最優先)： ops/comments/backlog_targets.tsv に公開78件の一覧(article / note_id_or_url / swept=NO)。ログイン済Playwrightで各記事のコメント欄を開き、**全コメント**(新着に限らない)を確認する。各コメントについて＝(a)既に当方が返信済み → ops/comments/replies.tsv に status=POSTED で1行記録(comment_id/article/lang/POSTED/既存返信文/posted_url/時刻)＝以後触らない。(b)未返信 → ops/comments/pending.tsv に追記(comment_id/article/author/lang/text/fetched_at)。1記事終えたら backlog_targets.tsv の swept=YES・comments_found=N・unreplied_found=M を記入。note_id空欄はアカウントの記事一覧から辿る(codeはURL未把握のものがある)。全件push。
+
+■Stage1・取得(定期)：以後は各記事の新着コメントのみ pending.tsv に追記(既存comment_idはskip=dedup)。投稿しない。
+■(code)下書き：pending未処理を draft_comment_replies.py で仕分け→安全はreply_textを書きREADY、危険(批判/スパム/不確実質問/非日英/センシティブ)はHOLD*保留。
+■Stage3・投稿(定期)：replies.tsv の status=READY のみ投稿→POSTED+posted_url+時刻に更新しpush。HOLD*は投稿しない。
+
+■安全：ops/comments/PAUSE があれば取得も投稿も停止(kill-switch)。1回の投稿は最大5件・間隔を空ける(凍結回避)。A4/A5厳守・定型コピペ禁止。
+■報告：ops/outbox に『棚卸し済N記事/既返信X/未返信→pending Y/投稿Z/HOLD W』。旧手動発注2026-09-01_002は本運用に統合。

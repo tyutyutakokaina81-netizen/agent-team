@@ -52,19 +52,28 @@ if os.path.exists(xp) and os.path.getsize(xp) > 0:
 else:
     add("R5 note→X投稿", "BLOCKED", "実行ゼロ。前提=owner の X API Free tierキー(環境変数)が未投入")
 
-# R6 コメント自動返信: replies.tsv の POSTED
+# R6 コメント自動返信: replies.tsv の POSTED ＋ 過去記事の全件棚卸し進捗
 rp = os.path.join(ROOT, "ops/comments/replies.tsv")
 posted = 0
 if os.path.exists(rp):
     posted = sum(1 for l in open(rp, encoding="utf-8") if "\tPOSTED\t" in l)
 pend = os.path.join(ROOT, "ops/comments/pending.tsv")
 pend_rows = (sum(1 for _ in open(pend, encoding="utf-8")) - 1) if os.path.exists(pend) else 0
+# backlog sweep 進捗（backlog_targets.tsv の swept=YES 割合）
+bt = os.path.join(ROOT, "ops/comments/backlog_targets.tsv")
+sweep_total = sweep_done = 0
+if os.path.exists(bt):
+    rows = [l for l in open(bt, encoding="utf-8").read().splitlines()[1:] if l.strip()]
+    sweep_total = len(rows)
+    sweep_done = sum(1 for l in rows if "\tYES\t" in l)
+sweep_note = f"／過去記事棚卸し {sweep_done}/{sweep_total}" if sweep_total else ""
 if posted > 0:
-    add("R6 コメント返信", "OK", f"投稿済 {posted}件")
+    add("R6 コメント返信", "OK", f"投稿済 {posted}件{sweep_note}")
 elif pend_rows > 0:
-    add("R6 コメント返信", "BROKEN", f"pending {pend_rows}件あるのに投稿0")
+    add("R6 コメント返信", "BROKEN", f"pending {pend_rows}件あるのに投稿0{sweep_note}")
 else:
-    add("R6 コメント返信", "BLOCKED", "pending空。前提=cowork の note-login取得が未稼働")
+    add("R6 コメント返信", "BLOCKED",
+        f"pending空・棚卸し未着手{sweep_note}。前提=cowork の note-login取得(過去記事の全件スイープ)が未稼働")
 
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
