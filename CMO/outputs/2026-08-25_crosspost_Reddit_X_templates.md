@@ -524,3 +524,26 @@ In rice-country Toyama, a great moon rises over paddies just cut to brown stubbl
 3/ Susuki grass stands in for rice ears (a wish for a good crop). Round dumplings echo the moon. Offer taro too and it's the "potato moon." (Meanings vary — none definitive.)
 4/ In rice-country Toyama, a great moon rises over paddies just cut to brown stubble. In a life of notifications, a night meant only for watching the moon is its own luxury. #Japan #Toyama #tsukimi
 ```
+
+---
+
+# 【2026-09-02 追加】富山の鉄道／コンパクトシティ（why Toyama kept its trains）クロスポスト
+
+## Reddit（r/JapanTravel, r/japan, r/urbanplanning, r/transit）
+**タイトル**: `Rural Japan keeps losing its trains. Toyama chose the opposite — here's how it feels to live there.`
+```
+Across rural Japan, local railways keep disappearing: fewer riders, thinner timetables, then whole lines gone. Toyama is a striking exception.
+
+In Takaoka, a street tram still runs past people's front doors. A coastal local line reaches a seaside town on Toyama Bay. And in Toyama City, a line that had nearly outlived its purpose came back — rebuilt as a modern light-rail (LRT), with the station's north and south sides joined so you can loop through the centre.
+
+Toyama City is often cited for its "compact city" policy: clustering homes and services along rail/LRT lines so people who can no longer drive can still get around. It reportedly draws study visits from cities abroad with the same aging-and-shrinking problem. It's not a simple success story — costs and demographics stay hard — but a place that invested so the trains wouldn't become inconvenient, instead of folding them because they were, feels quietly remarkable.
+```
+ハッシュタグ: #Japan #Toyama #compactcity #trains #LRT #urbanplanning
+
+## X スレッド
+```
+1/ Rural Japan keeps losing its local trains: fewer riders → service cuts → more people leave → lines abandoned. Toyama chose the opposite. 🚋
+2/ In Takaoka, a street tram runs past people's front doors. A coastal line reaches a seaside town on Toyama Bay. Everyday transport, not a tourist ride.
+3/ In Toyama City, a fading JR line was reborn as a modern low-floor LRT — north & south of the station joined so you can loop the centre. They bet on making rail EASIER, not smaller.
+4/ It's the "compact city" idea: cluster homes & services along the rails so people who can't drive still get around. Not a simple success — but a town that held onto its trains. #Japan #Toyama #compactcity
+```

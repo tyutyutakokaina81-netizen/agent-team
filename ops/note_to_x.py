@@ -31,6 +31,7 @@ KEY_MAP = [
     ("水道水", "tap-water"),
     ("新米", "new-rice"),
     ("二百十日", "nihyakutoka"),
+    ("鉄道を手放", "rail-compact-thread"), ("コンパクトシティ", "rail-compact-thread"),
     ("田んぼ", "rice-fields-thread"), ("稲", "rice-fields-thread"),
     ("コロッケ", "croquette-thread"),
     ("氷見", "himi-thread"),

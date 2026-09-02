@@ -596,3 +596,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== tsukimi ===`4ツイート追加＋KEY_MAP(十五夜/お月見/名月→tsukimi)登録＝計12スレッド。公開時に自動でX流れる。 |
 
 - 3点セット完了＝1記事完了の基準を満たす（note本文+専用英語SEO+クロスポスト素材+X連動）。抽出regex/サムネquery/EN構文/DRY-RUN全て実機検証OK。彼岸花と併せキュー2本、次回08:00 JSTの自動公開待ち。
+
+## 【2026-09-02 新規1本（富山の鉄道＝コンパクトシティ分析）＝3点セット（owner「富山の鉄道についての記事を書いて」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-02_note記事_鉄道_富山はなぜ鉄道を手放さなかったのか.md | 非食/交通・都市・暮らし | **既存の鉄道乗車ガイド（万葉線/氷見線/路面電車/トロッコ/パス6本）と重複しない「なぜ残ったか」分析型**。地方は鉄道が消えるのが普通→富山は第三セクター化＋LRT転換＋南北接続＝コンパクトシティで残した。高岡の路面電車・海べ在来線＋富山市LRTを一次観察起点に。本文約1,480字+English併記+検証。実写サムネquery="toyama light rail lrt tram station japan city"（fetcherに「鉄道」catch-allを新幹線の後に追加＝万葉線/路面電車/新幹線/トロッコの固有キーは先に一致）。A4（路線名・駅名・地区名・スポット名を伏せ市/県レベル）/A5（政策評価・装飾電車の現況・雪山の見えは要確認/立場でヘッジ）/A6準拠・[写真①]。 | ✅ キュー投函 |
+| apps/toyama-guide/en-compact-city.html | 英語SEO | 専用EN記事（canonical/hreflang/JSON-LD Article/OGP）。SEO語=Toyama compact city / kept its trains。en.htmlに導線追加。 |
+| CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 富山の鉄道/コンパクトシティのReddit（r/urbanplanning等）＋Xスレッド追記。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== rail-compact-thread ===`4tw追加＋KEY_MAP（鉄道を手放/コンパクトシティ→rail-compact-thread）登録＝計13スレッド。DRY-RUNで4tw全て≤280・URL付与OK。 |
+
+- 3点セット完了。鉄道系は既存6本あるため重複回避を最優先し「乗車ガイド」でなく「都市政策＝なぜ残ったか」の未カバー切り口を採用（海外の都市計画関心に接続）。キュー3本（彼岸花/十五夜/鉄道）が自動公開待ち。
