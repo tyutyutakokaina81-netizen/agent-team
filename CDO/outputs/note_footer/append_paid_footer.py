@@ -174,8 +174,20 @@ def main():
         print("   実際に追記するには --apply を付けてください。まずは --apply --limit 2 を推奨します。\n")
 
     ok = skip = fail = 0
-    with sync_playwright() as p:
-        ctx = launch(p)
+    try:
+        pw_cm = sync_playwright()
+        p = pw_cm.__enter__()
+    except Exception as e:
+        # ここで落ちると従来は「結果行なし」になり原因が分からなかった → 必ず結果行を出す
+        print(f"\n=== 結果: 更新 0 / スキップ 0 / 失敗 0（起動失敗: {type(e).__name__}: {e}） ===")
+        sys.exit("Playwright 起動に失敗（ブラウザ未導入/プロフィールロック等）。")
+    try:
+        try:
+            ctx = launch(p)
+        except Exception as e:
+            print(f"\n=== 結果: 更新 0 / スキップ 0 / 失敗 0（コンテキスト起動失敗: {type(e).__name__}: {e}） ===")
+            print("→ 既存プロフィールのロック/ログイン切れの可能性。`--login` で再ログインしてください。")
+            return
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         for n, it in enumerate(items, 1):
             print(f"--- [{n}/{len(items)}] {it['title'][:38]}")
@@ -200,6 +212,11 @@ def main():
                 save_state(st)
             time.sleep(1.5)  # note 側に連続負荷をかけない
         ctx.close()
+    finally:
+        try:
+            pw_cm.__exit__(None, None, None)
+        except Exception:
+            pass
 
     print(f"\n=== 結果: 更新 {ok} / スキップ {skip} / 失敗 {fail} ===")
     if fail:

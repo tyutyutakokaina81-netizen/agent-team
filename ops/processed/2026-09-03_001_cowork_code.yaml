@@ -5,8 +5,15 @@ to: code
 created: 2026-09-03T08:00:24+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-09-03_080004
 ---
 
 公開 1 件 / 失敗 0 件 / 写真サムネ未設定 0 件(note既定サムネ適用)（log: ops/logs/publish_2026-09-03_080004.log） | OK: 2026-09-02_note記事_鉄道_富山はなぜ鉄道を手放さなかったのか.md
+
+
+---
+
+## 結果 (2026-09-03T00:04:59+00:00)
+
+公開1件(鉄道)確認。published/へ反映済み。
