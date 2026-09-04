@@ -1,0 +1,10 @@
+要求: サムネ生成の再実行（owner「サムネありだよ／自動でやって」）。
+発行: code 2026-09-05
+背景: note-thumbnails は Action 成功でも 09-02 以降サムネ0枚。真因＝Pexels がキー未設定でskip、
+      Wikimedia が概念クエリ（梨/鉄道/共働き等）で「候補なし」。owner に手作業をさせない方針のため、
+      キー不要の Wikimedia 経路を code 側で改善した。
+内容: fetch_thumbnails_wikimedia.py に段階短縮フォールバック（元→先頭4→3→2語）と診断出力
+      （候補0時に pages/img 件数・error を表示）を実装済み。本便でその効果を実機検証する。
+確認: 実行後、CDO/outputs/note_publisher/thumbnails/ に
+      2026-09-04_..._梨_... / 2026-09-05_..._共働き_... の jpg が生成されるか。
+      生成されない場合はログの diag= を読み、クエリ設計を再修正する。
