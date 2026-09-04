@@ -31,6 +31,8 @@ agent-team/
 │   ├── research/             ← プロンプト検証・ツール調査
 │   └── outputs/              ← プロンプト集・活用ガイド
 ├── CAO/                      ← 分析責任者（2026-05-30 新設）
+├── CQO/                      ← 品質保証・検品（2026-09-05 新設）
+├── CGO/                      ← グロース/海外流入導線（2026-09-05 新設）
 │   ├── _index.md
 │   ├── prompt.md
 │   ├── research/             ← データ取得・前処理
@@ -68,6 +70,8 @@ agent-team/
 | CSO（営業） | `CSO/research/` | `CSO/outputs/` |
 | CDO（技術） | `CDO/research/` | `CDO/outputs/` |
 | CAO（分析） | `CAO/research/` | `CAO/outputs/` |
+| CQO（品質保証） | `CQO/research/` | `CQO/outputs/` |
+| CGO（グロース/流入） | `CGO/research/` | `CGO/outputs/` |
 | COO（執行・管理） | `COO/research/` | `COO/outputs/` |
 | CEO（社長・最終判断） | `CEO/research/` | `CEO/outputs/` |
 | 役職横断プロジェクト | `projects/プロジェクト名/` | 同左 |
