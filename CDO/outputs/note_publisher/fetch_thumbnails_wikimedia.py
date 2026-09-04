@@ -212,15 +212,28 @@ def _looks_non_photo(title: str) -> bool:
     return bool(_ARCHIVE_YEAR.search(t))   # 発行年入り=古書スキャンの可能性が高い
 
 
+GEO_ANCHORS = ("japan", "japanese", "toyama", "takaoka", "himi", "hokuriku", "tateyama")
+
+
 def _shorten(query: str):
     """Commons はキーワード検索＝長い説明的クエリ(『japanese nashi asian pear fruit sliced』)は0件に
     なりやすい。段階的に短くした候補を返す（重複除去・元→短の順）。
-    ※3語未満まで縮めない：'spacious japanese' のような意味の薄い2語は無関係画像を招く（実測）。"""
+
+    重要: 短縮しても **地理アンカー(japan/toyama等)は必ず残す**。
+    実測で 'canal fishing town japan' → 'canal fishing town' に縮めた結果、
+    Commons が欧州の釣り風景を返した（日本の内川ではない）。末尾を落とすと
+    アンカーが落ちて外国の写真を引くため、落ちた場合は付け直す。
+    ※3語未満までは縮めない（'spacious japanese' 級の薄い2語は無関係画像を招く）。
+    """
     words = query.split()
+    anchor = next((w for w in words if w.lower() in GEO_ANCHORS), "")
     variants = [query]
     for n in (4, 3):
         if len(words) > n:
-            variants.append(" ".join(words[:n]))
+            v = words[:n]
+            if anchor and anchor.lower() not in [w.lower() for w in v]:
+                v = v[:-1] + [anchor]        # 末尾1語をアンカーに置き換えて地理を保つ
+            variants.append(" ".join(v))
     seen, out = set(), []
     for v in variants:
         if v and v not in seen:

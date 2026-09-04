@@ -41,6 +41,8 @@ RULES = [
     ("高岡で食べる", "sushi japan"),
     ("散居村", "satoyama rice field farmhouse japan"),
     ("砺波平野", "satoyama rice field farmhouse japan"),
+    # 海と山を一日で=富山湾越しの立山連峰。default(山写真)だと候補が痩せるため固有名詞で指定
+    ("海と山を", "toyama bay tateyama mountain range japan"),
     ("彼岸花", "red spider lily higanbana field japan"),
     ("曼珠沙華", "red spider lily higanbana field japan"),
     ("十五夜", "harvest full moon susuki grass japan autumn"),
