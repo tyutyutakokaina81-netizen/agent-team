@@ -30,10 +30,28 @@ if n:
 else:
     add("R1 note公開", "BROKEN", "published に note記事が無い")
 
-# R2 実写サムネ: thumbnails jpg の最新
-n = newest("CDO/outputs/note_publisher/thumbnails/*.jpg")
-add("R2 実写サムネ", "OK" if (n and days(n) <= 4) else ("STALE" if n else "BROKEN"),
-    (f"最新jpg {days(n):.1f}日前" if n else "jpgが無い"))
+# R2 実写サムネ: 直近記事の「サムネ被覆」を見る。
+# ※以前は最新jpgの日付だけ見ていたため、新記事にサムネが付いていなくても古いjpgでOKに
+#   なり、2026-09-02〜05 の生成停止を見逃した。被覆で見れば必ず気づく。
+thumbdir = os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails")
+# ※コンテナは毎回cloneするのでmtimeは全ファイル「今」＝日付判定に使えない(A7)。
+#   ファイル名先頭の YYYY-MM-DD で判定する。
+_cut = (datetime.date.today() - datetime.timedelta(days=21)).isoformat()
+def _fname_date(f):
+    b = os.path.basename(f)
+    return b[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", b) else ""
+recent_arts = [f for f in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))
+               if "サムネ生成プロンプト" not in os.path.basename(f) and _fname_date(f) >= _cut]
+missing = [os.path.basename(f)[:-3] for f in recent_arts
+           if not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
+if not recent_arts:
+    add("R2 実写サムネ", "OK", "直近21日の対象記事なし")
+elif missing:
+    add("R2 実写サムネ", "BROKEN",
+        f"直近{len(recent_arts)}本中 {len(missing)}本がサムネ未取得(例:{missing[0][:26]}…)"
+        " → ops/run_requests/ にpushして note-thumbnails を起動")
+else:
+    add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り")
 
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))

@@ -26,7 +26,7 @@
 | # | 要件 | 実行主体 | observable（証拠） | 目安cadence | 現状 | blocker |
 |---|------|---------|-------------------|------------|------|--------|
 | R1 | note記事の継続公開 | cowork(auto-publish) | drafts/published/ の最新note記事の日付 | 数日以内 | ✅ | — |
-| R2 | 実写サムネ取得 | GitHub Action | CDO/.../thumbnails/*.jpg の最新 | 記事公開に追随 | ✅ | — |
+| R2 | 実写サムネ取得 | GitHub Action | **直近21日の記事のサムネ被覆**(最新日付だけでは停止を見逃す) | 記事公開に追随 | ✅ 復旧(2026-09-05) | — |
 | R3 | 英語SEOページ(3点セット) | code | apps/toyama-guide/en-*.html 総数(増加) | 新記事ごと | ✅ | — |
 | R4 | クロスポスト素材(3点セット) | code | 2026-08-25_crosspost_… の更新日 | 新記事ごと | ✅ | — |
 | R5 | **note→X 自動投稿** | cowork(note_to_x) | **ops/logs/x_posted.tsv の行数** | 公開ごと | ❌**BROKEN(0)** | **owner: X APIキー** |
