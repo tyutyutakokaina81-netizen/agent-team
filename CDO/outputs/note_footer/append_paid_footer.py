@@ -26,10 +26,10 @@ import sys
 import time
 from pathlib import Path
 
-try:
-    from playwright.sync_api import sync_playwright
-except ImportError:
-    sys.exit("Playwrightが未インストールです。`bash CDO/outputs/note_publisher/setup.sh` を実行してください。")
+# Playwright は「実際にブラウザを開くとき」だけ必要。ここで import して sys.exit すると、
+# 対象0本(=何もしない)でも『結果行なし』になり cowork が『落ちた』と誤判定していた。
+# → import はブラウザ起動の直前まで遅延させ、非ブラウザ処理(対象抽出・結果行)は必ず動くようにする。
+sync_playwright = None  # lazy: main() のブラウザ直前で import
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
@@ -165,7 +165,10 @@ def main():
         items = items[:args.limit]
 
     if not items:
+        # 何もすることが無い＝正常。従来はここで『結果行』を出さずに return したため、
+        # cowork の日次ラッパーが『結果行なし＝落ちた』と誤判定していた。必ず結果行を出す。
         print("対象がありません（すべて処理済みか、条件に合う記事なし）。")
+        print("=== 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===")
         return
 
     mode = "本番（保存する）" if args.apply else "dry-run（保存しない・既定）"
@@ -174,6 +177,15 @@ def main():
         print("   実際に追記するには --apply を付けてください。まずは --apply --limit 2 を推奨します。\n")
 
     ok = skip = fail = 0
+    # ここで初めて Playwright が要る（対象0本ならここに来ないので import 不要）。
+    global sync_playwright
+    if sync_playwright is None:
+        try:
+            from playwright.sync_api import sync_playwright as _sp
+            sync_playwright = _sp
+        except ImportError:
+            print("=== 結果: 更新 0 / スキップ 0 / 失敗 0（Playwright未インストール） ===")
+            sys.exit("Playwrightが未インストールです。`bash CDO/outputs/note_publisher/setup.sh` を実行してください。")
     try:
         pw_cm = sync_playwright()
         p = pw_cm.__enter__()

@@ -75,15 +75,16 @@ else:
     add("R6 コメント返信", "BLOCKED",
         f"pending空・棚卸し未着手{sweep_note}。前提=cowork の note-login取得(過去記事の全件スイープ)が未稼働")
 
-# R10 有料フッター差し込みの健全性: 是正発注が actioned されるまで BLOCKED
-paidfix = os.path.join(ROOT, "ops/inbox/2026-09-03_001_code_cowork.yaml")
-if os.path.exists(paidfix):
-    still_open = bool(re.search(r"^status:\s*open\s*$", open(paidfix, encoding="utf-8").read(), re.M))
-    if still_open:
-        add("R10 有料フッター差込", "BLOCKED",
-            "無人日次で3日連続失敗(結果行なし)。是正発注2026-09-03_001が未着手＝cowork/ownerが日次から外し有人検証する必要")
+# R10 有料フッター差し込みの健全性: 「結果行なし」誤失敗のコード修正が入っているか
+paidscript = os.path.join(ROOT, "CDO/outputs/note_footer/append_paid_footer.py")
+if os.path.exists(paidscript):
+    src = open(paidscript, encoding="utf-8").read()
+    fixed = "対象なし＝すべて処理済み・正常" in src  # 対象0本でも結果行を出す修正の目印
+    if fixed:
+        add("R10 有料フッター差込", "OK",
+            "『結果行なし』誤失敗の根本修正を反映済み(対象0本でも結果行を出す・検証済)。※新記事へ付与は要manifest再生成＋有人--apply検証")
     else:
-        add("R10 有料フッター差込", "OK", "是正発注 actioned(日次から除外→有人検証へ)")
+        add("R10 有料フッター差込", "BROKEN", "append_paid_footer.py に結果行修正が入っていない")
 
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")

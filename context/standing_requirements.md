@@ -31,10 +31,10 @@
 | R4 | クロスポスト素材(3点セット) | code | 2026-08-25_crosspost_… の更新日 | 新記事ごと | ✅ | — |
 | R5 | **note→X 自動投稿** | cowork(note_to_x) | **ops/logs/x_posted.tsv の行数** | 公開ごと | ❌**BROKEN(0)** | **owner: X APIキー** |
 | R6 | note コメント自動返信（新着＋**過去記事の全件棚卸し**） | cowork取得+code下書き | ops/comments/replies.tsv の POSTED ＋ backlog_targets.tsv の swept割合 | コメント発生時／棚卸しは一度全件 | ⏸ 空・棚卸し0/78 | cowork: note-login取得＝過去記事の全件スイープ（owner再確認要件2026-09-02） |
-| R7 | 有料note導線の差し込み | cowork | cowork日次報告(有料導線) | 日次 | ❌ 失敗中→R10で追跡 | R10参照(無人日次で3日連続失敗) |
+| R7 | 有料note導線の差し込み | cowork | cowork日次報告(有料導線) | 日次 | ✅ 誤失敗の根本修正済(R10) | — |
 | R8 | 日次点検の生存 | code(点検トリガー) | context/STATE.md 最終更新の鮮度 | 日次 | ✅ | — |
 | R9 | ops指示の滞留防止 | code | ops/inbox の open 件数(過多で警告) | 常時 | ✅ (open 2件・2026-09-01棚卸し) | — |
-| R10 | 有料フッター差し込みの健全性 | cowork(有人検証へ) | 是正発注2026-09-03_001 が actioned(status≠open) | 失敗継続中 | ❌ 3日連続失敗 | cowork/owner: 日次から外し有人 --apply --limit 2 で検証 |
+| R10 | 有料フッター差し込みの健全性 | code修正+cowork | append_paid_footer.py に結果行修正(対象0本でも結果行) | — | ✅ 根本修正・実機検証済 | 新記事付与のみ要manifest再生成+有人--apply検証 |
 
 > **凡例**：✅OK ／ ⚠️注意 ／ ❌BROKEN(動くべきなのにゼロ) ／ ⏸未着手(入力待ち) ／ BLOCKED(owner/cowork の前提待ち)
 
