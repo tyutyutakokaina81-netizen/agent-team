@@ -568,3 +568,26 @@ That crisp bite comes from tiny grains in the flesh ("stone cells") — not grit
 3/ Toyama isn't the most famous pear region, but it has its own pear country. Roadside stands sell the day's fruit by the box — bigger, cheaper, juicier than a city shop.
 4/ How to eat one: chill well, peel, cut into wedges, eat as is. Rarely cooked. On a warm September day, that cold dripping bite is the taste of summer ending in Toyama. #Japan #Toyama #nashi
 ```
+
+---
+
+# 【2026-09-05 追加】富山の共働き（dual-income / three-generation living）クロスポスト
+
+## Reddit（r/japan, r/JapanTravel, r/japanlife, r/AskAnthropology）
+**タイトル**: `In Toyama, so many couples both work — here's the family structure that makes it work`
+```
+Toyama (central Japan) is said to have one of the country's highest shares of dual-income households, and women staying in work after marriage/kids is simply normal here.
+
+The reason isn't willpower — it's the shape of "home." Toyama has high home ownership, larger houses, and a high rate of three generations living under one roof. While both parents work, grandparents are home for the school run, the sudden fever, the after-daycare gap. The "who watches the kids?" problem that stumps city couples is often solved inside the family.
+
+It's less a policy than a long-inherited habit of daily life — a big house, three generations, grandparents nearby. It's changing slowly, but the sense of "raising kids as a whole family" still runs deep.
+```
+ハッシュタグ: #Japan #Toyama #Japanlife #family #dualincome
+
+## X スレッド
+```
+1/ In Toyama, it's totally normal for both parents to work AND have kids. City visitors ask "how do you manage it?" Toyama has one of Japan's highest shares of dual-income households. 🏡
+2/ The reason isn't willpower — it's the shape of "home." High home ownership, big houses, and 3 generations under one roof: a share that's high by national standards.
+3/ While both parents work, grandparents are home — school runs, sudden fevers, the after-daycare gap. The "who watches the kids?" problem is solved inside the family.
+4/ Less a policy than a long-inherited habit: a big house, three generations, grandparents nearby. Changing slowly, but "raising kids as a whole family" still runs deep. #Japan #Toyama
+```

@@ -33,6 +33,7 @@ KEY_MAP = [
     ("新米", "new-rice"),
     ("二百十日", "nihyakutoka"),
     ("鉄道を手放", "rail-compact-thread"), ("コンパクトシティ", "rail-compact-thread"),
+    ("共働き", "dual-income-thread"), ("三世代", "dual-income-thread"),
     ("田んぼ", "rice-fields-thread"), ("稲", "rice-fields-thread"),
     ("コロッケ", "croquette-thread"),
     ("氷見", "himi-thread"),

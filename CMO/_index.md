@@ -618,3 +618,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== pears-thread ===`4tw+KEY_MAP(梨→pears-thread)=計14スレッド。DRY-RUN 4tw≤280・URL付与OK。 |
 
 - 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN 全て実機検証OK。キューに梨1本(次回自動公開待ち)。
+
+## 【2026-09-05 新規1本（富山の共働き）＝3点セット（owner「続けて」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-05_note記事_共働き_富山で共働きが多いわけ.md | 非食/社会・暮らし | **共働き=0件で未カバー**・直近(梨=食)と別カテゴリで非食。海外に響く分析型「なぜ富山は共働きが多いか＝大きな持ち家+三世代同居+祖父母の育児支援」。既出『富山の家はなぜ大きいのか(持ち家率)』と暮らしクラスタ連関。本文約1,250字+English併記+検証。実写サムネquery="spacious japanese family house living room"(RULES「共働き」追加)。A4(地区名・世帯・個人なし・県レベル)/A5(就業率の理由・数値・変化は諸説/年で前後でヘッジ)/A6準拠・[写真①]。 | ✅ キュー投函 |
+| apps/toyama-guide/en-dual-income.html | 英語SEO | 専用EN(canonical/hreflang/JSON-LD/OGP)。en.html暮らし導線(en-stories隣)に追加+sitemap再生成で掲載。 |
+| CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 共働きのReddit(r/japanlife等)+Xスレ追記。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== dual-income-thread ===`4tw+KEY_MAP(共働き/三世代→dual-income-thread)=計15スレッド。DRY-RUN 4tw≤280。 |
+
+- 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN/sitemap(R11 OK)全て実機検証OK。キュー2本(梨/共働き)。

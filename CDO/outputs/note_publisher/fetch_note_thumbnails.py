@@ -163,6 +163,7 @@ RULES = [
     # 鉄道の総称（※万葉線/路面電車/新幹線/トロッコ/黒部峡谷の固有キーより後＝それらが先に一致。残す＝コンパクトシティ系のcatch-all）
     ("鉄道", "toyama light rail lrt tram station japan city"),
     ("梨", "japanese nashi asian pear fruit sliced"),
+    ("共働き", "spacious japanese family house living room"),
     ("持ち家", "japanese house living room"), ("広い家", "spacious house interior"),
     ("薬売り", "traditional medicine wooden box"), ("雪国", "snow town japan winter"),
     ("冬支度", "snow house winter japan"), ("置き薬", "wooden medicine box"),
