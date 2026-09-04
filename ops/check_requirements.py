@@ -75,6 +75,16 @@ else:
     add("R6 コメント返信", "BLOCKED",
         f"pending空・棚卸し未着手{sweep_note}。前提=cowork の note-login取得(過去記事の全件スイープ)が未稼働")
 
+# R10 有料フッター差し込みの健全性: 是正発注が actioned されるまで BLOCKED
+paidfix = os.path.join(ROOT, "ops/inbox/2026-09-03_001_code_cowork.yaml")
+if os.path.exists(paidfix):
+    still_open = bool(re.search(r"^status:\s*open\s*$", open(paidfix, encoding="utf-8").read(), re.M))
+    if still_open:
+        add("R10 有料フッター差込", "BLOCKED",
+            "無人日次で3日連続失敗(結果行なし)。是正発注2026-09-03_001が未着手＝cowork/ownerが日次から外し有人検証する必要")
+    else:
+        add("R10 有料フッター差込", "OK", "是正発注 actioned(日次から除外→有人検証へ)")
+
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
 add("R8 日次点検の生存", "OK" if days(st) <= 2 else "STALE", f"STATE更新 {days(st):.1f}日前")
