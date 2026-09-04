@@ -28,6 +28,7 @@ KEY_MAP = [
     ("彼岸花", "higanbana"), ("曼珠沙華", "higanbana"),
     ("十五夜", "tsukimi"), ("お月見", "tsukimi"), ("名月", "tsukimi"),
     ("コスモス", "cosmos"), ("秋桜", "cosmos"),
+    ("梨", "pears-thread"),
     ("水道水", "tap-water"),
     ("新米", "new-rice"),
     ("二百十日", "nihyakutoka"),

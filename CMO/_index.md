@@ -607,3 +607,14 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== rail-compact-thread ===`4tw追加＋KEY_MAP（鉄道を手放/コンパクトシティ→rail-compact-thread）登録＝計13スレッド。DRY-RUNで4tw全て≤280・URL付与OK。 |
 
 - 3点セット完了。鉄道系は既存6本あるため重複回避を最優先し「乗車ガイド」でなく「都市政策＝なぜ残ったか」の未カバー切り口を採用（海外の都市計画関心に接続）。キュー3本（彼岸花/十五夜/鉄道）が自動公開待ち。
+
+## 【2026-09-04 新規1本（富山の梨）＝3点セット（owner「続けて」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-04_note記事_梨_富山の梨はりんごのように齧る.md | 食/季節・果物 | **食で未カバー(梨=0件)**。直近3本(十五夜/彼岸花/鉄道)が非食のため食で1本。和梨=洋梨と別物・りんごのように齧る/石細胞のシャリ感/富山の梨どころ/冷やして生食。海外に「洋梨を想像すると裏切られる」起点。本文約1,120字+English併記+検証。実写サムネquery="japanese nashi asian pear fruit sliced"(RULES「梨」追加)。A4(地区名・農園名・直売所名を伏せ富山/市レベル=呉羽は出さない)/A5(品種・糖度・早晩の甘みは一般傾向でヘッジ)/A6準拠・[写真①]。 | ✅ キュー投函 |
+| apps/toyama-guide/en-pears.html | 英語SEO | 専用EN記事(canonical/hreflang/JSON-LD/OGP)。en.html季節ブロックに導線追加。 |
+| CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 梨のReddit(r/food等)+Xスレッド追記。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== pears-thread ===`4tw+KEY_MAP(梨→pears-thread)=計14スレッド。DRY-RUN 4tw≤280・URL付与OK。 |
+
+- 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN 全て実機検証OK。キューに梨1本(次回自動公開待ち)。

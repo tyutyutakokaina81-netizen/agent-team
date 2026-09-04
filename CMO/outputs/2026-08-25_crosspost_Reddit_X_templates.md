@@ -547,3 +547,24 @@ Toyama City is often cited for its "compact city" policy: clustering homes and s
 3/ In Toyama City, a fading JR line was reborn as a modern low-floor LRT — north & south of the station joined so you can loop the centre. They bet on making rail EASIER, not smaller.
 4/ It's the "compact city" idea: cluster homes & services along the rails so people who can't drive still get around. Not a simple success — but a town that held onto its trains. #Japan #Toyama #compactcity
 ```
+
+---
+
+# 【2026-09-04 追加】富山の梨（Japanese nashi pear）クロスポスト
+
+## Reddit（r/JapanTravel, r/japanpics, r/Japan, r/food）
+**タイトル**: `Japanese pears are nothing like European ones — you bite them like an apple`
+```
+If you know European pears (soft, buttery, ripened until they melt), Japanese pears will surprise you. The Japanese pear (nashi) is shaped like a round apple, pale inside, and incredibly full of water. You don't wait for it to soften — you eat it firm and chilled, and it snaps with an audible crunch, juice bursting out.
+
+That crisp bite comes from tiny grains in the flesh ("stone cells") — not gritty, just clean and crisp. In Toyama, less famous for pears than some regions but with its own pear-growing areas, the day's fruit is sold by the box at roadside stands: bigger, cheaper, and juicier than a city supermarket. Chill it, cut into wedges, eat as is. On a still-warm September day, that's the taste of summer ending.
+```
+ハッシュタグ: #Japan #Toyama #nashi #japanesefood #fruit #autumn
+
+## X スレッド
+```
+1/ Japanese pears are nothing like European ones. Round like an apple, pale inside, and SO full of water. You eat them firm and chilled — they snap with a crunch, juice bursting out. 🍐
+2/ That clean crisp bite comes from tiny grains in the flesh ("stone cells"). Not gritty — just crisp. No waiting for it to soften like a European pear.
+3/ Toyama isn't the most famous pear region, but it has its own pear country. Roadside stands sell the day's fruit by the box — bigger, cheaper, juicier than a city shop.
+4/ How to eat one: chill well, peel, cut into wedges, eat as is. Rarely cooked. On a warm September day, that cold dripping bite is the taste of summer ending in Toyama. #Japan #Toyama #nashi
+```
