@@ -618,6 +618,7 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== pears-thread ===`4tw+KEY_MAP(梨→pears-thread)=計14スレッド。DRY-RUN 4tw≤280・URL付与OK。 |
 
 - 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN 全て実機検証OK。キューに梨1本(次回自動公開待ち)。
+- **✅公開済(2026-09-05 08:00 JST・サムネ付き)**: https://note.com/safe_canna441/n/n8816235bcecd
 
 ## 【2026-09-05 新規1本（富山の共働き）＝3点セット（owner「続けて」）】
 
@@ -629,3 +630,4 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== dual-income-thread ===`4tw+KEY_MAP(共働き/三世代→dual-income-thread)=計15スレッド。DRY-RUN 4tw≤280。 |
 
 - 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN/sitemap(R11 OK)全て実機検証OK。キュー2本(梨/共働き)。
+- **✅公開済(2026-09-05 08:00 JST・サムネ付き)**: https://note.com/safe_canna441/n/n936820e10c65
