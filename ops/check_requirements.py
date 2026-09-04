@@ -86,6 +86,19 @@ if os.path.exists(paidscript):
     else:
         add("R10 有料フッター差込", "BROKEN", "append_paid_footer.py に結果行修正が入っていない")
 
+# R11 sitemap 鮮度: toyama-guide の全 en ページが sitemap に載っているか
+sm = os.path.join(ROOT, "apps/ai-agency-hp/sitemap.xml")
+guide = os.path.join(ROOT, "apps/toyama-guide")
+if os.path.exists(sm) and os.path.isdir(guide):
+    smtext = open(sm, encoding="utf-8").read()
+    en_pages = [os.path.basename(f) for f in glob.glob(os.path.join(guide, "en-*.html"))]
+    missing = [p for p in en_pages if f"/toyama/{p}" not in smtext]
+    if not missing:
+        add("R11 sitemap鮮度", "OK", f"toyama en {len(en_pages)}枚すべて sitemap 掲載")
+    else:
+        add("R11 sitemap鮮度", "STALE",
+            f"sitemap未掲載 {len(missing)}枚(例:{missing[0]})→ python3 apps/toyama-guide/gen_sitemap.py")
+
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
 add("R8 日次点検の生存", "OK" if days(st) <= 2 else "STALE", f"STATE更新 {days(st):.1f}日前")

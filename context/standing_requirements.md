@@ -35,6 +35,7 @@
 | R8 | 日次点検の生存 | code(点検トリガー) | context/STATE.md 最終更新の鮮度 | 日次 | ✅ | — |
 | R9 | ops指示の滞留防止 | code | ops/inbox の open 件数(過多で警告) | 常時 | ✅ (open 2件・2026-09-01棚卸し) | — |
 | R10 | 有料フッター差し込みの健全性 | code修正+cowork | append_paid_footer.py に結果行修正(対象0本でも結果行) | — | ✅ 根本修正・実機検証済 | 新記事付与のみ要manifest再生成+有人--apply検証 |
+| R11 | sitemap 鮮度(SEO) | code | 全 toyama en ページが sitemap.xml に掲載 | 新記事ごと | ✅ 全掲載 | — |
 
 > **凡例**：✅OK ／ ⚠️注意 ／ ❌BROKEN(動くべきなのにゼロ) ／ ⏸未着手(入力待ち) ／ BLOCKED(owner/cowork の前提待ち)
 
