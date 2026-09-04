@@ -162,12 +162,32 @@ def _get(url: str, timeout: int = 60) -> bytes:
         return resp.read()
 
 
+# 2026-09-05 実写以外(古書の挿絵/銅版画/地図/図版)を弾く。A3=サムネは写真風で統一、
+# かつ「誤サムネより無サムネが正」。実測: 2語まで縮めた 'spacious japanese' が
+# 19世紀の銅版画を拾ったため、語数下限と併せてこのフィルタを追加した。
+NON_PHOTO_HINTS = (
+    "engraving", "gravure", "illustration", "illustrated", "drawing", "sketch",
+    "woodcut", "lithograph", "etching", "print of", "plate", "diagram", "map of",
+    "map,", "plan of", "chart", "poster", "painting", "ukiyo", "manuscript",
+    "le tour du monde", "page", "book", "album", "bub_", "internet archive",
+    "scan", "atlas", "logo", "icon", "coat of arms", "seal of", "flag of",
+    "18th century", "19th century", "1800", "1850", "1860", "1870", "1880", "1890",
+)
+
+
+def _looks_non_photo(title: str) -> bool:
+    """Commons のファイル名/ページ名から、実写でなさそうなものを弾く。"""
+    t = (title or "").lower()
+    return any(h in t for h in NON_PHOTO_HINTS)
+
+
 def _shorten(query: str):
     """Commons はキーワード検索＝長い説明的クエリ(『japanese nashi asian pear fruit sliced』)は0件に
-    なりやすい。段階的に短くした候補を返す（重複除去・元→短の順）。先頭2語まで。"""
+    なりやすい。段階的に短くした候補を返す（重複除去・元→短の順）。
+    ※3語未満まで縮めない：'spacious japanese' のような意味の薄い2語は無関係画像を招く（実測）。"""
     words = query.split()
     variants = [query]
-    for n in (4, 3, 2):
+    for n in (4, 3):
         if len(words) > n:
             variants.append(" ".join(words[:n]))
     seen, out = set(), []
@@ -192,11 +212,15 @@ def _search_candidates(query: str):
     pages = (data.get("query") or {}).get("pages") or {}
     diag["pages"] = len(pages)
     cands = []
+    diag["nonphoto"] = 0
     for p in pages.values():
         ii = (p.get("imageinfo") or [{}])[0]
         if ii.get("mime") not in ("image/jpeg", "image/png"):
             continue
         diag["img"] += 1
+        if _looks_non_photo(p.get("title", "")):   # 古書の挿絵/銅版画/地図等は採用しない
+            diag["nonphoto"] += 1
+            continue
         w, h = ii.get("width", 0), ii.get("height", 0)
         if w < 900 or h < 560:           # アイコン/図版/小画像を除外
             continue
