@@ -157,6 +157,29 @@ def save_prov(p: dict) -> None:
         pass
 
 
+# 2026-09-05 白黒/セピアの実写でない画像(銅版画・古書のハーフトーン印刷スキャン・
+# 白黒写真)を bytes の段階で弾く。ファイル名フィルタだけでは
+# 'PÊCHE INTERDITE(仏の白黒写真)' や '昭和の白黒スキャン' を取りこぼしたため（実測）。
+# A3=サムネは写真風でカラー統一。Pillow が無い環境では検査をスキップ（安全側）。
+MIN_SATURATION = 0.05
+
+
+def _is_color_photo(data: bytes) -> bool:
+    """カラー実写っぽいか。彩度がほぼ無い(=白黒/セピア)なら False。"""
+    try:
+        import io
+        from PIL import Image, ImageStat
+    except Exception:
+        return True                      # Pillow 無し＝判定せず通す
+    try:
+        im = Image.open(io.BytesIO(data)).convert("RGB")
+        im.thumbnail((200, 200))
+        sat = ImageStat.Stat(im.convert("HSV")).mean[1] / 255.0
+        return sat >= MIN_SATURATION
+    except Exception:
+        return True                      # 解析できない時は通す（取り逃しを防ぐ）
+
+
 def _get(url: str, timeout: int = 60) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -256,8 +279,12 @@ def fetch_from_wikimedia(query: str) -> bytes:
                 for turl in urls[:6]:
                     try:
                         b = _get(turl)
-                        if len(b) >= MIN_IMAGE_BYTES:
-                            return b
+                        if len(b) < MIN_IMAGE_BYTES:
+                            continue
+                        if not _is_color_photo(b):      # 白黒/セピア=実写サムネに使わない
+                            diag["mono"] = diag.get("mono", 0) + 1
+                            continue
+                        return b
                     except Exception as e:
                         last_err = e
                 # このクエリでは取れず → 次の（短い）クエリへ
