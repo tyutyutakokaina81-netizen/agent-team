@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import re
 import sys
 import time
 import urllib.parse
@@ -175,10 +176,17 @@ NON_PHOTO_HINTS = (
 )
 
 
+# 古書スキャン(Internet Archive等)は題名に発行年が入りがち。'(1913)' 等を弾く。
+# 実測: 'japanese suburban house' が1900年代の建築書の図版(セピア・西洋住宅)を拾った。
+_ARCHIVE_YEAR = re.compile(r"\b1[5-9]\d\d\b")
+
+
 def _looks_non_photo(title: str) -> bool:
-    """Commons のファイル名/ページ名から、実写でなさそうなものを弾く。"""
+    """Commons のファイル名/ページ名から、実写でなさそうなもの(挿絵/図版/古書スキャン)を弾く。"""
     t = (title or "").lower()
-    return any(h in t for h in NON_PHOTO_HINTS)
+    if any(h in t for h in NON_PHOTO_HINTS):
+        return True
+    return bool(_ARCHIVE_YEAR.search(t))   # 発行年入り=古書スキャンの可能性が高い
 
 
 def _shorten(query: str):

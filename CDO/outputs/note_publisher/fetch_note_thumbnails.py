@@ -165,7 +165,7 @@ RULES = [
     ("梨", "japanese nashi asian pear fruit sliced"),
     # 「共働き」は抽象語。実写が引ける具体名詞(家の外観)に寄せる
     # （'spacious japanese …' は短縮時に無関係な古書挿絵を招いたため・2026-09-05実測）
-    ("共働き", "japanese suburban house exterior garden"),
+    ("共働き", "japanese minka house toyama"),
     ("持ち家", "japanese house living room"), ("広い家", "spacious house interior"),
     ("薬売り", "traditional medicine wooden box"), ("雪国", "snow town japan winter"),
     ("冬支度", "snow house winter japan"), ("置き薬", "wooden medicine box"),
