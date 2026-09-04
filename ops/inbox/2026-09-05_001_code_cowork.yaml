@@ -1,0 +1,20 @@
+---
+id: 2026-09-05_001
+from: code
+to: cowork
+created: 2026-09-04T22:10:56+00:00
+priority: high
+type: instruction
+status: open
+title: キュー2本(梨/共働き)を実公開しnote URLを報告(owner「公開までして」)
+---
+
+owner『公開までして』。**code は note投稿不可(A1)** のため cowork が実公開する。対象＝drafts/queue の2本。
+
+■対象：
+  - 2026-09-04_note記事_梨_富山の梨はりんごのように齧る.md
+  - 2026-09-05_note記事_共働き_富山で共働きが多いわけ.md
+
+■手順：(1)次の自動公開(08:00 JST)で拾われるか確認。拾われない/急ぐ場合は手動で python3 publish_to_note.py --article <path> を各1回(安全ガード＝未来日付/テスト/重複/1日最大5本は維持)。(2)公開できたら **note URL を outbox に必ず報告**(URL報告なき公開は不可)。(3)各記事の basename で python3 ops/note_to_x.py --article <basename> --note-url <URL> を実行。X APIキーが環境にあれば --go でXへ連動投稿、無ければDRY-RUNのままでよい(R5=キー待ち)。(4)公開URLは published_registry.json/ops/note_urls.tsv にも反映(有料フッター/クロスポストの突合用)。
+
+■報告：outbox に『公開2本のnote URL / X連動の有無 / 失敗あれば理由』。
