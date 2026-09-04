@@ -9,12 +9,14 @@ status: open
 title: キュー2本(梨/共働き)を実公開しnote URLを報告(owner「公開までして」)
 ---
 
-owner『公開までして』。**code は note投稿不可(A1)** のため cowork が実公開する。対象＝drafts/queue の2本。
+owner『公開までして／サムネありだよ』。**サムネ付きで公開**する(テキストのみ不可)。code は note投稿不可(A1)。対象＝drafts/queue の2本。
 
-■対象：
-  - 2026-09-04_note記事_梨_富山の梨はりんごのように齧る.md
-  - 2026-09-05_note記事_共働き_富山で共働きが多いわけ.md
+■対象と現状：
+  - 2026-09-04_note記事_梨_富山の梨はりんごのように齧る.md ／ サムネ未生成
+  - 2026-09-05_note記事_共働き_富山で共働きが多いわけ.md ／ サムネ未生成
 
-■手順：(1)次の自動公開(08:00 JST)で拾われるか確認。拾われない/急ぐ場合は手動で python3 publish_to_note.py --article <path> を各1回(安全ガード＝未来日付/テスト/重複/1日最大5本は維持)。(2)公開できたら **note URL を outbox に必ず報告**(URL報告なき公開は不可)。(3)各記事の basename で python3 ops/note_to_x.py --article <basename> --note-url <URL> を実行。X APIキーが環境にあれば --go でXへ連動投稿、無ければDRY-RUNのままでよい(R5=キー待ち)。(4)公開URLは published_registry.json/ops/note_urls.tsv にも反映(有料フッター/クロスポストの突合用)。
+■重要（サムネ生成が現在停止中）：note-thumbnails Action は成功でも、Pexels がキー未設定(PEXELS_API_KEY)でskip、Wikimediaは概念クエリ(梨/鉄道/共働き)を拾えず09-02以降サムネ0枚。→ **この2本は現状サムネが無い**。
 
-■報告：outbox に『公開2本のnote URL / X連動の有無 / 失敗あれば理由』。
+■手順：(1)まずサムネを用意する。最も確実＝owner が PEXELS_API_KEY(無料)を Repo Secrets に設定→note-thumbnails を再実行→CDO/outputs/note_publisher/thumbnails/<stem>.jpg が生成。代替＝みんなのフォトギャラリー/owner写真を手動採用。(2)サムネが用意できたら **サムネ付きで公開**：python3 prepare_photos.py --then-publish --count 2 --date 2026-09-05 (または各記事を指定)。※テキストのみ公開(publish_to_note.py --text-only)はしない=owner指示『サムネあり』。(3)公開できたら **note URL を outbox に必ず報告**(URL報告なき公開は不可)。(4)各記事 basename で python3 ops/note_to_x.py --article <basename> --note-url <URL>(Xキーあれば--go)。(5)published_registry.json/ops/note_urls.tsv に反映。
+
+■サムネが用意できるまでは公開を保留してよい(誤サムネ/無サムネ公開はしない)。■報告：outbox に『サムネ有無/公開2本のnote URL/X連動/失敗理由』。
