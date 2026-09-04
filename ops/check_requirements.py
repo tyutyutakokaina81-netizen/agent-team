@@ -42,8 +42,15 @@ def _fname_date(f):
     return b[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", b) else ""
 recent_arts = [f for f in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))
                if "サムネ生成プロンプト" not in os.path.basename(f) and _fname_date(f) >= _cut]
+# owner確認済み(_verified.txt)は owner管理＝自動取得の対象外。自動化の欠落として数えない。
+_vf = os.path.join(thumbdir, "_verified.txt")
+verified = set()
+if os.path.exists(_vf):
+    verified = {ln.strip() for ln in open(_vf, encoding="utf-8").read().splitlines()
+                if ln.strip() and not ln.strip().startswith("#")}
 missing = [os.path.basename(f)[:-3] for f in recent_arts
-           if not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
+           if os.path.basename(f)[:-3] not in verified
+           and not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
 if not recent_arts:
     add("R2 実写サムネ", "OK", "直近21日の対象記事なし")
 elif missing:

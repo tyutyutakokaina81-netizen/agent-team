@@ -232,7 +232,7 @@ def _shorten(query: str):
         if len(words) > n:
             v = words[:n]
             if anchor and anchor.lower() not in [w.lower() for w in v]:
-                v = v[:-1] + [anchor]        # 末尾1語をアンカーに置き換えて地理を保つ
+                v = v + [anchor]             # アンカーは"付け足す"（置換すると主要名詞が落ちる）
             variants.append(" ".join(v))
     seen, out = set(), []
     for v in variants:
@@ -245,7 +245,7 @@ def _search_candidates(query: str):
     """1クエリで Commons を検索し、(候補url一覧, 診断dict) を返す。例外は上位へ。"""
     params = {
         "action": "query", "format": "json", "generator": "search",
-        "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": "20",
+        "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": "12",
         "prop": "imageinfo", "iiprop": "url|mime|size", "iiurlwidth": "1280",
         "origin": "*", "maxlag": "5",
     }
@@ -253,6 +253,8 @@ def _search_candidates(query: str):
     diag = {"pages": 0, "img": 0}
     if data.get("error"):
         diag["error"] = str(data["error"])[:120]
+    if data.get("warnings"):
+        diag["warn"] = str(data["warnings"])[:120]
     pages = (data.get("query") or {}).get("pages") or {}
     diag["pages"] = len(pages)
     cands = []

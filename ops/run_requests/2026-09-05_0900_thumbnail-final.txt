@@ -1,0 +1,9 @@
+要求: サムネ最終取得（アンカー付け足し修正＋gsrlimit調整後）。
+発行: code 2026-09-05
+背景: 前便の診断で判明＝(a)アンカー保持を「末尾を置換」で実装したため 'freshly cooked white rice bowl japan'
+      から主要名詞 rice が落ちていた (b)Commonsが pages:20 を返すのに img:0=imageinfo が全件返らない事象。
+内容: (1)アンカーは置換でなく"付け足す"実装に修正（rice を保持）。(2)gsrlimit を 20→12 に下げ
+      imageinfo の取りこぼしを軽減。(3)API warnings を診断に出力。
+      (4)R2は _verified.txt（owner確認済み＝自動取得の対象外）を欠落に数えないよう修正。
+確認: 富山の新米が取得できるか。取得後は彩度監査＋目視verify。取れなければ無サムネで確定させる
+      （誤サムネより無サムネが正）。
