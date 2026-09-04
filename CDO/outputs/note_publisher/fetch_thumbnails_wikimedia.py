@@ -162,45 +162,79 @@ def _get(url: str, timeout: int = 60) -> bytes:
         return resp.read()
 
 
-def fetch_from_wikimedia(query: str) -> bytes:
-    """検索→実写候補(jpeg/png・横長・十分なサイズ)を順に試し、最初に取れた画像bytesを返す。"""
+def _shorten(query: str):
+    """Commons はキーワード検索＝長い説明的クエリ(『japanese nashi asian pear fruit sliced』)は0件に
+    なりやすい。段階的に短くした候補を返す（重複除去・元→短の順）。先頭2語まで。"""
+    words = query.split()
+    variants = [query]
+    for n in (4, 3, 2):
+        if len(words) > n:
+            variants.append(" ".join(words[:n]))
+    seen, out = set(), []
+    for v in variants:
+        if v and v not in seen:
+            seen.add(v); out.append(v)
+    return out
+
+
+def _search_candidates(query: str):
+    """1クエリで Commons を検索し、(候補url一覧, 診断dict) を返す。例外は上位へ。"""
     params = {
         "action": "query", "format": "json", "generator": "search",
         "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": "20",
         "prop": "imageinfo", "iiprop": "url|mime|size", "iiurlwidth": "1280",
+        "origin": "*", "maxlag": "5",
     }
+    data = json.loads(_get(API + "?" + urllib.parse.urlencode(params)).decode("utf-8"))
+    diag = {"pages": 0, "img": 0}
+    if data.get("error"):
+        diag["error"] = str(data["error"])[:120]
+    pages = (data.get("query") or {}).get("pages") or {}
+    diag["pages"] = len(pages)
+    cands = []
+    for p in pages.values():
+        ii = (p.get("imageinfo") or [{}])[0]
+        if ii.get("mime") not in ("image/jpeg", "image/png"):
+            continue
+        diag["img"] += 1
+        w, h = ii.get("width", 0), ii.get("height", 0)
+        if w < 900 or h < 560:           # アイコン/図版/小画像を除外
+            continue
+        if h > w * 1.2:                  # 縦長すぎは見出し向きでない
+            continue
+        turl = ii.get("thumburl") or ii.get("url")
+        if turl:
+            cands.append((p.get("index", 999), turl))
+    cands.sort()
+    return [t for _, t in cands], diag
+
+
+def fetch_from_wikimedia(query: str) -> bytes:
+    """検索→実写候補(jpeg/png・横長・十分なサイズ)を順に試し、最初に取れた画像bytesを返す。
+    長い説明的クエリは Commons で0件になりやすいので、段階的に短縮した候補も試す。"""
     last_err: Exception | None = None
-    for attempt in range(3):
-        if attempt:
-            time.sleep(attempt * 3)
-        try:
-            data = json.loads(_get(API + "?" + urllib.parse.urlencode(params)).decode("utf-8"))
-            pages = (data.get("query") or {}).get("pages") or {}
-            cands = []
-            for p in pages.values():
-                ii = (p.get("imageinfo") or [{}])[0]
-                if ii.get("mime") not in ("image/jpeg", "image/png"):
-                    continue
-                w, h = ii.get("width", 0), ii.get("height", 0)
-                if w < 900 or h < 560:           # アイコン/図版/小画像を除外
-                    continue
-                if h > w * 1.2:                  # 縦長すぎは見出し向きでない
-                    continue
-                turl = ii.get("thumburl") or ii.get("url")
-                if turl:
-                    cands.append((p.get("index", 999), turl))
-            cands.sort()
-            for _, turl in cands[:6]:
-                try:
-                    b = _get(turl)
-                    if len(b) >= MIN_IMAGE_BYTES:
-                        return b
-                except Exception as e:
-                    last_err = e
-            last_err = RuntimeError(f"候補なし（query={query!r}）")
-        except Exception as e:
-            last_err = e
-    raise last_err or RuntimeError("wikimedia 取得失敗")
+    last_diag = None
+    for q in _shorten(query):
+        for attempt in range(2):
+            if attempt:
+                time.sleep(attempt * 3)
+            try:
+                urls, diag = _search_candidates(q)
+                last_diag = diag
+                for turl in urls[:6]:
+                    try:
+                        b = _get(turl)
+                        if len(b) >= MIN_IMAGE_BYTES:
+                            return b
+                    except Exception as e:
+                        last_err = e
+                # このクエリでは取れず → 次の（短い）クエリへ
+                break
+            except Exception as e:
+                last_err = e
+    # 全滅。診断（pages/img数 or error）を添えて上位で type 表示できるようにする
+    detail = f" diag={last_diag}" if last_diag else ""
+    raise last_err or RuntimeError(f"候補なし（query={query!r}）{detail}")
 
 
 def main() -> None:
@@ -260,7 +294,7 @@ def main() -> None:
             print(f"  ✓ {out.name}  ← '{used}'  ({len(data)//1024} KB)")
             ok += 1
         else:
-            print(f"  ✗ {stem}  (tried {tried}): {type(last).__name__ if last else '?'}")
+            print(f"  ✗ {stem}  (tried {tried}): {type(last).__name__ if last else '?'} — {str(last)[:160] if last else ''}")
             fail += 1
         time.sleep(1.0)  # Commons への礼儀＝ペース調整
     print(f"\n成功: {ok} / 失敗: {fail}")
