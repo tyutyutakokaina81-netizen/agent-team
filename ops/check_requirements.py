@@ -48,8 +48,14 @@ verified = set()
 if os.path.exists(_vf):
     verified = {ln.strip() for ln in open(_vf, encoding="utf-8").read().splitlines()
                 if ln.strip() and not ln.strip().startswith("#")}
+_na = os.path.join(thumbdir, "_no_auto.txt")   # 意図的に無サムネ=自動化の欠落ではない
+no_auto = set()
+if os.path.exists(_na):
+    no_auto = {ln.strip() for ln in open(_na, encoding="utf-8").read().splitlines()
+               if ln.strip() and not ln.strip().startswith("#")}
 missing = [os.path.basename(f)[:-3] for f in recent_arts
            if os.path.basename(f)[:-3] not in verified
+           and os.path.basename(f)[:-3] not in no_auto
            and not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
 if not recent_arts:
     add("R2 実写サムネ", "OK", "直近21日の対象記事なし")
