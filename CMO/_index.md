@@ -630,4 +630,16 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== dual-income-thread ===`4tw+KEY_MAP(共働き/三世代→dual-income-thread)=計15スレッド。DRY-RUN 4tw≤280。 |
 
 - 3点セット完了。抽出regex(fence4)/サムネquery/EN構文/DRY-RUN/sitemap(R11 OK)全て実機検証OK。キュー2本(梨/共働き)。
+
+## 【2026-09-06 新規1本（富山の獅子舞）＝3点セット（owner「続けて」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる.md | 非食/文化・祭り | **獅子舞=完全未カバー(title0/body0)**。富山は獅子舞団体数が全国有数とされ、今が秋祭りの季節。海外に響く「舞台でなく家の前まで獅子が来る」「隣の集落ごとに舞い方が違う」を軸に、担い手不足という不都合な事実も正直に記載。本文約1,135字+English+検証・[写真①]。※黒作りは既出(黒造り=漢字違い)のため回避＝表記ゆれ確認の教訓。 | ✅ キュー投函 |
+| apps/toyama-guide/en-lion-dance.html | 英語SEO | 専用EN(canonical/hreflang/JSON-LD/OGP)。en.html祭りブロックに導線追加＋sitemap再生成(219 URL)。 |
+| CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 獅子舞のReddit(r/japan等)+Xスレ追記。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== lion-dance-thread ===`4tw+KEY_MAP(獅子舞)=計16スレッド。DRY-RUN 4tw≤280。 |
+
+- サムネはJP_QUERY「獅子舞」で取得（Commonsは日本語タグの祭り写真が強い＝新米の教訓を適用）。
+- **A6対応**：英語要約の冒頭を "Come to …" 型に変更（直近5本が In/From/Across/In/In と偏っていたCQO指摘を反映）。
 - **✅公開済(2026-09-05 08:00 JST・サムネ付き)**: https://note.com/safe_canna441/n/n936820e10c65

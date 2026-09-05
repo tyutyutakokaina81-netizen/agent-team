@@ -27,6 +27,7 @@ MAXLEN = 280
 KEY_MAP = [
     ("彼岸花", "higanbana"), ("曼珠沙華", "higanbana"),
     ("十五夜", "tsukimi"), ("お月見", "tsukimi"), ("名月", "tsukimi"),
+    ("獅子舞", "lion-dance-thread"), ("秋は、笛と太鼓", "lion-dance-thread"),
     ("コスモス", "cosmos"), ("秋桜", "cosmos"),
     ("梨", "pears-thread"),
     ("水道水", "tap-water"),

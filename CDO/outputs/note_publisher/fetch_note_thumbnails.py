@@ -43,6 +43,7 @@ RULES = [
     ("砺波平野", "satoyama rice field farmhouse japan"),
     # 海と山を一日で=富山湾越しの立山連峰。default(山写真)だと候補が痩せるため固有名詞で指定
     ("海と山を", "toyama bay tateyama mountain range japan"),
+    ("獅子舞", "shishimai lion dance festival japan"),
     ("彼岸花", "red spider lily higanbana field japan"),
     ("曼珠沙華", "red spider lily higanbana field japan"),
     ("十五夜", "harvest full moon susuki grass japan autumn"),

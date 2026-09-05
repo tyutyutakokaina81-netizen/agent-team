@@ -591,3 +591,28 @@ It's less a policy than a long-inherited habit of daily life — a big house, th
 3/ While both parents work, grandparents are home — school runs, sudden fevers, the after-daycare gap. The "who watches the kids?" problem is solved inside the family.
 4/ Less a policy than a long-inherited habit: a big house, three generations, grandparents nearby. Changing slowly, but "raising kids as a whole family" still runs deep. #Japan #Toyama
 ```
+
+---
+
+# 【2026-09-06 追加】富山の獅子舞（shishimai / autumn lion dance）クロスポスト
+
+## Reddit（r/JapanTravel, r/japan, r/japanpics, r/Anthropology）
+**タイトル**: `In Toyama, the lion dance doesn't happen on a stage — it comes to your front door`
+```
+Between September and October, flutes and drums start up across Toyama (central Japan). It's autumn festival season, and here that means shishimai — the lion dance.
+
+What surprises visitors isn't the dance but the number. One city holds many; the next hamlet has its own, and so does the one after that. Toyama is said to have one of the highest concentrations of lion-dance troupes in Japan. Why is debated — harvest gratitude, hamlets that stayed independent, the old Kitamae shipping route — and nothing settles it.
+
+It was never a tourist attraction, which is why neighbouring troupes dance differently. Some lions have very long cloth bodies with several people inside, rippling like one creature ("centipede lion"), and a tengu-masked performer or a child with a staff squares off against it. And the lion comes to your door: it moves along the lanes and dances at each house.
+
+Not all rosy — performers are fewer each year and some troupes have paused. If you hear flutes on an autumn afternoon, walk toward the sound.
+```
+ハッシュタグ: #Japan #Toyama #shishimai #matsuri #festival #japanpics
+
+## X スレッド
+```
+1/ Between Sept and Oct, flutes and drums start up across Toyama. Autumn festival season = shishimai, the lion dance. 🦁🎶
+2/ What surprises visitors isn't the dance — it's the number. One city holds many. The next hamlet has its own, and so does the one after that. Toyama has one of Japan's highest concentrations of troupes.
+3/ It was never made for tourists, so neighbouring troupes dance differently. Some lions have long cloth bodies with several people inside, rippling like one creature. A tengu or a child squares off against it.
+4/ And the lion comes to your door — down the lanes, dancing at each house. Performers are fewer each year, some troupes paused. Hear flutes on an autumn afternoon? Walk toward the sound. #Japan #Toyama #matsuri
+```
