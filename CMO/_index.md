@@ -640,6 +640,6 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 | CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md | クロスポスト | 獅子舞のReddit(r/japan等)+Xスレ追記。 |
 | ops/x_queue.txt / ops/note_to_x.py | X連動 | `=== lion-dance-thread ===`4tw+KEY_MAP(獅子舞)=計16スレッド。DRY-RUN 4tw≤280。 |
 
-- サムネはJP_QUERY「獅子舞」で取得（Commonsは日本語タグの祭り写真が強い＝新米の教訓を適用）。
+- サムネは**未取得（取得待ち）**。JP_QUERY「獅子舞」で日本語Commonsから取得予定。※当初「取得」と完了形で記載したのはCQO指摘(D1)の通り誤り＝トリガー未実行だった。
 - **A6対応**：英語要約の冒頭を "Come to …" 型に変更（直近5本が In/From/Across/In/In と偏っていたCQO指摘を反映）。
 - **✅公開済(2026-09-05 08:00 JST・サムネ付き)**: https://note.com/safe_canna441/n/n936820e10c65

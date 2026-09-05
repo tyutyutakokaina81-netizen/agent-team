@@ -111,6 +111,20 @@ if os.path.exists(paidscript):
     else:
         add("R10 有料フッター差込", "BROKEN", "append_paid_footer.py に結果行修正が入っていない")
 
+# R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
+# (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。
+unverified = [os.path.basename(f)[:-3] for f in recent_arts
+              if os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))
+              and os.path.basename(f)[:-3] not in verified]
+if not recent_arts:
+    add("R2b サムネ採用可否", "OK", "直近21日の対象記事なし")
+elif unverified:
+    add("R2b サムネ採用可否", "STALE",
+        f"jpg有だが_verified未登録 {len(unverified)}本(例:{unverified[0][:24]}…)"
+        " → codeが目視verifyして _verified.txt に追記（未登録だとpublishが使わない）")
+else:
+    add("R2b サムネ採用可否", "OK", "直近のjpg有記事はすべて_verified登録済")
+
 # R11 sitemap 鮮度: toyama-guide の全 en ページが sitemap に載っているか
 sm = os.path.join(ROOT, "apps/ai-agency-hp/sitemap.xml")
 guide = os.path.join(ROOT, "apps/toyama-guide")

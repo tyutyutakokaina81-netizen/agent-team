@@ -43,7 +43,6 @@ RULES = [
     ("砺波平野", "satoyama rice field farmhouse japan"),
     # 海と山を一日で=富山湾越しの立山連峰。default(山写真)だと候補が痩せるため固有名詞で指定
     ("海と山を", "toyama bay tateyama mountain range japan"),
-    ("獅子舞", "shishimai lion dance festival japan"),
     ("彼岸花", "red spider lily higanbana field japan"),
     ("曼珠沙華", "red spider lily higanbana field japan"),
     ("十五夜", "harvest full moon susuki grass japan autumn"),
@@ -218,6 +217,17 @@ FOOD_HINT = ("寿司", "ぶり", "コロッケ", "えび", "昆布", "そば", "
              "べっこう", "かきもち", "貝", "へしこ", "かまぼこ", "山菜", "げんげ", "ホタルイカ")
 
 
+# 2026-09-06 CQO指摘(D3)=英語stockに誤誘導される題材はPexels経路を使わせない。
+# 例)「獅子舞」を英語 "lion dance" で引くと**中国の舞獅**が支配的で、日本の記事に誤サムネが付く
+# (新湊内川=フランスの写真 と同型の事故)。これらは日本語Commons(fetch_thumbnails_wikimedia)に委ねる。
+JP_ONLY_TOPICS = ("獅子舞", "秋祭り", "天狗", "曳山", "御車山", "おわら", "風の盆")
+
+
+def is_jp_only(title: str, stem: str) -> bool:
+    hay = (title or "") + " " + (stem or "")
+    return any(k in hay for k in JP_ONLY_TOPICS)
+
+
 def query_for(title: str, stem: str) -> str:
     hay = title + " " + stem
     for key, q in RULES:
@@ -291,6 +301,10 @@ def main() -> None:
             skip += 1
             continue
         title = extract_title(p.read_text(encoding="utf-8"), stem)
+        if is_jp_only(title, stem):   # 英語stockが誤誘導する題材は日本語Commonsに委ねる(CQO D3)
+            print(f"  skip(JP-only topic): {stem}")
+            skip += 1
+            continue
         q = query_for(title, stem)
         try:
             img = fetch_url(q)
