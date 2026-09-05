@@ -205,6 +205,22 @@ NON_PHOTO_HINTS = (
 
 # 古書スキャン(Internet Archive等)は題名に発行年が入りがち。'(1913)' 等を弾く。
 # 実測: 'japanese suburban house' が1900年代の建築書の図版(セピア・西洋住宅)を拾った。
+# 2026-09-06 実測: 日本語クエリ「獅子舞」でも Commons は **サンフランシスコの中国獅子舞(舞獅)**
+# を返した。日本語で引けば日本の写真、とは限らない。題材が日本固有のとき、明らかに非日本を示す
+# ファイル名は弾く（地理アンカーの日本語版）。CQO指摘D3の実害を受けての追加。
+NON_JAPAN_HINTS = (
+    "chinatown", "chinese", "china", "hong kong", "taiwan", "korea", "korean",
+    "vietnam", "singapore", "malaysia", "thailand", "san francisco", "new york",
+    "london", "paris", "sydney", "vancouver", "los angeles", "usa", "u.s.",
+    "舞獅", "中国", "中華街", "唐人街",
+)
+
+
+def _looks_non_japan(title: str) -> bool:
+    t = (title or "").lower()
+    return any(h in t for h in NON_JAPAN_HINTS)
+
+
 _ARCHIVE_YEAR = re.compile(r"\b1[5-9]\d\d\b")
 
 
@@ -268,8 +284,12 @@ def _search_candidates(query: str):
         if ii.get("mime") not in ("image/jpeg", "image/png"):
             continue
         diag["img"] += 1
-        if _looks_non_photo(p.get("title", "")):   # 古書の挿絵/銅版画/地図等は採用しない
+        _title = p.get("title", "")
+        if _looks_non_photo(_title):   # 古書の挿絵/銅版画/地図等は採用しない
             diag["nonphoto"] += 1
+            continue
+        if _looks_non_japan(_title):   # 中国/韓国/海外の同名行事は日本の記事に使わない
+            diag["nonjp"] = diag.get("nonjp", 0) + 1
             continue
         w, h = ii.get("width", 0), ii.get("height", 0)
         if w < 900 or h < 560:           # アイコン/図版/小画像を除外
