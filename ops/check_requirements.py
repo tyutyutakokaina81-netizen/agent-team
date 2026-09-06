@@ -117,6 +117,24 @@ if os.path.exists(paidscript):
     else:
         add("R10 有料フッター差込", "BROKEN", "append_paid_footer.py に結果行修正が入っていない")
 
+# R2d フォールバック汚染: 同じ画像が複数記事に配られていたら「記事固有のサムネ」ではない。
+# 実測(2026-09-06 CQO)=318枚中ユニーク176種、うち1枚の汎用画像が71ファイルに配られており、
+# 「jpgが在る＝サムネ有り」という被覆を水増ししていた。3記事以上で共有＝フォールバックとみなす。
+import hashlib as _hl
+from collections import defaultdict as _dd
+_groups = _dd(list)
+for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
+    try:
+        _groups[_hl.md5(open(_f, "rb").read()).hexdigest()].append(os.path.basename(_f)[:-4])
+    except OSError:
+        pass
+_fallback = {st for v in _groups.values() if len(v) >= 3 for st in v}
+if _fallback:
+    add("R2d フォールバック汚染", "STALE",
+        f"同一画像を3記事以上で共有 {len(_fallback)}本 → 記事固有でない(被覆の水増し)。削除して再取得を検討")
+else:
+    add("R2d フォールバック汚染", "OK", f"ユニーク画像 {len(_groups)}種／使い回し(3記事以上)なし")
+
 # R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
 # (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。
 unverified = [os.path.basename(f)[:-3] for f in recent_arts

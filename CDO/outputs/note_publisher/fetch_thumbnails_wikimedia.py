@@ -179,8 +179,18 @@ def _is_color_photo(data: bytes) -> bool:
     try:
         im = Image.open(io.BytesIO(data)).convert("RGB")
         im.thumbnail((200, 200))
-        sat = ImageStat.Stat(im.convert("HSV")).mean[1] / 255.0
-        return sat >= MIN_SATURATION
+        hsv = im.convert("HSV")
+        sat = ImageStat.Stat(hsv).mean[1] / 255.0
+        if sat < MIN_SATURATION:
+            return False
+        # 2026-09-06 CQO指摘: セピアの銅版画スキャンは彩度0.168で閾値を超え素通りした。
+        # セピア/単色調は「色相がひとつに集中する」ので、色相の広がりでも判定する。
+        hues = [h for h, s_, v_ in hsv.getdata() if s_ > 40 and v_ > 30]
+        if len(hues) > 50:
+            spread = len({h // 16 for h in hues})     # 色相を16分割した占有ビン数
+            if spread <= 2:                            # ほぼ単一色相＝セピア/単色着色
+                return False
+        return True
     except Exception:
         return True                      # 解析できない時は通す（取り逃しを防ぐ）
 
