@@ -84,11 +84,25 @@ jobs:
       #   取得できなかった記事はサムネ無しで残し（provenance未記録）、次回トリガーで再取得（自己修復）。
       #   note見出しは みんなのフォトギャラリー 手動採用も可。
 
+      # 2026-09-07 _no_auto(意図的に無サムネ)の記事にjpgが残っていたら必ず消す。
+      # 実測: `git add -f *.jpg` は削除を反映しないため、旧コミットで走ったrunが再取得する度に
+      # 誤サムネ(中国の舞獅)が復活し5回繰り返した。ワークフロー側でも強制して断ち切る。
+      - name: Enforce _no_auto (remove intentional no-thumbnail files)
+        run: |
+          NA=CDO/outputs/note_publisher/thumbnails/_no_auto.txt
+          if [ -f "$NA" ]; then
+            grep -v '^\s*#' "$NA" | grep -v '^\s*$' | while read -r stem; do
+              f="CDO/outputs/note_publisher/thumbnails/${stem}.jpg"
+              [ -f "$f" ] && { rm -f "$f"; echo "removed (no_auto): $stem"; }
+            done
+          fi
+
       - name: Commit thumbnails
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
+          git add -A CDO/outputs/note_publisher/thumbnails/ || true   # 削除も反映(no_auto除去が消えないように)
           git add -f CDO/outputs/note_publisher/thumbnails/_provenance.json || true
           if git diff --cached --quiet; then
             echo "サムネ更新なし（取得ゼロ）＝commit/pushしない"
