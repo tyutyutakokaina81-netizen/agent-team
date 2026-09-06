@@ -644,3 +644,16 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 - **A6対応**：英語要約の冒頭を "Come to …" 型に変更（直近5本が In/From/Across/In/In と偏っていたCQO指摘を反映）。
 - **✅公開済(2026-09-06 08:00 JST)**: https://note.com/safe_canna441/n/nfcb35ebb2f13 ／ ⚠️サムネは`_no_auto`(無サムネ確定)だが、旧コミットで走ったbot runが誤サムネ(中国の舞獅)を再取得していたため、**公開記事に誤サムネが付いていないか owner 確認要**。
 - **✅公開済(2026-09-05 08:00 JST・サムネ付き)**: https://note.com/safe_canna441/n/n936820e10c65
+
+
+## 【2026-09-07〜08 新規2本＝サムネ検証済みで公開へ（owner「公開して/サムネつきで」）】
+
+| ファイル | 種別 | 概要 |
+|---------|------|------|
+| CMO/outputs/2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方.md | 食/季節 | 栗=未カバー。海外向けの軸「栗がデザートにならず白飯に入る」。皮むきの手間=割に合わないことも正直に。本文979字。**サムネ=日本の栗めし(白飯に栗が明瞭)をcode目視verify→_verified登録済**(※駅弁で副菜が多く本文『米と塩と栗だけ』とは厳密には不一致)。 | ✅ キュー投函 |
+| CMO/outputs/2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ.md | 非食/季節・文化 | 虫の声=タイトル未カバー。日本語が虫の音を「声」と呼ぶ点を軸に。脳科学の俗説は諸説ありと明記しあえて踏み込まない(A5)。本文953字。**サムネ=スズムシ2匹をcode目視verify→_verified登録済**(※飼育ケース内で本文『夜の草むら』の情感とは不一致)。 | ✅ キュー投函 |
+| apps/toyama-guide/en-kurigohan.html / en-insect-voices.html | 英語SEO | 各専用EN(canonical/hreflang/JSON-LD)。en.html導線追加+sitemap再生成。 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | kurigohan-thread / insect-voices-thread を追加=計18スレッド。DRY-RUN 4tw≤280。 |
+
+- **手順を変更**: 従来は「記事→公開→サムネ」だったが、サムネが誤取得だらけだったため**「サムネ取得→code目視verify→_verified登録→公開」**の順に変更。これで publish が実際に見出し画像を使う。
+- A6: 冒頭を "Ask someone…" / "There is a word…" と型を変え、締めの型も変更(CQO指摘D5)。字数はメタと実測を自動同期(D4再発防止)。

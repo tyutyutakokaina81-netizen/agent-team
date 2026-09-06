@@ -640,3 +640,22 @@ An hour of peeling for ten minutes of eating. People still do it, probably becau
 2/ Kurigohan = rice + chestnuts + a little salt. That's basically the whole recipe. Some add glutinous rice or a splash of sake. No sugar goes in.
 3/ Why no sugar? The explanation you hear: rice and chestnut are two different kinds of sweetness, and sugar would flatten the difference between them. Hard to prove — but one bite makes it plausible.
 4/ The catch is the peeling: a hard outer shell AND a bitter inner skin, both by hand. An hour of peeling for ten minutes of eating. People still do it, probably because the hour is the season. #Japan #japanesefood
+
+---
+
+# 【2026-09-08 追加】虫の声（mushi no koe / insect voices）クロスポスト
+
+## Reddit（r/JapanTravel, r/japan, r/languagelearning, r/japanlife）
+**タイトル**: `In Japanese, the sound autumn insects make is called a "voice" — not noise`
+```
+Something changes in Toyama nights once September arrives. On the evenings when you can finally sleep with a window open, a sound starts up out of the dark — insects. Japanese has a phrase for it: mushi no ne, or mushi no koe. Literally, the insects' VOICE.
+
+Not chirping. Not noise. A voice. These autumn insects have long been treated as something to be listened to — they appear in classical poetry and work as markers of the turning year. People even distinguish species by sound, though the onomatopoeia varies by source and isn't standardised.
+
+(You may come across the claim that Japanese people process insect sounds like language. That's disputed and far from settled, so I'll leave it aside.)
+
+Japanese quiet doesn't always mean the absence of sound. A night full of insect voices registers as quiet — a sound that's steady and asks nothing of you becomes part of the silence rather than an interruption of it.
+```
+ハッシュタグ: #Japan #Toyama #Japanese #language #autumn #nature
+
+## X スレッド（= ops/x_queue.txt の insect-voices-thread と同一）
