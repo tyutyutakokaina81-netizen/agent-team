@@ -359,6 +359,13 @@ def main() -> None:
         if p.stem in verified:      # owner確認済み=絶対に上書きしない(--forceでもスキップ)
             continue
         if p.stem in no_auto:       # 自動取得を断念した題材=無サムネで確定（--forceでも取りに行かない）
+            # 別runの競合等で既にjpgが在る場合は**消す**。残すとpublisher経路が拾って誤サムネ公開になる。
+            stray = THUMB_DIR / f"{p.stem}.jpg"
+            if stray.exists():
+                try:
+                    stray.unlink(); print(f"  removed stray thumbnail (no_auto): {p.stem}")
+                except Exception:
+                    pass
             continue
         out = THUMB_DIR / f"{p.stem}.jpg"
         # 2026-07-30 Pexels優先化に伴い、既存jpgは（provenance問わず）上書きしない＝

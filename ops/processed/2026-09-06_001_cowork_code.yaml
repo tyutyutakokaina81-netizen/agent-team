@@ -5,8 +5,15 @@ to: code
 created: 2026-09-06T08:00:21+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-09-06_080000
 ---
 
 公開 1 件 / 失敗 0 件 / 写真サムネ未設定 0 件(note既定サムネ適用)（log: ops/logs/publish_2026-09-06_080000.log） | OK: 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる.md
+
+
+---
+
+## 結果 (2026-09-06T00:04:26+00:00)
+
+獅子舞1本を公開。ただしサムネは_no_auto(無サムネ確定)のはずが、旧コミットで走ったbot runがjpgを再取得しており中国の舞獅だった→削除。公開物に誤サムネが付いた可能性ありownerに確認要請。

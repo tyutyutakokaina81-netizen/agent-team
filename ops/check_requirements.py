@@ -131,6 +131,15 @@ elif unverified:
 else:
     add("R2b サムネ採用可否", "OK", "直近のjpg有記事はすべて_verified登録済")
 
+# R2c 無サムネ確定の順守: _no_auto の記事に jpg が在ってはならない
+# (残っているとpublisher経路が拾い、誤サムネのまま公開されうる。実際3回発生)
+stray = [t for t in no_auto if os.path.exists(os.path.join(thumbdir, t + ".jpg"))]
+if stray:
+    add("R2c 無サムネ順守", "BROKEN",
+        f"_no_auto なのにjpgが存在 {len(stray)}本({stray[0][:30]}…) → 削除する(誤サムネ公開の危険)")
+else:
+    add("R2c 無サムネ順守", "OK", f"_no_auto {len(no_auto)}本すべてjpg無し")
+
 # R11 sitemap 鮮度: toyama-guide の全 en ページが sitemap に載っているか
 sm = os.path.join(ROOT, "apps/ai-agency-hp/sitemap.xml")
 guide = os.path.join(ROOT, "apps/toyama-guide")
