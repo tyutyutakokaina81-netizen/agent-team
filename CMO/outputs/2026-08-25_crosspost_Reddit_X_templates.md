@@ -616,3 +616,27 @@ Not all rosy — performers are fewer each year and some troupes have paused. If
 3/ It was never made for tourists, so neighbouring troupes dance differently. Some lions have long cloth bodies with several people inside, rippling like one creature. A tengu or a child squares off against it.
 4/ And the lion comes to your door — down the lanes, dancing at each house. Performers are fewer each year, some troupes paused. Hear flutes on an autumn afternoon? Walk toward the sound. #Japan #Toyama #matsuri
 ```
+
+---
+
+# 【2026-09-07 追加】栗ご飯（kurigohan / chestnut rice）クロスポスト
+
+## Reddit（r/JapanTravel, r/japanesefood, r/food, r/Cooking）
+**タイトル**: `In Japan the chestnut doesn't become dessert — it goes into the rice`
+```
+Outside Japan a chestnut usually becomes something sweet: marrons glacés, Mont Blanc, roasted and sugared. In Japan the most common autumn treatment is different. The chestnuts go into the rice.
+
+Kurigohan is rice cooked with chestnuts and a little salt. That's basically the whole recipe. Some households add a little glutinous rice or a splash of sake — but no sugar. What you get is two different kinds of sweetness side by side, the rice's and the chestnut's. The explanation people give is that sugar would flatten the difference; whether that's really the reason is hard to say, but one bite makes it plausible.
+
+The honest catch is the labour. A chestnut has a hard outer shell and a bitter inner skin, and both have to come off. It takes time and your fingers hurt. Many people soak them overnight first. So nobody makes it daily — a few times during the short weeks chestnuts are around.
+
+An hour of peeling for ten minutes of eating. People still do it, probably because the hour is the season.
+```
+ハッシュタグ: #Japan #japanesefood #kurigohan #chestnut #autumn #Toyama
+
+## X スレッド
+```
+1/ Outside Japan, a chestnut becomes dessert: marrons glacés, Mont Blanc, roasted and sugared. In Japan the most common autumn treatment is different — the chestnuts go into the rice. 🌰🍚
+2/ Kurigohan = rice + chestnuts + a little salt. That's basically the whole recipe. Some add glutinous rice or a splash of sake. No sugar goes in.
+3/ Why no sugar? The explanation you hear: rice and chestnut are two different kinds of sweetness, and sugar would flatten the difference between them. Hard to prove — but one bite makes it plausible.
+4/ The catch is the peeling: a hard outer shell AND a bitter inner skin, both by hand. An hour of peeling for ten minutes of eating. People still do it, probably because the hour is the season. #Japan #japanesefood

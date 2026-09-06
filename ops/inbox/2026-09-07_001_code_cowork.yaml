@@ -1,0 +1,29 @@
+---
+id: 2026-09-07_001
+from: code
+to: cowork
+created: 2026-09-07T09:00:00+09:00
+priority: high
+type: instruction
+status: open
+title: 栗ご飯を「サムネつき」で公開しnote URLを報告(owner「公開して/サムネつきで」)
+---
+
+owner『続けて、公開して／サムネつきで』。code は note投稿不可(A1)のため cowork が実公開する。
+
+■対象: drafts/queue/2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方.md
+
+■サムネは準備済み(今回は確実に付きます):
+  CDO/outputs/note_publisher/thumbnails/2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方.jpg
+  code が目視verify済み(日本の栗めし＝白飯に栗が明瞭)。**_verified.txt に登録済み**なので
+  publish_to_note.py の find_thumbnail_for() が見出し画像として採用します。
+
+■手順: (1)サムネ付きで公開する。写真あり公開の経路を使うこと(テキストのみ不可)。
+  (2)公開後 **note URL を outbox に必ず報告**(URL報告なき公開は不可)。
+  (3)python3 ops/note_to_x.py --article "<basename>" --note-url "<URL>"（Xキーがあれば --go）。
+  (4)published_registry.json / ops/note_urls.tsv に反映。
+
+■注意(既知の別件): 2026-09-06 の獅子舞記事は `_no_auto`＝**意図的に無サムネ**です。
+  もし公開済みの獅子舞記事に中国の獅子舞(舞獅)の画像が付いていたら、見出し画像を削除してください。
+
+■報告: outbox に『サムネ有無/note URL/X連動/失敗理由』。
