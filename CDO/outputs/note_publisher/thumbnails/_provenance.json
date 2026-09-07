@@ -372,5 +372,23 @@
 "2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": "wikimedia",
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": "wikimedia",
 "2026-09-09_note記事_初冠雪_同じ日に海と雪山が見える県": "wikimedia",
-"2026-09-09_note記事_干し柿_渋い柿を風だけで菓子にする": "wikimedia"
+"2026-09-09_note記事_干し柿_渋い柿を風だけで菓子にする": "wikimedia",
+"2026-09-10_note記事_ぎんなん_街路樹の実を拾って食べる": {
+"author": "Fumikas Sagisavas",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Raw_ginkgo_nuts.jpg",
+"file": "File:Raw ginkgo nuts.jpg",
+"license": "CC0",
+"query": "ぎんなん",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Raw_ginkgo_nuts.jpg/1280px-Raw_ginkgo_nuts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-10_note記事_消雪パイプ_道路から水が出て雪を消す": {
+"author": "Daderot",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Snow_removal_-_Yuzawa,_Niigata_-_DSC09418.JPG",
+"file": "File:Snow removal - Yuzawa, Niigata - DSC09418.JPG",
+"license": "CC0",
+"query": "消雪パイプ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Snow_removal_-_Yuzawa%2C_Niigata_-_DSC09418.JPG/1280px-Snow_removal_-_Yuzawa%2C_Niigata_-_DSC09418.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+}
 }
