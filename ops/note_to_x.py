@@ -31,6 +31,8 @@ KEY_MAP = [
     ("虫の声", "insect-voices-thread"), ("鳴き声を声と", "insect-voices-thread"),
     ("栗ご飯", "kurigohan-thread"), ("栗を甘くしない", "kurigohan-thread"),
     ("干し柿", "hoshigaki-thread"), ("ころ柿", "hoshigaki-thread"), ("渋い柿", "hoshigaki-thread"),
+    ("ぎんなん", "ginnan-thread"), ("銀杏", "ginnan-thread"),
+    ("消雪パイプ", "snow-melt-thread"), ("路面から水", "snow-melt-thread"),
     ("初冠雪", "first-snow-thread"), ("海と雪山", "first-snow-thread"),
     ("コスモス", "cosmos"), ("秋桜", "cosmos"),
     ("梨", "pears-thread"),
