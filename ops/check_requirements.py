@@ -168,7 +168,11 @@ elif unverified:
         f"jpg有だが_verified未登録 {len(unverified)}本(例:{unverified[0][:24]}…)"
         " → codeが目視verifyして _verified.txt に追記（未登録だとpublishが使わない）")
 else:
-    add("R2b サムネ採用可否", "OK", "直近のjpg有記事はすべて_verified登録済")
+    # 「直近はOK」だけだと全体の未登録が見えない（CQO指摘・中4）。全件の被覆も必ず数字で出す。
+    _all_jpg = len(glob.glob(os.path.join(thumbdir, "*.jpg")))
+    add("R2b サムネ採用可否", "OK",
+        f"直近のjpg有記事はすべて_verified登録済（全体: jpg {_all_jpg}枚 / _verified {len(verified)}件"
+        f" ＝ 未登録 {max(0, _all_jpg - len(verified))}枚は公開時に見出し画像として使われない）")
 
 # R2c 無サムネ確定の順守: _no_auto の記事に jpg が在ってはならない
 # (残っているとpublisher経路が拾い、誤サムネのまま公開されうる。実際3回発生)
@@ -204,6 +208,29 @@ if _clash:
         f"同一IDがinbox/outboxに重複 {len(_clash)}件({_clash[0]}) → done <id> が取り違える。パス指定で処理すること")
 else:
     add("R12 ops ID衝突", "OK", "inbox/outbox にID重複なし")
+
+# R14 字数メタの実測一致: 記事メタの「文字数」をその場で数えていたため、2日で基準が変わっていた
+# （改行込み/改行除きで約30字ずれ、公開済みの記事は目標値2000のまま実測1475だった）。
+# 正本を body_stats.body_len()（＝copy_body.py と同じ len(body)）に統一し、毎点検で一致を確認する。
+try:
+    import importlib.util as _ilu
+    _bs_path = os.path.join(ROOT, "CDO/outputs/note_publisher/body_stats.py")
+    _spec = _ilu.spec_from_file_location("body_stats", _bs_path)
+    _bs = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_bs)
+    _mismatch = []
+    for _f in recent_arts:
+        _t = open(_f, encoding="utf-8").read()
+        _a, _m = _bs.body_len(_t), _bs.meta_len(_t)
+        if _a is not None and _m is not None and _a != _m:
+            _mismatch.append(os.path.basename(_f))
+    if _mismatch:
+        add("R14 字数メタの実測一致", "STALE",
+            f"メタと実測が不一致 {len(_mismatch)}本(例:{_mismatch[0][:24]}…) → "
+            "`python3 CDO/outputs/note_publisher/body_stats.py --sync <md>` で同期")
+    else:
+        add("R14 字数メタの実測一致", "OK", f"直近{len(recent_arts)}本すべて メタ＝実測(len(body)基準)")
+except Exception as _e:
+    add("R14 字数メタの実測一致", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、
