@@ -657,3 +657,6 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 
 - **手順を変更**: 従来は「記事→公開→サムネ」だったが、サムネが誤取得だらけだったため**「サムネ取得→code目視verify→_verified登録→公開」**の順に変更。これで publish が実際に見出し画像を使う。
 - A6: 冒頭を "Ask someone…" / "There is a word…" と型を変え、締めの型も変更(CQO指摘D5)。字数はメタと実測を自動同期(D4再発防止)。
+- **✅公開済(2026-09-07 08:00 JST・両方サムネ付き／cowork報告『写真サムネ未設定 0件』)**
+  - 栗ご飯 https://note.com/safe_canna441/n/nac4021320e0b
+  - 虫の声 https://note.com/safe_canna441/n/n5f114cef1412

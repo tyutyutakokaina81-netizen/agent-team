@@ -171,6 +171,19 @@ if os.path.exists(sm) and os.path.isdir(guide):
         add("R11 sitemap鮮度", "STALE",
             f"sitemap未掲載 {len(missing)}枚(例:{missing[0]})→ python3 apps/toyama-guide/gen_sitemap.py")
 
+# R12 ops ID衝突: 同じIDが inbox(code→cowork) と outbox(cowork→code) の両方に在ると、
+# process_inbox.py done <id> が意図しない方(自分の発注)を閉じる。実際に2回発生した。
+_in = {os.path.basename(f).split("_")[0] + "_" + os.path.basename(f).split("_")[1]
+       for f in glob.glob(os.path.join(ROOT, "ops/inbox/*.yaml"))}
+_out = {os.path.basename(f).split("_")[0] + "_" + os.path.basename(f).split("_")[1]
+        for f in glob.glob(os.path.join(ROOT, "ops/outbox/*.yaml"))}
+_clash = sorted(_in & _out)
+if _clash:
+    add("R12 ops ID衝突", "BROKEN",
+        f"同一IDがinbox/outboxに重複 {len(_clash)}件({_clash[0]}) → done <id> が取り違える。パス指定で処理すること")
+else:
+    add("R12 ops ID衝突", "OK", "inbox/outbox にID重複なし")
+
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
 add("R8 日次点検の生存", "OK" if days(st) <= 2 else "STALE", f"STATE更新 {days(st):.1f}日前")
