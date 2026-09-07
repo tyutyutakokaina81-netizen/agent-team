@@ -11,7 +11,11 @@
 "2026-05-30_note記事_雨晴駅_海と山が並ぶ場所": "wikimedia",
 "2026-05-31_note記事_フリーランス1年目に教えたい月1万円を逃さないコツ": "wikimedia",
 "2026-05-31_note記事_日曜朝のひとり会社の整え方": "wikimedia",
-"2026-05-31_note記事_無料note30本書いて見えた有料化の境目": "wikimedia",
+"2026-05-31_note記事_無料note30本書いて見えた有料化の境目": {
+"backend": "wikimedia",
+"query": "books reading desk",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-05-31_note記事_白えび丼_富山湾の宝石": "wikimedia",
 "2026-05-31_note記事_鱒寿司_駅弁の宝石": "wikimedia",
 "2026-06-01_note記事_ChatGPTとClaude私の使い分け": "wikimedia",
@@ -49,12 +53,20 @@
 "2026-06-07_note記事_高岡銅器の工房を歩く": "wikimedia",
 "2026-06-08_note記事_富山のぶり大根": "wikimedia",
 "2026-06-08_note記事_富山の山菜": "wikimedia",
-"2026-06-08_note記事_日本の個人発信が海外で読まれる時代": "wikimedia",
+"2026-06-08_note記事_日本の個人発信が海外で読まれる時代": {
+"backend": "wikimedia",
+"query": "books reading desk",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-08_note記事_月曜朝最初に開くファイル": "wikimedia",
 "2026-06-08_note記事_雨晴海岸の早朝散歩": "wikimedia",
 "2026-06-09_note記事_AIと働く1日の中身": "wikimedia",
 "2026-06-09_note記事_かぶら寿司_北陸の冬の保存食": "wikimedia",
-"2026-06-09_note記事_フリーランスで読んだ本ベスト5": "wikimedia",
+"2026-06-09_note記事_フリーランスで読んだ本ベスト5": {
+"backend": "wikimedia",
+"query": "books reading desk",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-09_note記事_富山の塩蔵わかめ_海の保存食": "wikimedia",
 "2026-06-09_note記事_火曜午前のディープワーク時間": "wikimedia",
 "2026-06-10_note記事_いとこ煮": "wikimedia",
@@ -208,7 +220,11 @@
 "2026-08-01_note記事_蚊取り線香_夏の夜のにおい": "wikimedia",
 "2026-08-01_note記事_風鈴_音で涼む夏": "wikimedia",
 "2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置": "wikimedia",
-"2026-08-02_note記事_FIRE報告_本日FIREしました": "wikimedia",
+"2026-08-02_note記事_FIRE報告_本日FIREしました": {
+"backend": "wikimedia",
+"query": "books reading desk",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-02_note記事_お中元_夏のごあいさつ": "wikimedia",
 "2026-08-02_note記事_すだれとよしず_夏の日よけ": "wikimedia",
 "2026-08-02_note記事_みょうが_夏の薬味の名脇役": "wikimedia",
@@ -285,8 +301,16 @@
 "2026-08-16_note記事_帰省_お盆に実家へ帰る": "wikimedia",
 "2026-08-16_note記事_流しそうめん_竹をすべる涼": "wikimedia",
 "2026-08-17_note記事_かき氷_削りたてを急いで食べる": "wikimedia",
-"2026-08-17_note記事_ラジオ体操_夏休みの朝の広場": "wikimedia",
-"2026-08-17_note記事_入道雲と夕立_山の上に立つ白": "wikimedia",
+"2026-08-17_note記事_ラジオ体操_夏休みの朝の広場": {
+"backend": "wikimedia",
+"query": "ラジオ体操",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Radio_Calisthenics_at_Yamato_city_2019.jpg/1280px-Radio_Calisthenics_at_Yamato_city_2019.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-17_note記事_入道雲と夕立_山の上に立つ白": {
+"backend": "wikimedia",
+"query": "入道雲",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Cloud_cumulonimbus_at_baltic_sea%281%29.jpg/1280px-Cloud_cumulonimbus_at_baltic_sea%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-17_note記事_枝豆_茹でたてを塩でつまむ": "wikimedia",
 "2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す": "wikimedia",
 "2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方": "wikimedia",
@@ -294,25 +318,57 @@
 "2026-08-19_有料note_富山の地酒_選び方と楽しみ方": "wikimedia",
 "2026-08-20_note記事_アウディで旅に出る_海と山を一日で": "wikimedia(雨晴海岸_海越しのアルプスを主題一致で流用・code目視verify)",
 "2026-08-21_note記事_AIは一度もやめましょうと言わなかった": "wikimedia",
-"2026-08-25_note記事_富山2日完璧ガイド_氷見と高岡を2日で巡る旅程": "wikimedia",
-"2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル": "wikimedia",
-"2026-08-25_note記事_富山の夏_標高で涼しさが変わる理由": "wikimedia",
+"2026-08-25_note記事_富山2日完璧ガイド_氷見と高岡を2日で巡る旅程": {
+"backend": "wikimedia",
+"query": "氷見線",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/JRW_Himi-line_Kiha47-1015.jpg/1280px-JRW_Himi-line_Kiha47-1015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル": {
+"backend": "wikimedia",
+"query": "盆踊り",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/2024_Umekita_Bon_Odori_Dance_Fes22.jpg/1280px-2024_Umekita_Bon_Odori_Dance_Fes22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-25_note記事_富山の夏_標高で涼しさが変わる理由": {
+"backend": "wikimedia",
+"query": "室堂",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg/1280px-%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-25_note記事_氷見_港町の朝5時から始まる海のリズム": "wikimedia",
 "2026-08-25_note記事_氷見と高岡_港町と古都は何が違うのか": "wikimedia",
 "2026-08-25_note記事_高岡_江戸から昭和への時間旅行": "wikimedia",
 "2026-08-25_note記事_高岡コロッケ_地元民が毎日食べる理由と食べ方ガイド_強化版": "wikimedia",
 "2026-08-25_note記事_高岡コロッケ_脇役を主菜にする食べ方": "wikimedia",
-"2026-08-26_note記事_富山の田んぼ_緑から金色へ変わる収穫前のひと月": "wikimedia",
-"2026-08-27_note記事_富山の水道水はなぜそのまま飲んでおいしいのか": "wikimedia",
+"2026-08-26_note記事_富山の田んぼ_緑から金色へ変わる収穫前のひと月": {
+"backend": "wikimedia",
+"query": "稲刈り",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Farmer_harvesting_rice%2C_Kampung_Rawa_2014-06-20.jpg/1280px-Farmer_harvesting_rice%2C_Kampung_Rawa_2014-06-20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-27_note記事_富山の水道水はなぜそのまま飲んでおいしいのか": {
+"backend": "wikimedia",
+"query": "黒部川",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Power_lines_from_Kurobe_River_No._4_Power_Station.jpg/1280px-Power_lines_from_Kurobe_River_No._4_Power_Station.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-30_note記事_コスモス_チューリップの富山が静かに咲かせる秋の花": "wikimedia",
-"2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え": "wikimedia",
+"2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え": {
+"backend": "wikimedia",
+"query": "田んぼ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Blond_and_green_rice_fields.jpg/1280px-Blond_and_green_rice_fields.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-30_note記事_富山の新米_秋いちばんの一杯": "wikimedia",
-"2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜": "wikimedia",
+"2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜": {
+"backend": "wikimedia",
+"query": "月見団子",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Goma_dango_002.jpg/1280px-Goma_dango_002.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-09-01_note記事_彼岸花_田んぼの畦に突然あらわれる赤": "wikimedia",
 "2026-09-02_note記事_鉄道_富山はなぜ鉄道を手放さなかったのか": "wikimedia",
 "2026-09-04_note記事_梨_富山の梨はりんごのように齧る": "wikimedia",
 "2026-09-05_note記事_共働き_富山で共働きが多いわけ": "wikimedia",
-"2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる": "wikimedia",
+"2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる": {
+"backend": "wikimedia",
+"query": "獅子舞",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Lion_Dance_2.jpg/1280px-Lion_Dance_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": "wikimedia",
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": "wikimedia",
 "2026-09-09_note記事_初冠雪_同じ日に海と雪山が見える県": "wikimedia",
