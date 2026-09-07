@@ -16,11 +16,24 @@ LOG="ops/logs/publish_${TS}.log"
 exec > >(tee -a "$LOG") 2>&1
 
 echo "=== publish run ${TS} (branch=${BR}) ==="
+# ★自身のハッシュを pull の前に控える。bash は実行中のスクリプトをバイト位置で読み進めるため、
+#   pull でこのファイル自体が書き換わると**途中から別の内容を実行してしまう**。
+#   code がこのスクリプトを更新した日に限って壊れる、という再現しにくい事故になるので、
+#   自己更新を検知したら1回だけ exec で再実行する（COWORK_RUN_REEXEC でループを防ぐ）。
+_selfhash() { md5sum ops/cowork_run.sh 2>/dev/null | cut -d' ' -f1 || md5 -q ops/cowork_run.sh 2>/dev/null; }
+_before="$(_selfhash)"
+
 # 自己修復: 前回の未完マージ/リベースや残骸ロックがあると git 同期が全部詰まるので先に解消
 find .git -name '*.lock' -delete 2>/dev/null || true
 git merge --abort  2>/dev/null || true
 git rebase --abort 2>/dev/null || true
 git pull --rebase origin "$BR" || git pull origin "$BR" || { echo "⚠️ pull失敗→origin/${BR}へ強制同期(Macはミラー)"; git fetch origin "$BR" && git reset --hard "origin/${BR}"; }
+
+if [ "${COWORK_RUN_REEXEC:-0}" != "1" ] && [ "$(_selfhash)" != "$_before" ]; then
+  echo "== このスクリプト自身が pull で更新された → 安全のため再実行します =="
+  export COWORK_RUN_REEXEC=1
+  exec bash ops/cowork_run.sh "$@"
+fi
 
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
 # ★Python3.14/PEP668対策：setup.shが作る専用venvがあれば自動でそれを使う
