@@ -196,18 +196,44 @@ if os.path.exists(sm) and os.path.isdir(guide):
         add("R11 sitemap鮮度", "STALE",
             f"sitemap未掲載 {len(missing)}枚(例:{missing[0]})→ python3 apps/toyama-guide/gen_sitemap.py")
 
-# R12 ops ID衝突: 同じIDが inbox(code→cowork) と outbox(cowork→code) の両方に在ると、
-# process_inbox.py done <id> が意図しない方(自分の発注)を閉じる。実際に2回発生した。
-_in = {os.path.basename(f).split("_")[0] + "_" + os.path.basename(f).split("_")[1]
-       for f in glob.glob(os.path.join(ROOT, "ops/inbox/*.yaml"))}
-_out = {os.path.basename(f).split("_")[0] + "_" + os.path.basename(f).split("_")[1]
-        for f in glob.glob(os.path.join(ROOT, "ops/outbox/*.yaml"))}
-_clash = sorted(_in & _out)
+# R12 ops ID衝突: 同じIDが複数の場所に在ると、process_inbox.py done <id> が取り違える／
+# processed への move が過去の完了記録を黙って上書きする。
+# 2026-09-07 拡張(CQO指摘・高4): 当初は inbox×outbox だけを見ていたが、実際の次の事故は
+# **inbox×processed** で起きた。監視要件を「事故の再現形」で書くと次の変奏を取り逃す。
+# 本来の要件は「IDは inbox / outbox / processed を通じて一意」なので、そう書き直す。
+def _ops_ids(sub):
+    out = {}
+    for f in glob.glob(os.path.join(ROOT, f"ops/{sub}/*.yaml")):
+        parts = os.path.basename(f).split("_")
+        if len(parts) >= 2:
+            out.setdefault(parts[0] + "_" + parts[1], []).append(sub)
+    return out
+_seen = {}
+for _sub in ("inbox", "outbox", "processed"):
+    for _i, _where in _ops_ids(_sub).items():
+        _seen.setdefault(_i, []).extend(_where)
+# 実害があるのは次の2つだけ。ID文字列が processed の古い相方と一致するだけでは事故らない
+# （ファイル名が `<id>_code_cowork` と `<id>_cowork_code` で違うため move は上書きしない）ので、
+# それを BROKEN にすると常時赤くなって検知が形骸化する（R2dで学んだのと同じ失敗）。
+#   (a) 未処理(inbox+outbox)に同じIDが2件以上 → `done <id>` がどちらを閉じるか分からない（実際に2回発生）
+#   (b) 未処理のファイル名が processed に既に在る → move が過去の完了記録を黙って上書きする（実際に発生）
+_active_ids = {}
+for _sub in ("inbox", "outbox"):
+    for _f in glob.glob(os.path.join(ROOT, f"ops/{_sub}/*.yaml")):
+        _parts = os.path.basename(_f).split("_")
+        if len(_parts) >= 2:
+            _active_ids.setdefault(_parts[0] + "_" + _parts[1], []).append(os.path.basename(_f))
+_ambiguous = sorted(i for i, fs in _active_ids.items() if len(fs) > 1)
+_overwrite = sorted(n for fs in _active_ids.values() for n in fs
+                    if os.path.exists(os.path.join(ROOT, "ops/processed", n)))
+_clash = _ambiguous + _overwrite
 if _clash:
     add("R12 ops ID衝突", "BROKEN",
-        f"同一IDがinbox/outboxに重複 {len(_clash)}件({_clash[0]}) → done <id> が取り違える。パス指定で処理すること")
+        f"未処理で取り違え {len(_ambiguous)}件 / processed上書きの恐れ {len(_overwrite)}件"
+        f"（例:{_clash[0]}）→ IDを振り直すこと")
 else:
-    add("R12 ops ID衝突", "OK", "inbox/outbox にID重複なし")
+    add("R12 ops ID衝突", "OK",
+        f"未処理 {len(_active_ids)}件はID一意、かつ processed と同名なし（上書き事故なし）")
 
 # R14 字数メタの実測一致: 記事メタの「文字数」をその場で数えていたため、2日で基準が変わっていた
 # （改行込み/改行除きで約30字ずれ、公開済みの記事は目標値2000のまま実測1475だった）。
@@ -231,6 +257,39 @@ try:
         add("R14 字数メタの実測一致", "OK", f"直近{len(recent_arts)}本すべて メタ＝実測(len(body)基準)")
 except Exception as _e:
     add("R14 字数メタの実測一致", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
+# R15 題材トークンの有無: 重複ゲート(topic_conflict)はタイトルから抽出した「題材トークン」で判定するが、
+# 純ひらがなの主題語（例:「ぎんなん」）は「漢字を含む or 3字以上カタカナ」条件で落ち、
+# トークンが長い句だけになって**重複判定に一切現れない**（CQO指摘・中1）。
+# 実測: 「ぎんなん：街路樹に実る、拾って食べるもの」→ {街路樹に実る, 拾って食べる} だけだった。
+# 短い題材語が1つも出ない記事を検知し、TOPIC_SYNONYMS への登録を促す。
+try:
+    import re as _re
+    _pub = open(os.path.join(ROOT, "CDO/outputs/note_publisher/publish_to_note.py"), encoding="utf-8").read()
+    _ns = {"re": _re}
+    exec(_pub[_pub.index("TOPIC_STOPWORDS = {"):_pub.index("def topic_conflict(")], _ns)
+    # ファイル名は `YYYY-MM-DD_note記事_<主題>_<サブタイトル>` の形＝<主題>が著者の宣言した題材語。
+    # その主題語がトークン化されない（＝重複判定に現れない）ものだけを拾う。
+    # 長さで足切りすると28/32が引っかかって常時赤くなり検知が形骸化するので、この形にする。
+    _weak = []
+    for _f in recent_arts:
+        _b = os.path.basename(_f)[:-3]
+        _parts = _b.split("_")
+        if len(_parts) < 4:            # 主題セグメントが無い命名は対象外
+            continue
+        _subject = _parts[2]
+        _toks = _ns["_topic_tokens"](_b.split("_", 2)[-1])
+        _canon = _ns["_canon_topic"](_subject)
+        if _canon not in _toks and not any(_subject in t for t in _toks):
+            _weak.append(f"{_b}（主題語『{_subject}』が拾われていない）")
+    if _weak:
+        add("R15 題材トークンの有無", "STALE",
+            f"主題語が重複ゲートに載らない記事 {len(_weak)}本(例:{_weak[0][:40]}…) → "
+            "主題語を publish_to_note.py の TOPIC_SYNONYMS に登録すること（純ひらがな語は特に落ちる）")
+    else:
+        add("R15 題材トークンの有無", "OK", f"直近{len(recent_arts)}本すべて主題語が重複ゲートに載る")
+except Exception as _e:
+    add("R15 題材トークンの有無", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、

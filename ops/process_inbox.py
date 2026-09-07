@@ -103,6 +103,16 @@ def cmd_done(args: argparse.Namespace) -> None:
     p.write_text(render_frontmatter(fm, body + result_block))
     PROCESSED.mkdir(parents=True, exist_ok=True)
     dest = PROCESSED / p.name
+    # 2026-09-07: 同名が既に processed に在ると shutil.move が**黙って上書き**し、
+    # 過去の完了記録が消える（company.md「processed/ へ move（削除しない）」に反する）。
+    # 実際に 2026-09-07_001 が inbox と processed で衝突していた（CQO指摘・高4）。
+    if dest.exists():
+        suffix = 2
+        while (PROCESSED / f"{dest.stem}__dup{suffix}{dest.suffix}").exists():
+            suffix += 1
+        dest = PROCESSED / f"{dest.stem}__dup{suffix}{dest.suffix}"
+        print(f"⚠️ processed に同名が既にあります。上書きせず {dest.name} として退避します。"
+              " （IDの採番が衝突しています＝R13/R12 を確認してください）")
     shutil.move(str(p), str(dest))
     print(f"done: {fm.get('id')} → {dest.relative_to(ROOT.parent)}")
 
@@ -111,14 +121,24 @@ def cmd_post(args: argparse.Namespace) -> None:
     target_dir = OUTBOX if args.type == "report" else INBOX
     target_dir.mkdir(parents=True, exist_ok=True)
     today = dt.date.today().isoformat()
+    # 採番は **inbox / outbox / processed を通じて**空いている番号を選ぶ。
+    # 以前は投函先ディレクトリしか見ておらず、processed に居る同IDと衝突した（CQO指摘・高4）。
+    # IDは「全ディレクトリを通じて一意」が本来の要件。
+    used = set()
+    for d in (INBOX, OUTBOX, PROCESSED):
+        if d.exists():
+            for f in d.glob(f"{today}_*.yaml"):
+                parts = f.stem.split("_")
+                if len(parts) >= 2:
+                    used.add(parts[1])
     seq = 1
     while True:
         seq_str = f"{seq:03d}"
-        name = f"{today}_{seq_str}_{args.from_}_{args.to}.yaml"
-        path = target_dir / name
-        if not path.exists():
+        if seq_str not in used:
             break
         seq += 1
+    name = f"{today}_{seq_str}_{args.from_}_{args.to}.yaml"
+    path = target_dir / name
     task_id = f"{today}_{seq_str}"
     now = dt.datetime.now().astimezone().isoformat(timespec="seconds")
     fm = {
