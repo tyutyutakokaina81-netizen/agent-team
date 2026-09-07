@@ -205,6 +205,26 @@ if _clash:
 else:
     add("R12 ops ID衝突", "OK", "inbox/outbox にID重複なし")
 
+# R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
+# `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、
+# ランナーにもcoworkにも届かず「意図的な無サムネ」が一度も効いていなかった
+# （獅子舞の誤サムネが8回復活した真因）。設定ではなく機構として毎回確認する。
+import subprocess as _sp
+_ctl = ["CDO/outputs/note_publisher/thumbnails/_verified.txt",
+        "CDO/outputs/note_publisher/thumbnails/_no_auto.txt"]
+try:
+    _tracked = set(_sp.run(["git", "ls-files"] + _ctl, cwd=ROOT, capture_output=True,
+                           text=True, timeout=20).stdout.split())
+except Exception:
+    _tracked = set(_ctl)   # gitが使えない環境では判定しない（誤報を出さない）
+_untracked = [c for c in _ctl if c not in _tracked]
+if _untracked:
+    add("R13 制御ファイル追跡", "BROKEN",
+        f"git管理外 {len(_untracked)}件({os.path.basename(_untracked[0])}) → "
+        "`git add -f` しないとランナー/coworkに届かず、無サムネ指定も検証済み指定も効かない")
+else:
+    add("R13 制御ファイル追跡", "OK", "_verified.txt / _no_auto.txt はどちらも追跡下")
+
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
 add("R8 日次点検の生存", "OK" if days(st) <= 2 else "STALE", f"STATE更新 {days(st):.1f}日前")

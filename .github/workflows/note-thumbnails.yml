@@ -87,15 +87,30 @@ jobs:
       # 2026-09-07 _no_auto(意図的に無サムネ)の記事にjpgが残っていたら必ず消す。
       # 実測: `git add -f *.jpg` は削除を反映しないため、旧コミットで走ったrunが再取得する度に
       # 誤サムネ(中国の舞獅)が復活し5回繰り返した。ワークフロー側でも強制して断ち切る。
+      # 2026-09-07 真因: _no_auto.txt が **git管理外**だった（thumbnails/ が丸ごと .gitignore で、
+      #   force-add していたのは *.jpg と _provenance.json だけ）。つまりランナーにはこのファイルが
+      #   存在せず、no_auto は一度も効いていなかった。獅子舞の誤サムネが8回復活した真の原因はこれ。
+      #   ファイルを追跡下に置いたうえで、ここも「無ければ失敗として鳴らす」ようにする。
       - name: Enforce _no_auto (remove intentional no-thumbnail files)
         run: |
-          NA=CDO/outputs/note_publisher/thumbnails/_no_auto.txt
-          if [ -f "$NA" ]; then
-            grep -v '^\s*#' "$NA" | grep -v '^\s*$' | while read -r stem; do
-              f="CDO/outputs/note_publisher/thumbnails/${stem}.jpg"
-              [ -f "$f" ] && { rm -f "$f"; echo "removed (no_auto): $stem"; }
-            done
-          fi
+          python3 - <<'PYEOF'
+          import os, sys
+          d = "CDO/outputs/note_publisher/thumbnails"
+          na = os.path.join(d, "_no_auto.txt")
+          if not os.path.exists(na):
+              print("::error::_no_auto.txt がランナーに存在しない（git管理外に戻っている）"
+                    " → 意図的な無サムネが効かず誤サムネが復活します")
+              sys.exit(1)
+          stems = [l.strip() for l in open(na, encoding="utf-8")
+                   if l.strip() and not l.strip().startswith("#")]
+          removed = 0
+          for st in stems:
+              f = os.path.join(d, st + ".jpg")
+              if os.path.exists(f):
+                  os.remove(f); removed += 1
+                  print(f"removed (no_auto): {st}")
+          print(f"=== _no_auto: {len(stems)}件を確認 / {removed}件を削除 ===")
+          PYEOF
 
       - name: Commit thumbnails
         run: |
@@ -104,6 +119,10 @@ jobs:
           git add -f CDO/outputs/note_publisher/thumbnails/*.jpg || true
           git add -A CDO/outputs/note_publisher/thumbnails/ || true   # 削除も反映(no_auto除去が消えないように)
           git add -f CDO/outputs/note_publisher/thumbnails/_provenance.json || true
+          # 制御ファイル(_verified/_no_auto)も必ず追跡下に置く。thumbnails/ は .gitignore 済のため
+          # -f しないと**ランナーからもcoworkからも見えない**（no_auto が効かなかった原因）。
+          git add -f CDO/outputs/note_publisher/thumbnails/_verified.txt || true
+          git add -f CDO/outputs/note_publisher/thumbnails/_no_auto.txt || true
           if git diff --cached --quiet; then
             echo "サムネ更新なし（取得ゼロ）＝commit/pushしない"
             exit 0
