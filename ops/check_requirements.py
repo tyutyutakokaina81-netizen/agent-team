@@ -128,7 +128,9 @@ for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
         _groups[_hl.md5(open(_f, "rb").read()).hexdigest()].append(os.path.basename(_f)[:-4])
     except OSError:
         pass
-_fallback = {st for v in _groups.values() if len(v) >= 3 for st in v}
+# _verified 掲載分は「code目視verifyのうえで意図的に同じ実写を流用した」もの(例:夏野菜かご/高岡大仏)。
+# これは事故ではないので汚染から除外する＝R2dは「無意識に配られた汎用画像」だけを検知する。
+_fallback = {st for v in _groups.values() if len(v) >= 3 for st in v} - verified
 if _fallback:
     add("R2d フォールバック汚染", "STALE",
         f"同一画像を3記事以上で共有 {len(_fallback)}本 → 記事固有でない(被覆の水増し)。削除して再取得を検討")

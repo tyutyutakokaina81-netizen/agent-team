@@ -229,13 +229,20 @@ def is_jp_only(title: str, stem: str) -> bool:
 
 
 def query_for(title: str, stem: str) -> str:
+    """題材に対応する検索語を返す。対応表に無ければ **空文字**（=取得しない）。
+
+    2026-09-07 根本修正(R2d フォールバック汚染):
+    かつては未対応題材に "toyama japan landscape mountains" / "japanese cuisine toyama" という
+    **汎用クエリ**を返していた。汎用クエリは常に同じ1枚を返すため、**59記事に同一画像**が配られ
+    「サムネ取得済み」の被覆だけが水増しされ、中身は記事と無関係だった。
+    会社ルール「誤サムネより無サムネが正(A5)」に従い、対応表に無い題材は取得しない。
+    → 新しい題材は RULES / JP_QUERY に**記事固有の語**を追加して対応する。
+    """
     hay = title + " " + stem
     for key, q in RULES:
         if key in hay:
             return q
-    if any(h in hay for h in FOOD_HINT):
-        return "japanese cuisine toyama"
-    return "toyama japan landscape mountains"
+    return ""
 
 
 def load_verified() -> set:
@@ -306,6 +313,10 @@ def main() -> None:
             skip += 1
             continue
         q = query_for(title, stem)
+        if not q:   # 対応表に無い題材＝汎用画像を配らない(R2d フォールバック汚染の根本対処)
+            print(f"  skip(no query): {stem} → RULES/JP_QUERYに記事固有の語を追加すれば取得対象になる")
+            miss += 1
+            continue
         try:
             img = fetch_url(q)
             if not img:

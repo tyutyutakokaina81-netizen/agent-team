@@ -660,3 +660,19 @@ cowork自動公開デーモン（2026-08-27 08:00 JST）でキュー刷新後の
 - **✅公開済(2026-09-07 08:00 JST・両方サムネ付き／cowork報告『写真サムネ未設定 0件』)**
   - 栗ご飯 https://note.com/safe_canna441/n/nac4021320e0b
   - 虫の声 https://note.com/safe_canna441/n/n5f114cef1412
+
+## 【2026-09-09 新規2本＋サムネ生成の根本修正（汎用フォールバック廃止）】
+
+| ファイル | 種別 | 概要 | ステータス |
+|---------|------|------|-----------|
+| CMO/outputs/2026-09-09_note記事_干し柿_渋い柿を風だけで菓子にする.md | 食/季節 | 「そのままでは食べられない渋柿が、砂糖も火も使わず菓子になる」を軸に。北陸の湿度でカビる＝失敗もある不都合を明記。本文1,152字。**重複注意=既存の未公開ドラフト『富山のころ柿_軒先で干す甘み』(2026-06-13/06-16)と同題材（ころ柿＝干し柿の表記ゆれ）。両方とも未公開のため本稿を正とする**（旧稿は残置）。 | サムネ取得待ち→verify→公開 |
+| CMO/outputs/2026-09-09_note記事_初冠雪_同じ日に海と雪山が見える県.md | 非食/自然・季節 | 「初冠雪＝麓から目視で判定する」「海抜0mの湾から3000m級が近い」を軸に。“珍しい”は断定せず留保（A5）。本文1,088字。 | サムネ取得待ち→verify→公開 |
+| apps/toyama-guide/en-hoshigaki.html / en-first-snow.html | 英語SEO | 各専用EN（canonical/hreflang/JSON-LD/fact-check）。en.html導線追加＋sitemap再生成（toyama 192→194件）。 | 完了 |
+| ops/x_queue.txt / ops/note_to_x.py | X連動 | hoshigaki-thread / first-snow-thread を追加＝計20スレッド。DRY-RUN で両方 4tw すべて280字以内を確認。 | 完了 |
+| CDO/outputs/note_publisher/fetch_note_thumbnails.py | 自動化(根本修正) | **`query_for()` の汎用フォールバックを廃止**。対応表に無い題材に "toyama japan landscape mountains" を返していたため、**同一画像1枚が59記事に配られていた**（サムネ被覆の水増し／記事と無関係）。対応表に無ければ空文字＝取得しない（誤サムネより無サムネ・A5）。 | 完了 |
+| CDO/outputs/note_publisher/thumbnails/ | 検品 | 汚染94枚を削除（319→225枚）。_verified 掲載の意図的流用19枚は保持。R2d は OK（ユニーク175種・使い回しなし）へ。 | 完了 |
+| CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py | 自動化 | JP_QUERY に**記事ごとに異なる**日本語語を14件追加（富山湾/雨晴海岸/弥陀ヶ原/氷見漁港/瑞龍寺/高岡大仏/田んぼ/水道水/稲穂/中秋の名月/ヒガンバナ/立山連峰/干し柿）。重複クエリ0件を機械確認。 | 完了 |
+| ops/check_requirements.py | 監視 | R2d から _verified 掲載分を除外（code目視verify済の意図的流用は事故ではない）＝**無意識に配られた汎用画像だけ**を検知するようにした。 | 完了 |
+
+- **A6**: 干し柿＝"Rows of orange fruit hang…"（名詞主語の平叙）、初冠雪＝"September in Toyama is still hot…"（季節主語の状態叙述）。直近の Something / Ask someone / Come to / In Toyama と重ならない型を選択。
+- 字数はメタと実測を自動同期（D4再発防止）。
