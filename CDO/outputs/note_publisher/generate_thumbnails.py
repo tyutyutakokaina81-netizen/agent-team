@@ -34,6 +34,16 @@ PROV_FILE = THUMB_DIR / "_provenance.json"
 GOOD_BACKENDS = {"openai", "gemini", "pollinations"}
 
 
+def backend_of(v):
+    """_provenance.json の値を backend名(str)に正規化する。
+    2026-09-07 から値は {"backend": "wikimedia", "query": ..., "src": ...} という dict にもなる
+    （誤サムネの原因を後から追えるようにするため）。旧形式の素の文字列も受ける。
+    ※ dict を set と比較すると TypeError(unhashable) で落ちるので、必ずここを通すこと。"""
+    if isinstance(v, dict):
+        return v.get("backend")
+    return v
+
+
 def load_provenance() -> dict:
     try:
         return json.loads(PROV_FILE.read_text(encoding="utf-8"))
@@ -179,7 +189,7 @@ def main():
         # 既存をスキップする条件：--force でなく、かつ「素性が良い」と記録済みのときだけ。
         # 既存でも素性不明（過去のpicsumランダム等＝記録に無い）なら関連画像へ1回だけ再生成する。
         if out.exists() and not args.force:
-            if prov.get(a.stem) in GOOD_BACKENDS:
+            if backend_of(prov.get(a.stem)) in GOOD_BACKENDS:
                 continue
             healed += 1  # 素性不明の既存を再生成対象に含める
         prompt = extract_thumb_prompt(a.read_text(encoding="utf-8"))

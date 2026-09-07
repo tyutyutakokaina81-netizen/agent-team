@@ -97,14 +97,25 @@ if os.path.exists(bt):
     rows = [l for l in open(bt, encoding="utf-8").read().splitlines()[1:] if l.strip()]
     sweep_total = len(rows)
     sweep_done = sum(1 for l in rows if "\tYES\t" in l)
-sweep_note = f"／過去記事棚卸し {sweep_done}/{sweep_total}" if sweep_total else ""
+# _sweep.tsv = fetch_note_comments.py が実際に巡回した記事の記録（cowork の日次に組み込み済）。
+# backlog_targets.tsv の手書きYESより、こちらが「本当に巡回したか」の一次証拠になる。
+sw = os.path.join(ROOT, "ops/comments/_sweep.tsv")
+sweep_actual = (sum(1 for _ in open(sw, encoding="utf-8")) - 1) if os.path.exists(sw) else 0
+sweep_note = (f"／過去記事棚卸し {sweep_done}/{sweep_total}" if sweep_total else "") + \
+             f"／実巡回 {sweep_actual}本"
 if posted > 0:
     add("R6 コメント返信", "OK", f"投稿済 {posted}件{sweep_note}")
 elif pend_rows > 0:
     add("R6 コメント返信", "BROKEN", f"pending {pend_rows}件あるのに投稿0{sweep_note}")
+elif sweep_actual > 0:
+    # 巡回は動いているがコメントが1件も無い＝「仕組みが動いていない」ではなく「コメントが無い」。
+    # この2つを混同すると、実績ゼロの理由を誤診する（過去に BLOCKED 表示で6日放置した）。
+    add("R6 コメント返信", "OK",
+        f"収集は稼働中（{sweep_actual}本巡回済）だがコメント0件＝返信対象なし{sweep_note}")
 else:
     add("R6 コメント返信", "BLOCKED",
-        f"pending空・棚卸し未着手{sweep_note}。前提=cowork の note-login取得(過去記事の全件スイープ)が未稼働")
+        f"pending空・**実巡回0本**{sweep_note}。取得スクリプト(fetch_note_comments.py)は"
+        "cowork日次(ops/cowork_run.sh)に組込み済 → 次回のcowork実行で巡回数が入るはず")
 
 # R10 有料フッター差し込みの健全性: 「結果行なし」誤失敗のコード修正が入っているか
 paidscript = os.path.join(ROOT, "CDO/outputs/note_footer/append_paid_footer.py")
@@ -130,12 +141,20 @@ for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
         pass
 # _verified 掲載分は「code目視verifyのうえで意図的に同じ実写を流用した」もの(例:夏野菜かご/高岡大仏)。
 # これは事故ではないので汚染から除外する＝R2dは「無意識に配られた汎用画像」だけを検知する。
-_fallback = {st for v in _groups.values() if len(v) >= 3 for st in v} - verified
+# 判定基準の見直し(2026-09-07): 「3記事以上で同一」は**同一題材の重複ドラフト**（例: ころ柿が2本＋干し柿、
+# 魚津の蜃気楼が2本）にも当たってしまい、常時STALEになって検知が形骸化する。
+# 本当に捕まえたいのは「無関係な題材に1枚が広く配られる」＝汎用フォールバック（実測59〜71ファイル）なので、
+# **_verified を除いた実質の共有数が4以上**のときだけ異常とする。3件は明細だけ出して警告にしない。
+_shared = [[st for st in v if st not in verified] for v in _groups.values() if len(v) >= 3]
+_fallback = {st for v in _shared if len(v) >= 4 for st in v}
+_minor = sum(1 for v in _shared if 0 < len(v) < 4)
 if _fallback:
     add("R2d フォールバック汚染", "STALE",
-        f"同一画像を3記事以上で共有 {len(_fallback)}本 → 記事固有でない(被覆の水増し)。削除して再取得を検討")
+        f"1枚を4記事以上(未verify)で共有 {len(_fallback)}本 → 汎用画像が配られている疑い。削除して再取得を検討")
 else:
-    add("R2d フォールバック汚染", "OK", f"ユニーク画像 {len(_groups)}種／使い回し(3記事以上)なし")
+    add("R2d フォールバック汚染", "OK",
+        f"ユニーク画像 {len(_groups)}種／汎用配布(4本以上)なし"
+        + (f"（同一題材の重複 {_minor}組は正常として除外）" if _minor else ""))
 
 # R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
 # (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。

@@ -58,13 +58,23 @@ def list_articles(flt: str) -> list[Path]:
     return out
 
 
+def backend_of(v):
+    """_provenance.json の値を backend名(str)に正規化する。
+    2026-09-07 から値は {"backend": "wikimedia", "query": ..., "src": ...} という dict にもなる
+    （誤サムネの原因を後から追えるようにするため）。旧形式の素の文字列も受ける。
+    ※ dict を set と比較すると TypeError(unhashable) で落ちるので、必ずここを通すこと。"""
+    if isinstance(v, dict):
+        return v.get("backend")
+    return v
+
+
 def classify(articles: list[Path], prov: dict) -> dict:
     """各記事を covered / missing_file / bad_backend に分類する。"""
     covered, missing_file, bad_backend = [], [], []
     for p in articles:
         stem = p.stem
         jpg = THUMB_DIR / f"{stem}.jpg"
-        backend = prov.get(stem)
+        backend = backend_of(prov.get(stem))
         if not jpg.exists():
             missing_file.append((stem, backend))
         elif backend not in GOOD_BACKENDS:

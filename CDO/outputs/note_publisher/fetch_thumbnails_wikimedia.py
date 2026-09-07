@@ -85,13 +85,18 @@ JP_QUERY = [
     # 対応表に無い題材は無サムネになる＝ここに記事ごとに違う語を足すのが唯一の増やし方）。
     # 同じ語を複数記事に割り当てると同一画像が配られてR2d(フォールバック汚染)になるので、必ず別語にする。
     ("彼岸花", "ヒガンバナ"), ("曼珠沙華", "ヒガンバナ"),
-    ("十五夜", "中秋の名月"), ("お月見", "中秋の名月"), ("名月", "中秋の名月"),
-    ("二百十日", "稲穂"),
+    # 2026-09-07 目視verifyで不合格だった語を差し替え（何がどう外れたかを残す）:
+    #   中秋の名月→画面の大半が黒い満月／稲穂→シャーレの籾の標本／水道水→蛇口の水を飲む猫
+    #   田んぼ→東南アジアの水田（少年と牛）／弥陀ヶ原→ホテルの外観／雨晴海岸→曇天の灰色の岩場
+    ("十五夜", "月見団子"), ("お月見", "月見団子"), ("名月", "月見団子"),
+    # 2026-09-07 追加: 通信社透かし(FARS)と海外開催の日本祭りを拾っていた2本。名前ガードを入れたうえで再取得する。
+    ("ラジオ体操", "ラジオ体操"),
+    ("帰省と祭り", "盆踊り"), ("祭りのサイクル", "盆踊り"),
     ("干し柿", "干し柿"), ("ころ柿", "干し柿"), ("渋柿", "干し柿"),
     ("初冠雪", "立山連峰"), ("冠雪", "立山連峰"),
-    ("標高で涼しさ", "弥陀ヶ原"),
-    ("水道水", "水道水"),
-    ("完璧ガイド", "雨晴海岸"), ("2日で巡る", "雨晴海岸"),
+    ("標高で涼しさ", "室堂"),
+    ("水道水", "黒部川"),
+    ("完璧ガイド", "氷見線"), ("2日で巡る", "氷見線"),
     ("港町の朝", "氷見漁港"),
     ("港町と古都", "瑞龍寺"),
     ("江戸から昭和", "高岡大仏"),
@@ -99,6 +104,7 @@ JP_QUERY = [
     ("虫の声", "スズムシ"), ("鈴虫", "スズムシ"), ("秋の虫", "スズムシ"),
     ("栗ご飯", "栗ご飯"), ("栗", "栗"),
     ("新米", "白米"), ("白米", "白米"),
+    ("緑から金色", "稲刈り"), ("収穫前", "稲刈り"),
     ("田んぼ", "田んぼ"), ("稲", "田んぼ"), ("水田", "田んぼ"),
     ("たこ焼き", "たこ焼き"), ("たこ焼", "たこ焼き"),
     ("麦わら帽子", "麦わら帽子"), ("麦藁帽子", "麦わら帽子"),
@@ -241,12 +247,33 @@ NON_JAPAN_HINTS = (
     "vietnam", "singapore", "malaysia", "thailand", "san francisco", "new york",
     "london", "paris", "sydney", "vancouver", "los angeles", "usa", "u.s.",
     "舞獅", "中国", "中華街", "唐人街",
+    # 2026-09-07 実測で再発したもの。海外で行われる日本祭り／東南アジアの水田／欧州の海岸が
+    # 「日本の写真」として配られていた（富山の8月＝米国の Matsuri Festival の舞台、
+    #  田んぼ＝東南アジアの水牛と少年、入道雲＝バルト海らしき桟橋）。
+    "washington", "seattle", "toronto", "melbourne", "hawaii", "brazil", "peru",
+    "indonesia", "philippines", "cambodia", "laos", "myanmar", "india",
+    "estonia", "latvia", "lithuania", "finland", "sweden", "poland", "germany",
+    "festival in", "matsuri festival", "-us", " ohio", " texas", "california",
+)
+
+# 通信社の透かし入り写真は権利リスク（2026-08-02 と 2026-09-07 に FARS通信の写真を2回拾った）。
+# Commons のファイル名に社名が入ることが多いので、名前で弾く。目視verifyの前段の機械ガード。
+AGENCY_HINTS = (
+    "fars", "irna", "tasnim", "mehr news", "mehrnews", "isna", "yjc",
+    "sputnik", "ria novosti", "xinhua", "kcna", "anadolu", "shutterstock",
+    "getty", "alamy", "watermark",
 )
 
 
 def _looks_non_japan(title: str) -> bool:
     t = (title or "").lower()
     return any(h in t for h in NON_JAPAN_HINTS)
+
+
+def _looks_agency(title: str) -> bool:
+    """通信社/ストックの透かし入りが疑われるファイル名を弾く（権利リスク回避）。"""
+    t = (title or "").lower()
+    return any(h in t for h in AGENCY_HINTS)
 
 
 _ARCHIVE_YEAR = re.compile(r"\b1[5-9]\d\d\b")
@@ -256,6 +283,8 @@ def _looks_non_photo(title: str) -> bool:
     """Commons のファイル名/ページ名から、実写でなさそうなもの(挿絵/図版/古書スキャン)を弾く。"""
     t = (title or "").lower()
     if any(h in t for h in NON_PHOTO_HINTS):
+        return True
+    if _looks_agency(t):
         return True
     return bool(_ARCHIVE_YEAR.search(t))   # 発行年入り=古書スキャンの可能性が高い
 
@@ -331,9 +360,13 @@ def _search_candidates(query: str):
     return [t for _, t in cands], diag
 
 
-def fetch_from_wikimedia(query: str) -> bytes:
-    """検索→実写候補(jpeg/png・横長・十分なサイズ)を順に試し、最初に取れた画像bytesを返す。
-    長い説明的クエリは Commons で0件になりやすいので、段階的に短縮した候補も試す。"""
+def fetch_from_wikimedia(query: str):
+    """検索→実写候補(jpeg/png・横長・十分なサイズ)を順に試し、最初に取れた (bytes, 取得元URL) を返す。
+    長い説明的クエリは Commons で0件になりやすいので、段階的に短縮した候補も試す。
+
+    2026-09-07: 取得元URLも返すようにした。従来 _provenance.json には "wikimedia" としか
+    残しておらず、**あとから「なぜこの写真になったのか」を追えなかった**（FARS通信の透かし写真を
+    2回拾ったのに、どのファイルだったのか特定できなかった）。URLを残せば再発時に名前で弾ける。"""
     last_err: Exception | None = None
     last_diag = None
     for q in _shorten(query):
@@ -351,7 +384,7 @@ def fetch_from_wikimedia(query: str) -> bytes:
                         if not _is_color_photo(b):      # 白黒/セピア=実写サムネに使わない
                             diag["mono"] = diag.get("mono", 0) + 1
                             continue
-                        return b
+                        return b, turl
                     except Exception as e:
                         last_err = e
                 # このクエリでは取れず → 次の（短い）クエリへ
@@ -417,16 +450,18 @@ def main() -> None:
         data = None
         used = None
         last = None
+        src = ""
         for q in tried:
             try:
-                data = fetch_from_wikimedia(q)
+                data, src = fetch_from_wikimedia(q)
                 used = q
                 break
             except Exception as e:
                 last = e
         if data:
             out.write_bytes(data)
-            prov[stem] = "wikimedia"
+            # backend だけでなく **クエリと取得元URL** を残す＝あとから誤サムネの原因を追える
+            prov[stem] = {"backend": "wikimedia", "query": used, "src": src}
             save_prov(prov)
             print(f"  ✓ {out.name}  ← '{used}'  ({len(data)//1024} KB)")
             ok += 1

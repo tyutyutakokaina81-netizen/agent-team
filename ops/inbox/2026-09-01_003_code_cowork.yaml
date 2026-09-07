@@ -19,3 +19,29 @@ owner『noteにコメントあったら自動返信して。これも要件。�
 
 ■安全：ops/comments/PAUSE があれば取得も投稿も停止(kill-switch)。1回の投稿は最大5件・間隔を空ける(凍結回避)。A4/A5厳守・定型コピペ禁止。
 ■報告：ops/outbox に『棚卸し済N記事/既返信X/未返信→pending Y/投稿Z/HOLD W』。旧手動発注2026-09-01_002は本運用に統合。
+
+---
+■2026-09-07 追記（code）＝**この指示は「実行待ち」から「自動化済み」に変わった**。
+
+この指示は 9/1 から 6日間 open のまま**実績ゼロ**（pending 0 / POSTED 0 / 実巡回 0本）だった。
+滞留の原因は cowork の怠慢ではなく、**取得スクリプトが存在しなかった**こと＝code 側の不作為。
+そこで code が以下を用意した。cowork が新たに手で行う作業はもう無い。
+
+1. `CDO/outputs/note_publisher/fetch_note_comments.py` を新規作成
+   - 認証は publish_to_note.py と**同じ永続プロファイル**（毎日の自動公開が動いている＝ログインは生きている）
+   - `published_registry.json` の公開URLを新しい順に巡回。`--backlog` で古い順（Stage0の棚卸しに相当）
+   - 巡回結果は `ops/comments/_sweep.tsv` に記録＝**「本当に巡回したか」の一次証拠**
+   - コメント欄のセレクタが1つも当たらなければ **0件と報告せず NO-SELECTOR** として数え、
+     `--debug` でHTMLを `ops/comments/_debug/` に保存する
+2. `ops/cowork_run.sh` の日次に組み込み（公開直後＝ログインが生きている位置で実行）
+   - 毎回 新着10本＋backlog 5本 を巡回。outbox報告に
+     `【コメント収集】新規 N 件 / セレクタ外れ K 件` を**0件でも必ず**出す
+3. `ops/check_requirements.py` の R6 を修正
+   - 「巡回0本（仕組みが動いていない）」と「巡回済だがコメント0件（返信対象が無い）」を区別する
+     ＝この2つを混同していたために、実績ゼロの理由を誤診して6日放置した
+
+■cowork へのお願い（1つだけ）
+次の日次実行後、outbox 報告の【コメント収集】行と `ops/comments/_sweep.tsv` を push すること。
+**セレクタ外れが出た場合は `ops/comments/_debug/*.html` も一緒に push** してほしい。
+code は note を見られない(A1)ため、そのHTMLが唯一の手がかりになる。次のセッションで code が直す。
+

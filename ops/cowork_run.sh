@@ -111,8 +111,31 @@ for q in drafts/paid_queue/*.txt; do
 done
 echo "=== summary(有料): published=${paid_ok} failed=${paid_ng} ==="
 
+# ---- コメント収集（R6）: 公開と**同じログイン済みプロファイル**で回す ----
+# 2026-09-01 の指示から実績ゼロのまま滞留していた要件。滞留の理由は「cowork に取得スクリプトが無い」
+# ことだったので、code が fetch_note_comments.py を書き、日次のここに組み込む＝待つのをやめる。
+# 公開が終わった直後＝ログインが生きていることが確認できた状態で回すのが最も確実。
+comment_new=0; comment_sel_fail=0
+if [ $login_fail -eq 0 ]; then
+  CFETCH="CDO/outputs/note_publisher/fetch_note_comments.py"
+  if [ -f "$CFETCH" ]; then
+    echo "=== コメント収集（新着10本＋backlog5本） ==="
+    cout="$("$PYBIN" "$CFETCH" --limit 10 --debug 2>&1; "$PYBIN" "$CFETCH" --backlog --limit 5 --debug 2>&1)"
+    echo "$cout" | tee -a "$LOG"
+    # 「=== 結果: 巡回 N / 新規コメント M / セレクタ外れ K ===」を合算する
+    comment_new=$(echo "$cout" | sed -n 's/.*新規コメント \([0-9]*\) .*/\1/p' | awk '{s+=$1} END{print s+0}')
+    comment_sel_fail=$(echo "$cout" | sed -n 's/.*セレクタ外れ \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
+  else
+    echo "⚠️ ${CFETCH} が無い（未pull?）→ コメント収集はスキップ"
+  fi
+else
+  echo "ログイン切れのためコメント収集はスキップ"
+fi
+
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用)（log: ${LOG}）"
+body="${body}
+【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
 if [ $((paid_ok + paid_ng)) -gt 0 ]; then
   body="${body}
 【有料note】公開 ${paid_ok} 件 / 失敗 ${paid_ng} 件"

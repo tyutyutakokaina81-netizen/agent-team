@@ -8,7 +8,14 @@ owner『自動返信して』。**owner は個々のコメントに触らない*
 
 ## 3ステージ（owner ハンズオフ）
 
-1. **取得（cowork・定期）**：note の各記事の**新着コメント**を取得し `ops/comments/pending.tsv` に追記（既取得はスキップ＝dedup）。投稿はしない。
+1. **取得（cowork・日次で自動）**：`CDO/outputs/note_publisher/fetch_note_comments.py` が note の各記事を巡回し、
+   新着コメントを `ops/comments/pending.tsv` に追記（既取得はスキップ＝dedup）。投稿はしない。
+   **`ops/cowork_run.sh` の日次に組み込み済**（公開の直後＝ログインが生きている状態で走る）ため、
+   owner が手で叩く必要はない。認証は publish_to_note.py と同じ永続プロファイル。
+   - 巡回した記事は `ops/comments/_sweep.tsv` に記録される＝**「本当に巡回したか」の一次証拠**。
+   - コメント欄のセレクタが1つも当たらなかった場合は **0件と報告せず `NO-SELECTOR`** として数える。
+     `--debug` で当該ページのHTMLが `ops/comments/_debug/` に保存されるので、それを見て code が直す。
+     （「動いたが成果物ゼロ」と「そもそも取れていない」を必ず区別する。過去にこの混同で6日失った。）
 2. **下書き（code・毎点検で自動）**：`pending.tsv` の未処理行を読み、**1件ずつ個別に返信を生成**して `ops/comments/replies.tsv` に書く。返信ガイドライン(`CMO/outputs/2026-08-16_note返信ガイドライン.md`)の型＝温かく1〜3文・「てつ」の声・A5厳守・**英語コメントは英語**・A4厳守・定型コピペ禁止。
 3. **投稿（cowork・定期）**：`replies.tsv` の `status=READY` のみ投稿し、`POSTED`＋URLに更新。`HOLD*` は投稿しない。
 
