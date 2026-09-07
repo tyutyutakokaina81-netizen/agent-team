@@ -326,7 +326,9 @@ def _search_candidates(query: str):
     params = {
         "action": "query", "format": "json", "generator": "search",
         "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": "12",
-        "prop": "imageinfo", "iiprop": "url|mime|size", "iiurlwidth": "1280",
+        # extmetadata も取る＝ライセンス/作者を保存するため（CC BY-SA は表示義務がある。
+        # CQO指摘・中3: これまで出典を一切残しておらず、権利表示の可否を後から判断できなかった）。
+        "prop": "imageinfo", "iiprop": "url|mime|size|extmetadata", "iiurlwidth": "1280",
         "origin": "*", "maxlag": "5",
     }
     data = json.loads(_get(API + "?" + urllib.parse.urlencode(params)).decode("utf-8"))
@@ -358,9 +360,16 @@ def _search_candidates(query: str):
             continue
         turl = ii.get("thumburl") or ii.get("url")
         if turl:
-            cands.append((p.get("index", 999), turl))
-    cands.sort()
-    return [t for _, t in cands], diag
+            _em = ii.get("extmetadata") or {}
+            _meta = {
+                "file": _title,
+                "license": (_em.get("LicenseShortName") or {}).get("value", ""),
+                "author": re.sub(r"<[^>]+>", "", (_em.get("Artist") or {}).get("value", ""))[:120],
+                "descpage": ii.get("descriptionurl", ""),
+            }
+            cands.append((p.get("index", 999), turl, _meta))
+    cands.sort(key=lambda c: c[0])
+    return [(t, m) for _, t, m in cands], diag
 
 
 def fetch_from_wikimedia(query: str):
@@ -379,7 +388,7 @@ def fetch_from_wikimedia(query: str):
             try:
                 urls, diag = _search_candidates(q)
                 last_diag = diag
-                for turl in urls[:6]:
+                for turl, meta in urls[:6]:
                     try:
                         b = _get(turl)
                         if len(b) < MIN_IMAGE_BYTES:
@@ -387,7 +396,7 @@ def fetch_from_wikimedia(query: str):
                         if not _is_color_photo(b):      # 白黒/セピア=実写サムネに使わない
                             diag["mono"] = diag.get("mono", 0) + 1
                             continue
-                        return b, turl
+                        return b, {"src": turl, **meta}
                     except Exception as e:
                         last_err = e
                 # このクエリでは取れず → 次の（短い）クエリへ
@@ -453,7 +462,7 @@ def main() -> None:
         data = None
         used = None
         last = None
-        src = ""
+        src = {}
         for q in tried:
             try:
                 data, src = fetch_from_wikimedia(q)
@@ -464,9 +473,11 @@ def main() -> None:
         if data:
             out.write_bytes(data)
             # backend だけでなく **クエリと取得元URL** を残す＝あとから誤サムネの原因を追える
-            prov[stem] = {"backend": "wikimedia", "query": used, "src": src}
+            # 出典一式（Commonsのファイル名・ライセンス・作者・説明ページ）を残す。
+            prov[stem] = {"backend": "wikimedia", "query": used, **src}
             save_prov(prov)
-            print(f"  ✓ {out.name}  ← '{used}'  ({len(data)//1024} KB)")
+            print(f"  ✓ {out.name}  ← '{used}'  ({len(data)//1024} KB)  "
+                  f"[{src.get('license') or 'license?'}] {src.get('file', '')}")
             ok += 1
         else:
             print(f"  ✗ {stem}  (tried {tried}): {type(last).__name__ if last else '?'} — {str(last)[:160] if last else ''}")
