@@ -291,6 +291,34 @@ try:
 except Exception as _e:
     add("R15 題材トークンの有無", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R16 見出し画像のライセンス表示: Commons の写真には CC BY / CC BY-SA があり **表示が義務**。
+# 出典を記録し始めた直後に CC BY-SA 3.0/4.0 の写真を2枚採用していたことが判明した（2026-09-11）。
+# 「気づいて書く」ではなく、_verified 登録済みの記事について毎点検で機械確認する。
+try:
+    import importlib.util as _ilu2
+    _tc_path = os.path.join(ROOT, "CDO/outputs/note_publisher/thumb_credit.py")
+    _spec2 = _ilu2.spec_from_file_location("thumb_credit", _tc_path)
+    _tc = _ilu2.module_from_spec(_spec2); _spec2.loader.exec_module(_tc)
+    _prov2 = _tc.load_prov()
+    _nocredit = []
+    for _f in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md")) + \
+               glob.glob(os.path.join(ROOT, "drafts/queue/*.md")):
+        _st = os.path.basename(_f)[:-3]
+        if _st not in verified:
+            continue
+        if _tc.credit_line(_st, _prov2) and not _tc.has_credit(open(_f, encoding="utf-8").read()):
+            _nocredit.append(os.path.basename(_f))
+    if _nocredit:
+        add("R16 見出し画像のクレジット", "BROKEN",
+            f"表示義務のあるライセンスなのにクレジット無し {len(_nocredit)}本(例:{_nocredit[0][:26]}…)"
+            " → `python3 CDO/outputs/note_publisher/thumb_credit.py --apply <md>`")
+    else:
+        _need = sum(1 for _k in verified if _tc.credit_line(_k, _prov2))
+        add("R16 見出し画像のクレジット", "OK",
+            f"表示義務のある採用サムネ {_need}件はすべて本文にクレジットあり（CC0/PDと素性不明は対象外）")
+except Exception as _e:
+    add("R16 見出し画像のクレジット", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、
 # ランナーにもcoworkにも届かず「意図的な無サムネ」が一度も効いていなかった
