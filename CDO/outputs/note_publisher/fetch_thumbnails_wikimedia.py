@@ -97,8 +97,12 @@ JP_QUERY = [
     # と2回外した。カタカナ表記は別の候補（原木に生えた状態など）が上位に来る可能性があるので3度目はこれ。
     # これでも外れたら「なめこ」に戻し、本文の「小さくて」の方を実物に合わせて直す（写真に合わせて記事を直す）。
     # 2026-09-12 の新規2本。候補リスト方式（外れたら次の語）を最初から使う。
-    ("焼き芋", ["焼き芋", "サツマイモ"]), ("さつまいも", ["焼き芋", "サツマイモ"]),
-    ("立山の紅葉", ["ナナカマド", "立山 紅葉", "高山帯 紅葉"]), ("日本でいちばん早い秋", ["ナナカマド", "立山 紅葉"]),
+    # 1巡目の結果を反映して候補順を組み直した:
+    #   焼き芋「焼き芋」→ 韓国の군고구마(ライセンスも kr)。日本語表記の候補を先に来させる。
+    #   紅葉「ナナカマド」→ オーストリアの**緑の**ナナカマド＝紅葉していない。主題語(紅葉)を先頭へ。
+    ("焼き芋", ["石焼き芋", "焼き芋", "サツマイモ"]), ("さつまいも", ["石焼き芋", "焼き芋", "サツマイモ"]),
+    ("立山の紅葉", ["立山 紅葉", "草紅葉", "ナナカマド 紅葉", "高山 紅葉"]),
+    ("日本でいちばん早い秋", ["立山 紅葉", "草紅葉", "高山 紅葉"]),
     ("なめこ", ["ナメコ", "なめこ"]), ("ナメコ", ["ナメコ", "なめこ"]),
     ("夕方のチャイム", "防災行政無線"), ("スピーカーが鳴る", "防災行政無線"), ("防災無線", "防災行政無線"),
     ("ぎんなん", "ぎんなん"), ("銀杏", "ぎんなん"),
@@ -291,6 +295,36 @@ def _looks_non_japan(title: str) -> bool:
     return any(h in t for h in NON_JAPAN_HINTS)
 
 
+# 2026-09-12: 日本語クエリで引いたのに**日本の写真でない**候補が2件続けて通った。
+#   焼き芋 → File:Gungoguma (roasted sweet potatoes) 2.jpg（韓国の군고구마・ライセンスも "CC BY-SA 2.0 kr"）
+#   ナナカマド → File:Sorbus aucuparia Tauerntal（オーストリアのアルプス・しかも葉は緑＝紅葉していない）
+# ファイル名の禁止語リストは「知っている地名」しか弾けず、この2件はどちらも未知の語だった。
+# そこで**禁止でなく優先**に変える＝日本の痕跡がある候補を先に試す。痕跡が無い候補も最後には試すので
+# （「Raw ginkgo nuts」「Pholiota microspora miso soup」のような良い写真を落とさない）取得率は下げない。
+JAPAN_TOKENS = (
+    "japan", "japanese", "nippon", "nihon", "honshu", "hokuriku",
+    "toyama", "takaoka", "himi", "tateyama", "kurobe", "niigata", "ishikawa", "fukui",
+    "kyoto", "osaka", "tokyo", "nagano", "gifu", "hokkaido", "tohoku", "kanazawa",
+    "miso", "shrine", "temple", "tatami", "izakaya", "onsen", "sakura", "yakiimo",
+)
+# ライセンス名に付く国別ポート（kr/cn/tw 等）は、その国で撮られた写真である強い手がかり。
+NON_JP_LICENSE_PORTS = (" kr", " cn", " tw", " kor", " chn")
+
+
+def _japan_score(title: str, license_name: str = "") -> int:
+    """日本の写真らしさ。2=日本語文字を含む / 1=日本を示す語を含む / 0=手がかりなし / -1=他国の痕跡。"""
+    t = (title or "")
+    low = t.lower()
+    lic = (license_name or "").lower()
+    if any(p in lic for p in NON_JP_LICENSE_PORTS):
+        return -1
+    if re.search(r"[぀-ヿ一-鿿]", t):
+        return 2
+    if any(k in low for k in JAPAN_TOKENS):
+        return 1
+    return 0
+
+
 def _looks_agency(title: str) -> bool:
     """通信社/ストックの透かし入りが疑われるファイル名を弾く（権利リスク回避）。"""
     t = (title or "").lower()
@@ -379,15 +413,18 @@ def _search_candidates(query: str):
         turl = ii.get("thumburl") or ii.get("url")
         if turl:
             _em = ii.get("extmetadata") or {}
+            _lic = (_em.get("LicenseShortName") or {}).get("value", "")
             _meta = {
                 "file": _title,
-                "license": (_em.get("LicenseShortName") or {}).get("value", ""),
+                "license": _lic,
                 "author": re.sub(r"<[^>]+>", "", (_em.get("Artist") or {}).get("value", ""))[:120],
                 "descpage": ii.get("descriptionurl", ""),
             }
-            cands.append((p.get("index", 999), turl, _meta))
-    cands.sort(key=lambda c: c[0])
-    return [(t, m) for _, t, m in cands], diag
+            cands.append((-_japan_score(_title, _lic), p.get("index", 999), turl, _meta))
+    # 日本の痕跡がある候補を先に、同点なら Commons の検索順。手がかり無しも最後には試す。
+    cands.sort(key=lambda c: (c[0], c[1]))
+    diag["jp_first"] = sum(1 for c in cands if c[0] < 0)
+    return [(t, m) for _, _, t, m in cands], diag
 
 
 def fetch_from_wikimedia(query: str):
