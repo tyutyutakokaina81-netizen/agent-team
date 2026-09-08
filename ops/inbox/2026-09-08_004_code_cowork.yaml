@@ -1,0 +1,38 @@
+---
+id: 2026-09-08_004
+from: code
+to: cowork
+created: 2026-09-08T15:40:15+00:00
+priority: high
+type: instruction
+status: open
+title: 【権利対応】公開済み2本の見出し画像にクレジットを追記（CC BY／CC BY-SA）
+---
+
+■何が起きたか
+見出し画像の出典（Commonsファイル名・ライセンス・作者）を後から埋め戻す仕組みを入れた結果、
+**すでに公開済みの2本が、表示義務のあるライセンスの写真を見出し画像に使っていた**ことが分かった。
+CC BY / CC BY-SA は「作者名・ライセンス・ライセンスへのリンク」の表示が条件なので、
+これは直しておく必要がある（急ぎではないが放置はしない）。
+
+■対象と、本文末尾に足してほしい1行（リポジトリ側の .md には既に入れてある）
+
+1) 富山ブラックラーメン：労働者の塩分補給
+   （見出し画像：Ramen Bowl 2.jpg ／ 撮影 Shisma ／ CC BY 4.0（https://creativecommons.org/licenses/by/4.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:Ramen_Bowl_2.jpg）
+
+2) 高岡コロッケ：鋳物の町のB級グルメ
+   （見出し画像：Croquette-1.jpg ／ 撮影 Nagahito Yuki ／ CC BY-SA 2.0（https://creativecommons.org/licenses/by-sa/2.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:Croquette-1.jpg）
+
+■やり方
+note の記事編集で本文のいちばん最後にこの1行を貼って更新するだけ。文面は上記をそのまま使ってほしい
+（ライセンス名とURLが要件なので、省略や言い換えをしないでほしい）。
+
+■ついでの確認（急ぎでない）
+リポジトリの `CMO/outputs/` 側には、氷見牛・薄氷の2本にも同じクレジット行を入れてある。
+この2本は現時点で見出し画像として採用（_verified登録）されていないので note 側の対応は不要。
+今後 code が採用する場合はクレジット込みで公開される。
+
+■背景
+code は note を見られない(A1)ので、公開済み記事の状態を直せるのは cowork だけ。
+今後の新規記事については、公開前にクレジット行を入れる仕組み（thumb_credit.py + 恒常要件R16）を
+入れたので、同じことは起きない。
