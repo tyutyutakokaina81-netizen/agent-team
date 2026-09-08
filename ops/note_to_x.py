@@ -32,6 +32,8 @@ KEY_MAP = [
     ("栗ご飯", "kurigohan-thread"), ("栗を甘くしない", "kurigohan-thread"),
     ("干し柿", "hoshigaki-thread"), ("ころ柿", "hoshigaki-thread"), ("渋い柿", "hoshigaki-thread"),
     ("ぎんなん", "ginnan-thread"), ("銀杏", "ginnan-thread"),
+    ("なめこ", "nameko-thread"), ("ぬめり", "nameko-thread"),
+    ("チャイム", "evening-chime-thread"), ("スピーカー", "evening-chime-thread"),
     ("消雪パイプ", "snow-melt-thread"), ("道路から水", "snow-melt-thread"),
     ("初冠雪", "first-snow-thread"), ("海と雪山", "first-snow-thread"),
     ("コスモス", "cosmos"), ("秋桜", "cosmos"),
