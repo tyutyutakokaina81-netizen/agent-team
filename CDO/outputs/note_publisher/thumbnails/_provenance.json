@@ -245,7 +245,15 @@
 "query": "focused work desk laptop",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg/1280px-Woman_in_professional_attire_typing_on_laptop_with_handcuffs_on_desk_near_coffee_cup_in_modern_office_setting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-10_note記事_いとこ煮": "wikimedia",
+"2026-06-10_note記事_いとこ煮": {
+"author": "TOMOYOSHI from Tokyo",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Home_made_oden_by_TOMOYOSHI_in_Tokyo.jpg",
+"file": "File:Home made oden by TOMOYOSHI in Tokyo.jpg",
+"license": "CC BY 2.0",
+"query": "japanese home cooking",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Home_made_oden_by_TOMOYOSHI_in_Tokyo.jpg/1280px-Home_made_oden_by_TOMOYOSHI_in_Tokyo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-10_note記事_とろろ昆布の使い方": "wikimedia",
 "2026-06-10_note記事_べっこう": "wikimedia",
 "2026-06-10_note記事_家庭の富山ブラック": "wikimedia",
