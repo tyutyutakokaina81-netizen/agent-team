@@ -33,6 +33,8 @@ KEY_MAP = [
     ("干し柿", "hoshigaki-thread"), ("ころ柿", "hoshigaki-thread"), ("渋い柿", "hoshigaki-thread"),
     ("ぎんなん", "ginnan-thread"), ("銀杏", "ginnan-thread"),
     ("なめこ", "nameko-thread"), ("ぬめり", "nameko-thread"),
+    ("焼き芋", "yakiimo-thread"), ("さつまいも", "yakiimo-thread"),
+    ("立山の紅葉", "early-foliage-thread"), ("いちばん早い秋", "early-foliage-thread"),
     ("夕方のチャイム", "evening-chime-thread"), ("町全体のスピーカー", "evening-chime-thread"),
     ("消雪パイプ", "snow-melt-thread"), ("道路から水", "snow-melt-thread"),
     ("初冠雪", "first-snow-thread"), ("海と雪山", "first-snow-thread"),
