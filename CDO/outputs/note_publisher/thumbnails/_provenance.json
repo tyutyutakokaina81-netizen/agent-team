@@ -254,7 +254,15 @@
 "query": "japanese home cooking",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Home_made_oden_by_TOMOYOSHI_in_Tokyo.jpg/1280px-Home_made_oden_by_TOMOYOSHI_in_Tokyo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-10_note記事_とろろ昆布の使い方": "wikimedia",
+"2026-06-10_note記事_とろろ昆布の使い方": {
+"author": "Peter Southwood",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG",
+"file": "File:Kelp forest at Taranga pinnacles Hen and Chicken Islands PA232359.JPG",
+"license": "CC BY-SA 3.0",
+"query": "kelp seaweed",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG/1280px-Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-10_note記事_べっこう": "wikimedia",
 "2026-06-10_note記事_家庭の富山ブラック": "wikimedia",
 "2026-06-10_note記事_梅雨の高岡で仕事をする": "wikimedia",
