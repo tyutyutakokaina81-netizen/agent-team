@@ -29,10 +29,20 @@ def extract_body(text: str) -> str | None:
     return m.group(1) if m else None
 
 
+CREDIT_RE = re.compile(r"^（見出し画像：.*$\n?", re.M)
+
+
 def body_len(text: str) -> int | None:
-    """本文の文字数（改行込みの len）。copy_body.py の表示と同じ基準＝これを正本とする。"""
+    """本文の文字数（改行込みの len）。copy_body.py の表示と同じ基準＝これを正本とする。
+
+    ただし **見出し画像のクレジット行は本文量に数えない**（CQO指摘・中15）。
+    クレジットは権利表示であって記事の分量ではなく、入れた途端にメタが約100字水増しされていた。
+    貼り付け用の copy_body.py はクレジット込みで出す（noteに載せる必要があるため）＝役割が違う。
+    """
     b = extract_body(text)
-    return None if b is None else len(b)
+    if b is None:
+        return None
+    return len(CREDIT_RE.sub("", b).rstrip())
 
 
 def meta_len(text: str) -> int | None:

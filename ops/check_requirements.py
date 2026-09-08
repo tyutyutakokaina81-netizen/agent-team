@@ -308,16 +308,91 @@ try:
             continue
         if _tc.credit_line(_st, _prov2) and not _tc.has_credit(open(_f, encoding="utf-8").read()):
             _nocredit.append(os.path.basename(_f))
+    # 2026-09-11(CQO指摘・重大1): 従来は「表示義務ありと判定できた分」しか数えず、
+    # **ライセンス未記録の96本が静かに対象外に落ちて** ✅ が出ていた。母数を必ず出す。
+    # Commons は CC BY / BY-SA の比率が高く、未記録の中に表示義務のあるものが混じっている可能性が高い。
+    _need = _cc0 = _unknown = 0
+    for _k in verified:
+        _v = _prov2.get(_k)
+        _lic = _v.get("license") if isinstance(_v, dict) else None
+        if not _lic:
+            _unknown += 1
+        elif _tc.needs_credit(_lic):
+            _need += 1
+        else:
+            _cc0 += 1
+    _cov = f"（採用 {len(verified)}件の内訳: 表示義務あり {_need} / CC0・PD {_cc0} / **ライセンス未記録 {_unknown}**）"
     if _nocredit:
         add("R16 見出し画像のクレジット", "BROKEN",
-            f"表示義務のあるライセンスなのにクレジット無し {len(_nocredit)}本(例:{_nocredit[0][:26]}…)"
+            f"表示義務なのにクレジット無し {len(_nocredit)}本(例:{_nocredit[0][:26]}…){_cov}"
             " → `python3 CDO/outputs/note_publisher/thumb_credit.py --apply <md>`")
+    elif _unknown > 10:
+        add("R16 見出し画像のクレジット", "STALE",
+            f"判定できたものは全てクレジット済だが、**{_unknown}件がライセンス未記録＝判定できていない**{_cov}"
+            " → note-thumbnails ワークフローの backfill_provenance.py が毎run 25件ずつ埋め戻し中（codeはCommonsに繋げない=A1）")
     else:
-        _need = sum(1 for _k in verified if _tc.credit_line(_k, _prov2))
-        add("R16 見出し画像のクレジット", "OK",
-            f"表示義務のある採用サムネ {_need}件はすべて本文にクレジットあり（CC0/PDと素性不明は対象外）")
+        add("R16 見出し画像のクレジット", "OK", f"表示義務のある採用サムネはすべてクレジットあり{_cov}")
 except Exception as _e:
     add("R16 見出し画像のクレジット", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
+# R17 文体の反復(A5/A6): メタの自己申告ではなく**本文から測る**。
+# 2026-09-11(CQO指摘・重大2/3/4): 記事メタのA6欄は「英語見出し」と「英語の締め」しか比較しておらず、
+#   ①日本語の冒頭・言い回し ②同日の相方との重複 ③英語の統語フレーム(命令形+and)
+# が構造的な死角になっていた。実際「Live in Toyama and …」が命令形+and の4本目、
+# 「たいてい〜な顔をされる／驚く」が直近5本中4本、締めの「Xではない。Yだ。」が3本連続になりかけていた。
+# 人が書くメタを信じず、直近の本文どうしを機械で突き合わせる。
+import re as _re17
+_A6_RECENT = 7
+_arts17 = sorted(recent_arts, key=lambda f: os.path.basename(f))[-_A6_RECENT:]
+
+
+def _jp_body(_t):
+    _m = _re17.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, _re17.S)
+    return _m.group(1) if _m else ""
+
+
+def _en_summary(_t):
+    _m = _re17.search(r"##\s*English Summary\n\n\*\*(.+?)\*\*\n\n(.+?)\n\n---", _t, _re17.S)
+    return _m.group(2) if _m else ""
+
+
+_dupes = []
+_seen_open, _seen_close, _seen_en = {}, {}, {}
+# 使い回されがちな言い回し（見つかった記事名を集めて2本以上なら警告）
+_PHRASES = ("たいてい驚く", "たいてい不思議な顔", "たいてい微妙な顔", "海外の方に伝えたいのは",
+            "てみてほしい", "外から来た人はたいてい")
+_phrase_hits = {p: [] for p in _PHRASES}
+for _f in _arts17:
+    _b = os.path.basename(_f)[:-3]
+    _t = open(_f, encoding="utf-8").read()
+    _body, _en = _jp_body(_t), _en_summary(_t)
+    if not _body:
+        continue
+    _paras = [p for p in _body.split("\n") if p.strip() and not p.startswith(("#", "["))]
+    if _paras:
+        _o, _c = _paras[0][:12], _paras[-1][:12]
+        _seen_open.setdefault(_o, []).append(_b)
+        _seen_close.setdefault(_c, []).append(_b)
+    if _en:
+        _first3 = " ".join(_en.split()[:3])
+        _seen_en.setdefault(_first3, []).append(_b)
+    for _p in _PHRASES:
+        if _p in _body:
+            _phrase_hits[_p].append(_b)
+
+for _label, _d in (("日本語の冒頭", _seen_open), ("日本語の締め", _seen_close), ("英語要約の書き出し", _seen_en)):
+    for _k, _v in _d.items():
+        if len(_v) > 1:
+            _dupes.append(f"{_label}が同型: {_k}…（{', '.join(x[:16] for x in _v)}）")
+for _p, _v in _phrase_hits.items():
+    if len(_v) > 1:
+        _dupes.append(f"言い回し『{_p}』が{len(_v)}本（{', '.join(x[:16] for x in _v)}）")
+
+if _dupes:
+    add("R17 文体の反復(A5/A6)", "STALE",
+        f"直近{len(_arts17)}本で反復 {len(_dupes)}件 → {_dupes[0][:70]}… ／ 冒頭・締め・言い回しのどれかを変える")
+else:
+    add("R17 文体の反復(A5/A6)", "OK", f"直近{len(_arts17)}本で冒頭・締め・言い回しの重複なし")
 
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、

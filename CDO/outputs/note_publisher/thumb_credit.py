@@ -25,6 +25,16 @@ PROV = ROOT / "CDO/outputs/note_publisher/thumbnails/_provenance.json"
 CREDIT_MARK = "（見出し画像："
 # 表示義務のないライセンス（これ以外はクレジットを要求する）
 NO_ATTRIB = ("cc0", "public domain", "pd-", "no restrictions")
+# CC BY 系はライセンス本文へのリンクが要求される。よく出るものだけ持つ（未知なら名前のみ表示）。
+LICENSE_URLS = {
+    "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "CC BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "CC BY-SA 2.5": "https://creativecommons.org/licenses/by-sa/2.5/",
+    "CC BY-SA 2.0": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+    "CC BY 3.0": "https://creativecommons.org/licenses/by/3.0/",
+    "CC BY 2.0": "https://creativecommons.org/licenses/by/2.0/",
+}
 
 
 def load_prov() -> dict:
@@ -48,8 +58,12 @@ def credit_line(stem: str, prov: dict) -> str | None:
         return None
     fname = re.sub(r"^File:", "", v.get("file", "")).replace("_", " ")
     author = v.get("author") or "不明"
-    return (f"（見出し画像：{fname} ／ 撮影 {author} ／ {v['license']} ／ "
-            f"出典 Wikimedia Commons）")
+    page = v.get("descpage") or "https://commons.wikimedia.org/"
+    lic = v["license"]
+    # CC BY / CC BY-SA は「ライセンスへのリンク」を求めるので URL を添える（CQO指摘・提案10）。
+    url = LICENSE_URLS.get(lic.strip())
+    lic_txt = f"{lic}（{url}）" if url else lic
+    return f"（見出し画像：{fname} ／ 撮影 {author} ／ {lic_txt} ／ 出典 {page}）"
 
 
 def has_credit(text: str) -> bool:

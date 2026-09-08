@@ -84,6 +84,14 @@ jobs:
       #   取得できなかった記事はサムネ無しで残し（provenance未記録）、次回トリガーで再取得（自己修復）。
       #   note見出しは みんなのフォトギャラリー 手動採用も可。
 
+      # 2026-09-11 既存サムネの出典（Commonsファイル名/ライセンス/作者）を後から埋め戻す。
+      #   _provenance.json は長らく backend 名しか記録しておらず、採用済み113件のうち109件で
+      #   ライセンスが不明だった＝CC BY / BY-SA の表示義務があるか判定できていない（CQO指摘・重大1）。
+      #   1回25件までにして、複数runで収束させる（1ジョブを長くしない）。失敗しても後段は続行。
+      - name: Backfill thumbnail provenance (license/author)
+        run: |
+          python3 CDO/outputs/note_publisher/backfill_provenance.py --max 25 || true
+
       # 2026-09-07 _no_auto(意図的に無サムネ)の記事にjpgが残っていたら必ず消す。
       # 実測: `git add -f *.jpg` は削除を反映しないため、旧コミットで走ったrunが再取得する度に
       # 誤サムネ(中国の舞獅)が復活し5回繰り返した。ワークフロー側でも強制して断ち切る。
