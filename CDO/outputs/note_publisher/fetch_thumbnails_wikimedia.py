@@ -308,21 +308,31 @@ JAPAN_TOKENS = (
     "miso", "shrine", "temple", "tatami", "izakaya", "onsen", "sakura", "yakiimo",
 )
 # ライセンス名に付く国別ポート（kr/cn/tw 等）は、その国で撮られた写真である強い手がかり。
-NON_JP_LICENSE_PORTS = (" kr", " cn", " tw", " kor", " chn")
+# 2026-09-12(CQO指摘・高9): 韓国ポート(kr)しか無く、欧州の写真は素通りしていた。CCの国別ポートを広く持つ。
+NON_JP_LICENSE_PORTS = (
+    " kr", " cn", " tw", " kor", " chn",
+    " de", " fr", " it", " es", " pl", " nl", " at", " ch", " be", " cz", " se", " ee",
+    " uk", " au", " ca", " br", " ru", " pt", " gr", " hu", " ro",
+)
+# ひらがな・カタカナは日本語に固有。**漢字は中国語と共通**なので、漢字だけでは最優先にしない
+# （「紅葉」は中国語でも同じ字＝中国の紅葉写真が最優先で採られる経路があった）。
+_KANA = re.compile(r"[\u3040-\u309F\u30A0-\u30FF]")
+_KANJI = re.compile(r"[\u4E00-\u9FFF]")
 
 
 def _japan_score(title: str, license_name: str = "") -> int:
-    """日本の写真らしさ。2=日本語文字を含む / 1=日本を示す語を含む / 0=手がかりなし / -1=他国の痕跡。"""
+    """日本の写真らしさ。3=かな / 2=漢字+日本語彙 / 1=日本を示す語 or 漢字のみ / 0=手がかりなし / -1=他国の痕跡。"""
     t = (title or "")
     low = t.lower()
     lic = (license_name or "").lower()
     if any(p in lic for p in NON_JP_LICENSE_PORTS):
         return -1
-    if re.search(r"[぀-ヿ一-鿿]", t):
-        return 2
-    if any(k in low for k in JAPAN_TOKENS):
-        return 1
-    return 0
+    has_token = any(k in low for k in JAPAN_TOKENS)
+    if _KANA.search(t):
+        return 3
+    if _KANJI.search(t):
+        return 2 if has_token else 1
+    return 1 if has_token else 0
 
 
 def _looks_agency(title: str) -> bool:
@@ -420,10 +430,16 @@ def _search_candidates(query: str):
                 "author": re.sub(r"<[^>]+>", "", (_em.get("Artist") or {}).get("value", ""))[:120],
                 "descpage": ii.get("descriptionurl", ""),
             }
-            cands.append((-_japan_score(_title, _lic), p.get("index", 999), turl, _meta))
+            _sc = _japan_score(_title, _lic)
+            if _sc < 0:
+                # 他国のCCポート＝その国で撮られた写真である強い手がかり。順位を下げるだけだと
+                # 「その語では-1しか返らない」場合にそのまま採用されてしまうので、ここで落とす。
+                diag["nonjp_lic"] = diag.get("nonjp_lic", 0) + 1
+                continue
+            cands.append((-_sc, p.get("index", 999), turl, _meta))
     # 日本の痕跡がある候補を先に、同点なら Commons の検索順。手がかり無しも最後には試す。
     cands.sort(key=lambda c: (c[0], c[1]))
-    diag["jp_first"] = sum(1 for c in cands if c[0] < 0)
+    diag["jp_first"] = sum(1 for c in cands if c[0] <= -2)   # score>=2 の候補数
     return [(t, m) for _, _, t, m in cands], diag
 
 

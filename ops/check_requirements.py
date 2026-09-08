@@ -342,8 +342,14 @@ except Exception as _e:
 # 「たいてい〜な顔をされる／驚く」が直近5本中4本、締めの「Xではない。Yだ。」が3本連続になりかけていた。
 # 人が書くメタを信じず、直近の本文どうしを機械で突き合わせる。
 import re as _re17
-_A6_RECENT = 7
-_arts17 = sorted(recent_arts, key=lambda f: os.path.basename(f))[-_A6_RECENT:]
+# 2026-09-12(CQO指摘・高6): 窓が「7本」＝1日2本なので**3.5日分**しかなく、
+# 実際の衝突相手（09-08虫の声・09-09初冠雪）が両方とも窓の外だった。**日数で切る**。
+_A6_DAYS = 10
+_cut17 = (datetime.date.today() - datetime.timedelta(days=_A6_DAYS)).isoformat()
+_arts17 = sorted([f for f in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))
+                  if "サムネ生成プロンプト" not in os.path.basename(f)
+                  and os.path.basename(f)[:10] >= _cut17],
+                 key=lambda f: os.path.basename(f))
 
 
 def _jp_body(_t):
@@ -360,7 +366,10 @@ _dupes = []
 _seen_open, _seen_close, _seen_en = {}, {}, {}
 # 使い回されがちな言い回し（見つかった記事名を集めて2本以上なら警告）
 _PHRASES = ("たいてい驚く", "たいてい不思議な顔", "たいてい微妙な顔", "海外の方に伝えたいのは",
-            "てみてほしい", "外から来た人はたいてい")
+            "てみてほしい", "外から来た人はたいてい",
+            # 2026-09-12 追加(CQO指摘・重大3/4/5)。冒頭だけ見ていて締めと語り口の反復を逃していた。
+            "もし日本の秋に", "毎回つまずく", "言葉に詰まる", "何も足していない", "加えているものが何もない",
+            "説明していてつまずく")
 _phrase_hits = {p: [] for p in _PHRASES}
 for _f in _arts17:
     _b = os.path.basename(_f)[:-3]
@@ -368,11 +377,19 @@ for _f in _arts17:
     _body, _en = _jp_body(_t), _en_summary(_t)
     if not _body:
         continue
-    _paras = [p for p in _body.split("\n") if p.strip() and not p.startswith(("#", "["))]
+    # クレジット行(（見出し画像：…）)は権利表示であって締めではない。除かないと
+    # R16でクレジットを入れた記事の「本当の締め」が永久に比較されなくなる（CQO指摘・高8）。
+    _paras = [p for p in _body.split("\n")
+              if p.strip() and not p.startswith(("#", "[", "（見出し画像："))]
     if _paras:
         _o, _c = _paras[0][:12], _paras[-1][:12]
         _seen_open.setdefault(_o, []).append(_b)
         _seen_close.setdefault(_c, []).append(_b)
+        # 文字列一致だけだと「もし日本の秋に泊まる機会」と「もし日本の秋に焼き芋を買」がすり抜ける
+        # ＝R17が潰すはずだった「型は同じ・名詞だけ違う」がまさに素通りしていた（CQO指摘・高7）。
+        # 名詞を落として**統語の骨格**で比べる。
+        _skel = _re17.sub(r"[^もしたらならばときにはがをでとへや、。ならそれこれあれというだけでもしかない]+", "◯", _paras[-1][:24])
+        _seen_close.setdefault("骨格:" + _skel, []).append(_b)
     if _en:
         _first3 = " ".join(_en.split()[:3])
         _seen_en.setdefault(_first3, []).append(_b)
@@ -380,19 +397,60 @@ for _f in _arts17:
         if _p in _body:
             _phrase_hits[_p].append(_b)
 
+# 公開済み記事は**もう直せない**ので、警告に混ぜると常時STALEになって検知が形骸化する
+# （R2dで学んだのと同じ失敗）。**未公開の記事が絡む反復だけ**を「対応が要る」とし、
+# 公開済みどうしの反復は件数だけ添える（次に書くときの参考情報）。
+_published = {os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "drafts/published/*.md"))}
+
+
+def _has_unpublished(_names):
+    return any(f"{n}.md" not in _published for n in _names)
+
+
+_hist = 0
 for _label, _d in (("日本語の冒頭", _seen_open), ("日本語の締め", _seen_close), ("英語要約の書き出し", _seen_en)):
     for _k, _v in _d.items():
         if len(_v) > 1:
-            _dupes.append(f"{_label}が同型: {_k}…（{', '.join(x[:16] for x in _v)}）")
+            if _has_unpublished(_v):
+                _dupes.append(f"{_label}が同型: {_k}…（{', '.join(x[:16] for x in _v)}）")
+            else:
+                _hist += 1
 for _p, _v in _phrase_hits.items():
     if len(_v) > 1:
-        _dupes.append(f"言い回し『{_p}』が{len(_v)}本（{', '.join(x[:16] for x in _v)}）")
+        if _has_unpublished(_v):
+            _dupes.append(f"言い回し『{_p}』が{len(_v)}本（{', '.join(x[:16] for x in _v)}）")
+        else:
+            _hist += 1
 
+_note17 = f"（公開済みどうしの反復 {_hist}件は変更不能のため対象外）" if _hist else ""
 if _dupes:
-    add("R17 文体の反復(A5/A6)", "STALE",
-        f"直近{len(_arts17)}本で反復 {len(_dupes)}件 → {_dupes[0][:70]}… ／ 冒頭・締め・言い回しのどれかを変える")
+    add("R17 文体の反復(A5/A6)", "BROKEN",
+        f"**未公開記事が絡む反復 {len(_dupes)}件** → {_dupes[0][:70]}… ／ 公開前に冒頭・締め・言い回しを変える{_note17}")
 else:
-    add("R17 文体の反復(A5/A6)", "OK", f"直近{len(_arts17)}本で冒頭・締め・言い回しの重複なし")
+    add("R17 文体の反復(A5/A6)", "OK",
+        f"直近{_A6_DAYS}日{len(_arts17)}本／未公開{len([f for f in _arts17 if os.path.basename(f) not in _published])}本に反復なし{_note17}")
+
+# R18 North Star からの逸脱: 記事は「海外読者に高岡・氷見・富山を読ませる」ためのもの。
+# 2026-09-12(CQO指摘・中14): 焼き芋稿は本文に「富山」が**0件**なのに、ENのdescriptionは
+# "A local in Toyama"、Xは #Toyama を付けていた＝本文に根拠のない地域タグ。
+# 全国題材を書くこと自体は良いが、**富山からの一次観察が1行も無いまま地域タグを付けない**。
+_TOYAMA_WORDS = ("富山", "高岡", "氷見", "北陸", "立山")
+# 対象は**これから公開する drafts/queue** に絞る。CMO/outputs 全体を見ると、
+# 公開予定でない古い随筆（AI論など）まで拾って常時STALEになり、検知が形骸化する。
+_offstar = []
+for _f in sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md"))):
+    _b = os.path.basename(_f)[:-3]
+    _t = open(_f, encoding="utf-8").read()
+    _m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, re.S) if "re" in dir() else None
+    _body = _m.group(1) if _m else _t
+    if not any(w in _body for w in _TOYAMA_WORDS):
+        _offstar.append(_b)
+if _offstar:
+    add("R18 North Star整合", "STALE",
+        f"**公開キュー**の記事で本文に富山/高岡/氷見/北陸/立山が0件 {len(_offstar)}本(例:{_offstar[0][:26]}…)"
+        " → 一次観察を1段落入れるか、EN/Xの地域タグを外す")
+else:
+    add("R18 North Star整合", "OK", f"公開キュー{len(glob.glob(os.path.join(ROOT, 'drafts/queue/*.md')))}本すべて本文に富山圏の記述あり（地域タグの根拠がある）")
 
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、
