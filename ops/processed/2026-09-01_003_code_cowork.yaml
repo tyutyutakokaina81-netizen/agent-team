@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-01T02:38:30+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【note コメント自動返信・過去全件棚卸し＋定期運用】backlog sweep→pending→(code下書き)→READY投稿
 ---
 
@@ -45,3 +45,10 @@ owner『noteにコメントあったら自動返信して。これも要件。�
 **セレクタ外れが出た場合は `ops/comments/_debug/*.html` も一緒に push** してほしい。
 code は note を見られない(A1)ため、そのHTMLが唯一の手がかりになる。次のセッションで code が直す。
 
+
+
+---
+
+## 結果 (2026-09-08T00:04:31+00:00)
+
+取得スクリプト(fetch_note_comments.py)をcowork日次に組み込み、2026-09-08の実行で初稼働を確認＝15本巡回/新規0件/セレクタ外れ0件。『仕組みが動いていない』ではなく『未返信コメントが実際に0件』と判明。以後は日次で自動巡回し、コメントが付いたらpending.tsvに入る。過去78本の全件棚卸しは--backlogで毎日5本ずつ進む。
