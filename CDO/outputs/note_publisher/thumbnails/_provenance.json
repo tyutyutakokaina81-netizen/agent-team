@@ -185,8 +185,24 @@
 },
 "2026-06-07_note記事_新湊きっときと市場の朝": "wikimedia",
 "2026-06-07_note記事_観光地に住んでいるということ": "wikimedia",
-"2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる": "wikimedia",
-"2026-06-07_note記事_高岡銅器の工房を歩く": "wikimedia",
+"2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる": {
+"author": "Miyuki Meinaka",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Utsunomiya_Daibutsu_2.jpg",
+"file": "File:Utsunomiya Daibutsu 2.jpg",
+"license": "CC BY-SA 4.0",
+"query": "great buddha statue japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Utsunomiya_Daibutsu_2.jpg/1280px-Utsunomiya_Daibutsu_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-06-07_note記事_高岡銅器の工房を歩く": {
+"author": "Kritzolina",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Metal_objects_at_Odisha_Crafts_Museum_05.jpg",
+"file": "File:Metal objects at Odisha Crafts Museum 05.jpg",
+"license": "CC BY-SA 4.0",
+"query": "bronze metal craft",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Metal_objects_at_Odisha_Crafts_Museum_05.jpg/1280px-Metal_objects_at_Odisha_Crafts_Museum_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-08_note記事_富山のぶり大根": "wikimedia",
 "2026-06-08_note記事_富山の山菜": "wikimedia",
 "2026-06-08_note記事_日本の個人発信が海外で読まれる時代": {
@@ -195,7 +211,15 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-08_note記事_月曜朝最初に開くファイル": "wikimedia",
-"2026-06-08_note記事_雨晴海岸の早朝散歩": "wikimedia",
+"2026-06-08_note記事_雨晴海岸の早朝散歩": {
+"author": "Fumihiko Ueno",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Oumigawa,_Kashiwazaki,_Niigata_Prefecture_949-3661,_Japan_-_panoramio_(1).jpg",
+"file": "File:Oumigawa, Kashiwazaki, Niigata Prefecture 949-3661, Japan - panoramio (1).jpg",
+"license": "CC BY 3.0",
+"query": "coast sea mountains japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg/1280px-Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-09_note記事_AIと働く1日の中身": "wikimedia",
 "2026-06-09_note記事_かぶら寿司_北陸の冬の保存食": "wikimedia",
 "2026-06-09_note記事_フリーランスで読んだ本ベスト5": {
@@ -544,5 +568,23 @@
 "license": "CC BY-SA 4.0",
 "query": "防災行政無線",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/%E7%A6%8F%E4%BA%95%E7%9C%8C%E8%B6%8A%E5%89%8D%E5%B8%82%E3%81%AE%E9%98%B2%E7%81%BD%E8%A1%8C%E6%94%BF%E7%84%A1%E7%B7%9A.jpg/1280px-%E7%A6%8F%E4%BA%95%E7%9C%8C%E8%B6%8A%E5%89%8D%E5%B8%82%E3%81%AE%E9%98%B2%E7%81%BD%E8%A1%8C%E6%94%BF%E7%84%A1%E7%B7%9A.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-12_note記事_さつまいも_焼き芋の味が変わった二十年": {
+"author": "국립국어원",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Gungoguma_(roasted_sweet_potatoes)_2.jpg",
+"file": "File:Gungoguma (roasted sweet potatoes) 2.jpg",
+"license": "CC BY-SA 2.0 kr",
+"query": "焼き芋",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Gungoguma_%28roasted_sweet_potatoes%29_2.jpg/1280px-Gungoguma_%28roasted_sweet_potatoes%29_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-12_note記事_立山の紅葉_日本でいちばん早い秋の色": {
+"author": "Uoaei1",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Sorbus_aucuparia_Tauerntal_20220824.jpg",
+"file": "File:Sorbus aucuparia Tauerntal 20220824.jpg",
+"license": "CC BY-SA 4.0",
+"query": "ナナカマド",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Sorbus_aucuparia_Tauerntal_20220824.jpg/1280px-Sorbus_aucuparia_Tauerntal_20220824.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
