@@ -273,7 +273,15 @@
 "query": "ramen bowl",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Ramen_Bowl_2.jpg/1280px-Ramen_Bowl_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-10_note記事_梅雨の高岡で仕事をする": "wikimedia",
+"2026-06-10_note記事_梅雨の高岡で仕事をする": {
+"author": "Alvesgaspar",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Hydrangea_May_2012-1.jpg",
+"file": "File:Hydrangea May 2012-1.jpg",
+"license": "CC BY-SA 3.0",
+"query": "紫陽花",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Hydrangea_May_2012-1.jpg/1280px-Hydrangea_May_2012-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-10_note記事_水曜の壁ひとり仕事の昼休み再設計": "wikimedia",
 "2026-06-10_note記事_瑞龍寺_国宝のなかで職人は祈っていた": "wikimedia",
 "2026-06-10_note記事_金屋町": "wikimedia",
