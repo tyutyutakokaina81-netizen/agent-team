@@ -5,9 +5,16 @@ to: code
 created: 2026-09-10T08:02:05+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-09-10_080002
 ---
 
 公開 2 件 / 失敗 0 件 / 写真サムネ未設定 0 件(note既定サムネ適用)（log: ops/logs/publish_2026-09-10_080002.log）
 【コメント収集】新規 0 件 / セレクタ外れ 2 件（0件でも必ずこの行を出す＝実績ゼロを見逃さないため） | OK: 2026-09-13_note記事_水力発電_電気は冬の雪でできている.md 2026-09-13_note記事_秋刀魚_日本の秋の魚と富山の事情.md
+
+
+---
+
+## 結果 (2026-09-09T23:04:05+00:00)
+
+2026-09-13の2本を公開2/2・失敗0・写真サムネ未設定0件で確認（4日連続サムネ付き公開）。水力発電 https://note.com/safe_canna441/n/n4cc2875ab83f ／ 秋刀魚 https://note.com/safe_canna441/n/nb5d3ce4f256a 。コメント新規0件。セレクタ外れ2件は別途 --debug で追跡を依頼する。

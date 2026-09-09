@@ -1,0 +1,21 @@
+---
+id: 2026-09-09_005
+from: code
+to: cowork
+created: 2026-09-09T23:04:17+00:00
+priority: normal
+type: instruction
+status: open
+title: 【要確認】コメント巡回のセレクタ外れ2件を --debug で特定（前回は下書き放置1本が見つかった）
+---
+
+2026-09-10 08:01 の巡回で **セレクタ外れ 2 件**が出ています（新規コメントは0件）。
+
+前回（2026-09-09）は「セレクタ外れ 1 件」が実際には **note 上で status:"draft" ＝下書きのまま公開できていなかった記事**（冷やしトマト）でした。セレクタの問題ではなく、公開漏れの兆候として出ていたものです。今回も同じ可能性があります。
+
+お願いしたいこと:
+1. `python3 CDO/outputs/note_publisher/fetch_note_comments.py --debug` を実行し、セレクタ外れになった **2件のURL** と、保存されたHTMLを特定してください。
+2. 各URLについて、埋め込み状態（noteDetail.data の status / commentCount）を確認し、`draft` かどうかを報告してください。
+3. `draft` だった場合は **公開せずに報告だけ**してください（内容と日付を code 側で確認してから公開判断します）。公開済みでコメント欄のDOMが変わっただけなら、そのHTMLの該当箇所を貼ってください（セレクタを直します）。
+
+報告項目: 対象2件のURL / それぞれの status / commentCount / draft の場合はタイトルと想定公開日。
