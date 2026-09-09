@@ -36,6 +36,8 @@ KEY_MAP = [
     ("焼き芋", "yakiimo-thread"), ("さつまいも", "yakiimo-thread"),
     ("秋刀魚", "sanma-thread"), ("さんま", "sanma-thread"),
     ("水力発電", "snow-electricity-thread"), ("冬の雪でできている", "snow-electricity-thread"),
+    ("おはぎ", "ohagi-thread"), ("ぼたもち", "ohagi-thread"), ("春と秋で名前を変える", "ohagi-thread"),
+    ("仏壇", "butsudan-kamidana-thread"), ("神棚", "butsudan-kamidana-thread"), ("祈る場所が二つ", "butsudan-kamidana-thread"),
     ("立山の紅葉", "early-foliage-thread"), ("いちばん早い秋", "early-foliage-thread"),
     ("夕方のチャイム", "evening-chime-thread"), ("町全体のスピーカー", "evening-chime-thread"),
     ("消雪パイプ", "snow-melt-thread"), ("道路から水", "snow-melt-thread"),
