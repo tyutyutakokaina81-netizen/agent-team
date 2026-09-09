@@ -53,10 +53,12 @@ no_auto = set()
 if os.path.exists(_na):
     no_auto = {ln.strip() for ln in open(_na, encoding="utf-8").read().splitlines()
                if ln.strip() and not ln.strip().startswith("#")}
-missing = [os.path.basename(f)[:-3] for f in recent_arts
-           if os.path.basename(f)[:-3] not in verified
-           and os.path.basename(f)[:-3] not in no_auto
-           and not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
+# ★除外を先にやると「見ていないだけのOK」になる。まず**実在するか**を全件について確かめ、
+# そのうえで「自動取得の欠落(missing)」と「_verified なのに画像が消えている(vanished)」を分ける。
+_nojpg = [os.path.basename(f)[:-3] for f in recent_arts
+          if not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
+vanished = [b for b in _nojpg if b in verified]          # owner確認済みなのに画像が無い＝事故
+missing   = [b for b in _nojpg if b not in verified and b not in no_auto]
 if not recent_arts:
     add("R2 実写サムネ", "OK", "直近21日の対象記事なし")
 elif missing:
@@ -65,6 +67,18 @@ elif missing:
         " → ops/run_requests/ にpushして note-thumbnails を起動")
 else:
     add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り")
+
+# R2e: _verified.txt に載っているのに jpg が存在しない＝「owner確認済みだから対象外」で
+# 静かに落ちていた分。旧R2は verified を存在確認の**前に**除外していたため、一度載せた記事は
+# 画像が消えても永久にOKだった（CQO指摘）。窓に関係なく _verified 全件を見る。
+_v_all_missing = sorted(b for b in verified
+                        if not os.path.exists(os.path.join(thumbdir, b + ".jpg")))
+if _v_all_missing:
+    add("R2e 消えたverifiedサムネ", "BROKEN",
+        f"_verified.txt 掲載 {len(verified)}件のうち **{len(_v_all_missing)}件の jpg が存在しない**"
+        f"(例:{_v_all_missing[0][:30]}…) → 再取得するか _verified から外す")
+else:
+    add("R2e 消えたverifiedサムネ", "OK", f"_verified.txt 掲載 {len(verified)}件すべて jpg 実在")
 
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
@@ -189,12 +203,14 @@ guide = os.path.join(ROOT, "apps/toyama-guide")
 if os.path.exists(sm) and os.path.isdir(guide):
     smtext = open(sm, encoding="utf-8").read()
     en_pages = [os.path.basename(f) for f in glob.glob(os.path.join(guide, "en-*.html"))]
-    missing = [p for p in en_pages if f"/toyama/{p}" not in smtext]
-    if not missing:
+    # 変数名は R2 の missing と分ける。同名だと R2 と R11 の間に処理を足したときに
+    # 静かに壊れる（CQO軽2）。R2 側は add() 済みなので今は害が無いだけ。
+    _sm_missing = [p for p in en_pages if f"/toyama/{p}" not in smtext]
+    if not _sm_missing:
         add("R11 sitemap鮮度", "OK", f"toyama en {len(en_pages)}枚すべて sitemap 掲載")
     else:
         add("R11 sitemap鮮度", "STALE",
-            f"sitemap未掲載 {len(missing)}枚(例:{missing[0]})→ python3 apps/toyama-guide/gen_sitemap.py")
+            f"sitemap未掲載 {len(_sm_missing)}枚(例:{_sm_missing[0]})→ python3 apps/toyama-guide/gen_sitemap.py")
 
 # R12 ops ID衝突: 同じIDが複数の場所に在ると、process_inbox.py done <id> が取り違える／
 # processed への move が過去の完了記録を黙って上書きする。
@@ -257,6 +273,35 @@ try:
         add("R14 字数メタの実測一致", "OK", f"直近{len(recent_arts)}本すべて メタ＝実測(len(body)基準)")
 except Exception as _e:
     add("R14 字数メタの実測一致", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
+# R19 A4自己申告の一貫性: 同じファイルの中で「事実検証ノート」と「記事情報」の A4 欄が
+# 食い違っていないか。2026-09-14 に、検証ノート側だけ実態に直して**記事情報側は断定形のまま**
+# 残す、という状態が2本で起きた（CQO重大3）。A4欄は「次に書く人」と「点検」が最初に読む欄なので、
+# 同じファイルに真の自己申告と偽の自己申告が同居しているのが最も危険。
+# 判定: 本文中にクレジット行（＝撮影者名などの固有名詞が入る）があるのに、記事情報の A4 行が
+# 「〜なし」で終わる断定形だけなら BROKEN。留保（ただし/クレジット/表示義務）があれば OK。
+try:
+    _bad19 = []
+    for _f in recent_arts:
+        _t = open(_f, encoding="utf-8").read()
+        _has_credit = "（見出し画像：" in _t
+        _m19 = re.search(r"^- A4[:：](.*)$", _t, re.M)
+        if not _has_credit or not _m19:
+            continue
+        _a4 = _m19.group(1)
+        if not re.search(r"ただし|クレジット|表示義務|本文には", _a4):
+            _bad19.append(os.path.basename(_f)[:-3])
+    if not recent_arts:
+        add("R19 A4自己申告の一貫性", "STALE", "直近21日の対象記事なし＝未検査")
+    elif _bad19:
+        add("R19 A4自己申告の一貫性", "BROKEN",
+            f"クレジット行があるのに 記事情報のA4欄が『〜なし』の断定のまま {len(_bad19)}本"
+            f"(例:{_bad19[0][:30]}…) → 検証ノートと同じ文言に揃える")
+    else:
+        add("R19 A4自己申告の一貫性", "OK",
+            f"直近{len(recent_arts)}本: クレジット行のある記事のA4欄はすべて留保付き")
+except Exception as _e:
+    add("R19 A4自己申告の一貫性", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
 # R15 題材トークンの有無: 重複ゲート(topic_conflict)はタイトルから抽出した「題材トークン」で判定するが、
 # 純ひらがなの主題語（例:「ぎんなん」）は「漢字を含む or 3字以上カタカナ」条件で落ち、
@@ -365,12 +410,19 @@ def _en_summary(_t):
 _dupes = []
 _seen_open, _seen_close, _seen_en = {}, {}, {}
 # 使い回されがちな言い回し（見つかった記事名を集めて2本以上なら警告）
-_PHRASES = ("たいてい驚く", "たいてい不思議な顔", "たいてい微妙な顔", "海外の方に伝えたいのは",
-            "てみてほしい", "外から来た人はたいてい",
-            # 2026-09-12 追加(CQO指摘・重大3/4/5)。冒頭だけ見ていて締めと語り口の反復を逃していた。
-            "もし日本の秋に", "毎回つまずく", "言葉に詰まる", "何も足していない", "加えているものが何もない",
-            "説明していてつまずく")
-_phrase_hits = {p: [] for p in _PHRASES}
+# 2026-09-14 作り直し(CQO重大1)。**リテラルではなく修辞の装置**で捕まえる。
+# 旧版は「たいてい驚く」を持っていたのに、「驚くのは、たいてい大きさだ」「海外から来た人が家に
+# 上がると、たいてい〜」を4本連続で通した。語順が違うだけで同じ装置なので、
+# 「何度も使う型」を1本の正規表現で書く。新しい装置に気づいたら**文ではなく型**を足すこと。
+_PHRASES = (
+    # 「海外/外国の人は〜驚く・たいてい〜な顔をする」型。当社の最頻出テンプレ。
+    ("海外の人が驚く型", r"(海外|外国|外から来た)[^。]{0,24}(驚|たいてい|不思議な顔|微妙な顔)"),
+    ("読者に試させる型", r"(てみてほしい|試してみて|確かめてもらえたら)"),
+    ("説明に詰まる型",   r"(毎回|いつも)?[^。]{0,10}(つまず|言葉に詰ま|うまく説明できない|うまく言えない)"),
+    ("何も足していない型", r"(何も足して|加えているものが何も|余計なものが何も)"),
+    ("もし〜なら型",     r"^もし[^。]{0,20}(なら|たら)"),
+)
+_phrase_hits = {name: [] for name, _ in _PHRASES}
 for _f in _arts17:
     _b = os.path.basename(_f)[:-3]
     _t = open(_f, encoding="utf-8").read()
@@ -403,9 +455,9 @@ for _f in _arts17:
     if _en:
         _first3 = " ".join(_en.split()[:3])
         _seen_en.setdefault(_first3, []).append(_b)
-    for _p in _PHRASES:
-        if _p in _body:
-            _phrase_hits[_p].append(_b)
+    for _name, _rx in _PHRASES:
+        if re.search(_rx, _body, re.M):
+            _phrase_hits[_name].append(_b)
 
 # 公開済み記事は**もう直せない**ので、警告に混ぜると常時STALEになって検知が形骸化する
 # （R2dで学んだのと同じ失敗）。**未公開の記事が絡む反復だけ**を「対応が要る」とし、
