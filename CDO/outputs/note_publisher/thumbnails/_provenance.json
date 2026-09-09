@@ -524,7 +524,15 @@
 "2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方": "wikimedia",
 "2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方": "wikimedia",
 "2026-08-19_有料note_富山の地酒_選び方と楽しみ方": "wikimedia",
-"2026-08-20_note記事_アウディで旅に出る_海と山を一日で": "wikimedia(雨晴海岸_海越しのアルプスを主題一致で流用・code目視verify)",
+"2026-08-20_note記事_アウディで旅に出る_海と山を一日で": {
+"author": "comachiangel",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%B0%B7%E8%A6%8B%E3%81%AE%E6%B5%B7%E5%B2%B8%E9%81%93%E8%B7%AF%E3%81%8B%E3%82%89%E6%9C%9B%E3%82%80%E5%AF%8C%E5%B1%B1%E6%B9%BE(Toyama_Bay_to_see_from_the_shore_road_of_Himi)_-_panoramio_(5).jpg",
+"file": "File:氷見の海岸道路から望む富山湾(Toyama Bay to see from the shore road of Himi) - panoramio (5).jpg",
+"license": "CC BY 3.0",
+"query": "富山湾",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/%E6%B0%B7%E8%A6%8B%E3%81%AE%E6%B5%B7%E5%B2%B8%E9%81%93%E8%B7%AF%E3%81%8B%E3%82%89%E6%9C%9B%E3%82%80%E5%AF%8C%E5%B1%B1%E6%B9%BE%28Toyama_Bay_to_see_from_the_shore_road_of_Himi%29_-_panoramio_%285%29.jpg/1280px-%E6%B0%B7%E8%A6%8B%E3%81%AE%E6%B5%B7%E5%B2%B8%E9%81%93%E8%B7%AF%E3%81%8B%E3%82%89%E6%9C%9B%E3%82%80%E5%AF%8C%E5%B1%B1%E6%B9%BE%28Toyama_Bay_to_see_from_the_shore_road_of_Himi%29_-_panoramio_%285%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-21_note記事_AIは一度もやめましょうと言わなかった": "wikimedia",
 "2026-08-25_note記事_富山2日完璧ガイド_氷見と高岡を2日で巡る旅程": {
 "backend": "wikimedia",
@@ -663,12 +671,12 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/Botamochi%2COhagi%2CKatori-city%2CJapan.JPG/1280px-Botamochi%2COhagi%2CKatori-city%2CJapan.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-14_note記事_仏壇と神棚_ひとつの家に二つの祈る場所": {
-"author": "Corpse Reviver",
+"author": "pcs34560",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Close-up_Butsudan_at_light_on.jpg",
-"file": "File:Close-up Butsudan at light on.jpg",
-"license": "CC BY 3.0",
-"query": "仏壇",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Close-up_Butsudan_at_light_on.jpg/1280px-Close-up_Butsudan_at_light_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg",
+"file": "File:神棚に飾られただるま - 江戸東京たてもの園で撮影 Pcs34560 IMG1773.jpg",
+"license": "Public domain",
+"query": "神棚",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg/1280px-%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
