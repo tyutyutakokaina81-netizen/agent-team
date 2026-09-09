@@ -264,7 +264,15 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG/1280px-Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-10_note記事_べっこう": "wikimedia",
-"2026-06-10_note記事_家庭の富山ブラック": "wikimedia",
+"2026-06-10_note記事_家庭の富山ブラック": {
+"author": "Shisma",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Ramen_Bowl_2.jpg",
+"file": "File:Ramen Bowl 2.jpg",
+"license": "CC BY 4.0",
+"query": "ramen bowl",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Ramen_Bowl_2.jpg/1280px-Ramen_Bowl_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-10_note記事_梅雨の高岡で仕事をする": "wikimedia",
 "2026-06-10_note記事_水曜の壁ひとり仕事の昼休み再設計": "wikimedia",
 "2026-06-10_note記事_瑞龍寺_国宝のなかで職人は祈っていた": "wikimedia",
@@ -618,5 +626,23 @@
 "license": "CC BY 2.0",
 "query": "立山 紅葉",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Tateyama_autumn_%2851831653171%29.jpg/1280px-Tateyama_autumn_%2851831653171%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-13_note記事_水力発電_電気は冬の雪でできている": {
+"author": "Toshihiro Matsui",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%A7%8B%E5%85%83%E6%B9%96%E3%81%AE%E6%B0%B4%E5%8A%9B%E7%99%BA%E9%9B%BB%E6%89%80_-_panoramio.jpg",
+"file": "File:秋元湖の水力発電所 - panoramio.jpg",
+"license": "CC BY-SA 3.0",
+"query": "水力発電所",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/%E7%A7%8B%E5%85%83%E6%B9%96%E3%81%AE%E6%B0%B4%E5%8A%9B%E7%99%BA%E9%9B%BB%E6%89%80_-_panoramio.jpg/1280px-%E7%A7%8B%E5%85%83%E6%B9%96%E3%81%AE%E6%B0%B4%E5%8A%9B%E7%99%BA%E9%9B%BB%E6%89%80_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-13_note記事_秋刀魚_日本の秋の魚と富山の事情": {
+"author": "Kyu3a",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%B5%E3%83%B3%E3%83%9E%E3%81%AE%E5%A1%A9%E7%84%BC%E3%81%8D_-_2.jpg",
+"file": "File:サンマの塩焼き - 2.jpg",
+"license": "CC BY-SA 4.0",
+"query": "サンマの塩焼き",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/%E3%82%B5%E3%83%B3%E3%83%9E%E3%81%AE%E5%A1%A9%E7%84%BC%E3%81%8D_-_2.jpg/1280px-%E3%82%B5%E3%83%B3%E3%83%9E%E3%81%AE%E5%A1%A9%E7%84%BC%E3%81%8D_-_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
