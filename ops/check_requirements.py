@@ -80,6 +80,35 @@ if _v_all_missing:
 else:
     add("R2e 消えたverifiedサムネ", "OK", f"_verified.txt 掲載 {len(verified)}件すべて jpg 実在")
 
+# R2f: _verified.txt に載っている記事の見出し画像が、code が目視で落としたファイル
+# (fetch_thumbnails_wikimedia.REJECTED_FILES) になっていないか。
+# 2026-09-15 実測で1件検出＝**高岡大仏の記事に宇都宮大仏の写真が承認済みで入っていた**。
+# 目視verifyは人（私）の目なので抜ける。落とした事実を名前で持っておけば、
+# 承認リストに残っている取りこぼしを機械で拾える。
+try:
+    import importlib.util as _ilu, json as _json
+    _fwp = os.path.join(ROOT, "CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py")
+    _spec = _ilu.spec_from_file_location("_fw", _fwp)
+    _fw = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_fw)
+    _provp = os.path.join(thumbdir, "_provenance.json")
+    _prov = _json.load(open(_provp, encoding="utf-8")) if os.path.exists(_provp) else {}
+    _bad2f = []
+    for _stem in verified:
+        _rec = _prov.get(_stem)
+        if isinstance(_rec, dict) and _fw._is_rejected_file(_rec.get("file") or ""):
+            _bad2f.append((_stem, _rec.get("file")))
+    if not verified:
+        add("R2f 落とした画像の再承認", "STALE", "_verified.txt が空＝未検査")
+    elif _bad2f:
+        add("R2f 落とした画像の再承認", "BROKEN",
+            f"目視で落としたファイルが _verified に残っている {len(_bad2f)}件"
+            f"(例:{_bad2f[0][0][:24]}… ← {str(_bad2f[0][1])[:34]}) → _verified から外して再取得")
+    else:
+        add("R2f 落とした画像の再承認", "OK",
+            f"_verified {len(verified)}件: REJECTED_FILES({len(_fw.REJECTED_FILES)}件)に当たるものなし")
+except Exception as _e:
+    add("R2f 落とした画像の再承認", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
