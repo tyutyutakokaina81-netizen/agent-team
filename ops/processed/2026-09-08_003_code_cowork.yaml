@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-08T02:58:18+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【公開】2026-09-11の2本を公開（サムネ確定済み）
 ---
 
@@ -24,3 +24,10 @@ owner「続けて、公開／サムネありで」。drafts/queue に2本。い�
   2. 公開できた記事の **note URL**（code は note を見られないため、URLが無いと台帳に載せられない）。
   3. 【コメント収集】行の「新規 N 件 / セレクタ外れ K 件」。前回は 15本巡回/新規0/外れ0 だった。
      K>0 のときは ops/comments/_debug/*.html も一緒に push してほしい。
+
+
+---
+
+## 結果 (2026-09-09T00:05:45+00:00)
+
+上記005にまとめて完了（なめこ/チャイムを含む4本を公開済み）。

@@ -106,8 +106,42 @@ def targets_from_registry(limit: int, include_swept: bool):
     return out[:limit] if limit > 0 else out
 
 
+# 2026-09-09: 初回のセレクタ外れ1件を cowork が --debug で保存し、その HTML を読んで分かったこと。
+#   note のページには埋め込み状態 `noteDetail.data` があり、`status`（"published"/"draft"）と
+#   `commentCount` を持っている。DOMのclass名を推測するより**これを読むほうが確実**で、しかも
+#   「下書きだからコメント欄が無い」と「公開済みだがコメント0」を区別できる。
+#   実際その1件は **registryに公開済みとして載っているのに note 上は draft** だった（冷やしトマト）。
+_STATE_JS = """() => {
+  try {
+    const s = window.__NUXT__ && window.__NUXT__.state;
+    const nd = s && s.noteDetail && s.noteDetail.data;
+    if (!nd) return null;
+    return {status: nd.status || null,
+            commentCount: (typeof nd.commentCount === 'number') ? nd.commentCount : null};
+  } catch (e) { return null; }
+}"""
+
+
+def read_note_state(page):
+    """埋め込み状態から (status, commentCount) を取る。取れなければ (None, None)。"""
+    try:
+        st = page.evaluate(_STATE_JS)
+    except Exception:
+        return None, None
+    if not st:
+        return None, None
+    return st.get("status"), st.get("commentCount")
+
+
 def extract_comments(page, url, debug=False):
-    """(comments, status) を返す。status は 'ok'(セレクタ命中) / 'no-selector'(全滅)。"""
+    """(comments, status) を返す。status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）。"""
+    _st, _cc = read_note_state(page)
+    if _st == "draft":
+        # 公開されていない記事＝コメント欄が無いのは当然。セレクタの問題ではない。
+        return [], "draft"
+    if _cc == 0:
+        # 埋め込み状態が「コメント0」と言っている＝DOMを探すまでもなく確定。
+        return [], "ok"
     blocks = []
     for sel in COMMENT_BLOCK_SELECTORS:
         try:
@@ -205,7 +239,7 @@ def main():
     COMMENT_DIR.mkdir(parents=True, exist_ok=True)
     seen = load_seen_comment_ids()
     now = datetime.datetime.now().isoformat(timespec="seconds")
-    new_rows, swept_rows = [], []
+    new_rows, swept_rows, drafts = [], [], []
     visited = found_total = no_selector = 0
 
     with sync_playwright() as p:
@@ -229,6 +263,11 @@ def main():
                 comments, status = extract_comments(page, url, args.debug)
             except Exception as e:
                 log(f"    ✗ 取得失敗: {e}")
+                continue
+            if status == "draft":
+                drafts.append(url)
+                log("    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。"
+                    "published_registry.json の記載と食い違うので確認が要る")
                 continue
             if status == "no-selector":
                 no_selector += 1
@@ -260,7 +299,10 @@ def main():
             w.writerows(swept_rows)
 
     # 結果行は**必ず**出す（対象0でも出す）。有料フッターで「結果行なし＝失敗扱い」の事故があったため。
-    log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector} ===")
+    log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector}"
+        f" / 未公開(draft) {len(drafts)} ===")
+    for _u in drafts:
+        log(f"  未公開: {_u}  ← registryは公開済みとしているが note 上は下書き")
     if no_selector:
         log("→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。")
 
