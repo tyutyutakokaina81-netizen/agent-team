@@ -390,6 +390,16 @@ for _f in _arts17:
         # 名詞を落として**統語の骨格**で比べる。
         _skel = _re17.sub(r"[^もしたらならばときにはがをでとへや、。ならそれこれあれというだけでもしかない]+", "◯", _paras[-1][:24])
         _seen_close.setdefault("骨格:" + _skel, []).append(_b)
+        # 2026-09-13(CQO指摘・高8): 先頭12/24字しか見ていなかったため、**段落の後半に置かれた反復**が
+        # 原理的に通過していた。実測で「一般論を認める。ただ〜」という譲歩ピボットの締めが3本連続、
+        # 「〜という話である」が2日連続。最終段落の**全文**から接続と文末型を抜いて比べる。
+        _last = _paras[-1]
+        _pivot = next((w for w in ("。ただ", "。しかし", "。けれども", "。だが", "。それでも", "。もっとも")
+                       if w in _last), "")
+        _tail = _re17.sub(r"^.*?([^。]{0,10}。?)$", r"\1", _last)   # 最終文の末尾10字
+        if _pivot:
+            _seen_close.setdefault(f"譲歩ピボット{_pivot}", []).append(_b)
+        _seen_close.setdefault("文末:" + _tail[-8:], []).append(_b)
     if _en:
         _first3 = " ".join(_en.split()[:3])
         _seen_en.setdefault(_first3, []).append(_b)
@@ -437,20 +447,27 @@ else:
 _TOYAMA_WORDS = ("富山", "高岡", "氷見", "北陸", "立山")
 # 対象は**これから公開する drafts/queue** に絞る。CMO/outputs 全体を見ると、
 # 公開予定でない古い随筆（AI論など）まで拾って常時STALEになり、検知が形骸化する。
+# 2026-09-13(CQO指摘・重大4): キューが空のとき `_offstar` も空になり **「0本すべてOK」** と表示していた。
+# 公開直後はキューが空になるので、平常時はほぼ常に空振りのOKを出し続ける＝典型的な「対象0件＝合格」。
+# 対象が無いときは OK ではなく **STALE（未検査）** と言う。
+_queue_files = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
 _offstar = []
-for _f in sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md"))):
+for _f in _queue_files:
     _b = os.path.basename(_f)[:-3]
     _t = open(_f, encoding="utf-8").read()
     _m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, re.S) if "re" in dir() else None
     _body = _m.group(1) if _m else _t
     if not any(w in _body for w in _TOYAMA_WORDS):
         _offstar.append(_b)
-if _offstar:
+if not _queue_files:
+    add("R18 North Star整合", "STALE",
+        "公開キューが空＝**検査対象なし**（0本を『すべてOK』と表示しない）。次の記事を投函したら判定される")
+elif _offstar:
     add("R18 North Star整合", "STALE",
         f"**公開キュー**の記事で本文に富山/高岡/氷見/北陸/立山が0件 {len(_offstar)}本(例:{_offstar[0][:26]}…)"
         " → 一次観察を1段落入れるか、EN/Xの地域タグを外す")
 else:
-    add("R18 North Star整合", "OK", f"公開キュー{len(glob.glob(os.path.join(ROOT, 'drafts/queue/*.md')))}本すべて本文に富山圏の記述あり（地域タグの根拠がある）")
+    add("R18 North Star整合", "OK", f"公開キュー{len(_queue_files)}本すべて本文に富山圏の記述あり（地域タグの根拠がある）")
 
 # R13 制御ファイルの追跡: thumbnails/ は .gitignore 済なので、_verified.txt / _no_auto.txt は
 # `git add -f` されていないと **codeの手元にしか存在しない**。実際 _no_auto.txt は管理外のままで、
