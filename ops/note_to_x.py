@@ -34,6 +34,8 @@ KEY_MAP = [
     ("ぎんなん", "ginnan-thread"), ("銀杏", "ginnan-thread"),
     ("なめこ", "nameko-thread"), ("ぬめり", "nameko-thread"),
     ("焼き芋", "yakiimo-thread"), ("さつまいも", "yakiimo-thread"),
+    ("秋刀魚", "sanma-thread"), ("さんま", "sanma-thread"),
+    ("水力発電", "snow-electricity-thread"), ("冬の雪でできている", "snow-electricity-thread"),
     ("立山の紅葉", "early-foliage-thread"), ("いちばん早い秋", "early-foliage-thread"),
     ("夕方のチャイム", "evening-chime-thread"), ("町全体のスピーカー", "evening-chime-thread"),
     ("消雪パイプ", "snow-melt-thread"), ("道路から水", "snow-melt-thread"),
