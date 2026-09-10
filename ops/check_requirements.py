@@ -92,20 +92,34 @@ try:
     _fw = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_fw)
     _provp = os.path.join(thumbdir, "_provenance.json")
     _prov = _json.load(open(_provp, encoding="utf-8")) if os.path.exists(_provp) else {}
-    _bad2f = []
+    # ★母数を必ず出す。provenance にファイル名が無い stem は**判定できていない**のであって
+    # 「該当なし」ではない。旧版は 119件の顔をして実際は19件しか見ておらず、同じスクリプトの
+    # R16 が「100件が未記録」と正しく言っているのに R2f だけ知らないふりをしていた（CQO中1）。
+    _bad2f, _judged = [], 0
     for _stem in verified:
         _rec = _prov.get(_stem)
-        if isinstance(_rec, dict) and _fw._is_rejected_file(_rec.get("file") or ""):
-            _bad2f.append((_stem, _rec.get("file")))
+        _f2f = _rec.get("file") if isinstance(_rec, dict) else None
+        if not _f2f:
+            continue                      # 出典未記録＝判定不能
+        _judged += 1
+        if _fw._is_rejected_file(_f2f):
+            _bad2f.append((_stem, _f2f))
+    _unk = len(verified) - _judged
+    _note2f = (f"（判定できた {_judged}件 / 出典未記録で未検査 {_unk}件 / _verified 計 {len(verified)}件。"
+               f"REJECTED_FILES {len(_fw.REJECTED_FILES)}件と照合。"
+               f"※この検査は**過去に落とした名前**しか見ないので、初出の誤サムネは原理的に拾えない）")
     if not verified:
         add("R2f 落とした画像の再承認", "STALE", "_verified.txt が空＝未検査")
     elif _bad2f:
         add("R2f 落とした画像の再承認", "BROKEN",
             f"目視で落としたファイルが _verified に残っている {len(_bad2f)}件"
-            f"(例:{_bad2f[0][0][:24]}… ← {str(_bad2f[0][1])[:34]}) → _verified から外して再取得")
+            f"(例:{_bad2f[0][0][:24]}… ← {str(_bad2f[0][1])[:34]}) → _verified から外して再取得 {_note2f}")
+    elif _judged < len(verified) * 0.8:
+        add("R2f 落とした画像の再承認", "STALE",
+            f"被覆が足りない＝判定できたのは {_judged}/{len(verified)} 件だけ。"
+            f"該当なしと言い切れない {_note2f}")
     else:
-        add("R2f 落とした画像の再承認", "OK",
-            f"_verified {len(verified)}件: REJECTED_FILES({len(_fw.REJECTED_FILES)}件)に当たるものなし")
+        add("R2f 落とした画像の再承認", "OK", f"該当なし {_note2f}")
 except Exception as _e:
     add("R2f 落とした画像の再承認", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
@@ -447,13 +461,25 @@ _PHRASES = (
     # 「海外/外国の人は〜驚く・たいてい〜な顔をする」型。当社の最頻出テンプレ。
     # 文境界(。)で止めていたため、装置を2文に割ると素通りした（2026-09-15 用水路の初稿で実証）。
     # 段落＝行の中なら拾えるよう [^\n]{0,40} に広げる。多少の誤検知は警告なので許容する。
-    ("海外の人が驚く型", r"(海外|外国|外から来た)[^\n]{0,40}(驚|たいてい|不思議な顔|微妙な顔|納得しない)"),
+    # アンカーが「海外|外国|外から来た」固定だったため、**「外から見れば」「よそから見ると」を素通り**した
+    # （2026-09-15 用水路・2026-09-16 新蕎麦で2本連続。両方未公開なのに OK が出ていた＝CQO重大4）。
+    # 同じ装置は「外部者の視点を借りて自分の当たり前を相対化する」ことなので、アンカーと反応語の両方を広げる。
+    ("海外の人が驚く型", r"(海外|外国|外から来た|外から見|よそから見|日本の外)[^\n]{0,40}"
+                        r"(驚|たいてい|不思議な顔|微妙な顔|納得しない|奇妙|変に見え|おかしく見え|結びつかない|伝わ)"),
     ("読者に試させる型", r"(てみてほしい|試してみて|確かめてもらえたら)"),
     ("説明に詰まる型",   r"(毎回|いつも)?[^。]{0,10}(つまず|言葉に詰ま|うまく説明できない|うまく言えない)"),
     ("何も足していない型", r"(何も足して|加えているものが何も|余計なものが何も)"),
     ("もし〜なら型",     r"^もし[^。]{0,20}(なら|たら)"),
 )
-_phrase_hits = {name: [] for name, _ in _PHRASES}
+# 英語成果物用。日本語と同じ装置が英語に逃げるので、英語でも型で捕まえる。
+_EN_PHRASES = (
+    ("EN:外部者に説明する型", r"(explain(ing)?[^.]{0,30}(abroad|from outside|to (someone|people)))"
+                              r"|((from|to) outside Japan)|(rarely lands)|(defeats me)"),
+    ("EN:相手が驚く型",       r"(visitors?|foreigners?|people from abroad)[^.]{0,40}"
+                              r"(surpris|startl|taken aback|puzzl|baffl)"),
+    ("EN:読者に試させる型",   r"(try it|give it a go|see for yourself|worth trying)"),
+)
+_phrase_hits = {name: [] for name, _ in list(_PHRASES) + list(_EN_PHRASES)}
 for _f in _arts17:
     _b = os.path.basename(_f)[:-3]
     _t = open(_f, encoding="utf-8").read()
@@ -468,6 +494,12 @@ for _f in _arts17:
         _o, _c = _paras[0][:12], _paras[-1][:12]
         _seen_open.setdefault(_o, []).append(_b)
         _seen_close.setdefault(_c, []).append(_b)
+        # 2026-09-16(CQO中3): 締めには骨格比較があるのに**冒頭には無かった**＝非対称な穴。
+        # さらに第2段落を一切見ておらず、同日2本が両方「秋になると〜」で始まっていたのを逃した。
+        _oskel = _re17.sub(r"[^もしたらならばときにはがをでとへや、。ならそれこれあれというだけでもしかない]+", "◯", _paras[0][:24])
+        _seen_open.setdefault("骨格:" + _oskel, []).append(_b)
+        if len(_paras) > 1:
+            _seen_open.setdefault("第2段:" + _paras[1][:10], []).append(_b)
         # 文字列一致だけだと「もし日本の秋に泊まる機会」と「もし日本の秋に焼き芋を買」がすり抜ける
         # ＝R17が潰すはずだった「型は同じ・名詞だけ違う」がまさに素通りしていた（CQO指摘・高7）。
         # 名詞を落として**統語の骨格**で比べる。
@@ -489,6 +521,13 @@ for _f in _arts17:
     for _name, _rx in _PHRASES:
         if re.search(_rx, _body, re.M):
             _phrase_hits[_name].append(_b)
+    # 英語側も装置で見る。海外読者に読まれることが North Star なので、**英語の反復のほうが致命的**
+    # なのに、従来は英語要約の先頭3語しか比較していなかった（CQO中2）。
+    # 実測: 「外部者に説明する」装置が EN要約に直近6日で4本あり、全部不可視だった。
+    if _en:
+        for _name, _rx in _EN_PHRASES:
+            if re.search(_rx, _en, re.I):
+                _phrase_hits[_name].append(_b + "(EN)")
 
 # 公開済み記事は**もう直せない**ので、警告に混ぜると常時STALEになって検知が形骸化する
 # （R2dで学んだのと同じ失敗）。**未公開の記事が絡む反復だけ**を「対応が要る」とし、
