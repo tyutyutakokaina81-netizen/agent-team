@@ -37,6 +37,8 @@ KEY_MAP = [
     ("秋刀魚", "sanma-thread"), ("さんま", "sanma-thread"),
     ("水力発電", "snow-electricity-thread"), ("冬の雪でできている", "snow-electricity-thread"),
     ("おはぎ", "ohagi-thread"), ("ぼたもち", "ohagi-thread"), ("春と秋で名前を変える", "ohagi-thread"),
+    ("松茸", "matsutake-thread"), ("マツタケ", "matsutake-thread"), ("名前だけ知っている", "matsutake-thread"),
+    ("稲刈り", "rice-harvest-thread"), ("うるさい日", "rice-harvest-thread"),
     ("あけび", "akebi-thread"), ("アケビ", "akebi-thread"), ("中身だけ食べる実", "akebi-thread"),
     ("運動会", "sports-day-thread"), ("場所取り", "sports-day-thread"),
     ("赤とんぼ", "akatombo-thread"), ("アキアカネ", "akatombo-thread"), ("山で夏を過ごして", "akatombo-thread"),
