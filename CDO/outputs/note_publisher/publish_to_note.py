@@ -751,6 +751,12 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         #   検証済みサムネのある記事まで無サムネ公開になり「本文だけ＝サムネ無し」の指摘を招いていた。
         #   本文の[写真]placeholderは text_only で除去しつつ、確認済み見出し画像だけは活かす。
         thumb_to_use = photos[0] if photos else auto_thumb
+        if not thumb_to_use:
+            # 2026-09-12: **この行が無かった**。ops/cowork_run.sh は「写真サムネは未設定」を grep して
+            # 件数を数えているのに、publisher はその文字列をどこにも出していなかった＝
+            # **報告の「写真サムネ未設定 N件」は構造的に常に 0** で、何も測っていなかった。
+            # 無サムネで出したこと自体は正しい動作なので、失敗ではなく情報として必ず出す。
+            print("ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する")
         if thumb_to_use:
             try:
                 # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
@@ -787,6 +793,8 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                         continue
                 print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
             except Exception as e:
+                # 「設定しようとして失敗した」は**無サムネとは別の事故**。2026-08-19 に note のUI変更で
+                # セレクタが解決せずサムネが全滅したときも、報告にはこの件数が出ていなかった。
                 print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
 
         # ---- 公開 or 下書き ----

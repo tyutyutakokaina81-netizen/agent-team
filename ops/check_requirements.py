@@ -123,6 +123,59 @@ try:
 except Exception as _e:
     add("R2f 落とした画像の再承認", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R20 報告と実体の突き合わせ: ops/cowork_run.sh が publisher の出力から grep している文字列が、
+# publisher のソースに**実在するか**。
+# 2026-09-12 実測: cowork_run.sh は「写真サムネは未設定」を grep して件数を数えていたが、
+# publish_to_note.py はその文字列を**どこにも出していなかった**。結果、報告の
+# 「写真サムネ未設定 N件」は**構造的に常に 0**で、何も測っていなかった。
+# にもかかわらず、その 0 を「サムネが全部付いた証拠」として何日も報告に使っていた。
+# 「報告する側」と「報告される側」は別ファイルなので、片方だけ直すとこの断線が起きる。
+try:
+    _runsh = os.path.join(ROOT, "ops/cowork_run.sh")
+    _pubpy = os.path.join(ROOT, "CDO/outputs/note_publisher/publish_to_note.py")
+    if not (os.path.exists(_runsh) and os.path.exists(_pubpy)):
+        add("R20 報告と実体の突き合わせ", "STALE", "cowork_run.sh か publish_to_note.py が無い＝未検査")
+    else:
+        _rs = open(_runsh, encoding="utf-8").read()
+        # ★**実際に出力される文字列だけ**を対象にする。ソース全文を検索すると、
+        # **この検査自身が書いたコメント**に同じ文字列があるだけで「実在する」と誤判定する
+        # （最初の実装がそうで、回帰テストが鳴らずに発覚した）。
+        # ただし print() だけを見るのも誤りで、publisher は**sys.exit() でも**メッセージを出す
+        # （ログイン切れは sys.exit）。両方を対象にしないと今度は誤検知（狼少年）になる。
+        # 出力先スクリプトも1本ではない＝日次実行は publish_to_note.py と publish_paid_note.py の
+        # 両方を回し、その出力をまとめて grep している。両方を突き合わせ対象にする。
+        _srcs = [_pubpy, os.path.join(ROOT, "CDO/outputs/note_publisher/publish_paid_note.py")]
+        _ps_parts = []
+        for _sp in _srcs:
+            if not os.path.exists(_sp):
+                continue
+            _txt = open(_sp, encoding="utf-8").read()
+            _ps_parts += [m.group(0) for m in
+                          re.finditer(r"(?:print|sys\.exit)\s*\(.*?\)", _txt, re.S)]
+        _ps = "\n".join(_ps_parts)
+        # `echo "$out" | grep -q "…"` / `grep -qE "A|B"` で publisher 出力を見ている行を拾う
+        _pats = []
+        for _m in re.finditer(r'echo\s+"\$out"\s*\|\s*grep\s+-q(E?)\s+"([^"]+)"', _rs):
+            _alts = _m.group(2).split("|") if _m.group(1) == "E" else [_m.group(2)]
+            for _a in _alts:
+                _a = _a.strip()
+                if _a:
+                    _pats.append(_a)
+        _dead = [a for a in _pats if a not in _ps]
+        if not _pats:
+            add("R20 報告と実体の突き合わせ", "STALE",
+                "cowork_run.sh から grep 対象を1つも抽出できなかった＝検査できていない")
+        elif _dead:
+            add("R20 報告と実体の突き合わせ", "BROKEN",
+                f"cowork_run.sh が数えている文字列のうち **{len(_dead)}件が publisher の出力（print/sys.exit）に無い**"
+                f"（例:「{_dead[0][:24]}」）→ その件数は常に0＝何も測っていない。"
+                f"（検査した grep パターン {len(_pats)}件）")
+        else:
+            add("R20 報告と実体の突き合わせ", "OK",
+                f"cowork_run.sh が数える {len(_pats)}件の文字列はすべて publisher の出力（print/sys.exit）に実在する")
+except Exception as _e:
+    add("R20 報告と実体の突き合わせ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
