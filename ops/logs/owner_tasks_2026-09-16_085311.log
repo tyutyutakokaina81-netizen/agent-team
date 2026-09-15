@@ -1,0 +1,107 @@
+=== owner_tasks 2026-09-16_085311 (branch=main) ===
+Already up to date.
+
+--- [1/3] コメント巡回（--debug でHTML保存） ---
+[新着]
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/10] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/10] 汗 — かいても、かいても
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] サンダル — 夏は、これ一足
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] おにぎり — 塩を、きかせて握る
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 夏の草むしり — 抜いても、抜いても
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 田んぼの夏 — 緑の波と、カエルの声
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 夏の昼寝 — 畳の上の、うたた寝
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] コーラを、火にかけて作る。— 七輪で、スパイスから煮出す
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 3 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[backlog＝古い記事。ここでセレクタ外れが出ているはず]
+[1/15] しゃがんで、火の玉を見つめる。— 線香花火という、夏の終
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/15] 紙の網で、いのちをすくう。— 縁日の金魚すくい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/15] 夏は、氷を食べる。— かき氷という、うちの夏のごほうび
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[4/15] 温泉は、特別じゃない。— 富山の、日帰り温泉のある暮らし
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/15] 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/15] 入道雲が立つと、夕立が来る。— 夏の空の、急な変わりよう
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/15] 蛍が、川辺にともる。— 暗がりに浮かぶ、夏の小さな光
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/15] 冷や汁 — 食欲のない日を、救ってくれる
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_nfff7e14347c8.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[9/15] ラムネ — ビー玉が、からんと鳴る
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/15] カブトムシ — 夏の朝の、宝物
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[11/15] 夏休みの宿題 — 最終日に、ぜんぶ思い出す
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[12/15] スイカは、冷やして、塩をふる。— 夏の、いちばん派手なく
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[13/15] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[14/15] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[15/15] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 15 / 新規コメント 0 / セレクタ外れ 4 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+(終了コード: 0)
+
+--- [2/3] 直近の公開ログからサムネ失敗の原因を抽出 ---
+対象ログ: ops/logs/publish_2026-06-23_081720.log
+（このログにサムネ失敗の行は無し）
+
+--- [3/3] 結果を ops/outbox に投函して push ---
+posted: ops/outbox/2026-09-16_002_cowork_code.yaml  id=2026-09-16_002
+
+==========================================================
+ ここからは手作業です（ブラウザ / キー投入）
+==========================================================
+
+[A] 見出し画像が付いていない公開済み2本に、手で画像を設定する ★最優先
+    note の編集画面を開いて、下の jpg を見出し画像に設定してください。
+      新蕎麦  https://note.com/safe_canna441/n/n242960f609cf
+        → CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_新蕎麦_秋になると幟が立つが違いが分かるかは別の話.jpg
+      赤とんぼ https://note.com/safe_canna441/n/nc9bda3191cc5
+        → CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_赤とんぼ_山で夏を過ごして秋に降りてくる.jpg
+
+[B] 見出し画像エリアのボタンの現在の名前を調べて教えてください
+    note の編集画面で見出し画像の「+」あたりを右クリック →「検証」。
+    その button の aria-label とテキストをコピーして貼ってください。
+    （publisher のセレクタがこれで直せます。いま2本連続で失敗しています）
+
+[C] 公開済み2本に権利クレジットを追記する（CC BY / CC BY-SA の表示義務）
+    対象は ops/inbox/2026-09-08_004 に記載。本文末尾にクレジット行を足すだけです。
+
+[D] 「冷やしトマト」の記事が note 上で下書きのままでないか確認する
+    下書きなら公開してください（ops/inbox/2026-09-09_003）。
+
+[E] X(Twitter) API の Free tier キーを環境変数に入れる
+    これが入るまで note→X の自動投稿はゼロのままです（恒常要件 R5 が BLOCKED）。
+      export X_API_KEY=...
+      export X_API_SECRET=...
+      export X_ACCESS_TOKEN=...
+      export X_ACCESS_SECRET=...
+
+==========================================================
+ログ: ops/logs/owner_tasks_2026-09-16_085311.log
