@@ -1,0 +1,53 @@
+=== owner_tasks 2026-09-16_084051 (branch=main) ===
+Already up to date.
+
+--- [1/3] コメント巡回（--debug でHTML保存） ---
+[1/20] 赤とんぼ：山で夏を過ごして、秋に降りてくる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/20] 新蕎麦：秋になると幟が立つが、違いが分かるかは別の話
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/20] 里芋：掘り出すと、親芋のまわりに子芋がついてくる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[4/20] 用水路：町の中を、速い水が流れている
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/20] 仏壇と神棚：ひとつの家に、祈る場所が二つある
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/20] おはぎ：同じ食べものが、春と秋で名前を変える
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/20] 秋刀魚：日本の秋の魚。ただし富山では、少し事情が違う
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/20] 富山の電気は、冬に降った雪でできている
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/20] 立山の紅葉：日本の紅葉は十一月、と思っている人へ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/20] 焼き芋：この二十年で、日本の芋は「ほくほく」から「ねっと
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[11/20] 夕方のチャイム：町じゅうのスピーカーが、決まった時刻に音
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[12/20] なめこ：ぬるぬるしているほうが、いい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[13/20] 消雪パイプ：富山の道路は、路面から水を出して雪を消す
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[14/20] ぎんなん：街路樹に実る、拾って食べるもの
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[15/20] 干し柿：渋くて食べられない果物を、風だけで菓子にする
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[16/20] 初冠雪：まだ半袖なのに、山だけ白くなる日がある
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[17/20] 虫の声：日本語では、それを「声」と呼ぶ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[18/20] 栗ご飯：日本では、栗を甘くしない
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[19/20] 富山の秋は、笛と太鼓で始まる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[20/20] 富山で共働きが多いわけ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未公開(draft) 0 ===
+(終了コード: 0)
+
+--- [2/3] 直近の公開ログからサムネ失敗の原因を抽出 ---
+対象ログ: ops/logs/publish_2026-06-23_081720.log
+（このログにサムネ失敗の行は無し）
+
+--- [3/3] 結果を ops/outbox に投函して push ---
+posted: ops/outbox/2026-09-16_001_cowork_code.yaml  id=2026-09-16_001

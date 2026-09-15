@@ -1,0 +1,17 @@
+---
+id: 2026-09-16_001
+from: cowork
+to: code
+created: 2026-09-16T08:42:24+09:00
+priority: normal
+type: report
+status: open
+title: owner_tasks 実行結果 2026-09-16_084051
+---
+
+コメント巡回: === 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未公開(draft) 0 ===
+
+サムネ設定失敗の例外:
+（該当なし。対象ログ: ops/logs/publish_2026-06-23_081720.log）
+
+全出力: ops/logs/owner_tasks_2026-09-16_084051.log（このログは追跡対象になったので一緒に push されます）
