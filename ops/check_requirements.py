@@ -176,6 +176,59 @@ try:
 except Exception as _e:
     add("R20 報告と実体の突き合わせ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R21 在庫があるのにキューが空: 2026-09-14/15 の日次実行が**公開0件**だった。
+# 原因は drafts/queue/ が空だったこと＝code の投入漏れで、在庫（未公開の完成記事）は4本あった。
+# R18 は「キューが空なら STALE」と言うだけで、**在庫があるのに空**という状態を区別しない。
+# 記事を書いても投入しなければ1本も出ないので、ここは能動的に鳴らす。
+try:
+    _qdir = os.path.join(ROOT, "drafts/queue")
+    _q = [f for f in glob.glob(os.path.join(_qdir, "*.md"))] if os.path.isdir(_qdir) else []
+    _regp = os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json")
+    _pub_titles = set()
+    if os.path.exists(_regp):
+        import json as _j21
+        def _w21(o):
+            if isinstance(o, dict):
+                for _k, _v in o.items():
+                    if _k in ("title", "file", "filename") and isinstance(_v, str):
+                        _pub_titles.add(os.path.basename(_v))
+                for _v in o.values():
+                    _w21(_v)
+            elif isinstance(o, list):
+                for _v in o:
+                    _w21(_v)
+        _w21(_j21.load(open(_regp, encoding="utf-8")))
+    # 「本文が書かれていて、まだ公開台帳に載っていない」記事を在庫とみなす（タイトル一致で突合）
+    # ★母数を「直近30日分の日付を持つ記事」に絞る。CMO/outputs には数ヶ月分のファイルがあり、
+    # 過去のタイトル改稿などで台帳と突き合わない古い記事が大量に残る。全件を「在庫」と数えると
+    # 「未投入の在庫151本」のような**意味のない大きな数**が出て、メッセージが嘘になる
+    # （母数を確かめずに数を出すのは、このリポジトリで繰り返している失敗そのもの）。
+    _cut = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+    _stock = []
+    for _f in sorted(glob.glob(os.path.join(ROOT, "CMO/outputs/2026-*_note記事_*.md"))):
+        if os.path.basename(_f)[:10] < _cut:
+            continue
+        _t = open(_f, encoding="utf-8").read()
+        _m = re.search(r"## タイトル\n```\n(.+?)\n```", _t)
+        if not _m:
+            continue
+        if _m.group(1).strip() in _pub_titles:
+            continue
+        if os.path.basename(_f) in {os.path.basename(x) for x in _q}:
+            continue
+        _stock.append(os.path.basename(_f)[:-3])
+    if not _q and _stock:
+        add("R21 在庫があるのにキューが空", "BROKEN",
+            f"公開キューが空なのに**未公開の完成記事が {len(_stock)}本**ある"
+            f"(例:{_stock[-1][:30]}…) → 次の日次実行が**公開0件**になる。drafts/queue/ へ投入する")
+    elif not _q:
+        add("R21 在庫があるのにキューが空", "OK", "キューは空だが未公開の在庫も無い＝投入漏れではない")
+    else:
+        add("R21 在庫があるのにキューが空", "OK",
+            f"キューに {len(_q)}本（未投入の在庫 {len(_stock)}本）")
+except Exception as _e:
+    add("R21 在庫があるのにキューが空", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
