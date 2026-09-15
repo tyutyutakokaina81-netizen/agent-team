@@ -64,10 +64,6 @@ ${THUMB_ERR:-（該当なし。対象ログ: ${LATEST_LOG:-なし}）}
 
 全出力: ${OUT}（このログは追跡対象になったので一緒に push されます）"
 
-git add -A
-git commit -m "owner_tasks: ${TS}" || true
-for i in 1 2 3 4; do git push origin "$(git rev-parse --abbrev-ref HEAD)" && break || sleep $((2**i)); done
-
 # ---------------------------------------------------------------
 # 手作業が要るもの（ここからは自動化できない）
 # ---------------------------------------------------------------
@@ -105,3 +101,11 @@ cat <<'MANUAL'
 ==========================================================
 MANUAL
 echo "ログ: ${OUT}"
+
+# ここで初めて commit する。以前はこの上でコミットしていたため、
+# **コミット後も手作業一覧をログに書き足していて**、実行のたびにログが未コミットの差分として残り、
+# 次回の `git pull` が「unstaged changes」で止まっていた（2026-09-16 発覚）。
+git add -A
+git commit -m "owner_tasks: ${TS}" || true
+for i in 1 2 3 4; do git push origin "$(git rev-parse --abbrev-ref HEAD)" && break || sleep $((2**i)); done
+
