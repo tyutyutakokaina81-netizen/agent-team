@@ -22,7 +22,13 @@ git pull --rebase --autostash || true
 # ---------------------------------------------------------------
 echo ""
 echo "--- [1/3] コメント巡回（--debug でHTML保存） ---"
-"$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --limit 20 --rescan
+# 2026-09-16 判明: 日次実行は **新着10本 + backlog5本** の2回に分けて回しており、
+# セレクタ外れ6件は **backlog 側（古い記事）** で出ている。新着側は20本回して外れ0だった。
+# なので切り分けは backlog を厚めに回す方が確実。
+echo "[新着]"
+"$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --limit 10
+echo "[backlog＝古い記事。ここでセレクタ外れが出ているはず]"
+"$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --backlog --limit 15
 SWEEP_RC=$?
 echo "(終了コード: ${SWEEP_RC})"
 
@@ -47,7 +53,7 @@ fi
 # ---------------------------------------------------------------
 echo ""
 echo "--- [3/3] 結果を ops/outbox に投函して push ---"
-SWEEP_LINE="$(grep -h '=== 結果: 巡回' "${OUT}" | tail -1)"
+SWEEP_LINE="$(grep -h '=== 結果: 巡回' "${OUT}" | tr '\n' ' ')"
 THUMB_ERR="$(grep -h 'サムネ自動設定に失敗' "${LATEST_LOG}" 2>/dev/null | head -3)"
 "$PYBIN" ops/process_inbox.py post --from cowork --to code --type report \
   --title "owner_tasks 実行結果 ${TS}" \

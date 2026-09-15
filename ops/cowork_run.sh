@@ -136,7 +136,7 @@ echo "=== summary(有料): published=${paid_ok} failed=${paid_ng} ==="
 # 2026-09-01 の指示から実績ゼロのまま滞留していた要件。滞留の理由は「cowork に取得スクリプトが無い」
 # ことだったので、code が fetch_note_comments.py を書き、日次のここに組み込む＝待つのをやめる。
 # 公開が終わった直後＝ログインが生きていることが確認できた状態で回すのが最も確実。
-comment_new=0; comment_sel_fail=0
+comment_new=0; comment_sel_fail=0; comment_draft=0
 if [ $login_fail -eq 0 ]; then
   CFETCH="CDO/outputs/note_publisher/fetch_note_comments.py"
   if [ -f "$CFETCH" ]; then
@@ -146,6 +146,11 @@ if [ $login_fail -eq 0 ]; then
     # 「=== 結果: 巡回 N / 新規コメント M / セレクタ外れ K ===」を合算する
     comment_new=$(echo "$cout" | sed -n 's/.*新規コメント \([0-9]*\) .*/\1/p' | awk '{s+=$1} END{print s+0}')
     comment_sel_fail=$(echo "$cout" | sed -n 's/.*セレクタ外れ \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
+    # 2026-09-16: fetcher は「未公開(draft) N」も出しているのに、ここで**拾っていなかった**。
+    # 報告には出ないので、下書き放置が何本あっても分からない状態だった
+    # （2026-09-09 の冷やしトマトは、たまたま「セレクタ外れ1件」を追って見つかったもの）。
+    # 「写真サムネ未設定」が常に0だったのと同じ型＝出している側と数える側が繋がっていない。
+    comment_draft=$(echo "$cout" | sed -n 's/.*未公開(draft) \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
   else
     echo "⚠️ ${CFETCH} が無い（未pull?）→ コメント収集はスキップ"
   fi
@@ -156,7 +161,7 @@ fi
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用) / **サムネ設定に失敗 ${thumb_err} 件**（log: ${LOG}）"
 body="${body}
-【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
+【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / **未公開(draft) ${comment_draft} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
 if [ $((paid_ok + paid_ng)) -gt 0 ]; then
   body="${body}
 【有料note】公開 ${paid_ok} 件 / 失敗 ${paid_ng} 件"
