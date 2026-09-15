@@ -1,6 +1,10 @@
 node_modules/
 .DS_Store
 *.log
+# ただし cowork の実行ログだけは追跡する。cowork_run.sh は「code が repo の ops/logs/ を読んで
+# 結果を確認できる」という前提で書かれているのに、*.log で無視されていて**一度も届いていなかった**
+# （2026-09-15 発覚。サムネ設定失敗の例外メッセージを code から読めず、owner に転記を頼む羽目になった）。
+!ops/logs/*.log
 .env
 *.env.*
 
