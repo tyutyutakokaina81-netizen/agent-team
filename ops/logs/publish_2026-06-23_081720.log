@@ -1,0 +1,59 @@
+=== publish run 2026-06-23_081720 (branch=claude/agent-capability-review-hqzudr) ===
+error: cannot pull with rebase: Your index contains uncommitted changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            claude/agent-capability-review-hqzudr -> FETCH_HEAD
+   4a1d088..2248f6d  claude/agent-capability-review-hqzudr -> origin/claude/agent-capability-review-hqzudr
+error: Unable to create '/Users/apple/agent-team/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+Updating 4a1d088..2248f6d
+=== summary: published=0 failed=0 thumb_fail=0 ===
+posted: ops/outbox/2026-06-23_001_cowork_code.yaml  id=2026-06-23_001
+fatal: Unable to create '/Users/apple/agent-team/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+fatal: Unable to create '/Users/apple/agent-team/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]        claude/agent-capability-review-hqzudr -> claude/agent-capability-review-hqzudr (non-fast-forward)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]        claude/agent-capability-review-hqzudr -> claude/agent-capability-review-hqzudr (non-fast-forward)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]        claude/agent-capability-review-hqzudr -> claude/agent-capability-review-hqzudr (non-fast-forward)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]        claude/agent-capability-review-hqzudr -> claude/agent-capability-review-hqzudr (non-fast-forward)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+done. published=0 failed=0 thumb_fail=0  log=ops/logs/publish_2026-06-23_081720.log
