@@ -229,6 +229,34 @@ try:
 except Exception as _e:
     add("R21 在庫があるのにキューが空", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R22 日次実行(cowork側)の生存: 最後に auto-publish 報告が届いたのはいつか。
+# R8 は STATE.md の更新日しか見ておらず、**code（私）が動いていれば OK を出す**。
+# つまり Mac 側の cron が止まっていても OK のままで、実際 2026-09-16 の 08:00 実行が
+# 丸ごと落ちたのに気づいたのは数日後だった。「誰が動いているか」を取り違えていた。
+# 一次証拠＝cowork が投函する auto-publish 報告のファイル更新時刻（processed/ 込み）。
+try:
+    _rep = sorted(
+        glob.glob(os.path.join(ROOT, "ops/outbox/*_cowork_code.yaml")) +
+        glob.glob(os.path.join(ROOT, "ops/processed/*_cowork_code*.yaml")),
+        key=lambda f: os.path.getmtime(f))
+    _pubrep = [f for f in _rep
+               if "auto-publish" in open(f, encoding="utf-8", errors="ignore").read()[:400]]
+    if not _pubrep:
+        add("R22 日次実行の生存", "STALE", "auto-publish 報告が1件も無い＝判定不能")
+    else:
+        _age_h = (time.time() - os.path.getmtime(_pubrep[-1])) / 3600
+        _last = os.path.basename(_pubrep[-1])
+        if _age_h > 26:
+            add("R22 日次実行の生存", "BROKEN",
+                f"最後の auto-publish 報告から **{_age_h:.0f}時間**（{_last}）"
+                f" → Mac側の日次実行(crontab 0 8 * * *)が動いていない疑い。"
+                f" `crontab -l` と `ops/logs/cron.log` を確認する")
+        else:
+            add("R22 日次実行の生存", "OK",
+                f"最後の auto-publish 報告は {_age_h:.0f}時間前（{_last}）")
+except Exception as _e:
+    add("R22 日次実行の生存", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
