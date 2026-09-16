@@ -1,0 +1,121 @@
+- 五箇山豆腐 https://note.com/safe_canna441/n/n13aa4e281fd5
+
+**重複を防いだ判断（指示テキストが古い＝note本体APIで実測）:**
+- 有料本¥980・Vol.1¥980・¥300はいずれも**既に公開済み** → 再公開せず（有料の重複を回避）。task4の下書き nea8b690cde14 は **削除済み**。
+- **EN¥100** は新規だが、価格DOM検証失敗＋`is_limited=False/price=300` ＝有料設定が未確定 → **全文無料事故を防ぐため安全ガードで下書き止め**（n257fa3872add・週次リトライ）。
+- 氷見牛2本目 nc7a3522ade60 は**既に非公開**（無操作）。
+
+**⚠️ 要判断（code/owner）:** 残すはずの氷見牛1本目 **n0443f87ce4df も現在は非公開(HTTP404)**。両方非公開になっています。1本目を再公開するか判断ください（当方は削除も非公開化もしていません）。
+
+**その他:** ゲート合格再確認(task1 ✅)／未返信コメント **0件**（全記事 comment_count=0）／フォロワー **27**（STATE.mdの21から+6）／self-fixなし（publisherは健全・ガードが正しく作動）。
+
+詳細・codeへの次アクション（有料指示テキスト更新・EN¥100価格手順修正など）は `ops/outbox/2026-07-11_001_cowork_code.yaml` に記載、push済み。
+docs/run_worker.sh: line 40: : command not found
+Everything verified and pushed. Here's the summary.
+
+## 要点
+
+**★★収益枠が初めて自動で埋まった — 有料¥100を日英とも公開成功**（3ヶ月動かなかった収益ラインの突破）。
+
+| 商品 | URL | 実測（v3 API） |
+|---|---|---|
+| JP ¥100 外さない12選 | https://note.com/safe_canna441/n/nb90084f378c8 | price=100 / can_read=False / published |
+| EN ¥100 12 picks | https://note.com/safe_canna441/n/nba958ccd6cb8 | price=100 / can_read=False / published |
+
+本日 **5/5**＝通常3（前便：ホタルイカ/鱒寿司/五箇山豆腐）＋**有料2（JP/EN¥100・本便）**＝★★収益枠予約（≥2本有料）を初充足。全文無料事故なし（無料に白えび=見え／有料のます寿司=隠れ、を実測確認）。
+
+## self-fix（publish_paid_note.py に恒久実装）
+- **真因をDOM実測で特定**：note の価格欄は React 制御 input で、`fill()` は onChange 未発火→アプリ状態が既定¥300のまま＝過去の「価格未確定で下書き止め」の主因。→ **実マウスclick→Meta/Ctrl+A→Backspace→keyboard.type→Tab** に置換（+scroll・検証リトライ3回）。
+- **is_limited は判定に使えないと判明**（正しく有料公開でも v3 は `is_limited=False`。¥980本で実測）→ owner の★絶対条件を実在する **price + can_read=False** で厳守するよう補正。境界確定を分離し **3点ゲート**化＋公開直後 `_verify_paid_published()` で v3 実測。
+
+## 完了確認（safe/無公開系）
+- task0 氷見牛2本目 nc7a3522ade60＝既に非公開（404・無操作）／task1 ゲートテスト＝合格（重複で即中断・ブラウザ非起動）／掃除 n6c719e5bd23d＝消滅済／ブラウザ残骸＝pkill 後 0。
+
+## 次アクション・要判断（code/owner）
+- **おろしそば/アラ記事は本日未公開**（cap5到達＋収益枠優先のため）→ 明日の通常枠先頭で最優先公開を推奨。定期便の通常記事選定に「owner明示指定を最優先」フックを検討。
+- **有料版 publisher に台帳ゲート＋自動追記が未内蔵**（今回は手動追記）→ 移植を提案。
+- ⚠️氷見牛 n0443f87ce4df（1本目）も404のまま＝再公開するか判断待ち（持ち越し）。
+- 未着手（別便/owner認証待ち）：KDP初期設定・Travelpayouts OAuth・A8照合・note内グロース・世界コミュニティ交流ドラフト・かいちLINE特典。今回は最優先の収益枠に集中。
+
+コミット `202395e` を main へ push 済（outbox報告2026-07-11_002＋registry＋self-fix。STATE.md/_index.md は正本管理が code 専任のため未編集＝報告で引き継ぎ）。
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+07-12便 完了。
+
+**結果**: owner依頼の食4記事を全部公開（実機HTTP200確認済）。本日台帳 4/5。commit&push済（`5d3df0f`）。
+
+| 記事 | URL | サムネ |
+|---|---|---|
+| おろしそば | https://note.com/safe_canna441/n/n09933b286612 | owner実食写真 |
+| 魚のアラ | https://note.com/safe_canna441/n/n1ccb0065472f | 自動設定 |
+| みりん干し | https://note.com/safe_canna441/n/n88c12c3cedae | 自動設定 |
+| キス/メゴチ天ぷら | https://note.com/safe_canna441/n/n5ffd70da907b | なし(text-only) |
+
+- **task1 ゲート合格**（バタバタ茶=台帳で即中断・ブラウザ非起動）。
+- **task0 氷見牛**＝2本とも既に非公開(HTTP404)。⚠️1本目 n0443f87ce4df も404のまま＝**再公開するか要owner判断**（当方無操作）。
+- **有料商品＝新規公開なし**（日英¥100/¥980/¥300/Vol.1すべて既公開）→収益枠は待ち案件なしで消費不要。残1枠は未使用（4/5）。
+- **self-fixなし**（publisher健全）。**Chrome残骸0**。**フォロワー27（±0）**。
+- **未実施→次便**: 集客系(コメント返信/成長/交流ドラフト)は深夜帯につき見送り。かいちLINE特典は電話認証要でowner追加操作待ち。
+
+報告: `ops/outbox/2026-07-12_001_cowork_code.yaml`。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+Growth job still running (PID 22696) — it holds the single Chrome profile lock, so I'll wait for it to complete before any publishing (browser work must be serial). 
+
+**Progress so far:**
+- ✅ Task 1 gate test: aborts on duplicate before browser (PASS)
+- ✅ Task 0: duplicate 氷見牛 `nc7a3522ade60` confirmed **already non-public** (not in note's 354-entry public API list; only the keep-article `nccce1e10499a` is live) — no destructive action needed
+- 📊 Follower baseline: **27** (フォロー中50)
+- ▶️ Growth pass running: follow + like + 6 original comments on 12 curated on-topic 富山/氷見/高岡 creators
+- 🗂️ Publish plan ready: 8/11 owner-priority topics already published; only 立山雪の大谷 / 黒部峡谷トロッコ / 氷見寒ブリ candidates remain for the ≤3 normal slots; paid ¥980 book + ¥100 JP/EN reserved first
+
+Waiting for the growth job to finish, then I'll run the paid-first publishing sequence.
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 40: : command not found
+完了。要点のみ報告します。
+
+## 結果（07-15便）
+
+**★GSC sitemap送信を完遂**（owner「自動でやって」の残スイッチ＝世界配信の本丸）
+- プロパティ `.../agent-team/` は既に所有権確認済。`/sitemap.xml` は **06/24送信後「取得できませんでした」で放置**されていた。現行sitemapは実機で **HTTP200・166URL・完全LIVE** を確認 → GSCで再送信し **緑ダイアログ「サイトマップを送信しました」を実機確認**、送信日が **06/24→07/15 に更新**。以後はGoogle再クロール待ち。認証情報は一切打鍵せず。
+
+**その他**
+- ゲート合格（バタバタ茶＝重複ゲートで即中断・ブラウザ非起動＝正常）。publisher健全。
+- 氷見牛の重複非公開化＝**無操作で達成済**（実機HTTP: nc7a3522ade60=404／n0443f87ce4df=404／nccce1e10499a=200＝1本目のみ生存で保持）。
+- **フォロワー 27→31（+4）**／following59・noteCount398。
+
+**⚠️ 通常記事の公開は本便"保留"（A5保護のための意図的判断）**
+- サムネ自動取得(`thumbnails/{stem}.jpg`)を実機目視したところ、**富山の記事に別の場所のストック写真が混入**：氷見潮風ギャラリー→**グッゲンハイム美術館(NYC)**、立山「雪の大谷」→**一目千本桜＋蔵王(宮城)**。
+- `publish_to_note.py` は `--text-only` でも auto_thumb を見出し画像に強制添付（L653）＝富山記事に別の場所の写真を貼る＝A5違反・ブランド毀損。
+- サムネ選択は「公開ロジック」で私の自己修復対象外のため、**公開せず code へ要対応を報告**しました（`ops/outbox/2026-07-15_001`）。2026-07-12公開の食4本も同経路のため点検を依頼。
+
+**記録・後始末**
+- STATE.md＋outbox報告を commit&push（`7399570`）。オーファンChrome=0、一時ファイル削除済。self-fixなし。
+
+## codeへの依頼（次アクション）
+1. `fetch_thumbnails_*.py` の取得ロジック点検（地名でなく一般語で誤取得の疑い）or owner実写への差替（藤子=IMG_0489石像）。
+2. `publish_to_note.py`に「text_only時サムネ無し」or「地名照合」の選択肢追加。
+3. 修正後、未公開11記事を正しいサムネで順次公開（1日5本・カテゴリ分散）。
+docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+exit_code=0

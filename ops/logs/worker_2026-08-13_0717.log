@@ -1,0 +1,121 @@
+
+補足: n257fa3872add（重複下書き）は不干渉（STOP順守）。削除判断はowner/codeへ委ねています。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+Growth is running in the background and holds the browser profile lock, so I can't publish until it finishes. I'll pause here and continue automatically when it completes.
+
+Status so far this 便:
+- **被リンク (top priority): attempted, blocked.** Quora account is authenticated (cookies `m-login`/`m-uid`, home shows Notifications) but **question pages render logged-out (no answer composer, "Sign Up" shown)** → answering is gated. Reddit not logged in. Not a selector bug I can self-fix — needs owner to complete Quora login/onboarding in the visible browser (open_for_login) until question pages show the "Answer" composer.
+- **集客: in progress** — baseline 46 followers / 94 following; discovery follow+like (no comments) running now.
+- **公開: queued** — 3 category-diverse 07-27 articles verified & ready (散居村 / 富山湾 / 高岡・本物と静けさ), to publish after growth releases the profile lock.
+Done. All committed and pushed cleanly; working tree clean; all browser contexts closed.
+
+## 07-28便 完了（要点）
+
+**被リンク（本便の最優先）** — Quoraは**今回ログイン済**（07-26のログイン壁はowner解消済）。ただし batch3対象トピックの実在スレは全て古く飽和（トップ回答300〜627upvote・19回答超）。新規アカでの埋没リンク投下＝低価値＋スパム/BANリスク＝指示内「初週リンク控えめ・スパム厳禁A5」に反するため**強行せず保留**（fake完了宣言はしない）。詰まりは「ログイン」→「鮮度スレ不在」へ移行。次手＝finderをrecent/低回答優先に再設計 or owner手動1本投稿。用意済みdraft9本は品質良好・投稿先だけが課題。
+
+**集客** — `growth --discover --go` 実行、未フォローの富山/氷見/高岡ローカルを新規follow+like（コメント無し=A5）。**フォロワー47**（07-26=46→+1、27停滞から着実に上昇）。
+
+**公開** — ゲート動作確認合格（バタバタ茶＝ブラウザ開かず即中断）。owner依頼"残り4本"＋候補リストは**全て既公開**（gateが台帳/題材でブロック）＝バックログ出し切り（supply過剰を裏付け）。本便の新規公開**0本（正解）**。本日カウント＝庭の七輪1本のみ。
+
+**重複解消** — 氷見牛 nc7a3522ade60・夏だけ朝 n826dc4bd09ea は**両方とも既に下書き化済**（対応不要・各題材1本だけ公開が残る正常状態）。
+
+**self-fix（commit済）** — `_cowork_growth.py` の follow-selector をnoteのDOM変更（作者カード `.m-follow button.a-button` へ移設）に追従修正、実機で新規followed確認。公開ロジック/安全ガードは不変更。
+
+**永続化** — registry desync解消（庭の七輪 n135853de0716・A7）＋報告＋診断ツールをcommit&push（`16f41e0..2e9c89a`）。ブラウザは全て `ctx.close()` 済。
+
+```
+code向け次アクション: ①STATE/CMO_index の「残り公開4本」を全て✅公開へ訂正(n34be1f9c22f5/nc25b1a7f72fb/nc2a17d100e92/n99130059ffcf)＋build_unpublished_candidates.py再生成(全滅) ②被リンクfinderをrecent/低回答スレ優先に再設計
+```
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Growth run (集客 — the stated #1 priority) is in progress in the background; its output is block-buffered and will surface when it exits. I'll continue once it completes.
+
+**Interim status:**
+- **inbox**: 4 open. Backlink channels checked live — Quora blocked by Cloudflare (headless can't verify login), Reddit reachable but **not logged in** → 被リンク投稿は実行不能（open_for_login要）。
+- **note**: logged in ✅. Owner's "remaining 4" articles (黒部峡谷トロッコ/かぶら寿司/砺波チューリップ/氷見潮風ギャラリー藤子) are **all already published** — the duplicate gate blocked every one. The list is stale; nothing to publish today.
+- **gate test (task 1)**: passed (aborted on duplicate without opening a browser).
+- **集客**: running `_cowork_growth.py --discover --go` (follow+like only, cap 14, no comments). Baseline follower count ≈46; will report the delta when done.
+
+Waiting on the growth run to finish before writing the consolidated outbox report and committing.
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+完了しました。要点のみ報告します。
+
+**公開したnote（3本ともHTTP200ライブ検証済・見出し画像付き）**
+- 車 → https://note.com/safe_canna441/n/n94125f32d208
+- 海 → https://note.com/safe_canna441/n/n13b8d8276acb
+- 花火 → https://note.com/safe_canna441/n/na958299320ea（題材トークン「夏の夜」が七輪記事と誤検知衝突→別題材確認の上 `--allow-topic-dup`で公開）
+
+**あわせて**
+- じゃがいも重複 `n710f16d5c152` を下書き化 → HTTP404確認＝非公開化成功。残す `nca13899b62c5` は200維持。
+- 見出し画像の手動セット（じゃがいも/きゅうり）は再公開リスク＋本日の実投稿数過多のため次便へ繰越（正直に記録）。
+
+**被リンク（本便最優先として最初に実測）**
+- Quora/Redditとも headless でCloudflare/JS challengeにブロック→ログイン判定・投稿とも不可。open_for_login要（owner対応待ち）。fake完了宣言せず保留報告。
+
+**要確認（code宛）**：台帳recorded_at本日=2本だがSTATE⑯では きゅうり/じゃがいもも本日公開済（台帳未記録）＝実投稿が上限付近。台帳とSTATEの本日件数の突合を依頼（outboxに記載）。
+
+**inbox**: 処理1件（002 done）/残5件。ブラウザ全close済。commit&push完了（87d8fbe）。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+The growth pass is running in the background (discovery phase — scrolling hashtag feeds takes time). The core work is complete; I'll report the growth result when it finishes. Here's the status so far:
+
+## 実施報告（要点）
+
+**note公開＝本日5本・全てHTTP200ライブ・見出し画像入り（日次上限到達）**
+1. 七夕 — https://note.com/safe_canna441/n/nf0d70f771e55
+2. 線香花火 — https://note.com/safe_canna441/n/n40788cb6327a
+3. 金魚すくい — https://note.com/safe_canna441/n/n486c5f74d316
+4. かき氷 — https://note.com/safe_canna441/n/n7756798663c0
+5. 日帰り温泉 — https://note.com/safe_canna441/n/n348078642951
+
+**重複ゲートで正しく既公開判定（＝スキップ）**：アウディ／冷やし中華・蚊取り線香・麦茶・風鈴・冷やし甘酒（8/1分5本）／FIRE早期退職 ＝すべて既公開。→ open task 2026-08-02_002・004・2026-07-30_008 は実質完了なので code 側で close 願います（outboxに記載）。
+
+**被リンク（最優先で先に実施）**：Quora/Redditともログイン済。batch3対象で探索したが、合致したのは「Alpine Route所要時間」の**飽和・古スレ（トップ回答36〜48 upvote・Answerボタン無し）**のみ → "飽和スレ禁止"ルールに従い投稿見送り（スパムより無投稿＋報告が安全・A5）。次便は Reddit 側の recent 低回答スレ探索を先頭化。
+
+**コメント**：新規なし（notificationsが最小SSRシェルしか返さず、次便で個別記事コメント欄の直読を試す旨を報告済）。
+
+**inbox**：処理1件（2026-08-06_010 done）／残は既公開close待ち中心。
+
+**永続化**：registry＋ops を commit & push 済み（`6b6f379` → main、A7充足）。ブラウザは各スクリプトで close 済み。
+
+**集客（follow＋スキ・comment無し）**：`--discover --go` をバックグラウンド実行中。完了したらフォロワー総数の推移とともに報告します。
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+exit_code=0

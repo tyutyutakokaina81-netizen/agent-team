@@ -1,0 +1,121 @@
+## 完了確認（safe/無公開系）
+- task0 氷見牛2本目 nc7a3522ade60＝既に非公開（404・無操作）／task1 ゲートテスト＝合格（重複で即中断・ブラウザ非起動）／掃除 n6c719e5bd23d＝消滅済／ブラウザ残骸＝pkill 後 0。
+
+## 次アクション・要判断（code/owner）
+- **おろしそば/アラ記事は本日未公開**（cap5到達＋収益枠優先のため）→ 明日の通常枠先頭で最優先公開を推奨。定期便の通常記事選定に「owner明示指定を最優先」フックを検討。
+- **有料版 publisher に台帳ゲート＋自動追記が未内蔵**（今回は手動追記）→ 移植を提案。
+- ⚠️氷見牛 n0443f87ce4df（1本目）も404のまま＝再公開するか判断待ち（持ち越し）。
+- 未着手（別便/owner認証待ち）：KDP初期設定・Travelpayouts OAuth・A8照合・note内グロース・世界コミュニティ交流ドラフト・かいちLINE特典。今回は最優先の収益枠に集中。
+
+コミット `202395e` を main へ push 済（outbox報告2026-07-11_002＋registry＋self-fix。STATE.md/_index.md は正本管理が code 専任のため未編集＝報告で引き継ぎ）。
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+07-12便 完了。
+
+**結果**: owner依頼の食4記事を全部公開（実機HTTP200確認済）。本日台帳 4/5。commit&push済（`5d3df0f`）。
+
+| 記事 | URL | サムネ |
+|---|---|---|
+| おろしそば | https://note.com/safe_canna441/n/n09933b286612 | owner実食写真 |
+| 魚のアラ | https://note.com/safe_canna441/n/n1ccb0065472f | 自動設定 |
+| みりん干し | https://note.com/safe_canna441/n/n88c12c3cedae | 自動設定 |
+| キス/メゴチ天ぷら | https://note.com/safe_canna441/n/n5ffd70da907b | なし(text-only) |
+
+- **task1 ゲート合格**（バタバタ茶=台帳で即中断・ブラウザ非起動）。
+- **task0 氷見牛**＝2本とも既に非公開(HTTP404)。⚠️1本目 n0443f87ce4df も404のまま＝**再公開するか要owner判断**（当方無操作）。
+- **有料商品＝新規公開なし**（日英¥100/¥980/¥300/Vol.1すべて既公開）→収益枠は待ち案件なしで消費不要。残1枠は未使用（4/5）。
+- **self-fixなし**（publisher健全）。**Chrome残骸0**。**フォロワー27（±0）**。
+- **未実施→次便**: 集客系(コメント返信/成長/交流ドラフト)は深夜帯につき見送り。かいちLINE特典は電話認証要でowner追加操作待ち。
+
+報告: `ops/outbox/2026-07-12_001_cowork_code.yaml`。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+Growth job still running (PID 22696) — it holds the single Chrome profile lock, so I'll wait for it to complete before any publishing (browser work must be serial). 
+
+**Progress so far:**
+- ✅ Task 1 gate test: aborts on duplicate before browser (PASS)
+- ✅ Task 0: duplicate 氷見牛 `nc7a3522ade60` confirmed **already non-public** (not in note's 354-entry public API list; only the keep-article `nccce1e10499a` is live) — no destructive action needed
+- 📊 Follower baseline: **27** (フォロー中50)
+- ▶️ Growth pass running: follow + like + 6 original comments on 12 curated on-topic 富山/氷見/高岡 creators
+- 🗂️ Publish plan ready: 8/11 owner-priority topics already published; only 立山雪の大谷 / 黒部峡谷トロッコ / 氷見寒ブリ candidates remain for the ≤3 normal slots; paid ¥980 book + ¥100 JP/EN reserved first
+
+Waiting for the growth job to finish, then I'll run the paid-first publishing sequence.
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 40: : command not found
+完了。要点のみ報告します。
+
+## 結果（07-15便）
+
+**★GSC sitemap送信を完遂**（owner「自動でやって」の残スイッチ＝世界配信の本丸）
+- プロパティ `.../agent-team/` は既に所有権確認済。`/sitemap.xml` は **06/24送信後「取得できませんでした」で放置**されていた。現行sitemapは実機で **HTTP200・166URL・完全LIVE** を確認 → GSCで再送信し **緑ダイアログ「サイトマップを送信しました」を実機確認**、送信日が **06/24→07/15 に更新**。以後はGoogle再クロール待ち。認証情報は一切打鍵せず。
+
+**その他**
+- ゲート合格（バタバタ茶＝重複ゲートで即中断・ブラウザ非起動＝正常）。publisher健全。
+- 氷見牛の重複非公開化＝**無操作で達成済**（実機HTTP: nc7a3522ade60=404／n0443f87ce4df=404／nccce1e10499a=200＝1本目のみ生存で保持）。
+- **フォロワー 27→31（+4）**／following59・noteCount398。
+
+**⚠️ 通常記事の公開は本便"保留"（A5保護のための意図的判断）**
+- サムネ自動取得(`thumbnails/{stem}.jpg`)を実機目視したところ、**富山の記事に別の場所のストック写真が混入**：氷見潮風ギャラリー→**グッゲンハイム美術館(NYC)**、立山「雪の大谷」→**一目千本桜＋蔵王(宮城)**。
+- `publish_to_note.py` は `--text-only` でも auto_thumb を見出し画像に強制添付（L653）＝富山記事に別の場所の写真を貼る＝A5違反・ブランド毀損。
+- サムネ選択は「公開ロジック」で私の自己修復対象外のため、**公開せず code へ要対応を報告**しました（`ops/outbox/2026-07-15_001`）。2026-07-12公開の食4本も同経路のため点検を依頼。
+
+**記録・後始末**
+- STATE.md＋outbox報告を commit&push（`7399570`）。オーファンChrome=0、一時ファイル削除済。self-fixなし。
+
+## codeへの依頼（次アクション）
+1. `fetch_thumbnails_*.py` の取得ロジック点検（地名でなく一般語で誤取得の疑い）or owner実写への差替（藤子=IMG_0489石像）。
+2. `publish_to_note.py`に「text_only時サムネ無し」or「地名照合」の選択肢追加。
+3. 修正後、未公開11記事を正しいサムネで順次公開（1日5本・カテゴリ分散）。
+docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+**07-23便 完了**（commit `c02e32a` push済み・報告=`ops/outbox/2026-07-23_001_cowork_code.yaml`）
+
+## 結果1行
+集客+22フォロー/コメント4（フォロワー**31→39**）・**誤サムネ12本を実機削除**（A5事故解消・本文無傷検証済）・owner依頼**4本公開**・ゲート合格・Reddit/Quora/KDP/A8/TP未ログイン確認・ブラウザ残骸0。
+
+## 公開URL（4本・カテゴリ分散）
+| 記事 | URL |
+|---|---|
+| 立山雪の大谷 | note.com/safe_canna441/n/n9ce371a27502 |
+| 氷見の寒ブリと鰤起こし | note.com/safe_canna441/n/ncd002e46c5ae |
+| 富山の売薬文化 | note.com/safe_canna441/n/nf88dafa9b25e |
+| 富山の路面電車 | note.com/safe_canna441/n/n58afa9807d20 |
+
+⚠️ **スキップ3本（リスト訂正要）**: 氷見うどん・高岡大仏・蜃気楼は同題材が既公開（07-19/07-22/06-27）＝氷見牛と同じ重複構図のため。残4本（黒部トロッコ/かぶら寿司/チューリップ/藤子）は次便。
+
+## 必要な命令1ブロック（owner判断待ち）
+```
+1. Reddit/Quora:「てつで続行(Google)」クリック承認 → 次便でbatch3投稿完遂
+   （実在マッチスレ3件特定済み・新規アカの場合は初週リンクなし運用を推奨）
+2. KDPサインイン / A8ログイン / Travelpayoutsメール登録
+   （TPはGoogle登録が廃止されUI変更＝打鍵禁止ルールで停止。owner約5分）
+3. code宛: 06-21重複2本の非公開判断＋registry外の夜間別系統投稿(~/note-auto 20時台
+   cron・毎日1本・台帳未記録)の統合方針
+```
+
+**特記**: 削除した誤サムネの内訳＝同一「山の夕景」画像の使い回し6記事（バタバタ茶/400年職人/ガラス美術館/岩ガキ/アラ/みりん干し）＋別の城の天守/たい焼き/タコ/京都風坂道/赤橋海岸/版画広告。self-fixなし（publisher本体は健全・安全ガード非接触）。1日5本capは4本公開＋夜間別系統1本見込みで厳守。
+exit_code=0

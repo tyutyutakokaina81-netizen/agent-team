@@ -1,0 +1,121 @@
+- コメント返信=対象なし（既返信済）。ブラウザ残骸なし。
+docs/run_worker.sh: line 40: : command not found
+API Error: Connection closed mid-response. The response above may be incomplete.
+完了しました。要点のみ報告します（B11）。
+
+## 結果（1行）
+**本日の公開はゼロ**＝cron定期便が本日00:29–00:33に既に5本公開済（残枠0）。ルールどおり公開は全て見送り、台帳永続化・検証・ドラフト作成のみ実施。すべてcommit&push済。
+
+## 実施内容
+| 項目 | 結果 |
+|---|---|
+| **残枠** | cron定期便5本（甘えび/岩瀬/雨晴駅/富山ブラック/細工かまぼこ）で**5/5到達→公開なし** |
+| **A7・台帳** | その5本が**未コミット**だった→**commit&push で永続化**（`87b05b5`）。重複ゼロ |
+| **task0（氷見牛2本目 非公開化）** | note API `status:draft` で**既に完了済み**（7/7ランで実施済）。1本目は残置。追加操作不要 |
+| **task1 ゲート** | バタバタ茶 text-only は台帳ゲートで即中断＝**合格**（self-fix不要） |
+| **掃除 n6c719e5bd23d** | API 404＝**既に削除済** |
+| **コメント返信** | 実コメントAPI 3記事とも `total_count:0`＝**返信対象ゼロ**（creator APIのcommentCountは古い集計） |
+| **世界コミュニティ** | Reddit がフェッチ系に403（未ログイン）→URL捏造せず、**質問トップ5＋再利用GIVE-firstドラフト5本**を提出 |
+| **見送り** | 有料本/5本/有料第1号/Vol.1公開・売れる化A/B・モデルA開栓 → **残枠のある次回**へ |
+
+## ★要判断（owner/code・7/7から継続の未解決）
+**氷見牛の公開記事が現在ゼロ**：台帳は n0443f87ce4df(1本目)・nc7a3522ade60(2本目)を**両方"公開済"と記録**しているが、API実測では**両方 `status:draft`**。＝台帳に実態と食い違う"公開済"2件（dedupには効くがライブURLとしては不正確）。1本ライブに戻すなら **n0443f87ce4df を残枠日に公開**するか要判断。
+
+**self-fixなし**（publisher健全）。ブラウザ残骸なし（全headless+close）。
+docs/run_worker.sh: line 40: : command not found
+完了しました。要点のみ報告します。
+
+## 結果
+
+**本日の公開はゼロ**（残枠0）。本日の台帳 `recorded_at=2026-07-08` が既に **5/5**（cron定期便＋第1便`2026-07-08_001`）＝ルール通り公開系(有料本/5本/有料第1号/Vol.1/モデルA)は全て**次の残枠日へ持ち越し**。task0(氷見牛2本目非公開化)＝既済再確認(HTTP 404)、task1ゲート＝合格再確認。
+
+**実働＝単発最優先の「かいちYouTube Claude Code取り込み」を完遂**：
+- Claude Code主題の動画 **10本の文字起こし全文**を `CAO/research/kaichi_youtube/` に保存（字幕なし1本skip）。commit&push済（`43acce7`）。
+- **★自己修復**：指定ハンドル `@kaichi_gpt` は**実在せず404**。YouTube検索で正チャンネル **`@kaichi_ai`（かいちのAI大学 / Saix）** を特定＝この訂正なしでは0件失敗。タスクdocのURLも修正済。
+- ブラウザは全てheadless＋close済（画面に残骸なし）。
+
+**codeへの引き継ぎ**（`ops/outbox/2026-07-08_002_cowork_code.yaml`）：抽出→STATE/.claude反映はcode専任のため未編集。特に『完全セットアップガイド(3つの鉄則)』『危険なリスク5選と安全設定』が有用。`docs/worker-prompt.txt`にも`@kaichi_gpt`残存＝次便でcode訂正推奨。
+
+```
+git push origin main → 43acce7（済）
+```
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+Not logged in · Please run /login
+API Error: Connection closed mid-response. The response above may be incomplete.
+Not logged in · Please run /login
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+Pushed to main (`e6b0f49`). All work is committed and permanent. Browser windows all closed (verified no lingering publisher Chrome).
+
+## 要点（07-11便・完了）
+
+**公開（実機検証＝logged-out HTTP200で二重確認）— 通常記事3本／5枠中3使用:**
+- ホタルイカ https://note.com/safe_canna441/n/n73efb33db730
+- 鱒寿司 https://note.com/safe_canna441/n/n8b3773143166
+- 五箇山豆腐 https://note.com/safe_canna441/n/n13aa4e281fd5
+
+**重複を防いだ判断（指示テキストが古い＝note本体APIで実測）:**
+- 有料本¥980・Vol.1¥980・¥300はいずれも**既に公開済み** → 再公開せず（有料の重複を回避）。task4の下書き nea8b690cde14 は **削除済み**。
+- **EN¥100** は新規だが、価格DOM検証失敗＋`is_limited=False/price=300` ＝有料設定が未確定 → **全文無料事故を防ぐため安全ガードで下書き止め**（n257fa3872add・週次リトライ）。
+- 氷見牛2本目 nc7a3522ade60 は**既に非公開**（無操作）。
+
+**⚠️ 要判断（code/owner）:** 残すはずの氷見牛1本目 **n0443f87ce4df も現在は非公開(HTTP404)**。両方非公開になっています。1本目を再公開するか判断ください（当方は削除も非公開化もしていません）。
+
+**その他:** ゲート合格再確認(task1 ✅)／未返信コメント **0件**（全記事 comment_count=0）／フォロワー **27**（STATE.mdの21から+6）／self-fixなし（publisherは健全・ガードが正しく作動）。
+
+詳細・codeへの次アクション（有料指示テキスト更新・EN¥100価格手順修正など）は `ops/outbox/2026-07-11_001_cowork_code.yaml` に記載、push済み。
+docs/run_worker.sh: line 40: : command not found
+Everything verified and pushed. Here's the summary.
+
+## 要点
+
+**★★収益枠が初めて自動で埋まった — 有料¥100を日英とも公開成功**（3ヶ月動かなかった収益ラインの突破）。
+
+| 商品 | URL | 実測（v3 API） |
+|---|---|---|
+| JP ¥100 外さない12選 | https://note.com/safe_canna441/n/nb90084f378c8 | price=100 / can_read=False / published |
+| EN ¥100 12 picks | https://note.com/safe_canna441/n/nba958ccd6cb8 | price=100 / can_read=False / published |
+
+本日 **5/5**＝通常3（前便：ホタルイカ/鱒寿司/五箇山豆腐）＋**有料2（JP/EN¥100・本便）**＝★★収益枠予約（≥2本有料）を初充足。全文無料事故なし（無料に白えび=見え／有料のます寿司=隠れ、を実測確認）。
+
+## self-fix（publish_paid_note.py に恒久実装）
+- **真因をDOM実測で特定**：note の価格欄は React 制御 input で、`fill()` は onChange 未発火→アプリ状態が既定¥300のまま＝過去の「価格未確定で下書き止め」の主因。→ **実マウスclick→Meta/Ctrl+A→Backspace→keyboard.type→Tab** に置換（+scroll・検証リトライ3回）。
+- **is_limited は判定に使えないと判明**（正しく有料公開でも v3 は `is_limited=False`。¥980本で実測）→ owner の★絶対条件を実在する **price + can_read=False** で厳守するよう補正。境界確定を分離し **3点ゲート**化＋公開直後 `_verify_paid_published()` で v3 実測。
+
+## 完了確認（safe/無公開系）
+- task0 氷見牛2本目 nc7a3522ade60＝既に非公開（404・無操作）／task1 ゲートテスト＝合格（重複で即中断・ブラウザ非起動）／掃除 n6c719e5bd23d＝消滅済／ブラウザ残骸＝pkill 後 0。
+
+## 次アクション・要判断（code/owner）
+- **おろしそば/アラ記事は本日未公開**（cap5到達＋収益枠優先のため）→ 明日の通常枠先頭で最優先公開を推奨。定期便の通常記事選定に「owner明示指定を最優先」フックを検討。
+- **有料版 publisher に台帳ゲート＋自動追記が未内蔵**（今回は手動追記）→ 移植を提案。
+- ⚠️氷見牛 n0443f87ce4df（1本目）も404のまま＝再公開するか判断待ち（持ち越し）。
+- 未着手（別便/owner認証待ち）：KDP初期設定・Travelpayouts OAuth・A8照合・note内グロース・世界コミュニティ交流ドラフト・かいちLINE特典。今回は最優先の収益枠に集中。
+
+コミット `202395e` を main へ push 済（outbox報告2026-07-11_002＋registry＋self-fix。STATE.md/_index.md は正本管理が code 専任のため未編集＝報告で引き継ぎ）。
+docs/run_worker.sh: line 40: : command not found
+docs/run_worker.sh: line 40: : command not found
+07-12便 完了。
+
+**結果**: owner依頼の食4記事を全部公開（実機HTTP200確認済）。本日台帳 4/5。commit&push済（`5d3df0f`）。
+
+| 記事 | URL | サムネ |
+|---|---|---|
+| おろしそば | https://note.com/safe_canna441/n/n09933b286612 | owner実食写真 |
+| 魚のアラ | https://note.com/safe_canna441/n/n1ccb0065472f | 自動設定 |
+| みりん干し | https://note.com/safe_canna441/n/n88c12c3cedae | 自動設定 |
+| キス/メゴチ天ぷら | https://note.com/safe_canna441/n/n5ffd70da907b | なし(text-only) |
+
+- **task1 ゲート合格**（バタバタ茶=台帳で即中断・ブラウザ非起動）。
+- **task0 氷見牛**＝2本とも既に非公開(HTTP404)。⚠️1本目 n0443f87ce4df も404のまま＝**再公開するか要owner判断**（当方無操作）。
+- **有料商品＝新規公開なし**（日英¥100/¥980/¥300/Vol.1すべて既公開）→収益枠は待ち案件なしで消費不要。残1枠は未使用（4/5）。
+- **self-fixなし**（publisher健全）。**Chrome残骸0**。**フォロワー27（±0）**。
+- **未実施→次便**: 集客系(コメント返信/成長/交流ドラフト)は深夜帯につき見送り。かいちLINE特典は電話認証要でowner追加操作待ち。
+
+報告: `ops/outbox/2026-07-12_001_cowork_code.yaml`。
+exit_code=0

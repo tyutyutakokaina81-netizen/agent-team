@@ -1,0 +1,121 @@
+- ゲートテスト（バタバタ茶）=合格 / 掃除draft n6c719e5bd23d=既に404 / コメント通知0件。
+- **self-fix**: `_cowork_growth.py` do_follow の誤ラベル（成功なのに`clicked`報告）を最大5秒ポーリングで根治。機械的（待機のみ）・commit済。
+
+**★ code/CMO に要対応（供給側の詰まり）**
+1. **07-23の新記事8本が公開不能な"素の.md形式"**（`## タイトル`/`## 本文`コードブロック無し）→publisherが停止。North Star用の世界ウケ在庫がこの1点で塞き止め。**構造化形式へ変換 or publisher拡張が必要**（本文再フォーマットはcowork範囲外＝内容改変リスクのため未実施）。
+2. **有料本¥980/¥100入口/batch3被リンク/EN marketing/publish_paid_note.py はこのクローンに不在**（未マージ）＝着手不能。
+3. 収益バルブ（KDP/A8/Travelpayouts/被リンク）は owner ログイン待ちで不変・認証情報は一切打鍵せず。
+
+詳細は `ops/outbox/2026-07-26_001_cowork_code.yaml`。ブラウザは全context close済（owner Chrome/Claudeプロセスへのkillは無し）。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+Pushed (`c9e3eef..20abdd8`). All my Playwright contexts closed via `ctx.close()` in each script's `finally`; no Chrome processes killed (per the 07-25 kill-ban).
+
+## 要点（07-26便②・完了）
+
+**本便の公開＝ゼロが正解**。①便で通常3本公開済(cap3到達)＋有料商品は全て既公開のため、重複公開を避け何も公開せず。残2枠は"新規有料商品が無い"ため正しく空（通常記事で埋めない＝収益枠予約則を順守）。
+
+**★最重要の発見＝有料収益インフラは完全ライブで正常**（logged-out実測 `can_read=False`＝全文無料事故なし）:
+
+| ID | 価格 | 商品 |
+|---|---|---|
+| nba958ccd6cb8 | ¥100 | EN "12 things a local won't skip" |
+| nb90084f378c8 | ¥100 | JP「外さない12選」 |
+| n78279355fd10 | ¥300 | 「金沢から40分…2泊3日モデルコース」 |
+| n6e7ca70475c8 | ¥980 | 「まるごと一冊 保存版ガイド」 |
+
+→ **worker-promptの有料タスク(task2/4/4b/A)は全てstale＝過去便で完遂済**。①便が「原稿不在」と報告したのは古いクローンのせいで、最新pullでは全て存在・公開済を確認。
+
+**その他タスク**
+- task0 氷見牛：既に正状態（ライブは `nccce1e10499a` 1本のみ、重複2本は404）＝無操作。過去「1本目消えた?」の要判断はクローズ。
+- task1 ゲートテスト：合格（バタバタ茶を台帳ゲートで即中断・ブラウザ非起動）。self-fixなし。
+- 集客：①便で新規8フォロー済のため②便は再フォローせず（同日2回目の一括follow＝過剰/bot回避）。フォロワー42（変化なし）。コメント通知0件。
+
+**★code/owner宛の要対応**
+1. 残置の重複下書き `n257fa3872add`（EN¥100と同題・price300誤設定）を削除推奨（将来の自動ランが公開すると重複事故）。破壊的操作のためworkerは未削除＝報告のみ。
+2. 被リンク：Quora=未ログイン確認 → owner が `open_for_login.py` でReddit/Quoraにログインすれば次便で batch3 を人手投稿可能（原稿は本クローンに存在確認済）。
+3. KDP/A8/Travelpayouts は不変（owner認証待ち・打鍵なし）。
+
+report=`ops/outbox/2026-07-26_002_cowork_code.yaml`、STATE更新、診断ツール3本（`_cowork_paywall_verify` 等）をcommit＆push済。
+Report format confirmed; next ID = `2026-07-26_003`. Now waiting for the growth batch to finish before I check comments (browser profile is single-instance). Let me wait for the monitor.
+
+I'll pause here for the growth process to complete — the monitor will notify me.
+docs/run_worker.sh: line 51: : command not found
+完了。要点のみ報告します。
+
+**結果**: 被リンクを便の最初に実測 → **Quora/Reddit 両方とも未ログイン**（Quora=`/join`リダイレクト、Reddit=`settings`が`/login`へ=login_wall確定）→ 被リンク投稿はスキップ。公開ゼロが正解（本日①便で通常3本cap到達・有料4本全て既公開）。フォロワー **46（前回42→+4=フォローバックが効き始め）**。同日2回目の一括フォローはbot回避で見送り。self-fixなし・ブラウザ全close・push済(5218f62)。
+
+**唯一の詰まり＝ownerの点火**（これが済めば翌便で新ページ9本への被リンクを手動投稿できます）:
+
+```
+# owner: ~/.note_publisher_profile と同じプロファイルで Quora と Reddit にログイン
+python3 CDO/outputs/note_publisher/open_for_login.py   # ログイン用ウィンドウを開く
+#   → Quora(https://www.quora.com/)と Reddit(https://www.reddit.com/login) に手動ログイン
+#   （通常Chromeのログインは無効＝このプロファイルでのログインが必要）
+```
+
+補足: n257fa3872add（重複下書き）は不干渉（STOP順守）。削除判断はowner/codeへ委ねています。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+Growth is running in the background and holds the browser profile lock, so I can't publish until it finishes. I'll pause here and continue automatically when it completes.
+
+Status so far this 便:
+- **被リンク (top priority): attempted, blocked.** Quora account is authenticated (cookies `m-login`/`m-uid`, home shows Notifications) but **question pages render logged-out (no answer composer, "Sign Up" shown)** → answering is gated. Reddit not logged in. Not a selector bug I can self-fix — needs owner to complete Quora login/onboarding in the visible browser (open_for_login) until question pages show the "Answer" composer.
+- **集客: in progress** — baseline 46 followers / 94 following; discovery follow+like (no comments) running now.
+- **公開: queued** — 3 category-diverse 07-27 articles verified & ready (散居村 / 富山湾 / 高岡・本物と静けさ), to publish after growth releases the profile lock.
+Done. All committed and pushed cleanly; working tree clean; all browser contexts closed.
+
+## 07-28便 完了（要点）
+
+**被リンク（本便の最優先）** — Quoraは**今回ログイン済**（07-26のログイン壁はowner解消済）。ただし batch3対象トピックの実在スレは全て古く飽和（トップ回答300〜627upvote・19回答超）。新規アカでの埋没リンク投下＝低価値＋スパム/BANリスク＝指示内「初週リンク控えめ・スパム厳禁A5」に反するため**強行せず保留**（fake完了宣言はしない）。詰まりは「ログイン」→「鮮度スレ不在」へ移行。次手＝finderをrecent/低回答優先に再設計 or owner手動1本投稿。用意済みdraft9本は品質良好・投稿先だけが課題。
+
+**集客** — `growth --discover --go` 実行、未フォローの富山/氷見/高岡ローカルを新規follow+like（コメント無し=A5）。**フォロワー47**（07-26=46→+1、27停滞から着実に上昇）。
+
+**公開** — ゲート動作確認合格（バタバタ茶＝ブラウザ開かず即中断）。owner依頼"残り4本"＋候補リストは**全て既公開**（gateが台帳/題材でブロック）＝バックログ出し切り（supply過剰を裏付け）。本便の新規公開**0本（正解）**。本日カウント＝庭の七輪1本のみ。
+
+**重複解消** — 氷見牛 nc7a3522ade60・夏だけ朝 n826dc4bd09ea は**両方とも既に下書き化済**（対応不要・各題材1本だけ公開が残る正常状態）。
+
+**self-fix（commit済）** — `_cowork_growth.py` の follow-selector をnoteのDOM変更（作者カード `.m-follow button.a-button` へ移設）に追従修正、実機で新規followed確認。公開ロジック/安全ガードは不変更。
+
+**永続化** — registry desync解消（庭の七輪 n135853de0716・A7）＋報告＋診断ツールをcommit&push（`16f41e0..2e9c89a`）。ブラウザは全て `ctx.close()` 済。
+
+```
+code向け次アクション: ①STATE/CMO_index の「残り公開4本」を全て✅公開へ訂正(n34be1f9c22f5/nc25b1a7f72fb/nc2a17d100e92/n99130059ffcf)＋build_unpublished_candidates.py再生成(全滅) ②被リンクfinderをrecent/低回答スレ優先に再設計
+```
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Growth run (集客 — the stated #1 priority) is in progress in the background; its output is block-buffered and will surface when it exits. I'll continue once it completes.
+
+**Interim status:**
+- **inbox**: 4 open. Backlink channels checked live — Quora blocked by Cloudflare (headless can't verify login), Reddit reachable but **not logged in** → 被リンク投稿は実行不能（open_for_login要）。
+- **note**: logged in ✅. Owner's "remaining 4" articles (黒部峡谷トロッコ/かぶら寿司/砺波チューリップ/氷見潮風ギャラリー藤子) are **all already published** — the duplicate gate blocked every one. The list is stale; nothing to publish today.
+- **gate test (task 1)**: passed (aborted on duplicate without opening a browser).
+- **集客**: running `_cowork_growth.py --discover --go` (follow+like only, cap 14, no comments). Baseline follower count ≈46; will report the delta when done.
+
+Waiting on the growth run to finish before writing the consolidated outbox report and committing.
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+完了しました。要点のみ報告します。
+
+**公開したnote（3本ともHTTP200ライブ検証済・見出し画像付き）**
+- 車 → https://note.com/safe_canna441/n/n94125f32d208
+- 海 → https://note.com/safe_canna441/n/n13b8d8276acb
+- 花火 → https://note.com/safe_canna441/n/na958299320ea（題材トークン「夏の夜」が七輪記事と誤検知衝突→別題材確認の上 `--allow-topic-dup`で公開）
+
+**あわせて**
+- じゃがいも重複 `n710f16d5c152` を下書き化 → HTTP404確認＝非公開化成功。残す `nca13899b62c5` は200維持。
+- 見出し画像の手動セット（じゃがいも/きゅうり）は再公開リスク＋本日の実投稿数過多のため次便へ繰越（正直に記録）。
+
+**被リンク（本便最優先として最初に実測）**
+- Quora/Redditとも headless でCloudflare/JS challengeにブロック→ログイン判定・投稿とも不可。open_for_login要（owner対応待ち）。fake完了宣言せず保留報告。
+
+**要確認（code宛）**：台帳recorded_at本日=2本だがSTATE⑯では きゅうり/じゃがいもも本日公開済（台帳未記録）＝実投稿が上限付近。台帳とSTATEの本日件数の突合を依頼（outboxに記載）。
+
+**inbox**: 処理1件（002 done）/残5件。ブラウザ全close済。commit&push完了（87d8fbe）。
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+exit_code=0

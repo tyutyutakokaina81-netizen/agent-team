@@ -1,0 +1,121 @@
+2. 線香花火 — https://note.com/safe_canna441/n/n40788cb6327a
+3. 金魚すくい — https://note.com/safe_canna441/n/n486c5f74d316
+4. かき氷 — https://note.com/safe_canna441/n/n7756798663c0
+5. 日帰り温泉 — https://note.com/safe_canna441/n/n348078642951
+
+**重複ゲートで正しく既公開判定（＝スキップ）**：アウディ／冷やし中華・蚊取り線香・麦茶・風鈴・冷やし甘酒（8/1分5本）／FIRE早期退職 ＝すべて既公開。→ open task 2026-08-02_002・004・2026-07-30_008 は実質完了なので code 側で close 願います（outboxに記載）。
+
+**被リンク（最優先で先に実施）**：Quora/Redditともログイン済。batch3対象で探索したが、合致したのは「Alpine Route所要時間」の**飽和・古スレ（トップ回答36〜48 upvote・Answerボタン無し）**のみ → "飽和スレ禁止"ルールに従い投稿見送り（スパムより無投稿＋報告が安全・A5）。次便は Reddit 側の recent 低回答スレ探索を先頭化。
+
+**コメント**：新規なし（notificationsが最小SSRシェルしか返さず、次便で個別記事コメント欄の直読を試す旨を報告済）。
+
+**inbox**：処理1件（2026-08-06_010 done）／残は既公開close待ち中心。
+
+**永続化**：registry＋ops を commit & push 済み（`6b6f379` → main、A7充足）。ブラウザは各スクリプトで close 済み。
+
+**集客（follow＋スキ・comment無し）**：`--discover --go` をバックグラウンド実行中。完了したらフォロワー総数の推移とともに報告します。
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+docs/run_worker.sh: line 51: : command not found
+/Users/apple/agent-team-run/docs/run_worker.sh: line 51: : command not found
+Not logged in · Please run /login
+exit_code=0
