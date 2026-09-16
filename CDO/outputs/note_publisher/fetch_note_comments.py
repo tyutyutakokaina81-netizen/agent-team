@@ -240,7 +240,7 @@ def main():
     seen = load_seen_comment_ids()
     now = datetime.datetime.now().isoformat(timespec="seconds")
     new_rows, swept_rows, drafts = [], [], []
-    visited = found_total = no_selector = 0
+    visited = found_total = no_selector = not_rendered = 0
 
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
@@ -256,6 +256,30 @@ def main():
             log(f"[{visited}/{len(targets)}] {title[:28] or url}")
             try:
                 page.goto(url, timeout=45000, wait_until="domcontentloaded")
+                # 2026-09-16: **「ページが描画されていない」を「セレクタ外れ」と報告していた**。
+                # owner の Mac から --debug のHTMLを回収して判明:
+                #   ・冷や汁 → note 側の upstream connect error（246バイトのエラーページ）
+                #   ・他3本 → <title> が記事名でなく **note の汎用タイトル**のまま＝本文が未描画
+                # どちらもセレクタとは無関係で、DOMが出来ていないだけだった。
+                # 本文が現れるまで待ち、それでも来なければ NO-SELECTOR ではなく
+                # **NOT-RENDERED** として区別する（原因の違う事故を同じ数字に混ぜない）。
+                try:
+                    page.wait_for_selector(
+                        "article, [class*='o-noteContentText'], [class*='note-common-styles']",
+                        timeout=15000)
+                except Exception:
+                    log("    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。"
+                        "セレクタの問題ではない）")
+                    if args.debug:
+                        try:
+                            DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+                            _n = re.sub(r"[^A-Za-z0-9]+", "_", url)[-60:] + ".html"
+                            (DEBUG_DIR / _n).write_text(page.content(), encoding="utf-8")
+                            log(f"    debug: {DEBUG_DIR / _n} を保存")
+                        except Exception:
+                            pass
+                    not_rendered += 1
+                    continue
                 page.wait_for_timeout(2500)
                 # コメント欄は下部にあるため一度最下部まで送る（遅延読み込み対策）
                 page.mouse.wheel(0, 20000)
@@ -300,11 +324,14 @@ def main():
 
     # 結果行は**必ず**出す（対象0でも出す）。有料フッターで「結果行なし＝失敗扱い」の事故があったため。
     log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector}"
-        f" / 未公開(draft) {len(drafts)} ===")
+        f" / 未描画 {not_rendered} / 未公開(draft) {len(drafts)} ===")
     for _u in drafts:
         log(f"  未公開: {_u}  ← registryは公開済みとしているが note 上は下書き")
     if no_selector:
         log("→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。")
+    if not_rendered:
+        log("→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。"
+            "同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。")
 
 
 def _chrome_ok(p):

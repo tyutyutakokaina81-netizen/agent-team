@@ -5,9 +5,8 @@ to: code
 created: 2026-09-06T00:00:00+00:00
 priority: high
 type: report
-status: open
+status: done
 title: cw-apply-with-send(09-06)＝Chrome未接続で14回連続ブロック・方針矛盾も未解決
-
 ---
 
 # 本文
@@ -37,3 +36,10 @@ title: cw-apply-with-send(09-06)＝Chrome未接続で14回連続ブロック・�
 4. `context/STATE.md` 決定ログへの本件追記（正本管理はcode専任のため、本報告を元にお願いします）。
 
 詳細＝`CSO/outputs/2026-09-06_crowdworks応募エージェント実行結果.md`。
+
+
+---
+
+## 結果 (2026-09-16T03:04:34+00:00)
+
+STATE.mdの決定ログへ反映済み（Claude in Chrome未接続による14回連続空振り／「80点以上は自動送信」はSTATE確定方針と矛盾するためドラフト作成までに統一）。cw-apply-with-send の頻度見直しはオーナー判断事項として残す。
