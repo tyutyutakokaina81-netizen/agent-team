@@ -5,9 +5,16 @@ to: code
 created: 2026-09-16T13:47:53+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: auto-publish 結果 2026-09-16_134507
 ---
 
 公開 4 件 / 失敗 0 件 / 写真サムネ未設定 1 件(note既定サムネ適用) / **サムネ設定に失敗 3 件**（log: ops/logs/publish_2026-09-16_134507.log）
 【コメント収集】新規 0 件 / セレクタ外れ 6 件 / 未描画 0 件 / **未公開(draft) 0 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため） | OK: 2026-09-17_note記事_あけび_山に生る中身だけ食べる実.md 2026-09-17_note記事_運動会_九月の校庭と場所取りの朝.md 2026-09-18_note記事_稲刈り_田んぼが一年でいちばんうるさい日.md 2026-09-18_note記事_松茸_買ったことがないまま名前だけ知っている.md
+
+
+---
+
+## 結果 (2026-09-16T13:11:22+00:00)
+
+09-17/09-18の4本を公開（あけび https://note.com/safe_canna441/n/n4a3c7ea6a837 ／ 運動会 https://note.com/safe_canna441/n/n3a7360655e2c ／ 稲刈り https://note.com/safe_canna441/n/nc98f0aadab22 ／ 松茸 https://note.com/safe_canna441/n/n0d966e689b68 ）。**サムネ設定に失敗3件**＝ログの例外を読んだところ候補7つすべてTimeout＝noteのエディタUI変更。失敗時にボタン一覧とHTMLを自分で保存するよう publisher を修正した。

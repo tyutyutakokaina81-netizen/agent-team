@@ -27,8 +27,10 @@ echo "--- [1/3] コメント巡回（--debug でHTML保存） ---"
 # なので切り分けは backlog を厚めに回す方が確実。
 echo "[新着]"
 "$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --limit 10
-echo "[backlog＝古い記事。ここでセレクタ外れが出ているはず]"
-"$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --backlog --limit 15
+# 2026-09-16: 公開202本のうち**巡回済みは115本＝56%**で、87本は一度も見ていない。
+# 「コメントは無い」と言うには被覆が足りないので、backlog を厚く回して全件を埋める。
+echo "[backlog＝未巡回の古い記事を厚めに回す（全件を見るまで『コメント無し』と言えないため）]"
+"$PYBIN" CDO/outputs/note_publisher/fetch_note_comments.py --debug --backlog --limit 45
 SWEEP_RC=$?
 echo "(終了コード: ${SWEEP_RC})"
 

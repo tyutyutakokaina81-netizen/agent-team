@@ -796,6 +796,33 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 # 「設定しようとして失敗した」は**無サムネとは別の事故**。2026-08-19 に note のUI変更で
                 # セレクタが解決せずサムネが全滅したときも、報告にはこの件数が出ていなかった。
                 print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
+                # 2026-09-16: 候補7つが全滅した。code は note の DOM を見られない（A1）ので、
+                # **失敗したときに自分で証拠を残す**。コメント巡回の --debug で
+                # 「セレクタ外れではなく未描画だった」を突き止めたのと同じやり方。
+                # 人に「検証タブで aria-label を調べて」と頼むより、機械が出したほうが速くて正確。
+                try:
+                    _btns = page.eval_on_selector_all(
+                        "button, [role='button'], label",
+                        """els => els.slice(0, 60).map(e => ({
+                             tag: e.tagName.toLowerCase(),
+                             aria: e.getAttribute('aria-label') || '',
+                             cls: (e.getAttribute('class') || '').slice(0, 60),
+                             txt: (e.innerText || '').trim().slice(0, 24)
+                           }))""")
+                    print("   --- 見出し画像ボタン探索用: 画面上のボタン/ラベル一覧 ---")
+                    for _b in _btns:
+                        if _b["aria"] or _b["txt"]:
+                            print(f"   [{_b['tag']}] aria={_b['aria']!r} txt={_b['txt']!r} cls={_b['cls']!r}")
+                    _fi = page.eval_on_selector_all(
+                        "input[type=file]",
+                        "els => els.map(e => (e.getAttribute('class')||'') + '|' + (e.getAttribute('accept')||''))")
+                    print(f"   --- input[type=file] の数: {len(_fi)} {_fi} ---")
+                    _dbg = Path(__file__).resolve().parents[3] / "ops" / "logs" / "_thumb_debug"
+                    _dbg.mkdir(parents=True, exist_ok=True)
+                    (_dbg / f"{md_path.stem[:60]}.html").write_text(page.content(), encoding="utf-8")
+                    print(f"   --- エディタのHTMLを保存: {_dbg / (md_path.stem[:60] + '.html')} ---")
+                except Exception as _e2:
+                    print(f"   （探索も失敗: {_e2}）")
 
         # ---- 公開 or 下書き ----
         # 2026-07-03実測(新エディタ editor.note.com)：

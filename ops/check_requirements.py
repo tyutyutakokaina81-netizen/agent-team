@@ -273,8 +273,44 @@ elif pend_rows > 0:
 elif sweep_actual > 0:
     # 巡回は動いているがコメントが1件も無い＝「仕組みが動いていない」ではなく「コメントが無い」。
     # この2つを混同すると、実績ゼロの理由を誤診する（過去に BLOCKED 表示で6日放置した）。
-    add("R6 コメント返信", "OK",
-        f"収集は稼働中（{sweep_actual}本巡回済）だがコメント0件＝返信対象なし{sweep_note}")
+    # ★2026-09-16: **被覆を見ずに OK を出していた**。実測は 115/202 本＝56%で、
+    # **87本は一度も巡回していない**。その状態で「コメント0件＝返信対象なし」と言うのは、
+    # 見ていない範囲まで「無い」と断言していることになる（このリポジトリで繰り返している失敗）。
+    # 公開記事の何％を見たのかを必ず出し、8割未満なら OK を出さず STALE にする。
+    _regp6 = os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json")
+    _pub_urls = set()
+    try:
+        import json as _j6
+        def _w6(o):
+            if isinstance(o, dict):
+                if isinstance(o.get("url"), str):
+                    _pub_urls.add(o["url"])
+                for v in o.values():
+                    _w6(v)
+            elif isinstance(o, list):
+                for v in o:
+                    _w6(v)
+        _w6(_j6.load(open(_regp6, encoding="utf-8")))
+    except Exception:
+        pass
+    _swept_urls = set()
+    try:
+        for _l in open(sw, encoding="utf-8").read().splitlines()[1:]:
+            if _l.strip():
+                _swept_urls.add(_l.split("\t")[0])
+    except Exception:
+        pass
+    _cov = (len(_swept_urls & _pub_urls) * 100 // len(_pub_urls)) if _pub_urls else 0
+    _unswept = len(_pub_urls - _swept_urls)
+    _cnote = (f"（公開 {len(_pub_urls)}本中 **{len(_swept_urls & _pub_urls)}本を巡回＝{_cov}%**"
+              f" ／ **未巡回 {_unswept}本**）")
+    if _pub_urls and _cov < 80:
+        add("R6 コメント返信", "STALE",
+            f"巡回した範囲ではコメント0件だが、**被覆が足りない**{_cnote}"
+            f"{sweep_note} → --backlog を回して全件を見るまで「コメントは無い」と言えない")
+    else:
+        add("R6 コメント返信", "OK",
+            f"収集は稼働中でコメント0件＝返信対象なし{_cnote}{sweep_note}")
 else:
     add("R6 コメント返信", "BLOCKED",
         f"pending空・**実巡回0本**{sweep_note}。取得スクリプト(fetch_note_comments.py)は"
