@@ -1,0 +1,36 @@
+=== publish run 2026-08-11_080004 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+fatal: Cannot rebase onto multiple branches.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-14_note記事_いちじく_夏の終わりのやさしい甘さ.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-14_note記事_網戸_風だけを通す夏.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_夕涼み_日が落ちてからの外.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_花火の帰り_遠くの音を背に.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+=== summary: published=0 failed=7 thumb_fail=0 ===
+posted: ops/outbox/2026-08-11_001_cowork_code.yaml  id=2026-08-11_001
+[main 4c33a14] cowork auto: publish 0/7 thumb_fail=0 (2026-08-11_080004)
+ 1 file changed, 20 insertions(+)
+ create mode 100644 ops/outbox/2026-08-11_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   4ae7db3..4c33a14  main -> main
+done. published=0 failed=7 thumb_fail=0  log=ops/logs/publish_2026-08-11_080004.log

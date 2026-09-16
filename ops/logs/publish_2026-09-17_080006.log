@@ -1,0 +1,88 @@
+=== publish run 2026-09-17_080006 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog5本） ===
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/10] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/10] 風鈴は、風を、音に変える。— 耳で涼をとる、夏の知恵
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 夏の冷蔵庫には、いつも麦茶。— 家の味が、いちばん濃く出
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] 「冷やし中華、始めました」。— その貼り紙が、夏の合図
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 夏に、みんなが帰ってくる。— 富山の家の、お盆の風景
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] ご報告。本日、FIREしました。— お金持ちの引退ではな
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] ところてんは、味がないのがいい。— 夏の、するりと涼しい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 3 / 未描画 0 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/5] 梅干しは、夏の手仕事。— 土用に干して、一年を食べる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 3 / 未描画 0 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/10] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/10] 風鈴は、風を、音に変える。— 耳で涼をとる、夏の知恵
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 夏の冷蔵庫には、いつも麦茶。— 家の味が、いちばん濃く出
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] 「冷やし中華、始めました」。— その貼り紙が、夏の合図
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 夏に、みんなが帰ってくる。— 富山の家の、お盆の風景
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] ご報告。本日、FIREしました。— お金持ちの引退ではな
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] ところてんは、味がないのがいい。— 夏の、するりと涼しい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 3 / 未描画 0 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/5] 梅干しは、夏の手仕事。— 土用に干して、一年を食べる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 3 / 未描画 0 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-09-17_001_cowork_code.yaml  id=2026-09-17_001

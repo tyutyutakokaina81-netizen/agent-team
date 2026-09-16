@@ -1,0 +1,67 @@
+=== publish run 2026-08-30_080003 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+posted: ops/outbox/2026-08-30_001_cowork_code.yaml  id=2026-08-30_001
+[main 0561e38] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-08-30_080003)
+ 1 file changed, 12 insertions(+)
+ create mode 100644 ops/outbox/2026-08-30_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   626ad7d..0561e38  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-08-30_080003.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-08-30_080006 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 32 本／今回 10 本まで）===
+🚦 モード: 本番（保存する） ／ 対象 10 本
+🌐 本物のGoogle Chrome を使用しています
+--- [1/10] 冷や汁 — 食欲のない日を、救ってくれる
+    ok:更新した
+--- [2/10] 夏の魚は、さっぱりと。— 富山湾の夏、うちの魚の食べ方
+    ok:更新した
+--- [3/10] 天ぷら — 揚げたてを、立ったまま食べる
+    ok:更新した
+--- [4/10] スイカ割り — 目隠しで、ぐるぐる
+    ok:更新した
+--- [5/10] 暑い盛りに、うなぎを食べる。— 土用の丑の日
+    ok:更新した
+--- [6/10] 焼きそば — 休日の、ソースの匂い
+    ok:更新した
+--- [7/10] コーラを、火にかけて作る。— 七輪で、スパイスから煮出すクラフトコーラ
+    ok:更新した
+--- [8/10] 牛の昆布締め — 富山の昆布好きが、肉にたどりついた
+    ok:更新した
+--- [9/10] メジマグロ — 夜明けの海から、食卓まで
+    ok:更新した
+--- [10/10] お茶漬け — 食欲のない夏の日の、さらさらの一杯
+    ok:更新した
+
+=== 結果: 更新 10 / スキップ 0 / 失敗 0 ===
+posted: ops/outbox/2026-08-30_002_cowork_code.yaml  id=2026-08-30_002
+[main c70b3fa] cowork: paid-footer insertion pass (2026-08-30_080003)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/outbox/2026-08-30_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   0561e38..c70b3fa  main -> main

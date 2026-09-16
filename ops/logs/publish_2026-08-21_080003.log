@@ -1,0 +1,59 @@
+=== publish run 2026-08-21_080003 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-17_note記事_かき氷_削りたてを急いで食べる.md ---
+✗ 重複ゲート(題材キー): 同一題材『かき氷』が既に公開済みです → 夏は、氷を食べる。— かき氷という、うちの夏のごほうび (https://note.com/safe_canna441/n/n7756798663c0)
+  記事: かき氷 — 削りたてを、急いで食べる
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_ラジオ体操_夏休みの朝の広場.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『ラジオ体操・夏休みの朝』→ https://note.com/safe_canna441/n/n44f7f928b501
+  既公開: 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、あの夏
+  今回  : ラジオ体操 — 夏休みの朝の、広場
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_入道雲と夕立_山の上に立つ白.md ---
+📝 記事: 2026-08-17_note記事_入道雲と夕立_山の上に立つ白.md
+🏷️  タイトル: 入道雲と夕立 — 山の上に立つ、白
+📸 写真placeholder: 2 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 8 個 (入道雲, 夕立, 富山, 高岡, 立山連峰…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n1d6a8663ea3e/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 8 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n1d6a8663ea3e/publish/
+📒 published_registry.json に追記しました（163件）
+--- 公開試行: 2026-08-17_note記事_枝豆_茹でたてを塩でつまむ.md ---
+✗ 重複ゲート(題材キー): 同一題材『枝豆』が既に公開済みです → 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに (https://note.com/safe_canna441/n/n1314d08cf5d2)
+  記事: 枝豆 — 茹でたてを、塩でつまむ
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す.md ---
+✗ 重複ゲート(題材キー): 同一題材『蚊取り線香』が既に公開済みです → 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器 (https://note.com/safe_canna441/n/n7750a5cf6e23)
+  記事: 蚊取り線香 — 煙のかたちで、夏を思い出す
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+=== summary(無料): published=1 failed=4 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 175, in <module>
+    main()
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 171, in main
+    args.func(args)
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 135, in cmd_post
+    path.write_text(render_frontmatter(fm, body))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1276, in write_text
+    return f.write(data)
+UnicodeEncodeError: 'utf-8' codec can't encode characters in position 623-624: surrogates not allowed
+[main 54752f5] cowork auto: publish 1/5 paid=0/0 thumb_fail=0 (2026-08-21_080003)
+ 3 files changed, 6 insertions(+)
+ rename "drafts/queue/2026-08-17_note\350\250\230\344\272\213_\345\205\245\351\201\223\351\233\262\343\201\250\345\244\225\347\253\213_\345\261\261\343\201\256\344\270\212\343\201\253\347\253\213\343\201\244\347\231\275.md" => "drafts/published/2026-08-17_note\350\250\230\344\272\213_\345\205\245\351\201\223\351\233\262\343\201\250\345\244\225\347\253\213_\345\261\261\343\201\256\344\270\212\343\201\253\347\253\213\343\201\244\347\231\275.md" (100%)
+ create mode 100644 ops/outbox/2026-08-21_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   bb82cff..54752f5  main -> main
+done. published=1 failed=4 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-08-21_080003.log

@@ -1,0 +1,126 @@
+=== publish run 2026-09-14_080006 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog5本） ===
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/10] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/10] 桃 — かじると、手首まで、したたる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 蚊帳 — 緑の網の中で、眠る夜
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] 夏の星空 — 庭に寝ころんで、見上げる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 扇風機 — 首を振る、あの音のこと
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 夏の高校野球 — テレビの前の、他人ごとでない夏
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 鮎の塩焼き — 夏の川の、ほろ苦いごちそう
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] 氷見うどんのある台所
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 3 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/5] ひとり仕事の、いちばんシンプルな段取りの話
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] 梅雨の間に光を見つける
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 3 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/10] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/10] 桃 — かじると、手首まで、したたる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 蚊帳 — 緑の網の中で、眠る夜
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] 夏の星空 — 庭に寝ころんで、見上げる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 扇風機 — 首を振る、あの音のこと
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 夏の高校野球 — テレビの前の、他人ごとでない夏
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 鮎の塩焼き — 夏の川の、ほろ苦いごちそう
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] 氷見うどんのある台所
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 3 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/5] ひとり仕事の、いちばんシンプルな段取りの話
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] 梅雨の間に光を見つける
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 3 / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-09-14_001_cowork_code.yaml  id=2026-09-14_001
+[main 98f0690] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-09-14_080006)
+ 5 files changed, 30 insertions(+), 8 deletions(-)
+ create mode 100644 ops/outbox/2026-09-14_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   f4cac42..98f0690  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-09-14_080006.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-09-14_080121 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+=== 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
+posted: ops/outbox/2026-09-14_002_cowork_code.yaml  id=2026-09-14_002
+[main 2f86144] cowork: paid-footer insertion pass (2026-09-14_080006)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/outbox/2026-09-14_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   98f0690..2f86144  main -> main

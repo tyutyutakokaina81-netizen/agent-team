@@ -1,0 +1,48 @@
+=== publish run 2026-08-14_080003 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-14_note記事_いちじく_夏の終わりのやさしい甘さ.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-14_note記事_網戸_風だけを通す夏.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_夕涼み_日が落ちてからの外.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-15_note記事_花火の帰り_遠くの音を背に.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-16_note記事_お茶漬け_食欲のない日のさらさら.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-16_note記事_バシャコーヒー_モロッコ生まれの珈琲物語.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-16_note記事_夏バテ_だるさとつきあう.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-16_note記事_帰省_お盆に実家へ帰る.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+--- 公開試行: 2026-08-16_note記事_流しそうめん_竹をすべる涼.md ---
+Playwrightが未インストールです。setup.sh を実行してください。
+    [retry] Playwrightが未インストールです。setup.sh を実行してください。
+=== summary: published=0 failed=12 thumb_fail=0 ===
+posted: ops/outbox/2026-08-14_001_cowork_code.yaml  id=2026-08-14_001
+[main 0560952] cowork auto: publish 0/12 thumb_fail=0 (2026-08-14_080003)
+ 1 file changed, 25 insertions(+)
+ create mode 100644 ops/outbox/2026-08-14_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   f0e542f..0560952  main -> main
+done. published=0 failed=12 thumb_fail=0  log=ops/logs/publish_2026-08-14_080003.log

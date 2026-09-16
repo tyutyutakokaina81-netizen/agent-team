@@ -1,0 +1,82 @@
+=== publish run 2026-09-02_080004 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜.md ---
+📝 記事: 2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜.md
+🏷️  タイトル: 十五夜：稲を刈り終えた富山の、月を見る夜
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 0 個 ()
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n9c061eacd454/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n9c061eacd454/publish/
+📒 published_registry.json に追記しました（175件）
+--- 公開試行: 2026-09-01_note記事_彼岸花_田んぼの畦に突然あらわれる赤.md ---
+📝 記事: 2026-09-01_note記事_彼岸花_田んぼの畦に突然あらわれる赤.md
+🏷️  タイトル: 彼岸花：田んぼの畦に、ある日突然あらわれる赤
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 0 個 ()
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n969249cd6538/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n969249cd6538/publish/
+📒 published_registry.json に追記しました（176件）
+=== summary(無料): published=2 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+posted: ops/outbox/2026-09-02_001_cowork_code.yaml  id=2026-09-02_001
+[main 1c1d0c6] cowork auto: publish 2/2 paid=0/0 thumb_fail=0 (2026-09-02_080004)
+ 4 files changed, 24 insertions(+)
+ rename "drafts/queue/2026-09-01_note\350\250\230\344\272\213_\345\215\201\344\272\224\345\244\234_\347\250\262\343\202\222\345\210\210\343\202\212\347\265\202\343\201\210\343\201\237\345\257\214\345\261\261\343\201\256\346\234\210\343\202\222\350\246\213\343\202\213\345\244\234.md" => "drafts/published/2026-09-01_note\350\250\230\344\272\213_\345\215\201\344\272\224\345\244\234_\347\250\262\343\202\222\345\210\210\343\202\212\347\265\202\343\201\210\343\201\237\345\257\214\345\261\261\343\201\256\346\234\210\343\202\222\350\246\213\343\202\213\345\244\234.md" (100%)
+ rename "drafts/queue/2026-09-01_note\350\250\230\344\272\213_\345\275\274\345\262\270\350\212\261_\347\224\260\343\202\223\343\201\274\343\201\256\347\225\246\343\201\253\347\252\201\347\204\266\343\201\202\343\202\211\343\202\217\343\202\214\343\202\213\350\265\244.md" => "drafts/published/2026-09-01_note\350\250\230\344\272\213_\345\275\274\345\262\270\350\212\261_\347\224\260\343\202\223\343\201\274\343\201\256\347\225\246\343\201\253\347\252\201\347\204\266\343\201\202\343\202\211\343\202\217\343\202\214\343\202\213\350\265\244.md" (100%)
+ create mode 100644 ops/outbox/2026-09-02_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   bc46843..1c1d0c6  main -> main
+done. published=2 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-09-02_080004.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-09-02_080046 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+posted: ops/outbox/2026-09-02_002_cowork_code.yaml  id=2026-09-02_002
+[main 1208bbb] cowork: paid-footer insertion pass (2026-09-02_080004)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/outbox/2026-09-02_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   1c1d0c6..1208bbb  main -> main

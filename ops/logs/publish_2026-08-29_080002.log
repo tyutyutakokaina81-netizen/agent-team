@@ -1,0 +1,67 @@
+=== publish run 2026-08-29_080002 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+posted: ops/outbox/2026-08-29_001_cowork_code.yaml  id=2026-08-29_001
+[main 4125bab] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-08-29_080002)
+ 1 file changed, 12 insertions(+)
+ create mode 100644 ops/outbox/2026-08-29_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   0f09099..4125bab  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-08-29_080002.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-08-29_080005 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 22 本／今回 10 本まで）===
+🚦 モード: 本番（保存する） ／ 対象 10 本
+🌐 本物のGoogle Chrome を使用しています
+--- [1/10] しそは、香りが命。— 夏に食べ切る、うちの使い方4つ
+    ok:更新した
+--- [2/10] 夏のなすは、こう食べ切る。— 採れすぎた日の、うちの定番4つ
+    ok:更新した
+--- [3/10] 夏は、海がいちばん近い遊び場。— 地元の海で泳ぐ、富山湾の夏
+    ok:更新した
+--- [4/10] 夏は、氷を食べる。— かき氷という、うちの夏のごほうび
+    ok:更新した
+--- [5/10] 梅干しは、夏の手仕事。— 土用に干して、一年を食べる
+    ok:更新した
+--- [6/10] 甘酒は、冬より夏。— 冷やして飲む、夏のごほうび
+    ok:更新した
+--- [7/10] スイカは、冷やして、塩をふる。— 夏の、いちばん派手なくだもの
+    ok:更新した
+--- [8/10] 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに
+    ok:更新した
+--- [9/10] 鮎の塩焼き — 夏の川の、ほろ苦いごちそう
+    ok:更新した
+--- [10/10] ざるそば — つゆに、ちょんと、つけるだけ
+    ok:更新した
+
+=== 結果: 更新 10 / スキップ 0 / 失敗 0 ===
+posted: ops/outbox/2026-08-29_002_cowork_code.yaml  id=2026-08-29_002
+[main 626ad7d] cowork: paid-footer insertion pass (2026-08-29_080002)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/outbox/2026-08-29_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   4125bab..626ad7d  main -> main

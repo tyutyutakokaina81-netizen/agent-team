@@ -1,0 +1,44 @@
+=== publish run 2026-09-04_080000 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+posted: ops/outbox/2026-09-04_001_cowork_code.yaml  id=2026-09-04_001
+[main c3f0d8a] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-09-04_080000)
+ 1 file changed, 12 insertions(+)
+ create mode 100644 ops/outbox/2026-09-04_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   7f6029c..c3f0d8a  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-09-04_080000.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-09-04_080003 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+posted: ops/outbox/2026-09-04_002_cowork_code.yaml  id=2026-09-04_002
+[main c1dbf77] cowork: paid-footer insertion pass (2026-09-04_080000)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/outbox/2026-09-04_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   c3f0d8a..c1dbf77  main -> main

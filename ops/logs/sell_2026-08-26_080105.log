@@ -1,0 +1,44 @@
+=== sell_flow 2026-08-26_080105 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+🧾 記事解析OK：タイトル『AIに会社を運営させて3か月。noteを161本公開して、売…』 価格=¥500 無料2049字/有料4620字
+📝 商品: 2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md
+🏷️  タイトル: AIに会社を運営させて3か月。noteを161本公開して、売上は0円だった。
+💴 価格: ¥500
+🆓 無料パート: 2049 文字 / 🔒 有料パート: 4620 文字
+🔖 タグ: AI, Claude, 自動化, 個人事業, note運営, 失敗談, 生成AI, 仕事術
+🚦 モード: 公開まで(--publish)
+🖼️  サムネ(見出し画像): なし（_verified.txt 未登録）
+🌐 本物のGoogle Chrome を使用しています
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/nf4a7d75492d1/edit/
+✅ タイトル入力完了
+✅ 無料パート入力完了
+✅ 「有料エリア指定」ラインをセットしました（無料パート直後）
+✅ 有料パート入力完了
+✅ 下書き保存で編集状態を確定
+✅ タグ 8 個を入力
+💰 価格を設定します：目標=¥500
+   試行1: 有料選択=True / 入力欄の価格=500（目標¥500）
+✅ 価格確定：¥500
+✅ 価格設定: ¥500 をDOM検証OK（paid選択＋価格一致）
+✅ 有料境界確定: 『投稿する』出現までOK
+
+🚀 投稿する（＝公開）を押します（3秒後）...
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/nf4a7d75492d1/publish/
+PAID_PUBLISHED	nf4a7d75492d1	500	2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md
+🔗 想定公開URL: https://note.com/safe_canna441/n/nf4a7d75492d1
+🔎 公開後v3検証: price=500 can_read=False status=published → ✅ 有料が効いている
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>

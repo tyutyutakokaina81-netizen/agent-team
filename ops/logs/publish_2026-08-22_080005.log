@@ -1,0 +1,39 @@
+=== publish run 2026-08-22_080005 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-17_note記事_かき氷_削りたてを急いで食べる.md ---
+✗ 重複ゲート(題材キー): 同一題材『かき氷』が既に公開済みです → 夏は、氷を食べる。— かき氷という、うちの夏のごほうび (https://note.com/safe_canna441/n/n7756798663c0)
+  記事: かき氷 — 削りたてを、急いで食べる
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_ラジオ体操_夏休みの朝の広場.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『ラジオ体操・夏休みの朝』→ https://note.com/safe_canna441/n/n44f7f928b501
+  既公開: 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、あの夏
+  今回  : ラジオ体操 — 夏休みの朝の、広場
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_枝豆_茹でたてを塩でつまむ.md ---
+✗ 重複ゲート(題材キー): 同一題材『枝豆』が既に公開済みです → 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに (https://note.com/safe_canna441/n/n1314d08cf5d2)
+  記事: 枝豆 — 茹でたてを、塩でつまむ
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す.md ---
+✗ 重複ゲート(題材キー): 同一題材『蚊取り線香』が既に公開済みです → 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器 (https://note.com/safe_canna441/n/n7750a5cf6e23)
+  記事: 蚊取り線香 — 煙のかたちで、夏を思い出す
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+=== summary(無料): published=0 failed=4 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 175, in <module>
+    main()
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 171, in main
+    args.func(args)
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 135, in cmd_post
+    path.write_text(render_frontmatter(fm, body))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1276, in write_text
+    return f.write(data)
+UnicodeEncodeError: 'utf-8' codec can't encode characters in position 581-582: surrogates not allowed
+[main d44015a] cowork auto: publish 0/4 paid=0/0 thumb_fail=0 (2026-08-22_080005)
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 ops/outbox/2026-08-22_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   7c04c96..d44015a  main -> main
+done. published=0 failed=4 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-08-22_080005.log

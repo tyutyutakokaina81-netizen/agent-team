@@ -1,0 +1,51 @@
+=== finish_pending 2026-08-21_035835 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+=== ① 空の有料note を下書きに戻す ===
+--- n94864fee1d83
+🌐 本物のGoogle Chrome を使用しています
+FOUND unpublish item: 下書きに戻す
+DONE: 下書きに戻す 実行（公開URLは404になる想定）
+--- n752e3adfbaf2
+🌐 本物のGoogle Chrome を使用しています
+FOUND unpublish item: 下書きに戻す
+DONE: 下書きに戻す 実行（公開URLは404になる想定）
+--- n5a495d8e38c3
+🌐 本物のGoogle Chrome を使用しています
+FOUND unpublish item: 下書きに戻す
+DONE: 下書きに戻す 実行（公開URLは404になる想定）
+=== ①結果: 下書きに戻した 3 / 失敗 0 ===
+
+=== ② 無料キューの公開 ===
+--- 公開試行: 2026-08-20_note記事_アウディで旅に出る_海と山を一日で.md
+📝 記事: 2026-08-20_note記事_アウディで旅に出る_海と山を一日で.md
+🏷️  タイトル: アウディで旅に出る — 海と山を、一日で
+📸 写真placeholder: 2 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 8 個 (富山, ドライブ, 車のある暮らし, 国内旅行, 北陸…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n6540e46eda96/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 8 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n6540e46eda96/publish/
+📒 published_registry.json に追記しました（162件）
+=== ②結果: 公開 1 / 失敗 0 ===
+posted: ops/outbox/2026-08-21_001_cowork_code.yaml  id=2026-08-21_001
+[main fff183f] cowork: finish_pending unpub=3/3 publish=1/1 (2026-08-21_035835)
+ 3 files changed, 19 insertions(+)
+ rename "drafts/queue/2026-08-20_note\350\250\230\344\272\213_\343\202\242\343\202\246\343\203\207\343\202\243\343\201\247\346\227\205\343\201\253\345\207\272\343\202\213_\346\265\267\343\201\250\345\261\261\343\202\222\344\270\200\346\227\245\343\201\247.md" => "drafts/published/2026-08-20_note\350\250\230\344\272\213_\343\202\242\343\202\246\343\203\207\343\202\243\343\201\247\346\227\205\343\201\253\345\207\272\343\202\213_\346\265\267\343\201\250\345\261\261\343\202\222\344\270\200\346\227\245\343\201\247.md" (100%)
+ create mode 100644 ops/outbox/2026-08-21_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   bacb80a..fff183f  main -> main
+
+=== 完了。空note下書き化 3/3 ・公開 1 件 ===
+公開URLは上のログに出ています。Claudeに貼れば台帳を更新します。

@@ -1,0 +1,30 @@
+=== publish run 2026-08-19_080000 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+fatal: Cannot rebase onto multiple branches.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『夏の富山湾』→ https://note.com/safe_canna441/n/n5ffd70da907b
+  既公開: 夏の富山湾で釣って、その日に揚げる。— キスとメゴチの天ぷら
+  今回  : 岩牡蠣 — 夏の富山湾の、不格好な贈りもの
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『夏野菜』→ https://note.com/safe_canna441/n/n8df70f2edca6
+  既公開: 夏野菜は、無人販売所で。— 富山の道ばたの100円と、顔の見えない信用の話
+  今回  : 冬瓜（とうがん）— 冬の名を持つ、煮ると透きとおる夏野菜
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『冷やして』→ https://note.com/safe_canna441/n/nd89da256a68d
+  既公開: 夏のトマトは、丸かじりがいちばん。— 冷やして、塩をふって、それだけで
+  今回  : 冷やしトマト — 丸ごと冷やして、切るだけの夏
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+=== summary: published=0 failed=3 thumb_fail=0 ===
+posted: ops/outbox/2026-08-19_001_cowork_code.yaml  id=2026-08-19_001
+[main a11dc7a] cowork auto: publish 0/3 thumb_fail=0 (2026-08-19_080000)
+ 1 file changed, 16 insertions(+)
+ create mode 100644 ops/outbox/2026-08-19_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   4956220..a11dc7a  main -> main
+done. published=0 failed=3 thumb_fail=0  log=ops/logs/publish_2026-08-19_080000.log

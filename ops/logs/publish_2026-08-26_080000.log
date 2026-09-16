@@ -1,0 +1,122 @@
+=== publish run 2026-08-26_080000 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-17_note記事_かき氷_削りたてを急いで食べる.md ---
+✗ 重複ゲート(題材キー): 同一題材『かき氷』が既に公開済みです → 夏は、氷を食べる。— かき氷という、うちの夏のごほうび (https://note.com/safe_canna441/n/n7756798663c0)
+  記事: かき氷 — 削りたてを、急いで食べる
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_ラジオ体操_夏休みの朝の広場.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『ラジオ体操・夏休みの朝』→ https://note.com/safe_canna441/n/n44f7f928b501
+  既公開: 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、あの夏
+  今回  : ラジオ体操 — 夏休みの朝の、広場
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_入道雲と夕立_山の上に立つ白.md ---
+✗ 重複ゲート(台帳): このタイトルは既に公開済みです → https://note.com/safe_canna441/n/n1d6a8663ea3e
+  記事: 入道雲と夕立 — 山の上に立つ、白
+  公開を中断しました（published_registry.json 参照）。
+--- 公開試行: 2026-08-17_note記事_枝豆_茹でたてを塩でつまむ.md ---
+✗ 重複ゲート(題材キー): 同一題材『枝豆』が既に公開済みです → 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに (https://note.com/safe_canna441/n/n1314d08cf5d2)
+  記事: 枝豆 — 茹でたてを、塩でつまむ
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す.md ---
+✗ 重複ゲート(題材キー): 同一題材『蚊取り線香』が既に公開済みです → 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器 (https://note.com/safe_canna441/n/n7750a5cf6e23)
+  記事: 蚊取り線香 — 煙のかたちで、夏を思い出す
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル.md ---
+タイトルブロックがmdから抽出できませんでした。
+    [retry] タイトルブロックがmdから抽出できませんでした。
+--- 公開試行: 2026-08-25_note記事_富山の夏_標高で涼しさが変わる理由.md ---
+タイトルブロックがmdから抽出できませんでした。
+    [retry] タイトルブロックがmdから抽出できませんでした。
+--- 公開試行: 2026-08-25_note記事_氷見と高岡_港町と古都は何が違うのか.md ---
+タイトルブロックがmdから抽出できませんでした。
+    [retry] タイトルブロックがmdから抽出できませんでした。
+--- 公開試行: 2026-08-25_note記事_高岡コロッケ_脇役を主菜にする食べ方.md ---
+タイトルブロックがmdから抽出できませんでした。
+    [retry] タイトルブロックがmdから抽出できませんでした。
+=== summary(無料): published=0 failed=9 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 175, in <module>
+    main()
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 171, in main
+    args.func(args)
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 135, in cmd_post
+    path.write_text(render_frontmatter(fm, body))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1276, in write_text
+    return f.write(data)
+UnicodeEncodeError: 'utf-8' codec can't encode characters in position 777-778: surrogates not allowed
+⚠️ outbox報告が空だったため、bashから直接書き出します: ops/outbox/2026-08-26_080000_fallback_cowork_code.yaml
+[main adbf0da] cowork auto: publish 0/9 paid=0/0 thumb_fail=0 (2026-08-26_080000)
+ 6 files changed, 27 insertions(+), 5 deletions(-)
+ create mode 100644 ops/outbox/2026-08-26_080000_fallback_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   6dfff0c..adbf0da  main -> main
+done. published=0 failed=9 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-08-26_080000.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-08-26_080105 (branch=main) ===
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+🧾 記事解析OK：タイトル『AIに会社を運営させて3か月。noteを161本公開して、売…』 価格=¥500 無料2049字/有料4620字
+📝 商品: 2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md
+🏷️  タイトル: AIに会社を運営させて3か月。noteを161本公開して、売上は0円だった。
+💴 価格: ¥500
+🆓 無料パート: 2049 文字 / 🔒 有料パート: 4620 文字
+🔖 タグ: AI, Claude, 自動化, 個人事業, note運営, 失敗談, 生成AI, 仕事術
+🚦 モード: 公開まで(--publish)
+🖼️  サムネ(見出し画像): なし（_verified.txt 未登録）
+🌐 本物のGoogle Chrome を使用しています
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/nf4a7d75492d1/edit/
+✅ タイトル入力完了
+✅ 無料パート入力完了
+✅ 「有料エリア指定」ラインをセットしました（無料パート直後）
+✅ 有料パート入力完了
+✅ 下書き保存で編集状態を確定
+✅ タグ 8 個を入力
+💰 価格を設定します：目標=¥500
+   試行1: 有料選択=True / 入力欄の価格=500（目標¥500）
+✅ 価格確定：¥500
+✅ 価格設定: ¥500 をDOM検証OK（paid選択＋価格一致）
+✅ 有料境界確定: 『投稿する』出現までOK
+
+🚀 投稿する（＝公開）を押します（3秒後）...
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/nf4a7d75492d1/publish/
+PAID_PUBLISHED	nf4a7d75492d1	500	2026-08-20_有料note_AIに会社を運営させた3か月_161本公開して売上0円.md
+🔗 想定公開URL: https://note.com/safe_canna441/n/nf4a7d75492d1
+🔎 公開後v3検証: price=500 can_read=False status=published → ✅ 有料が効いている
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 0 本／今回 2 本まで）===
+🚦 モード: 本番（保存する） ／ 対象 2 本
+🌐 本物のGoogle Chrome を使用しています
+--- [1/2] 400年、ひとりで価値を生んできた町がある。— 富山・高岡の職人に学ぶ「個人
+    ok:更新した
+--- [2/2] 富山で「甘えび」を頼むと、白えびは出てこない。
+    ok:更新した
+
+=== 結果: 更新 2 / スキップ 0 / 失敗 0 ===
+posted: ops/outbox/2026-08-26_001_cowork_code.yaml  id=2026-08-26_001
+[main 31e550b] cowork: paid-footer insertion pass (2026-08-26_080000)
+ 2 files changed, 15 insertions(+)
+ create mode 100644 ops/.sell_flow_state
+ create mode 100644 ops/outbox/2026-08-26_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   adbf0da..31e550b  main -> main
