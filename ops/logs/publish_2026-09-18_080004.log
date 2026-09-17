@@ -107,3 +107,39 @@ Traceback (most recent call last):
     return f.write(data)
 UnicodeEncodeError: 'utf-8' codec can't encode character '\udce2' in position 663: surrogates not allowed
 ⚠️ outbox報告が空だったため、bashから直接書き出します: ops/outbox/2026-09-18_080004_fallback_cowork_code.yaml
+[main ebda513] cowork auto: publish 0/2 paid=0/0 thumb_fail=0 (2026-09-18_080004)
+ 9 files changed, 247 insertions(+), 26 deletions(-)
+ create mode 100644 ops/logs/publish_2026-09-18_080004.log
+ create mode 100644 ops/outbox/2026-09-18_080004_fallback_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   6124025..ebda513  main -> main
+done. published=0 failed=2 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-09-18_080004.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-09-18_080233 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/_note_url.py", line 20, in <module>
+    def author_from_registry() -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+=== 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
+posted: ops/outbox/2026-09-18_001_cowork_code.yaml  id=2026-09-18_001
