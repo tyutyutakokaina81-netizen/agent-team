@@ -647,7 +647,10 @@ _EN_PHRASES = (
                               r"|((from|to) outside Japan)|(rarely lands)|(defeats me)"),
     ("EN:相手が驚く型",       r"(visitors?|foreigners?|people from abroad)[^.]{0,40}"
                               r"(surpris|startl|taken aback|puzzl|baffl)"),
-    ("EN:読者に試させる型",   r"(try it|give it a go|see for yourself|worth trying)"),
+    # 2026-09-19: `try it` が **"coun try it hatched"** のような語またぎに部分一致して誤検知した。
+    # さらに「you try it a few times（何度かやってみる）」は読者への勧めですらない。
+    # 語境界を付け、**読者に勧める言い回しに限定**する。狼少年になると検査ごと信用されなくなる。
+    ("EN:読者に試させる型",   r"\b(try it yourself|give it a go|see for yourself|worth a try|you should try|do try)\b"),
 )
 _phrase_hits = {name: [] for name, _ in list(_PHRASES) + list(_EN_PHRASES)}
 for _f in _arts17:
