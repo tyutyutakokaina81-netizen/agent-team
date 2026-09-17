@@ -597,6 +597,11 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
     print(f"🖼️  実写ファイル: {len(photos)} 枚 ({photo_dir})")
     print(f"🖼️  自動サムネ候補: {auto_thumb.name if auto_thumb else 'なし'}")
     print(f"🔖 ハッシュタグ: {len(tags)} 個 ({', '.join(tags[:5])}{'…' if len(tags) > 5 else ''})")
+    if not tags:
+        # 2026-09-19: 2026-08-22 以降の記事に `## ハッシュタグ` が無く、**約25本がタグ0個で公開**されていた。
+        # note ではタグがタグページ・おすすめ経由の主要な発見経路なので、黙って落ちると reach が直接減る。
+        # 報告に数えられるよう**静的な文字列**で明示する（f-string の中の数字は grep 側から検証できない＝R20）。
+        print("ℹ️  ハッシュタグが記事に無い → タグ0個で公開されます（note の発見経路が細くなる）")
     if text_only:
         print("📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します")
 

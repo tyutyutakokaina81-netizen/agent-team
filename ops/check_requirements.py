@@ -257,6 +257,35 @@ try:
 except Exception as _e:
     add("R22 日次実行の生存", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R23 ハッシュタグ: 公開キューの記事に `## ハッシュタグ` ブロックがあるか。
+# 2026-09-19 実測: **2026-08-22 以降に書いた記事にタグが1本も付いていなかった**（約25本）。
+# publisher は `## ハッシュタグ` の有無でしか判断しないので、書き忘れれば**タグ0個で公開される**。
+# note ではタグがタグページ・おすすめ経由の主要な発見経路なので、これは reach の直接的な取りこぼし。
+# 385本中295本にはタグがあるのに、途中から私が書かなくなっていた＝**人が書く前提のものは必ず抜ける**。
+try:
+    _qmd = glob.glob(os.path.join(ROOT, "drafts/queue/*.md"))
+    _notag, _thin = [], []
+    for _f in _qmd:
+        _t = open(_f, encoding="utf-8").read()
+        _m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", _t, re.S)
+        if not _m:
+            _notag.append(os.path.basename(_f)[:-3])
+        elif len(re.findall(r"#\S+", _m.group(1))) < 5:
+            _thin.append(os.path.basename(_f)[:-3])
+    if not _qmd:
+        add("R23 ハッシュタグ", "STALE", "公開キューが空＝未検査")
+    elif _notag:
+        add("R23 ハッシュタグ", "BROKEN",
+            f"**タグ無しの記事が {len(_notag)}本**(例:{_notag[0][:30]}…) → タグ0個で公開されてしまう。"
+            f"`## ハッシュタグ` ブロックを足す")
+    elif _thin:
+        add("R23 ハッシュタグ", "BROKEN",
+            f"タグが5個未満の記事が {len(_thin)}本(例:{_thin[0][:30]}…) → 発見経路が細くなる")
+    else:
+        add("R23 ハッシュタグ", "OK", f"キュー {len(_qmd)}本すべてに5個以上のタグあり")
+except Exception as _e:
+    add("R23 ハッシュタグ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")

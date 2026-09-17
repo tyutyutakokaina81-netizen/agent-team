@@ -45,6 +45,8 @@ ok_list=""
 fail_list=""
 thumb_fail=0
 thumb_err=0
+tag_err=0
+tag_zero=0
 login_fail=0
 fail_reasons=""
 
@@ -72,6 +74,14 @@ for f in drafts/queue/*.md; do
   # 従来はどこにも数えられておらず、2026-08-19 のサムネ全滅も報告に出ていなかった。
   if echo "$out" | grep -q "サムネ自動設定に失敗"; then
     thumb_err=$((thumb_err+1))
+  fi
+  # 2026-09-19: ハッシュタグ入力も publisher は ✅/⚠️ を出しているのに**どこにも数えられていなかった**
+  # （サムネと同じ型）。noteではタグが主要な発見経路なので、黙って落ちると reach が直接減る。
+  if echo "$out" | grep -q "ハッシュタグ入力に失敗"; then
+    tag_err=$((tag_err+1))
+  fi
+  if echo "$out" | grep -q "ハッシュタグが記事に無い"; then
+    tag_zero=$((tag_zero+1))
   fi
   # ★ログイン切れ/未ログインを検知（publisherが未ログイン時に出す定型文）。無人では自動ログインできないため
   #   outboxに「要ログイン」をはっきり残し、owner が --login すべきと分かるようにする（0/N全滅の原因特定用）。
@@ -161,7 +171,7 @@ else
 fi
 
 # outbox に結果報告（記事名つき・code が機械的に読める）
-body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用) / **サムネ設定に失敗 ${thumb_err} 件**（log: ${LOG}）"
+body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用) / **サムネ設定に失敗 ${thumb_err} 件** / **タグ入力失敗 ${tag_err} 件 / タグ0個で公開 ${tag_zero} 件**（log: ${LOG}）"
 body="${body}
 【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / 未描画 ${comment_notrender} 件 / **未公開(draft) ${comment_draft} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
 if [ $((paid_ok + paid_ng)) -gt 0 ]; then
