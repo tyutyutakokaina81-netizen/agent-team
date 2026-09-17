@@ -1,0 +1,109 @@
+=== publish run 2026-09-18_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-08-25_note記事_氷見と高岡_港町と古都は何が違うのか.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『氷見と高岡』→ https://note.com/safe_canna441/n/ncb6c6912f70a
+  既公開: 富山2日完璧ガイド：氷見と高岡を2日で巡る旅程（朝食～夜食まで完全マップ）
+  今回  : 氷見と高岡：港町と古都は何が違うのか
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+--- 公開試行: 2026-08-25_note記事_高岡コロッケ_脇役を主菜にする食べ方.md ---
+✗ 重複ゲート(題材キー): 同一題材『高岡コロッケ』が既に公開済みです → 高岡コロッケ：地元民が毎日食べる理由と、観光客が見つけられない食べ方ガイド (https://note.com/safe_canna441/n/n3864cc909552)
+  記事: 高岡コロッケ：脇役を主菜にする食べ方
+  切り口が本当に異なり公開してよい場合のみ --allow-topic-dup を付けて再実行。
+=== summary(無料): published=0 failed=2 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog5本） ===
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[3/10] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/10] FIRE ——今日で、会社を辞めました。こわくて静かな一
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 夏のトマトは、丸かじりがいちばん。— 冷やして、塩をふっ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] とうもろこしは、もぎたてを急いで。— 甘さは、時間との勝
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 夏の枝豆と、冷たい一杯。— 縁側の夕方が、いちばんのごち
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 入善のジャンボ西瓜。— 富山の夏に、両手で抱える大玉がや
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 夏野菜は、無人販売所で。— 富山の道ばたの100円と、顔
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] じゃがいもは、家にいつもある。— 常備野菜の頼れる4品
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+[1/5] 夏の夜に、ドンと音がする。— 地方の花火大会は、町の一大
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] きゅうりは、冷やして食べ切る。— 採れすぎた夏の、涼しい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[3/10] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/10] FIRE ——今日で、会社を辞めました。こわくて静かな一
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 夏のトマトは、丸かじりがいちばん。— 冷やして、塩をふっ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] とうもろこしは、もぎたてを急いで。— 甘さは、時間との勝
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 夏の枝豆と、冷たい一杯。— 縁側の夕方が、いちばんのごち
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 入善のジャンボ西瓜。— 富山の夏に、両手で抱える大玉がや
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 夏野菜は、無人販売所で。— 富山の道ばたの100円と、顔
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] じゃがいもは、家にいつもある。— 常備野菜の頼れる4品
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+[1/5] 夏の夜に、ドンと音がする。— 地方の花火大会は、町の一大
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/5] きゅうりは、冷やして食べ切る。— 採れすぎた夏の、涼しい
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[5/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。セレクタの問題ではない）
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+Traceback (most recent call last):
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 195, in <module>
+    main()
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 191, in main
+    args.func(args)
+  File "/Users/apple/agent-team-run/ops/process_inbox.py", line 155, in cmd_post
+    path.write_text(render_frontmatter(fm, body))
+  File "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1276, in write_text
+    return f.write(data)
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udce2' in position 663: surrogates not allowed
+⚠️ outbox報告が空だったため、bashから直接書き出します: ops/outbox/2026-09-18_080004_fallback_cowork_code.yaml
