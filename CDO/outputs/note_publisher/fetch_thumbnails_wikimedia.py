@@ -427,6 +427,12 @@ JAPAN_TOKENS = (
     # 種そのものが記事の主題である場合、学名の一致は「題材が正しい」という**より強い**手がかりなので、
     # 日本の痕跡として扱う。撮影地が国外の個体を拾う可能性は残るが、
     # 松茸の記事は輸入品にも触れており、別の題材を拾う誤りとは性質が違う。
+    # 2026-09-19 追加: **日本語の食べもの名のローマ字表記**。あけび・松茸のときと同じ型で、
+    # 「イクラ」「筋子」「イクラ 醤油漬け」「サケ 卵」の4語すべてが0件になった。
+    # Commons では日本の食べものが "Ikura"/"Sujiko" のローマ字だけで命名されることがあり、
+    # 日本語も地名も入らないため 0点足切りに掛かる。これらの語自体が日本の食べものを指すので
+    # 日本の痕跡として扱う（"salmon roe" のような一般語は入れない＝どの国のものか分からないため）。
+    "ikura", "sujiko", "matsutake", "wasabi", "mochi", "natto", "umeboshi",
     "tricholoma matsutake", "akebia quinata", "sympetrum frequens",
     "colocasia esculenta", "diospyros kaki", "ginkgo biloba", "pholiota microspora",
 )
