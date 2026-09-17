@@ -263,11 +263,22 @@ def main():
                 # どちらもセレクタとは無関係で、DOMが出来ていないだけだった。
                 # 本文が現れるまで待ち、それでも来なければ NO-SELECTOR ではなく
                 # **NOT-RENDERED** として区別する（原因の違う事故を同じ数字に混ぜない）。
-                try:
-                    page.wait_for_selector(
-                        "article, [class*='o-noteContentText'], [class*='note-common-styles']",
-                        timeout=15000)
-                except Exception:
+                # 2026-09-17: 昨日入れたこの待ちは **偽陰性を出していた**。
+                # `[class*='note-common-styles']` 等はSPAの殻にも存在するため、本文が空でも
+                # 待ちが成功し、「未描画0件／セレクタ外れ6件」と報告していた。
+                # 一方 --debug で保存したHTMLの <title> は **note の汎用タイトルのまま**＝
+                # 記事が描画されていない動かぬ証拠だった。要素の有無より **title** が確実な判別材料。
+                _NOTE_SHELL_TITLE = "note ――つくる、つながる、とどける。"
+                _rendered = False
+                for _ in range(15):
+                    try:
+                        if page.title().strip() != _NOTE_SHELL_TITLE:
+                            _rendered = True
+                            break
+                    except Exception:
+                        pass
+                    page.wait_for_timeout(1000)
+                if not _rendered:
                     log("    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。"
                         "セレクタの問題ではない）")
                     if args.debug:
