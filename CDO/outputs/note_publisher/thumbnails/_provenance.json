@@ -794,5 +794,23 @@
 "license": "CC BY 2.0",
 "query": "傘立て",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/%E5%82%98%E7%AB%8B%E3%81%A6_%286338604238%29.jpg/1280px-%E5%82%98%E7%AB%8B%E3%81%A6_%286338604238%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-21_note記事_かかし_顔が描いてあるものと何もないもの": {
+"author": "osamu tanaka",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Scarecrow(%E3%81%8B%E3%81%8B%E3%81%97)_-_panoramio.jpg",
+"file": "File:Scarecrow(かかし) - panoramio.jpg",
+"license": "CC BY-SA 3.0",
+"query": "scarecrow japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg/1280px-Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木": {
+"author": "Susan Slater.",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Pomegranate_cut_in_half.jpg",
+"file": "File:Pomegranate cut in half.jpg",
+"license": "CC BY-SA 4.0",
+"query": "pomegranate japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Pomegranate_cut_in_half.jpg/1280px-Pomegranate_cut_in_half.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
