@@ -59,7 +59,7 @@ def cmd_list(args: argparse.Namespace) -> None:
         return
     rows: list[tuple[str, str, str, str, str, str]] = []
     for p in files:
-        fm, _ = parse_frontmatter(p.read_text())
+        fm, _ = parse_frontmatter(_read(p))
         if args.to and fm.get("to") != args.to:
             continue
         if args.status and fm.get("status") != args.status:
@@ -83,12 +83,12 @@ def cmd_list(args: argparse.Namespace) -> None:
 def cmd_show(args: argparse.Namespace) -> None:
     p = find_file(args.id)
     print(f"# file: {p}")
-    print(p.read_text())
+    print(_read(p))
 
 
 def cmd_take(args: argparse.Namespace) -> None:
     p = find_file(args.id)
-    fm, body = parse_frontmatter(p.read_text())
+    fm, body = parse_frontmatter(_read(p))
     fm["status"] = "in-progress"
     p.write_text(render_frontmatter(fm, body))
     print(f"took: {fm.get('id')}  ({fm.get('title', '')})")
@@ -96,7 +96,7 @@ def cmd_take(args: argparse.Namespace) -> None:
 
 def cmd_done(args: argparse.Namespace) -> None:
     p = find_file(args.id)
-    fm, body = parse_frontmatter(p.read_text())
+    fm, body = parse_frontmatter(_read(p))
     fm["status"] = "done"
     now = dt.datetime.now().astimezone().isoformat(timespec="seconds")
     result_block = f"\n\n---\n\n## 結果 ({now})\n\n{args.result}\n"
@@ -115,6 +115,14 @@ def cmd_done(args: argparse.Namespace) -> None:
               " （IDの採番が衝突しています＝R13/R12 を確認してください）")
     shutil.move(str(p), str(dest))
     print(f"done: {fm.get('id')} → {dest.relative_to(ROOT.parent)}")
+
+
+def _read(p) -> str:
+    """壊れたバイトが1つあっても読めるようにする。
+    2026-09-18: bash の fallback が書いた outbox の1ファイルが**文字の途中で切れて**おり、
+    `list` が UnicodeDecodeError で全滅していた。**1件の破損でキュー全体が見えなくなる**のは
+    検知として最悪なので、読めない箇所は落として読む。"""
+    return p.read_bytes().decode("utf-8", "replace")
 
 
 def _clean(text: str) -> str:
