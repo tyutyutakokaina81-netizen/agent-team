@@ -659,3 +659,55 @@ Japanese quiet doesn't always mean the absence of sound. A night full of insect 
 ハッシュタグ: #Japan #Toyama #Japanese #language #autumn #nature
 
 ## X スレッド（= ops/x_queue.txt の insect-voices-thread と同一）
+
+---
+
+# 【2026-09-20 追加】秋茄子（autumn aubergine）クロスポスト
+
+## Reddit（r/japan, r/JapanTravel, r/japanlife, r/Cooking）
+**タイトル**: `A Japanese proverb about aubergines has two explanations that contradict each other`
+```
+"Aki-nasu wa yome ni kuwasu na" — don't feed autumn aubergines to the bride. Almost everyone in Japan has heard it. Nobody agrees on what it means.
+
+Reading one is spite: autumn aubergines are too good to share, so the mother-in-law keeps them from her son's wife. Reading two is the opposite: aubergines are said to cool the body, so a considerate household spares her — and a related version points at autumn fruit having fewer seeds, treating that as a bad omen for having children. There is even a reading where "yome" isn't a bride at all but an old word said to mean rats.
+
+I can't tell you which came first, and I don't think anyone can. My guess is meanings get added afterwards to a sentence flexible enough to take them.
+
+The vegetable itself, though, genuinely is different this time of year: firmer skin, denser flesh, less water, and a sweetness that shows up under heat. Whether the seeds are really fewer I've never checked — every autumn I mean to, and the season finishes first.
+```
+ハッシュタグ: #Japan #japanesefood #Toyama #proverb #autumn
+
+## X スレッド（= EN/outputs/x_tweets/2026-09-20_x_…秋茄子….md と同一・5ツイート）
+```
+1/ *Aki-nasu wa yome ni kuwasu na* — "don't feed autumn aubergines to the bride" — is a saying almost everyone here has heard, and one that comes with two readings pointing in opposite directions.
+2/ The unkind reading: autumn aubergines are delicious, so the mother-in-law keeps them from her son's wife.
+3/ The kind reading: aubergines cool the body, so a considerate household spares her; there is also a version about autumn fruit having few seeds, and the bad omen that implies for children.
+4/ The same sentence works as cruelty and as care, and I have no way of deciding which came first. There is even a reading in which *yome* is not a bride at all but *yo-me*, a word for rats. Meanings, I suspect, get added afterwards.
+5/ Set the proverb aside and the vegetable itself is a different thing in autumn: firmer skin, denser flesh, less water, and a sweetness that shows up when you put it over heat. #Japan #japanesefood
+```
+
+---
+
+# 【2026-09-20 追加】置き傘（umbrella habit）クロスポスト
+
+## Reddit（r/japan, r/JapanTravel, r/japanlife, r/weather）
+**タイトル**: `On Japan's Hokuriku coast the saying is: forget your lunch, but not your umbrella`
+```
+There's a stretch of autumn here when I stop deciding in the morning whether to hang the washing outside. Clear sky or not, the call waits until midday — and even then it sometimes goes wrong.
+
+The Hokuriku coast has a line for this: bentō wasurete mo kasa wasureru na. Forget your lunch if you must, but don't forget your umbrella. It belongs to the region rather than to Toyama alone; they say it in Ishikawa and Fukui too. It's usually told about winter, when a bright morning here means nothing by afternoon, but late September into October behaves the same way.
+
+The practical result is that umbrellas accumulate. Several in the hall, one at work, one at school for years. Scattering them across the places you might get caught means losing count, concluding you have none with you, and buying another — which is most likely the whole reason the cheap transparent ones multiply.
+
+Most days I carry one and never open it. A day spent soaked stays with you much longer than a day spent carrying something you didn't need, and I think that lopsided memory is what the proverb actually encodes.
+```
+ハッシュタグ: #Japan #Toyama #Hokuriku #weather #autumn
+
+## X スレッド（= EN/outputs/x_tweets/2026-09-20_x_…置き傘….md と同一）
+```
+1/ On Japan's Hokuriku coast there's a saying: forget your lunch if you must, but don't forget your umbrella. It's told about winter — but late September into October works the same way. ☔
+2/ Right now I won't decide in the morning whether to hang the washing outside. Clear sky or not, the decision waits until midday, and even then it sometimes goes wrong.
+3/ So umbrellas accumulate. Several in the hall, one at work, one at school for years. Scatter them across the places you might get caught and you lose count — then buy another.
+4/ That's probably the whole reason the cheap transparent ones multiply: sold everywhere, for very little, exactly when you've concluded you have none.
+5/ Most days I carry one and never open it. A soaked day stays with you far longer than a day carrying something you didn't need. Skip lunch, you've missed a meal. Forget the umbrella, you remember it for years. #Japan #Toyama
+```

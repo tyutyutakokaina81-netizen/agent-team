@@ -31,7 +31,21 @@ def parse_article(md_path: Path) -> dict:
             out["en_summary"] = m2.group(1).strip()
         else:
             m3 = re.search(r"【English】\s*\n?(.+?)(?=\n```|\Z)", out["body_ja"], re.S)
-            out["en_summary"] = m3.group(1).strip() if m3 else ""
+            if m3:
+                out["en_summary"] = m3.group(1).strip()
+            else:
+                # ④ `## English Summary`（2026-08-18 以降の記事の形）
+                # 2026-09-20 発覚: この形を見ていなかったため、**08-17 を最後にクロスポスト素材が
+                # 「[no English summary available]」を出し続けていた**。生成は成功扱いで終わるので、
+                # 中身を開くまで気づけない＝R4 が STALE のまま放置されていた原因。
+                m4 = re.search(r"##\s*English Summary\s*\n+(.+?)(?=\n---|\Z)", text, re.S)
+                if m4:
+                    body = m4.group(1).strip()
+                    # 先頭の太字見出し行（**Title**）は本文ではないので落とす
+                    body = re.sub(r"^\*\*(.+?)\*\*\s*\n+", "", body)
+                    out["en_summary"] = body.strip()
+                else:
+                    out["en_summary"] = ""
 
     # ハッシュタグ
     m = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", text, re.S)
