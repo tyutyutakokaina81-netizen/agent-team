@@ -335,6 +335,31 @@ try:
 except Exception as _e:
     add("R25 X投稿の生存", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R26 キューの題材重複: キューに入れた記事が、既公開と同題材で門前払いされないか。
+# 2026-09-18 実測: 前日にキューへ入れた2本が**両方とも公開時の題材ゲートではねられ、公開0件**になった。
+# 在庫は108本あるのに0件。「キューは埋まっている」という見た目だけ正しく、中身が全部通らない状態。
+# 公開の瞬間に判定するのでは遅い（その日の枠が消える）ので、**入れた時点で同じ判定をする**。
+try:
+    import json as _json26
+    _reg = _json26.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                          encoding="utf-8"))
+    _ptopics = {e.get("topic", "") for e in _reg if e.get("topic")}
+    _dup = []
+    for _f in glob.glob(os.path.join(ROOT, "drafts/queue/*.md")):
+        _m = re.match(r"\d{4}-\d{2}-\d{2}_note記事_([^_]+)_", os.path.basename(_f))
+        if _m and _m.group(1) in _ptopics:
+            _dup.append(_m.group(1))
+    if not glob.glob(os.path.join(ROOT, "drafts/queue/*.md")):
+        add("R26 キューの題材重複", "STALE", "公開キューが空＝未検査")
+    elif _dup:
+        add("R26 キューの題材重複", "BROKEN",
+            f"**既公開と同題材の記事が {len(_dup)}本**({'/'.join(_dup[:3])}) → 公開時にはねられて"
+            "その日の枠が消える。別の在庫に差し替える（切り口が違うなら --allow-topic-dup）")
+    else:
+        add("R26 キューの題材重複", "OK", "キューの題材はすべて未公開")
+except Exception as _e:
+    add("R26 キューの題材重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")

@@ -40,6 +40,8 @@ projects/2026-04-08 …ではなく、富山ガイドへの送客用に作った
     下書きで止めて、あなたが画像を選んで公開するのが一番きれい。
   - 本文・タイトルはキットのまま投稿（改変しない）。
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 
 import argparse
 import re

@@ -117,6 +117,11 @@ def cmd_done(args: argparse.Namespace) -> None:
     print(f"done: {fm.get('id')} → {dest.relative_to(ROOT.parent)}")
 
 
+def _clean(text: str) -> str:
+    """孤立サロゲート（U+DCxx）を落とす。ログ由来の壊れたバイトで報告が消えるのを防ぐ。"""
+    return text.encode("utf-8", "replace").decode("utf-8")
+
+
 def cmd_post(args: argparse.Namespace) -> None:
     target_dir = OUTBOX if args.type == "report" else INBOX
     target_dir.mkdir(parents=True, exist_ok=True)
@@ -152,7 +157,10 @@ def cmd_post(args: argparse.Namespace) -> None:
         "title": args.title,
     }
     body = "\n" + (args.body or "(本文未記入)") + "\n"
-    path.write_text(render_frontmatter(fm, body))
+    # 2026-09-18: ログを surrogateescape で読んだ文字列がそのまま --body に渡ると
+    # write_text が UnicodeEncodeError('\\udce2') で落ち、**報告そのものが消えていた**
+    # （cowork_run.sh が fallback で bash から書き直していた）。壊れた文字は落として書く。
+    path.write_text(_clean(render_frontmatter(fm, body)), encoding="utf-8")
     print(f"posted: {path.relative_to(ROOT.parent)}  id={task_id}")
 
 

@@ -10,6 +10,8 @@
 記事本文に埋めて公開しようとした。URLらしき文字列と、実際に開けるURLは別物なので、
 ID部分の長さまで見て初めて「取れた」と判定する。
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 import json, pathlib, re, sys
 
 MIN_ID = 6  # note のキーは十数文字。数文字しか取れていないのは抽出ミス。

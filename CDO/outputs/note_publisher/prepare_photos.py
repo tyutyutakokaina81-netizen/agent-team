@@ -9,6 +9,8 @@
     python3 prepare_photos.py --then-publish        # 写真選択→続けて自動公開
     python3 prepare_photos.py --date 2026-05-28     # 日付指定
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 import argparse
 import shutil
 import subprocess

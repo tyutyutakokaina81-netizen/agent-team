@@ -25,6 +25,8 @@ publish_to_note.py（無料記事用）の姉妹スクリプト。有料デジ�
   python3 publish_paid_note.py --article <path> --price 300           # 下書き（安全・既定）
   python3 publish_paid_note.py --article <path> --price 300 --publish  # 公開まで（安全ゲート付き）
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 
 import argparse
 import re

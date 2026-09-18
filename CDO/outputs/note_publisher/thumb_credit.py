@@ -15,6 +15,8 @@ Wikimedia Commons の写真には CC BY / CC BY-SA のものがあり、**表示
   python3 CDO/outputs/note_publisher/thumb_credit.py --apply <記事.md>   # 本文末尾に無ければ挿入
   python3 CDO/outputs/note_publisher/thumb_credit.py --check <記事.md...># 不足を一覧（0件なら終了0）
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 import json
 import re
 import sys

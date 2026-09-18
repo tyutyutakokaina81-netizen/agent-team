@@ -14,6 +14,8 @@
   python3 CDO/outputs/note_publisher/body_stats.py --sync <記事.md> [...] # メタの字数を実測に書き換える
   python3 CDO/outputs/note_publisher/body_stats.py --check CMO/outputs/*.md  # 不一致を一覧（0件なら終了0）
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 import re
 import sys
 from pathlib import Path

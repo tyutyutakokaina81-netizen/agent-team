@@ -25,6 +25,8 @@ CMO/outputs/ の最新note記事(.md)を読み込み、note.com に Playwright �
   photo_01.jpg, photo_02.jpg, ...  → [写真①], [写真②], ... に順番に対応
   photo_01.jpg がサムネ(見出し画像)になる
 """
+from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None` が
+# TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 
 import argparse
 import re
