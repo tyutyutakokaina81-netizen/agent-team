@@ -392,6 +392,51 @@ try:
 except Exception as _e:
     add("R27 サムネ検索語の登録漏れ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R28 既公開とのフック重複: 新しい記事のタイトル/書き出しが、既公開のタイトルと同じ言い回しでないか。
+# 2026-09-20 実測: 「弁当を忘れても、傘は忘れるな」で1本書いたが、**2026-07-28 に同じことわざの記事を
+# 公開済み**だった（「富山では、弁当を忘れても傘を忘れるな。— 変わりやすい空と、虹の話」）。
+# R26 はファイル名の題材トークン（置き傘 vs 富山の空）しか見ないので**すり抜ける**。
+# 題材が違っても**フック（ことわざ・言い回し）が同じなら読者には同じ記事**なので、文字列で重なりを見る。
+try:
+    import json as _json28
+    _reg28 = _json28.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                               encoding="utf-8"))
+    _norm = lambda t: re.sub(r"[^\wぁ-んァ-ヶ一-龥]", "", re.sub(r"[はをがのにへとも、。・—\-—…]", "", t or ""))
+    _ptitles = [(e.get("title", ""), _norm(e.get("title", ""))) for e in _reg28 if e.get("title")]
+    _ptopics28 = {e.get("topic", "") for e in _reg28 if e.get("topic")}
+    _cut28 = time.time() - 7 * 86400
+    _dups = []
+    for _f in glob.glob(os.path.join(ROOT, "CMO/outputs/*_note記事_*.md")):
+        if os.path.getmtime(_f) < _cut28:
+            continue
+        _b = os.path.basename(_f)[:-3]
+        _m = re.match(r"\d{4}-\d{2}-\d{2}_note記事_([^_]+)_", _b)
+        if _m and _m.group(1) in _ptopics28:
+            continue                       # 既公開＝R26/題材ゲートの担当
+        _t = open(_f, encoding="utf-8").read()
+        _ti = re.search(r"##\s*タイトル\s*\n```\n(.+?)\n```", _t, re.S)
+        _bo = re.search(r"##\s*本文\s*\n```\n(.+?)\n```", _t, re.S)
+        _head = _norm((_ti.group(1) if _ti else "") + (_bo.group(1)[:120] if _bo else ""))
+        for _pt, _pn in _ptitles:
+            # 8文字以上の連続一致を探す（助詞・記号を落としたうえで）
+            for _i in range(0, max(0, len(_pn) - 7)):
+                _frag = _pn[_i:_i + 8]
+                if _frag and _frag in _head:
+                    _dups.append((_b, _pt, _frag))
+                    break
+            else:
+                continue
+            break
+    if _dups:
+        _b, _pt, _frag = _dups[0]
+        add("R28 既公開とのフック重複", "BROKEN",
+            f"**既公開と同じ言い回しの記事が {len(_dups)}本**: {_b[:30]}… が「{_frag}」で "
+            f"『{_pt[:34]}…』と重なる → フックを変えるか題材を差し替える")
+    else:
+        add("R28 既公開とのフック重複", "OK", "直近1週間の未公開記事に既公開タイトルとの重なりなし")
+except Exception as _e:
+    add("R28 既公開とのフック重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")

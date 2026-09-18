@@ -690,24 +690,28 @@ The vegetable itself, though, genuinely is different this time of year: firmer s
 
 # 【2026-09-20 追加】置き傘（umbrella habit）クロスポスト
 
-## Reddit（r/japan, r/JapanTravel, r/japanlife, r/weather）
-**タイトル**: `On Japan's Hokuriku coast the saying is: forget your lunch, but not your umbrella`
+> ★書き直し: 初稿は「弁当忘れても傘忘れるな」を軸にしていたが、**2026-07-28 に同じことわざの記事を公開済み**
+> （「富山では、弁当を忘れても傘を忘れるな。— 変わりやすい空と、虹の話」）だったため、ことわざ・空の変わりやすさ・
+> 洗濯物の判断をすべて外し、**置き傘が増えて所有が曖昧になる過程**だけに絞り直した。
+
+## Reddit（r/japan, r/japanlife, r/JapanTravel, r/declutter）
+**タイトル**: `Four umbrellas in my hall and nobody can say whose they are`
 ```
-There's a stretch of autumn here when I stop deciding in the morning whether to hang the washing outside. Clear sky or not, the call waits until midday — and even then it sometimes goes wrong.
+Four umbrellas stand in the hall at home. Nobody in the house can account for more than one or two of them. I bought one, at some point. Another belonged to somebody here. The rest are unexplained.
 
-The Hokuriku coast has a line for this: bentō wasurete mo kasa wasureru na. Forget your lunch if you must, but don't forget your umbrella. It belongs to the region rather than to Toyama alone; they say it in Ishikawa and Fukui too. It's usually told about winter, when a bright morning here means nothing by afternoon, but late September into October behaves the same way.
+They arrive by a simple mechanism. Being caught out in the rain is worse than owning too many, so you scatter them: one in the hall, one at the workplace, a folding one in your bag, one left at school for years. Scattering them means losing track of how many you have — so on some wet afternoon you decide you have none with you and buy another from a convenience store, and that one joins the hall. Cheap transparent umbrellas pile up in Japanese households for probably this reason. They cost very little and are sold everywhere, which means they can be bought at exactly the moment you've concluded you have none.
 
-The practical result is that umbrellas accumulate. Several in the hall, one at work, one at school for years. Scattering them across the places you might get caught means losing count, concluding you have none with you, and buying another — which is most likely the whole reason the cheap transparent ones multiply.
+The longer one stands there, the vaguer its ownership gets. You take whichever is nearest the door; nobody comes to reclaim it. A bent rib doesn't get one thrown out either — it just stops being chosen on rainy days and goes on standing.
 
-Most days I carry one and never open it. A day spent soaked stays with you much longer than a day spent carrying something you didn't need, and I think that lopsided memory is what the proverb actually encodes.
+Most days I carry one and never open it. Possibly most days, though I've never kept count. The extra weight argues for leaving it behind and I take it anyway, because a day spent soaked stays with you far longer than a day spent carrying something you didn't need.
 ```
-ハッシュタグ: #Japan #Toyama #Hokuriku #weather #autumn
+ハッシュタグ: #Japan #Toyama #japanlife #rain #autumn
 
-## X スレッド（= EN/outputs/x_tweets/2026-09-20_x_…置き傘….md と同一）
+## X スレッド（= ops/x_queue.txt の umbrella-habit-thread と同一）
 ```
-1/ On Japan's Hokuriku coast there's a saying: forget your lunch if you must, but don't forget your umbrella. It's told about winter — but late September into October works the same way. ☔
-2/ Right now I won't decide in the morning whether to hang the washing outside. Clear sky or not, the decision waits until midday, and even then it sometimes goes wrong.
-3/ So umbrellas accumulate. Several in the hall, one at work, one at school for years. Scatter them across the places you might get caught and you lose count — then buy another.
-4/ That's probably the whole reason the cheap transparent ones multiply: sold everywhere, for very little, exactly when you've concluded you have none.
-5/ Most days I carry one and never open it. A soaked day stays with you far longer than a day carrying something you didn't need. Skip lunch, you've missed a meal. Forget the umbrella, you remember it for years. #Japan #Toyama
+1/ Four umbrellas stand in our hall. Nobody in the house can account for more than one or two of them. I bought one, at some point. Another belonged to somebody here. The rest are unexplained. ☔
+2/ They arrive by a simple mechanism: being caught out is worse than owning too many, so you scatter them — the hall, the workplace, a folding one in the bag, one left at school for years.
+3/ Scattering them means losing count. So one wet afternoon you decide you have none with you and buy another from a convenience store. That one joins the hall.
+4/ The longer one stands there, the vaguer its ownership. You take whichever is nearest the door; nobody comes to reclaim it. A bent rib doesn't get it thrown out either — it just stops being chosen.
+5/ Most days I carry one and never open it. The weight argues for leaving it; I take it anyway. A soaked day stays with you far longer than a day carrying something you didn't need. #Japan #Toyama
 ```
