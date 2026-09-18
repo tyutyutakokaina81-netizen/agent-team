@@ -360,6 +360,38 @@ try:
 except Exception as _e:
     add("R26 キューの題材重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R27 サムネ検索語の登録漏れ: 新しい記事を書いたのに JP_QUERY へ題材語を登録し忘れていないか。
+# 2026-09-20 実測: 09-20の2本を書いてサムネ依頼まで出したのに、fetcher の JP_QUERY に登録が無く
+# **クラウドの取得が丸ごと空振り**した（成功 0 / 失敗 59）。しかもログの文言は「土地名を含むクエリが無い」で、
+# 実際の原因（検索語が1本も無い）と食い違っていた。記事を書くたび人が手で登録する仕組みは必ず忘れる。
+try:
+    _fq = open(os.path.join(ROOT, "CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py"),
+               encoding="utf-8").read()
+    _keys = re.findall(r'^\s*\("([^"]+)",\s*[\["]', _fq, re.M)
+    _thumbdir = os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails")
+    _noauto = set()
+    _na = os.path.join(_thumbdir, "_no_auto.txt")
+    if os.path.exists(_na):
+        _noauto = {l.strip() for l in open(_na, encoding="utf-8") if l.strip() and not l.startswith("#")}
+    _cut = time.time() - 7 * 86400
+    _unreg = []
+    for _f in glob.glob(os.path.join(ROOT, "CMO/outputs/*_note記事_*.md")):
+        _b = os.path.basename(_f)[:-3]
+        if os.path.getmtime(_f) < _cut:      # 直近1週間に書いたものだけ見る
+            continue
+        if os.path.exists(os.path.join(_thumbdir, _b + ".jpg")) or _b in _noauto:
+            continue                          # 取得済み／意図的な無サムネは対象外
+        if not any(k in _b for k in _keys):
+            _unreg.append(_b)
+    if _unreg:
+        add("R27 サムネ検索語の登録漏れ", "BROKEN",
+            f"**JP_QUERY に検索語が無い記事が {len(_unreg)}本**({_unreg[0][:34]}…) → "
+            "クラウドが取りに行けず空振りする。fetch_thumbnails_wikimedia.py の JP_QUERY に題材語を足す")
+    else:
+        add("R27 サムネ検索語の登録漏れ", "OK", "直近1週間の未取得記事はすべて検索語が登録済み")
+except Exception as _e:
+    add("R27 サムネ検索語の登録漏れ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
