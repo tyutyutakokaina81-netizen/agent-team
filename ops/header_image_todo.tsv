@@ -1,0 +1,8 @@
+# 見出し画像が付かないまま公開された記事（publisher の「サムネ設定に失敗」で検出）
+# 形式: note_id <TAB> リポジトリからの相対パス(jpg)   ※ # 行と空行は無視
+# 処理が済んだ行は先頭に DONE を付ける（set_header_image.py が自動で付ける）
+n242960f609cf	CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_新蕎麦_秋になると幟が立つが違いが分かるかは別の話.jpg
+nc9bda3191cc5	CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_赤とんぼ_山で夏を過ごして秋に降りてくる.jpg
+n4a3c7ea6a837	CDO/outputs/note_publisher/thumbnails/2026-09-17_note記事_あけび_山に生る中身だけ食べる実.jpg
+nc98f0aadab22	CDO/outputs/note_publisher/thumbnails/2026-09-18_note記事_稲刈り_田んぼが一年でいちばんうるさい日.jpg
+n0d966e689b68	CDO/outputs/note_publisher/thumbnails/2026-09-18_note記事_松茸_買ったことがないまま名前だけ知っている.jpg

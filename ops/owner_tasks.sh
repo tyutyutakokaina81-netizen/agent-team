@@ -75,17 +75,20 @@ cat <<'MANUAL'
  ここからは手作業です（ブラウザ / キー投入）
 ==========================================================
 
-[A] 見出し画像が付いていない公開済み2本に、手で画像を設定する ★最優先
-    note の編集画面を開いて、下の jpg を見出し画像に設定してください。
-      新蕎麦  https://note.com/safe_canna441/n/n242960f609cf
-        → CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_新蕎麦_秋になると幟が立つが違いが分かるかは別の話.jpg
-      赤とんぼ https://note.com/safe_canna441/n/nc9bda3191cc5
-        → CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_赤とんぼ_山で夏を過ごして秋に降りてくる.jpg
+[A] 見出し画像なしで公開された5本に画像を付ける ★最優先（自動化済み・貼るだけ）
+      bash ops/fix_header_images.sh
+    ①今のエディタUIを実測（何も変更しない）→ ②画像を設定して更新、を続けて実行します。
+    ボタン名に頼らず input[type=file] へ直接入れる方法から試すので、note のUI変更に強い。
+    失敗しても画面のボタン一覧とHTMLを ops/logs/_thumb_debug/ に保存して push します
+    （＝code がセレクタを直せる材料になる。手で「検証」を開く必要はもうありません）。
+    様子だけ見たいとき:  bash ops/fix_header_images.sh --probe
 
-[B] 見出し画像エリアのボタンの現在の名前を調べて教えてください
-    note の編集画面で見出し画像の「+」あたりを右クリック →「検証」。
-    その button の aria-label とテキストをコピーして貼ってください。
-    （publisher のセレクタがこれで直せます。いま2本連続で失敗しています）
+[B] X(Twitter)投稿を動かす（40スレッドが未投稿のまま滞留）
+      bash ops/run_x.sh            # 診断＋DRY-RUN（投稿しない。何が足りないか出ます）
+      bash ops/run_x.sh --setup    # キーの置き場所 ~/.x_keys.env を作る（値は自分で書く）
+      bash ops/run_x.sh --install  # tweepy を入れる
+      bash ops/run_x.sh --go       # 先頭1スレッドだけ投稿（連投しません）
+    キーは ~/.x_keys.env（リポジトリの外）にだけ置きます。値は画面にも git にも出ません。
 
 [C] 公開済み2本に権利クレジットを追記する（CC BY / CC BY-SA の表示義務）
     対象は ops/inbox/2026-09-08_004 に記載。本文末尾にクレジット行を足すだけです。
@@ -93,12 +96,7 @@ cat <<'MANUAL'
 [D] 「冷やしトマト」の記事が note 上で下書きのままでないか確認する
     下書きなら公開してください（ops/inbox/2026-09-09_003）。
 
-[E] X(Twitter) API の Free tier キーを環境変数に入れる
-    これが入るまで note→X の自動投稿はゼロのままです（恒常要件 R5 が BLOCKED）。
-      export X_API_KEY=...
-      export X_API_SECRET=...
-      export X_ACCESS_TOKEN=...
-      export X_ACCESS_SECRET=...
+[E] （[B] に統合しました）X の API キー投入は bash ops/run_x.sh --setup でやります。
 
 ==========================================================
 MANUAL

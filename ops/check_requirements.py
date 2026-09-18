@@ -286,6 +286,55 @@ try:
 except Exception as _e:
     add("R23 ハッシュタグ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R24 見出し画像の未修復: 画像なしで公開された記事が残っていないか。
+# 2026-09-18 実測: publisher のサムネ用セレクタ7候補が全部Timeout（note のUI変更）し、
+# **5本が見出し画像なしで公開された**。note の一覧・SNSカードは画像で決まるので、無画像は
+# そのまま clickthrough の損失になる。owner が ops/fix_header_images.sh を回して DONE を付けるまで
+# 未完として出し続ける（「対応予定」と覚えているだけでは必ず流れる）。
+try:
+    _todo = os.path.join(ROOT, "ops/header_image_todo.tsv")
+    if not os.path.exists(_todo):
+        add("R24 見出し画像の未修復", "STALE", "ops/header_image_todo.tsv が無い＝未検査")
+    else:
+        _rows = [l for l in open(_todo, encoding="utf-8").read().splitlines()
+                 if l.strip() and not l.startswith("#")]
+        _pend = [l.split("\t")[0] for l in _rows if not l.startswith("DONE")]
+        if _pend:
+            add("R24 見出し画像の未修復", "BROKEN",
+                f"**画像なしで公開されたまま {len(_pend)}本**({_pend[0]}…) → "
+                "owner の Mac で `bash ops/fix_header_images.sh`")
+        else:
+            add("R24 見出し画像の未修復", "OK", f"{len(_rows)}本すべて修復済み")
+except Exception as _e:
+    add("R24 見出し画像の未修復", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
+# R25 X投稿の生存: キューに溜めるだけで一度も投稿されていない状態を検知する。
+# 2026-09-17 実測: x_queue に38スレッド（現在40）あるのに ops/logs/x_posted.tsv が存在せず、
+# **投稿実績ゼロ**。素材を作る側（code）だけが動いていて、出す側が一度も動いていなかった。
+# 作った物が出ていないことは、作っていないことと reach 上は同じ。
+try:
+    _xlog = os.path.join(ROOT, "ops/logs/x_posted.tsv")
+    _q = os.path.join(ROOT, "ops/x_queue.txt")
+    _pending_th = 0
+    if os.path.exists(_q):
+        for _l in open(_q, encoding="utf-8"):
+            if re.match(r"^===\s*(.+?)\s*===\s*$", _l.strip()) and "[POSTED]" not in _l:
+                _pending_th += 1
+    if not os.path.exists(_xlog):
+        add("R25 X投稿の生存", "BROKEN",
+            f"**投稿実績ゼロ**（x_posted.tsv が無い）／未投稿スレッド {_pending_th}本が滞留 → "
+            "owner の Mac で `bash ops/run_x.sh`（診断）→ `--go`（1本投稿）")
+    else:
+        _age = days(_xlog)
+        _n = len([l for l in open(_xlog, encoding="utf-8") if l.strip()])
+        if _age > 7:
+            add("R25 X投稿の生存", "STALE",
+                f"最後の投稿が {_age:.0f}日前（累計{_n}件）／未投稿 {_pending_th}本")
+        else:
+            add("R25 X投稿の生存", "OK", f"累計{_n}件・最終 {_age:.1f}日前／未投稿 {_pending_th}本")
+except Exception as _e:
+    add("R25 X投稿の生存", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
