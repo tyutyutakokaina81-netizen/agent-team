@@ -241,6 +241,9 @@ def main():
     now = datetime.datetime.now().isoformat(timespec="seconds")
     new_rows, swept_rows, drafts = [], [], []
     visited = found_total = no_selector = not_rendered = 0
+    # 2026-09-22: 404等は**巡回では直らない**（削除/非公開/下書き/URL誤り）ので別に数える。
+    # 同じ3本が毎日「未描画」に混ざっていて、何をすればいいのか分からない報告になっていた。
+    not_found = 0
 
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
@@ -255,7 +258,14 @@ def main():
             visited += 1
             log(f"[{visited}/{len(targets)}] {title[:28] or url}")
             try:
-                page.goto(url, timeout=45000, wait_until="domcontentloaded")
+                # 2026-09-22: **HTTPステータスと最終URLを見る**。
+                # 同じ3本（冷やしトマト/きのどくな/ひまわり）が毎日 NOT-RENDERED になっており、
+                # 「note側のエラーか読み込み失敗」では原因が絞れない＝人が動けない報告だった。
+                # 404 なら削除・非公開・下書き・URL誤りのいずれかで、**巡回では直らない**。
+                # 200 なのに描画されないのとは対処がまったく違うので、最初から分けて数える。
+                _resp = page.goto(url, timeout=45000, wait_until="domcontentloaded")
+                _status = getattr(_resp, "status", None) if _resp else None
+                _final = page.url
                 # 2026-09-16: **「ページが描画されていない」を「セレクタ外れ」と報告していた**。
                 # owner の Mac から --debug のHTMLを回収して判明:
                 #   ・冷や汁 → note 側の upstream connect error（246バイトのエラーページ）
@@ -279,8 +289,16 @@ def main():
                         pass
                     page.wait_for_timeout(1000)
                 if not _rendered:
-                    log("    ⚠️ NOT-RENDERED（本文が描画されない＝note側のエラーか読み込み失敗。"
-                        "セレクタの問題ではない）")
+                    if _status and _status >= 400:
+                        not_found += 1
+                        log(f"    ⚠️ NOT-FOUND（HTTP {_status}）＝削除・非公開・下書き・URL誤りのいずれか。"
+                            f"**巡回では直らない。note の管理画面で確認が要る** / 最終URL: {_final}")
+                    elif _final.rstrip("/") != url.rstrip("/"):
+                        log(f"    ⚠️ REDIRECTED（HTTP {_status}）＝別のURLへ飛ばされた。"
+                            f"記事が非公開/移動した可能性 / 最終URL: {_final}")
+                    else:
+                        log(f"    ⚠️ NOT-RENDERED（HTTP {_status}・URLは同じ）＝本文が描画されない。"
+                            "セレクタの問題ではない")
                     if args.debug:
                         try:
                             DEBUG_DIR.mkdir(parents=True, exist_ok=True)
@@ -335,7 +353,7 @@ def main():
 
     # 結果行は**必ず**出す（対象0でも出す）。有料フッターで「結果行なし＝失敗扱い」の事故があったため。
     log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector}"
-        f" / 未描画 {not_rendered} / 未公開(draft) {len(drafts)} ===")
+        f" / 未描画 {not_rendered} / **到達不能(404等) {not_found}** / 未公開(draft) {len(drafts)} ===")
     for _u in drafts:
         log(f"  未公開: {_u}  ← registryは公開済みとしているが note 上は下書き")
     if no_selector:

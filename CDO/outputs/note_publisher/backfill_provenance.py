@@ -35,6 +35,23 @@ ARTICLES = ROOT / "CMO/outputs"
 THUMBS = ROOT / "CDO/outputs/note_publisher/thumbnails"
 
 
+MAX_TRIES = 3                      # これ以上は毎runで試さない（照合不能として記録する）
+ATTEMPTS = THUMBS / "_backfill_attempts.json"
+
+
+def load_attempts() -> dict:
+    try:
+        import json
+        return json.loads(ATTEMPTS.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_attempts(d: dict):
+    import json
+    ATTEMPTS.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def md5(b: bytes) -> str:
     return hashlib.md5(b).hexdigest()
 
@@ -58,6 +75,20 @@ def main() -> int:
         if isinstance(v, str) and v == "owner":
             continue                      # owner実写＝Commons由来ではない
         targets.append((stem, f, jpg))
+    # ★2026-09-22 修正: ここは long-standing なバグだった。
+    # `targets[:max]` は**ファイル名順の先頭25件を毎回取る**ので、その25件が失敗し続ける限り
+    # **残り75件は一度も試されない**。実際ログは何日も「埋め戻し 0 / 不一致 25 / 対象 25」で
+    # 同じ25件を繰り返しており、R16 の「100件が未記録」はまったく減っていなかった。
+    # ＝**毎回動いているのに何も進んでいない**。回数を記録して、試していないものから順に回す。
+    att = load_attempts()
+    targets.sort(key=lambda t: (att.get(t[0], {}).get("n", 0),
+                                att.get(t[0], {}).get("last", "")))
+    # 3回試して当たらないものは、当面の照合対象から外す（毎runの時間を食い潰さないため）。
+    # ただし**捨てるのではなく「照合不能」として記録**し、R16 が別枠で数えられるようにする。
+    fresh = [t for t in targets if att.get(t[0], {}).get("n", 0) < MAX_TRIES]
+    if not fresh:
+        print(f"（未照合 {len(targets)}件はすべて {MAX_TRIES}回試して不一致＝照合不能として記録済み）")
+    targets = fresh
     if args.max > 0:
         targets = targets[: args.max]
 
@@ -72,6 +103,10 @@ def main() -> int:
         if en:
             queries.append(en)
         hit = None
+        # ★検索そのものに到達できたか。**ネットが無い環境で回すと全部「不一致」になり、
+        # 試行回数だけが積み上がって「照合不能」に誤って落ちる**（code は A1 で外部遮断）。
+        # 候補が1件も取れなかった run は「試した」に数えない。
+        searched = 0
         for q in queries:
             if hit:
                 break
@@ -80,6 +115,7 @@ def main() -> int:
                     urls, _ = W._search_candidates(qq)
                 except Exception:
                     continue
+                searched += len(urls)
                 for turl, meta in urls[:6]:
                     try:
                         if md5(W._get(turl)) == local:
@@ -92,17 +128,38 @@ def main() -> int:
                     break
         if hit:
             filled += 1
-            print(f"  ✓ {stem[:38]} … {hit.get('license')} / {hit.get('file')}")
+            print(f"  \u2713 {stem[:38]} … {hit.get('license')} / {hit.get('file')}")
             if not args.dry_run:
                 prov[stem] = hit
                 W.save_prov(prov)
+                att.pop(stem, None)
+        elif not searched:
+            miss += 1
+            print(f"  ?  {stem[:38]} … **候補を1件も取得できなかった**（ネット遮断 or 検索語が空）"
+                  f"＝試行回数には数えない（検索語: {queries}）")
         else:
             miss += 1
-            print(f"  ✗ {stem[:38]} … 一致する候補が見つからず（検索語: {queries}）")
+            rec = att.setdefault(stem, {"n": 0})
+            rec["n"] = rec.get("n", 0) + 1
+            rec["last"] = time.strftime("%Y-%m-%d")
+            rec["queries"] = queries[:4]
+            print(f"  \u2717 {stem[:38]} … 一致なし（{rec['n']}回目/{MAX_TRIES}・検索語: {queries}）")
+            if rec["n"] >= MAX_TRIES and not args.dry_run:
+                # **諦めたことも記録する**。ライセンスを勝手に埋めると R16 を偽の OK にしてしまうので、
+                # license は入れず「照合不能」であることだけを残す。
+                prov[stem] = {"backend": "unknown", "match": "failed",
+                              "tried": rec["n"], "queries": queries[:4]}
+                W.save_prov(prov)
+                print(f"      → {MAX_TRIES}回不一致。**照合不能**として記録（licenseは埋めない）")
         time.sleep(0.5)
 
+    if not args.dry_run:
+        save_attempts(att)
     # 結果行は必ず出す（対象0でも出す＝「結果行なし」を失敗と誤認しないため）
-    print(f"=== 結果: 埋め戻し {filled} / 不一致 {miss} / 対象 {len(targets)} ===")
+    _giveup = sum(1 for v in att.values() if v.get("n", 0) >= MAX_TRIES)
+    _pending = sum(1 for v in att.values() if 0 < v.get("n", 0) < MAX_TRIES)
+    print(f"=== 結果: 埋め戻し {filled} / 不一致 {miss} / 対象 {len(targets)} "
+          f"／ 再試行待ち {_pending} / 照合不能({MAX_TRIES}回試行) {_giveup} ===")
     return 0
 
 

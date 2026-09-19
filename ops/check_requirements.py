@@ -144,14 +144,25 @@ try:
         # （ログイン切れは sys.exit）。両方を対象にしないと今度は誤検知（狼少年）になる。
         # 出力先スクリプトも1本ではない＝日次実行は publish_to_note.py と publish_paid_note.py の
         # 両方を回し、その出力をまとめて grep している。両方を突き合わせ対象にする。
-        _srcs = [_pubpy, os.path.join(ROOT, "CDO/outputs/note_publisher/publish_paid_note.py")]
+        # 2026-09-22: コメント巡回の件数は **sed で抜いている**ため、grep だけを見ていた R20 は
+        # それらを一度も検査していなかった（＝「写真サムネ未設定」と同じ断線が、
+        # 別の抜き出し方で残っていた）。producer に fetch_note_comments.py も加える。
+        _srcs = [_pubpy,
+                 os.path.join(ROOT, "CDO/outputs/note_publisher/publish_paid_note.py"),
+                 os.path.join(ROOT, "CDO/outputs/note_publisher/fetch_note_comments.py")]
         _ps_parts = []
         for _sp in _srcs:
             if not os.path.exists(_sp):
                 continue
             _txt = open(_sp, encoding="utf-8").read()
+            # 2026-09-22: 呼び出し式を正規表現で切り出す方法は**括弧で破綻する**。
+            # 「未公開(draft)」のように文言自体に ")" が入ると `\(.*?\)` が途中で閉じ、
+            # 実在する文言を「無い」と報告した（狼少年の一歩手前）。出力関数名も print だけでなく
+            # log(...) があり、そちらも見落としていた。
+            # → **ソース中の文字列リテラルを全部集める**方式に変える。コメントはリテラルではないので
+            #   「検査自身のコメントに一致して OK が出る」という最初の誤りも同時に防げる。
             _ps_parts += [m.group(0) for m in
-                          re.finditer(r"(?:print|sys\.exit)\s*\(.*?\)", _txt, re.S)]
+                          re.finditer(r'"(?:[^"\\\n]|\\.)*"' + "|'(?:[^'\\\\\n]|\\\\.)*'", _txt)]
         _ps = "\n".join(_ps_parts)
         # `echo "$out" | grep -q "…"` / `grep -qE "A|B"` で publisher 出力を見ている行を拾う
         _pats = []
@@ -161,18 +172,23 @@ try:
                 _a = _a.strip()
                 if _a:
                     _pats.append(_a)
+        # sed で件数を抜いている行も対象にする。`sed -n 's/.*<文言> \([0-9]*\).*/\1/p'`
+        for _m in re.finditer(r"sed\s+-n\s+'s/\.\*(.+?)\\\(\[0-9\]\*\\\)", _rs):
+            _t = _m.group(1).strip()
+            if _t:
+                _pats.append(_t)
         _dead = [a for a in _pats if a not in _ps]
         if not _pats:
             add("R20 報告と実体の突き合わせ", "STALE",
                 "cowork_run.sh から grep 対象を1つも抽出できなかった＝検査できていない")
         elif _dead:
             add("R20 報告と実体の突き合わせ", "BROKEN",
-                f"cowork_run.sh が数えている文字列のうち **{len(_dead)}件が publisher の出力（print/sys.exit）に無い**"
+                f"cowork_run.sh が数えている文字列のうち **{len(_dead)}件が出力側のソースに文字列として存在しない**"
                 f"（例:「{_dead[0][:24]}」）→ その件数は常に0＝何も測っていない。"
                 f"（検査した grep パターン {len(_pats)}件）")
         else:
             add("R20 報告と実体の突き合わせ", "OK",
-                f"cowork_run.sh が数える {len(_pats)}件の文字列はすべて publisher の出力（print/sys.exit）に実在する")
+                f"cowork_run.sh が数える {len(_pats)}件の文言はすべて出力側（publisher 2本＋コメント巡回）の文字列に実在する")
 except Exception as _e:
     add("R20 報告と実体の突き合わせ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
@@ -770,17 +786,25 @@ try:
     # 2026-09-11(CQO指摘・重大1): 従来は「表示義務ありと判定できた分」しか数えず、
     # **ライセンス未記録の96本が静かに対象外に落ちて** ✅ が出ていた。母数を必ず出す。
     # Commons は CC BY / BY-SA の比率が高く、未記録の中に表示義務のあるものが混じっている可能性が高い。
-    _need = _cc0 = _unknown = 0
+    # 2026-09-22: 「未記録」を**まだ試していない**ものと**試したが照合できなかった**ものに分ける。
+    # backfill は毎run同じ先頭25件を取り直していて残りを一度も試していなかった（修正済み）。
+    # 両者を一緒に数えていると、**進んでいないのか到達不能なのかが報告から分からない**。
+    _need = _cc0 = _untried = _failed = 0
     for _k in verified:
         _v = _prov2.get(_k)
         _lic = _v.get("license") if isinstance(_v, dict) else None
-        if not _lic:
-            _unknown += 1
-        elif _tc.needs_credit(_lic):
-            _need += 1
+        if _lic:
+            if _tc.needs_credit(_lic):
+                _need += 1
+            else:
+                _cc0 += 1
+        elif isinstance(_v, dict) and _v.get("match") == "failed":
+            _failed += 1        # 3回試して Commons 上に一致が見つからなかった（Pexels由来の疑い等）
         else:
-            _cc0 += 1
-    _cov = f"（採用 {len(verified)}件の内訳: 表示義務あり {_need} / CC0・PD {_cc0} / **ライセンス未記録 {_unknown}**）"
+            _untried += 1
+    _unknown = _untried + _failed
+    _cov = (f"（採用 {len(verified)}件の内訳: 表示義務あり {_need} / CC0・PD {_cc0} / "
+            f"**未照合 {_untried} / 照合不能 {_failed}**）")
     if _nocredit:
         add("R16 見出し画像のクレジット", "BROKEN",
             f"表示義務なのにクレジット無し {len(_nocredit)}本(例:{_nocredit[0][:26]}…){_cov}"
@@ -788,7 +812,8 @@ try:
     elif _unknown > 10:
         add("R16 見出し画像のクレジット", "STALE",
             f"判定できたものは全てクレジット済だが、**{_unknown}件がライセンス未記録＝判定できていない**{_cov}"
-            " → note-thumbnails ワークフローの backfill_provenance.py が毎run 25件ずつ埋め戻し中（codeはCommonsに繋げない=A1）")
+            " → backfill_provenance.py が毎run 25件ずつ照合中（codeはCommonsに繋げない=A1）。"
+            "**未照合が減らないなら回っていない**＝試行回数は thumbnails/_backfill_attempts.json を見る")
     else:
         add("R16 見出し画像のクレジット", "OK", f"表示義務のある採用サムネはすべてクレジットあり{_cov}")
 except Exception as _e:
@@ -970,8 +995,11 @@ else:
 # ランナーにもcoworkにも届かず「意図的な無サムネ」が一度も効いていなかった
 # （獅子舞の誤サムネが8回復活した真因）。設定ではなく機構として毎回確認する。
 import subprocess as _sp
+# 2026-09-22: _backfill_attempts.json を追加。thumbnails/ は .gitignore 済なので
+# -f で追跡しないと**次のrunに残らず、毎回先頭の同じ数件を試し続ける**（実際そうなっていた）。
 _ctl = ["CDO/outputs/note_publisher/thumbnails/_verified.txt",
-        "CDO/outputs/note_publisher/thumbnails/_no_auto.txt"]
+        "CDO/outputs/note_publisher/thumbnails/_no_auto.txt",
+        "CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json"]
 try:
     _tracked = set(_sp.run(["git", "ls-files"] + _ctl, cwd=ROOT, capture_output=True,
                            text=True, timeout=20).stdout.split())
@@ -983,7 +1011,7 @@ if _untracked:
         f"git管理外 {len(_untracked)}件({os.path.basename(_untracked[0])}) → "
         "`git add -f` しないとランナー/coworkに届かず、無サムネ指定も検証済み指定も効かない")
 else:
-    add("R13 制御ファイル追跡", "OK", "_verified.txt / _no_auto.txt はどちらも追跡下")
+    add("R13 制御ファイル追跡", "OK", f"制御ファイル {len(_ctl)}件（" + " / ".join(os.path.basename(c) for c in _ctl) + "）はすべて追跡下")
 
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")

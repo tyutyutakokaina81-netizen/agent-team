@@ -146,7 +146,7 @@ echo "=== summary(有料): published=${paid_ok} failed=${paid_ng} ==="
 # 2026-09-01 の指示から実績ゼロのまま滞留していた要件。滞留の理由は「cowork に取得スクリプトが無い」
 # ことだったので、code が fetch_note_comments.py を書き、日次のここに組み込む＝待つのをやめる。
 # 公開が終わった直後＝ログインが生きていることが確認できた状態で回すのが最も確実。
-comment_new=0; comment_sel_fail=0; comment_draft=0; comment_notrender=0
+comment_new=0; comment_sel_fail=0; comment_draft=0; comment_notrender=0; comment_notfound=0
 if [ $login_fail -eq 0 ]; then
   CFETCH="CDO/outputs/note_publisher/fetch_note_comments.py"
   if [ -f "$CFETCH" ]; then
@@ -163,6 +163,9 @@ if [ $login_fail -eq 0 ]; then
     comment_draft=$(echo "$cout" | sed -n 's/.*未公開(draft) \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
     # 未描画（note側のエラー/読み込み失敗）はセレクタ外れとは原因が違うので別に数える。
     comment_notrender=$(echo "$cout" | sed -n 's/.*未描画 \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
+    # 2026-09-22: 404等（削除/非公開/下書き/URL誤り）は**巡回では直らない**ので別に数える。
+    # 同じ3本が毎日「未描画」に混ざっており、報告を見ても何をすべきか分からなかった。
+    comment_notfound=$(echo "$cout" | sed -n 's/.*到達不能(404等) \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
   else
     echo "⚠️ ${CFETCH} が無い（未pull?）→ コメント収集はスキップ"
   fi
@@ -173,7 +176,7 @@ fi
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用) / **サムネ設定に失敗 ${thumb_err} 件** / **タグ入力失敗 ${tag_err} 件 / タグ0個で公開 ${tag_zero} 件**（log: ${LOG}）"
 body="${body}
-【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / 未描画 ${comment_notrender} 件 / **未公開(draft) ${comment_draft} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
+【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / 未描画 ${comment_notrender} 件 / **到達不能(404等) ${comment_notfound} 件** / **未公開(draft) ${comment_draft} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
 if [ $((paid_ok + paid_ng)) -gt 0 ]; then
   body="${body}
 【有料note】公開 ${paid_ok} 件 / 失敗 ${paid_ng} 件"
