@@ -20,8 +20,11 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
 
 PROBE_ONLY=0
 EXTRA=()
+# 2026-09-19: 貼り付けたコマンドの末尾に `]` が混ざり、run_x.sh で引数が一致せず
+# **黙って別の動作に流れた**。ここでも末尾の余計な記号を落としてから判定する。
 # set -u 下でも空配列を安全に数えられるようにしておく
 for a in "$@"; do
+  a="$(printf '%s' "$a" | sed -e 's/[^A-Za-z0-9_-]*$//')"
   case "$a" in
     --probe) PROBE_ONLY=1 ;;
     *) EXTRA+=("$a") ;;

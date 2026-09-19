@@ -11,12 +11,33 @@
 #   ・--go は1スレッドで止まる。280字超があれば投稿せず中止する（x_poster.py 側の仕様）。
 set -u
 cd "$(dirname "$0")/.." || exit 1
+# ★2026-09-19: 貼り付けたコマンドの末尾に `]` が混ざり `--keys]` になっていた。
+# 一致しないので**黙って通常の診断に流れ**、「キーを入れたはずなのに未設定」が3往復続いた。
+# ①末尾の余計な記号を落として拾い直す ②知らない引数なら**黙って別のことをせず止まる**。
+ARG_RAW="${1:-}"
+ARG="$(printf '%s' "$ARG_RAW" | sed -e 's/[^A-Za-z-]*$//')"
+if [ -n "$ARG_RAW" ] && [ "$ARG" != "$ARG_RAW" ]; then
+  echo "（引数に余計な文字が付いていました: '${ARG_RAW}' → '${ARG}' として扱います）"
+fi
+case "$ARG" in
+  ""|--keys|--setup|--install|--go) : ;;
+  *)
+    echo "✗ 知らない引数です: '${ARG_RAW}'"
+    echo "  使えるのは次の5つだけです:"
+    echo "    bash ops/run_x.sh           診断のみ（投稿しない）"
+    echo "    bash ops/run_x.sh --keys    キーを対話で入れる"
+    echo "    bash ops/run_x.sh --setup   キーの置き場所だけ作る"
+    echo "    bash ops/run_x.sh --install tweepy を入れる"
+    echo "    bash ops/run_x.sh --go      先頭1スレッドを投稿"
+    exit 1 ;;
+esac
+
 KEYFILE="$HOME/.x_keys.env"
 TS="$(date +%Y-%m-%d_%H%M%S)"
 LOG="ops/logs/x_run_${TS}.log"
 mkdir -p ops/logs
 
-if [ "${1:-}" = "--setup" ]; then
+if [ "$ARG" = "--setup" ]; then
   if [ -f "$KEYFILE" ]; then
     echo "既にあります: ${KEYFILE}（中身は表示しません）"
   else
@@ -47,7 +68,7 @@ VPY="$VENV/bin/python3"
 # ---- キーを対話で入れる（エディタを開かずに済む）----
 # 2026-09-19: ファイルを開いて4か所を書き換える作業がボトルネックになっていた。
 # `read -rs` は**画面に出さず**、コマンド履歴にも残らない（引数ではなく標準入力で受けるため）。
-if [ "${1:-}" = "--keys" ]; then
+if [ "$ARG" = "--keys" ]; then
   echo "X の認証情報を4つ入力します。**画面には表示されません**。"
   echo "（developer.x.com → Projects & Apps → Keys and tokens で表示されるもの）"
   echo "途中でやめるときは Ctrl+C。"
@@ -94,7 +115,7 @@ KEYS
   exit 0
 fi
 
-if [ "${1:-}" = "--install" ]; then
+if [ "$ARG" = "--install" ]; then
   echo "== tweepy を入れます（専用の仮想環境 $VENV を作ります）=="
   echo "   理由: macOS の python は PEP 668 でシステムへの pip install を拒否します。"
   echo "   Homebrew を壊さないよう、リポジトリの外に専用環境を作ってそこへ入れます。"
@@ -186,7 +207,7 @@ PYEOF
   fi
 
   echo
-  if [ "${1:-}" = "--go" ]; then
+  if [ "$ARG" = "--go" ]; then
     if [ "$miss" -ne 0 ]; then
       echo "✗ 前提が足りないので投稿しません。上の ★ を埋めてから再実行してください。"
     else
