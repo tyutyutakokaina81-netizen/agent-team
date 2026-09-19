@@ -1,0 +1,19 @@
+### X投稿 2026-09-19_211408
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+tweepy : あり（/Users/apple/.agent_venv/bin/python3）
+投稿実績 : 0件（ops/logs/x_posted.tsv がまだ無い）
+
+--- DRY-RUN（投稿しません。次に出る文面の確認）---
+スレッド総数 42 / 未投稿 42
+
+--- 次に投稿するスレッド: tap-water（1ツイート）---
+  [1] (264字) In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. #Japan #Toyama
+
+[DRY-RUN] 投稿しません。投稿するには認証を環境変数に入れて --go を付けて再実行。
+
+問題なければ:  bash ops/run_x.sh --go
