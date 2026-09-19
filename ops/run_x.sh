@@ -111,7 +111,15 @@ for i, tw in enumerate(t["tweets"], 1):
     print(tw)
     print()
 print("※2つ以上ある場合は、1つ目を投稿→その投稿に返信する形で2つ目…とつなげるとスレッドになります。")
+# 1つ目の本文だけを別ファイルに出す。呼び側が pbcopy でクリップボードへ入れる。
+open("/tmp/.x_next_tweet.txt", "w", encoding="utf-8").write(t["tweets"][0])
 PYEOF
+  # macOS ならクリップボードへ入れる＝**X の投稿欄に ⌘V するだけ**で済む。
+  if command -v pbcopy >/dev/null 2>&1 && [ -f /tmp/.x_next_tweet.txt ]; then
+    pbcopy < /tmp/.x_next_tweet.txt
+    echo "📋 1つ目の本文をクリップボードにコピーしました（X の投稿欄で ⌘V）"
+  fi
+  echo "   投稿画面: https://x.com/compose/post"
   echo ""
   printf "投稿しましたか？ 記録します（y を入れると投稿済みにします / それ以外は何もしません）: "
   IFS= read -r YN
