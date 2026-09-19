@@ -72,7 +72,22 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
   miss=0
   for v in X_API_KEY X_API_SECRET X_ACCESS_TOKEN X_ACCESS_SECRET; do
     eval "val=\${$v:-}"   # macOS の bash 3.2 でも動く書き方（${!v} を避ける）
-    if [ -n "$val" ]; then echo "  $v : 設定済み"; else echo "  $v : ★未設定"; miss=1; fi
+    if [ -z "$val" ]; then
+      echo "  $v : ★未設定"; miss=1
+    else
+      # **値そのものは絶対に出さない**。長さと「よくある貼り間違い」だけ見る。
+      len=${#val}
+      note=""
+      case "$val" in
+        *" "*)   note=" ★空白が混ざっています（前後を削ってください）" ;;
+        \"*|*\") note=" ★引用符が値の中に入っています" ;;
+        "<"*)    note=" ★<...> のままです（実際の値に置き換えてください）" ;;
+      esac
+      # X のキーはおおむね 20〜60文字。極端に短いのは貼り損ね。
+      if [ "$len" -lt 15 ]; then note="${note} ★短すぎます（${len}文字）＝貼り損ねの可能性"; fi
+      echo "  $v : 設定済み（${len}文字）${note}"
+      [ -n "$note" ] && miss=1
+    fi
   done
   # 3) tweepy
   if "$VPY" -c "import tweepy" 2>/dev/null; then
