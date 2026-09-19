@@ -643,21 +643,66 @@ for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
 # 「verifyしたから意図的なはず」は成り立たない。**verified 同士の共有は黙って除外せず、必ず明細に出す**。
 _ver_shared = [sorted(st for st in v if st in verified)
                for v in _groups.values() if sum(1 for st in v if st in verified) >= 2]
-_shared = [[st for st in v if st not in verified] for v in _groups.values() if len(v) >= 3]
-_fallback = {st for v in _shared if len(v) >= 4 for st in v}
-_minor = sum(1 for v in _shared if 0 < len(v) < 4)
+# ★2026-09-19 修正: 09-22 の「verified も明細に出す」対応は **報告文だけ** を直していて、
+# 警報そのものは依然 verified を取り除いた数で数えていた（下の _shared が st not in verified）。
+# そのため **1枚が5記事に配られていても、5本とも verified なら実質0本と数えられて ✅ が出ていた**。
+# 実測(2026-09-19): 夏野菜のかご1枚が5記事（畑/家庭菜園/とうもろこし/トマト/無人販売所）に、
+# 海沿いの道1枚が5記事（蜃気楼2本/魚の宝庫/海水浴/有料note）に付いていたのに OK だった。
+# **配布数はverifiedを含めた全体で数える**。verified かどうかは重大度の判断にだけ使う。
+_all_groups = [v for v in _groups.values() if len(v) >= 3]
+_wide = [v for v in _all_groups if len(v) >= 4]                      # 4記事以上に同じ画像
+_wide_used = [v for v in _wide if sum(1 for st in v if st in verified) >= 2]  # うち実際に見出しに出る
+_minor = sum(1 for v in _all_groups if len(v) == 3)
 _vs_note = ""
 if _ver_shared:
     _vs_note = (f"／**採用済みどうしで同じ画像を共有 {len(_ver_shared)}組**"
                 f"(例: {_ver_shared[0][0][:26]}…) ＝意図的な流用か、同じ誤サムネが2本に付いているかを確認する")
-if _fallback:
+if _wide_used:
+    _ex = sorted(_wide_used, key=len, reverse=True)[0]
+    add("R2d フォールバック汚染", "BROKEN",
+        f"**1枚の画像が4記事以上の見出しに出ている {len(_wide_used)}組**"
+        f"（最大 {len(_ex)}本: {sorted(_ex)[0][:34]}… ほか）"
+        f" → 記事固有のサムネになっていない。_verified から外して個別に取り直す" + _vs_note)
+elif _wide:
     add("R2d フォールバック汚染", "STALE",
-        f"1枚を4記事以上(未verify)で共有 {len(_fallback)}本 → 汎用画像が配られている疑い。削除して再取得を検討"
+        f"1枚を4記事以上で共有 {len(_wide)}組（いずれも未採用なので公開には出ない）"
         + _vs_note)
 else:
     add("R2d フォールバック汚染", "OK",
         f"ユニーク画像 {len(_groups)}種／汎用配布(4本以上)なし"
-        + (f"（未verifyの重複 {_minor}組）" if _minor else "") + _vs_note)
+        + (f"（3記事で共有 {_minor}組）" if _minor else "") + _vs_note)
+
+# R31 中身で落とした画像の残留: REJECTED_FILES は **これから引く候補** をファイル名で弾くだけで、
+# すでに thumbnails/ に落ちたコピーには効かない。実際、Marshall のビール缶は 2026-09-22 に
+# REJECTED_FILES へ入れたのに、別記事(枝豆)の見出し画像としては 2026-09-19 まで残っていた。
+# 出典が旧形式(文字列のみ)の 93件は元のファイル名が分からないので、**md5 でしか止められない**。
+_rej_path = os.path.join(thumbdir, "_rejected_hashes.tsv")
+_rej = {}
+if os.path.exists(_rej_path):
+    for _l in open(_rej_path, encoding="utf-8"):
+        _l = _l.strip()
+        if not _l or _l.startswith("#"):
+            continue
+        _h, _, _why = _l.partition("\t")
+        _rej[_h.strip()] = _why.strip()
+_left_used, _left_pool = [], []
+for _h, _stems in _groups.items():
+    if _h not in _rej:
+        continue
+    for _st in _stems:
+        (_left_used if _st in verified else _left_pool).append(_st)
+if _left_used:
+    add("R31 中身で落とした画像の残留", "BROKEN",
+        f"**落としたはずの画像が {len(_left_used)}本の見出しに出たままになっている**"
+        f"(例: {sorted(_left_used)[0][:34]}…／理由: {_rej[[h for h in _rej if h in _groups][0]][:40]}…)"
+        f" → _verified.txt から外し、jpg を消して取り直す"
+        + (f"／未採用プールにも {len(_left_pool)}本" if _left_pool else ""))
+elif _left_pool:
+    add("R31 中身で落とした画像の残留", "STALE",
+        f"未採用プールに {len(_left_pool)}本残っている（公開には出ないが取り直しの対象）")
+else:
+    add("R31 中身で落とした画像の残留", "OK",
+        f"md5で落とした {len(_rej)}枚はどの記事にも付いていない")
 
 # R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
 # (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。
