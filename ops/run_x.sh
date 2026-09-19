@@ -20,7 +20,7 @@ if [ -n "$ARG_RAW" ] && [ "$ARG" != "$ARG_RAW" ]; then
   echo "（引数に余計な文字が付いていました: '${ARG_RAW}' → '${ARG}' として扱います）"
 fi
 case "$ARG" in
-  ""|--keys|--setup|--install|--go) : ;;
+  ""|--keys|--setup|--install|--go|--manual) : ;;
   *)
     echo "✗ 知らない引数です: '${ARG_RAW}'"
     echo "  使えるのは次の5つだけです:"
@@ -28,14 +28,68 @@ case "$ARG" in
     echo "    bash ops/run_x.sh --keys    キーを対話で入れる"
     echo "    bash ops/run_x.sh --setup   キーの置き場所だけ作る"
     echo "    bash ops/run_x.sh --install tweepy を入れる"
-    echo "    bash ops/run_x.sh --go      先頭1スレッドを投稿"
+    echo "    bash ops/run_x.sh --go      先頭1スレッドを投稿（APIキーが要る）"
+    echo "    bash ops/run_x.sh --manual  APIを使わず、手で貼るための文面を出す"
     exit 1 ;;
 esac
+
+# tweepy はここに入れる。macOS の Homebrew python は PEP 668 で
+# **システム全体への pip install を拒否する**（2026-09-19 実測: externally-managed-environment）。
+# --break-system-packages で強行すると Homebrew を壊しうるので、**専用の venv を作る**。
+VENV="$HOME/.agent_venv"
+VPY="$VENV/bin/python3"
+[ -x "$VPY" ] || VPY="python3"     # venv が無ければ素のpython（tweepy 無しでも診断は動く）
 
 KEYFILE="$HOME/.x_keys.env"
 TS="$(date +%Y-%m-%d_%H%M%S)"
 LOG="ops/logs/x_run_${TS}.log"
 mkdir -p ops/logs
+
+# ---- APIを使わずに手で投稿する ----
+# 2026-09-19: APIキーの取得が止まっていて、**書いてある素材が1本も外に出ていない**。
+# キーが無くても中身は出せる。ここでは文面を表示するだけで、投稿したかどうかは本人に聞く。
+# **こちらが勝手に「投稿済み」にはしない**（実績の水増しをしないため）。
+if [ "$ARG" = "--manual" ]; then
+  echo "=== APIを使わずに投稿する（文面を出すだけです）==="
+  "${VPY}" - <<'PYEOF'
+import os, re, sys
+sys.path.insert(0, "ops")
+from x_poster import parse_threads, QUEUE
+th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"]]
+if not th:
+    print("未投稿のスレッドがありません。"); sys.exit(0)
+t = th[0]
+print(f"\n--- 次のスレッド: {t['slug']}（{len(t['tweets'])}ツイート／残り {len(th)} 本）---\n")
+for i, tw in enumerate(t["tweets"], 1):
+    print(f"[{i}/{len(t['tweets'])}] ({len(tw)}字)")
+    print(tw)
+    print()
+print("※2つ以上ある場合は、1つ目を投稿→その投稿に返信する形で2つ目…とつなげるとスレッドになります。")
+PYEOF
+  echo ""
+  printf "投稿しましたか？ 記録します（y を入れると投稿済みにします / それ以外は何もしません）: "
+  IFS= read -r YN
+  if [ "$YN" = "y" ] || [ "$YN" = "Y" ]; then
+    "${VPY}" - <<'PYEOF'
+import os, sys, datetime
+sys.path.insert(0, "ops")
+from x_poster import parse_threads, QUEUE, LOG
+th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"]]
+if th:
+    slug = th[0]["slug"]
+    txt = open(QUEUE, encoding="utf-8").read()
+    open(QUEUE, "w", encoding="utf-8").write(
+        txt.replace(f"=== {slug} ===", f"=== {slug} [POSTED] ===", 1))
+    os.makedirs(os.path.dirname(LOG), exist_ok=True)
+    with open(LOG, "a", encoding="utf-8") as f:
+        f.write(f"{datetime.datetime.now().isoformat()}\t{slug}\tmanual\n")
+    print(f"✅ 記録しました: {slug}（手動投稿）。次回は次のスレッドが出ます。")
+PYEOF
+  else
+    echo "（記録していません。次回も同じスレッドが出ます）"
+  fi
+  exit 0
+fi
 
 if [ "$ARG" = "--setup" ]; then
   if [ -f "$KEYFILE" ]; then
@@ -57,13 +111,6 @@ KEYS
   echo "→ このファイルを開いて4つの値を書いてから、もう一度 bash ops/run_x.sh を実行してください。"
   exit 0
 fi
-
-# tweepy はここに入れる。macOS の Homebrew python は PEP 668 で
-# **システム全体への pip install を拒否する**（2026-09-19 実測: externally-managed-environment）。
-# --break-system-packages で強行すると Homebrew を壊しうるので、**専用の venv を作る**。
-VENV="$HOME/.agent_venv"
-VPY="$VENV/bin/python3"
-[ -x "$VPY" ] || VPY="python3"     # venv が無ければ素のpython（tweepy 無しでも診断は動く）
 
 # ---- キーを対話で入れる（エディタを開かずに済む）----
 # 2026-09-19: ファイルを開いて4か所を書き換える作業がボトルネックになっていた。
