@@ -117,5 +117,10 @@ echo "ログ: ${OUT}"
 # 次回の `git pull` が「unstaged changes」で止まっていた（2026-09-16 発覚）。
 git add -A
 git commit -m "owner_tasks: ${TS}" || true
-for i in 1 2 3 4; do git push origin "$(git rev-parse --abbrev-ref HEAD)" && break || sleep $((2**i)); done
+BR="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$BR" = "HEAD" ]; then
+  echo "⚠️ ブランチから外れているので push しません（detached HEAD）。git switch main で戻してください。"
+else
+  for i in 1 2 3 4; do git push origin "$BR" && break || sleep $((2**i)); done
+fi
 

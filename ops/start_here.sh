@@ -29,6 +29,29 @@ else
 fi
 
 echo ""
+echo "==================== 0b) 中断した rebase / merge が無いか ===================="
+# ★2026-09-19 の事故: rebase が衝突で中断している最中に `git add -A && git commit` したため、
+# **コンフリクト記号(<<<<<<< >>>>>>>)が入ったままのファイルをコミット**してしまい、
+# python が SyntaxError で全部落ち、さらに detached HEAD になって push も通らなくなった。
+# **中断中は絶対に自動コミットしない。** ここで止めて、人に判断してもらう。
+if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ]; then
+  echo "★ rebase / merge が中断したままです。**自動では触りません**（無理に進めると壊れます）。"
+  echo "   いまの状態:"
+  git status --short | head -20
+  echo ""
+  echo "   この画面を Claude に貼ってください。復旧手順を出します。"
+  echo "   （自分で戻すなら: git rebase --abort  もしくは  git merge --abort）"
+  exit 1
+fi
+BR="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$BR" = "HEAD" ]; then
+  echo "★ ブランチから外れています（detached HEAD）。**自動では触りません**。"
+  echo "   この画面を Claude に貼ってください。（自分で戻すなら: git switch main）"
+  exit 1
+fi
+echo "ブランチ: $BR ／ 中断した rebase・merge はありません"
+
+echo ""
 echo "==================== 1) 未コミットの変更を退避 ===================="
 git status --short
 git add -A

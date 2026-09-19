@@ -40,9 +40,12 @@ PROFILE_DIR = Path.home() / ".note_publisher_profile"
 TODO = REPO / "ops" / "header_image_todo.tsv"
 DBG = REPO / "ops" / "logs" / "_thumb_debug"
 EDIT_URL = "https://editor.note.com/notes/{nid}/edit/"
-# 2026-09-19 判明: **見出し画像はエディタ画面には無い**。publisher が失敗時に保存した /edit/ のHTMLで、
-# aria-label は15個だけ・画像系は「画像を追加」1個（＝本文挿入のツールバー）・input[type=file] は0個
-# であることが分かった。見出し画像は**公開設定(/publish/)画面**にある。だから最初からそこを開く。
+# ★2026-09-19 時点で**見出し画像の入口の場所が確定していない**。
+#   ・/edit/  … aria-label 15個、画像系は「画像を追加」1個（＝本文挿入のツールバー）、input[type=file] 0個
+#   ・/publish/… ボタンは キャンセル/更新する/ハッシュタグ/記事タイプ/記事の追加/クーポン/詳細設定/
+#                マガジン/メンバーシップ/追加 のみ、input[type=file] 0個
+#   どちらにも無い。**「/publish/ にあるはず」は私の推測で、実測で外れた。**
+#   --probe でスクリーンショットを保存し、画面を見てから直す。それまで設定は失敗する（公開は止めない）。
 PUBLISH_URL = "https://editor.note.com/notes/{nid}/publish/"
 
 # 見出し画像が入ったかの判定（上部にある大きめの画像）。ボタン名に依存しない。
@@ -96,7 +99,7 @@ def launch(p, headless: bool):
     raise RuntimeError("ブラウザ起動失敗")
 
 
-def dump_ui(page, nid: str):
+def dump_ui(page, nid: str, tag: str = ""):
     """今のUIに実在する要素を全部出して保存する。これがセレクタ修理の材料になる。"""
     print("   --- 画面上のボタン/ラベル（aria-label と文言） ---")
     try:
@@ -122,13 +125,34 @@ def dump_ui(page, nid: str):
         print(f"   --- input[type=file] の数: {len(fi)} {fi} ---")
     except Exception as e:
         print(f"   （file input の取得に失敗: {e}）")
+    # 2026-09-19: ボタン一覧だけでは見出し画像の入口が見つからなかった（/edit/ も /publish/ も
+    # input[type=file] が 0個、画像系ボタンも無し）。**文字ではなく画面を見る**必要がある。
+    # PNG を保存すれば code が実際に目で確認できる（Read で画像を開ける）。
     try:
         DBG.mkdir(parents=True, exist_ok=True)
-        out = DBG / f"edit_{nid}.html"
+        sfx = f"_{tag}" if tag else ""
+        out = DBG / f"edit_{nid}{sfx}.html"
         out.write_text(page.content(), encoding="utf-8")
         print(f"   --- HTMLを保存: {out} ---")
+        shot = DBG / f"shot_{nid}{sfx}.png"
+        page.screenshot(path=str(shot), full_page=False)
+        print(f"   --- スクリーンショットを保存: {shot} ---")
     except Exception as e:
-        print(f"   （HTML保存に失敗: {e}）")
+        print(f"   （HTML/画像の保存に失敗: {e}）")
+    # 画像に関係しそうな要素を**種類を問わず**洗い出す（button に限定していたのが盲点だった）
+    try:
+        imgish = page.eval_on_selector_all(
+            "*",
+            """els => els.map(e => {
+                 const a = [...e.attributes].map(x => x.name + '=' + x.value).join(' ');
+                 return /image|eyecatch|thumbnail|cover|header|picture|photo|upload/i.test(a)
+                        ? (e.tagName.toLowerCase() + ' | ' + a.slice(0, 150)) : null;
+               }).filter(Boolean).slice(0, 40)""")
+        print(f"   --- 画像に関係しそうな要素 {len(imgish)}件 ---")
+        for x in imgish:
+            print("   *", x)
+    except Exception as e:
+        print(f"   （画像関連要素の列挙に失敗: {e}）")
 
 
 def set_files_on_any_input(page, img: Path) -> str:
@@ -244,7 +268,15 @@ def main():
             print(f"   見出し画像の有無（実行前）: {'あり' if had else 'なし'}")
 
             if args.probe:
-                dump_ui(page, nid)
+                dump_ui(page, nid, "publish")
+                # /edit/ 側も見る。見出し画像がどちらの画面にあるのか、まだ確定していない。
+                try:
+                    page.goto(EDIT_URL.format(nid=nid), wait_until="domcontentloaded", timeout=30000)
+                    page.wait_for_timeout(4000)
+                    print("   ===== 同じ記事の /edit/ 画面 =====")
+                    dump_ui(page, nid, "edit")
+                except Exception as _e:
+                    print(f"   （/edit/ を開けない: {_e}）")
                 results.append((nid, "PROBED_HAS_IMAGE" if had else "PROBED_NO_IMAGE"))
                 continue
 
@@ -272,7 +304,7 @@ def main():
 
             if not how:
                 print("   ✗ 見出し画像を設定できなかった → 証拠を保存する")
-                dump_ui(page, nid)
+                dump_ui(page, nid, "fail")
                 results.append((nid, "SET_FAIL"))
                 continue
 

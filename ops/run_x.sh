@@ -37,10 +37,22 @@ KEYS
   exit 0
 fi
 
+# tweepy はここに入れる。macOS の Homebrew python は PEP 668 で
+# **システム全体への pip install を拒否する**（2026-09-19 実測: externally-managed-environment）。
+# --break-system-packages で強行すると Homebrew を壊しうるので、**専用の venv を作る**。
+VENV="$HOME/.agent_venv"
+VPY="$VENV/bin/python3"
+[ -x "$VPY" ] || VPY="python3"     # venv が無ければ素のpython（tweepy 無しでも診断は動く）
+
 if [ "${1:-}" = "--install" ]; then
-  echo "== tweepy を入れます =="
-  python3 -m pip install --user tweepy || pip3 install --user tweepy
-  exit $?
+  echo "== tweepy を入れます（専用の仮想環境 $VENV を作ります）=="
+  echo "   理由: macOS の python は PEP 668 でシステムへの pip install を拒否します。"
+  echo "   Homebrew を壊さないよう、リポジトリの外に専用環境を作ってそこへ入れます。"
+  python3 -m venv "$VENV" || { echo "✗ venv を作れませんでした"; exit 1; }
+  "$VENV/bin/pip" install --quiet --upgrade pip
+  "$VENV/bin/pip" install tweepy && echo "✅ 入りました: $VENV" || { echo "✗ tweepy の導入に失敗"; exit 1; }
+  echo "→ もう一度 bash ops/run_x.sh を実行してください（この venv を自動で使います）"
+  exit 0
 fi
 
 git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカルのまま続行します"
@@ -63,8 +75,8 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
     if [ -n "$val" ]; then echo "  $v : 設定済み"; else echo "  $v : ★未設定"; miss=1; fi
   done
   # 3) tweepy
-  if python3 -c "import tweepy" 2>/dev/null; then
-    echo "tweepy : あり"
+  if "$VPY" -c "import tweepy" 2>/dev/null; then
+    echo "tweepy : あり（$VPY）"
   else
     echo "tweepy : ★なし（bash ops/run_x.sh --install で入ります）"
     miss=1
@@ -82,11 +94,11 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
       echo "✗ 前提が足りないので投稿しません。上の ★ を埋めてから再実行してください。"
     else
       echo "--- 先頭1スレッドを投稿します ---"
-      python3 ops/x_poster.py --go
+      "$VPY" ops/x_poster.py --go
     fi
   else
     echo "--- DRY-RUN（投稿しません。次に出る文面の確認）---"
-    python3 ops/x_poster.py
+    "$VPY" ops/x_poster.py
     echo
     echo "問題なければ:  bash ops/run_x.sh --go"
   fi
@@ -100,9 +112,14 @@ if git diff --cached --quiet; then
 else
   git commit -q -m "owner: X投稿の実行ログ ${TS}" && echo "commit した"
   BR="$(git rev-parse --abbrev-ref HEAD)"
-  for i in 1 2 3 4; do
-    git push -u origin "$BR" && break
-    echo "push 失敗、$((2**i))秒待って再試行"; sleep $((2**i))
-  done
+  # detached HEAD のまま push すると "not a full refname" で4回とも失敗する（2026-09-19 実測）。
+  if [ "$BR" = "HEAD" ]; then
+    echo "⚠️ ブランチから外れているので push しません。git switch main で戻してから、もう一度実行してください。"
+  else
+    for i in 1 2 3 4; do
+      git push -u origin "$BR" && break
+      echo "push 失敗、$((2**i))秒待って再試行"; sleep $((2**i))
+    done
+  fi
 fi
 echo "ログ: $(pwd)/${LOG}"

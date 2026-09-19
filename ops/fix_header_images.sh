@@ -20,6 +20,7 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
 
 PROBE_ONLY=0
 EXTRA=()
+# set -u 下でも空配列を安全に数えられるようにしておく
 for a in "$@"; do
   case "$a" in
     --probe) PROBE_ONLY=1 ;;
@@ -29,8 +30,15 @@ done
 
 {
   echo "### 見出し画像の修復 ${TS}"
-  echo "--- 手順1: 今のエディタUIを実測（変更しない） ---"
-  python3 CDO/outputs/note_publisher/set_header_image.py --probe ${EXTRA[@]+"${EXTRA[@]}"}
+  echo "--- 手順1: 今のUIを実測（変更しない・1本だけ） ---"
+  # 2026-09-19: 7本ぜんぶ実測すると出力が膨大なうえ、どれも同じ画面なので意味がない。
+  # **1本だけ**見て、公開設定画面とエディタ画面のHTML・スクリーンショットを保存する。
+  FIRST="$(grep -m1 '^n' ops/header_image_todo.tsv 2>/dev/null | cut -f1)"
+  if [ -n "$FIRST" ] && [ ${#EXTRA[@]} -eq 0 ]; then
+    python3 CDO/outputs/note_publisher/set_header_image.py --probe --only "$FIRST"
+  else
+    python3 CDO/outputs/note_publisher/set_header_image.py --probe ${EXTRA[@]+"${EXTRA[@]}"}
+  fi
   if [ "$PROBE_ONLY" -eq 0 ]; then
     echo
     echo "--- 手順2: 見出し画像を設定して更新 ---"
@@ -48,10 +56,15 @@ if git diff --cached --quiet; then
 else
   git commit -q -m "owner: 見出し画像の修復ログ ${TS}" && echo "commit した"
   BR="$(git rev-parse --abbrev-ref HEAD)"
-  for i in 1 2 3 4; do
-    git push -u origin "$BR" && break
-    echo "push 失敗、$((2**i))秒待って再試行"; sleep $((2**i))
-  done
+  # detached HEAD のまま push すると "not a full refname" で4回とも失敗する（2026-09-19 実測）。
+  if [ "$BR" = "HEAD" ]; then
+    echo "⚠️ ブランチから外れているので push しません。git switch main で戻してから、もう一度実行してください。"
+  else
+    for i in 1 2 3 4; do
+      git push -u origin "$BR" && break
+      echo "push 失敗、$((2**i))秒待って再試行"; sleep $((2**i))
+    done
+  fi
 fi
 echo
 echo "ログ: ${REPO}/${LOG}"
