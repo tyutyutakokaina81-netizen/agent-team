@@ -498,6 +498,24 @@ def _looks_chinese(title: str) -> bool:
     return any(c in (title or "") for c in CN_MARKERS)
 
 
+# 2026-09-22 実測: 「レンコン」で **Loin steak, chrysanthemum chimichurri, lotus root purée…**
+# （西洋料理の皿）を拾った。原因は JAPAN_TOKENS の "himi"(氷見) が
+# **chi(himi)churri の中に部分一致**していたこと。4文字のローマ字は英単語の内側に普通に現れる。
+# → ASCII のトークンは**単語境界**で照合する（日本語トークンは境界が無いので従来どおり部分一致）。
+_ASCII_TOK = [k for k in JAPAN_TOKENS if all(ord(c) < 128 for c in k)]
+_JP_TOK = [k for k in JAPAN_TOKENS if any(ord(c) >= 128 for c in k)]
+_ASCII_RE = re.compile(r"(?<![a-z0-9])(?:" +
+                       "|".join(re.escape(k) for k in sorted(_ASCII_TOK, key=len, reverse=True)) +
+                       r")(?![a-z0-9])") if _ASCII_TOK else None
+
+
+def _has_japan_token(low: str) -> bool:
+    """日本を示す語が入っているか。ASCII の語は単語境界で見る（部分一致の誤爆を防ぐ）。"""
+    if any(k in low for k in _JP_TOK):
+        return True
+    return bool(_ASCII_RE and _ASCII_RE.search(low))
+
+
 def _japan_score(title: str, license_name: str = "") -> int:
     """日本の写真らしさ。3=かな / 2=漢字+日本語彙 / 1=日本を示す語 or 漢字のみ / 0=手がかりなし / -1=他国の痕跡。"""
     t = (title or "")
@@ -507,7 +525,7 @@ def _japan_score(title: str, license_name: str = "") -> int:
         return -1
     if _looks_chinese(t):
         return -1
-    has_token = any(k in low for k in JAPAN_TOKENS)
+    has_token = _has_japan_token(low)
     if _KANA.search(t):
         return 3
     if _KANJI.search(t):
