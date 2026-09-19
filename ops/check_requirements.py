@@ -336,13 +336,20 @@ try:
         for _l in open(_q, encoding="utf-8"):
             if re.match(r"^===\s*(.+?)\s*===\s*$", _l.strip()) and "[POSTED]" not in _l:
                 _pending_th += 1
-    if not os.path.exists(_xlog):
+    # 2026-09-19: **ファイルが在るだけで OK を出していた**。--undo で中身が空になった直後に
+    # 「累計0件・最終0.0日前」で ✅ が出た＝実績ゼロなのに正常と報告する状態。
+    # 「ファイルの有無」ではなく **行数（＝実際に出た本数）** で判定する。
+    _xrows = 0
+    if os.path.exists(_xlog):
+        _xrows = len([l for l in open(_xlog, encoding="utf-8") if l.strip()])
+    if _xrows == 0:
         add("R25 X投稿の生存", "BROKEN",
-            f"**投稿実績ゼロ**（x_posted.tsv が無い）／未投稿スレッド {_pending_th}本が滞留 → "
-            "owner の Mac で `bash ops/run_x.sh`（診断）→ `--go`（1本投稿）")
+            f"**投稿実績ゼロ**（記録0行）／未投稿スレッド {_pending_th}本が滞留 → "
+            "owner の Mac で `bash ops/run_x.sh --manual`（APIキー不要・文面を出して手で投稿）"
+            "、またはキーを入れて `--go`")
     else:
         _age = days(_xlog)
-        _n = len([l for l in open(_xlog, encoding="utf-8") if l.strip()])
+        _n = _xrows
         if _age > 7:
             add("R25 X投稿の生存", "STALE",
                 f"最後の投稿が {_age:.0f}日前（累計{_n}件）／未投稿 {_pending_th}本")
