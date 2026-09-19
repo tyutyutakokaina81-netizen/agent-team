@@ -1,0 +1,176 @@
+=== owner_tasks 2026-09-19_205654 (branch=main) ===
+Already up to date.
+
+--- [1/3] コメント巡回（--debug でHTML保存） ---
+[新着]
+[1/10] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+[2/10] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[3/10] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/10] 富山を、においで思い出す。— 潮と、鋳物と、田んぼの土
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 富山の家は、なぜ大きいのか。— 持ち家率と「広い家」の話
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] 日本のお寺の鐘の音は、高岡で鋳られている。— 富山・高岡
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 家が、田んぼの海に点々と浮かんでいる。— 富山・砺波平野
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] 庭の畑は、いちばん近い八百屋だ。— 育てるものと、採れた
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 外国人が高岡に求める「本物」は、駅から歩いて回れる範囲に
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] 外国人が高岡に来るのは、「買い物」じゃなくて「本物」を探
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+[backlog＝未巡回の古い記事を厚めに回す（全件を見るまで『コメント無し』と言えないため）]
+[1/45] 紅ずわいがには、庶民のごちそう。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/45] ChatGPT副業 コピペで使える5つのプロンプト
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/45] 月3万円稼げる人の1日のスケジュール
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[4/45] Doraemon Lives in Takaoka
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/45] ドラえもんに、世界中が会いに来ていた。— 富山・高岡おと
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/45] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+[7/45] 400年、ひとりで価値を生んできた町がある。— 富山・高
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/45] 富山・高岡・氷見 まるごと一冊 —— 住人が書いた保存版
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n6e7ca70475c8.html を保存
+[9/45] 金沢から40分。富山・高岡・氷見 2泊3日モデルコース【
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/45] 【無料より使いやすい】フリーランスの収支管理Google
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[11/45] 富山のガラス美術館は、図書館と同じ建物の中にある。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[12/45] 冬じゃない。富山湾の岩ガキは、夏に食べる牡蠣だ。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[13/45] 日本でいちばん高いところから、水が落ちている。— 富山「
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[14/45] 富山で「甘えび」を頼むと、白えびは出てこない。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[15/45] 岩瀬の家が大きいのは、北前船の商いの名残だ。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[16/45] 海の向こうに、3000メートルの山が見える駅がある。— 
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[17/45] 黒い醤油のラーメンは、もともと「労働者の塩分補給」だった
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[18/45] 富山の結婚式に出ると、引き出物に「鯛」がついてくる。— 
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[19/45] 春の富山湾は、夜になると青く光る。— ホタルイカの話
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[20/45] 駅弁の中にも、宝石みたいなお寿司がある。— 富山「鱒寿司
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[21/45] 縄で縛って持ち歩ける豆腐がある。— 富山「五箇山豆腐」
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[22/45] 【¥100・保存版】富山・高岡・氷見、住人が"外さない"
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[23/45] Toyama, Takaoka & Himi: 12 t
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[24/45] 富山の人間が、福井まで"辛い蕎麦"を食べに行く話。— 三
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[25/45] 富山の台所の、いちばん安い贅沢。— 魚の「アラ」の手に入
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[26/45] 甘くて、しょっぱくて、日持ちする。— 氷見の「みりん干し
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[27/45] 夏の富山湾で釣って、その日に揚げる。— キスとメゴチの天
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[28/45] 高岡から一番近い「非日常」。— 立山・雪の大谷の壁の下で
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[29/45] 雷が鳴ると、ブリが来る。—— 氷見の冬と「鰤起こし」
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[30/45] うちの茶の間にあった「置き薬の箱」の話。— 越中富山の薬
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[31/45] 歩ける速さの街。— 富山の路面電車に、高岡の住人が乗って
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[32/45] 崖にへばりつく赤い電車。— 黒部峡谷トロッコと、湯の町・
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[33/45] 冬にしか会えない発酵食。— 富山の食卓の「かぶら寿司」
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[34/45] 花を切って、球根を太らせる町。— 高岡の隣、砺波のチュー
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[35/45] ## 英語要約
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[36/45] 夏の食卓に、ちょんまげ巻きのそうめんが届く。— 富山「大
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[37/45] 富山城の天守は、じつは戦後に建てられた模擬天守だ。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[38/45] 新湊の帆船・海王丸には、年に何度か「すべての帆を張る日」
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[39/45] 庭に七輪を出す。それだけで、夏の夜がごちそうになる。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[40/45] 富山湾に魚が多いのは、海が「すり鉢」だからだ。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[41/45] 富山の蛇口をひねると、北アルプスの雪が出てくる。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[42/45] 高岡で「どこで食べる?」と聞かれたら。——地元の定番と、
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[43/45] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[44/45] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[45/45] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+=== 結果: 巡回 45 / 新規コメント 0 / セレクタ外れ 0 / 未描画 4 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+(終了コード: 0)
+
+--- [2/3] 直近の公開ログからサムネ失敗の原因を抽出 ---
+対象ログ: ops/logs/publish_2026-09-19_080002.log
+20:⚠️  サムネ自動設定に失敗: Locator.click: Timeout 6000ms exceeded.
+21-Call log:
+22-  - waiting for locator("button[aria-label=\"画像を追加\"], button[aria-label*=\"画像\"], button:has-text(\"画像を追加\"), button:has-text(\"見出し画像\"), [aria-label*=\"見出し画像\"], [data-name*=\"eyecatch\"], [class*=\"eyecatch\"] button").first
+--
+63:⚠️  サムネ自動設定に失敗: Locator.click: Timeout 6000ms exceeded.
+64-Call log:
+65-  - waiting for locator("button[aria-label=\"画像を追加\"], button[aria-label*=\"画像\"], button:has-text(\"画像を追加\"), button:has-text(\"見出し画像\"), [aria-label*=\"見出し画像\"], [data-name*=\"eyecatch\"], [class*=\"eyecatch\"] button").first
+
+--- [3/3] 結果を ops/outbox に投函して push ---
+posted: ops/outbox/2026-09-19_006_cowork_code.yaml  id=2026-09-19_006
+
+==========================================================
+ ここからは手作業です（ブラウザ / キー投入）
+==========================================================
+
+[A] 見出し画像なしで公開された 7 本に画像を付ける ★最優先（自動化済み・貼るだけ）
+      bash ops/fix_header_images.sh
+    ①今のエディタUIを実測（何も変更しない）→ ②画像を設定して更新、を続けて実行します。
+    ボタン名に頼らず input[type=file] へ直接入れる方法から試すので、note のUI変更に強い。
+    失敗しても画面のボタン一覧とHTMLを ops/logs/_thumb_debug/ に保存して push します
+    （＝code がセレクタを直せる材料になる。手で「検証」を開く必要はもうありません）。
+    様子だけ見たいとき:  bash ops/fix_header_images.sh --probe
+
+[B] X(Twitter)投稿を動かす（未投稿 42 スレッド滞留／これまでの投稿 0 件）
+      bash ops/run_x.sh            # 診断＋DRY-RUN（投稿しない。何が足りないか出ます）
+      bash ops/run_x.sh --setup    # キーの置き場所 ~/.x_keys.env を作る（値は自分で書く）
+      bash ops/run_x.sh --install  # tweepy を入れる
+      bash ops/run_x.sh --go       # 先頭1スレッドだけ投稿（連投しません）
+    キーは ~/.x_keys.env（リポジトリの外）にだけ置きます。値は画面にも git にも出ません。
+
+[C] 公開済み2本に権利クレジットを追記する（CC BY / CC BY-SA の表示義務）
+    対象は ops/inbox/2026-09-08_004 に記載。本文末尾にクレジット行を足すだけです。
+
+[D] note上で開けない3本を確認する（毎日「未描画」で出ています）
+    ブラウザで開いて、404か／下書きのままか／普通に見えるかを教えてください。
+      冷やしトマト  https://note.com/safe_canna441/n/n1bbb920a0ee7
+      きのどくな    https://note.com/safe_canna441/n/n0a3125a83e82
+      ひまわり      https://note.com/safe_canna441/n/n951e3262b23c
+    下書きなら公開、404ならこちらで registry を直します（ops/inbox/2026-09-19_003）。
+
+[E] 公開済み約25本にハッシュタグを付ける（2026-08-22以降・タグ0個で公開されています）
+    対象と手順は ops/inbox/2026-09-17_004 に記載。新しい記事から優先で構いません。
+
+==========================================================
+ログ: ops/logs/owner_tasks_2026-09-19_205654.log

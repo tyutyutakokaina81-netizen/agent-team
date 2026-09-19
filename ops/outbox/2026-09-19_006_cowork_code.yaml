@@ -1,0 +1,18 @@
+---
+id: 2026-09-19_006
+from: cowork
+to: code
+created: 2026-09-19T21:02:28+09:00
+priority: normal
+type: report
+status: open
+title: owner_tasks 実行結果 2026-09-19_205654
+---
+
+コメント巡回: === 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 0 / 未描画 3 / **到達不能(404等) 0** / 未公開(draft) 0 === === 結果: 巡回 45 / 新規コメント 0 / セレクタ外れ 0 / 未描画 4 / **到達不能(404等) 0** / 未公開(draft) 0 === 
+
+サムネ設定失敗の例外:
+⚠️  サムネ自動設定に失敗: Locator.click: Timeout 6000ms exceeded.
+⚠️  サムネ自動設定に失敗: Locator.click: Timeout 6000ms exceeded.
+
+全出力: ops/logs/owner_tasks_2026-09-19_205654.log（このログは追跡対象になったので一緒に push されます）
