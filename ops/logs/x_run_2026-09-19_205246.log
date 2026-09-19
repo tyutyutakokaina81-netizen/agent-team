@@ -1,0 +1,8 @@
+### X投稿 2026-09-19_205246
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+ops/run_x.sh: line 79: VPY�: unbound variable
