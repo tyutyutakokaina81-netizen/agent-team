@@ -1,0 +1,11 @@
+### X投稿 2026-09-19_211422
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+tweepy : あり（/Users/apple/.agent_venv/bin/python3）
+投稿実績 : 0件（ops/logs/x_posted.tsv がまだ無い）
+
+✗ 前提が足りないので投稿しません。上の ★ を埋めてから再実行してください。
