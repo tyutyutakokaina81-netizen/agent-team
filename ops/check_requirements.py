@@ -630,16 +630,27 @@ for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
 # 魚津の蜃気楼が2本）にも当たってしまい、常時STALEになって検知が形骸化する。
 # 本当に捕まえたいのは「無関係な題材に1枚が広く配られる」＝汎用フォールバック（実測59〜71ファイル）なので、
 # **_verified を除いた実質の共有数が4以上**のときだけ異常とする。3件は明細だけ出して警告にしない。
+# ★2026-09-22 追加: **_verified を「意図的な流用」と決めつけて検知から外していたのが穴だった**。
+# 実際、おとぎの森公園2本が**埼玉の道満グリーンパーク**、富山ブラック2本が**澄んだスープのラーメン**を
+# 共有しており、どちらも verified で、どちらも主題と合っていなかった（2026-09-22 に取り消し）。
+# 「verifyしたから意図的なはず」は成り立たない。**verified 同士の共有は黙って除外せず、必ず明細に出す**。
+_ver_shared = [sorted(st for st in v if st in verified)
+               for v in _groups.values() if sum(1 for st in v if st in verified) >= 2]
 _shared = [[st for st in v if st not in verified] for v in _groups.values() if len(v) >= 3]
 _fallback = {st for v in _shared if len(v) >= 4 for st in v}
 _minor = sum(1 for v in _shared if 0 < len(v) < 4)
+_vs_note = ""
+if _ver_shared:
+    _vs_note = (f"／**採用済みどうしで同じ画像を共有 {len(_ver_shared)}組**"
+                f"(例: {_ver_shared[0][0][:26]}…) ＝意図的な流用か、同じ誤サムネが2本に付いているかを確認する")
 if _fallback:
     add("R2d フォールバック汚染", "STALE",
-        f"1枚を4記事以上(未verify)で共有 {len(_fallback)}本 → 汎用画像が配られている疑い。削除して再取得を検討")
+        f"1枚を4記事以上(未verify)で共有 {len(_fallback)}本 → 汎用画像が配られている疑い。削除して再取得を検討"
+        + _vs_note)
 else:
     add("R2d フォールバック汚染", "OK",
         f"ユニーク画像 {len(_groups)}種／汎用配布(4本以上)なし"
-        + (f"（同一題材の重複 {_minor}組は正常として除外）" if _minor else ""))
+        + (f"（未verifyの重複 {_minor}組）" if _minor else "") + _vs_note)
 
 # R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
 # (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。
