@@ -103,7 +103,9 @@ cat <<MANUAL
       冷やしトマト  https://note.com/safe_canna441/n/n1bbb920a0ee7
       きのどくな    https://note.com/safe_canna441/n/n0a3125a83e82
       ひまわり      https://note.com/safe_canna441/n/n951e3262b23c
+      氷見牛        https://note.com/safe_canna441/n/nc7a3522ade60
     下書きなら公開、404ならこちらで registry を直します（ops/inbox/2026-09-19_003）。
+    ※HTTPは200が返っているので「削除された」わけではありません。下書き/非公開の疑いが濃いです。
 
 [E] 公開済み約25本にハッシュタグを付ける（2026-08-22以降・タグ0個で公開されています）
     対象と手順は ops/inbox/2026-09-17_004 に記載。新しい記事から優先で構いません。
