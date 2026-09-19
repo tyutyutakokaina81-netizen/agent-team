@@ -20,7 +20,7 @@ if [ -n "$ARG_RAW" ] && [ "$ARG" != "$ARG_RAW" ]; then
   echo "（引数に余計な文字が付いていました: '${ARG_RAW}' → '${ARG}' として扱います）"
 fi
 case "$ARG" in
-  ""|--keys|--setup|--install|--go|--manual) : ;;
+  ""|--keys|--setup|--install|--go|--manual|--undo) : ;;
   *)
     echo "✗ 知らない引数です: '${ARG_RAW}'"
     echo "  使えるのは次の5つだけです:"
@@ -30,6 +30,7 @@ case "$ARG" in
     echo "    bash ops/run_x.sh --install tweepy を入れる"
     echo "    bash ops/run_x.sh --go      先頭1スレッドを投稿（APIキーが要る）"
     echo "    bash ops/run_x.sh --manual  APIを使わず、手で貼るための文面を出す"
+    echo "    bash ops/run_x.sh --undo    直前の『投稿済み』の記録を取り消す"
     exit 1 ;;
 esac
 
@@ -44,6 +45,51 @@ KEYFILE="$HOME/.x_keys.env"
 TS="$(date +%Y-%m-%d_%H%M%S)"
 LOG="ops/logs/x_run_${TS}.log"
 mkdir -p ops/logs
+
+# 記録（キュー・投稿ログ）を code 側へ渡す。**push しないと存在しないのと同じ**
+# （2026-09-19: --manual で記録したのに Mac の中だけに残り、R25 は「実績ゼロ」のままだった）。
+push_records() {
+  git add -A ops/logs ops/x_queue.txt 2>/dev/null
+  if git diff --cached --quiet; then
+    echo "（記録の変更なし）"; return 0
+  fi
+  git commit -q -m "X: 投稿記録を更新 $(date +%Y-%m-%d_%H%M)" && echo "commit した"
+  BR="$(git rev-parse --abbrev-ref HEAD)"
+  if [ "$BR" = "HEAD" ]; then
+    echo "⚠️ ブランチから外れているので push しません。git switch main で戻してください。"; return 0
+  fi
+  for i in 1 2 3 4; do
+    git push -u origin "$BR" && return 0
+    echo "push 失敗、$((2**i))秒待って再試行"; sleep $((2**i))
+  done
+}
+
+# ---- 直前の「投稿済み」を取り消す ----
+# --manual で y と答えたが実際には投稿していなかった、という取り違えを戻せるようにする。
+# **実績は水増ししてはいけない**ので、戻す手段を必ず用意しておく。
+if [ "$ARG" = "--undo" ]; then
+  "${VPY}" - <<'PYEOF'
+import os, sys
+sys.path.insert(0, "ops")
+from x_poster import QUEUE, LOG
+if not os.path.exists(LOG):
+    print("取り消せる記録がありません（x_posted.tsv が無い）。"); sys.exit(0)
+rows = [l for l in open(LOG, encoding="utf-8").read().splitlines() if l.strip()]
+if not rows:
+    print("取り消せる記録がありません。"); sys.exit(0)
+last = rows[-1]
+slug = last.split("\t")[1] if "\t" in last else "?"
+txt = open(QUEUE, encoding="utf-8").read()
+if f"=== {slug} [POSTED] ===" in txt:
+    open(QUEUE, "w", encoding="utf-8").write(
+        txt.replace(f"=== {slug} [POSTED] ===", f"=== {slug} ===", 1))
+open(LOG, "w", encoding="utf-8").write("\n".join(rows[:-1]) + ("\n" if rows[:-1] else ""))
+print(f"✅ 取り消しました: {slug} を未投稿に戻しました（記録も1行削除）。")
+print("   次に --manual を実行すると、また同じスレッドが出ます。")
+PYEOF
+  push_records
+  exit 0
+fi
 
 # ---- APIを使わずに手で投稿する ----
 # 2026-09-19: APIキーの取得が止まっていて、**書いてある素材が1本も外に出ていない**。
@@ -85,6 +131,7 @@ if th:
         f.write(f"{datetime.datetime.now().isoformat()}\t{slug}\tmanual\n")
     print(f"✅ 記録しました: {slug}（手動投稿）。次回は次のスレッドが出ます。")
 PYEOF
+    push_records
   else
     echo "（記録していません。次回も同じスレッドが出ます）"
   fi
