@@ -253,10 +253,10 @@ def main():
                 results.append((nid, "NO_IMAGE"))
                 continue
             try:
-                page.goto(PUBLISH_URL.format(nid=nid), wait_until="domcontentloaded", timeout=30000)
+                page.goto(EDIT_URL.format(nid=nid), wait_until="domcontentloaded", timeout=30000)
                 page.wait_for_timeout(4000)
             except Exception as e:
-                print(f"   ✗ 公開設定画面を開けない: {e}")
+                print(f"   ✗ 編集画面を開けない: {e}")
                 results.append((nid, "OPEN_FAIL"))
                 continue
             if "login" in page.url:
@@ -285,22 +285,14 @@ def main():
                 results.append((nid, "SKIP_HAS_IMAGE"))
                 continue
 
-            how = set_files_on_any_input(page, img)
-            if not how:
-                n = click_image_buttons(page)
-                print(f"   方法②: 画像系ボタンを {n} 個押して file input を出させた")
-                how = set_files_on_any_input(page, img)
-            if not how:
-                try:
-                    with page.expect_file_chooser(timeout=6000) as fc:
-                        page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード"), '
-                                     'button[aria-label*="画像"]').first.click(timeout=5000)
-                    fc.value.set_files(str(img))
-                    page.wait_for_timeout(3500)
-                    if page.evaluate(_HAS_IMAGE_JS):
-                        how = "file_chooser 経由"
-                except Exception as e:
-                    print(f"   方法③: file_chooser も不可: {type(e).__name__}: {str(e)[:90]}")
+            # 2026-09-19 確定: 見出し画像ボタンは**タイトル textarea の直前の黒丸アイコン**で、
+            # aria-label は中の svg に付いている。実装は publisher と共有する（1か所にまとめる）。
+            try:
+                from publish_to_note import _set_header_image as _impl
+                how = _impl(page, img, nid)
+            except Exception as _e:
+                print(f"   共通実装の呼び出しに失敗: {type(_e).__name__}: {str(_e)[:90]}")
+                how = ""
 
             if not how:
                 print("   ✗ 見出し画像を設定できなかった → 証拠を保存する")

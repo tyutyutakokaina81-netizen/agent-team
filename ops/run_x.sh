@@ -18,7 +18,7 @@ mkdir -p ops/logs
 
 if [ "${1:-}" = "--setup" ]; then
   if [ -f "$KEYFILE" ]; then
-    echo "既にあります: $KEYFILE（中身は表示しません）"
+    echo "既にあります: ${KEYFILE}（中身は表示しません）"
   else
     cat > "$KEYFILE" <<'KEYS'
 # X API の認証情報。このファイルはリポジトリの外にあり、git には絶対に入らない。
@@ -76,7 +76,7 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
   done
   # 3) tweepy
   if "$VPY" -c "import tweepy" 2>/dev/null; then
-    echo "tweepy : あり（$VPY）"
+    echo "tweepy : あり（${VPY}）"
   else
     echo "tweepy : ★なし（bash ops/run_x.sh --install で入ります）"
     miss=1

@@ -771,7 +771,21 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             # **報告の「写真サムネ未設定 N件」は構造的に常に 0** で、何も測っていなかった。
             # 無サムネで出したこと自体は正しい動作なので、失敗ではなく情報として必ず出す。
             print("ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する")
-        # 見出し画像は **公開設定(/publish/)画面で設定する**。ここ(/edit/)では設定しない。
+        # 見出し画像は**このエディタ画面**で設定する（2026-09-19 にスクリーンショットで確定）。
+        # ボタンはタイトル textarea の直前にある黒丸のアイコンで、**aria-label は中の svg に付いている**。
+        # 失敗しても公開は止めない（無画像でも記事は出す）が、必ず証拠を残す。
+        if thumb_to_use:
+            try:
+                _how = _set_header_image(page, thumb_to_use, md_path.stem)
+                if _how:
+                    print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定（{_how}）")
+                else:
+                    print("⚠️  サムネ自動設定に失敗: 見出し画像ボタンが掴めない（手動で見出し画像を設定）")
+                    _dump_header_image_ui(page, md_path.stem)
+            except Exception as _te:
+                print(f"⚠️  サムネ自動設定に失敗: {_te}（手動で見出し画像を設定）")
+                _dump_header_image_ui(page, md_path.stem)
+        # 以下は 2026-09-19 までの経緯（同じ誤読を繰り返さないために残す）:
         # 2026-09-19: 失敗時に publisher 自身が保存した /edit/ のHTMLで確定した＝
         #   ・aria-label は15個しかなく、画像系は「画像を追加」1個だけ＝**本文挿入のツールバー**
         #     （太字・リンクと同列）。押すと**本文に画像が入る**ので掴んではいけない。
@@ -828,22 +842,6 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                         print(f"↩️  /publish/ へ直接遷移（フォールバック）: {page.url}")
                     except Exception as e:
                         print(f"⚠️  /publish/ 直接遷移も失敗: {e}")
-            # 1c) 見出し画像（/publish/ 画面）。**ここが正しい設置場所**。
-            #     2026-09-19 までエディタ画面で探しており、7本が無画像のまま公開された。
-            #     失敗しても公開は止めない（無画像でも記事は出す）が、必ず証拠を残す。
-            if thumb_to_use:
-                try:
-                    _how = _set_header_image(page, thumb_to_use, md_path.stem)
-                    if _how:
-                        print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定（{_how}）")
-                    else:
-                        print(f"⚠️  サムネ自動設定に失敗: 公開設定画面で見出し画像の入口が掴めない"
-                              f"（手動で見出し画像を設定）")
-                        _dump_header_image_ui(page, md_path.stem)
-                except Exception as _te:
-                    print(f"⚠️  サムネ自動設定に失敗: {_te}（手動で見出し画像を設定）")
-                    _dump_header_image_ui(page, md_path.stem)
-
             # 2) ハッシュタグ入力（/publish/ 画面）
             if tags:
                 try:
@@ -904,23 +902,26 @@ _BIG_IMG_JS = """() => [...document.querySelectorAll('img')].filter(im => {
 
 
 def _set_header_image(page, img, dbg_stem: str) -> str:
-    """見出し画像を設定する。**/publish/（公開設定）画面で呼ぶこと。**
+    """見出し画像を設定する。**エディタ(/edit/)画面で呼ぶこと。**
 
-    2026-09-19 実測（publisher が自分で保存した /edit/ のHTMLから判明）:
-      ・/edit/ にある aria-label は15個だけで、画像系は「画像を追加」**1個のみ**。
-        それは 太字・リンク・引用と同列の**本文に画像を挿入するツールバーのボタン**で、
-        押すと**本文に画像が入ってしまう**。見出し画像ではない。
-      ・/edit/ の input[type=file] は **0個**。
-      → エディタ画面には見出し画像の入口が無い。**ただし公開設定(/publish/)にも無かった**（2026-09-19 実測:
-      /publish/ のボタンは キャンセル/更新する/ハッシュタグ/記事タイプ/記事の追加/クーポン/詳細設定/
-      マガジン/メンバーシップ/追加 だけで、input[type=file] も 0個）。**★未解決＝入口の場所が未確定**。
-      次の probe でスクリーンショットを保存し、画面を見て特定する。
-    これまで6000msかけて /edit/ で探していたのは、最初から在り得ないものを探していた。
+    2026-09-19 に**画面のスクリーンショットを撮って**ようやく確定した。
+    見出し画像のボタンは **記事タイトルの textarea の直前**にある黒丸のアイコンボタンで、
+    実体はこうなっている:
 
-    掴み方はボタン名に頼らない順序にする（noteはUIを変えるが file input は残りやすい）:
-      ①DOM上の input[type=file] へ直接 set_input_files（hidden でも Playwright は受け付ける）
-      ②画像系のボタンを押してから①を再試行（遅延生成される場合）
-      ③expect_file_chooser（input が DOM に無い実装のとき）
+        <div data-dragging="false" data-disabled="false" class="sc-…">
+          <div class="sc-…">
+            <button type="button" data-id="ButtonIcon" …>
+              <span><span><svg aria-label="画像を追加" role="img">…</svg></span></span>
+            </button>
+        <textarea placeholder="記事タイトル">…</textarea>
+
+    ★**aria-label は button ではなく svg に付いている**。だから従来の
+      `button[aria-label*="画像"]` は永久に一致しない。これが 7本を無画像で公開した原因。
+    ★私はこの svg を一度ダンプで見ていたのに、**「本文挿入のツールバーだろう」と誤読した**。
+      本文挿入は別（段落左の + ／ /icons/create.svg）。推測で片づけず、画面を見るべきだった。
+    ★`input[type=file]` はクリック前には DOM に無い（0個）。押すとパネルが開き、
+      「画像をアップロード」で OS のファイル選択が出る＝expect_file_chooser で受ける。
+
     戻り値: 成功した方法の説明。失敗なら空文字（呼び側が証拠を保存する）。
     """
     before = page.evaluate(_BIG_IMG_JS)
@@ -928,50 +929,51 @@ def _set_header_image(page, img, dbg_stem: str) -> str:
     def _ok() -> bool:
         page.wait_for_timeout(2500)
         try:
-            if page.locator('[role="dialog"], [aria-modal="true"], .ReactModal__Content').first.is_visible(timeout=800):
+            if page.locator('[role="dialog"], [aria-modal="true"], .ReactModal__Content'
+                            ).first.is_visible(timeout=800):
                 return True          # トリミングダイアログが出た＝取り込めている
         except Exception:
             pass
         return page.evaluate(_BIG_IMG_JS) > before
 
-    def _try_file_inputs() -> str:
+    # ① 見出し画像ボタンを押す。**svg の aria-label で親 button を掴む**のが本命。
+    opened = ""
+    for sel in ('button:has(svg[aria-label="画像を追加"])',
+                'button:has(svg[aria-label*="画像"])',
+                'div[data-dragging] button[data-id="ButtonIcon"]',
+                '[aria-label="画像を追加"]'):
+        try:
+            page.locator(sel).first.click(timeout=4000)
+            page.wait_for_timeout(1200)
+            opened = sel
+            break
+        except Exception:
+            continue
+    if not opened:
+        return ""
+
+    # ② パネルの「画像をアップロード」→ OSのファイル選択（DOMにinputが無い実装）
+    how = ""
+    try:
+        with page.expect_file_chooser(timeout=8000) as fc:
+            page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード"), '
+                         'button:has-text("画像を選択")').first.click(timeout=6000)
+        fc.value.set_files(str(img))
+        if _ok():
+            how = f"{opened} → 画像をアップロード（file_chooser）"
+    except Exception:
+        pass
+    # ③ クリック後に input[type=file] が生えている実装なら、そこへ直接入れる
+    if not how:
         inputs = page.locator('input[type="file"]')
-        n = inputs.count()
-        for i in range(n):
+        for i in range(inputs.count()):
             try:
                 inputs.nth(i).set_input_files(str(img), timeout=5000)
                 if _ok():
-                    return f"input[type=file] #{i} へ直接投入"
+                    how = f"{opened} → input[type=file] #{i} へ直接投入"
+                    break
             except Exception:
                 continue
-        return ""
-
-    how = _try_file_inputs()
-    if not how:
-        # 画像系のボタンを押して file input を出させる。**本文ツールバーは押さない**ように、
-        # /publish/ 画面でのみこの関数を呼ぶ前提にしてある。
-        for sel in ('[aria-label*="見出し画像"]', 'button:has-text("見出し画像")',
-                    'button:has-text("画像を追加")', '[aria-label="画像を追加"]',
-                    'button:has([aria-label*="画像"])', 'button:has-text("画像")'):
-            try:
-                page.locator(sel).first.click(timeout=2500)
-                page.wait_for_timeout(900)
-            except Exception:
-                continue
-            how = _try_file_inputs()
-            if how:
-                how = f"{sel} を押してから " + how
-                break
-    if not how:
-        try:
-            with page.expect_file_chooser(timeout=6000) as fc:
-                page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
-                             ).first.click(timeout=5000)
-            fc.value.set_files(str(img))
-            if _ok():
-                how = "file_chooser 経由"
-        except Exception:
-            pass
     if not how:
         return ""
 
@@ -999,12 +1001,17 @@ def _dump_header_image_ui(page, dbg_stem: str):
                  tag: e.tagName.toLowerCase(),
                  aria: e.getAttribute('aria-label') || '',
                  cls: (e.getAttribute('class') || '').slice(0, 60),
-                 txt: (e.innerText || '').trim().slice(0, 24)
+                 txt: (e.innerText || '').trim().slice(0, 24),
+                 svg: (e.querySelector('svg[aria-label]') || {}).getAttribute
+                      ? e.querySelector('svg[aria-label]').getAttribute('aria-label') : ''
                }))""")
-        print("   --- 画面上のボタン/ラベル一覧 ---")
+        # ★2026-09-19: ここで `if aria or txt` と絞っていたのが**見落としの真因**。
+        # 見出し画像ボタンは**アイコンだけ**で aria も txt も空なので、一覧に出ていなかった。
+        # 空のものこそ怪しいので、必ず全部出す（svg の aria-label も拾う）。
+        print("   --- 画面上のボタン/ラベル一覧（aria/txt が空のものも出す）---")
         for b in els:
-            if b["aria"] or b["txt"]:
-                print(f"   [{b['tag']}] aria={b['aria']!r} txt={b['txt']!r} cls={b['cls']!r}")
+            print(f"   [{b['tag']}] aria={b['aria']!r} txt={b['txt']!r} "
+                  f"svg={b.get('svg','')!r} cls={b['cls']!r}")
         fi = page.eval_on_selector_all(
             "input[type=file]",
             "els => els.map(e => (e.getAttribute('class')||'') + '|' + (e.getAttribute('accept')||''))")

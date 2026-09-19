@@ -120,11 +120,9 @@ def find_thumbnail_for(md_path: Path) -> Path | None:
 def _set_header_image(page, thumb: Path) -> bool:
     """見出し画像を設定する。**/publish/（公開設定）画面で呼ぶこと。**
 
-    2026-09-19 時点: **入口の場所がまだ確定していない**。/edit/ にも /publish/ にも
-    見出し画像の入口が見当たらなかった（どちらも input[type=file] が0個）。
-    実測で /publish/ にあるのは キャンセル/更新する/ハッシュタグ/記事タイプ/記事の追加/
-    クーポン/詳細設定/マガジン/メンバーシップ/追加 だけ。次の probe でスクリーンショットを
-    保存して画面を見る。それまでこの関数は失敗して証拠を残すだけになる（公開は止めない）。
+    2026-09-19 確定: ボタンは**タイトル textarea の直前にある黒丸のアイコン**で、
+    aria-label は button ではなく**中の svg** に付いている（従来の button[aria-label*="画像"] は
+    永久に一致しなかった＝7本が無画像で公開された原因）。実装は publish_to_note と共有する。
     無料版(publish_to_note.py)と同じ関数を使い、実装を1か所にまとめる。
     ここで独自実装を持つと、片方だけ直して**有料だけ無画像**という事故になる。
     """
@@ -491,8 +489,10 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
         _type_body(page, paid_body)
         print("✅ 有料パート入力完了")
 
-        # 見出し画像はここ（エディタ画面）では設定しない。**/publish/ 画面にしか入口が無い**
-        # ことが 2026-09-19 に確定した。ここで「画像を追加」を掴むと**本文に画像が入る**。
+        # 見出し画像はこのエディタ画面で設定する（2026-09-19 にスクリーンショットで確定）。
+        # 実装は publish_to_note と共有＝片方だけ直して「有料だけ無画像」になるのを防ぐ。
+        if thumb and _set_header_image(page, thumb):
+            print(f"✅ サムネ(見出し画像)に {thumb.name} を設定")
 
         # 下書き保存で状態確定
         try:
@@ -514,11 +514,6 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
         except Exception as e:
             print(f"⚠️  『公開に進む』クリック失敗: {e}")
         page.wait_for_timeout(1500)
-
-        # 見出し画像（/publish/ 画面）。**ここが正しい設置場所**。失敗しても公開は止めない。
-        if thumb:
-            if _set_header_image(page, thumb):
-                print(f"✅ サムネ(見出し画像)に {thumb.name} を設定")
 
         # タグ
         if tags:
