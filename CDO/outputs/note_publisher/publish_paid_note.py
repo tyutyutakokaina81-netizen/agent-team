@@ -118,37 +118,34 @@ def find_thumbnail_for(md_path: Path) -> Path | None:
 
 
 def _set_header_image(page, thumb: Path) -> bool:
-    """新エディタの見出し画像を設定する（publish_to_note.py の実測フローを踏襲）。"""
-    # 2026-08-19 実測: 既存セレクタが30秒待っても解決せず、無料/有料とも全滅した
-    # （note側UI変更）。候補を広げ、待ちも 30s→6s に短縮する（3本で90秒待たされていた）。
-    # 当たらない場合は無サムネで進み、記事URLを出して手動設定に回す＝公開自体は止めない。
-    opener = ('button[aria-label="画像を追加"], button[aria-label*="画像"], '
-              'button:has-text("画像を追加"), button:has-text("見出し画像"), '
-              '[aria-label*="見出し画像"], [data-name*="eyecatch"], [class*="eyecatch"] button')
+    """見出し画像を設定する。**/publish/（公開設定）画面で呼ぶこと。**
+
+    2026-09-19 判明: **エディタ画面には見出し画像の入口が無い**（publisher が失敗時に保存した
+    /edit/ のHTMLで確定）。aria-label は15個しかなく、画像系は「画像を追加」1個＝
+    **本文に画像を挿入するツールバー**で、押すと本文に画像が入る。input[type=file] は0個。
+    無料版(publish_to_note.py)と同じ関数を使い、実装を1か所にまとめる。
+    ここで独自実装を持つと、片方だけ直して**有料だけ無画像**という事故になる。
+    """
     try:
-        page.locator(opener).first.click(timeout=6000)
-        page.wait_for_timeout(800)
-        with page.expect_file_chooser() as fc:
-            page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
-                         ).first.click(timeout=6000)
-        fc.value.set_files(str(thumb))
-        page.wait_for_timeout(2500)
-        crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
-        for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
-            try:
-                btn = page.locator(f'{crop_dialog} >> button:has-text("{label}")').last
-                if btn.is_visible(timeout=600):
-                    btn.click()
-                    page.wait_for_timeout(800)
-                    break
-            except Exception:
-                continue
-        return True
+        from publish_to_note import _set_header_image as _impl, _dump_header_image_ui as _dump
     except Exception as e:
-        print(f"⚠️  サムネ自動設定に失敗: {type(e).__name__}（見出し画像は手動で設定してください）")
-        print(f"   手動設定用に開くURL: {page.url}")
-        print(f"   使う画像: {thumb}")
+        print(f"⚠️  見出し画像の共通処理を読み込めない: {e}")
         return False
+    try:
+        how = _impl(page, thumb, thumb.stem)
+    except Exception as e:
+        print(f"⚠️  サムネ自動設定に失敗: {type(e).__name__}: {str(e)[:90]}")
+        how = ""
+    if how:
+        return True
+    print("⚠️  サムネ自動設定に失敗: 公開設定画面で見出し画像の入口が掴めない")
+    print(f"   手動設定用に開くURL: {page.url}")
+    print(f"   使う画像: {thumb}")
+    try:
+        _dump(page, thumb.stem)
+    except Exception:
+        pass
+    return False
 
 
 # ---------- パース ----------
@@ -492,9 +489,8 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
         _type_body(page, paid_body)
         print("✅ 有料パート入力完了")
 
-        # サムネ（見出し画像）＝本文確定後・下書き保存の前に設定する
-        if thumb and _set_header_image(page, thumb):
-            print(f"✅ サムネ(見出し画像)に {thumb.name} を設定")
+        # 見出し画像はここ（エディタ画面）では設定しない。**/publish/ 画面にしか入口が無い**
+        # ことが 2026-09-19 に確定した。ここで「画像を追加」を掴むと**本文に画像が入る**。
 
         # 下書き保存で状態確定
         try:
@@ -516,6 +512,11 @@ def publish(md_path: Path, do_publish: bool, title_override, price_override, tag
         except Exception as e:
             print(f"⚠️  『公開に進む』クリック失敗: {e}")
         page.wait_for_timeout(1500)
+
+        # 見出し画像（/publish/ 画面）。**ここが正しい設置場所**。失敗しても公開は止めない。
+        if thumb:
+            if _set_header_image(page, thumb):
+                print(f"✅ サムネ(見出し画像)に {thumb.name} を設定")
 
         # タグ
         if tags:

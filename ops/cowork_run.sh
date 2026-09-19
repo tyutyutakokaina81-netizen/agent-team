@@ -150,8 +150,12 @@ comment_new=0; comment_sel_fail=0; comment_draft=0; comment_notrender=0; comment
 if [ $login_fail -eq 0 ]; then
   CFETCH="CDO/outputs/note_publisher/fetch_note_comments.py"
   if [ -f "$CFETCH" ]; then
-    echo "=== コメント収集（新着10本＋backlog5本） ==="
-    cout="$("$PYBIN" "$CFETCH" --limit 10 --debug 2>&1; "$PYBIN" "$CFETCH" --backlog --limit 5 --debug 2>&1)"
+    # 2026-09-22: backlog を 5→15 に増やす。公開202本のうち巡回済みは133本＝65%で、
+    # 未巡回が69本ある。**5本/日では全件を見るのに14日かかり、その間ずっと
+    # 「コメントは無い」と言えない**（R6 が STALE のまま）。15本なら5日で埋まる。
+    # 1本あたり約10秒なので、日次の実行時間は +2分程度で収まる見込み。
+    echo "=== コメント収集（新着10本＋backlog15本） ==="
+    cout="$("$PYBIN" "$CFETCH" --limit 10 --debug 2>&1; "$PYBIN" "$CFETCH" --backlog --limit 15 --debug 2>&1)"
     echo "$cout" | tee -a "$LOG"
     # 「=== 結果: 巡回 N / 新規コメント M / セレクタ外れ K ===」を合算する
     comment_new=$(echo "$cout" | sed -n 's/.*新規コメント \([0-9]*\) .*/\1/p' | awk '{s+=$1} END{print s+0}')

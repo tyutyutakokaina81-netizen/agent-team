@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-16T13:11:51+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【最優先】サムネ設定失敗が5本に。次の実行で原因がログに出ます＋コメント巡回の全件化
 ---
 
@@ -31,3 +31,10 @@ title: 【最優先】サムネ設定失敗が5本に。次の実行で原因が
   cd ~/agent-team && bash ops/owner_tasks.sh
 
 なお公開4本は成功しています。09-14〜09-16の空白は解消しました。
+
+
+---
+
+## 結果 (2026-09-19T11:16:54+00:00)
+
+原因確定・code側で修正済み: **エディタ画面に見出し画像の入口が無かった**（publisherが保存した/edit/のHTMLでaria-label15個・画像系は本文挿入ツールバーの1個のみ・input[type=file]は0個）。設定を/publish/画面へ移し、有料版も同じ実装を共有するようにした。コメント巡回の全件化は backlog 5→15 に引き上げ（69本の未巡回が約5日で埋まる）。
