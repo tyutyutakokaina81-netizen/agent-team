@@ -57,6 +57,13 @@ if [ "${1:-}" = "--keys" ]; then
     IFS= read -rs ANS
     echo ""
     ANS="$(printf '%s' "$ANS" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"//' -e 's/"$//')"
+    # 2026-09-19: **何も表示されないので貼れたか分からず、途中でやめてしまった**。
+    # 値は出さずに「何文字受け取ったか」だけ返す＝手応えがあると最後まで進める。
+    if [ -z "$ANS" ]; then
+      echo "    （0文字＝受け取れていません。貼り付けてから Enter を押してください）"
+    else
+      echo "    （${#ANS} 文字を受け取りました）"
+    fi
   }
   ask "API Key";           K1="$ANS"
   ask "API Key Secret";    K2="$ANS"
