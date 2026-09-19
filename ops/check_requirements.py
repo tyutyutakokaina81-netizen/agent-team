@@ -437,6 +437,27 @@ try:
 except Exception as _e:
     add("R28 既公開とのフック重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R29 英語ページのリンク切れ: 内部リンク先のファイルが実在するか。
+# 2026-09-22 新設。英語ページは160枚を超え、記事を書くたびに「関連記事」を手で並べている。
+# **存在しないページへのリンクは、踏んだ読者をそのまま失う**（North Star が海外読者なので直撃する）。
+# 人が毎回目視する前提のものは必ず抜けるので機械に見張らせる。新設時点の実測は 0件。
+try:
+    _gd = os.path.join(ROOT, "apps/toyama-guide")
+    _miss = []
+    for _f in glob.glob(os.path.join(_gd, "*.html")):
+        _t = open(_f, encoding="utf-8", errors="replace").read()
+        for _h in set(re.findall(r'href="((?:en-|ja-|zh-|index)[^"#?]*\.html)"', _t)):
+            if not os.path.exists(os.path.join(_gd, _h)):
+                _miss.append(f"{os.path.basename(_f)}→{_h}")
+    if _miss:
+        add("R29 英語ページのリンク切れ", "BROKEN",
+            f"**リンク切れ {len(_miss)}件**(例:{_miss[0]}) → 読者をそのまま失う。綴りかファイル名を直す")
+    else:
+        _n = len(glob.glob(os.path.join(_gd, "*.html")))
+        add("R29 英語ページのリンク切れ", "OK", f"{_n}枚の内部リンクはすべて実在")
+except Exception as _e:
+    add("R29 英語ページのリンク切れ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
