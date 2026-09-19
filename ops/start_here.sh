@@ -1,0 +1,44 @@
+#!/bin/bash
+# ops/start_here.sh — オーナーが Mac で最初に叩く1本。
+#   cd ~/agent-team && bash ops/start_here.sh
+#
+# やること（上から順に、止まらないように）:
+#   0) git の残骸（*.lock）を片付ける ※動いている git が無いときだけ
+#   1) 未コミットの変更を退避コミット（消さない）
+#   2) 最新を取得
+#   3) 自動でできる作業（コメント巡回など）を実行 → 結果を push
+#   4) 人にしかできない作業を、そのとき数えた実数で一覧表示
+#
+# 単体で実行しても安全。途中で失敗しても次へ進む（原因は画面に出る）。
+set -u
+cd "$(dirname "$0")/.." || exit 1
+
+echo "==================== 0) git の残骸を確認 ===================="
+if pgrep -f "git " >/dev/null 2>&1; then
+  echo "⚠️ 動いている git プロセスがあります。終わるのを待ってから、もう一度実行してください。"
+  pgrep -fl "git " | grep -v pgrep
+  exit 1
+fi
+LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
+if [ -n "$LOCKS" ]; then
+  echo "残骸を見つけたので消します（ロックファイルだけ。コミットや作業ファイルには触れません）:"
+  echo "$LOCKS"
+  find .git -maxdepth 3 -name '*.lock*' -delete
+else
+  echo "残骸なし"
+fi
+
+echo ""
+echo "==================== 1) 未コミットの変更を退避 ===================="
+git status --short
+git add -A
+git commit -q -m "mac: 実行前の未コミット分を退避 $(date +%Y-%m-%d_%H%M)" && echo "退避コミットしました" \
+  || echo "（コミットするものはありません）"
+
+echo ""
+echo "==================== 2) 最新を取得 ===================="
+git pull --rebase --autostash || echo "⚠️ 取得に失敗しました。上のメッセージを Claude に貼ってください。"
+
+echo ""
+echo "==================== 3) 自動でできる作業 ===================="
+bash ops/owner_tasks.sh
