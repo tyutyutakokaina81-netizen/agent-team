@@ -771,72 +771,13 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
             # **報告の「写真サムネ未設定 N件」は構造的に常に 0** で、何も測っていなかった。
             # 無サムネで出したこと自体は正しい動作なので、失敗ではなく情報として必ず出す。
             print("ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する")
-        if thumb_to_use:
-            try:
-                # 2026-07-03 実測: 新エディタ(editor.note.com)の見出し画像は
-                #   ①上部 見出し画像エリアの button[aria-label="画像を追加"] を押す
-                #     → パネル(「画像をアップロード / 推奨サイズ：1280×670px」)が開く
-                #   ②「画像をアップロード」を押すとOSのファイル選択が開く(input[type=file]はDOMに存在しない)
-                #     → expect_file_chooser で捕捉して set_files
-                # 旧コードは存在しない input[type=file] を待って30秒Timeoutで失敗していた。
-                # 2026-08-19 実測: このセレクタが30秒待っても解決せずサムネが全滅した
-                # （note側UI変更）。候補を広げ、待ちも 30s→6s に短縮する。
-                page.locator(
-                    'button[aria-label="画像を追加"], button[aria-label*="画像"], '
-                    'button:has-text("画像を追加"), button:has-text("見出し画像"), '
-                    '[aria-label*="見出し画像"], [data-name*="eyecatch"], [class*="eyecatch"] button'
-                ).first.click(timeout=6000)
-                page.wait_for_timeout(800)
-                with page.expect_file_chooser() as fc:
-                    page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
-                                 ).first.click(timeout=6000)
-                fc.value.set_files(str(thumb_to_use))
-                page.wait_for_timeout(2500)  # アップロード＆トリミングダイアログ表示待ち
-                # トリミング/位置調整ダイアログの確定（「保存」が本命）。
-                # 2026-07-03実測: ページには「下書き保存」も存在するため、必ずダイアログ内に
-                # スコープして誤クリック(下書き保存)を防ぐ。
-                crop_dialog = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
-                for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
-                    try:
-                        btn = page.locator(f'{crop_dialog} >> button:has-text("{label}")').last
-                        if btn.is_visible(timeout=600):
-                            btn.click()
-                            page.wait_for_timeout(800)
-                            break
-                    except Exception:
-                        continue
-                print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定")
-            except Exception as e:
-                # 「設定しようとして失敗した」は**無サムネとは別の事故**。2026-08-19 に note のUI変更で
-                # セレクタが解決せずサムネが全滅したときも、報告にはこの件数が出ていなかった。
-                print(f"⚠️  サムネ自動設定に失敗: {e}（手動で見出し画像を設定）")
-                # 2026-09-16: 候補7つが全滅した。code は note の DOM を見られない（A1）ので、
-                # **失敗したときに自分で証拠を残す**。コメント巡回の --debug で
-                # 「セレクタ外れではなく未描画だった」を突き止めたのと同じやり方。
-                # 人に「検証タブで aria-label を調べて」と頼むより、機械が出したほうが速くて正確。
-                try:
-                    _btns = page.eval_on_selector_all(
-                        "button, [role='button'], label",
-                        """els => els.slice(0, 60).map(e => ({
-                             tag: e.tagName.toLowerCase(),
-                             aria: e.getAttribute('aria-label') || '',
-                             cls: (e.getAttribute('class') || '').slice(0, 60),
-                             txt: (e.innerText || '').trim().slice(0, 24)
-                           }))""")
-                    print("   --- 見出し画像ボタン探索用: 画面上のボタン/ラベル一覧 ---")
-                    for _b in _btns:
-                        if _b["aria"] or _b["txt"]:
-                            print(f"   [{_b['tag']}] aria={_b['aria']!r} txt={_b['txt']!r} cls={_b['cls']!r}")
-                    _fi = page.eval_on_selector_all(
-                        "input[type=file]",
-                        "els => els.map(e => (e.getAttribute('class')||'') + '|' + (e.getAttribute('accept')||''))")
-                    print(f"   --- input[type=file] の数: {len(_fi)} {_fi} ---")
-                    _dbg = Path(__file__).resolve().parents[3] / "ops" / "logs" / "_thumb_debug"
-                    _dbg.mkdir(parents=True, exist_ok=True)
-                    (_dbg / f"{md_path.stem[:60]}.html").write_text(page.content(), encoding="utf-8")
-                    print(f"   --- エディタのHTMLを保存: {_dbg / (md_path.stem[:60] + '.html')} ---")
-                except Exception as _e2:
-                    print(f"   （探索も失敗: {_e2}）")
+        # 見出し画像は **公開設定(/publish/)画面で設定する**。ここ(/edit/)では設定しない。
+        # 2026-09-19: 失敗時に publisher 自身が保存した /edit/ のHTMLで確定した＝
+        #   ・aria-label は15個しかなく、画像系は「画像を追加」1個だけ＝**本文挿入のツールバー**
+        #     （太字・リンクと同列）。押すと**本文に画像が入る**ので掴んではいけない。
+        #   ・input[type=file] は **0個**。
+        #   つまりエディタ画面に見出し画像の入口は無い。6000ms待って失敗していたのは、
+        #   **最初から存在しないものを探していた**から。7本が無画像で公開された原因はこれ。
 
         # ---- 公開 or 下書き ----
         # 2026-07-03実測(新エディタ editor.note.com)：
@@ -887,6 +828,22 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                         print(f"↩️  /publish/ へ直接遷移（フォールバック）: {page.url}")
                     except Exception as e:
                         print(f"⚠️  /publish/ 直接遷移も失敗: {e}")
+            # 1c) 見出し画像（/publish/ 画面）。**ここが正しい設置場所**。
+            #     2026-09-19 までエディタ画面で探しており、7本が無画像のまま公開された。
+            #     失敗しても公開は止めない（無画像でも記事は出す）が、必ず証拠を残す。
+            if thumb_to_use:
+                try:
+                    _how = _set_header_image(page, thumb_to_use, md_path.stem)
+                    if _how:
+                        print(f"✅ サムネ(見出し画像)に {thumb_to_use.name} を設定（{_how}）")
+                    else:
+                        print(f"⚠️  サムネ自動設定に失敗: 公開設定画面で見出し画像の入口が掴めない"
+                              f"（手動で見出し画像を設定）")
+                        _dump_header_image_ui(page, md_path.stem)
+                except Exception as _te:
+                    print(f"⚠️  サムネ自動設定に失敗: {_te}（手動で見出し画像を設定）")
+                    _dump_header_image_ui(page, md_path.stem)
+
             # 2) ハッシュタグ入力（/publish/ 画面）
             if tags:
                 try:
@@ -937,6 +894,126 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
 
 
 # ---------- CLI ----------
+
+
+# 大きめの画像が画面に何枚あるか。見出し画像が入ったかの判定に使う（ボタン名に依存しない）。
+_BIG_IMG_JS = """() => [...document.querySelectorAll('img')].filter(im => {
+  const r = im.getBoundingClientRect();
+  return r.width >= 160 && r.height >= 80;
+}).length"""
+
+
+def _set_header_image(page, img, dbg_stem: str) -> str:
+    """見出し画像を設定する。**/publish/（公開設定）画面で呼ぶこと。**
+
+    2026-09-19 実測（publisher が自分で保存した /edit/ のHTMLから判明）:
+      ・/edit/ にある aria-label は15個だけで、画像系は「画像を追加」**1個のみ**。
+        それは 太字・リンク・引用と同列の**本文に画像を挿入するツールバーのボタン**で、
+        押すと**本文に画像が入ってしまう**。見出し画像ではない。
+      ・/edit/ の input[type=file] は **0個**。
+      → つまり**エディタ画面には見出し画像の入口が無い**。公開設定画面の側にある。
+    これまで6000msかけて /edit/ で探していたのは、最初から在り得ないものを探していた。
+
+    掴み方はボタン名に頼らない順序にする（noteはUIを変えるが file input は残りやすい）:
+      ①DOM上の input[type=file] へ直接 set_input_files（hidden でも Playwright は受け付ける）
+      ②画像系のボタンを押してから①を再試行（遅延生成される場合）
+      ③expect_file_chooser（input が DOM に無い実装のとき）
+    戻り値: 成功した方法の説明。失敗なら空文字（呼び側が証拠を保存する）。
+    """
+    before = page.evaluate(_BIG_IMG_JS)
+
+    def _ok() -> bool:
+        page.wait_for_timeout(2500)
+        try:
+            if page.locator('[role="dialog"], [aria-modal="true"], .ReactModal__Content').first.is_visible(timeout=800):
+                return True          # トリミングダイアログが出た＝取り込めている
+        except Exception:
+            pass
+        return page.evaluate(_BIG_IMG_JS) > before
+
+    def _try_file_inputs() -> str:
+        inputs = page.locator('input[type="file"]')
+        n = inputs.count()
+        for i in range(n):
+            try:
+                inputs.nth(i).set_input_files(str(img), timeout=5000)
+                if _ok():
+                    return f"input[type=file] #{i} へ直接投入"
+            except Exception:
+                continue
+        return ""
+
+    how = _try_file_inputs()
+    if not how:
+        # 画像系のボタンを押して file input を出させる。**本文ツールバーは押さない**ように、
+        # /publish/ 画面でのみこの関数を呼ぶ前提にしてある。
+        for sel in ('[aria-label*="見出し画像"]', 'button:has-text("見出し画像")',
+                    'button:has-text("画像を追加")', '[aria-label="画像を追加"]',
+                    'button:has([aria-label*="画像"])', 'button:has-text("画像")'):
+            try:
+                page.locator(sel).first.click(timeout=2500)
+                page.wait_for_timeout(900)
+            except Exception:
+                continue
+            how = _try_file_inputs()
+            if how:
+                how = f"{sel} を押してから " + how
+                break
+    if not how:
+        try:
+            with page.expect_file_chooser(timeout=6000) as fc:
+                page.locator('button:has-text("画像をアップロード"), button:has-text("アップロード")'
+                             ).first.click(timeout=5000)
+            fc.value.set_files(str(img))
+            if _ok():
+                how = "file_chooser 経由"
+        except Exception:
+            pass
+    if not how:
+        return ""
+
+    # トリミング/位置調整ダイアログの確定。**必ずダイアログ内にスコープ**して
+    # 「下書き保存」の誤クリックを防ぐ（2026-07-03 に一度やっている）。
+    crop = '[role="dialog"], [aria-modal="true"], .ReactModal__Content'
+    for label in ("保存", "適用", "決定", "完了", "この画像を挿入"):
+        try:
+            btn = page.locator(f'{crop} >> button:has-text("{label}")').last
+            if btn.is_visible(timeout=600):
+                btn.click()
+                page.wait_for_timeout(1000)
+                break
+        except Exception:
+            continue
+    return how
+
+
+def _dump_header_image_ui(page, dbg_stem: str):
+    """見出し画像が掴めなかったときに、その画面の実物を保存する（A1でDOMを見られないため）。"""
+    try:
+        els = page.eval_on_selector_all(
+            "button, [role='button'], label, [aria-label]",
+            """els => els.slice(0, 80).map(e => ({
+                 tag: e.tagName.toLowerCase(),
+                 aria: e.getAttribute('aria-label') || '',
+                 cls: (e.getAttribute('class') || '').slice(0, 60),
+                 txt: (e.innerText || '').trim().slice(0, 24)
+               }))""")
+        print("   --- 画面上のボタン/ラベル一覧 ---")
+        for b in els:
+            if b["aria"] or b["txt"]:
+                print(f"   [{b['tag']}] aria={b['aria']!r} txt={b['txt']!r} cls={b['cls']!r}")
+        fi = page.eval_on_selector_all(
+            "input[type=file]",
+            "els => els.map(e => (e.getAttribute('class')||'') + '|' + (e.getAttribute('accept')||''))")
+        print(f"   --- input[type=file] の数: {len(fi)} {fi} ---")
+        dbg = Path(__file__).resolve().parents[3] / "ops" / "logs" / "_thumb_debug"
+        dbg.mkdir(parents=True, exist_ok=True)
+        out = dbg / f"{dbg_stem[:60]}.html"
+        out.write_text(page.content(), encoding="utf-8")
+        print(f"   --- 画面のHTMLを保存: {out} ---")
+    except Exception as e:
+        print(f"   （探索も失敗: {e}）")
+
 
 def main():
     ap = argparse.ArgumentParser(description="note 自動公開ヘルパー")

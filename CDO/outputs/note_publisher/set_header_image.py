@@ -40,6 +40,10 @@ PROFILE_DIR = Path.home() / ".note_publisher_profile"
 TODO = REPO / "ops" / "header_image_todo.tsv"
 DBG = REPO / "ops" / "logs" / "_thumb_debug"
 EDIT_URL = "https://editor.note.com/notes/{nid}/edit/"
+# 2026-09-19 判明: **見出し画像はエディタ画面には無い**。publisher が失敗時に保存した /edit/ のHTMLで、
+# aria-label は15個だけ・画像系は「画像を追加」1個（＝本文挿入のツールバー）・input[type=file] は0個
+# であることが分かった。見出し画像は**公開設定(/publish/)画面**にある。だから最初からそこを開く。
+PUBLISH_URL = "https://editor.note.com/notes/{nid}/publish/"
 
 # 見出し画像が入ったかの判定（上部にある大きめの画像）。ボタン名に依存しない。
 _HAS_IMAGE_JS = """() => {
@@ -181,23 +185,10 @@ def confirm_crop(page):
 
 
 def update_published(page, nid: str) -> str:
-    """公開済み記事の更新。publish_to_note.py と同じ経路（下書き保存→公開に進む→最終ボタン）。"""
-    try:
-        ds = page.locator('button:has-text("下書き保存")').first
-        if ds.is_visible(timeout=1500):
-            ds.click()
-            page.wait_for_timeout(2500)
-    except Exception:
-        pass
-    try:
-        page.locator('button:has-text("公開に進む"), button:has-text("更新する")').first.click(timeout=6000)
-        page.wait_for_timeout(2500)
-    except Exception as e:
-        return f"UPDATE_FAIL:公開に進む/更新するが押せない {str(e)[:80]}"
+    """公開設定画面で更新を確定する。**すでに /publish/ にいる前提**（2026-09-19 の判明による）。"""
     if "/publish" not in page.url:
         try:
-            page.goto(f"https://editor.note.com/notes/{nid}/publish/",
-                      wait_until="domcontentloaded", timeout=20000)
+            page.goto(PUBLISH_URL.format(nid=nid), wait_until="domcontentloaded", timeout=20000)
             page.wait_for_timeout(2500)
         except Exception as e:
             return f"UPDATE_FAIL:/publish/へ行けない {str(e)[:80]}"
@@ -238,10 +229,10 @@ def main():
                 results.append((nid, "NO_IMAGE"))
                 continue
             try:
-                page.goto(EDIT_URL.format(nid=nid), wait_until="domcontentloaded", timeout=30000)
+                page.goto(PUBLISH_URL.format(nid=nid), wait_until="domcontentloaded", timeout=30000)
                 page.wait_for_timeout(4000)
             except Exception as e:
-                print(f"   ✗ 編集画面を開けない: {e}")
+                print(f"   ✗ 公開設定画面を開けない: {e}")
                 results.append((nid, "OPEN_FAIL"))
                 continue
             if "login" in page.url:
