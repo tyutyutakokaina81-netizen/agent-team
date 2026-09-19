@@ -44,6 +44,49 @@ VENV="$HOME/.agent_venv"
 VPY="$VENV/bin/python3"
 [ -x "$VPY" ] || VPY="python3"     # venv が無ければ素のpython（tweepy 無しでも診断は動く）
 
+# ---- キーを対話で入れる（エディタを開かずに済む）----
+# 2026-09-19: ファイルを開いて4か所を書き換える作業がボトルネックになっていた。
+# `read -rs` は**画面に出さず**、コマンド履歴にも残らない（引数ではなく標準入力で受けるため）。
+if [ "${1:-}" = "--keys" ]; then
+  echo "X の認証情報を4つ入力します。**画面には表示されません**。"
+  echo "（developer.x.com → Projects & Apps → Keys and tokens で表示されるもの）"
+  echo "途中でやめるときは Ctrl+C。"
+  echo ""
+  ask() {   # $1=表示名  → 変数 ANS に入れる。前後の空白は落とす。
+    printf '  %s を貼って Enter: ' "$1"
+    IFS= read -rs ANS
+    echo ""
+    ANS="$(printf '%s' "$ANS" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"//' -e 's/"$//')"
+  }
+  ask "API Key";           K1="$ANS"
+  ask "API Key Secret";    K2="$ANS"
+  ask "Access Token";      K3="$ANS"
+  ask "Access Token Secret"; K4="$ANS"
+  bad=0
+  for pair in "API Key:$K1" "API Key Secret:$K2" "Access Token:$K3" "Access Token Secret:$K4"; do
+    nm="${pair%%:*}"; vl="${pair#*:}"
+    if [ -z "$vl" ]; then echo "  ★$nm が空です"; bad=1
+    elif [ ${#vl} -lt 15 ]; then echo "  ★$nm が短すぎます（${#vl}文字）"; bad=1; fi
+  done
+  if [ "$bad" -ne 0 ]; then
+    echo "✗ 入力に問題があるので**ファイルは書き換えていません**。もう一度 --keys を実行してください。"
+    exit 1
+  fi
+  umask 077
+  cat > "$KEYFILE" <<KEYS
+# X API の認証情報（$(date +%Y-%m-%d) に run_x.sh --keys で設定）。
+# このファイルはリポジトリの外にあり、git には入らない。値は画面にも出していない。
+export X_API_KEY="$K1"
+export X_API_SECRET="$K2"
+export X_ACCESS_TOKEN="$K3"
+export X_ACCESS_SECRET="$K4"
+KEYS
+  chmod 600 "$KEYFILE"
+  echo "✅ 保存しました: $KEYFILE（本人だけが読める権限）"
+  echo "→ 続けて: bash ops/run_x.sh   で接続を確認します"
+  exit 0
+fi
+
 if [ "${1:-}" = "--install" ]; then
   echo "== tweepy を入れます（専用の仮想環境 $VENV を作ります）=="
   echo "   理由: macOS の python は PEP 668 でシステムへの pip install を拒否します。"
@@ -96,6 +139,38 @@ git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカル�
     echo "tweepy : ★なし（bash ops/run_x.sh --install で入ります）"
     miss=1
   fi
+  # 3b) 実際に X に繋がるかを**投稿せずに**確かめる（読み取りだけ）。
+  #     「設定済み」と出ているのにキーが古い/権限が Read only、という失敗は
+  #     --go まで分からなかった。先に分かれば貼り直しが1回で済む。
+  if [ "$miss" -eq 0 ]; then
+    echo "接続確認（投稿はしません）:"
+    "$VPY" - <<'PYEOF' || true
+import os, sys
+try:
+    import tweepy
+except Exception as e:
+    print("  ? tweepy を読み込めない:", e); sys.exit(0)
+c = tweepy.Client(consumer_key=os.environ["X_API_KEY"],
+                  consumer_secret=os.environ["X_API_SECRET"],
+                  access_token=os.environ["X_ACCESS_TOKEN"],
+                  access_token_secret=os.environ["X_ACCESS_SECRET"])
+try:
+    me = c.get_me()
+    u = getattr(me, "data", None)
+    print(f"  ✅ 認証OK: @{getattr(u, 'username', '?')} として接続できました")
+except Exception as e:
+    msg = str(e)
+    print(f"  ✗ 認証に失敗: {type(e).__name__}: {msg[:160]}")
+    if "401" in msg or "Unauthorized" in msg:
+        print("     → キーが違う/古い可能性。4つを developer.x.com で作り直してください。")
+    elif "403" in msg or "Forbidden" in msg:
+        print("     → 権限不足の可能性。**App permissions を Read and write にしてから**")
+        print("        Access Token を作り直す必要があります（順番が逆だと403）。")
+    elif "429" in msg:
+        print("     → レート制限。しばらく待って再実行してください。")
+PYEOF
+  fi
+
   # 4) 投稿実績
   if [ -f ops/logs/x_posted.tsv ]; then
     echo "投稿実績 : $(wc -l < ops/logs/x_posted.tsv) 件（ops/logs/x_posted.tsv）"
