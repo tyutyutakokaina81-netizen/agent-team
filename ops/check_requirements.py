@@ -474,6 +474,47 @@ try:
 except Exception as _e:
     add("R29 英語ページのリンク切れ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
+# R30 サムネの地名不一致: 採用したサムネのファイル名に、記事に出てこない他所の地名が入っていないか。
+# 2026-09-22 実測: **高岡万葉線の記事に京都市電（明治村の保存車両）が使われていた**。
+# 出典の埋め戻しが進んで初めて分かった＝それまで1年近く、誤ったサムネのまま公開されていた。
+# fetcher 側の `_place_mismatch()` は**クエリ**が土地を名乗るかしか見ず、**取れてきたファイル名**は見ない。
+# 英語の一般語（"tram streetcar japan city"）で引くと、日本の写真ではあるが別の土地のものが来る。
+# 記事が土地を名乗っていなければ他所で撮った写真でも構わない（仏壇/神棚＝東京の博物館は可）ので、
+# **記事名に出てこない地名がファイル名にある**ときだけ鳴らす。
+try:
+    _pl = ["kyoto", "nara", "tokyo", "osaka", "kobe", "kanazawa", "nagoya", "hokkaido", "okinawa",
+           "kamakura", "hiroshima", "fukuoka", "sendai", "yokohama", "nikko", "hakone", "meiji-mura",
+           "京都", "奈良", "東京", "大阪", "神戸", "金沢", "名古屋", "北海道", "沖縄", "鎌倉",
+           "広島", "福岡", "横浜", "日光", "箱根"]
+    import json as _json30
+    _pv = _json30.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails/_provenance.json"),
+                            encoding="utf-8"))
+    _bad30 = []
+    for _st in verified:
+        _v = _pv.get(_st)
+        if not isinstance(_v, dict):
+            continue
+        _f = (_v.get("file") or "").lower()
+        if not _f:
+            continue
+        _found = [x for x in _pl if x in _f]
+        # 記事名（または本文末のクレジット行）にその地名が出ていれば、開示済みとみなす
+        if _found and not any(x in _st for x in _found):
+            _md = os.path.join(ROOT, "CMO/outputs", _st + ".md")
+            _body = open(_md, encoding="utf-8").read() if os.path.exists(_md) else ""
+            if not any(x in _body for x in _found):
+                _bad30.append((_st, _v.get("file"), _found[0]))
+    if _bad30:
+        _st, _f, _p = _bad30[0]
+        add("R30 サムネの地名不一致", "BROKEN",
+            f"**記事に無い地名のサムネ {len(_bad30)}件**: {_st[:30]}… に「{_p}」の写真"
+            f"（{str(_f)[:40]}） → 別の土地の写真を使っていないか確認する")
+    else:
+        add("R30 サムネの地名不一致", "OK",
+            f"採用 {len(verified)}件のうち、記事に出てこない地名を含むファイル名はなし")
+except Exception as _e:
+    add("R30 サムネの地名不一致", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+
 # R3 英語SEO: en-*.html 総数
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
