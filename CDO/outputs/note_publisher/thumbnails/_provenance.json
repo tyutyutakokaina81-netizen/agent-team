@@ -928,11 +928,43 @@
 "src": "https://upload.wikimedia.org/wikipedia/commons/6/68/Morning_Exercise_in_Isfahan_2020-04-29_25.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-07-31_note記事_打ち水_夕方のささやかな涼": "wikimedia",
-"2026-07-31_note記事_梅干しと梅仕事_夏の保存食": "wikimedia",
+"2026-07-31_note記事_梅干しと梅仕事_夏の保存食": {
+"author": "Ms. President",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Yaki-onigiri_and_umeboshi_by_Ms_President.jpg",
+"file": "File:Yaki-onigiri and umeboshi by Ms President.jpg",
+"license": "CC BY-SA 2.0",
+"query": "umeboshi pickled plum",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Yaki-onigiri_and_umeboshi_by_Ms_President.jpg/1280px-Yaki-onigiri_and_umeboshi_by_Ms_President.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-01_note記事_冷やし中華始めました_夏の合図": "wikimedia",
-"2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび": "wikimedia",
-"2026-08-01_note記事_蚊取り線香_夏の夜のにおい": "wikimedia",
-"2026-08-01_note記事_風鈴_音で涼む夏": "wikimedia",
+"2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび": {
+"author": "emily_harbour_in_july",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Amazake_by_emily_harbour_in_july.jpg",
+"file": "File:Amazake by emily harbour in july.jpg",
+"license": "CC BY 2.0",
+"query": "amazake rice drink",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Amazake_by_emily_harbour_in_july.jpg/1280px-Amazake_by_emily_harbour_in_july.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-01_note記事_蚊取り線香_夏の夜のにおい": {
+"author": "مانفی",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Mosquito_coil.JPG",
+"file": "File:Mosquito coil.JPG",
+"license": "CC BY-SA 3.0",
+"query": "mosquito coil incense",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Mosquito_coil.JPG/1280px-Mosquito_coil.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-01_note記事_風鈴_音で涼む夏": {
+"author": "Sago350",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4(%E8%8A%B1%E7%81%AB).jpg",
+"file": "File:萱野神社 風鈴(花火).jpg",
+"license": "CC0",
+"query": "風鈴",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg/1280px-%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置": "wikimedia",
 "2026-08-02_note記事_FIRE報告_本日FIREしました": {
 "backend": "wikimedia",
@@ -1389,5 +1421,23 @@
 "license": "CC BY 4.0",
 "query": "稲孫",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E6%96%87%E5%AD%A6%E9%99%A2%E6%95%99%E5%AE%A4_%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6_%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6%E7%B3%BB%E4%B8%BB%E4%BB%BB%E9%8A%AD%E7%A8%B2%E5%AD%AB_%283804-035070-0%29.jpg/1280px-%E6%96%87%E5%AD%A6%E9%99%A2%E6%95%99%E5%AE%A4_%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6_%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6%E7%B3%BB%E4%B8%BB%E4%BB%BB%E9%8A%AD%E7%A8%B2%E5%AD%AB_%283804-035070-0%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている": {
+"author": "audreybee",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%90%BD%E3%81%A1%E8%91%89_(29904412463).jpg",
+"file": "File:落ち葉 (29904412463).jpg",
+"license": "CC BY-SA 2.0",
+"query": "落ち葉",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/%E8%90%BD%E3%81%A1%E8%91%89_%2829904412463%29.jpg/1280px-%E8%90%BD%E3%81%A1%E8%91%89_%2829904412463%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-26_note記事_鮭_生まれた川に戻る魚を海で獲っている": {
+"author": "Falcated",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg",
+"file": "File:春日若宮おん祭での供物.jpg",
+"license": "CC BY-SA 4.0",
+"query": "塩鮭",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg/1280px-%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
