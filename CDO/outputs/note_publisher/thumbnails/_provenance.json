@@ -888,13 +888,45 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Watermelon_yellow_2024_G1.jpg/1280px-Watermelon_yellow_2024_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-07-30_note記事_川遊び_立山からの冷たい川": "wikimedia",
-"2026-07-30_note記事_日帰り温泉_富山の湯の暮らし": "wikimedia",
+"2026-07-30_note記事_日帰り温泉_富山の湯の暮らし": {
+"author": "Alpsdake",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Outdoor_hot_spring_bath_in_Nigorigo_Onsen.jpg",
+"file": "File:Outdoor hot spring bath in Nigorigo Onsen.jpg",
+"license": "CC BY-SA 4.0",
+"query": "露天風呂",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Outdoor_hot_spring_bath_in_Nigorigo_Onsen.jpg/1280px-Outdoor_hot_spring_bath_in_Nigorigo_Onsen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-30_note記事_早期退職_今日で会社を辞めた": "wikimedia",
-"2026-07-30_note記事_火を使わない夏ごはん_暑い日の手抜き": "wikimedia",
+"2026-07-30_note記事_火を使わない夏ごはん_暑い日の手抜き": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg",
+"file": "File:そうめん（そうめん金龍）20230801-P1029181.jpg",
+"license": "CC BY 4.0",
+"query": "そうめん",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg/1280px-%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-30_note記事_鱒寿司_富山の押し寿司": "wikimedia",
-"2026-07-31_note記事_お盆_家族が帰ってくる夏": "wikimedia",
+"2026-07-31_note記事_お盆_家族が帰ってくる夏": {
+"author": "Syced",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%9C%AD%E5%B9%8C%E5%A4%8F%E7%A5%AD%E3%82%8A_2009.jpg",
+"file": "File:札幌夏祭り 2009.jpg",
+"license": "CC0",
+"query": "夏祭り",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/%E6%9C%AD%E5%B9%8C%E5%A4%8F%E7%A5%AD%E3%82%8A_2009.jpg/1280px-%E6%9C%AD%E5%B9%8C%E5%A4%8F%E7%A5%AD%E3%82%8A_2009.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ": "wikimedia",
-"2026-07-31_note記事_夏休みのラジオ体操_朝の広場": "wikimedia",
+"2026-07-31_note記事_夏休みのラジオ体操_朝の広場": {
+"author": "Mohammad Hossein Kiani",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Morning_Exercise_in_Isfahan_2020-04-29_25.jpg",
+"file": "File:Morning Exercise in Isfahan 2020-04-29 25.jpg",
+"license": "CC BY 4.0",
+"query": "morning exercise park people",
+"src": "https://upload.wikimedia.org/wikipedia/commons/6/68/Morning_Exercise_in_Isfahan_2020-04-29_25.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
 "2026-07-31_note記事_打ち水_夕方のささやかな涼": "wikimedia",
 "2026-07-31_note記事_梅干しと梅仕事_夏の保存食": "wikimedia",
 "2026-08-01_note記事_冷やし中華始めました_夏の合図": "wikimedia",
