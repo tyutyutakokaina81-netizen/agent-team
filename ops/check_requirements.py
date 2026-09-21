@@ -692,9 +692,18 @@ for _h, _stems in _groups.items():
     for _st in _stems:
         (_left_used if _st in verified else _left_pool).append(_st)
 if _left_used:
+    # 例に出す stem と、その stem 自身の理由を対にする。
+    # ★最初の実装は「_rej のうち最初に見つかったハッシュの理由」を出しており、
+    #   例に挙げた記事とは無関係の理由が並んでいた（メッセージだけが嘘になる型）。
+    _ex_st = sorted(_left_used)[0]
+    _ex_why = ""
+    for _h, _stems in _groups.items():
+        if _ex_st in _stems and _h in _rej:
+            _ex_why = _rej[_h]
+            break
     add("R31 中身で落とした画像の残留", "BROKEN",
         f"**落としたはずの画像が {len(_left_used)}本の見出しに出たままになっている**"
-        f"(例: {sorted(_left_used)[0][:34]}…／理由: {_rej[[h for h in _rej if h in _groups][0]][:40]}…)"
+        f"(例: {_ex_st[:34]}…／理由: {_ex_why[:40]}…)"
         f" → _verified.txt から外し、jpg を消して取り直す"
         + (f"／未採用プールにも {len(_left_pool)}本" if _left_pool else ""))
 elif _left_pool:
