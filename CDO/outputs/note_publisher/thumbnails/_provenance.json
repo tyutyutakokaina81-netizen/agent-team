@@ -529,10 +529,26 @@
 "query": "風鈴",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg/1280px-%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-07-08_note記事_toyama-firefly-watching": "wikimedia",
+"2026-07-08_note記事_toyama-firefly-watching": {
+"author": "NASA, ESA, A. James",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Hubble_Detects_Ghostly_Glow_Surrounding_Our_Solar_System_(opo22050a).jpg",
+"file": "File:Hubble Detects Ghostly Glow Surrounding Our Solar System (opo22050a).jpg",
+"license": "CC BY 4.0",
+"query": "firefly night glow",
+"src": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Hubble_Detects_Ghostly_Glow_Surrounding_Our_Solar_System_%28opo22050a%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
 "2026-07-10_note記事_福井三国_新保屋のおろしそば": "wikimedia",
 "2026-07-11_note記事_みりん干し_氷見の干物": "wikimedia",
-"2026-07-11_note記事_キスとメゴチの天ぷら_夏の富山湾": "wikimedia",
+"2026-07-11_note記事_キスとメゴチの天ぷら_夏の富山湾": {
+"author": "ウィキ太郎(WikiTaro)",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Maitake_Mushroom_Tempura_2021_Grifola_frondosa_%E8%88%9E%E8%8C%B8%E3%81%AE%E5%A4%A9%E3%81%B7%E3%82%89.jpg",
+"file": "File:Maitake Mushroom Tempura 2021 Grifola frondosa 舞茸の天ぷら.jpg",
+"license": "CC0",
+"query": "天ぷら",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Maitake_Mushroom_Tempura_2021_Grifola_frondosa_%E8%88%9E%E8%8C%B8%E3%81%AE%E5%A4%A9%E3%81%B7%E3%82%89.jpg/1280px-Maitake_Mushroom_Tempura_2021_Grifola_frondosa_%E8%88%9E%E8%8C%B8%E3%81%AE%E5%A4%A9%E3%81%B7%E3%82%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-11_note記事_氷見潮風ギャラリー_藤子不二雄A": "wikimedia",
 "2026-07-11_note記事_魚のアラの入手_富山の台所": "wikimedia",
 "2026-07-12_note記事_かぶら寿司": "wikimedia",
