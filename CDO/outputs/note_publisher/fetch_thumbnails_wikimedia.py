@@ -673,9 +673,16 @@ def _search_candidates(query: str):
     # 日本を名乗るクエリ（"... japan"）は日本の写真を探しているのだから、同じ足切りを掛ける。
     _jp_query = bool(_KANA.search(query or "") or _KANJI.search(query or "")
                      or "japan" in (query or "").lower())
+    # ★2026-09-21: **検索の時点で画像に限定する**。
+    #   File名前空間には PDF も入っているので、日本語の語では PDF ばかり返ることがある。
+    #   実測（Actionのログ）: 「衣類 整理」→ **12件すべて application/pdf**、
+    #   「蓮根 収穫」→ 2件とも PDF。取得側で mime を弾いていたため
+    #   「pages:12 / img:0」＝**候補枠を全部 PDF に使い潰して0件**になっていた。
+    #   filetype:bitmap は Commons の検索構文で、jpeg/png 等のビットマップ画像だけに絞る。
+    _q = f"{query} filetype:bitmap"
     params = {
         "action": "query", "format": "json", "generator": "search",
-        "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": "12",
+        "gsrsearch": _q, "gsrnamespace": "6", "gsrlimit": "12",
         # extmetadata も取る＝ライセンス/作者を保存するため（CC BY-SA は表示義務がある。
         # CQO指摘・中3: これまで出典を一切残しておらず、権利表示の可否を後から判断できなかった）。
         "prop": "imageinfo", "iiprop": "url|mime|size|extmetadata", "iiurlwidth": "1280",
@@ -688,6 +695,15 @@ def _search_candidates(query: str):
     if data.get("warnings"):
         diag["warn"] = str(data["warnings"])[:120]
     pages = (data.get("query") or {}).get("pages") or {}
+    # filetype:bitmap が効かない／絞りすぎて0件になった場合は、**元のクエリで引き直す**。
+    # 新しい絞り込みを入れるときに、それ自体が全滅の原因になっては本末転倒なので退避路を持つ。
+    if not pages:
+        params["gsrsearch"] = query
+        data2 = json.loads(_get(API + "?" + urllib.parse.urlencode(params)).decode("utf-8"))
+        pages2 = (data2.get("query") or {}).get("pages") or {}
+        if pages2:
+            diag["bitmap_filter_empty"] = True   # 絞り込みが0件→素のクエリで拾い直した
+            data, pages = data2, pages2
     diag["pages"] = len(pages)
     cands = []
     diag["nonphoto"] = 0
