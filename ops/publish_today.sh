@@ -76,6 +76,22 @@ echo ""; echo "=== 結果: 公開 ${ok} 件 / 失敗 ${ng} 件 ==="
 if [ $ok -gt 0 ]; then
   git add -A
   git -c user.email=noreply@anthropic.com -c user.name=Claude commit -q -m "publish: 本日分 ${ok}件をqueue→publishedへ移動 (${today})" || true
-  for i in 1 2 3 4; do git push origin main && break || sleep $((2**i)); done
+  # ★2026-09-25 修正: ここは **同じ push を4回繰り返すだけ**で、間に取得を挟んでいなかった。
+  #   サムネの Action は run_requests/CMO の push ごとに main へコミットするので、
+  #   その直後は必ず non-fast-forward になり、**4回とも同じ理由で失敗する**（実測: 2026-09-22）。
+  #   しかも失敗しても終了コードは 0 なので、画面上は成功に見える。
+  #   **取得してから押し直す**。最後まで駄目なら、その旨をはっきり出す。
+  pushed=0
+  for i in 1 2 3 4; do
+    if git push origin main; then pushed=1; break; fi
+    echo "push 失敗（${i}回目）→ main を取得し直して再試行"
+    git pull --rebase --autostash origin main || true
+    sleep $((2**i))
+  done
+  if [ "${pushed}" != "1" ]; then
+    echo "::error::公開は成功しましたが **push できませんでした**。"
+    echo "   台帳(published_registry.json)とキューの移動が手元にしか残っていません。"
+    echo "   この画面を Claude に貼ってください。"
+  fi
 fi
 echo "=== 完了 ==="

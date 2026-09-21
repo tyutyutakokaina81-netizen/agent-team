@@ -123,6 +123,17 @@ BR="$(git rev-parse --abbrev-ref HEAD)"
 if [ "$BR" = "HEAD" ]; then
   echo "⚠️ ブランチから外れているので push しません（detached HEAD）。git switch main で戻してください。"
 else
-  for i in 1 2 3 4; do git push origin "$BR" && break || sleep $((2**i)); done
+  # ★2026-09-25 修正: 同じ push を4回繰り返すだけで、間に取得を挟んでいなかった。
+  # サムネの Action が main へコミットした直後は必ず non-fast-forward になり、
+  # **4回とも同じ理由で失敗する**（2026-09-22 に publish_today.sh で実測）。
+  # 失敗しても後続は進むので、画面上は成功に見える。取得してから押し直す。
+  _pushed=0
+  for i in 1 2 3 4; do
+    if git push origin "$BR"; then _pushed=1; break; fi
+    echo "push 失敗（${i}回目）→ $BR を取得し直して再試行"
+    git pull --rebase --autostash origin "$BR" || true
+    sleep $((2**i))
+  done
+  [ "${_pushed}" = "1" ] || echo "⚠️ push できませんでした。結果が手元にしか残っていません。"
 fi
 

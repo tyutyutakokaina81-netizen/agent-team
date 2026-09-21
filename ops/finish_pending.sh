@@ -121,7 +121,18 @@ python3 ops/process_inbox.py post --from cowork --to code --type report \
 
 git add -A
 git commit -m "cowork: finish_pending unpub=${unpub_ok}/3 publish=${published}/$((published+failed)) (${TS})" || true
-for i in 1 2 3 4; do git push origin "$BR" && break || sleep $((2**i)); done
+# ★2026-09-25 修正: 同じ push を4回繰り返すだけで、間に取得を挟んでいなかった。
+# サムネの Action が main へコミットした直後は必ず non-fast-forward になり、
+# **4回とも同じ理由で失敗する**（2026-09-22 に publish_today.sh で実測）。
+# 失敗しても後続は進むので、画面上は成功に見える。取得してから押し直す。
+_pushed=0
+for i in 1 2 3 4; do
+  if git push origin "$BR"; then _pushed=1; break; fi
+  echo "push 失敗（${i}回目）→ $BR を取得し直して再試行"
+  git pull --rebase --autostash origin "$BR" || true
+  sleep $((2**i))
+done
+[ "${_pushed}" = "1" ] || echo "⚠️ push できませんでした。結果が手元にしか残っていません。"
 echo ""
 echo "=== 完了。空note下書き化 ${unpub_ok}/3 ・公開 ${published} 件 ==="
 echo "公開URLは上のログに出ています。Claudeに貼れば台帳を更新します。"
