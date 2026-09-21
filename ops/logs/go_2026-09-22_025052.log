@@ -1,0 +1,52 @@
+== ① git lock 掃除（場所を問わず再帰削除・zsh安全）==
+== ② main 同期 ==
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Reset branch 'main'
+branch 'main' set up to track 'origin/main'.
+Your branch is up to date with 'origin/main'.
+本日(2026-09-22)のキュー記事なし → キュー全体を対象にします。
+
+========== 公開: 2026-09-26_note記事_鮭_生まれた川に戻る魚を海で獲っている.md ==========
+📝 記事: 2026-09-26_note記事_鮭_生まれた川に戻る魚を海で獲っている.md
+🏷️  タイトル: 鮭：生まれた川に戻る魚を、海で獲っている
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 7 個 (鮭, 秋の味覚, 焼き魚, 富山, 暮らし…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n8181e09e55ac/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 7 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n8181e09e55ac/publish/
+📒 published_registry.json に追記しました（217件）
+
+========== 公開: 2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている.md ==========
+📝 記事: 2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている.md
+🏷️  タイトル: 落ち葉：掃いた次の日に、同じだけ落ちている
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 7 個 (落ち葉, 秋の暮らし, 掃除, 富山, 季節…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/nb50a98bea168/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 7 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/nb50a98bea168/publish/
+📒 published_registry.json に追記しました（218件）
+
+=== 結果: 公開 2 件 / 失敗 0 件 ===
