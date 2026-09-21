@@ -5,7 +5,7 @@ to: code
 created: 2026-09-19T21:02:28+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: owner_tasks 実行結果 2026-09-19_205654
 ---
 
@@ -16,3 +16,10 @@ title: owner_tasks 実行結果 2026-09-19_205654
 ⚠️  サムネ自動設定に失敗: Locator.click: Timeout 6000ms exceeded.
 
 全出力: ops/logs/owner_tasks_2026-09-19_205654.log（このログは追跡対象になったので一緒に push されます）
+
+
+---
+
+## 結果 (2026-09-21T16:42:30+00:00)
+
+owner_tasks 実行結果を確認。見出し画像7/7成功を反映済
