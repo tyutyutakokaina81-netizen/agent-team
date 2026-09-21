@@ -50,3 +50,36 @@ Your branch is up to date with 'origin/main'.
 📒 published_registry.json に追記しました（218件）
 
 === 結果: 公開 2 件 / 失敗 0 件 ===
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]          main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]          main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]          main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+ ! [rejected]          main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/tyutyutakokaina81-netizen/agent-team.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+=== 完了 ===
