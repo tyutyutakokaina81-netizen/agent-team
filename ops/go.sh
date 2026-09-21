@@ -99,8 +99,13 @@ echo "==================== 2) 公開 ===================="
 PUBARGS=""
 [ "${ARG}" = "--all" ]   && PUBARGS="--all"
 [ "${ARG}" = "--login" ] && PUBARGS="--login"
-bash ops/publish_today.sh ${PUBARGS}
-PUB_RC=$?
+# ★2026-09-25: 5) で `ls -t ops/logs/publish_*.log` から拾っていたが、**この実行とは別の
+#   ログ（日次デーモンの publish_2026-09-21_080005.log）を掴んで、無関係な行を表示した**。
+#   「今回の結果」を名乗るなら、今回の出力そのものを見るしかない。
+GO_LOG="ops/logs/go_$(date +%Y-%m-%d_%H%M%S).log"
+mkdir -p ops/logs
+bash ops/publish_today.sh ${PUBARGS} 2>&1 | tee "${GO_LOG}"
+PUB_RC=${PIPESTATUS[0]}
 echo "(公開の終了コード: ${PUB_RC})"
 
 echo ""
@@ -126,16 +131,24 @@ done
 echo ""
 echo "==================== 5) 残っている作業 ===================="
 # 件数はハードコードしない。**手で書いた数字は必ず古くなる。**
-LATEST_LOG="$(ls -t ops/logs/publish_*.log 2>/dev/null | head -1)"
 QUEUE_LEFT=$(ls drafts/queue/*.md 2>/dev/null | wc -l | tr -d ' ')
-X_POSTED=$([ -f ops/logs/x_posted.tsv ] && grep -c . ops/logs/x_posted.tsv || echo 0)
-X_PENDING=$(grep -c '^=== ' ops/x_queue.txt 2>/dev/null || echo "?")
+# ★2026-09-25: `$([ -f f ] && grep -c . f || echo 0)` は **ファイルが在って0行のとき
+#   grep が「0」を出したうえで終了コード1を返すので、|| echo 0 も走って「0\n0」になる**。
+#   実際に画面が "X の投稿実績 : 0 / 0 件" と2行に割れた。数え方は1本道にする。
+if [ -f ops/logs/x_posted.tsv ]; then
+  X_POSTED=$(grep -c . ops/logs/x_posted.tsv 2>/dev/null)
+  [ -z "${X_POSTED}" ] && X_POSTED=0
+else
+  X_POSTED=0
+fi
+X_PENDING=$(grep -c '^=== ' ops/x_queue.txt 2>/dev/null)
+[ -z "${X_PENDING}" ] && X_PENDING="?"
 echo "公開キューの残り : ${QUEUE_LEFT} 本"
 echo "X の投稿実績     : ${X_POSTED} 件 ／ 未投稿スレッド ${X_PENDING} 本"
-if [ -n "${LATEST_LOG}" ]; then
+if [ -f "${GO_LOG}" ]; then
   echo ""
-  echo "今回の公開ログ: ${LATEST_LOG}"
-  grep -E "公開しました|https://note.com|✗|失敗" "${LATEST_LOG}" | tail -12
+  echo "今回の公開結果（${GO_LOG}）:"
+  grep -E "^=== 結果:|最終URL|✗ 重複ゲート|この記事は公開できませんでした" "${GO_LOG}" | tail -15
 fi
 cat <<'MANUAL'
 

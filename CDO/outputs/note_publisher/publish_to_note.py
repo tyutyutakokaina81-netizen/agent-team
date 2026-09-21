@@ -35,10 +35,20 @@ import json
 from pathlib import Path
 from datetime import datetime
 
+# ★2026-09-25: ここは import 時点で sys.exit していた。そのため **Playwright の無い環境から
+#   この中の純粋な関数（題材の重複判定など）を呼べず、検査側が同じ判定を別実装で持つことになり、
+#   実際に食い違った**（ops/check_requirements.py の R26 が「重複なし」と言った記事を、
+#   公開側のゲートが重複として弾いた）。判定の実装が2つあれば、いつか必ずずれる。
+#   ブラウザを使う時点で止めれば十分なので、import は通す。
 try:
     from playwright.sync_api import sync_playwright
-except ImportError:
-    sys.exit("Playwrightが未インストールです。setup.sh を実行してください。")
+except ImportError:                       # noqa: BLE001
+    sync_playwright = None
+
+def _require_playwright():
+    """ブラウザ操作の直前に呼ぶ。未インストールならここで止める。"""
+    if sync_playwright is None:
+        sys.exit("Playwrightが未インストールです。setup.sh を実行してください。")
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 ARTICLES_DIR = REPO_ROOT / "CMO" / "outputs"
@@ -350,6 +360,7 @@ def login():
     print("ブラウザを起動します。表示されたウィンドウで note にログインしてください。")
     print("ログイン完了後（noteのダッシュボードが見えたら）、このターミナルで Enter を押してください。")
     PROFILE_DIR.mkdir(parents=True, exist_ok=True)
+    _require_playwright()
     with sync_playwright() as p:
         ctx = _launch_with_chrome_then_chromium(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
@@ -619,6 +630,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
         if photos and len(photos) < len(placeholders):
             sys.exit(f"✗ 写真不足: {len(placeholders)}枚必要 / {len(photos)}枚しかない。中断します。")
 
+    _require_playwright()
     with sync_playwright() as p:
         ctx = load_context(p)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()

@@ -362,24 +362,41 @@ except Exception as _e:
 # 2026-09-18 実測: 前日にキューへ入れた2本が**両方とも公開時の題材ゲートではねられ、公開0件**になった。
 # 在庫は108本あるのに0件。「キューは埋まっている」という見た目だけ正しく、中身が全部通らない状態。
 # 公開の瞬間に判定するのでは遅い（その日の枠が消える）ので、**入れた時点で同じ判定をする**。
+# ★2026-09-25 修正: ここは台帳の `topic` フィールドだけを見る**独自実装**だった。
+#   公開側のゲートは `topic_conflict()`（タイトルの題材トークン照合）も使うため、**判定が食い違った**。
+#   実害: 「氷見と高岡：港町と古都は何が違うのか」を R26 は「重複なし」と言い、
+#   公開側は『富山2日完璧ガイド：氷見と高岡を2日で巡る旅程』と同題材として弾いた。
+#   判定の実装が2つあれば、いつか必ずずれる。**publisher の関数をそのまま呼ぶ**。
+#   （publish_to_note.py は Playwright 未導入でも import できるようにした＝2026-09-25）
 try:
-    import json as _json26
-    _reg = _json26.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
-                          encoding="utf-8"))
-    _ptopics = {e.get("topic", "") for e in _reg if e.get("topic")}
-    _dup = []
-    for _f in glob.glob(os.path.join(ROOT, "drafts/queue/*.md")):
-        _m = re.match(r"\d{4}-\d{2}-\d{2}_note記事_([^_]+)_", os.path.basename(_f))
-        if _m and _m.group(1) in _ptopics:
-            _dup.append(_m.group(1))
-    if not glob.glob(os.path.join(ROOT, "drafts/queue/*.md")):
+    _q26 = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
+    if not _q26:
         add("R26 キューの題材重複", "STALE", "公開キューが空＝未検査")
-    elif _dup:
-        add("R26 キューの題材重複", "BROKEN",
-            f"**既公開と同題材の記事が {len(_dup)}本**({'/'.join(_dup[:3])}) → 公開時にはねられて"
-            "その日の枠が消える。別の在庫に差し替える（切り口が違うなら --allow-topic-dup）")
     else:
-        add("R26 キューの題材重複", "OK", "キューの題材はすべて未公開")
+        import sys as _sys26
+        _pubdir = os.path.join(ROOT, "CDO/outputs/note_publisher")
+        if _pubdir not in _sys26.path:
+            _sys26.path.insert(0, _pubdir)
+        import publish_to_note as _P26          # 失敗したら except で STALE（黙って通さない）
+        _dup = []
+        for _f in _q26:
+            _t = open(_f, encoding="utf-8").read()
+            _m = re.search(r"##\s*タイトル\s*\n```\n(.+?)\n```", _t, re.S)
+            if not _m:
+                continue
+            _title = _m.group(1).strip()
+            _hit = _P26.topic_conflict(_title)
+            if _hit:
+                _dup.append((os.path.basename(_f)[:-3], _hit[0].get("title", ""), sorted(_hit[1])))
+        if _dup:
+            _b, _pt, _sh = _dup[0]
+            add("R26 キューの題材重複", "BROKEN",
+                f"**既公開と同題材の記事が {len(_dup)}本**: {_b[:30]}… が「{'/'.join(_sh[:2])}」で "
+                f"『{_pt[:30]}…』と重なる → 公開時にはねられてその日の枠が消える。"
+                "キューから外すか、切り口が違うなら --allow-topic-dup で出す")
+        else:
+            add("R26 キューの題材重複", "OK",
+                f"キュー {len(_q26)}本すべて、公開側と同じ判定(topic_conflict)で重複なし")
 except Exception as _e:
     add("R26 キューの題材重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
