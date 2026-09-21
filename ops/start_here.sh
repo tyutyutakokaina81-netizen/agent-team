@@ -17,18 +17,30 @@ echo "==================== 0) git の残骸を確認 ===================="
 # ★2026-09-25: `pgrep -f "git "` は**コマンドライン全体に "git " を含むだけ**の
 #   無関係なプロセスにも当たる（実測: git を一度も呼んでいない bash に当たった）。
 #   見たいのは「git が走っているか」なので、プロセス名で厳密に一致させる。
-if pgrep -x git >/dev/null 2>&1; then
-  echo "⚠️ 動いている git プロセスがあります。終わるのを待ってから、もう一度実行してください。"
+# ★2026-09-25 修正: 「git が動いていたら即 exit」だったが、`git pull` の直後は macOS の git が
+#   **自動メンテナンス(gc --auto)** をバックグラウンドで走らせるため、
+#   **いちばん実行したいタイミングで必ず弾かれる**（実測: pull 直後に git が9個走っていて止まった）。
+#   ガード本来の目的は「生きている git の下でロックファイルを消さない」ことなので、
+#   **止めるのはロック削除だけ**にして、あとは進める。
+GIT_BUSY=0
+for _i in 1 2 3 4 5 6; do
+  pgrep -x git >/dev/null 2>&1 || { GIT_BUSY=0; break; }
+  GIT_BUSY=1
+  echo "git が動いています（自動メンテナンスの可能性）。${_i}/6 回目・10秒待ちます…"
+  sleep 10
+done
+if [ "${GIT_BUSY}" = "1" ] && pgrep -x git >/dev/null 2>&1; then
+  echo "まだ動いています。**ロックファイルの掃除だけ飛ばして**先に進みます:"
   pgrep -lx git
-  exit 1
-fi
-LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
-if [ -n "$LOCKS" ]; then
-  echo "残骸を見つけたので消します（ロックファイルだけ。コミットや作業ファイルには触れません）:"
-  echo "$LOCKS"
-  find .git -maxdepth 3 -name '*.lock*' -delete
 else
-  echo "残骸なし"
+  LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
+  if [ -n "${LOCKS}" ]; then
+    echo "残骸を見つけたので消します（ロックファイルだけ。コミットや作業ファイルには触れません）:"
+    echo "${LOCKS}"
+    find .git -maxdepth 3 -name '*.lock*' -delete
+  else
+    echo "残骸なし"
+  fi
 fi
 
 echo ""

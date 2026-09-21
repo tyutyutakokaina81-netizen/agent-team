@@ -32,21 +32,31 @@ case "${ARG}" in
 esac
 
 echo "==================== 0) 安全確認 ===================="
-# ★2026-09-25: `pgrep -f "git "` は**コマンドライン全体に "git " を含むだけ**の
-#   無関係なプロセスにも当たる（実測: git を一度も呼んでいない bash に当たった）。
-#   見たいのは「git が走っているか」なので、プロセス名で厳密に一致させる。
-if pgrep -x git >/dev/null 2>&1; then
-  echo "⚠️ 動いている git プロセスがあります。終わるのを待ってから、もう一度実行してください。"
+# ★2026-09-25 修正: ここは「git が動いていたら即 exit」だった。
+#   ところが `git pull` の直後は macOS の git が **自動メンテナンス(gc --auto)** を
+#   バックグラウンドで走らせるため、**いちばん実行したいタイミングで必ず弾かれる**
+#   （実測: pull 直後に git が9個走っていて止まった）。
+#   ガード本来の目的は「生きている git の下でロックファイルを消さない」ことなので、
+#   **止めるのはロック削除だけ**にして、あとは進める。少し待てば大抵は終わる。
+GIT_BUSY=0
+for _i in 1 2 3 4 5 6; do
+  pgrep -x git >/dev/null 2>&1 || { GIT_BUSY=0; break; }
+  GIT_BUSY=1
+  echo "git が動いています（自動メンテナンスの可能性）。${_i}/6 回目・10秒待ちます…"
+  sleep 10
+done
+if [ "${GIT_BUSY}" = "1" ] && pgrep -x git >/dev/null 2>&1; then
+  echo "まだ動いています。**ロックファイルの掃除だけ飛ばして**先に進みます:"
   pgrep -lx git
-  exit 1
-fi
-LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
-if [ -n "${LOCKS}" ]; then
-  echo "git の残骸を消します（ロックファイルだけ。コミットや作業ファイルには触れません）:"
-  echo "${LOCKS}"
-  find .git -maxdepth 3 -name '*.lock*' -delete
 else
-  echo "残骸なし"
+  LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
+  if [ -n "${LOCKS}" ]; then
+    echo "git の残骸を消します（ロックファイルだけ。コミットや作業ファイルには触れません）:"
+    echo "${LOCKS}"
+    find .git -maxdepth 3 -name '*.lock*' -delete
+  else
+    echo "残骸なし"
+  fi
 fi
 # ★2026-09-19 の事故: rebase が衝突で止まっている最中に自動コミットして、
 #   コンフリクト記号ごと .py をコミットし、python が全部 SyntaxError になった。
