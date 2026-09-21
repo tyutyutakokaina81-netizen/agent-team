@@ -527,8 +527,8 @@ try:
     _pl = [x for pair in _PREF for x in pair] + [
         # 都道府県名を名乗らない有名地・施設名（見つけ次第足す）
         "kobe", "kanazawa", "nagoya", "kamakura", "sendai", "yokohama", "nikko", "hakone",
-        "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "神戸", "金沢", "名古屋",
-        "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京",
+        "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "yokosuka", "神戸", "金沢", "名古屋",
+        "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京", "横須賀", "大山千枚田",
     ]
     import json as _json30
     _pv = _json30.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails/_provenance.json"),
