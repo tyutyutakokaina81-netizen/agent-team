@@ -14,9 +14,12 @@ set -u
 cd "$(dirname "$0")/.." || exit 1
 
 echo "==================== 0) git の残骸を確認 ===================="
-if pgrep -f "git " >/dev/null 2>&1; then
+# ★2026-09-25: `pgrep -f "git "` は**コマンドライン全体に "git " を含むだけ**の
+#   無関係なプロセスにも当たる（実測: git を一度も呼んでいない bash に当たった）。
+#   見たいのは「git が走っているか」なので、プロセス名で厳密に一致させる。
+if pgrep -x git >/dev/null 2>&1; then
   echo "⚠️ 動いている git プロセスがあります。終わるのを待ってから、もう一度実行してください。"
-  pgrep -fl "git " | grep -v pgrep
+  pgrep -lx git
   exit 1
 fi
 LOCKS="$(find .git -maxdepth 3 -name '*.lock*' 2>/dev/null)"
