@@ -4464,3 +4464,101 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-09-21_002_cowork_code.yaml  id=2026-09-21_002
+[main d1e0b80] cowork: paid-footer insertion pass (2026-09-21_080005)
+ 5 files changed, 96 insertions(+)
+ create mode 100644 ops/logs/sell_2026-09-21_080247.log
+ create mode 100644 ops/outbox/2026-09-21_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   b6511a6..d1e0b80  main -> main
+=== publish run 2026-09-22_080005 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-09-27_note記事_柿_見ただけでは甘いか渋いか分からない.md ---
+📝 記事: 2026-09-27_note記事_柿_見ただけでは甘いか渋いか分からない.md
+🏷️  タイトル: 柿：見ただけでは、甘いか渋いか分からない
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 7 個 (柿, 秋の果物, 渋柿, 富山, 暮らし…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n64cc1243922a/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 7 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n64cc1243922a/publish/
+📒 published_registry.json に追記しました（219件）
+--- 公開試行: 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく.md ---
+📝 記事: 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく.md
+🏷️  タイトル: 渡り鳥：いなくなったほうに、先に気づく
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: なし
+🔖 ハッシュタグ: 7 個 (渡り鳥, 秋の自然, 田んぼ, 富山, 季節…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/nfa9647b9affd/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+ℹ️  写真サムネは未設定（_verified.txt 未掲載 or _no_auto）→ note既定サムネで公開する
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 7 個を入力
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/nfa9647b9affd/publish/
+📒 published_registry.json に追記しました（220件）
+=== summary(無料): published=2 failed=0 thumb_fail=2 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/10] 渡り鳥：いなくなったほうに、先に気づく
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/10] 柿：見ただけでは、甘いか渋いか分からない
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/10] 落ち葉：掃いた次の日に、同じだけ落ちている
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[4/10] 鮭：生まれた川に戻る魚を、海で獲っている
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/10] 二番穂：刈り終えた田んぼが、もう一度緑になる
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[6/10] むかご：一度に採れる量が、料理の単位に届かない
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/10] 衣替え：日付で服を入れ替える決まりがある
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[8/10] ひやおろし：夏を越させる、という工程がある
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/10] 日の入り：暗くなる時刻だけが、毎日ずれていく
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[10/10] ぶどう：種を出す手間が、いつのまにか無くなった
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 10 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+[1/7] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+[2/7] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+[3/7] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[4/7] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[5/7] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+[6/7] れんこん：穴が空いているから縁起がいい、という理屈
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[7/7] 墓参り：年に何度行くかは、家によって違う
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+=== 結果: 巡回 7 / 新規コメント 0 / セレクタ外れ 0 / 未描画 5 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+posted: ops/outbox/2026-09-22_001_cowork_code.yaml  id=2026-09-22_001
