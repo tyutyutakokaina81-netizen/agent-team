@@ -595,8 +595,24 @@
 },
 "2026-07-12_note記事_黒部峡谷トロッコ": "wikimedia",
 "2026-07-23_note記事_おわら風の盆": "wikimedia",
-"2026-07-23_note記事_五箇山の栃餅": "wikimedia",
-"2026-07-23_note記事_井波の木彫りの町": "wikimedia",
+"2026-07-23_note記事_五箇山の栃餅": {
+"author": "Kropsoq",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Mochi_002.jpg",
+"file": "File:Mochi 002.jpg",
+"license": "CC BY-SA 3.0",
+"query": "mochi rice cake japanese",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Mochi_002.jpg/1280px-Mochi_002.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-23_note記事_井波の木彫りの町": {
+"author": "Curved.kiwix",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Carving_wood_workshop.jpg",
+"file": "File:Carving wood workshop.jpg",
+"license": "CC BY-SA 4.0",
+"query": "wood carving craft",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Carving_wood_workshop.jpg/1280px-Carving_wood_workshop.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-23_note記事_呉羽山からの立山連峰": "wikimedia",
 "2026-07-23_note記事_大根寿司": "wikimedia",
 "2026-07-23_note記事_富山県美術館TAD": "wikimedia",
