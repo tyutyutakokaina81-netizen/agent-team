@@ -73,12 +73,29 @@ jobs:
       # 2) Wikimedia Commons（キー不要）で、Pexelsで埋まらなかった分だけ補完（既存jpgは上書きしない）。
       #    固有の地名/名所(高岡大仏/立山 等)はWikimediaが強い＝フォールバックとして有効。
       - name: Fill remaining with Wikimedia Commons (keyless fallback)
+        # ★2026-09-21: `|| true` で握り潰していたため、**成功0/失敗64 でも run は緑**だった。
+        #   実際 09-19〜09-21 の3回とも「success」なのに1枚も取れていない。
+        #   落とすと積み残し(検索語未登録の過去記事61本)で毎回赤くなり検知が形骸化するので、
+        #   **落とさずに結果を注釈として出す**。成功0なら warning で run のページに残る。
         run: |
+          set -o pipefail
           if [ -n "$FILTER" ]; then
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py --filter "$FILTER" 2>&1 | tee /tmp/fetch.log || true
           else
-            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py || true
+            python3 CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py 2>&1 | tee /tmp/fetch.log || true
           fi
+          line="$(grep -E '^成功: ' /tmp/fetch.log | tail -1)"
+          if [ -z "$line" ]; then
+            echo "::warning::fetcher が結果行（成功: N / 失敗: N）を出さずに終わった＝途中で落ちた可能性"
+          else
+            ok="$(printf '%s' "$line" | sed -n 's/^成功: \([0-9]*\).*/\1/p')"
+            ng="$(printf '%s' "$line" | sed -n 's/.*失敗: \([0-9]*\).*/\1/p')"
+            echo "$line"
+            if [ "${ok:-0}" = "0" ] && [ "${ng:-0}" != "0" ]; then
+              echo "::warning::サムネを1枚も取得できませんでした（失敗 ${ng}件）。ログの diag= を見て原因を切り分けること"
+            fi
+          fi
+          echo "$line" >> "$GITHUB_STEP_SUMMARY"
 
       # ※ 有料AI生成(Gemini/Imagen)経路は撤去（¥0原則・A2/A3）。ランダムPicsumも廃止。
       #   取得できなかった記事はサムネ無しで残し（provenance未記録）、次回トリガーで再取得（自己修復）。
