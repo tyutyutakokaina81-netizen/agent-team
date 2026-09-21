@@ -502,10 +502,34 @@ except Exception as _e:
 # 記事が土地を名乗っていなければ他所で撮った写真でも構わない（仏壇/神棚＝東京の博物館は可）ので、
 # **記事名に出てこない地名がファイル名にある**ときだけ鳴らす。
 try:
-    _pl = ["kyoto", "nara", "tokyo", "osaka", "kobe", "kanazawa", "nagoya", "hokkaido", "okinawa",
-           "kamakura", "hiroshima", "fukuoka", "sendai", "yokohama", "nikko", "hakone", "meiji-mura",
-           "京都", "奈良", "東京", "大阪", "神戸", "金沢", "名古屋", "北海道", "沖縄", "鎌倉",
-           "広島", "福岡", "横浜", "日光", "箱根"]
+    # ★2026-09-21: 地名リストが**手で書いた31語**しかなく、**新潟・福井・福島・千葉が入っていなかった**。
+    #   そのため採用中の次の4件を素通りさせていた（いずれも富山の記事なのに県外の写真）:
+    #     消雪パイプ → Snow removal - **Yuzawa, Niigata**
+    #     夕方のチャイム → **福井県越前市**の防災行政無線
+    #     水力発電 → **秋元湖**（福島）の水力発電所
+    #     おはぎ → Botamochi, **Katori-city**（千葉）
+    #   思いついた地名を並べる作りは、思いつかなかった地名を永久に見逃す。
+    #   **47都道府県を漏れなく（富山＝地元だけ除く）** 並べ、ローマ字も対で持つ。
+    _PREF = [
+        ("北海道", "hokkaido"), ("青森", "aomori"), ("岩手", "iwate"), ("宮城", "miyagi"),
+        ("秋田", "akita"), ("山形", "yamagata"), ("福島", "fukushima"), ("茨城", "ibaraki"),
+        ("栃木", "tochigi"), ("群馬", "gunma"), ("埼玉", "saitama"), ("千葉", "chiba"),
+        ("東京", "tokyo"), ("神奈川", "kanagawa"), ("新潟", "niigata"), ("石川", "ishikawa"),
+        ("福井", "fukui"), ("山梨", "yamanashi"), ("長野", "nagano"), ("岐阜", "gifu"),
+        ("静岡", "shizuoka"), ("愛知", "aichi"), ("三重", "mie"), ("滋賀", "shiga"),
+        ("京都", "kyoto"), ("大阪", "osaka"), ("兵庫", "hyogo"), ("奈良", "nara"),
+        ("和歌山", "wakayama"), ("鳥取", "tottori"), ("島根", "shimane"), ("岡山", "okayama"),
+        ("広島", "hiroshima"), ("山口", "yamaguchi"), ("徳島", "tokushima"), ("香川", "kagawa"),
+        ("愛媛", "ehime"), ("高知", "kochi"), ("福岡", "fukuoka"), ("佐賀", "saga"),
+        ("長崎", "nagasaki"), ("熊本", "kumamoto"), ("大分", "oita"), ("宮崎", "miyazaki"),
+        ("鹿児島", "kagoshima"), ("沖縄", "okinawa"),
+    ]   # ※富山は地元なので入れない
+    _pl = [x for pair in _PREF for x in pair] + [
+        # 都道府県名を名乗らない有名地・施設名（見つけ次第足す）
+        "kobe", "kanazawa", "nagoya", "kamakura", "sendai", "yokohama", "nikko", "hakone",
+        "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "神戸", "金沢", "名古屋",
+        "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京",
+    ]
     import json as _json30
     _pv = _json30.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails/_provenance.json"),
                             encoding="utf-8"))
@@ -522,7 +546,13 @@ try:
         if _found and not any(x in _st for x in _found):
             _md = os.path.join(ROOT, "CMO/outputs", _st + ".md")
             _body = open(_md, encoding="utf-8").read() if os.path.exists(_md) else ""
-            if not any(x in _body for x in _found):
+            # 開示のされ方は2通りある。地名をそのまま書く場合と、
+            # **「※撮影地は県外」のように地名を出さずに断る**場合。
+            # 地名の文字列しか探さないと後者を見落として**開示済みの記事を3件も鳴らした**
+            # （消雪パイプ=「※撮影地は新潟」／さつまいも=「※撮影地は県外」／おはぎ=「撮影地は富山県外」）。
+            # 要件は「県外だと読者に分かるか」なので、断り書きも開示として数える。
+            _disclosed = any(x in _body for x in _found) or "撮影地" in _body
+            if not _disclosed:
                 _bad30.append((_st, _v.get("file"), _found[0]))
     if _bad30:
         _st, _f, _p = _bad30[0]
