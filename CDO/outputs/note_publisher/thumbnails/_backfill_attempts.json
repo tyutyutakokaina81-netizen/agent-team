@@ -297,5 +297,21 @@
   "queries": [
    "tram streetcar japan city"
   ]
+ },
+ "2026-07-12_note記事_立山雪の大谷": {
+  "n": 1,
+  "last": "2026-09-21",
+  "queries": [
+   "snow mountains japan"
+  ]
+ },
+ "2026-07-12_note記事_高岡大仏": {
+  "n": 1,
+  "last": "2026-09-21",
+  "queries": [
+   "高岡大仏",
+   "高岡 大仏",
+   "great buddha statue japan"
+  ]
  }
 }

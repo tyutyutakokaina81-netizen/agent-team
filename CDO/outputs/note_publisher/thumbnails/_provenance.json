@@ -554,13 +554,45 @@
 "2026-07-12_note記事_かぶら寿司": "wikimedia",
 "2026-07-12_note記事_富山の売薬文化": "wikimedia",
 "2026-07-12_note記事_富山の路面電車": "wikimedia",
-"2026-07-12_note記事_料理には砂糖ひと振り": "wikimedia",
-"2026-07-12_note記事_氷見うどん": "wikimedia",
+"2026-07-12_note記事_料理には砂糖ひと振り": {
+"author": "Yasuhiko Ito from Sendai, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_dining_room.jpg",
+"file": "File:Japanese dining room.jpg",
+"license": "CC BY 2.0",
+"query": "japanese home cooking kitchen",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Japanese_dining_room.jpg/1280px-Japanese_dining_room.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-12_note記事_氷見うどん": {
+"author": "Mantelmoewe",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Udon_Tofu.jpg",
+"file": "File:Udon Tofu.jpg",
+"license": "CC0",
+"query": "udon noodles",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Udon_Tofu.jpg/1280px-Udon_Tofu.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-12_note記事_氷見の寒ブリと鰤起こし": "wikimedia",
-"2026-07-12_note記事_砺波のチューリップ": "wikimedia",
+"2026-07-12_note記事_砺波のチューリップ": {
+"author": "Claude Monet",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Champs_de_Tulipes_de_Claude_Monet.jpg",
+"file": "File:Champs de Tulipes de Claude Monet.jpg",
+"license": "Public domain",
+"query": "tulip field",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Champs_de_Tulipes_de_Claude_Monet.jpg/1280px-Champs_de_Tulipes_de_Claude_Monet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-12_note記事_立山雪の大谷": "wikimedia",
 "2026-07-12_note記事_高岡大仏": "wikimedia",
-"2026-07-12_note記事_魚津の蜃気楼": "wikimedia",
+"2026-07-12_note記事_魚津の蜃気楼": {
+"author": "PattayaPatrol",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:DFC_1442_Colorful_fishing_boats_anchored_near_a_floating_barrier_on_a_calm_bay_with_distant_islands_and_a_cloud-filled_sky_on_the_horizon.jpg",
+"file": "File:DFC 1442 Colorful fishing boats anchored near a floating barrier on a calm bay with distant islands and a cloud-filled sky on the horizon.jpg",
+"license": "CC BY-SA 4.0",
+"query": "sea horizon calm bay",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/DFC_1442_Colorful_fishing_boats_anchored_near_a_floating_barrier_on_a_calm_bay_with_distant_islands_and_a_cloud-filled_sky_on_the_horizon.jpg/1280px-DFC_1442_Colorful_fishing_boats_anchored_near_a_floating_barrier_on_a_calm_bay_with_distant_islands_and_a_cloud-filled_sky_on_the_horizon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-12_note記事_黒部峡谷トロッコ": "wikimedia",
 "2026-07-23_note記事_おわら風の盆": "wikimedia",
 "2026-07-23_note記事_五箇山の栃餅": "wikimedia",
@@ -983,6 +1015,24 @@
 "license": "CC BY-SA 3.0",
 "query": "scarecrow japan",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg/1280px-Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-22_note記事_墓参り_年に何度行くかは家によって違う": {
+"author": "Shift",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:(%E5%8D%83%E8%91%89%E7%9C%8C)_%E5%A4%A7%E5%B1%B1%E5%8D%83%E6%9E%9A%E7%94%B0%E3%80%82%E6%9D%B1%E4%BA%AC%E3%81%AB%E4%B8%80%E7%95%AA%E8%BF%91%E3%81%84%E6%A3%9A%E7%94%B0%E3%81%A8%E3%81%97%E3%81%A6%E6%9C%89%E5%90%8D%E3%81%A7%E3%81%99%E3%80%82%E5%BD%BC%E5%B2%B8%E8%8A%B1%E3%81%8C%E3%80%81%E9%9D%9E%E5%B8%B8%E3%81%AB%E5%8A%9B%E5%BC%B7%E3%81%84%E8%B5%A4%E3%81%A7%E5%8D%B0%E8%B1%A1%E7%9A%84%E3%81%A7%E3%81%97%E3%81%9F%E3%80%82%E3%81%93%E3%81%AE%E6%A3%9A%E7%94%B0%E3%80%81%E6%B1%9F%E6%88%B8_-_panoramio.jpg",
+"file": "File:(千葉県) 大山千枚田。東京に一番近い棚田として有名です。彼岸花が、非常に力強い赤で印象的でした。この棚田、江戸 - panoramio.jpg",
+"license": "CC BY-SA 3.0",
+"query": "彼岸花 田んぼ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/%28%E5%8D%83%E8%91%89%E7%9C%8C%29_%E5%A4%A7%E5%B1%B1%E5%8D%83%E6%9E%9A%E7%94%B0%E3%80%82%E6%9D%B1%E4%BA%AC%E3%81%AB%E4%B8%80%E7%95%AA%E8%BF%91%E3%81%84%E6%A3%9A%E7%94%B0%E3%81%A8%E3%81%97%E3%81%A6%E6%9C%89%E5%90%8D%E3%81%A7%E3%81%99%E3%80%82%E5%BD%BC%E5%B2%B8%E8%8A%B1%E3%81%8C%E3%80%81%E9%9D%9E%E5%B8%B8%E3%81%AB%E5%8A%9B%E5%BC%B7%E3%81%84%E8%B5%A4%E3%81%A7%E5%8D%B0%E8%B1%A1%E7%9A%84%E3%81%A7%E3%81%97%E3%81%9F%E3%80%82%E3%81%93%E3%81%AE%E6%A3%9A%E7%94%B0%E3%80%81%E6%B1%9F%E6%88%B8_-_panoramio.jpg/1280px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-23_note記事_ぶどう_種を出す手間がいつのまにか無くなった": {
+"author": "Unknown authorUnknown author",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%8C%85%E8%A3%85%E3%81%AE%E5%B7%A8%E5%B3%B0%E3%80%81%E6%A8%AA%E9%A0%88%E8%B3%80.jpg",
+"file": "File:包装の巨峰、横須賀.jpg",
+"license": "CC0",
+"query": "巨峰",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/%E5%8C%85%E8%A3%85%E3%81%AE%E5%B7%A8%E5%B3%B0%E3%80%81%E6%A8%AA%E9%A0%88%E8%B3%80.jpg/1280px-%E5%8C%85%E8%A3%85%E3%81%AE%E5%B7%A8%E5%B3%B0%E3%80%81%E6%A8%AA%E9%A0%88%E8%B3%80.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-23_note記事_日の入り_暗くなる時刻だけが毎日ずれていく": {
 "author": "nanamori",
