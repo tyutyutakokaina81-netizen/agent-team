@@ -869,7 +869,24 @@
 "query": "car interior dashboard",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/ZAZ-1103_Slavuta_front_seats_and_dashboard_interior_view.jpg/1280px-ZAZ-1103_Slavuta_front_seats_and_dashboard_interior_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-07-30_note記事_かき氷_夏のごほうび": "wikimedia",
+"2026-07-30_note記事_かき氷_夏のごほうび": {
+"author": "",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Macha_kakigori_snow_cone.jpg",
+"file": "File:Macha kakigori snow cone.jpg",
+"license": "CC BY-SA 3.0",
+"query": "kakigori shaved ice dessert",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Macha_kakigori_snow_cone.jpg/1280px-Macha_kakigori_snow_cone.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉": {
+"author": "George Chernilevsky",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Watermelon_yellow_2024_G1.jpg",
+"file": "File:Watermelon yellow 2024 G1.jpg",
+"license": "CC BY 4.0",
+"query": "watermelon fruit",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Watermelon_yellow_2024_G1.jpg/1280px-Watermelon_yellow_2024_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-30_note記事_川遊び_立山からの冷たい川": "wikimedia",
 "2026-07-30_note記事_日帰り温泉_富山の湯の暮らし": "wikimedia",
 "2026-07-30_note記事_早期退職_今日で会社を辞めた": "wikimedia",
