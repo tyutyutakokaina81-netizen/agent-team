@@ -152,6 +152,9 @@ jobs:
           # 次のrunに残らず、毎回「1回目」からやり直し＝先頭の同じ数件を永久に試し続ける**。
           # _verified/_no_auto が追跡漏れで効かなかったのと同じ型。
           git add -f CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json || true
+          # 2026-09-21: 目視で落とした画像の台帳(md5)。**作った当日に -f を忘れて
+          # コンテナ内にしか無い状態になった**＝_verified/_no_auto/_backfill_attempts と同じ型。
+          git add -f CDO/outputs/note_publisher/thumbnails/_rejected_hashes.tsv || true
           if git diff --cached --quiet; then
             echo "サムネ更新なし（取得ゼロ）＝commit/pushしない"
             exit 0

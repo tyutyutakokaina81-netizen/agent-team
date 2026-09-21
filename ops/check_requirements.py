@@ -758,9 +758,19 @@ else:
 
 # R2b サムネが実際に「使われる」か: publish は _verified.txt 掲載分しか見出し画像に使わない
 # (CQO指摘D2)。jpgが在るだけでは無サムネ公開になるため、被覆を別要件で可視化する。
+# ★2026-09-21: **意図的に落としたものを「登録漏れ」として鳴らしていた**。
+#   栗ご飯（他県の駅弁）と有料noteの大仏（高岡大仏ではない）は目視で見て外した jpg なのに、
+#   「jpg があるのに _verified に無い＝登録し忘れ」と毎回出ていた。
+#   _no_auto と同じく、**中身(md5)で落としたものは対象外**にする。
+#   落とした理由が残っているのに催促が続くと、本当の登録漏れが埋もれる。
+_rejhash = set()
+for _h, _stems in _groups.items():
+    if _h in _rej:
+        _rejhash.update(_stems)
 unverified = [os.path.basename(f)[:-3] for f in recent_arts
               if os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))
-              and os.path.basename(f)[:-3] not in verified]
+              and os.path.basename(f)[:-3] not in verified
+              and os.path.basename(f)[:-3] not in _rejhash]
 if not recent_arts:
     add("R2b サムネ採用可否", "OK", "直近21日の対象記事なし")
 elif unverified:
@@ -1155,6 +1165,8 @@ import subprocess as _sp
 # -f で追跡しないと**次のrunに残らず、毎回先頭の同じ数件を試し続ける**（実際そうなっていた）。
 _ctl = ["CDO/outputs/note_publisher/thumbnails/_verified.txt",
         "CDO/outputs/note_publisher/thumbnails/_no_auto.txt",
+        # 2026-09-21 追加。作った当日に git add -f を忘れ、コンテナ内にしか無い状態だった。
+        "CDO/outputs/note_publisher/thumbnails/_rejected_hashes.tsv",
         "CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json"]
 try:
     _tracked = set(_sp.run(["git", "ls-files"] + _ctl, cwd=ROOT, capture_output=True,
