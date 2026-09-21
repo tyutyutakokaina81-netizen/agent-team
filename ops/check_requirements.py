@@ -396,22 +396,31 @@ try:
     _na = os.path.join(_thumbdir, "_no_auto.txt")
     if os.path.exists(_na):
         _noauto = {l.strip() for l in open(_na, encoding="utf-8") if l.strip() and not l.startswith("#")}
-    _cut = time.time() - 7 * 86400
-    _unreg = []
+# ★2026-09-21 修正: ここは `os.path.getmtime()` で「直近1週間」を切っていたが、**mtime は記事の
+#   属性ではなく checkout の属性**。コンテナは使い捨て(A7)なので clone した瞬間に全記事の mtime が
+#   同じ「今」になり、**353本すべてが「直近1週間に書いた記事」として母数に入っていた**
+#   （実測: 353本中331本はファイル名の日付では1週間より古い）。
+#   R21 が同じ罠を避けて**ファイル名の日付**で切っているのに、ここだけ mtime のままだった。
+#   日付は記事名に入っていて checkout で変わらないので、そちらで切る。
+    _cut = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+    # 窓を直近1週間に絞ったぶん、**窓の外に溜まっている分は必ず数えて出す**。
+    # そうしないと「母数を狭めて警報を消しただけ」になる（このリポジトリで繰り返している失敗）。
+    _unreg, _old_unreg = [], []
     for _f in glob.glob(os.path.join(ROOT, "CMO/outputs/*_note記事_*.md")):
         _b = os.path.basename(_f)[:-3]
-        if os.path.getmtime(_f) < _cut:      # 直近1週間に書いたものだけ見る
-            continue
         if os.path.exists(os.path.join(_thumbdir, _b + ".jpg")) or _b in _noauto:
             continue                          # 取得済み／意図的な無サムネは対象外
         if not any(k in _b for k in _keys):
-            _unreg.append(_b)
+            (_unreg if _b[:10] >= _cut else _old_unreg).append(_b)
+    _bl = (f"／**窓の外に {len(_old_unreg)}本の積み残し**（過去分・日次では鳴らさないが消えてはいない。"
+           f"最古 {sorted(_old_unreg)[0][:26]}…）" if _old_unreg else "")
     if _unreg:
         add("R27 サムネ検索語の登録漏れ", "BROKEN",
             f"**JP_QUERY に検索語が無い記事が {len(_unreg)}本**({_unreg[0][:34]}…) → "
-            "クラウドが取りに行けず空振りする。fetch_thumbnails_wikimedia.py の JP_QUERY に題材語を足す")
+            "クラウドが取りに行けず空振りする。fetch_thumbnails_wikimedia.py の JP_QUERY に題材語を足す" + _bl)
     else:
-        add("R27 サムネ検索語の登録漏れ", "OK", "直近1週間の未取得記事はすべて検索語が登録済み")
+        add("R27 サムネ検索語の登録漏れ", "OK",
+            "直近1週間の未取得記事はすべて検索語が登録済み" + _bl)
 except Exception as _e:
     add("R27 サムネ検索語の登録漏れ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
@@ -427,12 +436,13 @@ try:
     _norm = lambda t: re.sub(r"[^\wぁ-んァ-ヶ一-龥]", "", re.sub(r"[はをがのにへとも、。・—\-—…]", "", t or ""))
     _ptitles = [(e.get("title", ""), _norm(e.get("title", ""))) for e in _reg28 if e.get("title")]
     _ptopics28 = {e.get("topic", "") for e in _reg28 if e.get("topic")}
-    _cut28 = time.time() - 7 * 86400
-    _dups = []
+    # ★2026-09-21: R27 と同じ理由で mtime をやめ、記事名の日付で切る（上の註を参照）。
+    _cut28 = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+    # R27 と同じく、窓の外の分も数えて必ず出す（狭めて消しただけにしない）。
+    _dups, _old_dups = [], []
     for _f in glob.glob(os.path.join(ROOT, "CMO/outputs/*_note記事_*.md")):
-        if os.path.getmtime(_f) < _cut28:
-            continue
         _b = os.path.basename(_f)[:-3]
+        _recent28 = _b[:10] >= _cut28
         _m = re.match(r"\d{4}-\d{2}-\d{2}_note記事_([^_]+)_", _b)
         if _m and _m.group(1) in _ptopics28:
             continue                       # 既公開＝R26/題材ゲートの担当
@@ -445,18 +455,21 @@ try:
             for _i in range(0, max(0, len(_pn) - 7)):
                 _frag = _pn[_i:_i + 8]
                 if _frag and _frag in _head:
-                    _dups.append((_b, _pt, _frag))
+                    (_dups if _recent28 else _old_dups).append((_b, _pt, _frag))
                     break
             else:
                 continue
             break
+    _bl28 = (f"／**窓の外に {len(_old_dups)}本**（過去分・日次では鳴らさないが消えてはいない。"
+             f"例 {sorted(_old_dups)[0][0][:26]}…）" if _old_dups else "")
     if _dups:
         _b, _pt, _frag = _dups[0]
         add("R28 既公開とのフック重複", "BROKEN",
             f"**既公開と同じ言い回しの記事が {len(_dups)}本**: {_b[:30]}… が「{_frag}」で "
-            f"『{_pt[:34]}…』と重なる → フックを変えるか題材を差し替える")
+            f"『{_pt[:34]}…』と重なる → フックを変えるか題材を差し替える" + _bl28)
     else:
-        add("R28 既公開とのフック重複", "OK", "直近1週間の未公開記事に既公開タイトルとの重なりなし")
+        add("R28 既公開とのフック重複", "OK",
+            "直近1週間の未公開記事に既公開タイトルとの重なりなし" + _bl28)
 except Exception as _e:
     add("R28 既公開とのフック重複", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
