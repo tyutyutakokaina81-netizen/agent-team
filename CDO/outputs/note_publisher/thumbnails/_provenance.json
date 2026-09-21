@@ -972,8 +972,24 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-02_note記事_お中元_夏のごあいさつ": "wikimedia",
-"2026-08-02_note記事_すだれとよしず_夏の日よけ": "wikimedia",
-"2026-08-02_note記事_みょうが_夏の薬味の名脇役": "wikimedia",
+"2026-08-02_note記事_すだれとよしず_夏の日よけ": {
+"author": "Basile Morin",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion,_perspective_effect_with_vanishing_point,_Kyoto,_Japan.jpg",
+"file": "File:Wooden and bamboo facades of dwellings with sudare in a cobbled street of Gion, perspective effect with vanishing point, Kyoto, Japan.jpg",
+"license": "CC BY-SA 4.0",
+"query": "簾",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg/1280px-Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-02_note記事_みょうが_夏の薬味の名脇役": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg",
+"file": "File:そうめん（そうめん金龍）20230801-P1029181.jpg",
+"license": "CC BY 4.0",
+"query": "そうめん",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg/1280px-%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-02_note記事_オクラ_夏のねばねば野菜": "wikimedia",
 "2026-08-02_note記事_セミの声_夏の音のはじまりと終わり": "wikimedia",
 "2026-08-03_note記事_スイカ_冷やして塩をふる夏": "wikimedia",
@@ -1439,5 +1455,14 @@
 "license": "CC BY-SA 4.0",
 "query": "塩鮭",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg/1280px-%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-27_note記事_柿_見ただけでは甘いか渋いか分からない": {
+"author": "Joe Ravi",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Fuyu_Persimmon_(Diospyros_Kaki).jpg",
+"file": "File:Fuyu Persimmon (Diospyros Kaki).jpg",
+"license": "CC BY-SA 3.0",
+"query": "柿 果実",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Fuyu_Persimmon_%28Diospyros_Kaki%29.jpg/1280px-Fuyu_Persimmon_%28Diospyros_Kaki%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
