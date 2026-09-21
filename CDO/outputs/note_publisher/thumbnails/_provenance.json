@@ -497,14 +497,38 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg/1280px-Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-27_note記事_ばい飯_バイ貝の炊き込みご飯": "wikimedia",
-"2026-06-27_note記事_土曜朝の市場散歩": "wikimedia",
+"2026-06-27_note記事_土曜朝の市場散歩": {
+"author": "OKJaguar",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Fishing_for_squid,_Hakodate_Morning_Market,_Hokkaido,_Japan.jpg",
+"file": "File:Fishing for squid, Hakodate Morning Market, Hokkaido, Japan.jpg",
+"license": "CC BY-SA 4.0",
+"query": "fish market japan morning",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Fishing_for_squid%2C_Hakodate_Morning_Market%2C_Hokkaido%2C_Japan.jpg/1280px-Fishing_for_squid%2C_Hakodate_Morning_Market%2C_Hokkaido%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子": "wikimedia",
 "2026-06-27_note記事_御旅屋通り_高岡のアーケード": "wikimedia",
 "2026-06-27_note記事_御車山会館_祭りの山車を見る": "wikimedia",
 "2026-07-08_note記事_jinzu-river-ayu-summer": "wikimedia",
-"2026-07-08_note記事_nyuzen-jumbo-watermelon-summer": "wikimedia",
+"2026-07-08_note記事_nyuzen-jumbo-watermelon-summer": {
+"author": "George Chernilevsky",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Watermelon_yellow_2024_G1.jpg",
+"file": "File:Watermelon yellow 2024 G1.jpg",
+"license": "CC BY 4.0",
+"query": "watermelon fruit",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Watermelon_yellow_2024_G1.jpg/1280px-Watermelon_yellow_2024_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-08_note記事_shogawa-gorge-cruise-cool": "wikimedia",
-"2026-07-08_note記事_takaoka-copper-wind-chime": "wikimedia",
+"2026-07-08_note記事_takaoka-copper-wind-chime": {
+"author": "Sago350",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4(%E8%8A%B1%E7%81%AB).jpg",
+"file": "File:萱野神社 風鈴(花火).jpg",
+"license": "CC0",
+"query": "風鈴",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg/1280px-%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-08_note記事_toyama-firefly-watching": "wikimedia",
 "2026-07-10_note記事_福井三国_新保屋のおろしそば": "wikimedia",
 "2026-07-11_note記事_みりん干し_氷見の干物": "wikimedia",
