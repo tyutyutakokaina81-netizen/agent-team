@@ -616,11 +616,51 @@
 "2026-07-23_note記事_呉羽山からの立山連峰": "wikimedia",
 "2026-07-23_note記事_大根寿司": "wikimedia",
 "2026-07-23_note記事_富山県美術館TAD": "wikimedia",
-"2026-07-23_note記事_氷見カレー": "wikimedia",
-"2026-07-23_note記事_黒部ダム": "wikimedia",
-"2026-07-27_note記事_外国人は高岡に何を求めて来るのか": "wikimedia",
-"2026-07-27_note記事_富山の水はなぜうまいのか": "wikimedia",
-"2026-07-27_note記事_富山湾はなぜ魚の宝庫か": "wikimedia",
+"2026-07-23_note記事_氷見カレー": {
+"author": "김동헌, Donghun Kim",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_curry_rice.jpg",
+"file": "File:Japanese curry rice.jpg",
+"license": "CC BY 2.0",
+"query": "curry rice japanese food",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Japanese_curry_rice.jpg/1280px-Japanese_curry_rice.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-23_note記事_黒部ダム": {
+"author": "Qurren",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Kurobe_Dam_concrete_bucket_crane_hook.jpg",
+"file": "File:Kurobe Dam concrete bucket crane hook.jpg",
+"license": "CC BY-SA 3.0",
+"query": "kurobe dam concrete japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Kurobe_Dam_concrete_bucket_crane_hook.jpg/1280px-Kurobe_Dam_concrete_bucket_crane_hook.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-27_note記事_外国人は高岡に何を求めて来るのか": {
+"author": "Zairon",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Takaoka_Daibutsu_5.jpg",
+"file": "File:Takaoka Daibutsu 5.jpg",
+"license": "CC BY-SA 4.0",
+"query": "Takaoka Daibutsu great buddha japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Takaoka_Daibutsu_5.jpg/1280px-Takaoka_Daibutsu_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-27_note記事_富山の水はなぜうまいのか": {
+"author": "\nSyota Takahashi",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Tateyama_Mountain_Range_Aerial_Tramway_(51399986).jpeg",
+"file": "File:Tateyama Mountain Range Aerial Tramway (51399986).jpeg",
+"license": "CC BY 3.0",
+"query": "Tateyama mountain range snow japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Tateyama_Mountain_Range_Aerial_Tramway_%2851399986%29.jpeg/1280px-Tateyama_Mountain_Range_Aerial_Tramway_%2851399986%29.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-07-27_note記事_富山湾はなぜ魚の宝庫か": {
+"author": "the.Firebottle",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Looking_south_from_near_Nadaura_coast_in_Himi,_Toyama_-_Apr_29,_2011.jpg",
+"file": "File:Looking south from near Nadaura coast in Himi, Toyama - Apr 29, 2011.jpg",
+"license": "CC BY-SA 2.0",
+"query": "Toyama bay sea coast japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg/1280px-Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-27_note記事_庭の七輪でプチ料理": "owner",
 "2026-07-27_note記事_庭の畑と採れたてレシピ": "wikimedia",
 "2026-07-27_note記事_散居村_家が点在する風景": "wikimedia",
@@ -1031,6 +1071,15 @@
 "license": "CC BY-SA 3.0",
 "query": "scarecrow japan",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg/1280px-Scarecrow%28%E3%81%8B%E3%81%8B%E3%81%97%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-22_note記事_れんこん_穴が空いているから縁起がいいという理屈": {
+"author": "Shizuha",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%B3%B4%E9%96%80%E5%B8%82%E3%81%AE%E8%93%AE%E6%A0%B9%E7%95%91_202307.jpg",
+"file": "File:鳴門市の蓮根畑 202307.jpg",
+"license": "CC BY-SA 4.0",
+"query": "蓮根",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/%E9%B3%B4%E9%96%80%E5%B8%82%E3%81%AE%E8%93%AE%E6%A0%B9%E7%95%91_202307.jpg/1280px-%E9%B3%B4%E9%96%80%E5%B8%82%E3%81%AE%E8%93%AE%E6%A0%B9%E7%95%91_202307.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-22_note記事_墓参り_年に何度行くかは家によって違う": {
 "author": "Shift",
