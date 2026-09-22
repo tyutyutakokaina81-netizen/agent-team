@@ -3,6 +3,12 @@
 #
 #   cd ~/agent-team && bash ops/go.sh
 #
+# ★先に `git pull` を付けないこと（2026-09-22）。
+#   手元に未コミットの変更があると `git pull` は
+#   「cannot pull with rebase: You have unstaged changes」で失敗し、
+#   **それを処理できる go.sh まで到達しない**。
+#   go.sh は 1) で退避コミット → pull --rebase --autostash までやるので、pull は不要。
+#
 # やること（上から順に。途中で止まっても、どこで止まったか画面に出る）:
 #   0) 安全確認（git の残骸・中断した rebase/merge・detached HEAD）
 #   1) 手元の変更を退避コミットして push  ★publish が main を巻き戻すので、先に逃がす
@@ -162,6 +168,9 @@ cat <<'MANUAL'
 
  [2] X をもう1本出すとき:   bash ops/run_x.sh --manual
      間違えて「投稿した」と答えたとき: bash ops/run_x.sh --undo
+
+ 次回も、これ1本だけで通ります（**git pull は付けないこと**）:
+     cd ~/agent-team && bash ops/go.sh
 
  この画面をそのまま Claude に貼れば、続きをこちらで処理します。
 MANUAL
