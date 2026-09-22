@@ -840,8 +840,14 @@ if _left_used:
         f" → _verified.txt から外し、jpg を消して取り直す"
         + (f"／未採用プールにも {len(_left_pool)}本" if _left_pool else ""))
 elif _left_pool:
+    # ★2026-09-23 追記: これは「公開には出ないから無害」ではない。
+    # fetch_thumbnails_wikimedia.py は `if out.exists(): continue` で**jpgが在る記事を飛ばす**ので、
+    # 落とした画像がそこに残っている限り、その記事は**二度と取り直されない**＝枠を塞いでいる。
+    # 取り直したい記事は、jpg を消してから Action を起こすこと（消せば次のrunで対象に入る）。
     add("R31 中身で落とした画像の残留", "STALE",
-        f"未採用プールに {len(_left_pool)}本残っている（公開には出ないが取り直しの対象）")
+        f"未採用プールに {len(_left_pool)}本残っている。見出しには出ないが、"
+        f"**jpgが在る記事は取得側が飛ばす**ので取り直しの枠を塞いでいる"
+        f"（取り直すなら jpg を消してから Action を起こす）")
 else:
     add("R31 中身で落とした画像の残留", "OK",
         f"md5で落とした {len(_rej)}枚はどの記事にも付いていない")
@@ -1267,12 +1273,35 @@ try:
 except Exception:
     _tracked = set(_ctl)   # gitが使えない環境では判定しない（誤報を出さない）
 _untracked = [c for c in _ctl if c not in _tracked]
+# ★2026-09-23 追加: **末尾に改行が無いと、次の追記が最終行にくっつく**。
+# 実際この日、_verified.txt の最後がコメント行で改行無しに終わっており、
+# `echo "<stem>" >> _verified.txt` がその**コメントの続き**になって、採用登録が効かなかった。
+# R32 が拾ったので公開前に気づけたが、検査が無ければ「登録したつもり」で通っていた。
+# 追記で育てる台帳はこれで全部黙って壊れるので、機構として毎回見る。
+# 対象は **追記で育てるテキスト台帳だけ**。_backfill_attempts.json はプログラムが
+# 丸ごと書き直す JSON で、`echo >>` することがないので末尾改行は問題にならない。
+_nonl = []
+for _c in _ctl:
+    if not _c.endswith((".txt", ".tsv")):
+        continue
+    _p = os.path.join(ROOT, _c)
+    try:
+        with open(_p, "rb") as _fh:
+            _fh.seek(-1, 2)
+            if _fh.read(1) != b"\n":
+                _nonl.append(_c)
+    except OSError:
+        pass          # 無い/空のファイルは追記事故が起きないので対象外
 if _untracked:
     add("R13 制御ファイル追跡", "BROKEN",
         f"git管理外 {len(_untracked)}件({os.path.basename(_untracked[0])}) → "
         "`git add -f` しないとランナー/coworkに届かず、無サムネ指定も検証済み指定も効かない")
+elif _nonl:
+    add("R13 制御ファイル追跡", "BROKEN",
+        f"**末尾に改行が無い台帳 {len(_nonl)}件**({os.path.basename(_nonl[0])}) → "
+        "次の `echo >> ` が最終行にくっついて、登録したつもりが効かない（2026-09-23 に実際に起きた）")
 else:
-    add("R13 制御ファイル追跡", "OK", f"制御ファイル {len(_ctl)}件（" + " / ".join(os.path.basename(c) for c in _ctl) + "）はすべて追跡下")
+    add("R13 制御ファイル追跡", "OK", f"制御ファイル {len(_ctl)}件（" + " / ".join(os.path.basename(c) for c in _ctl) + "）はすべて追跡下・末尾改行あり")
 
 # R8 STATE鮮度
 st = os.path.join(ROOT, "context/STATE.md")
