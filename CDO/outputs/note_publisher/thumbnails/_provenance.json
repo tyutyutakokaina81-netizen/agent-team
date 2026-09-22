@@ -991,9 +991,25 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg/1280px-%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029181.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-02_note記事_オクラ_夏のねばねば野菜": "wikimedia",
-"2026-08-02_note記事_セミの声_夏の音のはじまりと終わり": "wikimedia",
+"2026-08-02_note記事_セミの声_夏の音のはじまりと終わり": {
+"author": "vastateparksstaff",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Cicada_on_a_tree_near_the_Visitor%27s_Center_at_Mason_Neck_(14800175281).jpg",
+"file": "File:Cicada on a tree near the Visitor's Center at Mason Neck (14800175281).jpg",
+"license": "CC BY 2.0",
+"query": "cicada tree summer",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Cicada_on_a_tree_near_the_Visitor%27s_Center_at_Mason_Neck_%2814800175281%29.jpg/1280px-Cicada_on_a_tree_near_the_Visitor%27s_Center_at_Mason_Neck_%2814800175281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-03_note記事_スイカ_冷やして塩をふる夏": "wikimedia",
-"2026-08-03_note記事_七夕_願いを吊るす夏の街": "wikimedia",
+"2026-08-03_note記事_七夕_願いを吊るす夏の街": {
+"author": "★Kumiko★ from Tokyo, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E4%B8%83%E5%A4%95_(19545533256).jpg",
+"file": "File:七夕 (19545533256).jpg",
+"license": "CC BY-SA 2.0",
+"query": "七夕",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/%E4%B8%83%E5%A4%95_%2819545533256%29.jpg/1280px-%E4%B8%83%E5%A4%95_%2819545533256%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-03_note記事_夕立と入道雲_夏の空の急変": "wikimedia",
 "2026-08-03_note記事_枝豆_夏のいちばん手軽なごちそう": "wikimedia",
 "2026-08-03_note記事_蛍_川辺にともる夏の光": "wikimedia",
