@@ -1011,8 +1011,24 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/%E4%B8%83%E5%A4%95_%2819545533256%29.jpg/1280px-%E4%B8%83%E5%A4%95_%2819545533256%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-03_note記事_夕立と入道雲_夏の空の急変": "wikimedia",
-"2026-08-03_note記事_枝豆_夏のいちばん手軽なごちそう": "wikimedia",
-"2026-08-03_note記事_蛍_川辺にともる夏の光": "wikimedia",
+"2026-08-03_note記事_枝豆_夏のいちばん手軽なごちそう": {
+"author": "Jiafei Slay Queen",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Edamame_in_a_tray.jpg",
+"file": "File:Edamame in a tray.jpg",
+"license": "CC0",
+"query": "edamame soybeans",
+"src": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Edamame_in_a_tray.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
+"2026-08-03_note記事_蛍_川辺にともる夏の光": {
+"author": "NASA, ESA, A. James",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Hubble_Detects_Ghostly_Glow_Surrounding_Our_Solar_System_(opo22050a).jpg",
+"file": "File:Hubble Detects Ghostly Glow Surrounding Our Solar System (opo22050a).jpg",
+"license": "CC BY 4.0",
+"query": "firefly night glow",
+"src": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Hubble_Detects_Ghostly_Glow_Surrounding_Our_Solar_System_%28opo22050a%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
 "2026-08-04_note記事_冷ややっこ_何もしない料理": "wikimedia",
 "2026-08-04_note記事_夏の高校野球_テレビの前の夏": "wikimedia",
 "2026-08-04_note記事_扇風機_首を振る夏の音": "wikimedia",
@@ -1480,5 +1496,23 @@
 "license": "CC BY-SA 3.0",
 "query": "柿 果実",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Fuyu_Persimmon_%28Diospyros_Kaki%29.jpg/1280px-Fuyu_Persimmon_%28Diospyros_Kaki%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-28_note記事_石油ストーブ_出す日を自分で決めないといけない": {
+"author": "Douglas P Perkins (Douglaspperkins (talk))",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_kerosene_heater_with_tank.jpg",
+"file": "File:Japanese kerosene heater with tank.jpg",
+"license": "CC BY 3.0",
+"query": "石油ストーブ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Japanese_kerosene_heater_with_tank.jpg/1280px-Japanese_kerosene_heater_with_tank.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-09-28_note記事_豚汁_具が多いほうが正しいわけではない": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg",
+"file": "File:豚汁＋もつセット（お食事処川端・長野）20220330-P1340492.jpg",
+"license": "CC BY 4.0",
+"query": "豚汁",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg/1280px-%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
