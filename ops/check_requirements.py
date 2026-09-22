@@ -755,8 +755,24 @@ for _f in glob.glob(os.path.join(thumbdir, "*.jpg")):
 # 実際、おとぎの森公園2本が**埼玉の道満グリーンパーク**、富山ブラック2本が**澄んだスープのラーメン**を
 # 共有しており、どちらも verified で、どちらも主題と合っていなかった（2026-09-22 に取り消し）。
 # 「verifyしたから意図的なはず」は成り立たない。**verified 同士の共有は黙って除外せず、必ず明細に出す**。
-_ver_shared = [sorted(st for st in v if st in verified)
-               for v in _groups.values() if sum(1 for st in v if st in verified) >= 2]
+# ★2026-09-23 追加: この「採用済みどうしの共有」は**毎回同じ7組を出し続けていた**。
+# 中身を見たら7組とも**同一題材の別記事**（かき氷×2／蚊取り線香×2／鮎×2／高岡コロッケ×3／
+# 花火×2／高岡大仏と高岡の街歩き／そば×2）で、意図的な流用だった。
+# 直せないもの・直す必要のないものを毎日出し続けると、**本当に新しく現れた共有がその中に埋もれる**
+# （R2 で公開済みを対象から外したのと同じ理由）。
+# そこで **判断を1回だけ記録する台帳** `_shared_ok.tsv` を置き、そこに md5 がある組は数から外す。
+# 台帳に無い組＝**まだ誰も見ていない共有**だけを出す。台帳は `_rejected_hashes.tsv` と同じ作法。
+_sok_path = os.path.join(thumbdir, "_shared_ok.tsv")
+_shared_ok = set()
+if os.path.exists(_sok_path):
+    for _l in open(_sok_path, encoding="utf-8"):
+        _l = _l.strip()
+        if _l and not _l.startswith("#"):
+            _shared_ok.add(_l.split("\t")[0].strip())
+_ver_shared_all = [(_h, sorted(st for st in v if st in verified))
+                   for _h, v in _groups.items() if sum(1 for st in v if st in verified) >= 2]
+_ver_shared = [g for _h, g in _ver_shared_all if _h not in _shared_ok]
+_ver_shared_known = [g for _h, g in _ver_shared_all if _h in _shared_ok]
 # ★2026-09-19 修正: 09-22 の「verified も明細に出す」対応は **報告文だけ** を直していて、
 # 警報そのものは依然 verified を取り除いた数で数えていた（下の _shared が st not in verified）。
 # そのため **1枚が5記事に配られていても、5本とも verified なら実質0本と数えられて ✅ が出ていた**。
@@ -769,8 +785,11 @@ _wide_used = [v for v in _wide if sum(1 for st in v if st in verified) >= 2]  # 
 _minor = sum(1 for v in _all_groups if len(v) == 3)
 _vs_note = ""
 if _ver_shared:
-    _vs_note = (f"／**採用済みどうしで同じ画像を共有 {len(_ver_shared)}組**"
-                f"(例: {_ver_shared[0][0][:26]}…) ＝意図的な流用か、同じ誤サムネが2本に付いているかを確認する")
+    _vs_note = (f"／**採用済みどうしで同じ画像を共有 {len(_ver_shared)}組が未監査**"
+                f"(例: {_ver_shared[0][0][:26]}…) ＝意図的な流用か、同じ誤サムネが2本に付いているかを見て、"
+                f"問題なければ md5 を thumbnails/_shared_ok.tsv に記録する")
+elif _ver_shared_known:
+    _vs_note = f"／採用済みどうしの共有 {len(_ver_shared_known)}組はすべて監査済み(_shared_ok.tsv・同一題材の流用)"
 if _wide_used:
     _ex = sorted(_wide_used, key=len, reverse=True)[0]
     add("R2d フォールバック汚染", "BROKEN",
@@ -1238,7 +1257,10 @@ _ctl = ["CDO/outputs/note_publisher/thumbnails/_verified.txt",
         "CDO/outputs/note_publisher/thumbnails/_no_auto.txt",
         # 2026-09-21 追加。作った当日に git add -f を忘れ、コンテナ内にしか無い状態だった。
         "CDO/outputs/note_publisher/thumbnails/_rejected_hashes.tsv",
-        "CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json"]
+        "CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json",
+        # 2026-09-23 追加。R2d の「採用済みどうしの共有は監査済みか」を持つ台帳。
+        # これも -f で追跡しないと、次のセッションで7組がまた未監査に戻る。
+        "CDO/outputs/note_publisher/thumbnails/_shared_ok.tsv"]
 try:
     _tracked = set(_sp.run(["git", "ls-files"] + _ctl, cwd=ROOT, capture_output=True,
                            text=True, timeout=20).stdout.split())
