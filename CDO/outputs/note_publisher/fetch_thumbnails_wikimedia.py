@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import hashlib
 import json
 import re
 import sys
@@ -516,6 +517,33 @@ REJECTED_FILES = (
 )
 
 
+# ★2026-09-22 追加: **中身(md5)で落とした画像の台帳を、取得側でも見る。**
+#   これまで `_rejected_hashes.tsv` は検査(R31)と採用判断のためだけに使っており、
+#   **取得側は名前(REJECTED_FILES)でしか弾けなかった**。その結果、
+#   一度落とした画像がクエリを変えても同じように降ってきて、候補枠を無駄に使っていた
+#   （実測: 石油ストーブで同じ据置型ファンヒーターが2巡続けて来た）。
+#   落とした事実は1か所に置き、取得と採用の両方がそれを見る。
+_REJ_HASHES = None
+
+
+def _rejected_hashes() -> set:
+    global _REJ_HASHES
+    if _REJ_HASHES is None:
+        _REJ_HASHES = set()
+        try:
+            for line in open(THUMB_DIR / "_rejected_hashes.tsv", encoding="utf-8"):
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    _REJ_HASHES.add(line.split("\t")[0].strip())
+        except OSError:
+            pass
+    return _REJ_HASHES
+
+
+def _is_rejected_bytes(b: bytes) -> bool:
+    return hashlib.md5(b).hexdigest() in _rejected_hashes()
+
+
 def _is_rejected_file(title: str) -> bool:
     """目視で落としたファイルか。名前で塞ぐ＝クエリを変えても同じ画像が戻ってこない。"""
     t = (title or "").lower().replace("file:", "").strip()
@@ -843,6 +871,9 @@ def fetch_from_wikimedia(query: str):
                     try:
                         b = _get(turl)
                         if len(b) < MIN_IMAGE_BYTES:
+                            continue
+                        if _is_rejected_bytes(b):       # 目視で落とした画像は中身で弾く
+                            diag["rejected_md5"] = diag.get("rejected_md5", 0) + 1
                             continue
                         if not _is_color_photo(b):      # 白黒/セピア=実写サムネに使わない
                             diag["mono"] = diag.get("mono", 0) + 1
