@@ -1,0 +1,9 @@
+== ① git lock 掃除（場所を問わず再帰削除・zsh安全）==
+== ② main 同期 ==
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Reset branch 'main'
+branch 'main' set up to track 'origin/main'.
+Your branch is up to date with 'origin/main'.
+本日(2026-09-22)のキュー記事なし → キュー全体を対象にします。
+公開対象がありません（drafts/queue 空）。
