@@ -58,13 +58,39 @@ if os.path.exists(_na):
 _nojpg = [os.path.basename(f)[:-3] for f in recent_arts
           if not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
 vanished = [b for b in _nojpg if b in verified]          # owner確認済みなのに画像が無い＝事故
-missing   = [b for b in _nojpg if b not in verified and b not in no_auto]
+# ★2026-09-23: **公開済みの記事は対象から外す。** 公開後にサムネを取っても note の投稿には付かない
+#   （2026-09-22 に判明）。それでも鳴らし続けると、**直せないものを毎日催促する**ことになり、
+#   本当に間に合う記事（未公開）の欠落がその中に埋もれる。
+#   公開済みで無サムネのものは「そういう結果になった」だけで、欠落ではない。
+try:
+    import json as _json2
+    _reg2 = _json2.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                             encoding="utf-8"))
+    _pubtitles2 = {str(e.get("title", "")).strip() for e in _reg2 if isinstance(e, dict)}
+except Exception:
+    _pubtitles2 = set()
+
+
+def _is_published(_stem):
+    _md = os.path.join(ROOT, "CMO/outputs", _stem + ".md")
+    try:
+        _m = re.search(r"##\s*タイトル\s*\n```\n(.+?)\n```", open(_md, encoding="utf-8").read(), re.S)
+    except OSError:
+        return False
+    return bool(_m) and _m.group(1).strip() in _pubtitles2
+
+
+_missing_all = [b for b in _nojpg if b not in verified and b not in no_auto]
+_missing_pub = [b for b in _missing_all if _is_published(b)]
+missing = [b for b in _missing_all if b not in _missing_pub]
 if not recent_arts:
     add("R2 実写サムネ", "OK", "直近21日の対象記事なし")
 elif missing:
     add("R2 実写サムネ", "BROKEN",
         f"直近{len(recent_arts)}本中 {len(missing)}本がサムネ未取得(例:{missing[0][:26]}…)"
-        " → ops/run_requests/ にpushして note-thumbnails を起動")
+        " → ops/run_requests/ にpushして note-thumbnails を起動"
+        + (f"／別に**公開済みで無サムネのまま {len(_missing_pub)}本**（もう付けられないので対象外）"
+           if _missing_pub else ""))
 else:
     add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り")
 
