@@ -1046,7 +1046,15 @@
 "2026-08-05_note記事_夏の星空_庭に寝ころんで": "wikimedia",
 "2026-08-05_note記事_桃_したたる夏の果物": "wikimedia",
 "2026-08-05_note記事_蚊帳_緑の中で眠る夜": "wikimedia",
-"2026-08-05_note記事_金魚すくい_紙の網ですくう夏": "wikimedia",
+"2026-08-05_note記事_金魚すくい_紙の網ですくう夏": {
+"author": "OiMax",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%87%91%E9%AD%9A%E3%81%99%E3%81%8F%E3%81%84_(195561019).jpg",
+"file": "File:金魚すくい (195561019).jpg",
+"license": "CC BY 2.0",
+"query": "金魚すくい",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/%E9%87%91%E9%AD%9A%E3%81%99%E3%81%8F%E3%81%84_%28195561019%29.jpg/1280px-%E9%87%91%E9%AD%9A%E3%81%99%E3%81%8F%E3%81%84_%28195561019%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-06_note記事_カブトムシ_夏の朝の宝物": "wikimedia",
 "2026-08-06_note記事_ラムネ_ビー玉が鳴る夏": "wikimedia",
 "2026-08-06_note記事_冷や汁_食欲のない日の救い": "wikimedia",
