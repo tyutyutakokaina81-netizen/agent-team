@@ -97,13 +97,20 @@ fi
 # **こちらが勝手に「投稿済み」にはしない**（実績の水増しをしないため）。
 if [ "$ARG" = "--manual" ]; then
   echo "=== APIを使わずに投稿する（文面を出すだけです）==="
+  # ★2026-09-23: 1回のコマンドで1本しか進まず、42本を消化するのに42回打つ必要があった。
+  #   1回の実行のなかで「投稿した→次を出す」を繰り返せるようにする。
+  #   `q` か空 Enter でいつでも抜けられる。記録は1本ごとに行うので、途中で抜けても消えない。
+  MANUAL_DONE=0
+  while : ; do
   "${VPY}" - <<'PYEOF'
 import os, re, sys
 sys.path.insert(0, "ops")
 from x_poster import parse_threads, QUEUE
 th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"]]
 if not th:
-    print("未投稿のスレッドがありません。"); sys.exit(0)
+    # ★2026-09-23: ここは python の終了であって bash の終了ではない。
+    #   繰り返しに変えたので、**残り0本を bash 側に伝える**必要がある（3 で返す）。
+    print("未投稿のスレッドがありません。"); sys.exit(3)
 t = th[0]
 print(f"\n--- 次のスレッド: {t['slug']}（{len(t['tweets'])}ツイート／残り {len(th)} 本）---\n")
 for i, tw in enumerate(t["tweets"], 1):
@@ -114,6 +121,7 @@ print("※2つ以上ある場合は、1つ目を投稿→その投稿に返信�
 # 1つ目の本文だけを別ファイルに出す。呼び側が pbcopy でクリップボードへ入れる。
 open("/tmp/.x_next_tweet.txt", "w", encoding="utf-8").write(t["tweets"][0])
 PYEOF
+  if [ $? -eq 3 ]; then break; fi     # 残り0本＝繰り返しを抜ける
   # macOS ならクリップボードへ入れる＝**X の投稿欄に ⌘V するだけ**で済む。
   if command -v pbcopy >/dev/null 2>&1 && [ -f /tmp/.x_next_tweet.txt ]; then
     pbcopy < /tmp/.x_next_tweet.txt
@@ -137,11 +145,26 @@ if th:
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
     with open(LOG, "a", encoding="utf-8") as f:
         f.write(f"{datetime.datetime.now().isoformat()}\t{slug}\tmanual\n")
-    print(f"✅ 記録しました: {slug}（手動投稿）。次回は次のスレッドが出ます。")
+    print(f"✅ 記録しました: {slug}（手動投稿）")
 PYEOF
-    push_records
+    MANUAL_DONE=$((MANUAL_DONE + 1))
+    echo ""
+    printf "続けて次のスレッドを出しますか？（y=次へ / それ以外=終了）: "
+    IFS= read -r NEXT
+    if [ "$NEXT" = "y" ] || [ "$NEXT" = "Y" ]; then
+      echo ""
+      continue
+    fi
+    break
   else
     echo "（記録していません。次回も同じスレッドが出ます）"
+    break
+  fi
+  done
+  if [ "$MANUAL_DONE" -gt 0 ]; then
+    echo ""
+    echo "== この実行で ${MANUAL_DONE} 本を投稿済みにしました。記録を code に渡します =="
+    push_records
   fi
   exit 0
 fi
