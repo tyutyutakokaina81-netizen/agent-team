@@ -4,6 +4,23 @@
 # ・終了時: ログ末尾120行+exit code を ops/logs/worker_<日時>.log として push
 cd "$HOME/agent-team-run" || exit 1
 
+# ★2026-09-23: **cron の PATH は対話シェルと違う**。これが毎朝の便が動かない真因だった。
+#   09:30 便のログ＝`env: node: No such file or directory` / exit_code=127。
+#   claude は `#!/usr/bin/env node` で始まる node スクリプトなので、claude 本体が見つかっても
+#   **node が PATH に無ければ 127 で落ちる**。08:45 便の `$CLA` が空だったのも同じ理由。
+#   ログインシェルでは Homebrew / nvm / volta が PATH を足してくれるが、cron では足されない。
+#   → よく使われる場所を**存在するものだけ**先頭に足す（無害・冪等）。
+for d in /opt/homebrew/bin /usr/local/bin "$HOME/.local/bin" "$HOME/.volta/bin" \
+         "$HOME/.claude/local" "$HOME/.npm-global/bin"; do
+  [ -d "$d" ] && case ":$PATH:" in *":$d:"*) ;; *) PATH="$d:$PATH" ;; esac
+done
+# nvm は版ごとにディレクトリが分かれるので、既定版→最新版の順に1つだけ拾う
+if [ -z "$(command -v node 2>/dev/null)" ] && [ -d "$HOME/.nvm/versions/node" ]; then
+  NVMBIN="$(ls -d "$HOME"/.nvm/versions/node/*/bin 2>/dev/null | sort -V | tail -1)"
+  [ -n "$NVMBIN" ] && PATH="$NVMBIN:$PATH"
+fi
+export PATH
+
 # 実行中ロック（cron定期便・配車係・手動の三経路すべての二重起動防止）
 LOCK="$HOME/.agent-team-dispatch/worker.lock"
 mkdir -p "$(dirname "$LOCK")"
@@ -62,6 +79,18 @@ if [ -z "$CLA" ]; then
     [ -x "$c" ] && CLA="$c" && break
   done
 fi
+if [ -z "$(command -v node 2>/dev/null)" ]; then
+  MSG="node が見つかりません（PATH=$PATH）。claude は node スクリプトなので node が無いと 127 で落ちます。node の場所を上の PATH 追加リストに足してください。"
+  echo "=== 起動できません: $MSG ==="
+  cd "$LOGCLONE" 2>/dev/null && git pull --rebase -q origin main 2>/dev/null
+  mkdir -p ops/logs
+  { echo "launcher_error=node_not_found"; echo "$MSG"; echo "exit_code=127"; } > "ops/logs/worker_${TS}.log"
+  git add ops/logs/ 2>/dev/null
+  git commit -qm "log: worker run ${TS} could not start (node not found)" 2>/dev/null
+  git push -q origin main 2>/dev/null || true
+  exit 127
+fi
+
 if [ -z "$CLA" ]; then
   MSG="claude コマンドが見つかりません（PATH=$PATH）。cron から起動すると PATH が対話シェルと違うため、フルパスで指定するか PATH を通してください。"
   echo "=== 起動できません: $MSG ==="

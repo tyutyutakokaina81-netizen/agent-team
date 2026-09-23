@@ -58,10 +58,13 @@ if os.path.exists(_na):
 _nojpg = [os.path.basename(f)[:-3] for f in recent_arts
           if not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))]
 vanished = [b for b in _nojpg if b in verified]          # owner確認済みなのに画像が無い＝事故
-# ★2026-09-23: **公開済みの記事は対象から外す。** 公開後にサムネを取っても note の投稿には付かない
-#   （2026-09-22 に判明）。それでも鳴らし続けると、**直せないものを毎日催促する**ことになり、
-#   本当に間に合う記事（未公開）の欠落がその中に埋もれる。
-#   公開済みで無サムネのものは「そういう結果になった」だけで、欠落ではない。
+# ★2026-09-23 訂正: **「公開後はもう付けられない」は誤りだった。**
+#   `ops/fix_header_images.sh` ＋ `set_header_image.py` が、**公開済みの投稿を開いて
+#   見出し画像を後から設定する**。2026-09-19 に実際に7本これで直している（ops/header_image_todo.tsv）。
+#   この仕組みを自分で作っておきながら、今日その存在を忘れて「付けられない」と書き、
+#   検査の対象からも外してしまった。**直せるものを直せないことにしていた**ので元に戻す。
+#   公開済みで無サムネのものは「欠落」であり、todo.tsv に積んで owner の Mac で直す。
+#   （公開前に付けるのが本筋なのは変わらない＝R32。ここは取りこぼしの回収路）
 try:
     import json as _json2
     _reg2 = _json2.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
@@ -89,7 +92,8 @@ elif missing:
     add("R2 実写サムネ", "BROKEN",
         f"直近{len(recent_arts)}本中 {len(missing)}本がサムネ未取得(例:{missing[0][:26]}…)"
         " → ops/run_requests/ にpushして note-thumbnails を起動"
-        + (f"／別に**公開済みで無サムネのまま {len(_missing_pub)}本**（もう付けられないので対象外）"
+        + (f"／別に**公開済みで無サムネのまま {len(_missing_pub)}本**"
+           f"（`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付けられる）"
            if _missing_pub else ""))
 else:
     add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り")
