@@ -95,8 +95,18 @@ elif missing:
         + (f"／別に**公開済みで無サムネのまま {len(_missing_pub)}本**"
            f"（`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付けられる）"
            if _missing_pub else ""))
+elif _missing_pub:
+    # ★2026-09-23: **ここが抜けていた。** 直前の修正は BROKEN 側の文言だけ直しており、
+    #   OK 側は _missing_pub を無視したまま「すべてサムネ有り」と言っていた。
+    #   実際、公開済みで無サムネの16本があるのに OK が出ていた。
+    #   今朝 R2d で「文言だけ直して検出器を直していない」と書いた直後に、同じことをやっている。
+    #   公開済みでも後から付けられる（fix_header_images.sh）ので、**これは欠落として数える**。
+    add("R2 実写サムネ", "STALE",
+        f"未公開分はすべてサムネ有り。ただし**公開済みで無サムネのまま {len(_missing_pub)}本**"
+        f"(例:{sorted(_missing_pub)[0][:26]}…) → サムネを取って `_verified` に入れ、"
+        f"`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付ける")
 else:
-    add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り")
+    add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り（公開済みの無サムネも0本）")
 
 # R2e: _verified.txt に載っているのに jpg が存在しない＝「owner確認済みだから対象外」で
 # 静かに落ちていた分。旧R2は verified を存在確認の**前に**除外していたため、一度載せた記事は
