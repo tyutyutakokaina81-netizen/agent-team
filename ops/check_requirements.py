@@ -467,27 +467,38 @@ except Exception as _e:
 # 2026-09-22 実測: 直近に公開した7本（衣替え/むかご/二番穂/鮭/落ち葉/柿/渡り鳥）は**全部**、
 # サムネが届く前に公開され、note 既定サムネで出た。画像はそのあと到着している。
 # **公開済みの記事に後からサムネは付かない**ので、取得も検品もまるごと無駄打ちになる。
-# キューに入れる時点で、その記事のサムネは「採用済み(_verified)」か「無サムネ確定(_no_auto)」の
-# どちらかに決まっていなければならない。決まっていないなら、決まるまでキューに入れない。
+# キューに入れる時点で、その記事のサムネが **採用済み(_verified) になっていなければならない**。
+# ★2026-09-23 方針変更（オーナー確定）: **サムネは全記事に必ず付ける**。
+#   それまでは「_no_auto（無サムネ確定）でもよい」としていたが、これは code が勝手に作った
+#   「誤サムネより無サムネが正」という基準で、**9月の30本中11本が無サムネで公開されていた**。
+#   指示は「毎日サムネつきで書く」なので、この運用自体が誤りだった。
+#   判定は「題材が合っていれば採用」で、落とすのは**明らかに別物**のときだけ。落としたら取り直す。
+#   → **キューに _no_auto の記事が入っていたら BROKEN**（公開済みで後から付けられない記事を除く）。
 try:
     _q32 = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
     if not _q32:
         add("R32 サムネ未確定のまま投入", "OK", "公開キューが空＝該当なし")
     else:
-        _undecided = []
+        _undecided, _noimg = [], []
         for _f in _q32:
             _st = os.path.basename(_f)[:-3]
-            if _st in verified or _st in no_auto:
+            if _st in verified:
                 continue
-            _undecided.append(_st)
-        if _undecided:
+            (_noimg if _st in no_auto else _undecided).append(_st)
+        if _undecided or _noimg:
+            _msg = []
+            if _undecided:
+                _msg.append(f"**サムネ未確定 {len(_undecided)}本**({_undecided[0][:32]}…)")
+            if _noimg:
+                _msg.append(f"**無サムネのまま {len(_noimg)}本**({_noimg[0][:32]}…)"
+                            "＝2026-09-23 の方針変更でサムネは全記事必須。"
+                            "題材が合っていれば採用し、明らかな別物なら語を変えて取り直す")
             add("R32 サムネ未確定のまま投入", "BROKEN",
-                f"**サムネが未確定のままキューに {len(_undecided)}本**({_undecided[0][:32]}…)"
-                " → このまま公開すると note 既定サムネで出て、**あとから画像は付けられない**。"
-                "_verified に入れるか _no_auto で確定させてから投入する")
+                "／".join(_msg) +
+                " → このまま公開すると note 既定サムネで出て、**あとから画像は付けられない**")
         else:
             add("R32 サムネ未確定のまま投入", "OK",
-                f"キュー {len(_q32)}本すべて、採用済みか無サムネ確定のどちらかに決まっている")
+                f"キュー {len(_q32)}本すべて、サムネが採用済み(_verified)になっている")
 except Exception as _e:
     add("R32 サムネ未確定のまま投入", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
