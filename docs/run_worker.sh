@@ -38,17 +38,60 @@ if ! crontab -l 2>/dev/null | grep -q worker_dispatcher.sh; then
 fi
 
 TS=$(date +%Y-%m-%d_%H%M)
-CLA=$(command -v claude || ls "$HOME/.claude/local/claude" 2>/dev/null)
 
 # 送信専用クローン（ワーカーのgit操作と衝突させない）
 LOGCLONE="$HOME/.agent-team-logclone"
 URL=$(git remote get-url origin)
 if [ ! -d "$LOGCLONE/.git" ]; then git clone --depth 1 -q "$URL" "$LOGCLONE"; fi
 
+
+# ★2026-09-23: **ここが空のまま走っていた**。2026-09-23 08:45 の便のログが
+#   `run_worker.sh: line 51: : command not found` で埋まっており（空文字列を実行した形）、
+#   それでも `exit_code=0` で「成功」として報告されていた。キューに3本あるのに公開0本。
+#   原因の第一候補は **cron の PATH が対話シェルと違う**こと。`command -v claude` は
+#   ログインシェルでは当たるが、cron の最小 PATH では外れる。
+#   → 代表的な導入先を順に見て、**見つからなければはっきり落とす**（黙って空実行しない）。
+CLA=$(command -v claude 2>/dev/null)
+if [ -z "$CLA" ]; then
+  for c in "$HOME/.claude/local/claude" \
+           "$HOME/.local/bin/claude" \
+           "/opt/homebrew/bin/claude" \
+           "/usr/local/bin/claude" \
+           "$HOME/.npm-global/bin/claude" \
+           "$HOME/node_modules/.bin/claude"; do
+    [ -x "$c" ] && CLA="$c" && break
+  done
+fi
+if [ -z "$CLA" ]; then
+  MSG="claude コマンドが見つかりません（PATH=$PATH）。cron から起動すると PATH が対話シェルと違うため、フルパスで指定するか PATH を通してください。"
+  echo "=== 起動できません: $MSG ==="
+  mkdir -p "$HOME/agent-team-run/ops/logs"
+  { echo "launcher_error=claude_not_found"; echo "$MSG"; echo "exit_code=127"; } \
+    > "$HOME/agent-team-run/ops/logs/worker_${TS}.log"
+  cd "$LOGCLONE" 2>/dev/null && git pull --rebase -q origin main 2>/dev/null
+  mkdir -p ops/logs
+  { echo "launcher_error=claude_not_found"; echo "$MSG"; echo "exit_code=127"; } > "ops/logs/worker_${TS}.log"
+  git add ops/logs/ 2>/dev/null
+  git commit -qm "log: worker run ${TS} could not start (claude not found)" 2>/dev/null
+  git push -q origin main 2>/dev/null || true
+  exit 127
+fi
+
 echo "=== ワーカー開始 ${TS}（実行中も3分ごとに状況が自動送信されます）==="
 # --dangerously-skip-permissions: -p(非対話)では権限プロンプトに答えられず、報告書き込み/git pushが
 # 全部ブロックされる（2026-07-04 11:35便で実証: 報告もログも届かなかった）。owner環境の自リポジトリ限定運用。
-"$CLA" -p --dangerously-skip-permissions "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log &
+# ★2026-09-23: `| tee` を挟むとパイプラインの終了コードは **tee のもの**になり、
+#   本体が落ちても RC=0 になる。実際、claude が空で実行できなかった便も rc=0 で
+#   「成功」と報告されていた。本体の終了コードを拾うため PIPESTATUS を使う。
+# ★2026-09-23: worker.log は `tee -a` で**積み上がる**ファイルで、送信しているのはその tail。
+#   そのため「今回の便のログ」を読んでいるつもりで、**何便も前の失敗が混ざって**いた
+#   （08:45 便のログは同じエラーが数十行並んでいたが、実際は1便1行×多数便だった）。
+#   → 今回分だけの RUNLOG を別に持ち、判定も送信もそちらを見る。
+# リポジトリの外に置く＝ops/logs/ を git add したときに生ログまで載らないようにする。
+RUNLOG="$HOME/.agent-team-dispatch/worker_run_${TS}.out"
+mkdir -p "$(dirname "$RUNLOG")"
+set -o pipefail
+"$CLA" -p --dangerously-skip-permissions "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log > "$RUNLOG" &
 PID=$!
 
 # ライブ送信ループ（ワーカーが生きている間だけ）
@@ -58,7 +101,7 @@ PID=$!
     kill -0 $PID 2>/dev/null || break
     cd "$LOGCLONE" && git pull --rebase -q origin main 2>/dev/null
     mkdir -p ops/logs
-    { echo "# live tail $(date '+%H:%M:%S') (running)"; tail -80 "$HOME/agent-team-run/worker.log"; } > ops/logs/worker_live.log
+    { echo "# live tail $(date '+%H:%M:%S') (running)"; tail -80 "$RUNLOG"; } > ops/logs/worker_live.log
     git add ops/logs/worker_live.log 2>/dev/null
     git commit -qm "log(live): worker running $(date '+%H:%M')" 2>/dev/null
     git push -q origin main 2>/dev/null || true
@@ -70,10 +113,18 @@ wait $PID
 RC=$?
 kill $LIVEPID 2>/dev/null
 
+# ★2026-09-23: ログイン切れは本体が「Not logged in · Please run /login」と1行出して
+#   すぐ終わるだけで、キューがあっても1本も公開されない。終了コードだけ見ても分からないので、
+#   **ログの文言で検出して rc に出す**（code 側の R33 がこれを見る）。
+if grep -q "Not logged in" "$RUNLOG" 2>/dev/null; then
+  echo "launcher_error=not_logged_in（Mac の claude が未ログイン。ターミナルで claude を起動し /login）" | tee -a "$RUNLOG"
+  [ "$RC" = "0" ] && RC=126
+fi
+
 # 最終ログ送信
 cd "$LOGCLONE" && git pull --rebase -q origin main 2>/dev/null
 mkdir -p ops/logs
-{ tail -120 "$HOME/agent-team-run/worker.log"; echo "exit_code=${RC}"; } > "ops/logs/worker_${TS}.log"
+{ tail -120 "$RUNLOG"; echo "exit_code=${RC}"; } > "ops/logs/worker_${TS}.log"
 echo "# finished $(date '+%H:%M:%S') rc=${RC}" > ops/logs/worker_live.log
 git add ops/logs/ 2>/dev/null
 git commit -qm "log: worker run ${TS} finished (rc=${RC})" 2>/dev/null

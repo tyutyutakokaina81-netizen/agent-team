@@ -1,6 +1,6 @@
 #!/bin/bash
 # オーナーがMacで実行する「code にはできない作業」のまとめ。
-#   使い方:  cd ~/agent-team && git pull && bash ops/owner_tasks.sh
+#   使い方:  cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && git pull && bash ops/owner_tasks.sh
 #
 # このスクリプトは**自動でできることだけ**やり、結果を ops/outbox に書いて push する。
 # ブラウザ操作が要るものは最後に一覧で出すだけで、勝手には触らない。

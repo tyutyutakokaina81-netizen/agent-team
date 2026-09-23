@@ -272,6 +272,43 @@ except Exception as _e:
     add("R21 在庫があるのにキューが空", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
 # R22 日次実行(cowork側)の生存: 最後に auto-publish 報告が届いたのはいつか。
+# R33 ワーカー起動の不発: R22 は cowork の**報告が届いたか**しか見ていないので、
+# 「起動はしたが本体が1行も動かず、それでも rc=0 で終わった」便を拾えない。
+# 実測(2026-09-23 08:45): ランチャーの `$CLA` が空のまま実行され
+# `run_worker.sh: line 51: : command not found` だけが並び、キューに3本あるのに公開0本。
+# それでも `exit_code=0` だった（`| tee` を挟むとパイプラインの終了コードは tee のものになるため）。
+# ここでは **最新の worker ログの終了コードと launcher_error 行**を見る。
+_wlogs = sorted(glob.glob(os.path.join(ROOT, "ops/logs/worker_2*.log")))
+if not _wlogs:
+    add("R33 ワーカー起動の不発", "STALE", "worker ログが1件も無い＝判定不能")
+else:
+    _wl = _wlogs[-1]
+    _wtxt = open(_wl, encoding="utf-8", errors="ignore").read()
+    _wname = os.path.basename(_wl)
+    _rc = ""
+    for _ln in _wtxt.splitlines():
+        if _ln.startswith("exit_code="):
+            _rc = _ln.split("=", 1)[1].strip()
+    _lerr = [l for l in _wtxt.splitlines() if l.startswith("launcher_error=")]
+    # 旧ランチャー（2026-09-23 の修正前）は本体が空実行でも rc=0 を出すので、
+    # **文言でも見る**。積み上がった worker.log の tail を送っていた時期のログには
+    # 過去便の失敗も混ざるため、これは「疑い」までにとどめ、rc と launcher_error を主にする。
+    _sig = ("command not found" in _wtxt) or ("Not logged in" in _wtxt)
+    if _lerr:
+        add("R33 ワーカー起動の不発", "BROKEN",
+            f"最新便({_wname})が**本体を動かせずに終わっている**＝{_lerr[-1][len('launcher_error='):][:60]}"
+            " → owner の Mac 側の対応が要る")
+    elif _rc not in ("", "0"):
+        add("R33 ワーカー起動の不発", "BROKEN",
+            f"最新便({_wname})の exit_code={_rc} → ログ本文を読んで原因を切り分ける")
+    elif _sig:
+        add("R33 ワーカー起動の不発", "STALE",
+            f"最新便({_wname})は rc=0 だが、ログに `command not found` か `Not logged in` がある。"
+            "旧ランチャーは積み上がった worker.log の tail を送っていたので**過去便の残骸の可能性**もある。"
+            "次の便が新ランチャーで走れば判別できる")
+    else:
+        add("R33 ワーカー起動の不発", "OK", f"最新便({_wname})は起動に成功している（rc={_rc or 'なし'}）")
+
 # R8 は STATE.md の更新日しか見ておらず、**code（私）が動いていれば OK を出す**。
 # つまり Mac 側の cron が止まっていても OK のままで、実際 2026-09-16 の 08:00 実行が
 # 丸ごと落ちたのに気づいたのは数日後だった。「誰が動いているか」を取り違えていた。

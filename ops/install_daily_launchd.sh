@@ -1,6 +1,6 @@
 #!/bin/bash
 # 日次公開(ops/cowork_run.sh)を **crontab から launchd へ移す**。
-#   使い方: cd ~/agent-team && bash ops/install_daily_launchd.sh
+#   使い方: cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && bash ops/install_daily_launchd.sh
 #
 # なぜ移すか（2026-09-16 の調査結果）:
 #   ・cron は **実行時刻にMacが寝ていると、その回を黙って飛ばす**。起きても取り返さない。

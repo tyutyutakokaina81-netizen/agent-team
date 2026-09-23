@@ -1,6 +1,6 @@
 #!/bin/bash
 # 「タスクが実行されていない」の原因調査。読み取りだけで、何も変更しない。
-#   使い方: cd ~/agent-team && bash ops/diagnose_schedule.sh
+#   使い方: cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && bash ops/diagnose_schedule.sh
 cd "$(dirname "$0")/.."
 echo "=== 1. crontab（日次公開は 0 8 * * * で登録されているはず） ==="
 crontab -l 2>&1 | grep -v "^#" | grep -v "^$" || echo "（crontab は空、または未設定）"

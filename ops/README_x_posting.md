@@ -35,7 +35,7 @@ owner の希望「2（cowork発注）＋3（自動投稿ツール）」に対応
 ## 毎回の投稿手順
 
 ```bash
-cd ~/agent-team && git pull origin main
+cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && git pull origin main
 # 1) 確認（投稿しない）：先頭の未投稿スレッドと文字数を表示
 python3 ops/x_poster.py
 # 2) 投稿（先頭1スレッドだけ・280字超は自動で中止）

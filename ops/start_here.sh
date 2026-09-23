@@ -1,6 +1,6 @@
 #!/bin/bash
 # ops/start_here.sh — オーナーが Mac で最初に叩く1本。
-#   cd ~/agent-team && bash ops/start_here.sh
+#   cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && bash ops/start_here.sh
 #
 # やること（上から順に、止まらないように）:
 #   0) git の残骸（*.lock）を片付ける ※動いている git が無いときだけ

@@ -1,7 +1,16 @@
 #!/bin/bash
 # ops/go.sh — オーナーが Mac で叩く1本。これだけで通る。
 #
-#   cd ~/agent-team && bash ops/go.sh
+#   cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && bash ops/go.sh
+#
+# ★`bash: ops/go.sh: No such file or directory` と出たら、**リポジトリの外にいる**。
+#   go.sh はリポジトリの中のファイルなので、ホームからは見えない（2026-09-23 に3度目）。
+#   毎回 cd を書くのが面倒なら、**1回だけ**これを実行しておくと `go` だけで通る:
+#     echo 'alias go="cd ~/agent-team-run 2>/dev/null || cd ~/agent-team; bash ops/go.sh"' >> ~/.zshrc
+#     source ~/.zshrc
+#   ※クローン先が `~/agent-team-run` と `~/agent-team` のどちらでも通るようにしてある。
+#     ドキュメント側が長く `~/agent-team` と書いていたが、ワーカーが使っているのは
+#     `~/agent-team-run` で、**書いてある通りに打つと cd から失敗していた**。
 #
 # ★先に `git pull` を付けないこと（2026-09-22）。
 #   手元に未コミットの変更があると `git pull` は
@@ -170,7 +179,7 @@ cat <<'MANUAL'
      間違えて「投稿した」と答えたとき: bash ops/run_x.sh --undo
 
  次回も、これ1本だけで通ります（**git pull は付けないこと**）:
-     cd ~/agent-team && bash ops/go.sh
+     cd ~/agent-team-run 2>/dev/null || cd ~/agent-team && bash ops/go.sh
 
  この画面をそのまま Claude に貼れば、続きをこちらで処理します。
 MANUAL
