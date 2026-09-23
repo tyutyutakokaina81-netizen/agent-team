@@ -83,6 +83,15 @@ def _is_published(_stem):
     return bool(_m) and _m.group(1).strip() in _pubtitles2
 
 
+# ★2026-09-23 追加: R2 は **直近の記事しか見ていない**（recent_arts）。
+#   そのため「公開済みで無サムネ 2本」と出るが、窓の外を含めると実際は17本あった。
+#   R27/R28 と同じく、**窓の外の積み残しも必ず数えて併記する**（狭めて消しただけにしない）。
+_all_arts = sorted(glob.glob(os.path.join(ROOT, "CMO/outputs/*_note記事_*.md")))
+_old_nojpg = [os.path.basename(f)[:-3] for f in _all_arts
+              if os.path.basename(f)[:-3] not in verified
+              and os.path.basename(f)[:-3] not in no_auto
+              and not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))
+              and f not in recent_arts]
 _missing_all = [b for b in _nojpg if b not in verified and b not in no_auto]
 _missing_pub = [b for b in _missing_all if _is_published(b)]
 missing = [b for b in _missing_all if b not in _missing_pub]
@@ -104,9 +113,14 @@ elif _missing_pub:
     add("R2 実写サムネ", "STALE",
         f"未公開分はすべてサムネ有り。ただし**公開済みで無サムネのまま {len(_missing_pub)}本**"
         f"(例:{sorted(_missing_pub)[0][:26]}…) → サムネを取って `_verified` に入れ、"
-        f"`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付ける")
+        f"`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付ける"
+        + (f"／**窓の外にさらに {len(_old_nojpg)}本**（過去分・最古 {sorted(_old_nojpg)[0][:26]}…）"
+           if _old_nojpg else ""))
 else:
-    add("R2 実写サムネ", "OK", f"直近{len(recent_arts)}本すべてサムネ有り（公開済みの無サムネも0本）")
+    add("R2 実写サムネ", "STALE" if _old_nojpg else "OK",
+        f"直近{len(recent_arts)}本すべてサムネ有り（公開済みの無サムネも0本）"
+        + (f"／**窓の外に {len(_old_nojpg)}本**（過去分・最古 {sorted(_old_nojpg)[0][:26]}…）"
+           if _old_nojpg else ""))
 
 # R2e: _verified.txt に載っているのに jpg が存在しない＝「owner確認済みだから対象外」で
 # 静かに落ちていた分。旧R2は verified を存在確認の**前に**除外していたため、一度載せた記事は
