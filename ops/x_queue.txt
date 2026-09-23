@@ -2,10 +2,10 @@
 # 区切り: === slug ===  / その下 1行=1ツイート / 投稿済みは自動で [POSTED] が付く
 # 追加は 2026-08-25_crosspost_Reddit_X_templates.md の X スレッドからコピペ。各行280字以内。
 
-=== tap-water ===
+=== tap-water [POSTED] ===
 In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. #Japan #Toyama
 
-=== new-rice ===
+=== new-rice [POSTED] ===
 Every September Japan gets "shinmai" — new-crop rice. Fresher grains, more moisture: plump, glossy, faintly sweet. Eat it plain first, then a pinch of salt. In Japan, even rice has a season — and the first bowl is the finale. #Japan #JapanFood #Toyama
 
 === nihyakutoka ===
