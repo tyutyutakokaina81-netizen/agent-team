@@ -80,7 +80,7 @@ if [ -z "$CLA" ]; then
   done
 fi
 if [ -z "$(command -v node 2>/dev/null)" ]; then
-  MSG="node が見つかりません（PATH=$PATH）。claude は node スクリプトなので node が無いと 127 で落ちます。node の場所を上の PATH 追加リストに足してください。"
+  MSG="node が見つかりません（PATH=${PATH}）。claude は node スクリプトなので node が無いと 127 で落ちます。node の場所を上の PATH 追加リストに足してください。"
   echo "=== 起動できません: $MSG ==="
   cd "$LOGCLONE" 2>/dev/null && git pull --rebase -q origin main 2>/dev/null
   mkdir -p ops/logs
@@ -92,7 +92,7 @@ if [ -z "$(command -v node 2>/dev/null)" ]; then
 fi
 
 if [ -z "$CLA" ]; then
-  MSG="claude コマンドが見つかりません（PATH=$PATH）。cron から起動すると PATH が対話シェルと違うため、フルパスで指定するか PATH を通してください。"
+  MSG="claude コマンドが見つかりません（PATH=${PATH}）。cron から起動すると PATH が対話シェルと違うため、フルパスで指定するか PATH を通してください。"
   echo "=== 起動できません: $MSG ==="
   mkdir -p "$HOME/agent-team-run/ops/logs"
   { echo "launcher_error=claude_not_found"; echo "$MSG"; echo "exit_code=127"; } \

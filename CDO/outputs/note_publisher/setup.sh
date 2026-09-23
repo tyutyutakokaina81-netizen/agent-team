@@ -7,7 +7,7 @@
 set -e
 VENV="$HOME/.note_venv"
 
-echo "📦 専用venvを作成/更新します（$VENV・PEP668安全）..."
+echo "📦 専用venvを作成/更新します（${VENV}・PEP668安全）..."
 python3 -m venv "$VENV" 2>/dev/null || true
 
 PYOK=""

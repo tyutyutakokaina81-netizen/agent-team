@@ -35,7 +35,10 @@ fi
 #   3回叩いて3回とも「Playwright未インストール」で何もせず終わった。
 #   決め打ちをやめ、**実際に playwright を import できる python を探す**。
 PYBIN=""
-for c in python3 "$HOME/.agent_venv/bin/python3" /opt/homebrew/bin/python3 /usr/local/bin/python3; do
+#   2026-09-23 実測: owner の Mac では setup.sh が `$HOME/.note_venv` を作っており、
+#   中の実体は `python`（python3 ではない）。候補に両方入れる。
+for c in "$HOME/.note_venv/bin/python" "$HOME/.note_venv/bin/python3" python3 \
+         /opt/homebrew/bin/python3 /usr/local/bin/python3 "$HOME/.agent_venv/bin/python3"; do
   command -v "$c" >/dev/null 2>&1 || [ -x "$c" ] || continue
   if "$c" -c "import playwright" >/dev/null 2>&1; then PYBIN="$c"; break; fi
 done
@@ -46,7 +49,7 @@ if [ -z "$PYBIN" ]; then
   echo "  （見出し画像の修復 ops/fix_header_images.sh と同じ環境を使います）"
   exit 1
 fi
-echo "== 実行（python: $PYBIN）=="
+echo "== 実行（python: ${PYBIN}）=="
 set -o pipefail
 "$PYBIN" CDO/outputs/note_publisher/set_tags.py "$@" 2>&1 | tee "$LOG"
 RC=$?

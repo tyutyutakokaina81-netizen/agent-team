@@ -97,7 +97,7 @@ PLIST
 # ---- ロード（既存はunloadしてから）----
 for L in "$DISP_PLIST" "$DAILY_PLIST" "$AWAKE_PLIST"; do
   launchctl unload "$L" 2>/dev/null || true
-  launchctl load "$L" 2>/dev/null && echo "  ✅ 常駐登録: $(basename "$L")" || echo "  ⚠️ load失敗: $(basename "$L")（手動: launchctl load $L）"
+  launchctl load "$L" 2>/dev/null && echo "  ✅ 常駐登録: $(basename "$L")" || echo "  ⚠️ load失敗: $(basename "$L")（手動: launchctl load ${L}）"
 done
 
 echo "---- 3) 今すぐ1回、配車係を起動（積まれた便を消化）----"

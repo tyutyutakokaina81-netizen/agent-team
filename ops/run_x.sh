@@ -257,7 +257,7 @@ export X_ACCESS_TOKEN="$K3"
 export X_ACCESS_SECRET="$K4"
 KEYS
   chmod 600 "$KEYFILE"
-  echo "✅ 保存しました: $KEYFILE（本人だけが読める権限）"
+  echo "✅ 保存しました: ${KEYFILE}（本人だけが読める権限）"
   echo "→ 続けて: bash ops/run_x.sh   で接続を確認します"
   exit 0
 fi
