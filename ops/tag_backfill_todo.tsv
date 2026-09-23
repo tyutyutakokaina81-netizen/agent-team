@@ -10,9 +10,9 @@
 #   owner の Mac で:
 #     cd ~/agent-team-run && bash ops/fix_tags.sh --probe   ← まず実測（何も変えない）
 #     cd ~/agent-team-run && bash ops/fix_tags.sh           ← 実際に付ける
-ncb6c6912f70a	#富山旅行 #氷見 #高岡 #モデルコース #富山 #japan #Toyama
-n0489cfead712	#お盆 #帰省 #夏祭り #富山 #暮らし #japan #Toyama
-n27778fd0e61f	#富山 #立山 #夏 #避暑 #気候 #japan #Toyama
+DONE	ncb6c6912f70a	#富山旅行 #氷見 #高岡 #モデルコース #富山 #japan #Toyama
+DONE	n0489cfead712	#お盆 #帰省 #夏祭り #富山 #暮らし #japan #Toyama
+DONE	n27778fd0e61f	#富山 #立山 #夏 #避暑 #気候 #japan #Toyama
 n243de4f07b29	#氷見 #漁港 #朝の港 #富山 #食 #japan #Himi
 nf6f6a1000aa4	#高岡 #町歩き #歴史 #富山 #観光 #japan #Takaoka
 n3864cc909552	#高岡コロッケ #コロッケ #高岡 #富山 #ご当地グルメ #japan #Toyama
