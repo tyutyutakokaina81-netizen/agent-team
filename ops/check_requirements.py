@@ -355,6 +355,24 @@ except Exception as _e:
 # publisher は `## ハッシュタグ` の有無でしか判断しないので、書き忘れれば**タグ0個で公開される**。
 # note ではタグがタグページ・おすすめ経由の主要な発見経路なので、これは reach の直接的な取りこぼし。
 # 385本中295本にはタグがあるのに、途中から私が書かなくなっていた＝**人が書く前提のものは必ず抜ける**。
+# ★2026-09-23 追加: R23 は**キューしか見ていない**ので、「すでにタグ0個で公開されてしまった分」を
+#   1本も数えていなかった。実測すると公開済み196本のうち **39本がタグ0個**だった。
+#   見出し画像と同じで、公開後でも `ops/fix_tags.sh` で後から付けられる＝欠落として数える。
+#   検査そのものは増やさず、R23 の文面に**未処理の残り本数**を併記する。
+try:
+    _tb = os.path.join(ROOT, "ops/tag_backfill_todo.tsv")
+    _tb_left = 0
+    if os.path.exists(_tb):
+        for _l in open(_tb, encoding="utf-8"):
+            _l = _l.strip()
+            if _l and not _l.startswith("#") and not _l.startswith("DONE"):
+                _tb_left += 1
+    _tbn = (f"／**公開済みでタグ0個のまま {_tb_left}本**"
+            f"（`cd ~/agent-team-run && bash ops/fix_tags.sh` で後から付けられる）"
+            if _tb_left else "")
+except Exception:
+    _tbn = ""
+
 try:
     _qmd = glob.glob(os.path.join(ROOT, "drafts/queue/*.md"))
     _notag, _thin = [], []
@@ -366,16 +384,16 @@ try:
         elif len(re.findall(r"#\S+", _m.group(1))) < 5:
             _thin.append(os.path.basename(_f)[:-3])
     if not _qmd:
-        add("R23 ハッシュタグ", "STALE", "公開キューが空＝未検査")
+        add("R23 ハッシュタグ", "STALE" if not _tbn else "BROKEN", "公開キューが空＝未検査" + _tbn)
     elif _notag:
         add("R23 ハッシュタグ", "BROKEN",
             f"**タグ無しの記事が {len(_notag)}本**(例:{_notag[0][:30]}…) → タグ0個で公開されてしまう。"
-            f"`## ハッシュタグ` ブロックを足す")
+            f"`## ハッシュタグ` ブロックを足す" + _tbn)
     elif _thin:
         add("R23 ハッシュタグ", "BROKEN",
-            f"タグが5個未満の記事が {len(_thin)}本(例:{_thin[0][:30]}…) → 発見経路が細くなる")
+            f"タグが5個未満の記事が {len(_thin)}本(例:{_thin[0][:30]}…) → 発見経路が細くなる" + _tbn)
     else:
-        add("R23 ハッシュタグ", "OK", f"キュー {len(_qmd)}本すべてに5個以上のタグあり")
+        add("R23 ハッシュタグ", "BROKEN" if _tbn else "OK", f"キュー {len(_qmd)}本すべてに5個以上のタグあり" + _tbn)
 except Exception as _e:
     add("R23 ハッシュタグ", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
