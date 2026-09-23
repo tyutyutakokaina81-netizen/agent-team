@@ -967,7 +967,11 @@
 },
 "2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置": "wikimedia",
 "2026-08-02_note記事_FIRE報告_本日FIREしました": {
+"author": "Dietmar Rabich",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_St.-Jakobus-Kirche,_Chor_und_Altar_--_2022_--_4184-8.jpg",
+"file": "File:Dülmen, Kirchspiel, St.-Jakobus-Kirche, Chor und Altar -- 2022 -- 4184-8.jpg",
+"license": "CC BY-SA 4.0",
 "query": "books reading desk",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
@@ -1178,7 +1182,11 @@
 "src": "https://upload.wikimedia.org/wikipedia/commons/3/39/Ine_karita.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-08-27_note記事_富山の水道水はなぜそのまま飲んでおいしいのか": {
+"author": "Yasu (talk)",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Power_lines_from_Kurobe_River_No._4_Power_Station.jpg",
+"file": "File:Power lines from Kurobe River No. 4 Power Station.jpg",
+"license": "CC BY-SA 3.0",
 "query": "黒部川",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Power_lines_from_Kurobe_River_No._4_Power_Station.jpg/1280px-Power_lines_from_Kurobe_River_No._4_Power_Station.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
@@ -1199,9 +1207,13 @@
 "2026-09-04_note記事_梨_富山の梨はりんごのように齧る": "wikimedia",
 "2026-09-05_note記事_共働き_富山で共働きが多いわけ": "wikimedia",
 "2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる": {
+"author": "Hahifuheho",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Lion_dance_at_Shirumori_Shrine.jpg",
+"file": "File:Lion dance at Shirumori Shrine.jpg",
+"license": "CC0",
 "query": "獅子舞",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Lion_Dance_2.jpg/1280px-Lion_Dance_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Lion_dance_at_Shirumori_Shrine.jpg/1280px-Lion_dance_at_Shirumori_Shrine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": "wikimedia",
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": "wikimedia",
@@ -1298,22 +1310,22 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg/1280px-%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_用水路_町の中を速い水が流れている": {
-"author": "hasano_jp",
+"author": "mariemon",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E8%BE%B2%E6%A5%AD%E7%94%A8%E6%B0%B4%E8%B7%AF%E8%B7%A1_-_panoramio.jpg",
-"file": "File:農業用水路跡 - panoramio.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%96%8F%E6%B0%B44992.JPG",
+"file": "File:疏水4992.JPG",
 "license": "CC BY 3.0",
-"query": "農業用水路",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/%E8%BE%B2%E6%A5%AD%E7%94%A8%E6%B0%B4%E8%B7%AF%E8%B7%A1_-_panoramio.jpg/1280px-%E8%BE%B2%E6%A5%AD%E7%94%A8%E6%B0%B4%E8%B7%AF%E8%B7%A1_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "疏水",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/%E7%96%8F%E6%B0%B44992.JPG/1280px-%E7%96%8F%E6%B0%B44992.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_里芋_掘り出すと親芋のまわりに子芋がついてくる": {
-"author": "purivve",
+"author": "NasserHalaweh",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%97%A5%E6%9C%AC%E4%B8%80%E3%81%AE%E8%8A%8B%E7%85%AE%E4%BC%9A_-_panoramio.jpg",
-"file": "File:日本一の芋煮会 - panoramio.jpg",
-"license": "CC BY-SA 3.0",
-"query": "芋煮",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/%E6%97%A5%E6%9C%AC%E4%B8%80%E3%81%AE%E8%8A%8B%E7%85%AE%E4%BC%9A_-_panoramio.jpg/1280px-%E6%97%A5%E6%9C%AC%E4%B8%80%E3%81%AE%E8%8A%8B%E7%85%AE%E4%BC%9A_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Araceae_Colocasia_esculenta_1.jpg",
+"file": "File:Araceae Colocasia esculenta 1.jpg",
+"license": "CC BY-SA 4.0",
+"query": "サトイモ 栽培",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Araceae_Colocasia_esculenta_1.jpg/1280px-Araceae_Colocasia_esculenta_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-16_note記事_新蕎麦_秋になると幟が立つが違いが分かるかは別の話": {
 "author": "くろふね",
@@ -1343,13 +1355,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/A_fruit_of_akebia_quinata_on_white_background.png/1280px-A_fruit_of_akebia_quinata_on_white_background.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-17_note記事_運動会_九月の校庭と場所取りの朝": {
-"author": "Mr.ちゅらさん",
+"author": "RuinDig/Yuki Uchida",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Takebishi_Stadium_Kyoto_2024-08.jpg",
-"file": "File:Takebishi Stadium Kyoto 2024-08.jpg",
-"license": "CC BY-SA 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japan-National-Stadium-field-area-tour_039.jpg",
+"file": "File:Japan-National-Stadium-field-area-tour 039.jpg",
+"license": "CC BY 4.0",
 "query": "陸上競技場 トラック",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Takebishi_Stadium_Kyoto_2024-08.jpg/1280px-Takebishi_Stadium_Kyoto_2024-08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Japan-National-Stadium-field-area-tour_039.jpg/1280px-Japan-National-Stadium-field-area-tour_039.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-18_note記事_松茸_買ったことがないまま名前だけ知っている": {
 "author": "caspar s",
@@ -1460,49 +1472,49 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg/1280px-Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-24_note記事_衣替え_日付で服を入れ替える決まりがある": {
-"author": "nakashi from Chofu, Tokyo, JAPAN",
+"author": "くーさん",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%BD%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB_%E3%83%87%E3%82%A3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9_(51891102808).jpg",
-"file": "File:ソーシャル ディスタンス (51891102808).jpg",
-"license": "CC BY-SA 2.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_(437658629).jpg",
+"file": "File:桐タンス更生 (437658629).jpg",
+"license": "CC BY 2.0",
 "query": "タンス",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/%E3%82%BD%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB_%E3%83%87%E3%82%A3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9_%2851891102808%29.jpg/1280px-%E3%82%BD%E3%83%BC%E3%82%B7%E3%83%A3%E3%83%AB_%E3%83%87%E3%82%A3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9_%2851891102808%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_%28437658629%29.jpg/1280px-%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_%28437658629%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-25_note記事_むかご_一度に採れる量が料理の単位に届かない": {
-"author": "Shih-Shiuan Kao from Taipei, Taiwan",
+"author": "石川 Shihchuan from 台北市 (Taipei City), 台灣 (Taiwan)",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Dioscorea_japonica_(4601188822).jpg",
-"file": "File:Dioscorea japonica (4601188822).jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:Dioscorea_japonica_2010-07-18_233_01_(5843179974).jpg",
+"file": "File:Dioscorea japonica 2010-07-18 233 01 (5843179974).jpg",
 "license": "CC BY-SA 2.0",
 "query": "Dioscorea japonica",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Dioscorea_japonica_%284601188822%29.jpg/1280px-Dioscorea_japonica_%284601188822%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Dioscorea_japonica_2010-07-18_233_01_%285843179974%29.jpg/1280px-Dioscorea_japonica_2010-07-18_233_01_%285843179974%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-25_note記事_二番穂_刈り終えた田んぼがもう一度緑になる": {
-"author": "橋爪",
+"author": "《北支》画刊",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%96%87%E5%AD%A6%E9%99%A2%E6%95%99%E5%AE%A4_%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6_%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6%E7%B3%BB%E4%B8%BB%E4%BB%BB%E9%8A%AD%E7%A8%B2%E5%AD%AB_(3804-035070-0).jpg",
-"file": "File:文学院教室 北京大学 日本文学系主任銭稲孫 (3804-035070-0).jpg",
-"license": "CC BY 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg",
+"file": "File:國立北京大學文學院前，《北支》雜誌1942年三月號.jpg",
+"license": "Public domain",
 "query": "稲孫",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E6%96%87%E5%AD%A6%E9%99%A2%E6%95%99%E5%AE%A4_%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6_%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6%E7%B3%BB%E4%B8%BB%E4%BB%BB%E9%8A%AD%E7%A8%B2%E5%AD%AB_%283804-035070-0%29.jpg/1280px-%E6%96%87%E5%AD%A6%E9%99%A2%E6%95%99%E5%AE%A4_%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%A6_%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6%E7%B3%BB%E4%B8%BB%E4%BB%BB%E9%8A%AD%E7%A8%B2%E5%AD%AB_%283804-035070-0%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg/1280px-%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている": {
-"author": "audreybee",
+"author": "[1]",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E8%90%BD%E3%81%A1%E8%91%89_(29904412463).jpg",
-"file": "File:落ち葉 (29904412463).jpg",
-"license": "CC BY-SA 2.0",
-"query": "落ち葉",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/%E8%90%BD%E3%81%A1%E8%91%89_%2829904412463%29.jpg/1280px-%E8%90%BD%E3%81%A1%E8%91%89_%2829904412463%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%B4%85%E8%91%89_%E8%90%BD%E3%81%A1%E8%91%89%EF%BC%88%E6%B5%9C%E8%B0%B7%E6%B1%A0%E3%81%B8%E3%81%AE%E9%81%93%EF%BC%9A%E7%AF%A0%E5%B1%B1%E5%B8%82%EF%BC%892006%EF%BC%8E11.22.JPG",
+"file": "File:紅葉 落ち葉（浜谷池への道：篠山市）2006．11.22.JPG",
+"license": "Public domain",
+"query": "落ち葉 道",
+"src": "https://upload.wikimedia.org/wikipedia/commons/5/5f/%E7%B4%85%E8%91%89_%E8%90%BD%E3%81%A1%E8%91%89%EF%BC%88%E6%B5%9C%E8%B0%B7%E6%B1%A0%E3%81%B8%E3%81%AE%E9%81%93%EF%BC%9A%E7%AF%A0%E5%B1%B1%E5%B8%82%EF%BC%892006%EF%BC%8E11.22.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-09-26_note記事_鮭_生まれた川に戻る魚を海で獲っている": {
-"author": "Falcated",
+"author": "ketou-daisuki from Kyoto, japansko",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg",
-"file": "File:春日若宮おん祭での供物.jpg",
-"license": "CC BY-SA 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%A1%A9%E9%AE%AD_(1720453424).jpg",
+"file": "File:塩鮭 (1720453424).jpg",
+"license": "CC BY-SA 2.0",
 "query": "塩鮭",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg/1280px-%E6%98%A5%E6%97%A5%E8%8B%A5%E5%AE%AE%E3%81%8A%E3%82%93%E7%A5%AD%E3%81%A7%E3%81%AE%E4%BE%9B%E7%89%A9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/%E5%A1%A9%E9%AE%AD_%281720453424%29.jpg/1280px-%E5%A1%A9%E9%AE%AD_%281720453424%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-27_note記事_柿_見ただけでは甘いか渋いか分からない": {
 "author": "Joe Ravi",
@@ -1523,13 +1535,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Japanese_kerosene_heater_with_tank.jpg/1280px-Japanese_kerosene_heater_with_tank.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-28_note記事_豚汁_具が多いほうが正しいわけではない": {
-"author": "くろふね",
+"author": "Kentin",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg",
-"file": "File:豚汁＋もつセット（お食事処川端・長野）20220330-P1340492.jpg",
-"license": "CC BY 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_tonjiru_2014.jpg",
+"file": "File:Japanese tonjiru 2014.jpg",
+"license": "CC BY-SA 4.0",
 "query": "豚汁",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg/1280px-%E8%B1%9A%E6%B1%81%EF%BC%8B%E3%82%82%E3%81%A4%E3%82%BB%E3%83%83%E3%83%88%EF%BC%88%E3%81%8A%E9%A3%9F%E4%BA%8B%E5%87%A6%E5%B7%9D%E7%AB%AF%E3%83%BB%E9%95%B7%E9%87%8E%EF%BC%8920220330-P1340492.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Japanese_tonjiru_2014.jpg/1280px-Japanese_tonjiru_2014.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-29_note記事_カメムシ_数を数えて冬を占う人がいる": {
 "author": "KKPCW",
