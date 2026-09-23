@@ -545,15 +545,24 @@ except Exception as _e:
 try:
     _q32 = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
     if not _q32:
-        add("R32 サムネ未確定のまま投入", "OK", "公開キューが空＝該当なし")
+        add("R32 公開前の未確定", "OK", "公開キューが空＝該当なし")
     else:
-        _undecided, _noimg = [], []
+        # ★2026-09-23 拡張: この検査は「公開前に決まっているべきこと」のゲート。
+        #   サムネに加えて **マガジン指定**も見る。マガジンは note の回遊導線だが、
+        #   5つ作ってあるのに **196本が1本も入っていなかった**（編成リストは6月にできていたが
+        #   手でクリックする前提だった）。公開の瞬間に入れないと、後から196本の手作業になる。
+        #   publisher は記事情報の `- マガジン: A／B` 行を読んで /publish/ 画面で追加する。
+        _undecided, _noimg, _nomag = [], [], []
         for _f in _q32:
             _st = os.path.basename(_f)[:-3]
-            if _st in verified:
-                continue
-            (_noimg if _st in no_auto else _undecided).append(_st)
-        if _undecided or _noimg:
+            if _st not in verified:
+                (_noimg if _st in no_auto else _undecided).append(_st)
+            try:
+                if not re.search(r"^-\s*マガジン:\s*\S", open(_f, encoding="utf-8").read(), re.M):
+                    _nomag.append(_st)
+            except OSError:
+                pass
+        if _undecided or _noimg or _nomag:
             _msg = []
             if _undecided:
                 _msg.append(f"**サムネ未確定 {len(_undecided)}本**({_undecided[0][:32]}…)")
@@ -561,14 +570,23 @@ try:
                 _msg.append(f"**無サムネのまま {len(_noimg)}本**({_noimg[0][:32]}…)"
                             "＝2026-09-23 の方針変更でサムネは全記事必須。"
                             "題材が合っていれば採用し、明らかな別物なら語を変えて取り直す")
-            add("R32 サムネ未確定のまま投入", "BROKEN",
-                "／".join(_msg) +
-                " → このまま公開すると note 既定サムネで出て、**あとから画像は付けられない**")
+            if _nomag:
+                _msg.append(f"**マガジン指定なし {len(_nomag)}本**({_nomag[0][:32]}…)"
+                            "＝記事情報に `- マガジン: 高岡の食／北陸の暮らし` の行を足す。"
+                            "無いと**どのマガジンにも入らずに公開**され、後から手作業になる")
+            # ★2026-09-23: 末尾の定型文が「あとから画像は付けられない」のままだった。
+            #   これは同じ日に訂正した誤り（fix_header_images.sh で後から付けられる）。
+            #   しかもマガジンだけ欠けている場合にもサムネの話が出ていた。
+            #   **欠けているものに応じた一文**にする。後から直せることは、直せると書く。
+            _tail = ("公開前に決めておけば、あとで手作業の回収をしなくて済む"
+                     "（回収は ops/fix_header_images.sh / fix_tags.sh / fix_magazines.sh で可能だが、"
+                     "**1本ずつブラウザを開く作業になる**）")
+            add("R32 公開前の未確定", "BROKEN", "／".join(_msg) + " → " + _tail)
         else:
-            add("R32 サムネ未確定のまま投入", "OK",
-                f"キュー {len(_q32)}本すべて、サムネが採用済み(_verified)になっている")
+            add("R32 公開前の未確定", "OK",
+                f"キュー {len(_q32)}本すべて、サムネ採用済み＋マガジン指定あり")
 except Exception as _e:
-    add("R32 サムネ未確定のまま投入", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
+    add("R32 公開前の未確定", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
 # R27 サムネ検索語の登録漏れ: 新しい記事を書いたのに JP_QUERY へ題材語を登録し忘れていないか。
 # 2026-09-20 実測: 09-20の2本を書いてサムネ依頼まで出したのに、fetcher の JP_QUERY に登録が無く

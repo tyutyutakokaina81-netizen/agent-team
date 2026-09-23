@@ -497,7 +497,16 @@ def parse_article(md_path: Path):
     if tag_m:
         tags = [t.lstrip("#").strip() for t in re.findall(r"#\S+", tag_m.group(1))]
 
-    return title, body, placeholders, tags
+    # マガジン：記事情報の「- マガジン: A／B」行。**公開時に自動で入れる**ための指定。
+    # ★2026-09-23 追加。マガジンは note の回遊導線だが、5つ作ってあるのに **196本が1本も
+    #   入っていなかった**（編成リストは6月にできていたが手でクリックする前提だった）。
+    #   公開のあとで196本を手作業で入れるのではなく、**公開の瞬間に入れる**のが本筋。
+    mags = []
+    mag_m = re.search(r"^-\s*マガジン:\s*(.+)$", text, re.M)
+    if mag_m:
+        mags = [m.strip() for m in re.split(r"[／/、,]", mag_m.group(1)) if m.strip()]
+
+    return title, body, placeholders, tags, mags
 
 
 def _verified_thumb_stems() -> set:
@@ -559,7 +568,7 @@ def collect_photos(photo_dir: Path):
 
 def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool = False,
             skip_online_dedup: bool = False, allow_topic_dup: bool = False):
-    title, body, placeholders, tags = parse_article(md_path)
+    title, body, placeholders, tags, mags = parse_article(md_path)
     photos = collect_photos(photo_dir) if photo_dir else []
     topic_key = _topic_key(title, md_path)
 
@@ -869,6 +878,46 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                     print(f"✅ ハッシュタグ {len(tags[:10])} 個を入力")
                 except Exception as e:
                     print(f"⚠️  ハッシュタグ入力に失敗: {e}（手動で追加してください）")
+            # 2.5) マガジンに追加（/publish/ 画面の「記事の追加」）
+            # ★2026-09-23 追加。set_magazine.py と同じ読み方＝**行を特定してから名前とボタンを
+            #   対にする**（名前だけ拾って別の場所のボタンを押す取り違えを避ける）。
+            if mags:
+                try:
+                    tab = page.locator("#item-magazine-add").first
+                    if tab.is_visible(timeout=4000):
+                        tab.click()
+                        page.wait_for_timeout(1200)
+                except Exception:
+                    pass
+                _added = []
+                for _m in mags:
+                    try:
+                        _r = page.evaluate("""(want) => {
+                            for (const nameEl of document.querySelectorAll('div[class*="sc-d0ee9310-6"]')) {
+                              if ((nameEl.innerText || '').trim() !== want) continue;
+                              let row = nameEl;
+                              for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
+                              const btn = row.querySelector('button');
+                              if (!btn) return 'NOBUTTON';
+                              if ((btn.innerText || '').trim() !== '追加') return 'ALREADY';
+                              btn.click();
+                              return 'CLICKED';
+                            }
+                            return 'NOTFOUND';
+                        }""", _m)
+                        if _r == "CLICKED":
+                            page.wait_for_timeout(800)
+                            _added.append(_m)
+                        else:
+                            print(f"⚠️  マガジン『{_m}』に入れられなかった: {_r}")
+                    except Exception as _e:
+                        print(f"⚠️  マガジン『{_m}』でエラー: {str(_e)[:60]}")
+                if _added:
+                    print(f"📚 マガジンに追加: {' / '.join(_added)}")
+                else:
+                    print("⚠️  マガジンに1つも入れられなかった（公開は続行する）")
+            else:
+                print("ℹ️  マガジン指定なし → どのマガジンにも入らずに公開されます")
             # 3) 投稿する（＝公開）。公開は1回のみ。
             page.wait_for_timeout(1000)
             try:
