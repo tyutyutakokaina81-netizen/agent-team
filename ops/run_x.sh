@@ -175,6 +175,16 @@ if [ "$ARG" = "--keys" ]; then
   echo "（developer.x.com → Projects & Apps → Keys and tokens で表示されるもの）"
   echo "途中でやめるときは Ctrl+C。"
   echo ""
+  echo "  ── 先にキーを作っていない場合の手順 ──"
+  echo "   1. https://developer.x.com/en/portal/dashboard を開く（X のアカウントでログイン）"
+  echo "   2. 無料プラン(Free)で登録する。用途の記入を求められたら『自分のブログ記事の告知を自動投稿する』等でよい"
+  echo "   3. Projects & Apps → 自分のApp → **User authentication settings** を編集し、"
+  echo "      App permissions を **Read and write** にする（Read only のままだと投稿できない）"
+  echo "   4. Keys and tokens タブで次の4つを発行・表示する:"
+  echo "        API Key / API Key Secret / Access Token / Access Token Secret"
+  echo "      ※ 3 の権限を変えたら、**Access Token は作り直し**が要る（古いものは Read only のまま）"
+  echo "   5. 4つをコピーできる状態にしてから、このコマンドをもう一度実行する"
+  echo ""
   ask() {   # $1=表示名  → 変数 ANS に入れる。前後の空白は落とす。
     printf '  %s を貼って Enter: ' "$1"
     IFS= read -rs ANS
@@ -189,6 +199,18 @@ if [ "$ARG" = "--keys" ]; then
     fi
   }
   ask "API Key";           K1="$ANS"
+  # ★2026-09-23: 1つ目が空でも**残り3つを聞き続けていた**。キーをまだ作っていない人は
+  #   そこから3回、見えない入力を求められることになる（実際そうなった）。
+  #   1つ目で空なら、その時点で止めて上の手順に戻す。
+  if [ -z "$K1" ]; then
+    echo ""
+    echo "✗ 1つ目（API Key）が空でした。**ファイルは書き換えていません。**"
+    echo "  キーをまだ発行していない場合は、上の1〜5の手順でキーを作ってから、もう一度:"
+    echo "      cd ~/agent-team-run && bash ops/run_x.sh --keys"
+    echo "  キーを作るまでの間は、APIを使わない手動投稿が使えます:"
+    echo "      cd ~/agent-team-run && bash ops/run_x.sh --manual"
+    exit 1
+  fi
   ask "API Key Secret";    K2="$ANS"
   ask "Access Token";      K3="$ANS"
   ask "Access Token Secret"; K4="$ANS"
