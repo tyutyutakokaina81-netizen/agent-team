@@ -85,22 +85,40 @@ def launch(p, headless: bool):
     raise RuntimeError("ブラウザ起動失敗")
 
 
-def read_current_tags(page) -> list[str]:
-    """画面にいま入っているタグを読む。**入っているものは二度打ちしない**ため。"""
+def read_current_tags(page):
+    """いま**入力欄に入っている**タグを読む。読めなければ None（＝判定不能）。
+
+    ★2026-09-23 実測で直した。最初は「ページ内で # で始まる短い要素」を全部拾っていたが、
+      それだと note が本文から自動抽出した**候補ボタン**まで数えていた。
+      実際の /publish/ のHTML（ops/logs/_tag_debug/ に保存済み）はこうなっている:
+
+        <div data-has-error="false">            ← 入力欄のラッパ。**入れたタグはこの中**
+          <input placeholder="ハッシュタグを追加する" value="">
+        </div>
+        <div class="sc-8c9b9078-8 …">            ← ここから下は**候補**（押すと追加される）
+          <button>#富山</button><button>#帰省</button> …
+        </div>
+
+      候補を「入っている」と数えた結果、39本すべてが「6個ある」と見えて全部スキップされた。
+      **入力欄のラッパの中だけ**を見る。ラッパが見つからなければ None を返し、呼び側は
+      「判定できなかった」として扱う（数えられないものを0とも5とも決めつけない）。
+    """
     try:
-        return page.eval_on_selector_all(
-            "*",
-            """els => {
-                 const out = new Set();
-                 for (const e of els) {
-                   const t = (e.innerText || '').trim();
-                   // 「#」で始まり、短く、子要素を持たない要素＝タグチップとみなす
-                   if (t.startsWith('#') && t.length <= 30 && e.children.length === 0) out.add(t.slice(1));
-                 }
-                 return [...out];
-               }""") or []
+        return page.evaluate("""() => {
+            const inp = document.querySelector('input[placeholder*="ハッシュタグ"], input[placeholder*="タグ"]');
+            if (!inp) return null;
+            const box = inp.closest('[data-has-error]') || inp.parentElement;
+            if (!box) return null;
+            const out = [];
+            for (const e of box.querySelectorAll('*')) {
+              if (e.children.length !== 0) continue;
+              const t = (e.innerText || '').trim();
+              if (t.startsWith('#') && t.length <= 30) out.push(t.slice(1));
+            }
+            return out;
+        }""")
     except Exception:
-        return []
+        return None
 
 
 def dump_ui(page, nid: str, tag: str = ""):
@@ -125,7 +143,7 @@ def type_tags(page, tags: list[str]) -> tuple[int, str]:
         box.wait_for(state="visible", timeout=8000)
     except Exception as e:
         return 0, f"タグ欄が見つからない: {str(e)[:70]}"
-    have = {t.casefold() for t in read_current_tags(page)}
+    have = {t.casefold() for t in (read_current_tags(page) or [])}
     added = 0
     for t in tags:
         if t.casefold() in have:
@@ -196,6 +214,11 @@ def main():
                 continue
 
             cur = read_current_tags(page)
+            if cur is None:
+                print("   ⚠️ タグ欄を読めなかった（判定不能）→ 証拠を残して次へ")
+                dump_ui(page, nid, "unreadable")
+                results.append((nid, "READ_FAIL"))
+                continue
             print(f"   いま入っているタグ: {len(cur)}個 {cur[:8]}")
             if args.probe:
                 dump_ui(page, nid, "probe")
