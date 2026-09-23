@@ -30,11 +30,30 @@ if [ "${REMAIN}" = "0" ]; then
   exit 0
 fi
 
-VPY="$HOME/.agent_venv/bin/python3"
-[ -x "$VPY" ] || VPY="python3"
-
-echo "== 実行 =="
-"$VPY" CDO/outputs/note_publisher/set_tags.py "$@" 2>&1 | tee "$LOG"
+# ★2026-09-23: 最初 `$HOME/.agent_venv` を決め打ちにしていたが、**あれは X 用(tweepy)の環境で
+#   Playwright は入っていない**。run_x.sh から選び方をそのままコピーしたのが原因で、
+#   3回叩いて3回とも「Playwright未インストール」で何もせず終わった。
+#   決め打ちをやめ、**実際に playwright を import できる python を探す**。
+PYBIN=""
+for c in python3 "$HOME/.agent_venv/bin/python3" /opt/homebrew/bin/python3 /usr/local/bin/python3; do
+  command -v "$c" >/dev/null 2>&1 || [ -x "$c" ] || continue
+  if "$c" -c "import playwright" >/dev/null 2>&1; then PYBIN="$c"; break; fi
+done
+if [ -z "$PYBIN" ]; then
+  echo "✗ Playwright が入った python が見つかりません。**何もしていません。**"
+  echo "  先にこれを実行してください:"
+  echo "      cd ~/agent-team-run && bash CDO/outputs/note_publisher/setup.sh"
+  echo "  （見出し画像の修復 ops/fix_header_images.sh と同じ環境を使います）"
+  exit 1
+fi
+echo "== 実行（python: $PYBIN）=="
+set -o pipefail
+"$PYBIN" CDO/outputs/note_publisher/set_tags.py "$@" 2>&1 | tee "$LOG"
+RC=$?
+if [ "$RC" -ne 0 ]; then
+  echo ""
+  echo "✗ 途中で失敗しました（終了コード ${RC}）。上のログを見てください。"
+fi
 
 echo ""
 echo "== 結果を code に渡す（commit & push）=="
@@ -51,3 +70,4 @@ else
   done
 fi
 echo "ログ: ${LOG}"
+exit "${RC:-0}"
