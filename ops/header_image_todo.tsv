@@ -1,6 +1,11 @@
 # 見出し画像が付かないまま公開された記事（publisher の「サムネ設定に失敗」で検出）
 # 形式: note_id <TAB> リポジトリからの相対パス(jpg)   ※ # 行と空行は無視
 # 処理が済んだ行は先頭に DONE を付ける（set_header_image.py が自動で付ける）
+#
+# ★2026-09-23: **サムネは全記事に必ず付ける**という方針変更（オーナー確定）に伴う回収。
+#   これまで code は「誤サムネより無サムネが正」として無サムネで公開しており、
+#   9月の30本中11本がサムネ無しだった。公開済みでもここから後で付けられる。
+#   owner の Mac で `cd ~/agent-team-run && bash ops/fix_header_images.sh` を実行する。
 DONE	n242960f609cf	CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_新蕎麦_秋になると幟が立つが違いが分かるかは別の話.jpg
 DONE	nc9bda3191cc5	CDO/outputs/note_publisher/thumbnails/2026-09-16_note記事_赤とんぼ_山で夏を過ごして秋に降りてくる.jpg
 DONE	n4a3c7ea6a837	CDO/outputs/note_publisher/thumbnails/2026-09-17_note記事_あけび_山に生る中身だけ食べる実.jpg
@@ -8,3 +13,10 @@ DONE	nc98f0aadab22	CDO/outputs/note_publisher/thumbnails/2026-09-18_note記事_�
 DONE	n0d966e689b68	CDO/outputs/note_publisher/thumbnails/2026-09-18_note記事_松茸_買ったことがないまま名前だけ知っている.jpg
 DONE	ncbb225a489ff	CDO/outputs/note_publisher/thumbnails/2026-09-19_note記事_いくら_生の筋子を買ってきて漬ける.jpg
 DONE	nf5cf059a563e	CDO/outputs/note_publisher/thumbnails/2026-09-19_note記事_金木犀_においが先に角を曲がってくる.jpg
+n3a7360655e2c	CDO/outputs/note_publisher/thumbnails/2026-09-17_note記事_運動会_九月の校庭と場所取りの朝.jpg
+n7767e1fb0ccc	CDO/outputs/note_publisher/thumbnails/2026-08-27_note記事_富山の水道水はなぜそのまま飲んでおいしいのか.jpg
+ne4e85cf2328f	CDO/outputs/note_publisher/thumbnails/2026-09-15_note記事_里芋_掘り出すと親芋のまわりに子芋がついてくる.jpg
+n815cc5e770b5	CDO/outputs/note_publisher/thumbnails/2026-09-28_note記事_豚汁_具が多いほうが正しいわけではない.jpg
+n8181e09e55ac	CDO/outputs/note_publisher/thumbnails/2026-09-26_note記事_鮭_生まれた川に戻る魚を海で獲っている.jpg
+nb50a98bea168	CDO/outputs/note_publisher/thumbnails/2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている.jpg
+n17788d0cfa17	CDO/outputs/note_publisher/thumbnails/2026-09-25_note記事_むかご_一度に採れる量が料理の単位に届かない.jpg
