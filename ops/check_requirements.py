@@ -327,8 +327,18 @@ else:
             f"最新便({_wname})が**本体を動かせずに終わっている**＝{_lerr[-1][len('launcher_error='):][:60]}"
             " → owner の Mac 側の対応が要る")
     elif _rc not in ("", "0"):
+        # ★2026-09-23: 終了コードだけでは owner が何をすればよいか分からない。
+        #   実際に出た文言を見て、**対処が決まっているものは対処を名指しする**。
+        _known = [
+            ("OAuth session expired", "Mac の claude のログインが切れている → ターミナルで `claude` を起動して `/login`"),
+            ("Not logged in",         "Mac の claude が未ログイン → ターミナルで `claude` を起動して `/login`"),
+            ("No such file or directory", "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),
+            ("command not found",     "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),
+        ]
+        _hint = next((h for k, h in _known if k in _wtxt), "")
         add("R33 ワーカー起動の不発", "BROKEN",
-            f"最新便({_wname})の exit_code={_rc} → ログ本文を読んで原因を切り分ける")
+            f"最新便({_wname})の exit_code={_rc}"
+            + (f" → **{_hint}**" if _hint else " → ログ本文を読んで原因を切り分ける"))
     elif _sig:
         add("R33 ワーカー起動の不発", "STALE",
             f"最新便({_wname})は rc=0 だが、ログに `command not found` か `Not logged in` がある。"
