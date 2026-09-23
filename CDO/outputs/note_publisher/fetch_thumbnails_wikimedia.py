@@ -322,7 +322,9 @@ JP_QUERY = [
     # 2026-10-01分。回覧板は**紙に町内会名や個人名が印字されていることがある**ので、
     #   採用前に文字が読めないかを必ず見る（9/23 に提灯の奉納者名で落とした型）。
     ("かぼちゃ", ["かぼちゃ", "kabocha squash", "南瓜"]),
-    ("回覧板", ["回覧板", "バインダー 書類", "clipboard document"]),
+    # 2026-09-23: 「回覧板」が**シャッター前の政党ポスター**（候補者2名の顔・住所）に当たった。
+    #   屋外の掲示物は人物・政治物を拾いやすい。**手に持つ物**に寄せる。
+    ("回覧板", ["clipboard", "バインダー", "書類ばさみ"]),
     # 2026-09-30分。どちらも物が一意に決まる語。**名前・連絡先が写り込む物は避ける**
     #   （9/23 に提灯で奉納者名、名入りうちわで屋号とQRを引いた）。
     # 2026-09-23 実測: 「味噌」単体は**商品パッケージ**に当たる（オーストリア製の瓶、
@@ -330,7 +332,9 @@ JP_QUERY = [
     ("味噌", ["味噌樽", "miso barrel", "麹", "味噌 木桶"]),
     # 2026-09-23 実測: 「障子」単体は**ホラー調の人影**に当たった（紫の照明・両手をついた影）。
     #   人物が入らない語に寄せる。
-    ("障子", ["shoji screen japan", "障子紙", "障子 桟"]),
+    # 2026-09-23 2巡目: 「shoji screen japan」が**ドロステ効果の合成画像**に当たった（渦巻き）。
+    #   加工物を避けるため、建具そのものを指す語に寄せる。
+    ("障子", ["和室 障子 窓", "障子 建具", "shoji sliding door"]),
     # 2026-09-29分。単語に寄せる方針は据え置き。
     #   白菜＝「白菜」は一意（他の意味に取られにくい）。記事は切った断面が主題なので断面語を先に。
     # 2026-09-23 実測: 「白菜 断面」は当たらず（2語）、「ハクサイ」が**白菜と豆腐のスープ**に当たった。
@@ -494,7 +498,39 @@ NON_PHOTO_HINTS = (
     "le tour du monde", "page", "book", "album", "bub_", "internet archive",
     "scan", "atlas", "logo", "icon", "coat of arms", "seal of", "flag of",
     "18th century", "19th century", "1800", "1850", "1860", "1870", "1880", "1890",
+    # ★2026-09-23 追加: 「painting」を含まない絵画が通っていた。
+    #   実例＝`Still Life with Yellow Straw Hat - Vincent Van Gogh.jpg`（日焼けの記事に来た）。
+    #   画題の定型と画家名を足す。A3＝写真風で統一なので、絵は題材が合っていても使わない。
+    "still life", "nature morte", "oil on canvas", "van gogh", "monet", "hokusai",
+    "portrait of", "self-portrait",
 )
+
+
+# ★2026-09-23 新設: **名前の時点で弾けたはずの却下**が多かったので、型にして事前に落とす。
+#   この日の実測＝取得15枚のうち11枚を目視で却下し、その多くはファイル名に理由が出ていた。
+#   ただし**記事の題材そのものがその語を含むときは弾かない**（例：美術館の記事に美術館の写真）。
+#   R30 で地名を扱うときと同じ考え方＝「記事に出てこない語なら不適」。
+UNUSABLE_NAME_HINTS = (
+    # 商品パッケージ（ブランド名が大きく写る）。実例＝Wiener Miso - Bio Habanero Miso-front
+    "-front", "packshot", "verpackung", "produkt", "pnr°", "pnr%c2%b0",
+    # 名前が書かれる奉納物。実例＝永代提灯（奉納者の個人名が何十個も読める）
+    "永代", "献灯", "奉納",
+    # 便所・トイレ。実例＝多摩川野球場前公衆便所（区の電話番号まで読めた）
+    "公衆便所", "便所", "トイレ", "toilet", "restroom", "lavatory",
+    # 宿泊施設の名入り品。実例＝ホテルぎおん美先（うちわ）
+    "ホテル", "旅館", "hotel ", "ryokan",
+)
+
+
+def _looks_unusable_name(title: str, topic: str = "") -> bool:
+    """ファイル名の時点で「採用できないと分かる」ものを落とす。
+    topic は記事の題材語。**題材にその語が含まれるなら弾かない**（美術館の記事の美術館など）。"""
+    t = (title or "").lower().replace("file:", "")
+    tp = (topic or "").lower()
+    for h in UNUSABLE_NAME_HINTS:
+        if h in t and h not in tp:
+            return True
+    return False
 
 
 # 古書スキャン(Internet Archive等)は題名に発行年が入りがち。'(1913)' 等を弾く。
@@ -864,6 +900,11 @@ def _search_candidates(query: str):
             continue
         if _looks_non_japan(_title):   # 中国/韓国/海外の同名行事は日本の記事に使わない
             diag["nonjp"] = diag.get("nonjp", 0) + 1
+            continue
+        # ★スコープ注意: この関数は query しか受け取らない（stem は無い）。
+        #   query は題材語から作っているので、「記事の題材にその語が含まれるか」の代わりになる。
+        if _looks_unusable_name(_title, query):   # 名前の時点で採用できないと分かるもの
+            diag["badname"] = diag.get("badname", 0) + 1
             continue
         w, h = ii.get("width", 0), ii.get("height", 0)
         if w < 900 or h < 560:           # アイコン/図版/小画像を除外
