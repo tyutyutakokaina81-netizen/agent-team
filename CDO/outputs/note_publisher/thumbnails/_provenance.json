@@ -1192,9 +1192,13 @@
 },
 "2026-08-30_note記事_コスモス_チューリップの富山が静かに咲かせる秋の花": "wikimedia",
 "2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え": {
+"author": "Komoro no kaze",
 "backend": "wikimedia",
-"query": "田んぼ",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Blond_and_green_rice_fields.jpg/1280px-Blond_and_green_rice_fields.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%B0%8F%E8%AB%B8%E5%B8%82%E7%AB%8B%E6%B0%B4%E6%98%8E%E5%B0%8F%E5%AD%A6%E6%A0%A1%E3%81%AE%E7%94%B0%E3%82%93%E3%81%BC%E3%83%AA%E3%83%B3%E3%82%AF.jpg",
+"file": "File:小諸市立水明小学校の田んぼリンク.jpg",
+"license": "CC BY-SA 4.0",
+"query": "田んぼ 稲",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/%E5%B0%8F%E8%AB%B8%E5%B8%82%E7%AB%8B%E6%B0%B4%E6%98%8E%E5%B0%8F%E5%AD%A6%E6%A0%A1%E3%81%AE%E7%94%B0%E3%82%93%E3%81%BC%E3%83%AA%E3%83%B3%E3%82%AF.jpg/1280px-%E5%B0%8F%E8%AB%B8%E5%B8%82%E7%AB%8B%E6%B0%B4%E6%98%8E%E5%B0%8F%E5%AD%A6%E6%A0%A1%E3%81%AE%E7%94%B0%E3%82%93%E3%81%BC%E3%83%AA%E3%83%B3%E3%82%AF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-30_note記事_富山の新米_秋いちばんの一杯": "wikimedia",
 "2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜": {
@@ -1207,13 +1211,13 @@
 "2026-09-04_note記事_梨_富山の梨はりんごのように齧る": "wikimedia",
 "2026-09-05_note記事_共働き_富山で共働きが多いわけ": "wikimedia",
 "2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる": {
-"author": "Hahifuheho",
+"author": "末博",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Lion_dance_at_Shirumori_Shrine.jpg",
-"file": "File:Lion dance at Shirumori Shrine.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg",
+"file": "File:三重の獅子舞で使う「獅子頭」です。.jpg",
 "license": "CC0",
-"query": "獅子舞",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Lion_dance_at_Shirumori_Shrine.jpg/1280px-Lion_dance_at_Shirumori_Shrine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "獅子頭",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg/1280px-%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": "wikimedia",
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": "wikimedia",
@@ -1310,13 +1314,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg/1280px-%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_用水路_町の中を速い水が流れている": {
-"author": "mariemon",
+"author": "Christian Ferrer",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E7%96%8F%E6%B0%B44992.JPG",
-"file": "File:疏水4992.JPG",
-"license": "CC BY 3.0",
-"query": "疏水",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/%E7%96%8F%E6%B0%B44992.JPG/1280px-%E7%96%8F%E6%B0%B44992.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Canal_de_la_Peyrade_toward_S%C3%A8te.jpg",
+"file": "File:Canal de la Peyrade toward Sète.jpg",
+"license": "CC BY 4.0",
+"query": "irrigation canal",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Canal_de_la_Peyrade_toward_S%C3%A8te.jpg/1280px-Canal_de_la_Peyrade_toward_S%C3%A8te.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_里芋_掘り出すと親芋のまわりに子芋がついてくる": {
 "author": "NasserHalaweh",
@@ -1472,13 +1476,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg/1280px-Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-24_note記事_衣替え_日付で服を入れ替える決まりがある": {
-"author": "くーさん",
+"author": "Raimond Spekking",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_(437658629).jpg",
-"file": "File:桐タンス更生 (437658629).jpg",
-"license": "CC BY 2.0",
-"query": "タンス",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_%28437658629%29.jpg/1280px-%E6%A1%90%E3%82%BF%E3%83%B3%E3%82%B9%E6%9B%B4%E7%94%9F_%28437658629%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Foldable_clothes_hanger-7212.jpg",
+"file": "File:Foldable clothes hanger-7212.jpg",
+"license": "CC BY-SA 4.0",
+"query": "folded clothes",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Foldable_clothes_hanger-7212.jpg/1280px-Foldable_clothes_hanger-7212.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-25_note記事_むかご_一度に採れる量が料理の単位に届かない": {
 "author": "石川 Shihchuan from 台北市 (Taipei City), 台灣 (Taiwan)",
@@ -1490,13 +1494,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Dioscorea_japonica_2010-07-18_233_01_%285843179974%29.jpg/1280px-Dioscorea_japonica_2010-07-18_233_01_%285843179974%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-25_note記事_二番穂_刈り終えた田んぼがもう一度緑になる": {
-"author": "《北支》画刊",
+"author": "Cca Raheem",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg",
-"file": "File:國立北京大學文學院前，《北支》雜誌1942年三月號.jpg",
-"license": "Public domain",
-"query": "稲孫",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg/1280px-%E5%9C%8B%E7%AB%8B%E5%8C%97%E4%BA%AC%E5%A4%A7%E5%AD%B8%E6%96%87%E5%AD%B8%E9%99%A2%E5%89%8D%EF%BC%8C%E3%80%8A%E5%8C%97%E6%94%AF%E3%80%8B%E9%9B%9C%E8%AA%8C1942%E5%B9%B4%E4%B8%89%E6%9C%88%E8%99%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Rice_ratoon_2.jpg",
+"file": "File:Rice ratoon 2.jpg",
+"license": "CC BY 4.0",
+"query": "ratoon rice",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Rice_ratoon_2.jpg/1280px-Rice_ratoon_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-26_note記事_落ち葉_掃いた次の日に同じだけ落ちている": {
 "author": "[1]",
