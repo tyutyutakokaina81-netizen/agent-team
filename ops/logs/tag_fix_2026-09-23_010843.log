@@ -1,0 +1,10 @@
+対象 1 本（--probe：何も変更しません）
+Traceback (most recent call last):
+  File "/home/user/agent-team/CDO/outputs/note_publisher/set_tags.py", line 240, in <module>
+    main()
+  File "/home/user/agent-team/CDO/outputs/note_publisher/set_tags.py", line 185, in main
+    with sync_playwright() as p:
+         ^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-agent-team/f9e9cb73-fb01-5872-9fdd-29aa9844984f/scratchpad/fakepw/playwright/sync_api.py", line 2, in sync_playwright
+    raise RuntimeError("これはテスト用のダミーです（実ブラウザは起動しません）")
+RuntimeError: これはテスト用のダミーです（実ブラウザは起動しません）
