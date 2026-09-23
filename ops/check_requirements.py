@@ -462,8 +462,20 @@ try:
     if os.path.exists(_xlog):
         _xrows = len([l for l in open(_xlog, encoding="utf-8") if l.strip()])
     if _xrows == 0:
+        # ★2026-09-23: 「何日続いているか」を出す。29日目と1日目が同じ1行では緊急度が伝わらない。
+        #   キューファイルの mtime は追記のたびに動くので使えない（実測で 0日 と出た）。
+        #   **素材そのものの最古の日付**を見る＝滞留が始まった時点。
+        _xsrc = sorted(glob.glob(os.path.join(ROOT, "EN/outputs/x_tweets/*.md")))
+        _qage = None
+        if _xsrc:
+            try:
+                _qage = (datetime.date.today() - datetime.date.fromisoformat(
+                    os.path.basename(_xsrc[0])[:10])).days
+            except Exception:
+                _qage = None
         add("R25 X投稿の生存", "BROKEN",
-            f"**投稿実績ゼロ**（記録0行）／未投稿スレッド {_pending_th}本が滞留 → "
+            f"**投稿実績ゼロ**（記録0行）／未投稿スレッド {_pending_th}本が滞留"
+            + (f"・**最古の素材は {_qage}日前**" if _qage is not None else "") + " → "
             "owner の Mac で `bash ops/run_x.sh --manual`（APIキー不要・文面を出して手で投稿）"
             "、またはキーを入れて `--go`")
     else:
@@ -752,10 +764,34 @@ except Exception as _e:
 cnt = len(glob.glob(os.path.join(ROOT, "apps/toyama-guide/en-*.html")))
 add("R3 英語SEO", "OK" if cnt >= 100 else "STALE", f"en-*.html {cnt}枚")
 
-# R4 クロスポスト素材: crosspost ファイルの更新鮮度（週次目安）
-cp = os.path.join(ROOT, "CMO/outputs/2026-08-25_crosspost_Reddit_X_templates.md")
-add("R4 クロスポスト素材", "OK" if (os.path.exists(cp) and days(cp) <= 10) else "STALE",
-    (f"更新 {days(cp):.1f}日前" if os.path.exists(cp) else "ファイル無し"))
+# R4 クロスポスト: **作った素材の鮮度ではなく、実際に配信された本数**を見る。
+# ★2026-09-23 に作り直した。旧実装は crosspost テンプレの更新日だけを見て「更新 2.8日前 ✅」を
+#   出していたが、その裏で **Reddit の下書き250本が118日間、1本も投稿されていなかった**。
+#   素材が新しいことは配信の証拠にならない。緑の検査が「大丈夫」の意味で読まれ、
+#   到達側が止まっていることを4か月隠していた。
+#   → 生成を数えるのをやめ、**未配信の滞留本数と、最古の素材が何日前か**を出す。
+_rd_dir = os.path.join(ROOT, "EN/outputs/reddit")
+_rd = sorted(glob.glob(os.path.join(_rd_dir, "*.md")))
+_rd_log = os.path.join(ROOT, "ops/logs/reddit_posted.tsv")
+_rd_posted = 0
+if os.path.exists(_rd_log):
+    _rd_posted = len([l for l in open(_rd_log, encoding="utf-8")
+                      if l.strip() and not l.startswith("#")])
+if not _rd:
+    add("R4 クロスポスト配信", "STALE", "Reddit 素材が1本も無い＝判定不能")
+elif _rd_posted == 0:
+    _oldest = os.path.basename(_rd[0])[:10]
+    try:
+        _age_d = (datetime.date.today() - datetime.date.fromisoformat(_oldest)).days
+        _agetxt = f"最古の素材は **{_age_d}日前**（{_oldest}）"
+    except Exception:
+        _agetxt = f"最古の素材 {_oldest}"
+    add("R4 クロスポスト配信", "BROKEN",
+        f"**Reddit 配信実績ゼロ**（記録0行）／素材 {len(_rd)}本が未投稿で滞留。{_agetxt}"
+        " → 素材があることは届いたことではない。owner が投稿するか、投稿導線を作る")
+else:
+    add("R4 クロスポスト配信", "OK",
+        f"Reddit 配信 {_rd_posted}件／素材 {len(_rd)}本（未投稿 {len(_rd) - _rd_posted}本）")
 
 # R5 note→X 自動投稿: x_posted.tsv の行数（★実行の一次証拠）
 xp = os.path.join(ROOT, "ops/logs/x_posted.tsv")
