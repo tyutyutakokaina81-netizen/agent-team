@@ -581,6 +581,14 @@ try:
             continue                       # 既公開＝R26/題材ゲートの担当
         _t = open(_f, encoding="utf-8").read()
         _ti = re.search(r"##\s*タイトル\s*\n```\n(.+?)\n```", _t, re.S)
+        # ★2026-09-23: **公開済みの記事が自分自身と照合されて鳴っていた。**
+        #   除外は台帳の `topic` だけを見ていたが、台帳側の topic は publisher の
+        #   `_norm_title` を通っており、**カタカナの長音「ー」が落ちている**
+        #   （実例: 「石油ストーブ」が台帳では「石油ストブ」）。
+        #   そのためファイル名の題材と一致せず、公開直後の記事が「未公開」として
+        #   自分のタイトルと重なる、と鳴った。**タイトルでも公開済みを判定する**。
+        if _ti and _norm(_ti.group(1)) in {_pn for _, _pn in _ptitles}:
+            continue
         _bo = re.search(r"##\s*本文\s*\n```\n(.+?)\n```", _t, re.S)
         _head = _norm((_ti.group(1) if _ti else "") + (_bo.group(1)[:120] if _bo else ""))
         for _pt, _pn in _ptitles:
