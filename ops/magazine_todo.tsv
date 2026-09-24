@@ -15,11 +15,11 @@
 #     cd ~/agent-team-run && bash ops/fix_magazines.sh --probe   ← まず実測（何も変えない）
 #     cd ~/agent-team-run && bash ops/fix_magazines.sh --max 5   ← 5本で試す
 #     cd ~/agent-team-run && bash ops/fix_magazines.sh           ← 残り全部
-DONE	nc7a3522ade60	高岡の食
-DONE	n56f284ca4fbf	高岡の食
-DONE	n025a57e50884	高岡・富山を歩く
-DONE	n23f95d4e25c9	高岡の食
-DONE	n34a423bf25de	高岡・富山を歩く
+nc7a3522ade60	高岡の食
+n56f284ca4fbf	高岡の食
+n025a57e50884	高岡・富山を歩く
+n23f95d4e25c9	高岡の食
+n34a423bf25de	高岡・富山を歩く
 n8b3773143166	高岡の食／高岡・富山を歩く
 na889c3862499	高岡の食
 ndc07d271605c	高岡の食

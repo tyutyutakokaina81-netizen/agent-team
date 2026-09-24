@@ -892,24 +892,23 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                 _added = []
                 for _m in mags:
                     try:
+                        # ★2026-09-24: 親を4段たどる方式は上部のタブボタンを拾っていた
+                        #   （実機の文言が5件とも「マガジン」）。文書順で対にする方式へ。
                         _r = page.evaluate("""(want) => {
-                            for (const nameEl of document.querySelectorAll('div[class*="sc-d0ee9310-6"]')) {
-                              if ((nameEl.innerText || '').trim() !== want) continue;
-                              let row = nameEl;
-                              for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
-                              const btn = row.querySelector('button');
-                              if (!btn) return 'NOBUTTON';
-                              const label = (btn.innerText || '').trim();
-                              // ★2026-09-24: 初回の実機で両方とも ALREADY になった。
-                              //   新規公開の記事が既にマガジンに入っているとは考えにくいので、
-                              //   **押すべきボタンを取り違えている可能性が高い**。
-                              //   理由を推測しないために、**実際の文言をそのまま返す**。
-                              if (label !== '追加') return 'NOTADD:' + (label || '(空)');
-                              btn.click();
-                              return 'CLICKED';
-                            }
-                            return 'NOTFOUND';
-                        }""", _m)
+                        const all = [...document.querySelectorAll('div[class*="sc-d0ee9310-6"], button')];
+                        for (let i = 0; i < all.length; i++) {
+                          if (all[i].tagName === 'BUTTON') continue;
+                          if ((all[i].innerText || '').trim() !== want) continue;
+                          for (let j = i + 1; j < all.length; j++) {
+                            if (all[j].tagName !== 'BUTTON') break;
+                            const t = (all[j].innerText || '').trim();
+                            if (t === '追加') { all[j].click(); return 'CLICKED'; }
+                            if (t === '追加済み' || t === '削除') return 'ALREADY';
+                          }
+                          return 'NOBUTTON';
+                        }
+                        return 'NOTFOUND';
+        }""", _m)
                         if _r == "CLICKED":
                             page.wait_for_timeout(800)
                             _added.append(_m)

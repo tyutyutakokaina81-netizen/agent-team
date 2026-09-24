@@ -92,34 +92,25 @@ def launch(p, headless: bool):
 #   タグのときは「# で始まる要素」を広く拾って候補まで数えてしまったので、
 #   ここでは**行を特定してから名前とボタンを対にする**という順序を崩さない。
 _READ_JS = """() => {
-  const pick = (root) => {
-    const name = [...root.querySelectorAll('*')]
-      .filter(e => e.children.length === 0)
-      .map(e => (e.innerText || '').trim())
-      .filter(t => t && !['追加', '追加済み', '削除'].includes(t));
-    return name.length ? name[0] : '';
-  };
+  // ★2026-09-24 実機で判明: 名前の要素から親を4段たどる方式は**上部のタブボタン**
+  //   （「マガジン」「メンバーシップ」）まで含む祖先に届いてしまい、
+  //   querySelector('button') がタブを拾っていた。実測の文言が5件とも「マガジン」。
+  //   → 親をたどるのをやめ、**文書順で「名前の次に来る 追加/追加済み/削除 ボタン」**を対にする。
+  //   タブは最初の名前より前にあるので、この方式では絶対に拾われない。
+  //   保存済みHTMLで 5/5 成立を確認済み。
+  const all = [...document.querySelectorAll('div[class*="sc-d0ee9310-6"], button')];
   const rows = [];
-  const named = document.querySelectorAll('div[class*="sc-d0ee9310-6"]');
-  if (named.length) {
-    for (const nameEl of named) {
-      const name = (nameEl.innerText || '').trim();
-      if (!name) continue;
-      let row = nameEl;
-      for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
-      const btn = row.querySelector('button');
-      rows.push({name, label: btn ? (btn.innerText || '').trim() : ''});
+  for (let i = 0; i < all.length; i++) {
+    if (all[i].tagName === 'BUTTON') continue;
+    const name = (all[i].innerText || '').trim();
+    if (!name) continue;
+    let label = '';
+    for (let j = i + 1; j < all.length; j++) {
+      if (all[j].tagName !== 'BUTTON') break;          // 次の名前に当たった＝この行にボタン無し
+      const t = (all[j].innerText || '').trim();
+      if (t === '追加' || t === '追加済み' || t === '削除') { label = t; break; }
     }
-    return rows;
-  }
-  // フォールバック: 「追加」ボタンを起点に、その行の中の名前らしきテキストを拾う
-  for (const btn of document.querySelectorAll('button')) {
-    const label = (btn.innerText || '').trim();
-    if (label !== '追加' && label !== '追加済み') continue;
-    let row = btn;
-    for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
-    const name = pick(row);
-    if (name) rows.push({name, label});
+    rows.push({name, label});
   }
   return rows;
 }"""
@@ -145,16 +136,17 @@ def add_to(page, name: str) -> str:
     """名前の行の「追加」を押す。戻り値=ADDED / ALREADY / NOTFOUND / FAIL:理由"""
     try:
         n = page.evaluate("""(want) => {
-            for (const nameEl of document.querySelectorAll('div[class*="sc-d0ee9310-6"]')) {
-              if ((nameEl.innerText || '').trim() !== want) continue;
-              let row = nameEl;
-              for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
-              const btn = row.querySelector('button');
-              if (!btn) return 'NOBUTTON';
-              const label = (btn.innerText || '').trim();
-              if (label !== '追加') return 'ALREADY:' + label;
-              btn.click();
-              return 'CLICKED';
+            const all = [...document.querySelectorAll('div[class*="sc-d0ee9310-6"], button')];
+            for (let i = 0; i < all.length; i++) {
+              if (all[i].tagName === 'BUTTON') continue;
+              if ((all[i].innerText || '').trim() !== want) continue;
+              for (let j = i + 1; j < all.length; j++) {
+                if (all[j].tagName !== 'BUTTON') break;
+                const t = (all[j].innerText || '').trim();
+                if (t === '追加') { all[j].click(); return 'CLICKED'; }
+                if (t === '追加済み' || t === '削除') return 'ALREADY';
+              }
+              return 'NOBUTTON';
             }
             return 'NOTFOUND';
         }""", name)
