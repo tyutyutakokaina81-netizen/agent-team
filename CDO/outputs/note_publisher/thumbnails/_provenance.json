@@ -1323,7 +1323,15 @@
 "query": "獅子頭",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg/1280px-%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": "wikimedia",
+"2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": {
+"author": "pelican from Tokyo, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Rice_bowl_dish_(1425417669).jpg",
+"file": "File:Rice bowl dish (1425417669).jpg",
+"license": "CC BY-SA 2.0",
+"query": "chestnut rice bowl",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Rice_bowl_dish_%281425417669%29.jpg/1280px-Rice_bowl_dish_%281425417669%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": "wikimedia",
 "2026-09-09_note記事_初冠雪_同じ日に海と雪山が見える県": "wikimedia",
 "2026-09-09_note記事_干し柿_渋い柿を風だけで菓子にする": "wikimedia",
@@ -1418,13 +1426,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg/1280px-%E7%A5%9E%E6%A3%9A%E3%81%AB%E9%A3%BE%E3%82%89%E3%82%8C%E3%81%9F%E3%81%A0%E3%82%8B%E3%81%BE_-_%E6%B1%9F%E6%88%B8%E6%9D%B1%E4%BA%AC%E3%81%9F%E3%81%A6%E3%82%82%E3%81%AE%E5%9C%92%E3%81%A7%E6%92%AE%E5%BD%B1_Pcs34560_IMG1773.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_用水路_町の中を速い水が流れている": {
-"author": "Christian Ferrer",
+"author": "Aniqmuzaqy",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Canal_de_la_Peyrade_toward_S%C3%A8te.jpg",
-"file": "File:Canal de la Peyrade toward Sète.jpg",
-"license": "CC BY 4.0",
-"query": "irrigation canal",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Canal_de_la_Peyrade_toward_S%C3%A8te.jpg/1280px-Canal_de_la_Peyrade_toward_S%C3%A8te.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Rolet_ricefield_at_morning_-_Feb_2020.jpg",
+"file": "File:Rolet ricefield at morning - Feb 2020.jpg",
+"license": "CC BY-SA 4.0",
+"query": "irrigation channel rice field",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Rolet_ricefield_at_morning_-_Feb_2020.jpg/1280px-Rolet_ricefield_at_morning_-_Feb_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-15_note記事_里芋_掘り出すと親芋のまわりに子芋がついてくる": {
 "author": "NasserHalaweh",
@@ -1580,13 +1588,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg/1280px-Yoshioka_Shuzojo_%E9%86%B8%E9%80%A0%E3%82%BF%E3%83%B3%E3%82%AF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-24_note記事_衣替え_日付で服を入れ替える決まりがある": {
-"author": "Mark Donoher",
+"author": "Ejdowning00",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E8%A1%A3%E7%B4%8B%E6%8E%9B%E3%81%91_%E6%8A%BC%E3%81%97%E5%85%A5%E3%82%8C_(6153282043).jpg",
-"file": "File:衣紋掛け 押し入れ (6153282043).jpg",
-"license": "CC BY 2.0",
-"query": "押入れ",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/%E8%A1%A3%E7%B4%8B%E6%8E%9B%E3%81%91_%E6%8A%BC%E3%81%97%E5%85%A5%E3%82%8C_%286153282043%29.jpg/1280px-%E8%A1%A3%E7%B4%8B%E6%8E%9B%E3%81%91_%E6%8A%BC%E3%81%97%E5%85%A5%E3%82%8C_%286153282043%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Jeans_and_brown_shirt_folded.jpg",
+"file": "File:Jeans and brown shirt folded.jpg",
+"license": "CC BY-SA 4.0",
+"query": "folded laundry stack",
+"src": "https://upload.wikimedia.org/wikipedia/commons/3/31/Jeans_and_brown_shirt_folded.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-09-25_note記事_むかご_一度に採れる量が料理の単位に届かない": {
 "author": "石川 Shihchuan from 台北市 (Taipei City), 台灣 (Taiwan)",
@@ -1715,12 +1723,12 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Hypsizygus_marmoreus_20101123_d.jpg/1280px-Hypsizygus_marmoreus_20101123_d.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-02_note記事_朝霧_出かけるころには消えている": {
-"author": "Maeangeline",
+"author": "Qwert1234",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Rice_fields_at_Baliuag.jpg",
-"file": "File:Rice fields at Baliuag.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%8F%AA%E8%A6%8B%E5%B7%9D%E3%81%AE%E5%B7%9D%E9%9C%A7.JPG",
+"file": "File:只見川の川霧.JPG",
 "license": "CC BY-SA 4.0",
-"query": "morning fog rice field",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Rice_fields_at_Baliuag.jpg/1280px-Rice_fields_at_Baliuag.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "川霧",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/%E5%8F%AA%E8%A6%8B%E5%B7%9D%E3%81%AE%E5%B7%9D%E9%9C%A7.JPG/1280px-%E5%8F%AA%E8%A6%8B%E5%B7%9D%E3%81%AE%E5%B7%9D%E9%9C%A7.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
