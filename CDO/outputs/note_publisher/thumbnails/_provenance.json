@@ -93,13 +93,13 @@
 "2026-06-01_note記事_ChatGPTとClaude私の使い分け": "wikimedia",
 "2026-06-01_note記事_ひとり会社最初30日で買ってよかった3つ": "wikimedia",
 "2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給": {
-"author": "Shisma",
+"author": "ysishikawa",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Ramen_Bowl_2.jpg",
-"file": "File:Ramen Bowl 2.jpg",
-"license": "CC BY 4.0",
-"query": "ramen bowl",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Ramen_Bowl_2.jpg/1280px-Ramen_Bowl_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Sushi_on_the_dish_and_Soy_sauce_of_Japanese_Origami_Papers.jpg",
+"file": "File:Sushi on the dish and Soy sauce of Japanese Origami Papers.jpg",
+"license": "CC BY 2.0",
+"query": "soy sauce dish",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Sushi_on_the_dish_and_Soy_sauce_of_Japanese_Origami_Papers.jpg/1280px-Sushi_on_the_dish_and_Soy_sauce_of_Japanese_Origami_Papers.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-01_note記事_月曜朝のAIに渡す3行のメモ": "wikimedia",
 "2026-06-01_note記事_細工かまぼこ_結婚式に鯛がついてくる富山": {
@@ -1473,7 +1473,15 @@
 "query": "網戸",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%E7%B6%B2%E6%88%B8%E3%81%94%E3%81%97_%2813913658266%29.jpg/1280px-%E7%B6%B2%E6%88%B8%E3%81%94%E3%81%97_%2813913658266%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜": "wikimedia",
+"2026-08-15_note記事_冬瓜_煮ると透きとおる夏野菜": {
+"author": "Nesnad",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Cut_wax_gourd_for_sale_in_Tokyo_-_Sep_15_2020.jpeg",
+"file": "File:Cut wax gourd for sale in Tokyo - Sep 15 2020.jpeg",
+"license": "CC BY 4.0",
+"query": "冬瓜",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Cut_wax_gourd_for_sale_in_Tokyo_-_Sep_15_2020.jpeg/1280px-Cut_wax_gourd_for_sale_in_Tokyo_-_Sep_15_2020.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏": "wikimedia",
 "2026-08-15_note記事_夕涼み_日が落ちてからの外": {
 "author": "Toshihiro Matsui",
