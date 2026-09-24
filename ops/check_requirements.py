@@ -742,6 +742,8 @@ try:
         "kobe", "kanazawa", "nagoya", "kamakura", "sendai", "yokohama", "nikko", "hakone",
         "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "yokosuka", "神戸", "金沢", "名古屋",
         "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京", "横須賀", "大山千枚田", "鳴門", "naruto",
+        # 2026-09-24: 川の名前も土地を名乗る。朝霧に「只見川の川霧」（福島/新潟）を採用した。
+        "只見", "tadami",
     ]
     import json as _json30
     _pv = _json30.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails/_provenance.json"),
@@ -1539,6 +1541,59 @@ else:
     else:
         add("R34 取り下げ記事の再公開", "OK",
             f"触ってはいけない記事 {len(_dnt)}本はリストから除外済み・下書きを公開した記録なし")
+
+# R35 見出し画像の全体被覆: R2/R24 は**直近の窓**しか数えないので「2本」「7本」としか出ない。
+# 2026-09-24 に全件で数えたら、**公開 226本のうち見出し画像が入っているのは 115本**だった。
+# 「毎日サムネつきで」という指示に対して、実際の到達は半分。窓が残り半分を隠していた。
+# ここは**窓を持たない**。数が減らない限り鳴り続ける。内訳も出す（何をすれば減るかが分かるように）:
+#   未検品のjpgあり  = code が画像を開いて採否を決めれば済む（いちばん多い）
+#   落とした画像を抱えたまま = jpg を消さないと取得側が飛ばすので取り直せない
+#   jpgが無い      = 検索語を直して note-thumbnails を回す
+try:
+    import hashlib as _h35, json as _j35
+    _d35 = os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails")
+    _ver35 = {_l.strip() for _l in open(os.path.join(_d35, "_verified.txt"), encoding="utf-8")
+              if _l.strip() and not _l.startswith("#")}
+    _na35p = os.path.join(_d35, "_no_auto.txt")
+    _na35 = ({_l.strip() for _l in open(_na35p, encoding="utf-8")
+              if _l.strip() and not _l.startswith("#")} if os.path.exists(_na35p) else set())
+    _rej35 = set()
+    for _l in open(os.path.join(_d35, "_rejected_hashes.tsv"), encoding="utf-8"):
+        _l = _l.strip()
+        if _l and not _l.startswith("#"):
+            _rej35.add(_l.split("\t")[0])
+    _reg35 = _j35.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                            encoding="utf-8"))
+    _nm35 = lambda _x: re.sub(r"[^\w]", "", _x or "")
+    _pub35 = {_nm35(_e.get("title")) for _e in _reg35 if not _e.get("unpublished")}
+    _n_probe, _n_stuck, _n_nojpg, _n_ok = 0, 0, 0, 0
+    for _p in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md")):
+        _st = os.path.basename(_p)[:-3]
+        _s = open(_p, encoding="utf-8").read()
+        _m = re.search(r"## タイトル\s*\n```\n(.+?)\n```", _s)
+        if not _m or _nm35(_m.group(1)) not in _pub35:
+            continue
+        if _st in _ver35 or _st in _na35:
+            _n_ok += 1
+            continue
+        _jp = os.path.join(_d35, _st + ".jpg")
+        if not os.path.exists(_jp):
+            _n_nojpg += 1
+        elif _h35.md5(open(_jp, "rb").read()).hexdigest() in _rej35:
+            _n_stuck += 1
+        else:
+            _n_probe += 1
+    _miss35 = _n_probe + _n_stuck + _n_nojpg
+    _tot35 = _miss35 + _n_ok
+    if _miss35 == 0:
+        add("R35 見出し画像の全体被覆", "OK", f"公開 {_tot35}本すべてに見出し画像がある")
+    else:
+        add("R35 見出し画像の全体被覆", "BROKEN",
+            f"**公開 {_tot35}本のうち見出し画像が入っているのは {_n_ok}本**（未 {_miss35}本）"
+            f" → 内訳: 未検品のjpgあり {_n_probe} / 落とした画像を抱えたまま {_n_stuck} / jpgが無い {_n_nojpg}。"
+            "R2・R24 は直近の窓しか数えないので、ここが本当の数")
+except Exception as _e35:
+    add("R35 見出し画像の全体被覆", "STALE", f"判定不能: {type(_e35).__name__} {str(_e35)[:60]}")
 
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
