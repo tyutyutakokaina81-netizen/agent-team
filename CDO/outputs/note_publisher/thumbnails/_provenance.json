@@ -93,13 +93,13 @@
 "2026-06-01_note記事_ChatGPTとClaude私の使い分け": "wikimedia",
 "2026-06-01_note記事_ひとり会社最初30日で買ってよかった3つ": "wikimedia",
 "2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給": {
-"author": "Curpharar",
+"author": "Quercus acuta",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Pouring_soy_sauce_into_batchoy.jpg",
-"file": "File:Pouring soy sauce into batchoy.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:Shoyu_Ramen%EF%BC%88Tokyo_Ramen%EF%BC%89_-_01.jpg",
+"file": "File:Shoyu Ramen（Tokyo Ramen） - 01.jpg",
 "license": "CC BY-SA 4.0",
-"query": "soy sauce",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Pouring_soy_sauce_into_batchoy.jpg/1280px-Pouring_soy_sauce_into_batchoy.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "醤油ラーメン",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Shoyu_Ramen%EF%BC%88Tokyo_Ramen%EF%BC%89_-_01.jpg/1280px-Shoyu_Ramen%EF%BC%88Tokyo_Ramen%EF%BC%89_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-01_note記事_月曜朝のAIに渡す3行のメモ": "wikimedia",
 "2026-06-01_note記事_細工かまぼこ_結婚式に鯛がついてくる富山": {
@@ -1563,7 +1563,15 @@
 "query": "edamame soybeans",
 "src": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Edamame_in_a_tray.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
-"2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す": "wikimedia",
+"2026-08-17_note記事_蚊取り線香_煙のかたちで夏を思い出す": {
+"author": "مانفی",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Mosquito_coil.JPG",
+"file": "File:Mosquito coil.JPG",
+"license": "CC BY-SA 3.0",
+"query": "mosquito coil incense",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Mosquito_coil.JPG/1280px-Mosquito_coil.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-17_有料note_富山湾の魚_地元民の選び方と旬と食べ方": "wikimedia",
 "2026-08-18_有料note_高岡の手しごと_選び方と楽しみ方": "wikimedia",
 "2026-08-19_有料note_富山の地酒_選び方と楽しみ方": "wikimedia",
@@ -1578,7 +1586,11 @@
 },
 "2026-08-21_note記事_AIは一度もやめましょうと言わなかった": "wikimedia",
 "2026-08-25_note記事_富山2日完璧ガイド_氷見と高岡を2日で巡る旅程": {
+"author": "MaedaAkihiko",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:JRW_Himi-line_Kiha47-1015.jpg",
+"file": "File:JRW Himi-line Kiha47-1015.jpg",
+"license": "CC BY-SA 4.0",
 "query": "氷見線",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/JRW_Himi-line_Kiha47-1015.jpg/1280px-JRW_Himi-line_Kiha47-1015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
@@ -1588,7 +1600,11 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/2024_Umekita_Bon_Odori_Dance_Fes22.jpg/1280px-2024_Umekita_Bon_Odori_Dance_Fes22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-25_note記事_富山の夏_標高で涼しさが変わる理由": {
+"author": "くろふね",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg",
+"file": "File:室堂平のチングルマ.jpg",
+"license": "CC BY-SA 4.0",
 "query": "室堂",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg/1280px-%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
