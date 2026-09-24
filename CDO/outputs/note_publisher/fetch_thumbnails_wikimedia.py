@@ -708,25 +708,47 @@ REJECTED_FILES = (
 #   一度落とした画像がクエリを変えても同じように降ってきて、候補枠を無駄に使っていた
 #   （実測: 石油ストーブで同じ据置型ファンヒーターが2巡続けて来た）。
 #   落とした事実は1か所に置き、取得と採用の両方がそれを見る。
+#   ★2026-09-24 追加: **却下は記事ごとの判断**なので、記事を限れるようにした。
+#   それまでは md5 が入っていれば**どの記事でも**使えなくなっていた。実害が出た:
+#     「いちじくの記事にススキ」で落としたススキの写真が、**ススキが正解の
+#      「夏の終わりの気配」からも消えた**。落とした理由は記事ごとに違う。
+#   3列目（任意）に記事の stem を書くと、その記事だけで禁止になる。
+#   空なら全記事で禁止（人物の顔・店名・絵画など、**画像そのものが使えない**もの）。
+#   形式: md5 <TAB> 理由 <TAB> only:<stem>[,<stem>...]
 _REJ_HASHES = None
 
 
-def _rejected_hashes() -> set:
+def _rejected_hashes() -> dict:
+    """{md5: None（全記事で不可）または {stem,...}（その記事だけ不可）}"""
     global _REJ_HASHES
     if _REJ_HASHES is None:
-        _REJ_HASHES = set()
+        _REJ_HASHES = {}
         try:
             for line in open(THUMB_DIR / "_rejected_hashes.tsv", encoding="utf-8"):
-                line = line.strip()
-                if line and not line.startswith("#"):
-                    _REJ_HASHES.add(line.split("\t")[0].strip())
+                line = line.rstrip("\n")
+                if not line.strip() or line.startswith("#"):
+                    continue
+                cols = line.split("\t")
+                h = cols[0].strip()
+                scope = cols[2].strip() if len(cols) > 2 else ""
+                if scope.startswith("only:"):
+                    stems = {x.strip() for x in scope[5:].split(",") if x.strip()}
+                    prev = _REJ_HASHES.get(h, set())
+                    _REJ_HASHES[h] = None if prev is None else (prev | stems)
+                else:
+                    _REJ_HASHES[h] = None          # 全記事で不可
         except OSError:
             pass
     return _REJ_HASHES
 
 
-def _is_rejected_bytes(b: bytes) -> bool:
-    return hashlib.md5(b).hexdigest() in _rejected_hashes()
+def _is_rejected_bytes(b: bytes, stem: str = "") -> bool:
+    v = _rejected_hashes().get(hashlib.md5(b).hexdigest(), False)
+    if v is False:
+        return False            # 台帳に無い
+    if v is None:
+        return True             # 全記事で不可
+    return stem in v            # その記事だけ不可
 
 
 def _is_rejected_file(title: str) -> bool:
@@ -1041,7 +1063,7 @@ def _search_candidates(query: str):
     return [(t, m) for _, _, t, m in cands], diag
 
 
-def fetch_from_wikimedia(query: str):
+def fetch_from_wikimedia(query: str, stem: str = ""):
     """検索→実写候補(jpeg/png・横長・十分なサイズ)を順に試し、最初に取れた (bytes, 取得元URL) を返す。
     長い説明的クエリは Commons で0件になりやすいので、段階的に短縮した候補も試す。
 
@@ -1062,7 +1084,7 @@ def fetch_from_wikimedia(query: str):
                         b = _get(turl)
                         if len(b) < MIN_IMAGE_BYTES:
                             continue
-                        if _is_rejected_bytes(b):       # 目視で落とした画像は中身で弾く
+                        if _is_rejected_bytes(b, stem):  # 目視で落とした画像は中身で弾く（記事スコープ）
                             diag["rejected_md5"] = diag.get("rejected_md5", 0) + 1
                             continue
                         if not _is_color_photo(b):      # 白黒/セピア=実写サムネに使わない
@@ -1166,7 +1188,7 @@ def main() -> None:
         src = {}
         for q in tried:
             try:
-                data, src = fetch_from_wikimedia(q)
+                data, src = fetch_from_wikimedia(q, p.stem)
                 used = q
                 break
             except Exception as e:

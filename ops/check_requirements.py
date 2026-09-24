@@ -978,19 +978,30 @@ else:
 # REJECTED_FILES へ入れたのに、別記事(枝豆)の見出し画像としては 2026-09-19 まで残っていた。
 # 出典が旧形式(文字列のみ)の 93件は元のファイル名が分からないので、**md5 でしか止められない**。
 _rej_path = os.path.join(thumbdir, "_rejected_hashes.tsv")
-_rej = {}
+_rej, _rej_scope = {}, {}
 if os.path.exists(_rej_path):
     for _l in open(_rej_path, encoding="utf-8"):
         _l = _l.strip()
         if not _l or _l.startswith("#"):
             continue
-        _h, _, _why = _l.partition("\t")
-        _rej[_h.strip()] = _why.strip()
+        _cols = _l.split("\t")
+        _h = _cols[0].strip()
+        _why = _cols[1].strip() if len(_cols) > 1 else ""
+        # 3列目 `only:<stem>[,<stem>]` ＝ **その記事だけ**で不可（2026-09-24 追加）。
+        # 却下理由は記事ごとに違う（「いちじくにススキ」は、ススキが正解の記事には当てはまらない）。
+        _scope = _cols[2].strip() if len(_cols) > 2 else ""
+        _rej[_h] = _why
+        if _scope.startswith("only:"):
+            _rej_scope[_h] = {_x.strip() for _x in _scope[5:].split(",") if _x.strip()}
 _left_used, _left_pool = [], []
 for _h, _stems in _groups.items():
     if _h not in _rej:
         continue
     for _st in _stems:
+        # その記事だけで不可の指定なら、指定された記事以外は問題にしない
+        _sc = _rej_scope.get(_h)
+        if _sc is not None and _st not in _sc:
+            continue
         (_left_used if _st in verified else _left_pool).append(_st)
 if _left_used:
     # 例に出す stem と、その stem 自身の理由を対にする。
