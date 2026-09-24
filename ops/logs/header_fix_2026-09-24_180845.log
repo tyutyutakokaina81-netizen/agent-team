@@ -1,0 +1,704 @@
+### 見出し画像の修復 2026-09-24_180845
+--- 手順1: 今のUIを実測（変更しない・1本だけ） ---
+対象 1 件 / モード=PROBE(変更しない)
+
+=== na1ce1b519aaf ===
+   見出し画像の有無（実行前）: なし
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_na1ce1b519aaf_publish.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_na1ce1b519aaf_publish.png ---
+   --- 画像に関係しそうな要素 7件 ---
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+   ===== 同じ記事の /edit/ 画面 =====
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_na1ce1b519aaf_edit.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_na1ce1b519aaf_edit.png ---
+   --- 画像に関係しそうな要素 7件 ---
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+
+================ 結果 ================
+  na1ce1b519aaf	PROBED_NO_IMAGE
+更新できた: 0 / 1  （2026-09-24 18:08）
+
+--- 手順2: 見出し画像を設定して更新 ---
+対象 111 件 / モード=設定して更新
+
+=== na1ce1b519aaf ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n9a6ccdebd72b ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nb1866577b2da ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n43ef5c46027e ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n0855af36e37e ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nf24e87d5fa8b ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n75f01c532069 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nca13899b62c5 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n13aa4e281fd5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== na958299320ea ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n7756798663c0 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n348078642951 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n688348718444 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n626ece1c9c6f ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n7750a5cf6e23 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf32d80bcdcc2 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n5235a8f7fc7e ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n3c6dce64437a ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n54f74e74a12e ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n4820e9f55ff2 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf0d70f771e55 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n486c5f74d316 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n7bccfe24f905 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n37073f8f1a77 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n23f95d4e25c9 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n6831b6aafc9f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== ndd3f5a3d0f13 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n21bd0b732dd3 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf16a9483493d ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n143c667595b6 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nade71b4d3898 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nd5a8290f78d0 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n6e2522bc9952 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nbd28a465d55b ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n185c079a4699 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n1996bbcd70cc ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n5d8ab11ef8bd ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n951e3262b23c ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n1bbb920a0ee7 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   SKIP_DRAFT:「更新する」が無く「投稿する」だけがある＝この記事は下書き。意図しない公開を避けるため押していない
+
+=== n0cdb31064c46 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nec206e34018c ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== ncc5ed83fafe8 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nd14bddf5ff9d ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n8816235bcecd ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n3864cc909552 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n9135a4cca98c ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n5f114cef1412 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n39cce2db71eb ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n7a7a27ae06a6 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n969249cd6538 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nf6f6a1000aa4 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n243de4f07b29 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n27778fd0e61f ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== ncb6c6912f70a ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n9c061eacd454 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n18bdc02fb5e0 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nf705ce597b9f ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n35e32ae59980 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n76835f5bcfd0 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nb81913749420 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n59753a63ab8c ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n169c2e35ecc7 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nb5d3ce4f256a ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n4cc2875ab83f ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== na5fac95f2eb2 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n7a6fe3bed780 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n6540e46eda96 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nc9bda3191cc5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n242960f609cf ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nc98f0aadab22 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n4a3c7ea6a837 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n0d966e689b68 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf5cf059a563e ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== ncbb225a489ff ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n12683c7cde17 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n411f121b2b26 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nb8583d2d191b ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n4a95d3c6a316 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n4fe474e907ad ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nf2aad02f3b00 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n289a10bd5d2f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf82a50257930 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== ne9436e34e84c ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n64cc1243922a ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n2302ebd451d9 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n9fb0f393f453 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n1ffab822c2a4 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n3a7360655e2c ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n7767e1fb0ccc ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== ne4e85cf2328f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n815cc5e770b5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n8181e09e55ac ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nb50a98bea168 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n17788d0cfa17 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n47e24995aad0 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n92777d1d932c ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf2fd2e308101 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n1314d08cf5d2 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nc25b1a7f72fb ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n1ccb0065472f ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n8b3773143166 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== n025a57e50884 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nb6efe66dc3f3 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n13b8d8276acb ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+=== nf01b94018868 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== na2218fba8640 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nec338a436f05 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n5c4ee05d7b7b ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== n734ea921fcea ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== nfff7e14347c8 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+=== ne5465bde9682 ===
+   見出し画像の有無（実行前）: なし
+   ✅ 画像を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+   UPDATED:更新する
+
+================ 結果 ================
+  na1ce1b519aaf	UPDATED:更新する
+  n9a6ccdebd72b	UPDATED:更新する
+  nb1866577b2da	UPDATED:更新する
+  n43ef5c46027e	UPDATED:更新する
+  n0855af36e37e	UPDATED:更新する
+  nf24e87d5fa8b	UPDATED:更新する
+  n75f01c532069	UPDATED:更新する
+  nca13899b62c5	UPDATED:更新する
+  n13aa4e281fd5	SKIP_HAS_IMAGE
+  na958299320ea	SKIP_HAS_IMAGE
+  n7756798663c0	SKIP_HAS_IMAGE
+  n348078642951	SKIP_HAS_IMAGE
+  n688348718444	SKIP_HAS_IMAGE
+  n626ece1c9c6f	UPDATED:更新する
+  n7750a5cf6e23	SKIP_HAS_IMAGE
+  nf32d80bcdcc2	UPDATED:更新する
+  n5235a8f7fc7e	UPDATED:更新する
+  n3c6dce64437a	UPDATED:更新する
+  n54f74e74a12e	UPDATED:更新する
+  n4820e9f55ff2	SKIP_HAS_IMAGE
+  nf0d70f771e55	SKIP_HAS_IMAGE
+  n486c5f74d316	SKIP_HAS_IMAGE
+  n7bccfe24f905	SKIP_HAS_IMAGE
+  n37073f8f1a77	SKIP_HAS_IMAGE
+  n23f95d4e25c9	UPDATED:更新する
+  n6831b6aafc9f	SKIP_HAS_IMAGE
+  ndd3f5a3d0f13	SKIP_HAS_IMAGE
+  n21bd0b732dd3	SKIP_HAS_IMAGE
+  nf16a9483493d	SKIP_HAS_IMAGE
+  n143c667595b6	UPDATED:更新する
+  nade71b4d3898	SKIP_HAS_IMAGE
+  nd5a8290f78d0	UPDATED:更新する
+  n6e2522bc9952	SKIP_HAS_IMAGE
+  nbd28a465d55b	SKIP_HAS_IMAGE
+  n185c079a4699	SKIP_HAS_IMAGE
+  n1996bbcd70cc	UPDATED:更新する
+  n5d8ab11ef8bd	SKIP_HAS_IMAGE
+  n951e3262b23c	SKIP_HAS_IMAGE
+  n1bbb920a0ee7	SKIP_DRAFT:「更新する」が無く「投稿する」だけがある＝この記事は下書き。意図しない公開を避けるため押していない
+  n0cdb31064c46	UPDATED:更新する
+  nec206e34018c	UPDATED:更新する
+  ncc5ed83fafe8	UPDATED:更新する
+  nd14bddf5ff9d	UPDATED:更新する
+  n8816235bcecd	UPDATED:更新する
+  n3864cc909552	UPDATED:更新する
+  n9135a4cca98c	UPDATED:更新する
+  n5f114cef1412	UPDATED:更新する
+  n39cce2db71eb	UPDATED:更新する
+  n7a7a27ae06a6	UPDATED:更新する
+  n969249cd6538	UPDATED:更新する
+  nf6f6a1000aa4	UPDATED:更新する
+  n243de4f07b29	UPDATED:更新する
+  n27778fd0e61f	UPDATED:更新する
+  ncb6c6912f70a	UPDATED:更新する
+  n9c061eacd454	UPDATED:更新する
+  n18bdc02fb5e0	UPDATED:更新する
+  nf705ce597b9f	UPDATED:更新する
+  n35e32ae59980	UPDATED:更新する
+  n76835f5bcfd0	UPDATED:更新する
+  nb81913749420	UPDATED:更新する
+  n59753a63ab8c	UPDATED:更新する
+  n169c2e35ecc7	UPDATED:更新する
+  nb5d3ce4f256a	UPDATED:更新する
+  n4cc2875ab83f	UPDATED:更新する
+  na5fac95f2eb2	UPDATED:更新する
+  n7a6fe3bed780	UPDATED:更新する
+  n6540e46eda96	UPDATED:更新する
+  nc9bda3191cc5	SKIP_HAS_IMAGE
+  n242960f609cf	SKIP_HAS_IMAGE
+  nc98f0aadab22	SKIP_HAS_IMAGE
+  n4a3c7ea6a837	SKIP_HAS_IMAGE
+  n0d966e689b68	SKIP_HAS_IMAGE
+  nf5cf059a563e	SKIP_HAS_IMAGE
+  ncbb225a489ff	SKIP_HAS_IMAGE
+  n12683c7cde17	SKIP_HAS_IMAGE
+  n411f121b2b26	SKIP_HAS_IMAGE
+  nb8583d2d191b	SKIP_HAS_IMAGE
+  n4a95d3c6a316	SKIP_HAS_IMAGE
+  n4fe474e907ad	UPDATED:更新する
+  nf2aad02f3b00	SKIP_HAS_IMAGE
+  n289a10bd5d2f	SKIP_HAS_IMAGE
+  nf82a50257930	SKIP_HAS_IMAGE
+  ne9436e34e84c	UPDATED:更新する
+  n64cc1243922a	UPDATED:更新する
+  n2302ebd451d9	SKIP_HAS_IMAGE
+  n9fb0f393f453	SKIP_HAS_IMAGE
+  n1ffab822c2a4	SKIP_HAS_IMAGE
+  n3a7360655e2c	SKIP_HAS_IMAGE
+  n7767e1fb0ccc	SKIP_HAS_IMAGE
+  ne4e85cf2328f	SKIP_HAS_IMAGE
+  n815cc5e770b5	SKIP_HAS_IMAGE
+  n8181e09e55ac	SKIP_HAS_IMAGE
+  nb50a98bea168	SKIP_HAS_IMAGE
+  n17788d0cfa17	SKIP_HAS_IMAGE
+  n47e24995aad0	SKIP_HAS_IMAGE
+  n92777d1d932c	SKIP_HAS_IMAGE
+  nf2fd2e308101	UPDATED:更新する
+  n1314d08cf5d2	UPDATED:更新する
+  nc25b1a7f72fb	UPDATED:更新する
+  n1ccb0065472f	UPDATED:更新する
+  n8b3773143166	SKIP_HAS_IMAGE
+  n025a57e50884	UPDATED:更新する
+  nb6efe66dc3f3	UPDATED:更新する
+  n13b8d8276acb	SKIP_HAS_IMAGE
+  nf01b94018868	UPDATED:更新する
+  na2218fba8640	UPDATED:更新する
+  nec338a436f05	UPDATED:更新する
+  n5c4ee05d7b7b	UPDATED:更新する
+  n734ea921fcea	UPDATED:更新する
+  nfff7e14347c8	UPDATED:更新する
+  ne5465bde9682	UPDATED:更新する
+更新できた: 61 / 111  （2026-09-24 18:28）
