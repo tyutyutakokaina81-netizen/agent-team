@@ -43,6 +43,11 @@ TODO = REPO / "ops" / "magazine_todo.tsv"
 DBG = REPO / "ops" / "logs" / "_magazine_debug"
 PUBLISH_URL = "https://editor.note.com/notes/{nid}/publish/"
 
+# 公開系の安全弁（_note_safety）。cwd がどこでも読めるよう自分の隣を見る
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import _note_safety as _safety  # noqa: E402
+
+
 
 def load_todo(only: str = "") -> list[tuple[str, list[str]]]:
     if not TODO.exists():
@@ -161,22 +166,8 @@ def add_to(page, name: str) -> str:
 
 
 def update_published(page, nid: str) -> str:
-    if "/publish" not in page.url:
-        try:
-            page.goto(PUBLISH_URL.format(nid=nid), wait_until="domcontentloaded", timeout=20000)
-            page.wait_for_timeout(2500)
-        except Exception as e:
-            return f"UPDATE_FAIL:/publish/へ行けない {str(e)[:80]}"
-    for label in ("更新する", "投稿する", "公開する"):
-        try:
-            btn = page.locator(f'button:has-text("{label}")').last
-            if btn.is_visible(timeout=1500):
-                btn.click()
-                page.wait_for_timeout(4000)
-                return f"UPDATED:{label}"
-        except Exception:
-            continue
-    return "UPDATE_FAIL:最終ボタン(更新する/投稿する)が見つからない"
+    """公開済み記事の変更を保存する。下書きには触らない（_note_safety の fail-closed）。"""
+    return _safety.save_published(page, nid, PUBLISH_URL)
 
 
 def dump_ui(page, nid: str, tag: str = ""):
@@ -199,6 +190,12 @@ def main():
     args = ap.parse_args()
 
     todo = load_todo(args.only)
+    # 下書きに戻した／削除した記事を弾く（2026-09-24 の誤再公開の再発防止）
+    _blocked = [(n, _safety.blocked_reason(n)) for n, *_ in todo if _safety.blocked_reason(n)]
+    if _blocked:
+        for _n, _why in _blocked:
+            print(f"   ⏭ {_n} は触らない: {_why}")
+        todo = [t for t in todo if not _safety.blocked_reason(t[0])]
     if args.max > 0:
         todo = todo[: args.max]
     if not todo:

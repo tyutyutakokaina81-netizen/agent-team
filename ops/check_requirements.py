@@ -1480,6 +1480,66 @@ for f in glob.glob(os.path.join(ROOT, "ops/inbox/*.yaml")):
         if re.search(r"^status:\s*open\s*$", fh.read(), re.M): opens += 1
 add("R9 ops滞留防止", "OK" if opens <= 10 else "STALE", f"open {opens}件" + ("（多すぎ→棚卸し要）" if opens > 10 else ""))
 
+# R34 取り下げた記事への再公開: 2026-09-24 に実際に起きた事故の再発検知。
+# `set_magazine.py` の後付け保存が `更新する` を見つけられず `投稿する` にフォールバックし、
+# **7月に下書きへ戻した重複記事 nc7a3522ade60（氷見牛2本目）を再公開**した。
+# 台帳が「非公開に戻した記事」を公開済みのまま持っていたので作業リストに混ざり、
+# ボタンの選び方が「最初に見えたものを押す」だったので公開まで通ってしまった。
+# ここでは ①ツールが下書きを公開した痕跡 ②取り下げ待ちの記事が残っていないか を見る。
+_r34 = []
+try:
+    import importlib.util as _ilu
+    _sp = os.path.join(ROOT, "CDO/outputs/note_publisher/_note_safety.py")
+    _spec = _ilu.spec_from_file_location("_note_safety", _sp)
+    _mod = _ilu.module_from_spec(_spec); _spec.loader.exec_module(_mod)
+    _dnt = _mod.DO_NOT_TOUCH
+except Exception:
+    _dnt = {}
+
+if not _dnt:
+    add("R34 取り下げ記事の再公開", "STALE",
+        "_note_safety.py を読めない＝下書きを公開しない安全弁が効いているか判定できない")
+else:
+    # ① ツールが「投稿する」を押した痕跡（公開済み記事の保存なら必ず「更新する」になる）
+    _pub = []
+    for _f in glob.glob(os.path.join(ROOT, "ops/logs/*fix_2*.log")):
+        try:
+            for _ln in open(_f, encoding="utf-8", errors="ignore"):
+                if "UPDATED:投稿する" in _ln or "UPDATED:公開する" in _ln:
+                    _m = re.search(r"(n[0-9a-f]{12,13})", _ln)
+                    if _m: _pub.append((_m.group(1), os.path.basename(_f)))
+        except OSError:
+            pass
+    _pub = sorted(set(_pub))
+
+    # ② 取り下げ待ち（DO_NOT_TOUCH のうち「要再取り下げ」と書いたもの）
+    _pending = [k for k, v in _dnt.items() if "要再取り下げ" in v]
+
+    # ③ 作業リストに触ってはいけない ID が残っていないか
+    _queues = ["ops/magazine_todo.tsv", "ops/tag_backfill_todo.tsv", "ops/header_image_todo.tsv"]
+    _leak = []
+    for _q in _queues:
+        _qp = os.path.join(ROOT, _q)
+        if not os.path.exists(_qp): continue
+        for _ln in open(_qp, encoding="utf-8", errors="ignore"):
+            if _ln.startswith("#") or _ln.startswith("DONE") or not _ln.strip(): continue
+            _nid = _ln.split("\t")[0].strip()
+            if _nid in _dnt: _leak.append((_nid, os.path.basename(_q)))
+
+    if _pending:
+        add("R34 取り下げ記事の再公開", "BROKEN",
+            f"**取り下げ待ち {len(_pending)}本が公開されたまま**（{', '.join(_pending)}）"
+            + (f"／{_pub[0][0]} を {_pub[0][1]} が公開した記録あり" if _pub else "")
+            + " → note は code から操作できない(A1)。owner/cowork が下書きへ戻し、"
+              "戻したら `_note_safety.py` の DO_NOT_TOUCH から「要再取り下げ」を外す")
+    elif _leak:
+        add("R34 取り下げ記事の再公開", "BROKEN",
+            f"下書きに戻した記事 {len(_leak)}件が作業リストに残っている"
+            f"（{_leak[0][0]} in {_leak[0][1]}）→ 後付け作業が再公開しうる")
+    else:
+        add("R34 取り下げ記事の再公開", "OK",
+            f"触ってはいけない記事 {len(_dnt)}本はリストから除外済み・下書きを公開した記録なし")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
