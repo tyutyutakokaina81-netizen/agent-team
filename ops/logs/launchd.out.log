@@ -4886,3 +4886,51 @@ posted: ops/outbox/2026-09-24_002_cowork_code.yaml  id=2026-09-24_002
  create mode 100644 ops/outbox/2026-09-24_002_cowork_code.yaml
 To https://github.com/tyutyutakokaina81-netizen/agent-team.git
    013d572..a6a6d49  main -> main
+=== publish run 2026-09-25_080005 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/9] 朝霧：出かけるころには、もう無い
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[2/9] きのこ：売り場のほうには、季節が無い
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[3/9] 回覧板：自分のところで、止まっている
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[4/9] 障子：破れるのは、だいたい同じ高さ
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[5/9] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+[6/9] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[7/9] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[8/9] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    selector命中: div[class*='o-noteComment'] (1ブロック)
+[9/9] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+=== 結果: 巡回 9 / 新規コメント 0 / セレクタ外れ 0 / 未描画 4 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+[1/4] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+[2/4] ひまわり — 太陽を、追う夏の花
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+[3/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+[4/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ NOT-RENDERED（HTTP 200・URLは同じ）＝本文が描画されない。セレクタの問題ではない
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 0 / 未描画 4 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
+posted: ops/outbox/2026-09-25_001_cowork_code.yaml  id=2026-09-25_001
