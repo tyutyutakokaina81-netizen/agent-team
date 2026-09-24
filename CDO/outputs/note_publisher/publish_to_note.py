@@ -899,7 +899,12 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                               for (let i = 0; i < 4 && row.parentElement; i++) row = row.parentElement;
                               const btn = row.querySelector('button');
                               if (!btn) return 'NOBUTTON';
-                              if ((btn.innerText || '').trim() !== '追加') return 'ALREADY';
+                              const label = (btn.innerText || '').trim();
+                              // ★2026-09-24: 初回の実機で両方とも ALREADY になった。
+                              //   新規公開の記事が既にマガジンに入っているとは考えにくいので、
+                              //   **押すべきボタンを取り違えている可能性が高い**。
+                              //   理由を推測しないために、**実際の文言をそのまま返す**。
+                              if (label !== '追加') return 'NOTADD:' + (label || '(空)');
                               btn.click();
                               return 'CLICKED';
                             }
@@ -908,6 +913,9 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                         if _r == "CLICKED":
                             page.wait_for_timeout(800)
                             _added.append(_m)
+                        elif str(_r).startswith("NOTADD:"):
+                            print(f"⚠️  マガジン『{_m}』のボタン文言が『追加』でない: {_r[7:]}"
+                                  "（この行のボタンを取り違えている可能性。set_magazine.py --probe で実測する）")
                         else:
                             print(f"⚠️  マガジン『{_m}』に入れられなかった: {_r}")
                     except Exception as _e:
