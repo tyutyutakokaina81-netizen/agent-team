@@ -1309,7 +1309,15 @@
 "2026-08-08_note記事_田んぼの夏_緑の波とカエルの声": "wikimedia",
 "2026-08-09_note記事_たこ焼き_家でまるめる夏の夜": "wikimedia",
 "2026-08-09_note記事_スイカ割り_目隠しでぐるぐる": "wikimedia",
-"2026-08-09_note記事_土用の丑のうなぎ_夏を乗り切る一枚": "wikimedia",
+"2026-08-09_note記事_土用の丑のうなぎ_夏を乗り切る一枚": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%86%E3%81%AA%E3%81%8E%E8%92%B2%E7%84%BC%E5%BC%81%E5%BD%93%EF%BC%88%E6%9D%B1%E8%8F%AF%E8%BB%92%EF%BC%8920250713-P1070343.jpg",
+"file": "File:うなぎ蒲焼弁当（東華軒）20250713-P1070343.jpg",
+"license": "CC BY 4.0",
+"query": "蒲焼",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/%E3%81%86%E3%81%AA%E3%81%8E%E8%92%B2%E7%84%BC%E5%BC%81%E5%BD%93%EF%BC%88%E6%9D%B1%E8%8F%AF%E8%BB%92%EF%BC%8920250713-P1070343.jpg/1280px-%E3%81%86%E3%81%AA%E3%81%8E%E8%92%B2%E7%84%BC%E5%BC%81%E5%BD%93%EF%BC%88%E6%9D%B1%E8%8F%AF%E8%BB%92%EF%BC%8920250713-P1070343.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-09_note記事_日焼け_跡がくっきり残る夏": {
 "author": "Jebulon",
 "backend": "wikimedia",
@@ -1357,7 +1365,15 @@
 "query": "washtub",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Clay_bath_or_washtub%2C_St_Mary%27s_Allotments%2C_Leamington_-_geograph.org.uk_-_6469917.jpg/1280px-Clay_bath_or_washtub%2C_St_Mary%27s_Allotments%2C_Leamington_-_geograph.org.uk_-_6469917.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-11_note記事_おにぎり_塩をきかせて握る": "wikimedia",
+"2026-08-11_note記事_おにぎり_塩をきかせて握る": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%86%E5%B8%83%E3%81%AE%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029186.jpg",
+"file": "File:昆布のおにぎり（そうめん金龍）20230801-P1029186.jpg",
+"license": "CC BY 4.0",
+"query": "おにぎり",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/%E6%98%86%E5%B8%83%E3%81%AE%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029186.jpg/1280px-%E6%98%86%E5%B8%83%E3%81%AE%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029186.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-11_note記事_クラフトコーラ_七輪でスパイスから煮出す": "owner",
 "2026-08-11_note記事_サンダル_夏はこれ一足": "wikimedia",
 "2026-08-11_note記事_水鉄砲_ずぶ濡れの戦い": {
@@ -1387,7 +1403,15 @@
 "query": "あんみつ",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/%E3%81%82%E3%82%93%E3%81%BF%E3%81%A4_%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D_%E3%81%8A%E3%81%97%E3%82%8B%E3%81%93_%2827647373929%29.jpg/1280px-%E3%81%82%E3%82%93%E3%81%BF%E3%81%A4_%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D_%E3%81%8A%E3%81%97%E3%82%8B%E3%81%93_%2827647373929%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-12_note記事_夏の終わりの気配_風にまじる秋": "wikimedia",
+"2026-08-12_note記事_夏の終わりの気配_風にまじる秋": {
+"author": "松岡明芳",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_pampas_grass_%E3%82%B9%E3%82%B9%E3%82%AD%E3%81%AE%E7%A9%82%E6%B3%A2PB080105.jpg",
+"file": "File:Japanese pampas grass ススキの穂波PB080105.jpg",
+"license": "CC BY 3.0",
+"query": "ススキ",
+"src": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Japanese_pampas_grass_%E3%82%B9%E3%82%B9%E3%82%AD%E3%81%AE%E7%A9%82%E6%B3%A2PB080105.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
 "2026-08-12_note記事_浴衣_年に一度の晴れ着": {
 "author": "Basile Morin",
 "backend": "wikimedia",
