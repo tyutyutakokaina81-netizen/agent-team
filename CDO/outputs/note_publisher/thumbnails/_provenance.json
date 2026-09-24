@@ -1608,10 +1608,34 @@
 "query": "室堂",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg/1280px-%E5%AE%A4%E5%A0%82%E5%B9%B3%E3%81%AE%E3%83%81%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%9E.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-25_note記事_氷見_港町の朝5時から始まる海のリズム": "wikimedia",
+"2026-08-25_note記事_氷見_港町の朝5時から始まる海のリズム": {
+"author": "Jura Tone",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Himi_port.jpg",
+"file": "File:Himi port.jpg",
+"license": "CC BY 2.0",
+"query": "氷見漁港",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Himi_port.jpg/1280px-Himi_port.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-25_note記事_氷見と高岡_港町と古都は何が違うのか": "wikimedia",
-"2026-08-25_note記事_高岡_江戸から昭和への時間旅行": "wikimedia",
-"2026-08-25_note記事_高岡コロッケ_地元民が毎日食べる理由と食べ方ガイド_強化版": "wikimedia",
+"2026-08-25_note記事_高岡_江戸から昭和への時間旅行": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%AB%98%E5%B2%A1%E5%A4%A7%E4%BB%8F_-_panoramio.jpg",
+"file": "File:高岡大仏 - panoramio.jpg",
+"license": "CC BY 3.0",
+"query": "高岡大仏",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/%E9%AB%98%E5%B2%A1%E5%A4%A7%E4%BB%8F_-_panoramio.jpg/1280px-%E9%AB%98%E5%B2%A1%E5%A4%A7%E4%BB%8F_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-08-25_note記事_高岡コロッケ_地元民が毎日食べる理由と食べ方ガイド_強化版": {
+"author": "Nagahito Yuki",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Croquette-1.jpg",
+"file": "File:Croquette-1.jpg",
+"license": "CC BY-SA 2.0",
+"query": "croquette food",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Croquette-1.jpg/1280px-Croquette-1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-08-25_note記事_高岡コロッケ_脇役を主菜にする食べ方": "wikimedia",
 "2026-08-26_note記事_富山の田んぼ_緑から金色へ変わる収穫前のひと月": {
 "backend": "wikimedia",
