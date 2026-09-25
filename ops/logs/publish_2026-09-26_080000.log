@@ -64,3 +64,35 @@ Already up to date.
 === 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 0 / 未描画 4 / **到達不能(404等) 0** / 未公開(draft) 0 ===
 → 未描画がある。**セレクタの問題ではない**（note側のエラー/読み込み失敗）。同じ記事で繰り返すなら、その記事がブラウザで開けるかを人が確認すること。
 posted: ops/outbox/2026-09-26_001_cowork_code.yaml  id=2026-09-26_001
+[main 1cdc37d] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-09-26_080000)
+ 7 files changed, 158 insertions(+), 41 deletions(-)
+ create mode 100644 ops/logs/publish_2026-09-26_080000.log
+ create mode 100644 ops/outbox/2026-09-26_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   41f1234..1cdc37d  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-09-26_080000.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-09-26_080212 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+=== 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
+posted: ops/outbox/2026-09-26_002_cowork_code.yaml  id=2026-09-26_002
