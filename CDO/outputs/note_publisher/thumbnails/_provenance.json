@@ -1671,7 +1671,11 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Rice_seasoned_with_Natto.jpg/1280px-Rice_seasoned_with_Natto.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-01_note記事_十五夜_稲を刈り終えた富山の月を見る夜": {
+"author": "松岡明芳",
 "backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_pampas_grass_%E3%82%B9%E3%82%B9%E3%82%AD%E3%81%AE%E7%A9%82%E6%B3%A2PB080105.jpg",
+"file": "File:Japanese pampas grass ススキの穂波PB080105.jpg",
+"license": "CC BY 3.0",
 "query": "ススキ",
 "src": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Japanese_pampas_grass_%E3%82%B9%E3%82%B9%E3%82%AD%E3%81%AE%E7%A9%82%E6%B3%A2PB080105.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
@@ -2095,5 +2099,23 @@
 "license": "CC BY-SA 4.0",
 "query": "川霧",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/%E5%8F%AA%E8%A6%8B%E5%B7%9D%E3%81%AE%E5%B7%9D%E9%9C%A7.JPG/1280px-%E5%8F%AA%E8%A6%8B%E5%B7%9D%E3%81%AE%E5%B7%9D%E9%9C%A7.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-03_note記事_湯豆腐_鍋に入れるものが豆腐しかない": {
+"author": "経済特区",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%AE%E3%82%89%E3%82%84%E3%81%AE%E6%B9%AF%E8%B1%86%E8%85%90IMG_20221126_192728.jpg",
+"file": "File:のらやの湯豆腐IMG 20221126 192728.jpg",
+"license": "CC BY-SA 4.0",
+"query": "湯豆腐",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/%E3%81%AE%E3%82%89%E3%82%84%E3%81%AE%E6%B9%AF%E8%B1%86%E8%85%90IMG_20221126_192728.jpg/1280px-%E3%81%AE%E3%82%89%E3%82%84%E3%81%AE%E6%B9%AF%E8%B1%86%E8%85%90IMG_20221126_192728.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-03_note記事_長靴_脱ぐのにもう片方の足が要る": {
+"author": "GodeNehler",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Venedig_rubber_boots_for_Tourists-4162.jpg",
+"file": "File:Venedig rubber boots for Tourists-4162.jpg",
+"license": "CC BY-SA 4.0",
+"query": "rubber boots",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Venedig_rubber_boots_for_Tourists-4162.jpg/1280px-Venedig_rubber_boots_for_Tourists-4162.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
