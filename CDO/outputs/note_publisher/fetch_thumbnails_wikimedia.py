@@ -1165,6 +1165,19 @@ def main() -> None:
             continue
         if p.stem in verified:      # owner確認済み=絶対に上書きしない(--forceでもスキップ)
             continue
+        # ★2026-09-25 追加: **落とした画像が手元に残っていたら、自分で消してから取り直す。**
+        #   取得は「jpgが在る記事を飛ばす」作りなので、却下済みの画像が何かの拍子に置かれると
+        #   **その記事は永久に取り直されない**。実際に起きた（却下を台帳へ書いた時点と、
+        #   取得側にその台帳が届く時点がずれ、その隙に同じ画像が再取得された）。
+        #   人が気づいて手で消すまで直らない作りだったので、ここで自己修復する。
+        _cur = THUMB_DIR / f"{p.stem}.jpg"
+        if _cur.exists():
+            try:
+                if _is_rejected_bytes(_cur.read_bytes(), p.stem):
+                    _cur.unlink()
+                    print(f"  removed rejected thumbnail: {p.stem}")
+            except OSError:
+                pass
         if p.stem in no_auto:       # 自動取得を断念した題材=無サムネで確定（--forceでも取りに行かない）
             # 別runの競合等で既にjpgが在る場合は**消す**。残すとpublisher経路が拾って誤サムネ公開になる。
             stray = THUMB_DIR / f"{p.stem}.jpg"
