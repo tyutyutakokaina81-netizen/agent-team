@@ -37,6 +37,29 @@ PUBLISH_URL = "https://editor.note.com/notes/{nid}/publish/"
 BACKUP_DIR = Path(__file__).resolve().parent / "_before_update"
 
 
+def _read_title(loc) -> str:
+    """タイトル欄の中身を読む。
+
+    2026-09-25 実測: `inner_text()` だけだと**空で返る**（note のタイトル欄は textarea で、
+    テキストは value に入っているため）。owner の実行で「いまの記事のタイトル」が空欄で出て、
+    **差し替え前に何を確認すればよいか分からない状態**になった。value 側も見る。
+    """
+    for how in ("input_value", "inner_text"):
+        try:
+            v = (getattr(loc, how)() or "").strip()
+            if v:
+                return v
+        except Exception:
+            continue
+    try:
+        v = (loc.get_attribute("value") or "").strip()
+        if v:
+            return v
+    except Exception:
+        pass
+    return ""
+
+
 def _clear(page, loc):
     """入力欄を空にする。macOS の全選択は Meta+A（Control+A では消えない）。"""
     loc.click()
@@ -97,16 +120,17 @@ def main() -> int:
 
             title_input = page.locator(P.TITLE_SELECTOR).first
             title_input.wait_for(state="visible", timeout=20000)
-            try:
-                cur_title = (title_input.inner_text() or "").strip()
-            except Exception:
-                cur_title = ""
+            cur_title = _read_title(title_input)
             editor = page.locator('div[contenteditable="true"]').last
             try:
                 cur_body = editor.inner_text() or ""
             except Exception:
                 cur_body = ""
-            print(f"\n■ いまの記事\n  タイトル: {cur_title[:60]}\n  本文: {len(cur_body)}字")
+            print(f"\n■ いまの記事\n  タイトル: {cur_title[:60] or '（読めませんでした）'}\n  本文: {len(cur_body)}字")
+            # タイトルが読めないことがある（欄の作りによって取り方が違う）。
+            # **確認材料が何も出ないまま --go を促すのは危ない**ので、本文の冒頭も出す。
+            _head = " / ".join(x.strip() for x in cur_body.splitlines() if x.strip())[:70]
+            print(f"  本文の冒頭: {_head}")
 
             if not cur_body.strip():
                 print("✗ 本文を読めませんでした。画面が変わった可能性があるので、"
