@@ -66,9 +66,16 @@ _HAS_IMAGE_JS = """() => {
 
 
 def load_todo(only: str = "") -> list[tuple[str, Path]]:
+    """未処理の行を返す。`only` を渡したらその1本だけ。
+
+    ★2026-09-29: **--only の ID を打ち間違えても「対象なし（リストが空か全部DONE）」
+    と出ていた**。未処理が51本あるのに「やることが無い」に見える＝嘘の報告。
+    実際、owner が末尾を1文字落とした ID（na889c386249）で叩いて、何も起きなかった。
+    指定が当たらなかったときは**そう言う**ように、全体の件数も一緒に返す。
+    """
     if not TODO.exists():
         sys.exit(f"対象リストが無い: {TODO}")
-    rows = []
+    rows, all_pending = [], []
     for line in TODO.read_text(encoding="utf-8").splitlines():
         s = line.strip()
         if not s or s.startswith("#") or s.startswith("DONE"):
@@ -77,9 +84,18 @@ def load_todo(only: str = "") -> list[tuple[str, Path]]:
         if len(parts) < 2:
             continue
         nid, rel = parts[0].strip(), parts[1].strip()
+        all_pending.append(nid)
         if only and nid != only:
             continue
         rows.append((nid, REPO / rel))
+    if only and not rows:
+        print(f"✗ 指定した ID `{only}` は未処理リストに無い。**未処理は {len(all_pending)} 本ある**"
+              "（＝やることが無いわけではない）。")
+        if all_pending:
+            _near = [n for n in all_pending if n.startswith(only[:10]) or only.startswith(n[:10])]
+            if _near:
+                print(f"  似ている ID: {', '.join(_near[:3])}  ← 打ち間違いでは？")
+            print(f"  未処理の先頭: {', '.join(all_pending[:3])}")
     return rows
 
 
@@ -234,7 +250,10 @@ def main():
             print(f"   ⏭ {_n} は触らない: {_why}")
         targets = [t for t in targets if not _safety.blocked_reason(t[0])]
     if not targets:
-        print("対象なし（ops/header_image_todo.tsv が空か、全部 DONE）。")
+        # ここに来る理由は2つ＝(1) 本当に空/全部DONE (2) --only が当たらなかった。
+        # (2) は load_todo 側で理由を出しているので、ここでは言い切らない。
+        if not args.only:
+            print("対象なし（ops/header_image_todo.tsv が空か、全部 DONE）。")
         return
     print(f"対象 {len(targets)} 件 / モード={'PROBE(変更しない)' if args.probe else '設定して更新'}")
 
