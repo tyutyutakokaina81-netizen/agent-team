@@ -1,0 +1,94 @@
+### 見出し画像の修復 2026-09-29_073554
+--- 手順1: 今のUIを実測（変更しない・1本だけ） ---
+対象 1 件 / モード=PROBE(変更しない)
+
+=== na889c3862499 ===
+   見出し画像の有無（実行前）: あり
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_na889c3862499_publish.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_na889c3862499_publish.png ---
+   --- 画像に関係しそうな要素 8件 ---
+   * img | class=h-auto w-full align-top src=https://assets.st-note.com/production/uploads/images/292399033/rectangle_large_type_2_90f83ea3675de217ecc1ead709e008
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+   ===== 同じ記事の /edit/ 画面 =====
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_na889c3862499_edit.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_na889c3862499_edit.png ---
+   --- 画像に関係しそうな要素 8件 ---
+   * img | class=h-auto w-full align-top src=https://assets.st-note.com/production/uploads/images/292399033/rectangle_large_type_2_90f83ea3675de217ecc1ead709e008
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+
+================ 結果 ================
+  na889c3862499	PROBED_HAS_IMAGE
+更新できた: 0 / 1  （2026-09-29 07:36）
+
+--- 手順2: 見出し画像を設定して更新 ---
+対象 1 件 / モード=設定して更新
+
+=== na889c3862499 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+
+================ 結果 ================
+  na889c3862499	SKIP_HAS_IMAGE
+更新できた: 0 / 1  （2026-09-29 07:36）
