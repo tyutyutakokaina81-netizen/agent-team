@@ -543,6 +543,18 @@ except Exception as _e:
 #   判定は「題材が合っていれば採用」で、落とすのは**明らかに別物**のときだけ。落としたら取り直す。
 #   → **キューに _no_auto の記事が入っていたら BROKEN**（公開済みで後から付けられない記事を除く）。
 try:
+    # ★2026-09-28: **オーナーが個別に承認した無サムネ**だけは通す。
+    #   何度取り直しても使える画像が無いケースは実在する（長靴＝4巡して4回とも不可）。
+    #   ただし例外を黙って作らないため、承認は `_no_thumb_approved.tsv` に
+    #   「記事・承認日・理由」で残し、**そこに載っているものだけ**を対象外にする。
+    #   載っていない _no_auto は従来どおり BROKEN（9月の11本を無サムネで出した反省）。
+    _approved32 = set()
+    _ap32 = os.path.join(thumbdir, "_no_thumb_approved.tsv")
+    if os.path.exists(_ap32):
+        for _l in open(_ap32, encoding="utf-8"):
+            _l = _l.strip()
+            if _l and not _l.startswith("#"):
+                _approved32.add(_l.split("\t")[0].strip())
     _q32 = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
     if not _q32:
         add("R32 公開前の未確定", "OK", "公開キューが空＝該当なし")
@@ -555,7 +567,7 @@ try:
         _undecided, _noimg, _nomag = [], [], []
         for _f in _q32:
             _st = os.path.basename(_f)[:-3]
-            if _st not in verified:
+            if _st not in verified and _st not in _approved32:
                 (_noimg if _st in no_auto else _undecided).append(_st)
             try:
                 if not re.search(r"^-\s*マガジン:\s*\S", open(_f, encoding="utf-8").read(), re.M):
@@ -584,7 +596,10 @@ try:
             add("R32 公開前の未確定", "BROKEN", "／".join(_msg) + " → " + _tail)
         else:
             add("R32 公開前の未確定", "OK",
-                f"キュー {len(_q32)}本すべて、サムネ採用済み＋マガジン指定あり")
+                f"キュー {len(_q32)}本すべて、サムネ採用済み＋マガジン指定あり"
+                + (f"（うち {len(_approved32 & {os.path.basename(_x)[:-3] for _x in _q32})}本は"
+                   "**オーナー承認の無サムネ**＝_no_thumb_approved.tsv に理由を記録）"
+                   if (_approved32 & {os.path.basename(_x)[:-3] for _x in _q32}) else ""))
 except Exception as _e:
     add("R32 公開前の未確定", "STALE", f"判定不能: {type(_e).__name__} {str(_e)[:60]}")
 
@@ -1440,6 +1455,9 @@ import subprocess as _sp
 # -f で追跡しないと**次のrunに残らず、毎回先頭の同じ数件を試し続ける**（実際そうなっていた）。
 _ctl = ["CDO/outputs/note_publisher/thumbnails/_verified.txt",
         "CDO/outputs/note_publisher/thumbnails/_no_auto.txt",
+        # 2026-09-28 新設: オーナーが承認した無サムネの記録。追跡漏れだと承認が消えて
+        # R32 が鳴り続ける（_verified/_no_auto が追跡漏れで効かなかったのと同じ型）。
+        "CDO/outputs/note_publisher/thumbnails/_no_thumb_approved.tsv",
         # 2026-09-21 追加。作った当日に git add -f を忘れ、コンテナ内にしか無い状態だった。
         "CDO/outputs/note_publisher/thumbnails/_rejected_hashes.tsv",
         "CDO/outputs/note_publisher/thumbnails/_backfill_attempts.json",
