@@ -239,6 +239,14 @@ def main():
     ap.add_argument("--probe", action="store_true", help="変更せずUIの実測だけ（まずこれ）")
     ap.add_argument("--only", default="", help="note_id を1つだけ処理")
     ap.add_argument("--no-update", action="store_true", help="画像を入れるだけで更新ボタンは押さない")
+    # ★2026-09-29 追加: **既にある見出し画像を差し替える**ための明示的な入口。
+    #   既定は「画像があれば触らない」（上書き事故を避ける）のままにする。
+    #   実際に必要になった例＝富山ブラックの記事。7月の画像（スープが澄んでいて
+    #   富山ブラックではないと判定して却下したもの）が付いたままで、
+    #   オーナー撮影の実写に差し替えたかったが、入口が無かった。
+    #   これは公開中の記事の見た目を変える操作なので、**フラグを付けたときだけ**動かす。
+    ap.add_argument("--replace", action="store_true",
+                    help="既に見出し画像があっても差し替える（公開中の記事の見た目が変わる）")
     ap.add_argument("--headless", action="store_true", help="画面を出さずに実行")
     args = ap.parse_args()
 
@@ -295,10 +303,13 @@ def main():
                 results.append((nid, "PROBED_HAS_IMAGE" if had else "PROBED_NO_IMAGE"))
                 continue
 
-            if had:
+            if had and not args.replace:
                 print("   → 既に画像があるので触らない（上書き事故を避ける）")
+                print("      差し替えたいなら --replace を付ける")
                 results.append((nid, "SKIP_HAS_IMAGE"))
                 continue
+            if had:
+                print("   ⚠ 既にある見出し画像を **差し替えます**（--replace 指定）")
 
             # 2026-09-19 確定: 見出し画像ボタンは**タイトル textarea の直前の黒丸アイコン**で、
             # aria-label は中の svg に付いている。実装は publisher と共有する（1か所にまとめる）。
