@@ -26,7 +26,11 @@ ROOT = Path(__file__).resolve().parents[3]
 PROV = ROOT / "CDO/outputs/note_publisher/thumbnails/_provenance.json"
 CREDIT_MARK = "（見出し画像："
 # 表示義務のないライセンス（これ以外はクレジットを要求する）
-NO_ATTRIB = ("cc0", "public domain", "pd-", "no restrictions")
+# ★2026-09-29 追加: `owner own work` ＝**オーナーが自分で撮った写真**。
+#   A3 は「サムネはオーナー/cloudが取得」なので owner 提供は想定内だが、
+#   実際に来たのは初めてで（_provenance に0件だった）、R16 が
+#   **自分の写真にクレジットを要求する**状態になっていた。自分の写真に表示義務はない。
+NO_ATTRIB = ("cc0", "public domain", "pd-", "no restrictions", "owner own work")
 # CC BY 系はライセンス本文へのリンクが要求される。よく出るものだけ持つ（未知なら名前のみ表示）。
 LICENSE_URLS = {
     "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
