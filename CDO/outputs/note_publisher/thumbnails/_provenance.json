@@ -379,7 +379,15 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Heritage_Kyoto_City_Tram_-_Meiji-mura.jpg/1280px-Heritage_Kyoto_City_Tram_-_Meiji-mura.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-12_note記事_ひとり起業の専門家3人": "wikimedia",
-"2026-06-12_note記事_個人が会社を持てる時代に大事なこと": "wikimedia",
+"2026-06-12_note記事_個人が会社を持てる時代に大事なこと": {
+"author": "Kari Shea karishea",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Grand_Rapids,_United_States_(Unsplash).jpg",
+"file": "File:Grand Rapids, United States (Unsplash).jpg",
+"license": "CC0",
+"query": "laptop minimal workspace",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Grand_Rapids%2C_United_States_%28Unsplash%29.jpg/1280px-Grand_Rapids%2C_United_States_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-06-12_note記事_氷見の干物が朝食を変える": {
 "author": "Jura Tone",
 "backend": "wikimedia",
@@ -2133,13 +2141,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Muddy_Boots_-_Isle_Royale_National_Park_Backpacking_Trip_%2853075677106%29.jpg/1280px-Muddy_Boots_-_Isle_Royale_National_Park_Backpacking_Trip_%2853075677106%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-04_note記事_案山子_誰が立てたのか分からない": {
-"author": "Shift",
+"author": "Trougnouf (Benoit Brummer)",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:(%E5%8D%83%E8%91%89%E7%9C%8C)_%E5%A4%A7%E5%B1%B1%E5%8D%83%E6%9E%9A%E7%94%B0%E3%80%82%E6%9D%B1%E4%BA%AC%E3%81%AB%E4%B8%80%E7%95%AA%E8%BF%91%E3%81%84%E6%A3%9A%E7%94%B0%E3%81%A8%E3%81%97%E3%81%A6%E6%9C%89%E5%90%8D%E3%81%A7%E3%81%99%E3%80%82%E5%BD%BC%E5%B2%B8%E8%8A%B1%E3%81%8C%E3%80%81%E9%9D%9E%E5%B8%B8%E3%81%AB%E5%8A%9B%E5%BC%B7%E3%81%84%E8%B5%A4%E3%81%A7%E5%8D%B0%E8%B1%A1%E7%9A%84%E3%81%A7%E3%81%97%E3%81%9F%E3%80%82%E3%81%93%E3%81%AE%E6%A3%9A%E7%94%B0%E3%80%81%E6%B1%9F%E6%88%B8_-_panoramio.jpg",
-"file": "File:(千葉県) 大山千枚田。東京に一番近い棚田として有名です。彼岸花が、非常に力強い赤で印象的でした。この棚田、江戸 - panoramio.jpg",
-"license": "CC BY-SA 3.0",
-"query": "かかし 田んぼ",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/%28%E5%8D%83%E8%91%89%E7%9C%8C%29_%E5%A4%A7%E5%B1%B1%E5%8D%83%E6%9E%9A%E7%94%B0%E3%80%82%E6%9D%B1%E4%BA%AC%E3%81%AB%E4%B8%80%E7%95%AA%E8%BF%91%E3%81%84%E6%A3%9A%E7%94%B0%E3%81%A8%E3%81%97%E3%81%A6%E6%9C%89%E5%90%8D%E3%81%A7%E3%81%99%E3%80%82%E5%BD%BC%E5%B2%B8%E8%8A%B1%E3%81%8C%E3%80%81%E9%9D%9E%E5%B8%B8%E3%81%AB%E5%8A%9B%E5%BC%B7%E3%81%84%E8%B5%A4%E3%81%A7%E5%8D%B0%E8%B1%A1%E7%9A%84%E3%81%A7%E3%81%97%E3%81%9F%E3%80%82%E3%81%93%E3%81%AE%E6%A3%9A%E7%94%B0%E3%80%81%E6%B1%9F%E6%88%B8_-_panoramio.jpg/1280px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Scarecrow_in_a_chicken_field_(DSCF5735).jpg",
+"file": "File:Scarecrow in a chicken field (DSCF5735).jpg",
+"license": "CC BY 4.0",
+"query": "scarecrow",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Scarecrow_in_a_chicken_field_%28DSCF5735%29.jpg/1280px-Scarecrow_in_a_chicken_field_%28DSCF5735%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-04_note記事_納豆_混ぜる回数の話になる": {
 "author": "ノボホショコロトソ",
