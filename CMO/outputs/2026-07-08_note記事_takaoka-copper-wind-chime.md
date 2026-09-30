@@ -26,6 +26,13 @@
 [写真③]
 
 冷房で作った涼しさは効率的だけれど、どこか無音で味気ない。そこに一音、地元の職人の技が乗った澄んだ響きが混じると、部屋の空気の質が変わる。今日もエアコンを入れながら、吹き出し口の風で時々鳴る風鈴を横に、この文章を書いている。暑さのピークはこれからだ。
+
+――――――――――
+【English】```
+
+In Takaoka, I hang a small copper wind chime by the air conditioner even with the windows shut tight. A faint draft from the vent is enough to make it ring. Unlike a glass chime, the metal one produces a clear, high tone with a long, slowly fading tail — an echo of Takaoka's four-century tradition of casting temple bells, where the whole craft is about sound that lingers. The room is already cool from the AC, yet the coolness seems to arrive through the ears rather than the skin. For me it is a quiet way to bring the town's foundry craft into everyday summer life.
+
+```
 ```
 
 ## 英語要約

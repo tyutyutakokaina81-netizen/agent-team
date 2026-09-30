@@ -28,6 +28,13 @@
 [写真③]
 
 もし富山に来て、六月の下旬から七月のはじめに夜を過ごす機会があったら、地元の人に「このへんでホタル見えますか」と聞いてみてほしい。たいてい「あそこの用水沿い」と教えてくれる。そうしたら、ライトを消して、二十分だけ待ってみてください。
+
+――――――――――
+【English】```
+
+In late June and early July, people in Toyama step outside after dark to watch fireflies. Because the region has so much clean water flowing down from the mountains into narrow irrigation channels, the fireflies appear not at famous tourist spots but along the ditches right in the neighborhood, a few minutes' walk from home. The small ritual is to switch off your flashlight once you arrive and simply wait in the dark until your eyes adjust and the first faint green glow appears. It only lasts two or three weeks, and the best nights are humid and windless, so you never quite know if they'll be out. Bring insect repellent and a long-sleeved layer, and give it about twenty quiet minutes.
+
+```
 ```
 
 ## 英語要約

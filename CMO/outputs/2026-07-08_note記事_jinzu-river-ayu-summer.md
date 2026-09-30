@@ -22,6 +22,13 @@
 不思議なもので、海の魚があれだけ豊富な土地なのに、夏の鮎だけは別格の扱いを受ける。理由を突き詰めて考えたことはなかったが、たぶん「その時期にしか食べられない」という一点が大きい。冬のブリは毎年しっかり食べられる。けれど鮎は、川の水が温んで、梅雨が明けて、という条件が揃った夏の短い間しか食卓に上がらない。だからこそ、出てきた日はちょっとした行事めいた気分になる。
 
 大人になって外に出た友人が帰省したとき、鮎の塩焼きを出したら「頭から食べるの?」と驚いていた。こちらは驚かれたことに驚いた。そういうものだと思っていたからだ。土地の食べ方というのは、たいてい自分では気づかない。串を持って、頭からかぶりつく。腹の苦みでちょっと顔をしかめる。それが私にとっての夏で、たぶん来月もまた同じことをやっている。
+
+――――――――――
+【English】```
+
+People know Toyama for its sea fish — winter yellowtail, white shrimp, firefly squid. But for a few weeks each summer, my family's table quietly switches to ayu (sweetfish) grilled with salt from the Jinzu River. We eat the small ones whole, starting from the head, bones and all. The best part is the faintly bitter guts in the belly — a taste I disliked as a child and now look forward to every year. Because ayu appears for only a short season, the day it shows up feels like a small annual event.
+
+```
 ```
 
 ## 英語要約

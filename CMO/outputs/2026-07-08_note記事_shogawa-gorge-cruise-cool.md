@@ -26,6 +26,13 @@
 高岡から車で行ける範囲に、こういう「風で涼む」場所が残っているのはありがたい。冷房で涼むのとは別の、体の芯がほどける涼しさがある。次の猛暑日に予定が空いていたら、また奥まで一往復してこようと思っている。
 
 [写真③]
+
+――――――――――
+【English】```
+
+When the heat in Takaoka gets unbearable in July, one of my quiet escapes is a sightseeing boat that glides across a dammed lake in the Shogawa gorge, in the hills of Toyama. Locals treat it less as a tourist attraction and more as a way to cool off: the canyon walls throw shade over much of the water, and the breeze that crosses the lake feels noticeably cooler than the air in town. Standing on the open deck, the temperature seems to drop a few degrees, and the low hum of the engine is the only sound. The scenery is plain rather than dramatic, which is exactly why it works for zoning out. A later afternoon departure, when the shadows are deepest, is the coolest ride.
+
+```
 ```
 
 ## 英語要約

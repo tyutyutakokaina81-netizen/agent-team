@@ -1640,6 +1640,40 @@ try:
 except Exception as _e35:
     add("R35 見出し画像の全体被覆", "STALE", f"判定不能: {type(_e35).__name__} {str(_e35)[:60]}")
 
+# R36 英語が公開本文に入っているか: publisher は `## 本文` 直下の ``` ブロック**だけ**を note に貼る。
+# 英語要約を `## English Summary` セクション（＝ブロックの外）に書くと、md には残るのに
+# **note 上は日本語だけ**で公開される。2026-09-30 に全件で数えて判明＝9/1以降の60本が全滅、
+# 5月からの累計 141本が英語なしで出ていた。North Star は「海外読者に読まれる」なので、
+# これは書いた英語がそのまま捨てられていたということ。8月までは本文末尾に `【English】` で
+# 入れていた（＝届いていた）ので、途中で書き方が変わったのに誰も数えていなかった。
+# 直し方: `python3 ops/inline_english.py --go`（md の英語要約を本文ブロックへ入れる）
+try:
+    import glob as _g36
+    _SENT36 = re.compile(r"\b(?:[A-Za-z][A-Za-z'\-,\.]*\s+){7,}[A-Za-z]")
+    _bad36, _tot36 = [], 0
+    for _p36 in sorted(_g36.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))):
+        _t36 = open(_p36, encoding="utf-8").read()
+        _b36 = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t36, re.S)
+        if not _b36:
+            continue
+        _tot36 += 1
+        # 見出し画像クレジット行は URL とライセンス名で英単語が並ぶので行ごと外す。
+        # ※全角括弧が入れ子なので `（見出し画像：[^）]*）` では取り切れない（2026-09 に踏んだ）
+        _keep36 = "\n".join(_l for _l in _b36.group(1).split("\n")
+                            if "見出し画像" not in _l and not _l.strip().startswith("http"))
+        if not _SENT36.search(_keep36):
+            _bad36.append(os.path.basename(_p36))
+    if not _bad36:
+        add("R36 英語が公開本文に入る", "OK",
+            f"記事 {_tot36}本すべての本文ブロックに英文がある（note 上でも海外読者に届く）")
+    else:
+        add("R36 英語が公開本文に入る", "BROKEN",
+            f"**{len(_bad36)}本の本文ブロックに英文が無い**（md の英語要約はブロックの外＝note では日本語だけ）"
+            f" 例: {', '.join(x[:30] for x in _bad36[:3])}"
+            " → `python3 ops/inline_english.py --go`")
+except Exception as _e36:
+    add("R36 英語が公開本文に入る", "STALE", f"判定不能: {type(_e36).__name__} {str(_e36)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))

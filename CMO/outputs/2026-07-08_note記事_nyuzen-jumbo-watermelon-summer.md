@@ -26,6 +26,13 @@
 考えてみると、この西瓜は「食べ物」であると同時に「事件」なのだと思う。届いた瞬間から数日間、家の中の話題と段取りをぜんぶ持っていく。置き場所に悩み、切る量で悩み、冷蔵庫の陣地取りで揉める。でもその面倒くささが、たぶん贈り物として記憶に残る理由でもある。小さくて上品に冷蔵庫に収まる果物では、こうはならない。
 
 もし夏にこの西瓜をもらうことがあったら、ひとつだけ助言がある。受け取る前に、冷蔵庫の中を一段空けておくといい。届いてから慌てるのが、毎年うちの失敗だから。
+
+――――――――――
+【English】```
+
+Every July a heavy, barrel-shaped watermelon arrives at my door in Toyama — the Nyuzen Jumbo, grown in sandy soil near the coast. Getting one is a real treat, but the joy lasts about five seconds before the panic sets in: it does not fit in the fridge, and cutting it means guessing exactly how much your family can eat before it spoils. For a few days our refrigerator becomes a watermelon storage war, with milk and pudding losing their spots. The taste is crisp and honestly sweet, not watery as its size might suggest. The lesson we relearn each summer: clear a shelf before it shows up.
+
+```
 ```
 
 ## 英語要約
