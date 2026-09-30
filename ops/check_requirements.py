@@ -159,8 +159,24 @@ try:
         if _fw._is_rejected_file(_f2f):
             _bad2f.append((_stem, _f2f))
     _unk = len(verified) - _judged
+    # ★2026-09-30: この検査は「過去に落とした**名前**」と照合するのに、
+    #   却下台帳には長らく**名前が残っていなかった**（173件中5件だけ）。
+    #   照合できる母数がどれだけ育っているかを毎回出す。
+    #   `ops/reject_thumb.py` で却下すると 4列目に `file:` が入る。
+    _rej_tot = _rej_named = 0
+    try:
+        for _l2f in open(os.path.join(thumbdir, "_rejected_hashes.tsv"), encoding="utf-8"):
+            if not _l2f.strip() or _l2f.startswith("#"):
+                continue
+            _rej_tot += 1
+            if any(_c.startswith("file:") for _c in _l2f.rstrip("\n").split("\t")[2:]):
+                _rej_named += 1
+    except OSError:
+        pass
     _note2f = (f"（判定できた {_judged}件 / 出典未記録で未検査 {_unk}件 / _verified 計 {len(verified)}件。"
                f"REJECTED_FILES {len(_fw.REJECTED_FILES)}件と照合。"
+               f"**却下台帳 {_rej_tot}件のうち取得元の名前が残っているのは {_rej_named}件**"
+               "＝ここが増えないと名前フィルタを育てられない（ops/reject_thumb.py で却下すること）。"
                f"※この検査は**過去に落とした名前**しか見ないので、初出の誤サムネは原理的に拾えない）")
     if not verified:
         add("R2f 落とした画像の再承認", "STALE", "_verified.txt が空＝未検査")
