@@ -25,6 +25,7 @@
 | 2026-08-21 | site_audit/audit_pages.py (+README) | ツール/監査 | 「能力向上」→Pages発見インフラを1コマンドで機械監査する常設ツールを新設(ゼロ依存・exit code対応・CIゲート化可)。sitemap網羅/リンク切れ/hreflang(x-default)/孤立/アセット実在の6項目。初回実行で10ページのx-default欠落を検知→修正しerrors=0。競合回避でnote_publisher外の新レーンに配置 | 運用中 |
 
 | 2026-08-21 | site_audit: --fix + site-audit.yml | 自動化/自己修復 | owner「なぜ自動で直さないのか」→検知だけでなく自動修復を実装。--fix(x-default補完・トップへの非相互hreflang削除・idempotent)＋CIワークフローでpush毎に自己修復しbotがcommit。残56件の非相互を自動解消(warnings56→0)。機械で直せない致命的欠陥のみjob失敗で可視化 | 運用中 |
+| 2026-09-30 | ops/inline_english.py, note_publisher/append_english.py, ops/backfill_english.sh, ops/build_english_todo.py | 到達修復/検査 | オーナー「記事の閲覧が伸び悩み」→数えて発見＝**英語要約が公開本文に1文字も入っていなかった**。publisher は `## 本文` 直下のブロックだけを note に貼るのに、英語要約はブロックの外に書いていた（9/1以降60本全滅・累計141本）。md 141本を本文ブロックへ移し、公開済み96本は**全置換せず末尾に足す**append_english.py を新設（全置換だと本文中の写真が消える）。go.sh 3.5) に組み込み8本/回で自動消化。R36 で再発を監視（窓なし・370本OK） | 運用中 |
 
 ## メモ・引き継ぎ事項
 

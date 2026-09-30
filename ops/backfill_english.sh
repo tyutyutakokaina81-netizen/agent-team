@@ -18,11 +18,12 @@
 #   - 1本ずつ ops/english_backfill_done.tsv に記録するので、途中で止めて再開できる。
 set -u
 cd "$(dirname "$0")/.." 2>/dev/null || exit 1
-GO=""; LIMIT=10
+GO=""; LIMIT=10; NOGIT=""
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --go) GO="--go" ;;
     --limit) shift; LIMIT="${1:-10}" ;;
+    --nogit) NOGIT="1" ;;   # go.sh の中から呼ぶとき（git は go.sh 側が面倒を見る）
   esac
   shift
 done
@@ -30,8 +31,10 @@ TS="$(date +%Y-%m-%d_%H%M%S)"
 LOG="ops/logs/backfill_english_${TS}.log"
 mkdir -p ops/logs
 
-echo "== 最新を取得 =="
-git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカルのまま続行します"
+if [ -z "${NOGIT}" ]; then
+  echo "== 最新を取得 =="
+  git pull --rebase --autostash || echo "⚠️ git pull に失敗。ローカルのまま続行します"
+fi
 
 python3 ops/build_english_todo.py || exit 1
 TODO="ops/english_backfill_todo.tsv"
@@ -79,6 +82,7 @@ done < "$TODO"
 
 echo ""
 echo "== 結果: 追記 ${OK}本 / すでに英語あり ${SKIP}本 / 失敗 ${NG}本 =="
+if [ -n "${NOGIT}" ]; then echo "ログ: ${LOG}"; exit 0; fi
 echo "== code に渡す（commit & push）=="
 git add -A ops/english_backfill_done.tsv ops/logs CDO/outputs/note_publisher/_before_update 2>/dev/null
 if git diff --cached --quiet; then
