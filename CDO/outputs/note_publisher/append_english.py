@@ -108,8 +108,16 @@ def main() -> int:
             print(f"\n■ いまの記事\n  本文: {len(cur)}字"
                   f"\n  冒頭: {' / '.join(x.strip() for x in cur.splitlines() if x.strip())[:70]}")
 
-            if SENT.search(cur) or "【English】" in cur:
-                print("SKIP_HAS_ENGLISH: すでに英文が入っています。触りません")
+            # ★2026-10-01: ここを「英文が1つでもあれば SKIP」にしていたら、**5本を誤って飛ばした**。
+            #   公開時に付く**英語フッター**（"Thanks for reading. I write about Takaoka..."）が
+            #   英文として当たるため、記事自身の要約が無いのに「もう英語がある」と判定していた。
+            #   見出し画像クレジット行（URL とライセンス名）も同じ理由で当たる。
+            #   なので **その記事の要約そのもの**と照合する。英文の有無では判断しない。
+            probe = [w for w in re.findall(r"[A-Za-z]{4,}", blk)][:8]
+            cur_cmp = re.sub(r"\s+", " ", cur)
+            if "【English】" in cur or (len(probe) >= 5
+                                      and sum(1 for w in probe if w in cur_cmp) >= len(probe) - 1):
+                print("SKIP_HAS_ENGLISH: この記事の英語要約はすでに入っています。触りません")
                 return 0
 
             BACKUP_DIR.mkdir(exist_ok=True)
@@ -142,8 +150,8 @@ def main() -> int:
                 after = editor.inner_text() or ""
             except Exception:
                 after = ""
-            if not SENT.search(after):
-                print("✗ 足したはずの英文が本文に見えません。**保存せずに**終わります")
+            if not SENT.search(after) or sum(1 for w in probe if w in re.sub(r"\s+", " ", after)) < len(probe) - 1:
+                print("✗ 足したはずの英語要約が本文に見えません。**保存せずに**終わります")
                 return 2
             print(f"✅ 末尾に英語を足しました（{len(cur)}字 → {len(after)}字）")
 

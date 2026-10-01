@@ -29,10 +29,16 @@ def main() -> int:
         if m:
             by_title.setdefault(r["title"], m.group(1))
 
+    # 「済み」は UPDATED と SKIP だけ。★2026-10-01: SKIP の判定を誤っていた5本を
+    # 再試行させるため、結果列が SKIP_誤判定_再試行 の行は済みに数えない。
     done = set()
     if os.path.exists(DONE):
-        done = {l.split("\t")[0].strip() for l in open(DONE, encoding="utf-8")
-                if l.strip() and not l.startswith("#")}
+        for l in open(DONE, encoding="utf-8"):
+            if not l.strip() or l.startswith("#"):
+                continue
+            c = l.rstrip("\n").split("\t")
+            if len(c) >= 2 and c[1] in ("UPDATED", "SKIP"):
+                done.add(c[0].strip())
 
     # 対象は **今回英語を足した記事だけ**。もともと本文に英語が入っていた記事（〜8月）を
     # 混ぜると、開いて SKIP_HAS_ENGLISH と出るだけの記事を100本ブラウザで回すことになる。
