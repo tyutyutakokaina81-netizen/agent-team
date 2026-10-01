@@ -2095,6 +2095,15 @@
 "query": "kabocha squash",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Red_Kabocha_Squash.jpg/1280px-Red_Kabocha_Squash.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-10-01_note記事_ふつうのものの話を200本_どこから読んでもいい案内": {
+"author": "BehBeh",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:20081003%E7%AB%8B%E5%B1%B1%E9%80%A3%E5%B3%B0.jpg",
+"file": "File:20081003立山連峰.jpg",
+"license": "CC BY-SA 3.0",
+"query": "立山連峰 富山平野",
+"src": "https://upload.wikimedia.org/wikipedia/commons/3/3b/20081003%E7%AB%8B%E5%B1%B1%E9%80%A3%E5%B3%B0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
 "2026-10-01_note記事_回覧板_自分のところで止まっている": {
 "author": "Evan-amos",
 "backend": "wikimedia",
