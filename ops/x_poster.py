@@ -29,6 +29,45 @@ QUEUE = os.path.join(ROOT, "ops", "x_queue.txt")
 LOG   = os.path.join(ROOT, "ops", "logs", "x_posted.tsv")
 MAXLEN = 280
 
+# ★2026-10-01 追加: キューに note の URL を直接書くと、**まだ公開していない記事の投稿**を
+#   先に用意できない（公開してから書き足す＝owner が2段で動くことになり、X 0件が126日続いた
+#   原因と同じ「手順が増えると動かない」型）。そこで `{{NOTE_URL:<タイトルの一部>}}` を置けるようにし、
+#   **公開記録から URL を引いて差し替える**。引けないスレッドは blocked にして**出さない**
+#   （プレースホルダのまま投稿される事故を防ぐ）。
+REGISTRY = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "CDO/outputs/note_publisher/published_registry.json")
+_URL_TOKEN = re.compile(r"\{\{NOTE_URL:([^}]+)\}\}")
+
+
+def _note_url(needle: str):
+    """公開済み記事のタイトル部分一致から note の URL を返す。無ければ None。"""
+    try:
+        import json
+        reg = json.load(open(REGISTRY, encoding="utf-8"))
+    except Exception:
+        return None
+    for r in reg:
+        if r.get("unpublished"):
+            continue
+        if needle in r.get("title", "") and r.get("url"):
+            return r["url"]
+    return None
+
+
+def _resolve_urls(thread):
+    """{{NOTE_URL:...}} を実URLに差し替える。引けなければ blocked に理由を入れる。"""
+    out = []
+    for tw in thread["tweets"]:
+        for m in _URL_TOKEN.finditer(tw):
+            url = _note_url(m.group(1).strip())
+            if not url:
+                thread["blocked"] = f"note 未公開（{m.group(1).strip()}）＝URLが引けない"
+                return
+            tw = tw.replace(m.group(0), url)
+        out.append(tw)
+    thread["tweets"] = out
+
+
 def parse_threads(path):
     if not os.path.exists(path):
         return []
@@ -39,7 +78,8 @@ def parse_threads(path):
             if cur:
                 threads.append(cur)
             label = m.group(1)
-            cur = {"label": label, "posted": "[POSTED]" in label, "tweets": []}
+            cur = {"label": label, "posted": "[POSTED]" in label, "tweets": [],
+                   "blocked": ""}
             cur["slug"] = label.replace("[POSTED]", "").strip()
         elif cur is not None:
             t = line.strip()
@@ -47,6 +87,9 @@ def parse_threads(path):
                 cur["tweets"].append(t)
     if cur:
         threads.append(cur)
+    for th in threads:
+        if not th["posted"]:
+            _resolve_urls(th)
     return threads
 
 def validate(threads):
@@ -64,7 +107,10 @@ def main():
     args = ap.parse_args()
 
     threads = parse_threads(args.queue)
-    pending = [t for t in threads if not t["posted"] and t["tweets"]]
+    pending = [t for t in threads if not t["posted"] and t["tweets"] and not t["blocked"]]
+    for t in threads:
+        if t.get("blocked"):
+            print(f"（保留 {t['slug']}: {t['blocked']}）")
     print(f"スレッド総数 {len(threads)} / 未投稿 {len(pending)}")
     probs = validate(pending)
     for p in probs:

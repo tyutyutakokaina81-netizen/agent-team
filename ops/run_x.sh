@@ -106,7 +106,7 @@ if [ "$ARG" = "--manual" ]; then
 import os, re, sys
 sys.path.insert(0, "ops")
 from x_poster import parse_threads, QUEUE
-th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"]]
+th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"] and not t["blocked"]]
 if not th:
     # ★2026-09-23: ここは python の終了であって bash の終了ではない。
     #   繰り返しに変えたので、**残り0本を bash 側に伝える**必要がある（3 で返す）。
@@ -136,7 +136,7 @@ PYEOF
 import os, sys, datetime
 sys.path.insert(0, "ops")
 from x_poster import parse_threads, QUEUE, LOG
-th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"]]
+th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"] and not t["blocked"]]
 if th:
     slug = th[0]["slug"]
     txt = open(QUEUE, encoding="utf-8").read()

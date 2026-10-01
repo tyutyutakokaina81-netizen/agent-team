@@ -2,6 +2,14 @@
 # 区切り: === slug ===  / その下 1行=1ツイート / 投稿済みは自動で [POSTED] が付く
 # 追加は 2026-08-25_crosspost_Reddit_X_templates.md の X スレッドからコピペ。各行280字以内。
 
+# ★2026-10-01 先頭に入れた＝オーナー「xにも公開して」。案内記事の告知。
+#   2本目の {{NOTE_URL:...}} は公開記録から実URLに差し替わる。**公開前は保留扱いで出てこない**
+#   （プレースホルダのまま投稿される事故を防ぐため）。公開すれば自動で先頭に出る。
+
+=== futsuu-200 ===
+200+ posts from Toyama, and almost none are about sights. They're about how many times people stir natto, the water that rises out of the road in winter to melt snow, why one house has both a Buddhist altar and a Shinto shelf. Sights are easy to look up. These aren't.
+Where to start, and why I stopped writing about the sights: {{NOTE_URL:ふつうのものの話を200本}} #Japan #Toyama
+
 === tap-water ===
 In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. #Japan #Toyama
 
