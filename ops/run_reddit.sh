@@ -184,6 +184,7 @@ if not QUIET:
 
 open("/tmp/.reddit_next_body.txt", "w", encoding="utf-8").write(body)
 open("/tmp/.reddit_next_file.txt", "w", encoding="utf-8").write(os.path.basename(path))
+open("/tmp/.reddit_next_meta.txt", "w", encoding="utf-8").write(f"{sub}\t{title}")
 
 if MODE == "--posted":
     with open(LOG, "a", encoding="utf-8") as f:
@@ -198,6 +199,22 @@ RC=$?
 if [ "$ARG" = "--manual" ] && command -v pbcopy >/dev/null 2>&1 && [ -f /tmp/.reddit_next_body.txt ]; then
   pbcopy < /tmp/.reddit_next_body.txt
   echo "📋 本文をクリップボードにコピーしました（Reddit の本文欄で ⌘V）"
+  echo ""
+  SUBMIT="$(python3 - <<'PYEOF'
+import re, urllib.parse
+body = open("/tmp/.reddit_next_body.txt", encoding="utf-8").read().strip()
+t = open("/tmp/.reddit_next_meta.txt", encoding="utf-8").read().strip().split("\t") \
+    if __import__("os").path.exists("/tmp/.reddit_next_meta.txt") else []
+sub = t[0] if t else ""
+title = t[1] if len(t) > 1 else ""
+if sub:
+    print(f"https://www.reddit.com/{sub}/submit?title=" + urllib.parse.quote(title, safe="")
+          + "&text=" + urllib.parse.quote(body, safe=""))
+PYEOF
+)"
+  if command -v open >/dev/null 2>&1 && [ -n "${SUBMIT}" ]; then
+    open "${SUBMIT}" 2>/dev/null && echo "🌐 Reddit の投稿画面を**題名と本文入りで**開きました"
+  fi
   echo ""
   echo "投稿したら、これで記録してください:"
   echo "    cd ~/agent-team-run && bash ops/run_reddit.sh --posted"

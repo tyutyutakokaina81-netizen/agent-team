@@ -150,7 +150,21 @@ PYEOF
     pbcopy < /tmp/.x_next_tweet.txt
     echo "📋 1つ目の本文をクリップボードにコピーしました（X の投稿欄で ⌘V）"
   fi
-  echo "   投稿画面: https://x.com/compose/post"
+  # ★2026-10-02: X の公式の仕組み（Web Intent）で、**投稿画面を文面入りで開く**。
+  #   貼り付ける操作が要らなくなる。ログインしていなければ、ここでログインを聞かれる。
+  #   ※これは X が用意している共有用のURLで、API も自動投稿も使っていない。
+  #     最後に「ポストする」を押すのは人。
+  INTENT="$("${VPY}" - <<'PYEOF'
+import urllib.parse
+t = open("/tmp/.x_next_tweet.txt", encoding="utf-8").read().strip()
+print("https://x.com/intent/post?text=" + urllib.parse.quote(t, safe=""))
+PYEOF
+)"
+  if command -v open >/dev/null 2>&1 && [ -n "${INTENT}" ]; then
+    open "${INTENT}" 2>/dev/null && echo "🌐 X の投稿画面を**文面入りで**開きました（内容を見て「ポストする」を押すだけ）"
+  else
+    echo "   投稿画面: https://x.com/compose/post"
+  fi
   echo ""
   echo "投稿したら、これで記録してください:"
   echo "    cd ~/agent-team-run && bash ops/run_x.sh --posted"
