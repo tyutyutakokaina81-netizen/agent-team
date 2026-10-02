@@ -20,7 +20,7 @@ if [ -n "$ARG_RAW" ] && [ "$ARG" != "$ARG_RAW" ]; then
   echo "（引数に余計な文字が付いていました: '${ARG_RAW}' → '${ARG}' として扱います）"
 fi
 case "$ARG" in
-  ""|--keys|--setup|--install|--go|--manual|--undo) : ;;
+  ""|--keys|--setup|--install|--go|--manual|--undo|--posted) : ;;
   *)
     echo "✗ 知らない引数です: '${ARG_RAW}'"
     echo "  使えるのは次の5つだけです:"
@@ -30,6 +30,7 @@ case "$ARG" in
     echo "    bash ops/run_x.sh --install tweepy を入れる"
     echo "    bash ops/run_x.sh --go      先頭1スレッドを投稿（APIキーが要る）"
     echo "    bash ops/run_x.sh --manual  APIを使わず、手で貼るための文面を出す"
+    echo "    bash ops/run_x.sh --posted  先頭のスレッドを「投稿済み」として記録する"
     echo "    bash ops/run_x.sh --undo    直前の『投稿済み』の記録を取り消す"
     exit 1 ;;
 esac
@@ -95,6 +96,31 @@ fi
 # 2026-09-19: APIキーの取得が止まっていて、**書いてある素材が1本も外に出ていない**。
 # キーが無くても中身は出せる。ここでは文面を表示するだけで、投稿したかどうかは本人に聞く。
 # **こちらが勝手に「投稿済み」にはしない**（実績の水増しをしないため）。
+if [ "$ARG" = "--posted" ]; then
+  # 聞かずに記録するだけの口。貼り付け運用だと対話プロンプトが効かないことがあるため
+  #   （2026-10-02: 貼り付けの改行を read が食って、3回続けて未記録になった）。
+  "${VPY}" - <<'PYEOF'
+import os, sys, datetime
+sys.path.insert(0, "ops")
+from x_poster import parse_threads, QUEUE, LOG
+th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"] and not t["blocked"]]
+if not th:
+    print("未投稿のスレッドがありません。"); sys.exit(0)
+slug = th[0]["slug"]
+txt = open(QUEUE, encoding="utf-8").read()
+open(QUEUE, "w", encoding="utf-8").write(
+    txt.replace(f"=== {slug} ===", f"=== {slug} [POSTED] ===", 1))
+os.makedirs(os.path.dirname(LOG), exist_ok=True)
+with open(LOG, "a", encoding="utf-8") as f:
+    f.write(f"{datetime.datetime.now().isoformat()}\t{slug}\tmanual\n")
+print(f"✅ 記録しました: {slug}（手動投稿）")
+print("   間違えて記録したときは: bash ops/run_x.sh --undo")
+PYEOF
+  git add -A ops/x_queue.txt ops/logs 2>/dev/null
+  git diff --cached --quiet || { git commit -qm "x: 手動投稿を記録 $(date +%F_%H%M)" && git push -q origin main 2>/dev/null && echo "push しました"; }
+  exit 0
+fi
+
 if [ "$ARG" = "--manual" ]; then
   echo "=== APIを使わずに投稿する（文面を出すだけです）==="
   # ★2026-09-23: 1回のコマンドで1本しか進まず、42本を消化するのに42回打つ必要があった。
@@ -129,8 +155,14 @@ PYEOF
   fi
   echo "   投稿画面: https://x.com/compose/post"
   echo ""
+  # ★2026-10-02: ここで **3回続けて「記録していません」で終わっていた**。
+  #   owner はコマンドを2行まとめて貼り付けて実行する。貼り付けた改行が端末の入力バッファに
+  #   残ったまま read に届くので、**本人が打つ前に空回答で確定していた**。
+  #   ①バッファに残っている分を捨ててから聞く ②端末から直接読む（/dev/tty）。
+  #   ※それでも駄目なら、あとから `bash ops/run_x.sh --posted` で記録できる（下記）。
+  while IFS= read -r -t 0.2 _flush < /dev/tty 2>/dev/null; do :; done
   printf "投稿しましたか？ 記録します（y を入れると投稿済みにします / それ以外は何もしません）: "
-  IFS= read -r YN
+  IFS= read -r YN < /dev/tty 2>/dev/null || IFS= read -r YN
   if [ "$YN" = "y" ] || [ "$YN" = "Y" ]; then
     "${VPY}" - <<'PYEOF'
 import os, sys, datetime
