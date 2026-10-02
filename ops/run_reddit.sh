@@ -27,10 +27,14 @@ if [ "${1:-}" = "--sub" ] || [ "${2:-}" = "--sub" ]; then
   if [ "${1:-}" = "--sub" ]; then SUB_WANT="${2:-}"; set -- "${3:-}"; else SUB_WANT="${3:-}"; fi
 fi
 export SUB_WANT
+RD_FORCE=0
+for a in "$@"; do [ "$a" = "--force" ] && RD_FORCE=1; done
+export RD_FORCE
 ARG_RAW="${1:-}"
 ARG="$(printf '%s' "$ARG_RAW" | sed -e 's/[^A-Za-z-]*$//')"
 case "$ARG" in
   ""|--manual|--posted|--undo) : ;;
+  --force) ARG="--manual" ;;
   *) echo "✗ 知らない引数です: '${ARG_RAW}'"
      echo "   使えるのは: （なし） / --manual / --posted / --undo"
      exit 1 ;;
@@ -92,6 +96,28 @@ if MODE == "":
 
 if not pending:
     print("未投稿の素材がありません。"); raise SystemExit(3)
+
+# ★2026-10-02: 画面に「1日1本まで」と出しておきながら、同じ日に2本目の文面を出していた。
+#   注意書きを出すだけでは守れない。**今日すでに記録があるなら、画面の先頭で止める**。
+today = datetime.date.today().isoformat()
+today_rows = []
+if os.path.exists(LOG):
+    for l in open(LOG, encoding="utf-8"):
+        c = l.rstrip("\n").split("\t")
+        if len(c) >= 2 and c[0][:10] == today:
+            today_rows.append(c)
+if today_rows and MODE == "--manual":
+    print("")
+    print(f"⚠ 今日はもう {len(today_rows)}本 記録されています:")
+    for c in today_rows:
+        print(f"    {c[0][11:16]}  {c[1][:46]}  {c[2] if len(c) > 2 else ''}")
+    print("")
+    print("  **Reddit は1日1本まで**。まとめて出すと自己宣伝と見なされて削除・BANの対象です。")
+    print("  それでも出すなら、板を変えて、内容が重ならないことを確かめてから。")
+    print("  続けるには --force を足してください:")
+    print("      bash ops/run_reddit.sh --manual --force")
+    if os.environ.get("RD_FORCE", "") != "1":
+        raise SystemExit(0)
 
 path = pending[0]
 text = open(path, encoding="utf-8").read()
