@@ -126,6 +126,12 @@ def main():
     urls = published_urls()
     posted_blocks, posted_slugs = keep_posted()
 
+    # ★2026-10-02: 素材ファイル（EN/outputs/x_tweets/）が無い記事はキューに乗らなかった。
+    #   今日書いた記事（案内記事・案山子）は公開済みなのに X に出ない状態だった。
+    #   いまはどの記事も本文に `【English】` を持っているので、**素材が無ければ本文から作る**。
+    #   素材より短く切るだけだが、**出ないよりはるかにいい**。
+    done_stems = set()
+
     rows, skipped = [], {"未公開": 0, "記事なし": 0, "長すぎ": 0, "投稿済み": 0}
     for p in sorted(glob.glob(os.path.join(MAT, "*.md")), reverse=True):
         t = open(p, encoding="utf-8").read()
@@ -171,8 +177,48 @@ def main():
             skipped["長すぎ"] += 1
             continue
         rows.append((slug, tweet))
+        done_stems.add(stem)
+
+    # 素材が無い公開記事を、本文の【English】から補う
+    from_body = 0
+    for ap in sorted(glob.glob(os.path.join(ART, "*note記事*.md")), reverse=True):
+        stem = os.path.basename(ap)[:-3]
+        if stem in done_stems:
+            continue
+        t = open(ap, encoding="utf-8").read()
+        title = article_title(stem)
+        url = urls.get(title) if title else None
+        if not url:
+            continue
+        slug = stem.replace("_note記事_", "_")[:40]
+        if slug in posted_slugs:
+            continue
+        bm = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", t, re.S)
+        if not bm or "【English】" not in bm.group(1):
+            continue
+        en = bm.group(1).split("【English】", 1)[1]
+        # 1行目は英語の見出し。本文の最初のまとまりを使う
+        paras = [x.strip() for x in en.split("\n") if x.strip() and "見出し画像" not in x]
+        body_en = " ".join(paras[1:]) if len(paras) > 1 else " ".join(paras)
+        body_en = re.sub(r"\s+", " ", body_en).strip()
+        tail = f" {url} #Japan"
+        budget = MAXLEN - len(tail)
+        if len(body_en) > budget:
+            cut = body_en[:budget]
+            end = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+            if end > budget * 0.5:
+                body_en = cut[:end + 1]
+            else:
+                sp = cut.rfind(" ")
+                body_en = (cut[:sp] if sp > 0 else cut).rstrip(" ,;:—-") + "…"
+        tweet = (body_en + tail).strip()
+        if len(tweet) > MAXLEN or len(body_en) < 40:
+            continue
+        rows.append((slug, tweet))
+        from_body += 1
 
     print(f"素材 {len(glob.glob(os.path.join(MAT, '*.md')))}本")
+    print(f"  → 素材が無く本文の【English】から作った: {from_body}本")
     print(f"  → キューに入れる        : {len(rows)}本（すべて note の実URL入り）")
     print(f"  → 入れない（未公開）    : {skipped['未公開']}本")
     print(f"  → 入れない（記事なし）  : {skipped['記事なし']}本")
