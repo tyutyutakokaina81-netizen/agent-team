@@ -1693,6 +1693,35 @@ try:
 except Exception as _e36:
     add("R36 英語が公開本文に入る", "STALE", f"判定不能: {type(_e36).__name__} {str(_e36)[:60]}")
 
+# R37 本文の最低字数: オーナー確定 2026-10-02「noteの記事の文字数は最低10000文字に」。
+# これまでは本文600〜1,000字（英語要約を入れて2,000〜2,900字）だった。15倍になる。
+# ★水増しで字数を作らないこと＝A5。10,000字を**内容で**埋める書き方は2つしかない:
+#   ①ひとつの題材を深く（出自・作り方・地域差・体験）＝**調べ物が要るが code は A1 で調べられない**
+#   ②複数の題材を1本にまとめる（テーマ記事）＝**いまの「1本1題材」から形を変える**
+# この検査は長さだけを見る。中身が水増しかどうかは人が読むしかない。
+try:
+    import glob as _g37
+    _short37 = []
+    for _p37 in sorted(_g37.glob(os.path.join(ROOT, "drafts/queue/*.md"))):
+        _t37 = open(_p37, encoding="utf-8").read()
+        _m37 = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t37, re.S)
+        if not _m37:
+            continue
+        _n37 = len(_m37.group(1))
+        if _n37 < 10000:
+            _short37.append(f"{os.path.basename(_p37)[:30]}={_n37}字")
+    if not os.path.exists(os.path.join(ROOT, "drafts/queue")) or not _g37.glob(
+            os.path.join(ROOT, "drafts/queue/*.md")):
+        add("R37 本文の最低字数", "STALE", "公開キューが空＝未検査")
+    elif _short37:
+        add("R37 本文の最低字数", "BROKEN",
+            f"**10,000字に足りない記事が {len(_short37)}本**: {', '.join(_short37[:3])}"
+            " → 題材を足すか、複数の題材を1本にまとめる。**水増しで字数を作らない（A5）**")
+    else:
+        add("R37 本文の最低字数", "OK", "公開キューの記事はすべて本文10,000字以上")
+except Exception as _e37:
+    add("R37 本文の最低字数", "STALE", f"判定不能: {type(_e37).__name__} {str(_e37)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
