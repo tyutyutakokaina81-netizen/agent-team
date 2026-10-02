@@ -155,6 +155,17 @@ else
 fi
 
 echo ""
+echo "==================== 3.6) 公開済み記事にフォロー導線を足す ===================="
+# なぜ（2026-10-02）: 公開210本のうち他記事へのリンクがあるのは10本(4%)、フォローの一言は7本(3%)。
+#   1本読んだ人が次へ行く道も、フォローする理由も無かった。フッターの仕組みは 2026-06-07 から
+#   あったのに一度も適用されていなかった。go.sh を回すたび少しずつ埋める。
+if [ "${ARG}" = "--no-en" ]; then
+  echo "（飛ばします）"
+else
+  bash ops/backfill_follow.sh --go --limit 6 --nogit || echo "⚠️ 導線の追記でつまずきました"
+fi
+
+echo ""
 echo "==================== 4) 結果を push ===================="
 git add -A
 git commit -q -m "mac: go.sh 実行結果 $(date +%Y-%m-%d_%H%M)" && echo "コミットしました" \
@@ -186,6 +197,20 @@ EN_LEFT=$(grep -cv '^#' ops/english_backfill_todo.tsv 2>/dev/null)
 echo "公開キューの残り : ${QUEUE_LEFT} 本"
 echo "X の投稿実績     : ${X_POSTED} 件 ／ 未投稿スレッド ${X_PENDING} 本"
 echo "英語の追記の残り : ${EN_LEFT} 本（note 上が日本語だけの公開済み記事。go.sh を回すたび8本減る）"
+FL_LEFT=$(python3 - <<'PYX' 2>/dev/null
+import os
+done=set()
+if os.path.exists("ops/follow_backfill_done.tsv"):
+    for l in open("ops/follow_backfill_done.tsv",encoding="utf-8"):
+        c=l.rstrip("\n").split("\t")
+        if len(c)>=2 and c[1] in ("UPDATED","SKIP"): done.add(c[0])
+rows=[l.split("\t")[0] for l in open("ops/follow_blocks.tsv",encoding="utf-8")
+      if l.strip() and not l.startswith("#")] if os.path.exists("ops/follow_blocks.tsv") else []
+print(len([r for r in rows if r not in done]))
+PYX
+)
+[ -z "${FL_LEFT}" ] && FL_LEFT="?"
+echo "フォロー導線の残り: ${FL_LEFT} 本（あわせて読む3本＋フォローの一言。go.sh を回すたび6本減る）"
 if [ -f "${GO_LOG}" ]; then
   echo ""
   echo "今回の公開結果（${GO_LOG}）:"
