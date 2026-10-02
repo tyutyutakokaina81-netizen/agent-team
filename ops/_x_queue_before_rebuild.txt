@@ -1,0 +1,258 @@
+# X投稿キュー（owner/cowork がX認証を入れて `python3 ops/x_poster.py --go` で先頭1スレッドを投稿）
+# 区切り: === slug ===  / その下 1行=1ツイート / 投稿済みは自動で [POSTED] が付く
+# 追加は 2026-08-25_crosspost_Reddit_X_templates.md の X スレッドからコピペ。各行280字以内。
+
+# ★2026-10-01 先頭に入れた＝オーナー「xにも公開して」。案内記事の告知。
+#   2本目の {{NOTE_URL:...}} は公開記録から実URLに差し替わる。**公開前は保留扱いで出てこない**
+#   （プレースホルダのまま投稿される事故を防ぐため）。公開すれば自動で先頭に出る。
+
+=== futsuu-200 [POSTED] ===
+200+ posts from Toyama, and almost none are about sights. They're about how many times people stir natto, the water that rises out of the road in winter to melt snow, why one house has both a Buddhist altar and a Shinto shelf. Sights are easy to look up. These aren't.
+Where to start, and why I stopped writing about the sights: {{NOTE_URL:ふつうのものの話を200本}} #Japan #Toyama
+
+=== tap-water ===
+In much of Japan the tap water is drinkable — in Toyama it tastes good. Snow on the 3,000m Tateyama range melts, filters underground for years, and reaches your glass soft and clean. Same water shapes the rice, sake, tofu. Bring a bottle and refill. #Japan #Toyama
+
+=== new-rice ===
+Every September Japan gets "shinmai" — new-crop rice. Fresher grains, more moisture: plump, glossy, faintly sweet. Eat it plain first, then a pinch of salt. In Japan, even rice has a season — and the first bowl is the finale. #Japan #JapanFood #Toyama
+
+=== nihyakutoka ===
+Around Sept 1, Japan's old calendar marks nihyaku-tōka — the "210th day." Ripe rice + peak typhoon season = a year's work at risk in one night. Before forecasts, a named day was the weather alert. Weather-lore folded into a date. #Japan #Toyama
+
+=== cosmos ===
+Toyama is famous for spring tulips. Its quiet autumn cosmos (akizakura) may be the better view — no crowds, self-seeded along the paddies, rippling in the wind with the Tateyama range behind. The unknown autumn of a place known for spring. #Japan #Toyama
+
+=== croquette-thread ===
+1/ I found a Japanese city obsessed with croquettes. Not fancy croquettes. Not artisanal. Just golden, simple, deep-fried happiness. And it's only in Takaoka, Toyama. Here's why. 🧵
+2/ After WWII, Takaoka's factories boomed. Thousands of workers needed cheap lunch. Enter: the croquette. Easy to fry in bulk, filling, ¥500-800. The culture stuck. 70 years later, small unmarked food halls still serve croquette *sets* as the main course.
+3/ It's so hyperlocal that no guidebook mentions it. You have to find these 食堂 (shokudo) near the station or factory districts. Cash only. Lunch only (11am–2pm). Each place hand-makes the filling different.
+4/ I ate at 3. One used beef, one used pork, one used shrimp. Each was better than the last. Locals *go for* the croquette, not "with" it. This has never happened to me in Japan.
+5/ This is what hyperlocal food culture looks like: no branding, no marketing, no Instagram. Just accumulated craft passed down by daily repetition.
+Takaoka proves you don't need fancy ingredients to make something memorable. You just need 70 years of practice. #JapanFood #Takaoka #ToyamaTravel
+
+=== himi-thread ===
+1/ This fishing port doesn't plan your meals. The ocean does. Welcome to Himi, Toyama—where your breakfast depends on what the boats caught 6 hours ago. 🧵
+2/ At 5 AM, fishing boats return. Auctioneers call. Buyers grab the catch. By 6:30 AM, locals line up at market food halls. By 7 AM, you're eating yesterday's night catch, fresh and raw.
+3/ But here's the catch (pun intended): **The menu changes every single day.** Weather cancels fishing. Water temperature shifts seasons. You don't know what you'll eat until you arrive.
+4/ April–May: Firefly squid (translucent, sweet) June–August: White shrimp (melts on your tongue) Sept–Nov: Yellowtail (fatty, rich) Dec–March: Red snapper (usually expensive, here just a lunch)
+5/ Most people visit "tourist" markets. Wrong. Go to actual fish shops where locals buy. That's where the realness is. A full sashimi breakfast: ¥1,200–¥1,800 (~$9-14).
+6/ Himi doesn't romanticize itself. No Instagram cafes. No "artisanal" branding. Just a port town living off what the sea gives it. If you're tired of curated travel, this is it. #HimiToyama #JapanTravel #Seafood #OffTheBeatenPath
+
+=== takaoka-thread ===
+1/ Takaoka is a city where you can walk from the 1600s to 1970s in 30 minutes. And it doesn't try to be cute about it. It just... exists in all its eras at once. 🧵
+2/ Most cities choose: either demolish old buildings and go modern, or restore them for Instagram. Takaoka does neither. Medieval streets? Lived in. Edo-era merchant houses? Still have residents and laundry hanging outside.
+3/ Copper craftspeople still use 400-year-old hand techniques. A 16-meter Buddha statue (cast from Takaoka copper) doesn't sit in a shrine—it stands on a regular street where people walk by daily.
+4/ 1970s food halls operate unchanged. An old trolley follows the original 1600s trade route to Kyoto. This is a time capsule that never stopped moving.
+5/ No "cultural preservation board" stopped things. No "heritage tourism" budget. It's just a working city that accumulated history as it lived.
+6/ Bonus: Takaoka is also famous for its hyperlocal croquette culture and postwar factory heritage. This place gets weirder the longer you look.
+If you've found cities in Japan that don't try to be "cute"—just stubbornly authentic—share them. #Takaoka #JapanArchitecture #CastleTown #OffTheBeatenPath #ToyamaTravel
+
+=== rice-fields-thread ===
+1/ Right now in Toyama, the rice fields are turning from green to gold. It looks like the quietest month of the year. It's actually the most important one. 🌾🧵
+2/ What looks idle is the plant's hardest work: flowering, pollinating, filling each grain with starch. This single month decides most of the year's yield and flavor.
+3/ Farmers watch two things obsessively: • Water — flood to swell the grain, then drain to firm the ground for machines • Typhoons — late Aug–Sept storms flatten heavy, ripening rice. Cut early or wait it out?
+4/ Walk the edge of a paddy now: a drier, faintly sweet smell, the rustle of hardening ears, dragonflies skimming low. Behind it, the 3,000m Tateyama range.
+5/ It's not a tourist sight. But this green-to-gold plain is the backbone of the region — and knowing what's happening in the field changes how a bowl of rice looks. #Toyama #Japan #rice #ruraljapan
+
+=== two-day-thread ===
+1/ The perfect 2-day Toyama itinerary: a fishing port and a castle town, sea to 3,000m mountains. One route, the whole prefecture. 🧵🇯🇵
+2/ DAY 1 — HIMI (the sea). Dawn fish auction. Breakfast from the morning's catch. Watch locals buy at the REAL market. Conveyor-belt sushi = whatever the sea gave today. Then drive 45 min south.
+3/ DAY 2 — TAKAOKA (history). Edo-era streets still lived in. Copper craftspeople using 400-year-old techniques. A 16m Buddha standing on a street. And lunch: a croquette SET — the croquette is the MAIN dish here.
+4/ Cost: ~¥54–88k/person ($370–600) incl. flight, car, 2 nights, meals. The only rule: surrender to the weather. Boats don't sail → you eat frozen. Rain → you read in a cafe. That's Toyama. #JapanTravel #Toyama #itinerary
+
+=== august-thread ===
+1/ August in Toyama runs differently from the rest of Japan. Two homecoming waves, festivals all month, and rice farmers who never stop. 🧵🎆
+2/ Most of Japan: one fixed Obon (mid-Aug), everyone returns home. Toyama: TWO waves — mid-Aug Obon, then late-Aug when local festivals pull people back again.
+3/ Meanwhile rice farmers don't rest. Peak-heat paddies need constant water management — dawn and dusk, every day, so the rice doesn't cook. A few days off for Obon, then back.
+4/ Festivals spread across the WHOLE month — neighborhood Bon-Odori, fireworks in different towns on different weekends. Not one big day. A whole season. That's Toyama in August. #Japan #Toyama #Obon #matsuri
+
+=== higanbana ===
+Every mid-September, red spider lilies (higanbana) suddenly line Japan's rice-paddy edges — a red line along the gold fields. Its oddity: flower and leaves never appear together. Folklore: the toxic bulb was planted to keep moles from the fields. #Japan #Toyama #higanbana
+
+=== tsukimi ===
+1/ Japan has a festival that's only about looking at the moon: tsukimi, the mid-autumn harvest moon. No fireworks, no stalls. You set out pampas grass, offer round dumplings, and just watch. 🌕🎑
+2/ The date follows the old lunar calendar (Sept–Oct), timed to when the air is clearest and the moon most beautiful. Its roots: gratitude for the rice harvest.
+3/ Susuki grass stands in for rice ears (a wish for a good crop). Round dumplings echo the moon. Offer taro too and it's the "potato moon." (Meanings vary — none definitive.)
+4/ In rice-country Toyama, a great moon rises over paddies just cut to brown stubble. In a life of notifications, a night meant only for watching the moon is its own luxury. #Japan #Toyama #tsukimi
+
+=== rail-compact-thread ===
+1/ Rural Japan keeps losing its local trains: fewer riders → service cuts → more people leave → lines abandoned. Toyama chose the opposite. 🚋
+2/ In Takaoka, a street tram runs past people's front doors. A coastal line reaches a seaside town on Toyama Bay. Everyday transport, not a tourist ride.
+3/ In Toyama City, a fading JR line was reborn as a modern low-floor LRT — north & south of the station joined so you can loop the centre. They bet on making rail EASIER, not smaller.
+4/ It's the "compact city" idea: cluster homes & services along the rails so people who can't drive still get around. Not a simple success — but a town that held onto its trains. #Japan #Toyama #compactcity
+
+=== pears-thread ===
+1/ Japanese pears are nothing like European ones. Round like an apple, pale inside, and SO full of water. You eat them firm and chilled — they snap with a crunch, juice bursting out. 🍐
+2/ That clean crisp bite comes from tiny grains in the flesh ("stone cells"). Not gritty — just crisp. No waiting for it to soften like a European pear.
+3/ Toyama isn't the most famous pear region, but it has its own pear country. Roadside stands sell the day's fruit by the box — bigger, cheaper, juicier than a city shop.
+4/ How to eat one: chill well, peel, cut into wedges, eat as is. Rarely cooked. On a warm September day, that cold dripping bite is the taste of summer ending in Toyama. #Japan #Toyama #nashi
+
+=== dual-income-thread ===
+1/ In Toyama, it's totally normal for both parents to work AND have kids. City visitors ask "how do you manage it?" Toyama has one of Japan's highest shares of dual-income households. 🏡
+2/ The reason isn't willpower — it's the shape of "home." High home ownership, big houses, and 3 generations under one roof: a share that's high by national standards.
+3/ While both parents work, grandparents are home — school runs, sudden fevers, the after-daycare gap. The "who watches the kids?" problem is solved inside the family.
+4/ Less a policy than a long-inherited habit: a big house, three generations, grandparents nearby. Changing slowly, but "raising kids as a whole family" still runs deep. #Japan #Toyama
+
+=== lion-dance-thread ===
+1/ Between Sept and Oct, flutes and drums start up across Toyama. Autumn festival season = shishimai, the lion dance. 🦁🎶
+2/ What surprises visitors isn't the dance — it's the number. One city holds many. The next hamlet has its own, and so does the one after that. Toyama has one of Japan's highest concentrations of troupes.
+3/ It was never made for tourists, so neighbouring troupes dance differently. Some lions have long cloth bodies with several people inside, rippling like one creature. A tengu or a child squares off against it.
+4/ And the lion comes to your door — down the lanes, dancing at each house. Performers are fewer each year, some troupes paused. Hear flutes on an autumn afternoon? Walk toward the sound. #Japan #Toyama #matsuri
+
+=== kurigohan-thread ===
+1/ Outside Japan, a chestnut becomes dessert: marrons glacés, Mont Blanc, roasted and sugared. In Japan the most common autumn treatment is different — the chestnuts go into the rice. 🌰🍚
+2/ Kurigohan = rice + chestnuts + a little salt. That's basically the whole recipe. Some add glutinous rice or a splash of sake. No sugar goes in.
+3/ Why no sugar? The explanation you hear: rice and chestnut are two different kinds of sweetness, and sugar would flatten the difference between them. Hard to prove — but one bite makes it plausible.
+4/ The catch is the peeling: a hard outer shell AND a bitter inner skin, both by hand. An hour of peeling for ten minutes of eating. People still do it, probably because the hour is the season. #Japan #japanesefood
+
+=== insect-voices-thread ===
+1/ Something changes in Toyama nights once September arrives. Open a window and a sound starts up out of the dark — insects. Japanese has a phrase for it: mushi no koe. Literally, the insects' VOICE. 🦗
+2/ Not chirping. Not noise. A voice. These autumn insects have long been treated as something to listen to — they appear in classical poetry and work as markers of the turning year.
+3/ (You may hear that Japanese people process insect sound "like language". That's disputed and far from settled, so I'll leave it aside.)
+4/ Japanese quiet doesn't always mean no sound. A night full of insect voices registers as quiet — a sound that's steady and asks nothing of you becomes part of the silence. #Japan #Toyama
+
+=== hoshigaki-thread ===
+1/ Walk through a Japanese autumn and you'll see rows of orange fruit hanging under the eaves. Dried persimmons. Here's the part people miss: that fruit couldn't be eaten when it was picked. 🍊
+2/ Japanese persimmons come in two kinds — the sweet sort you bite straight off the tree, and the astringent sort that leaves your mouth rough and your tongue numb (tannins). It's the astringent kind that gets hung up.
+3/ No sugar is used. You peel it, hang it, and wait. As it dries, the compounds behind the astringency are said to shift into a form the tongue stops registering, while the sugar concentrates. 2-3 weeks later: dense, confectionery-sweet.
+4/ It fails, too. Hokuriku autumns are humid; hung without a draught it moulds — hence the eaves, dry overhead with air moving through. Nothing added but time and wind. #Japan #Toyama #japanesefood
+
+=== first-snow-thread ===
+1/ September in Toyama is still hot — short sleeves, warm evenings. And yet people keep glancing east, because the mountaintops are about to go white. 🏔️
+2/ Japan has a word for it: hatsu-kansetsu, the first day snow is confirmed lying on a summit. Not measured by climbing — a meteorological office looks up at the peak from a fixed point below and announces what it sees.
+3/ The bay drops off steeply near shore; the shoreline itself is essentially zero elevation. Look east and peaks approaching 3,000m start a short way inland, with little in between. Sea and snow can sit in the same view.
+4/ It reads less as "winter is here" than "autumn starts moving now" — about a month to cold mornings after that. Come in Sept-Oct, stand at the shore, face east. Summer at your feet, winter at the top. #Japan #Toyama
+
+=== ginnan-thread ===
+1/ Late September in Japan, a street can hit you with a smell that is, to put it mildly, not a good one. It's ginkgo fruit — dropped, stepped on, burst. The surprising part is what happens next: people gather it and eat it. 🌳
+2/ Not the flesh. The seed inside. Soak the fruit, wash the flesh off, and you get a hard white shell; crack it and a thin-skinned kernel comes out, which turns jade-green once cooked. That's ginnan.
+3/ Never eaten raw — always roasted or toasted. The prep is a nuisance: the smell sticks to your hands, and handling the raw flesh bare-skinned is said to irritate the skin, hence the gloves. Roasted, it's nothing like the smell: faintly bitter, chewy, late sweetness.
+4/ People also say don't overdo it, children especially — old, widely shared caution, so it's eaten a few at a time by design. What gets me: it sits in shops AND lies on the pavement. Food you pick up before you buy it. #Japan #Toyama
+
+=== snow-melt-thread ===
+1/ Winter talk starts early in Toyama. Snow is still some way off, and yet the roads are already being checked during the autumn. Not the snowploughs — the road surface itself. ❄️
+2/ Walk a street in Hokuriku and you'll see small holes at regular intervals down the middle of the lane. Not manholes. In winter, water comes UP out of them, wets the asphalt, and melts snow as it lands.
+3/ Mostly groundwater, I'm told. It sits near the same temperature all year, so in winter it arrives warmer than the air — warm enough to melt what lands. Not free, though: heavy pumping raises questions about the ground, and some areas have rules or shared wells.
+4/ Clearing snow usually means moving it — push, truck, find somewhere to put it. This stops it existing on the road at all, which means laying pipework: into new roads, or into old ones by cutting the surface open. Autumn's inspection is the rehearsal. #Japan #Toyama
+
+=== nameko-thread ===
+1/ Autumn puts mushrooms in the miso soup here, and the days with nameko are different: the soup itself goes thick. That thickness is slime off the mushroom — and yes, that's the point of it. 🍄
+2/ Slippery isn't much of a selling point in most countries, I gather — which is why this is the dish I stumble over explaining. Here it's the reason the mushroom is in the bowl, and most people give nameko a quick rinse at most; scrub it off and half the point goes.
+3/ Japan has a whole category like this: natto, grated yam, okra, mekabu — all valued for exactly what would count against them elsewhere. Why? I genuinely don't know. But there seems to be an extra axis for texture: not just firm/soft, but slick and thick as their own good.
+4/ It's awkward at first — they slide off your chopsticks, and thickened miso soup runs hotter than it looks. Upside: stock, mushrooms, tofu, miso. Five minutes. The chestnut rice takes an hour of peeling; this is the same season at the other end. #Japan #Toyama
+
+=== evening-chime-thread ===
+1/ Every late afternoon in Toyama, music arrives — not from a house, but from loudspeakers high above the town, aimed at all of it at once. First-timers brace for an alarm. It's only announcing the time. 🔊
+2/ The hardware belongs to the municipality and exists for emergencies. The explanation you hear for the daily chime: it doubles as a test that the system still works when nothing is wrong.
+3/ The tune varies by place, often a children's song. So does the hour — some towns shift it with the season, later in summer, earlier as autumn comes, tracking when it gets dark. In most places it reads as "time to head home", and you can watch a park empty out as it plays.
+4/ What gets me is that it names nobody. Not "so-and-so, come home" — just music belonging to no one, so each person takes what applies. Not everyone's charmed; some find it noisy. But for that moment the whole town is on one clock. #Japan #Toyama
+
+=== yakiimo-thread ===
+1/ Baked sweet potato tastes different in Japan now than it did 20 years ago. Same name, largely a different food. 🍠
+2/ The old sort was floury — split it, steam came out, it crumbled in your mouth and made you want a drink. What's roasted in front of shops today is dense and wet at the cut, clinging to the tongue like syrup.
+3/ The explanation given: varieties grown for sale turned over, starchy → sweeter and moister, roughly over two decades. Not everyone's pleased — people raised on the floury kind find these too sweet, and it's the shop mainstream that changed, so "fewer options" is fair.
+4/ Buying one is a small act of choosing now: the variety name is on the label, and you pick dense or floury. I can't keep the names straight, so I ask whoever's at the oven which is sweeter. Handed over in newspaper, hot enough to warm your hands. #Japan #Toyama
+
+=== early-foliage-thread ===
+1/ The Japanese foliage photos that travel are from Kyoto in November. On the flat that's about right. But in Toyama there are places where autumn colour starts in September — the high ones. 🍁
+2/ Above 2,000m on the Tateyama range it's cold enough to run a different schedule. Rowan of some kind reddens first, then the grassland goes yellow to red-brown, with creeping pine holding green in between. One slope, all three.
+3/ Peak timing moves around — late September some years, October in others, weather depending. No date guarantees it. And early colour is really early cold: strong September wind can call for winter kit, and when the weather turns the view just goes.
+4/ Living here you get autumn twice: once on the mountain, once where you actually live, roughly six weeks apart. The calendar calls both autumn. The altitude disagrees. #Japan #Toyama
+
+=== sanma-thread ===
+1/ Watched several people walk straight past the boxes of saury at the fishmonger. Slightly odd to see — sanma is THE autumn fish in Japan. In Toyama it just isn't the only candidate. 🐟
+2/ The standard treatment: salt, grilled whole. Head and tail on, guts left in, eaten bitter parts and all, with grated daikon. Visitors are startled twice — that it arrives entire, and that the bitter innards are kept on purpose.
+3/ Catches have been poor in recent years, from what I hear, and it costs more than it used to. Sea temperature, changed migration — I can't vouch for the reasons. But "the autumn when saury is cheap" isn't something to count on now.
+4/ The Toyama part: the bay is deep and what it yields shifts by season — whelk, oval squid, filefish, with red snow crab and yellowtail further on. Not that saury is worse; there's just more beside it. Inland it'd be the whole season in one fish. #Japan #Toyama
+
+=== snow-electricity-thread ===
+1/ Most people rarely think about where their electricity comes from. I don't either, most days. In Toyama there are a few moments a year when you're reminded — and they happen while it's snowing. ❄️⚡
+2/ 3,000m mountains along the eastern edge, a short run to the sea: steep rivers, which suit hydro because the same water falls further. And those mountains take a lot of snow — which doesn't run off at once, it melts out over months.
+3/ Height, plus water that keeps coming. Hydro's been generated here a long time, and its share of the prefecture's *generation* is said to be on the high side. (No figure from me — it moves year to year.) Not all of it is hydro, mind: there's big thermal here too.
+4/ Snow here is normally discussed as a nuisance. But the same snow ends up as the light in a room months later. Not an unmixed good — dams put landscapes under water, and settlements have been moved for such projects in Japan. The chain here is legible, though. #Japan #Toyama
+
+=== ohagi-thread ===
+1/ Some foods here change name with the season. Rice pounded half-way, wrapped in sweet red bean paste: in autumn it's called ohagi, in spring the exact same thing is botamochi. 🌾
+2/ The usual explanation is that each name comes from a seasonal flower — bush clover, then peony. Plausible; there are competing accounts and I wouldn't swear to it. Nobody polices the distinction anyway, and some shops sell it as ohagi all year.
+3/ It belongs to the equinox week in late September, when a great many households visit family graves. It's made for the household altar — and once offered, it just becomes the afternoon snack. Ritual and ordinary eating run straight into each other.
+4/ The problem in Toyama is volume. Ohagi made in various houses starts circulating: some from relatives, some from neighbours, ours going out. Three kinds in the fridge and nobody remembers whose is whose. Rice, beans, sugar — that's the whole recipe. #Japan #Toyama
+
+=== butsudan-kamidana-thread ===
+1/ There's a Buddhist altar in our living room. High up near the kitchen, same house, there's a Shinto shelf. Explaining this abroad defeats me every time — "practising two religions" isn't quite what's happening. 🕯️
+2/ They do different jobs. The butsudan is where you face family members who've died; it holds memorial tablets, gets water, flowers, food. The kamidana handles the household's safety and daily business: rice, salt, water.
+3/ Someone puts their hands together at the altar before leaving in the morning, then changes the water on the shelf. No contradiction is being felt. Plenty of homes have neither, or one; practices differ by sect. I can't generalise past my own house.
+4/ Shinto and Buddhism were intermingled here for centuries, then separated by state policy in Meiji — inside houses the mixture stayed put. The shelf is high and in view; the altar's doors are usually shut. One visible, one not, same morning routine. #Japan #Toyama
+
+=== satoimo-thread ===
+1/ Peeling taro makes my hands itch. I forget this every year and remember it every year. Fine crystals in the corm, apparently — how badly it gets you depends on the person. 🥔
+2/ It arrives still covered in soil, because unwashed keeps better. In Toyama it arrives by the boxful: dug by a relative, over-bought at a farm stand, parked on newspaper in the corner of the kitchen.
+3/ The good part is how it grows. A big parent corm underground with smaller ones clustered around it, sometimes a third tier outside those. Dig, and the whole bunch lifts together. Said to be why it counts as auspicious — though that doesn't look settled.
+4/ Simmered in dashi and soy until the liquid reduces to a gloss, at which point it slides off your chopsticks. Slippery surface: kept in soups, often parboiled off for a simmer. Stickier than potato, less sweet than sweet potato, not floury. #Japan #Toyama
+
+=== water-channels-thread ===
+1/ Signs beside the water channels here read "danger of falling in." You see them often in Toyama. The fact that it needs writing means people do fall in — this isn't a subject I can write as scenery. ⚠️
+2/ Toyama is laced with agricultural channels, built to water the rice fields, and they run straight through residential areas. Between houses, along pavements. Some 30cm across; some wide enough that an adult who went in wouldn't climb out alone.
+3/ The water is faster than it looks. Short distance from mountains to sea means the land tilts, so it picks up speed on its own; more of it after snowmelt or rain. Long stretches have no railing. You tell children to keep away and ride your bike further from the edge.
+4/ Living near one, you stop hearing it. I never notice — until the day the flow was shut off for works and the house was so quiet I couldn't settle. I walk past a sign saying it's dangerous without thinking it's dangerous. Not a good state to be in. #Japan #Toyama
+
+=== akatombo-thread ===
+1/ The red dragonflies around my house right now weren't here over the summer. Numbers jump in autumn — and it took me until adulthood to learn they hadn't multiplied. They came back. 🍂
+2/ Some of the dragonflies called akatombo emerge in early summer from lowland rice paddies, move up to cooler high ground for the hot months, then descend once it cools and breed down in the paddy country again.
+3/ In Toyama that high ground is right next door: mountains along the eastern edge, in view from the flat and a short drive to start climbing (the summering belt is hill country, not the high ridge). "Akatombo" isn't one species either — not all of them make this trip.
+4/ Not every individual goes red — males colour deeply, females often stop at orange. Evenings they fly low, and like the end of a washing pole. People say there are fewer now; I half feel it, but children watch insects closely, so my memory isn't evidence. #Japan #Toyama
+
+=== shinsoba-thread ===
+1/ Honestly: I can't tell new-crop soba from ordinary soba. The shin-soba banners go up outside the shops every autumn, I've gone in because of one, and I've still never eaten the two side by side. 🍜
+2/ Buckwheat has two cropping seasons, summer and autumn — not two harvests off one field — and the autumn one usually gets the name. Said to smell better. I write "said to" because hearing it said is all I have.
+3/ Aroma also drops with time since milling, cutting, boiling. If that's right, how the shop worked that day may matter more than how new the grain is. Amateur's guess. Toyama is rice country — I've rarely heard it discussed as a buckwheat producer, though it is grown here.
+4/ Jūwari is pure buckwheat; nihachi is 20% wheat flour, there to bind, not to cut corners. Said to be stronger-smelling vs smoother. A 20% difference with a name of its own — if bread flour ratios were named I'd never remember them. #Japan #Toyama
+
+=== akebi-thread ===
+1/ A pod, split lengthways, packed with something white. This is akebi — it ripens on a vine in the hills in autumn and gets picked once it has opened like that. Usually purple outside, sometimes greenish. 🍇
+2/ You eat the white flesh inside: jelly-like, sweet but thinly so. The catch is that nearly all of it is attached to seeds. Piece in the mouth, work the sweetness off, spit the seeds out. Closest relative in procedure: the pomegranate.
+3/ In some places it's the skin that gets eaten instead — bitter, so it's stuffed and fried or grilled. I've never tried it. Same fruit, and which half you eat depends on where you are. I wouldn't call either one the correct answer.
+4/ I've almost certainly never bought one. In Toyama the hills start right behind the flat, so things from up there reach lowland kitchens by being handed person to person rather than entering a supply chain. Ours turns up on the counter, provenance unknown. #Japan #Toyama
+
+=== sports-day-thread ===
+1/ We leave the house before six on school sports day. Events start at nine. The reason is the ground: families spread a sheet round the edge of the yard to claim a place to sit, and earlier means better. 🏃
+2/ The whole school competes outdoors — sprints, relays, tug of war, beanbags into a raised basket, dance pieces by year group. Parents watch, grandparents too, and that assumption of an audience is what produces the dawn queue.
+3/ Not everywhere though. Some schools ban the practice outright, others run a ballot, and it already differs between schools near us. Don't picture the whole country lined up at six.
+4/ Half-days are more common now; a September yard is hot, and some schools moved the event to spring or dropped the human-pyramid displays on safety grounds. The track is marked in lime, so the lines go with the next rain. #Japan #Toyama
+
+=== matsutake-thread ===
+1/ I've looked at the price and put it back on the shelf. More than once. Matsutake turns up in shops every autumn and I have never bought one with my own money. 🍄
+2/ Domestic ones can cost what several meals out would. Imported ones are more reachable — China, Canada, the US, Turkey. The country of origin is on the label, which is where a lot of people first learn it comes from more than one place.
+3/ It's said to be about aroma rather than flavour. Honestly, I don't know that aroma well. I know soup powders and products flavoured to resemble it. Whether that matches the real thing I couldn't say, never having compared them.
+4/ Nobody says where it grows. Woodland has owners, and a spot that becomes known stops producing, so the information stays in a small circle. Akebi and other mushrooms travel hand to hand down to lowland kitchens here. Matsutake alone doesn't. #Japan #Toyama
+
+=== rice-harvest-thread ===
+1/ The gap between the paddies turning yellow and the paddies being cut is shorter than you'd expect. A few days of colour changing, then the machines arrive. Not much of a waiting period. 🌾
+2/ On the day itself it's the loudest the fields get all year. A combine cuts, threshes and holds the grain in one pass, low continuous noise from morning to evening. Windows shut, you still know someone is cutting today.
+3/ Birds circle for the insects the cutting flushes out — a white heron will walk along directly behind the machine. Afterwards the smell changes: cut green plant and damp soil, plus dry-grain dustiness if a drying facility is near.
+4/ Hasagake — stalks hung on frames to sun-dry — is all over the photographs and rare around here now. When you do see one it catches the eye, and it catching the eye as "the old way" is the point. Birds come down on the stubble like part of the tidying. #Japan #Toyama
+
+=== ikura-thread ===
+1/ It takes about an hour to separate the eggs, one at a time. In autumn the fishmongers here put out nama-sujiko — an intact salmon roe sac, unprocessed — and the job at home is to break it down and cure it. 🍣
+2/ The eggs are held on a thin membrane. Warm water loosens it; some use salt water, some their fingers, some a whisk. I use warm water — which isn't the same as saying that's correct. It's the kind of task your hands settle into after a few attempts.
+3/ The water clouds white and the eggs go briefly pale before coming back. First-timers apparently assume they've ruined it right there. Then: soy sauce, sake, mirin, proportions varying by household, a few hours, done.
+4/ Fresh from the cure the skins are soft and burst easily; a day later the flavour deepens and they firm up. Toyama is more a yellowtail place than a salmon one, but the roe sacs turn up every autumn without fail. #Japan #Toyama
+
+=== kinmokusei-thread ===
+1/ The flowers are startlingly small — each about the size of a rice grain, orange, packed along the branches. Standing under the tree it doesn't feel like looking at large flowers at all. 🌼
+2/ What's odd about kinmokusei is the order you notice it in: the smell arrives before the sight. It reaches you before you've turned the corner, and when you look up there's the tree. You don't find the flowers — the smell tells you where they are.
+3/ There's a particular association here: the scent was widely used in Japanese toilet air fresheners, so it can send people straight to a memory of a bathroom. Depends on your age. The flower came first and the product copied it — yet memory runs the other way.
+4/ The flowering is brief: late September into October, a week or ten days. Rain brings the lot down at once, and often what tells you it's over is the orange patch on the ground. Not a flower you go to see — one that comes to you. #Japan #Toyama
+
+=== autumn-aubergine-thread ===
+1/ *Aki-nasu wa yome ni kuwasu na* — "don't feed autumn aubergines to the bride" — is a saying almost everyone in Japan has heard, and it comes with two readings pointing in opposite directions. 🍆
+2/ The unkind reading: autumn aubergines are delicious, so the mother-in-law keeps them from her son's wife.
+3/ The kind reading: aubergines are said to cool the body, so a considerate household spares her; another version points at autumn fruit having fewer seeds, and the bad omen that implies.
+4/ The same sentence works as cruelty and as care, and I can't tell which came first. There's even a reading where *yome* isn't a bride but *yo-me*, an old word said to mean rats. Meanings get added afterwards.
+5/ Set the proverb aside and the vegetable really is different in autumn: firmer skin, denser flesh, less water, a sweetness that shows up under heat. #Japan #japanesefood #Toyama
+
+=== umbrella-habit-thread ===
+1/ Four umbrellas stand in our hall. Nobody in the house can account for more than one or two of them. I bought one, at some point. Another belonged to somebody here. The rest are unexplained. ☔
+2/ They arrive by a simple mechanism: being caught out is worse than owning too many, so you scatter them — the hall, the workplace, a folding one in the bag, one left at school for years.
+3/ Scattering them means losing count. So one wet afternoon you decide you have none with you and buy another from a convenience store. That one joins the hall.
+4/ The longer one stands there, the vaguer its ownership. You take whichever is nearest the door; nobody comes to reclaim it. A bent rib doesn't get it thrown out either — it just stops being chosen.
+5/ Most days I carry one and never open it. The weight argues for leaving it; I take it anyway. A soaked day stays with you far longer than a day carrying something you didn't need. #Japan #Toyama
