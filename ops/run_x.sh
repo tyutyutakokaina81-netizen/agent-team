@@ -122,20 +122,18 @@ PYEOF
 fi
 
 if [ "$ARG" = "--manual" ]; then
+  # ★2026-10-02: ここは長く「投稿しましたか？ y/」と対話で聞いていた。
+  #   owner はコマンドを貼り付けて実行するので、**4回続けて read が空回答で確定**し、
+  #   投稿しても記録が残らなかった。バッファを捨てる・/dev/tty から読む、どちらも効かなかった。
+  #   **対話プロンプトを直すのをやめる**。文面を出す口と、記録する口を分ける
+  #   （run_reddit.sh と同じ形。そちらはこの形で一発で通った）。
   echo "=== APIを使わずに投稿する（文面を出すだけです）==="
-  # ★2026-09-23: 1回のコマンドで1本しか進まず、42本を消化するのに42回打つ必要があった。
-  #   1回の実行のなかで「投稿した→次を出す」を繰り返せるようにする。
-  #   `q` か空 Enter でいつでも抜けられる。記録は1本ごとに行うので、途中で抜けても消えない。
-  MANUAL_DONE=0
-  while : ; do
   "${VPY}" - <<'PYEOF'
-import os, re, sys
+import sys
 sys.path.insert(0, "ops")
 from x_poster import parse_threads, QUEUE
 th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"] and not t["blocked"]]
 if not th:
-    # ★2026-09-23: ここは python の終了であって bash の終了ではない。
-    #   繰り返しに変えたので、**残り0本を bash 側に伝える**必要がある（3 で返す）。
     print("未投稿のスレッドがありません。"); sys.exit(3)
 t = th[0]
 print(f"\n--- 次のスレッド: {t['slug']}（{len(t['tweets'])}ツイート／残り {len(th)} 本）---\n")
@@ -143,61 +141,20 @@ for i, tw in enumerate(t["tweets"], 1):
     print(f"[{i}/{len(t['tweets'])}] ({len(tw)}字)")
     print(tw)
     print()
-print("※2つ以上ある場合は、1つ目を投稿→その投稿に返信する形で2つ目…とつなげるとスレッドになります。")
-# 1つ目の本文だけを別ファイルに出す。呼び側が pbcopy でクリップボードへ入れる。
+if len(t["tweets"]) > 1:
+    print("※1つ目を投稿→その投稿に返信する形で2つ目…とつなげるとスレッドになります。")
 open("/tmp/.x_next_tweet.txt", "w", encoding="utf-8").write(t["tweets"][0])
 PYEOF
-  if [ $? -eq 3 ]; then break; fi     # 残り0本＝繰り返しを抜ける
-  # macOS ならクリップボードへ入れる＝**X の投稿欄に ⌘V するだけ**で済む。
+  if [ $? -eq 3 ]; then exit 0; fi
   if command -v pbcopy >/dev/null 2>&1 && [ -f /tmp/.x_next_tweet.txt ]; then
     pbcopy < /tmp/.x_next_tweet.txt
     echo "📋 1つ目の本文をクリップボードにコピーしました（X の投稿欄で ⌘V）"
   fi
   echo "   投稿画面: https://x.com/compose/post"
   echo ""
-  # ★2026-10-02: ここで **3回続けて「記録していません」で終わっていた**。
-  #   owner はコマンドを2行まとめて貼り付けて実行する。貼り付けた改行が端末の入力バッファに
-  #   残ったまま read に届くので、**本人が打つ前に空回答で確定していた**。
-  #   ①バッファに残っている分を捨ててから聞く ②端末から直接読む（/dev/tty）。
-  #   ※それでも駄目なら、あとから `bash ops/run_x.sh --posted` で記録できる（下記）。
-  while IFS= read -r -t 0.2 _flush < /dev/tty 2>/dev/null; do :; done
-  printf "投稿しましたか？ 記録します（y を入れると投稿済みにします / それ以外は何もしません）: "
-  IFS= read -r YN < /dev/tty 2>/dev/null || IFS= read -r YN
-  if [ "$YN" = "y" ] || [ "$YN" = "Y" ]; then
-    "${VPY}" - <<'PYEOF'
-import os, sys, datetime
-sys.path.insert(0, "ops")
-from x_poster import parse_threads, QUEUE, LOG
-th = [t for t in parse_threads(QUEUE) if not t["posted"] and t["tweets"] and not t["blocked"]]
-if th:
-    slug = th[0]["slug"]
-    txt = open(QUEUE, encoding="utf-8").read()
-    open(QUEUE, "w", encoding="utf-8").write(
-        txt.replace(f"=== {slug} ===", f"=== {slug} [POSTED] ===", 1))
-    os.makedirs(os.path.dirname(LOG), exist_ok=True)
-    with open(LOG, "a", encoding="utf-8") as f:
-        f.write(f"{datetime.datetime.now().isoformat()}\t{slug}\tmanual\n")
-    print(f"✅ 記録しました: {slug}（手動投稿）")
-PYEOF
-    MANUAL_DONE=$((MANUAL_DONE + 1))
-    echo ""
-    printf "続けて次のスレッドを出しますか？（y=次へ / それ以外=終了）: "
-    IFS= read -r NEXT
-    if [ "$NEXT" = "y" ] || [ "$NEXT" = "Y" ]; then
-      echo ""
-      continue
-    fi
-    break
-  else
-    echo "（記録していません。次回も同じスレッドが出ます）"
-    break
-  fi
-  done
-  if [ "$MANUAL_DONE" -gt 0 ]; then
-    echo ""
-    echo "== この実行で ${MANUAL_DONE} 本を投稿済みにしました。記録を code に渡します =="
-    push_records
-  fi
+  echo "投稿したら、これで記録してください:"
+  echo "    cd ~/agent-team-run && bash ops/run_x.sh --posted"
+  echo "（記録しないと、次も同じスレッドが出ます）"
   exit 0
 fi
 

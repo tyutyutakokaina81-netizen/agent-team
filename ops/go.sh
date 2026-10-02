@@ -135,6 +135,9 @@ else
   #   投稿済みのスレッドは残るので、作り直しても実績は消えない。
   python3 ops/build_x_queue.py --go | tail -3
   bash ops/run_x.sh --manual
+  echo ""
+  echo "   ※ X に出したら、**別コマンドで記録**してください（対話では聞きません）:"
+  echo "       cd ~/agent-team-run && bash ops/run_x.sh --posted"
 fi
 
 echo ""
