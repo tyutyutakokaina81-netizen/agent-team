@@ -82,6 +82,9 @@ done < "$TODO"
 
 echo ""
 echo "== 結果: 追記 ${OK}本 / すでに英語あり ${SKIP}本 / 失敗 ${NG}本 =="
+# ★2026-10-02: todo は実行の**最初**に作るので、go.sh の 5) が**実行前の数**を「残り」として
+#   表示していた（8本処理したのに 70本のまま）。終わったら作り直して、残りを本当の数にする。
+python3 ops/build_english_todo.py >/dev/null 2>&1 || true
 if [ -n "${NOGIT}" ]; then echo "ログ: ${LOG}"; exit 0; fi
 echo "== code に渡す（commit & push）=="
 git add -A ops/english_backfill_done.tsv ops/logs CDO/outputs/note_publisher/_before_update 2>/dev/null
