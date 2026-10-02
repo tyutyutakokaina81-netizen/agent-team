@@ -135,7 +135,14 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg/1280px-Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-02_note記事_月30万への挑戦の途中経過": "wikimedia",
-"2026-06-02_note記事_顧客の声をどう拾うか": "wikimedia",
+"2026-06-02_note記事_顧客の声をどう拾うか": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"notebook coffee desk"
+],
+"tried": 3
+},
 "2026-06-02_note記事_鯖のへしこ_北陸の発酵保存食": {
 "author": "Goumisao",
 "backend": "wikimedia",
@@ -145,7 +152,17 @@
 "query": "fermented fish",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Ngari_aka_fermented_fish..JPG/1280px-Ngari_aka_fermented_fish..JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-03_note記事_五箇山豆腐_縄でしばれる固さ": "wikimedia",
+"2026-06-03_note記事_五箇山豆腐_縄でしばれる固さ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"豆腐",
+"木綿豆腐",
+"tofu block",
+"tofu"
+],
+"tried": 3
+},
 "2026-06-03_note記事_水曜の気力切れにどうするか": {
 "author": "joanne clifford",
 "backend": "wikimedia",
@@ -167,7 +184,14 @@
 },
 "2026-06-04_note記事_テンプレVol1を売ってわかったこと": "wikimedia",
 "2026-06-04_note記事_営業しないで仕事が来る仕組み": "wikimedia",
-"2026-06-04_note記事_富山の地酒_水と米の風土": "wikimedia",
+"2026-06-04_note記事_富山の地酒_水と米の風土": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese sake"
+],
+"tried": 3
+},
 "2026-06-04_note記事_称名滝_落差350mの日本一": {
 "author": "ChampagneFight",
 "backend": "wikimedia",
