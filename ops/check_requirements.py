@@ -1444,12 +1444,31 @@ _TOYAMA_WORDS = ("富山", "高岡", "氷見", "北陸", "立山")
 # 公開直後はキューが空になるので、平常時はほぼ常に空振りのOKを出し続ける＝典型的な「対象0件＝合格」。
 # 対象が無いときは OK ではなく **STALE（未検査）** と言う。
 _queue_files = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
+# ★2026-10-02（オーナー指示「富山の紹介は紹介、お取り寄せはお取り寄せとして紹介」）:
+#   「全国のお取り寄せ」シリーズは**富山の記事ではない**。その土地のものとして閉じるのが正で、
+#   富山の記述を混ぜるほうが指示違反になる。だからこのシリーズは富山語の有無では判定しない。
+#   代わりに **タグの地域が本文に出てくるか**を見る＝「地域タグに根拠があるか」という
+#   R18 本来の目的はそのまま保つ（富山かどうかではなく、名乗った土地のことを書いているか）。
+_SERIES_MARK = "シリーズ「全国のお取り寄せ」"
 _offstar = []
 for _f in _queue_files:
     _b = os.path.basename(_f)[:-3]
     _t = open(_f, encoding="utf-8").read()
     _m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, re.S) if "re" in dir() else None
     _body = _m.group(1) if _m else _t
+    if _SERIES_MARK in _t:
+        # タグに書いた都道府県が本文に出ているか（例: #静岡 なら本文に「静岡」）
+        _tm = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", _t, re.S)
+        _pref = [x.lstrip("#") for x in re.findall(r"#\S+", _tm.group(1))] if _tm else []
+        _pref = [x for x in _pref if x.endswith(("県", "都", "府")) or x in (
+            "北海道", "青森", "岩手", "宮城", "秋田", "山形", "福島", "茨城", "栃木", "群馬",
+            "埼玉", "千葉", "東京", "神奈川", "新潟", "富山", "石川", "福井", "山梨", "長野",
+            "岐阜", "静岡", "愛知", "三重", "滋賀", "京都", "大阪", "兵庫", "奈良", "和歌山",
+            "鳥取", "島根", "岡山", "広島", "山口", "徳島", "香川", "愛媛", "高知", "福岡",
+            "佐賀", "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄")]
+        if _pref and not any(x.rstrip("県都府") in _body for x in _pref):
+            _offstar.append(_b + "（お取り寄せ：タグの土地が本文に出てこない）")
+        continue
     if not any(w in _body for w in _TOYAMA_WORDS):
         _offstar.append(_b)
 if not _queue_files:
