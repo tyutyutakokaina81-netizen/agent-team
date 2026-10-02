@@ -133,20 +133,28 @@ body = bm.group(1).strip() if bm else ""
 if url:
     body = body + f"\n\n{url}"
 
-print(f"\n--- 次の素材: {os.path.basename(path)[:56]}（残り {len(pending)}本）---\n")
-print(f"[板]   {sub}")
-if len(secs) > 1:
-    print(f"       （この素材には他に {', '.join(s for s, _ in secs[1:])} 向けもあります）")
-print(f"\n[題名] {title}\n")
-print("[本文]")
-print(body)
-print("")
-if not url:
-    print("⚠ note の URL が引けませんでした（まだ公開されていない記事の素材かもしれません）")
-print(f"投稿先: https://www.reddit.com/{sub}/submit")
-print("")
-print("※ **1日1本まで**。まとめて出すと自己宣伝と見なされます。")
-print("※ 初めて出す板は、先に板の規則を読むこと。")
+QUIET = (MODE == "--posted")   # 記録するだけのときに本文を出し直さない（画面が2回同じになる）
+if QUIET:
+    print(f"\n記録する素材: {os.path.basename(path)[:56]}")
+    print(f"板          : {sub}")
+    if url:
+        print(f"記事        : {url}")
+print(f"\n--- 次の素材: {os.path.basename(path)[:56]}（残り {len(pending)}本）---\n" if not QUIET else "", end="")
+if not QUIET:
+    print(f"[板]   {sub}")
+if not QUIET:
+    if len(secs) > 1:
+        print(f"       （この素材には他に {', '.join(s for s, _ in secs[1:])} 向けもあります）")
+    print(f"\n[題名] {title}\n")
+    print("[本文]")
+    print(body)
+    print("")
+    if not url:
+        print("⚠ note の URL が引けませんでした（まだ公開されていない記事の素材かもしれません）")
+    print(f"投稿先: https://www.reddit.com/{sub}/submit")
+    print("")
+    print("※ **1日1本まで**。まとめて出すと自己宣伝と見なされます。")
+    print("※ 初めて出す板は、先に板の規則を読むこと。")
 
 open("/tmp/.reddit_next_body.txt", "w", encoding="utf-8").write(body)
 open("/tmp/.reddit_next_file.txt", "w", encoding="utf-8").write(os.path.basename(path))
