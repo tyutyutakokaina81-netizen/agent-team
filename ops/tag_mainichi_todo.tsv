@@ -2,12 +2,12 @@
 # 公開207本のタグを集計したら #毎日note が0本だった。note でいちばん大きいタグ面のひとつで、
 # 一日2本・231本公開という事実にも合う。中身に合わないタグは足さない（#今日の学び 等は足さない）。
 # 形式は set_tags.py と同じ: note_id <TAB> タグ。済んだ行は先頭に DONE が付く。
-n6c206ea3acc3	毎日note
-n2bbce7b0852c	毎日note
-n56f284ca4fbf	毎日note
-n025a57e50884	毎日note
-n23f95d4e25c9	毎日note
-n34a423bf25de	毎日note
+DONE	n6c206ea3acc3	毎日note
+DONE	n2bbce7b0852c	毎日note
+DONE	n56f284ca4fbf	毎日note
+DONE	n025a57e50884	毎日note
+DONE	n23f95d4e25c9	毎日note
+DONE	n34a423bf25de	毎日note
 ndeb612bc9ab8	毎日note
 n8b3773143166	毎日note
 na889c3862499	毎日note
