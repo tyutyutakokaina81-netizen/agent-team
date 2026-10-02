@@ -74,18 +74,67 @@ def main() -> int:
                 (BACKUP_DIR / f"{nid}_unpublish.txt").write_text(cur, encoding="utf-8")
                 print(f"  下げる前の本文を保存しました: {BACKUP_DIR / (nid + '_unpublish.txt')}")
 
-            found = None
-            for label in DRAFT_LABELS:
-                loc = page.get_by_text(label, exact=False)
-                try:
-                    if loc.count() > 0 and loc.first.is_visible():
-                        found = (label, loc.first)
-                        break
-                except Exception:
-                    continue
+            def _find():
+                for label in DRAFT_LABELS:
+                    for sel in (f'button:has-text("{label}")', f'[role="menuitem"]:has-text("{label}")'):
+                        try:
+                            loc = page.locator(sel).last
+                            if loc.count() > 0 and loc.is_visible(timeout=800):
+                                return (label, loc)
+                        except Exception:
+                            continue
+                    try:
+                        loc = page.get_by_text(label, exact=False).first
+                        if loc.count() > 0 and loc.is_visible(timeout=800):
+                            return (label, loc)
+                    except Exception:
+                        continue
+                return None
+
+            found = _find()
             if not found:
-                print("✗ 「下書きに戻す」に当たるものが画面にありません。")
-                print("  すでに下書きかもしれません。**何も押さずに終わります。**")
+                # ★2026-10-02 実測: 直接は見つからなかった。note は「…」のメニューの中に
+                #   入れていることがあるので、**開いてからもう一度探す**。
+                for opener in ("その他", "もっと見る", "メニュー", "設定"):
+                    try:
+                        b = page.get_by_role("button", name=opener)
+                        if b.count() > 0 and b.first.is_visible(timeout=800):
+                            print(f"  「{opener}」を開いて探します")
+                            b.first.click()
+                            page.wait_for_timeout(900)
+                            found = _find()
+                            if found:
+                                break
+                    except Exception:
+                        continue
+            if not found:
+                # **画面に何があるかを出す。** 見えないまま「無い」と言うと、次に何を直せばよいか
+                #   分からず、同じ往復を繰り返すことになる（9日間そうなっていた）。
+                print("✗ 「下書きに戻す」に当たるものが画面にありません。**何も押していません。**")
+                print("\n  画面に見えているボタン:")
+                try:
+                    btns = page.locator("button")
+                    seen = []
+                    for i in range(min(btns.count(), 60)):
+                        try:
+                            b = btns.nth(i)
+                            if not b.is_visible():
+                                continue
+                            t = (b.inner_text() or "").strip().replace("\n", " ")[:28]
+                            a = (b.get_attribute("aria-label") or "").strip()[:28]
+                            lab = t or a
+                            if lab and lab not in seen:
+                                seen.append(lab)
+                        except Exception:
+                            continue
+                    for x in seen:
+                        print(f"    - {x}")
+                    if not seen:
+                        print("    （1つも読めませんでした）")
+                except Exception as e:
+                    print(f"    （一覧を取れませんでした: {type(e).__name__}）")
+                print("\n  この一覧をそのまま Claude に貼ってください。押し先を特定します。")
+                print("  ※ すでに下書きなら、そもそも下げる必要はありません。")
                 return 2
             print(f"  見つけたもの: 「{found[0]}」")
 
