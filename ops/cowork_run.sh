@@ -322,13 +322,36 @@ _xq_out="$(python3 ops/build_x_queue.py --go 2>&1 || true)"
 echo "$_xq_out" | tail -3
 _xq_sum="$(echo "$_xq_out" | grep -m1 -E 'キューに入れる' || echo 'Xキューの行なし')"
 
+# ---- X の自動投稿（キーが入っていれば1日1本） ----
+# 2026-10-02: オーナー「自動でやって」。文面は毎日用意できているのに、投稿だけが手作業だった。
+#   キー（~/.x_keys.env）が入っていれば、ここで**1日1本だけ**投稿する。
+#   ・1日1本を超えない（自己宣伝と見なされないため）。
+#   ・キーが無ければ**何もせず、入れ方だけ報告に書く**。勝手に投稿済みにはしない。
+_x_post_sum="キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）"
+if [ -f "$HOME/.x_keys.env" ] && grep -q 'X_API_KEY="[^"]\+"' "$HOME/.x_keys.env" 2>/dev/null; then
+  _today="$(date +%F)"
+  _posted_today="$(grep -c "^${_today}T" ops/logs/x_posted.tsv 2>/dev/null || echo 0)"
+  if [ "${_posted_today:-0}" -ge 1 ]; then
+    _x_post_sum="今日はすでに ${_posted_today} 本投稿済み。追加しない（1日1本）"
+  else
+    # shellcheck disable=SC1090
+    . "$HOME/.x_keys.env"
+    _xp_out="$("$PYBIN" ops/x_poster.py --go 2>&1 || true)"
+    echo "$_xp_out" | tail -4
+    _x_post_sum="$(echo "$_xp_out" | grep -m1 -E '投稿|失敗|エラー' || echo '結果行なし')"
+  fi
+fi
+echo "X 自動投稿: ${_x_post_sum}"
+
 python3 ops/process_inbox.py post --from cowork --to code --type report \
   --title "毎日の積み残し（英語/フォロー導線/タグ/Xキュー） ${TS}" \
   --body "英語の追記: ${_en_sum}
 フォロー導線: ${_fl_sum}
 #毎日note: ${_tg_sum}
 Xキュー: ${_xq_sum}
-※ X は投稿していない（文面を用意しただけ）。投稿は owner が run_x.sh --manual → --posted。
+X 自動投稿: ${_x_post_sum}
+※ キーが入っていれば1日1本だけ自動投稿する。入っていなければ文面を用意するだけ。
+※ キーの入れ方: cd ~/agent-team-run && bash ops/run_x.sh --setup（ファイルが開くので4つ貼って保存）
 ※ 失敗が続くなら本数を増やさないこと。セレクタが当たっていない可能性がある。" || true
 
 git add -A

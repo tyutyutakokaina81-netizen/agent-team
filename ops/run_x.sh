@@ -175,7 +175,22 @@ KEYS
     chmod 600 "$KEYFILE"
     echo "作りました: $KEYFILE"
   fi
-  echo "→ このファイルを開いて4つの値を書いてから、もう一度 bash ops/run_x.sh を実行してください。"
+  echo ""
+  echo "→ いま開きます。**4つの \"\" の中に値を貼って、⌘S で保存**してください。"
+  echo "   ターミナルには何も打たなくて構いません（対話で聞くやり方は貼り付けだと途中で止まるのでやめました）。"
+  if command -v open >/dev/null 2>&1; then
+    open -e "$KEYFILE" 2>/dev/null || open "$KEYFILE" 2>/dev/null || true
+  fi
+  echo ""
+  echo "   保存したら、確認はこれだけ:"
+  echo "       cd ~/agent-team-run && bash ops/run_x.sh"
+  echo "   キーが入っていれば、**翌朝の便から自動で1日1本投稿します**（手で貼る作業は無くなります）。"
+  echo ""
+  echo "   キーの作り方:"
+  echo "     1. https://developer.x.com/en/portal/dashboard （Xのアカウントでログイン）"
+  echo "     2. 無料プラン(Free)で登録。用途は『自分のブログ記事の告知を自動投稿する』等でよい"
+  echo "     3. 自分のApp → User authentication settings → App permissions を **Read and write** に"
+  echo "     4. Keys and tokens で4つを発行（**権限を変えたら Access Token は作り直し**）"
   exit 0
 fi
 
