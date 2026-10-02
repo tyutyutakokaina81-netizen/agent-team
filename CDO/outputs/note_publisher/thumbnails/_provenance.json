@@ -231,8 +231,22 @@
 "2026-06-05_note記事_昆布じめ_刺身を昆布で寝かせる文化": "wikimedia",
 "2026-06-05_note記事_金曜夜にやる来週の予習5分": "wikimedia",
 "2026-06-06_note記事_SNSコンテンツカレンダーが必要な理由": "wikimedia",
-"2026-06-06_note記事_フリーランス月10万円を超えた7つの実例": "wikimedia",
-"2026-06-06_note記事_失敗を売るという発想": "wikimedia",
+"2026-06-06_note記事_フリーランス月10万円を超えた7つの実例": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"laptop desk work growth"
+],
+"tried": 3
+},
+"2026-06-06_note記事_失敗を売るという発想": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"notebook pen desk reflection"
+],
+"tried": 3
+},
 "2026-06-06_note記事_富山ます寿司_店ごとの違い": "wikimedia",
 "2026-06-06_note記事_氷見うどん_細さは漁師町の知恵": {
 "author": "Mantelmoewe",
@@ -252,7 +266,14 @@
 "query": "craft beer glass",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Dargett_Craft_Beer_%281%29.jpg/1280px-Dargett_Craft_Beer_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-07_note記事_新湊きっときと市場の朝": "wikimedia",
+"2026-06-07_note記事_新湊きっときと市場の朝": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Toyama bay sea coast japan"
+],
+"tried": 3
+},
 "2026-06-07_note記事_観光地に住んでいるということ": "wikimedia",
 "2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる": {
 "author": "くろふね",
@@ -2217,12 +2238,12 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Natto-kake_gohan4.jpg/1280px-Natto-kake_gohan4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-05_note記事_名古屋のおでん_味噌をかけて食べる": {
-"author": "Evelyn-rose",
+"author": "あおもりくま",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Hatcho-Miso-Kakukyu-4.jpg",
-"file": "File:Hatcho-Miso-Kakukyu-4.jpg",
-"license": "CC0",
-"query": "味噌樽",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Hatcho-Miso-Kakukyu-4.jpg/1280px-Hatcho-Miso-Kakukyu-4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%A4%E3%81%B6%E8%B2%9D%E5%85%A5%E3%82%8A_%E9%9D%92%E6%A3%AE%E7%94%9F%E5%A7%9C%E5%91%B3%E5%99%8C%E3%81%8A%E3%81%A7%E3%82%93P3070002.JPG",
+"file": "File:つぶ貝入り 青森生姜味噌おでんP3070002.JPG",
+"license": "CC BY-SA 3.0",
+"query": "味噌おでん",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/%E3%81%A4%E3%81%B6%E8%B2%9D%E5%85%A5%E3%82%8A_%E9%9D%92%E6%A3%AE%E7%94%9F%E5%A7%9C%E5%91%B3%E5%99%8C%E3%81%8A%E3%81%A7%E3%82%93P3070002.JPG/1280px-%E3%81%A4%E3%81%B6%E8%B2%9D%E5%85%A5%E3%82%8A_%E9%9D%92%E6%A3%AE%E7%94%9F%E5%A7%9C%E5%91%B3%E5%99%8C%E3%81%8A%E3%81%A7%E3%82%93P3070002.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
