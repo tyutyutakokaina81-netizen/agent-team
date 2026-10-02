@@ -40,7 +40,7 @@ People know Toyama for its sea fish — winter yellowtail, white shrimp, firefly
 ## ハッシュタグ
 
 ```
-#富山 #高岡 #鮎 #神通川 #夏の味覚 #塩焼き
+#富山 #高岡 #鮎 #神通川 #夏の味覚 #塩焼き #毎日note
 ```
 
 ## 事実検証ノート

@@ -178,8 +178,15 @@ def main():
     ap.add_argument("--max", type=int, default=0, help="この本数で止める（0=全部）")
     ap.add_argument("--no-update", action="store_true", help="タグを入れるだけで更新ボタンは押さない")
     ap.add_argument("--headless", action="store_true", help="画面を出さずに実行")
+    # ★2026-10-02: 対象リストを差し替えられるようにする。用途が増えたため
+    #   （①タグ0個のまま公開された記事 ②全記事に #毎日note を足す）。
+    #   同じファイルに混ぜると R23 が「タグ0個の記事が207本ある」と誤report する。
+    ap.add_argument("--todo", default="", help="対象リストのパス（既定 ops/tag_backfill_todo.tsv）")
     args = ap.parse_args()
 
+    global TODO
+    if args.todo:
+        TODO = Path(args.todo)
     todo = load_todo(args.only)
     # 下書きに戻した／削除した記事を弾く（2026-09-24 の誤再公開の再発防止）
     _blocked = [(n, _safety.blocked_reason(n)) for n, *_ in todo if _safety.blocked_reason(n)]

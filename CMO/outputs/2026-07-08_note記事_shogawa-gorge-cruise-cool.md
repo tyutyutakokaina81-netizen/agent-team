@@ -44,7 +44,7 @@ When the heat in Takaoka gets unbearable in July, one of my quiet escapes is a s
 ## ハッシュタグ
 
 ```
-#富山 #高岡 #砺波 #庄川峡 #遊覧船 #避暑 #夏の涼スポット
+#富山 #高岡 #砺波 #庄川峡 #遊覧船 #避暑 #夏の涼スポット #毎日note
 ```
 
 ## 事実検証ノート

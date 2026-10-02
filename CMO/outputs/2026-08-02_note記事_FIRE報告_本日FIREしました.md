@@ -60,7 +60,7 @@ An announcement: as of today, I have "FIREd" — Financial Independence, Retire 
 
 ## ハッシュタグ
 ```
-#FIRE #早期リタイア #セミリタイア #これからの生き方 #働き方 #人生の節目 #暮らしのエッセイ #高岡 #富山 #時間の使い方
+#FIRE #早期リタイア #セミリタイア #これからの生き方 #働き方 #人生の節目 #暮らしのエッセイ #高岡 #富山 #時間の使い方 #毎日note
 ```
 
 ## 事実検証ノート

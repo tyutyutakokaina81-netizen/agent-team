@@ -298,12 +298,14 @@ fi
 #
 #  ① 英語の追記 … note 上が日本語だけの公開済み記事に、本文末尾の英語要約を足す
 #  ② フォロー導線 … 「あわせて読む3本＋フォローの一言」を足す（公開210本中4%にしか無かった）
-#  ③ X キューの作り直し … 公開した記事が必ず X にも出るようにする（素材が無ければ本文から作る）
+#  ③ #毎日note … note でいちばん大きいタグ面のひとつ。公開207本で**0本**だった（一日2本という
+#     事実に合うタグなので足す。中身に合わないタグは足さない）
+#  ④ X キューの作り直し … 公開した記事が必ず X にも出るようにする（素材が無ければ本文から作る）
 #
 # ③ は投稿しない。**文面を用意するだけ**（投稿は owner が `run_x.sh --manual/--posted`）。
 # ①② は公開中の記事を編集するので、1日の本数を絞る。失敗が続くなら本数を増やさない。
 echo ""
-echo "=== 毎日の積み残しを減らす（英語／フォロー導線／Xキュー）==="
+echo "=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）==="
 _en_out="$(bash ops/backfill_english.sh --go --limit 6 --nogit 2>&1 || true)"
 echo "$_en_out" | tail -3
 _en_sum="$(echo "$_en_out" | grep -m1 -E '^== 結果:' || echo '結果行なし')"
@@ -312,14 +314,19 @@ _fl_out="$(bash ops/backfill_follow.sh --go --limit 6 --nogit 2>&1 || true)"
 echo "$_fl_out" | tail -3
 _fl_sum="$(echo "$_fl_out" | grep -m1 -E '^== 結果:' || echo '結果行なし')"
 
+_tg_out="$(bash ops/backfill_tags.sh --go --limit 6 --nogit 2>&1 || true)"
+echo "$_tg_out" | tail -3
+_tg_sum="$(echo "$_tg_out" | grep -m1 -E 'まだ足していない|結果' || echo 'タグの行なし')"
+
 _xq_out="$(python3 ops/build_x_queue.py --go 2>&1 || true)"
 echo "$_xq_out" | tail -3
 _xq_sum="$(echo "$_xq_out" | grep -m1 -E 'キューに入れる' || echo 'Xキューの行なし')"
 
 python3 ops/process_inbox.py post --from cowork --to code --type report \
-  --title "毎日の積み残し（英語/フォロー導線/Xキュー） ${TS}" \
+  --title "毎日の積み残し（英語/フォロー導線/タグ/Xキュー） ${TS}" \
   --body "英語の追記: ${_en_sum}
 フォロー導線: ${_fl_sum}
+#毎日note: ${_tg_sum}
 Xキュー: ${_xq_sum}
 ※ X は投稿していない（文面を用意しただけ）。投稿は owner が run_x.sh --manual → --posted。
 ※ 失敗が続くなら本数を増やさないこと。セレクタが当たっていない可能性がある。" || true

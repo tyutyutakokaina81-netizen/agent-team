@@ -46,7 +46,7 @@ In late June and early July, people in Toyama step outside after dark to watch f
 ## ハッシュタグ
 
 ```
-#富山 #高岡 #ホタル #夏の過ごし方 #用水路 #夜の散歩
+#富山 #高岡 #ホタル #夏の過ごし方 #用水路 #夜の散歩 #毎日note
 ```
 
 ## 事実検証ノート

@@ -42,7 +42,7 @@ Every July a heavy, barrel-shaped watermelon arrives at my door in Toyama — th
 
 ## ハッシュタグ
 ```
-#富山 #高岡 #入善ジャンボ西瓜 #夏の果物 #地元の食 #贈り物
+#富山 #高岡 #入善ジャンボ西瓜 #夏の果物 #地元の食 #贈り物 #毎日note
 ```
 
 ## 事実検証ノート

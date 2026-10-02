@@ -44,7 +44,7 @@ In Takaoka, I hang a small copper wind chime by the air conditioner even with th
 ## ハッシュタグ
 
 ```
-#富山 #高岡 #高岡銅器 #鋳物 #風鈴 #夏の音 #地場産業
+#富山 #高岡 #高岡銅器 #鋳物 #風鈴 #夏の音 #地場産業 #毎日note
 ```
 
 ## 事実検証ノート
