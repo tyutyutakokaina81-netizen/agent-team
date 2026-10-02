@@ -1,0 +1,55 @@
+== ① git lock 掃除（場所を問わず再帰削除・zsh安全）==
+== ② main 同期 ==
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Reset branch 'main'
+branch 'main' set up to track 'origin/main'.
+Your branch is up to date with 'origin/main'.
+本日(2026-10-02)のキュー記事なし → キュー全体を対象にします。
+
+========== 公開: 2026-10-01_note記事_ふつうのものの話を200本_どこから読んでもいい案内.md ==========
+📝 記事: 2026-10-01_note記事_ふつうのものの話を200本_どこから読んでもいい案内.md
+🏷️  タイトル: 富山から、ふつうのものの話を200本書いてきた。— 名所ではなく、毎日見ているもののこと
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-01_note記事_ふつうのものの話を200本_どこから読んでもいい案内.jpg
+🔖 ハッシュタグ: 7 個 (富山, 高岡, 暮らし, 日本の日常, note200本…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/na096464584e5/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-01_note記事_ふつうのものの話を200本_どこから読んでもいい案内.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+↩️  /publish/ へ直接遷移（フォールバック）: https://editor.note.com/notes/na096464584e5/publish/
+✅ ハッシュタグ 7 個を入力
+📚 マガジンに追加: 高岡・富山を歩く / 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/na096464584e5/publish/
+📒 published_registry.json に追記しました（234件）
+
+========== 公開: 2026-10-04_note記事_案山子_誰が立てたのか分からない.md ==========
+📝 記事: 2026-10-04_note記事_案山子_誰が立てたのか分からない.md
+🏷️  タイトル: 案山子：誰が立てたのか、分からないまま立っている
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-04_note記事_案山子_誰が立てたのか分からない.jpg
+🔖 ハッシュタグ: 7 個 (案山子, 田んぼ, 秋, 富山, 風景…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n57d70eac4bda/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-04_note記事_案山子_誰が立てたのか分からない.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 7 個を入力
+📚 マガジンに追加: 高岡・富山を歩く / 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n57d70eac4bda/publish/
+📒 published_registry.json に追記しました（235件）
+
+=== 結果: 公開 2 件 / 失敗 0 件 ===
