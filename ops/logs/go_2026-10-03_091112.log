@@ -1,0 +1,32 @@
+== ① git lock 掃除（場所を問わず再帰削除・zsh安全）==
+== ② main 同期 ==
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch            main       -> FETCH_HEAD
+Reset branch 'main'
+branch 'main' set up to track 'origin/main'.
+Your branch is up to date with 'origin/main'.
+本日(2026-10-03)のキュー記事なし → キュー全体を対象にします。
+
+========== 公開: 2026-10-05_note記事_名古屋のおでん_味噌をかけて食べる.md ==========
+📝 記事: 2026-10-05_note記事_名古屋のおでん_味噌をかけて食べる.md
+🏷️  タイトル: おでんに、味噌をかける。— 名古屋のおでん（お取り寄せ③）
+📸 写真placeholder: 1 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-05_note記事_名古屋のおでん_味噌をかけて食べる.jpg
+🔖 ハッシュタグ: 8 個 (愛知, 名古屋, おでん, お取り寄せ, B級グルメ…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n3db08c9f3e19/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-05_note記事_名古屋のおでん_味噌をかけて食べる.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 8 個を入力
+📚 マガジンに追加: 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n3db08c9f3e19/publish/
+📒 published_registry.json に追記しました（237件）
+
+=== 結果: 公開 1 件 / 失敗 0 件 ===
