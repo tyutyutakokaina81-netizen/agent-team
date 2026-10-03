@@ -1736,6 +1736,36 @@ try:
 except Exception as _e37:
     add("R37 本文の最低字数", "STALE", f"判定不能: {type(_e37).__name__} {str(_e37)[:60]}")
 
+# R38 台帳の記載漏れ: 記事を書いたのに CMO/_index.md へ書いていないことが繰り返し起きている。
+# 2026-09-30（10/04の2本）と 2026-10-03（静岡おでん・名古屋おでん・包丁の3本）。
+# どちらも**日次点検で人が気づいて拾った**。拾えたから良いのではなく、
+# **拾う前提の作りがよくない**＝サムネ検品に気を取られると毎回飛ぶ。だから機械で見る。
+# 台帳は「どの記事がどういう判断で書かれたか」の唯一の記録で、ここが抜けると
+# 次のセッションが同じ題材を書いたり、同じ却下理由を踏み直したりする。
+try:
+    import glob as _g38
+    _idx38 = os.path.join(ROOT, "CMO/_index.md")
+    _idx_txt = open(_idx38, encoding="utf-8").read() if os.path.exists(_idx38) else ""
+    # 直近2週間に書いた記事だけを見る（古い記事まで遡ると常時BROKENになって形骸化する）
+    _since38 = (datetime.date.today() - datetime.timedelta(days=14)).isoformat()
+    _miss38 = []
+    for _p38 in sorted(_g38.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))):
+        _b38 = os.path.basename(_p38)
+        if _b38[:10] < _since38:
+            continue
+        if _b38 not in _idx_txt:
+            _miss38.append(_b38)
+    if not _miss38:
+        add("R38 台帳の記載漏れ", "OK",
+            "直近2週間に書いた記事はすべて CMO/_index.md に載っている")
+    else:
+        add("R38 台帳の記載漏れ", "BROKEN",
+            f"**CMO/_index.md に載っていない記事が {len(_miss38)}本**: "
+            f"{', '.join(x[:34] for x in _miss38[:3])}"
+            " → 記事を書いたら**その場で**台帳に追記する（あとで拾う前提にしない）")
+except Exception as _e38:
+    add("R38 台帳の記載漏れ", "STALE", f"判定不能: {type(_e38).__name__} {str(_e38)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
