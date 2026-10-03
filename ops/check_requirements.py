@@ -692,6 +692,13 @@ try:
         #   自分のタイトルと重なる、と鳴った。**タイトルでも公開済みを判定する**。
         if _ti and _norm(_ti.group(1)) in {_pn for _, _pn in _ptitles}:
             continue
+        # ★2026-10-03: シリーズ記事は**題材の語とシリーズ名が設計上そろう**。
+        #   「おでんを、駄菓子屋で買う。— 静岡おでん（お取り寄せ②）」と
+        #   「おでんに、味噌をかける。— 名古屋のおでん（お取り寄せ③）」で『おでんお取り寄せ』が重なった。
+        #   これは**比較のために並べている**ので、重複ではなく意図。
+        #   検査を緩めず、**記事側に理由を書いたときだけ**外す（後から誰が見ても意図が分かる形）。
+        if "- R28: 意図した重複" in _t:
+            continue
         _bo = re.search(r"##\s*本文\s*\n```\n(.+?)\n```", _t, re.S)
         _head = _norm((_ti.group(1) if _ti else "") + (_bo.group(1)[:120] if _bo else ""))
         for _pt, _pn in _ptitles:
@@ -1466,7 +1473,14 @@ for _f in _queue_files:
             "岐阜", "静岡", "愛知", "三重", "滋賀", "京都", "大阪", "兵庫", "奈良", "和歌山",
             "鳥取", "島根", "岡山", "広島", "山口", "徳島", "香川", "愛媛", "高知", "福岡",
             "佐賀", "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄")]
-        if _pref and not any(x.rstrip("県都府") in _body for x in _pref):
+        # 2026-10-03: 名古屋の記事が「#愛知」を持つのに本文では「名古屋」としか書いておらず鳴った。
+        #   見たいのは「名乗った土地のことを書いているか」なので、**市名など他のタグも見る**。
+        _place = [x for x in [t.lstrip("#") for t in re.findall(r"#\S+", _tm.group(1))] if _tm] \
+            if _tm else []
+        _place = [x for x in _place if x not in (
+            "お取り寄せ", "B級グルメ", "japan", "Japan", "JapaneseFood", "毎日note",
+            "日本の日常", "レトルト", "日本の道具", "JapaneseCraft")]
+        if _place and not any(x.rstrip("県都府") in _body for x in _place):
             _offstar.append(_b + "（お取り寄せ：タグの土地が本文に出てこない）")
         continue
     if not any(w in _body for w in _TOYAMA_WORDS):
