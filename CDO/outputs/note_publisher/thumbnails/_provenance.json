@@ -413,8 +413,22 @@
 "tried": 3
 },
 "2026-06-10_note記事_金屋町": "wikimedia",
-"2026-06-10_note記事_高岡古城公園を歩く": "wikimedia",
-"2026-06-11_note記事_1ヶ月で失敗したこと全部書きます": "wikimedia",
+"2026-06-10_note記事_高岡古城公園を歩く": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese castle park"
+],
+"tried": 3
+},
+"2026-06-11_note記事_1ヶ月で失敗したこと全部書きます": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"notebook pen desk reflection"
+],
+"tried": 3
+},
 "2026-06-11_note記事_木曜午後のメール整理タイム": {
 "author": "Joshua Tree National Park",
 "backend": "wikimedia",
@@ -470,7 +484,14 @@
 "query": "氷見 漁港",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Himi_port.jpg/1280px-Himi_port.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-12_note記事_白えびせんべいの中毒性": "wikimedia",
+"2026-06-12_note記事_白えびせんべいの中毒性": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"white shrimp sashimi"
+],
+"tried": 3
+},
 "2026-06-12_note記事_金曜の夜にやらない3つ": "wikimedia",
 "2026-06-13_note記事_AIに5つの役職を渡してみた話": {
 "author": "www.Pixel.la Free Stock Photos",
