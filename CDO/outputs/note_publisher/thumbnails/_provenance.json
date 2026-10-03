@@ -503,12 +503,26 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Desk-laptop-working-technology_%2824299511976%29.jpg/1280px-Desk-laptop-working-technology_%2824299511976%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-13_note記事_note爆上がり戦略": "wikimedia",
-"2026-06-13_note記事_ノドグロは富山の最高級魚": "wikimedia",
+"2026-06-13_note記事_ノドグロは富山の最高級魚": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Toyama bay sea coast japan"
+],
+"tried": 3
+},
 "2026-06-13_note記事_土曜朝の30分週次振り返り": "wikimedia",
 "2026-06-13_note記事_富山のころ柿_軒先で干す甘み": "wikimedia",
 "2026-06-13_note記事_富岩運河環水公園の水辺": "wikimedia",
 "2026-06-13_note記事_最初の有料記事を出す前の3つの問い": "wikimedia",
-"2026-06-13_note記事_紅ずわいがに_富山湾の冬の楽しみ": "wikimedia",
+"2026-06-13_note記事_紅ずわいがに_富山湾の冬の楽しみ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Toyama bay sea coast japan"
+],
+"tried": 3
+},
 "2026-06-13_note記事_魚津の蜃気楼_春の富山湾の不思議": {
 "author": "the.Firebottle",
 "backend": "wikimedia",
@@ -518,7 +532,15 @@
 "query": "Toyama bay sea coast japan",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg/1280px-Looking_south_from_near_Nadaura_coast_in_Himi%2C_Toyama_-_Apr_29%2C_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-13_note記事_鱒寿司は富山の朝食": "wikimedia",
+"2026-06-13_note記事_鱒寿司は富山の朝食": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"ますのすし",
+"japanese sushi"
+],
+"tried": 3
+},
 "2026-06-14_note記事_土曜家事は午前で終わらせる": "wikimedia",
 "2026-06-14_note記事_土曜朝の市場散歩": {
 "author": "OKJaguar",
@@ -2287,5 +2309,14 @@
 "license": "CC BY-SA 4.0",
 "query": "どて煮",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg/1280px-%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-07_note記事_福岡のもつ鍋_作らせる取り寄せ": {
+"author": "Indiana jo",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg",
+"file": "File:蟻月 もつ鍋.jpg",
+"license": "CC0",
+"query": "もつ鍋",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg/1280px-%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
