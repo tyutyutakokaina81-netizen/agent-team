@@ -1,0 +1,66 @@
+=== publish run 2026-10-06_080005 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-10-06_001_cowork_code.yaml  id=2026-10-06_001

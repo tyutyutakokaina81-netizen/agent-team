@@ -5878,3 +5878,61 @@ To https://github.com/tyutyutakokaina81-netizen/agent-team.git
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-10-05_003_cowork_code.yaml  id=2026-10-05_003
+[main e641a191] cowork: daily backfill (english/follow/x-queue) 2026-10-05_080003
+ 22 files changed, 721 insertions(+), 12 deletions(-)
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n21ee5c9c09e6_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n3372e1361808_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n47e24995aad0.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n5ceb4b0d5252.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n6534b9fe02ce.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n7756798663c0_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n92777d1d932c.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n94125f32d208_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/nd89da256a68d_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/ndd6f213529ce.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/ne1447c7fa2e8_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/nec45923dfe14.txt
+ create mode 100644 ops/logs/backfill_english_2026-10-05_080218.log
+ create mode 100644 ops/logs/backfill_follow_2026-10-05_080339.log
+ create mode 100644 ops/logs/backfill_tags_2026-10-05_080502.log
+ create mode 100644 ops/outbox/2026-10-05_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   6f00e71f..e641a191  main -> main
+=== publish run 2026-10-06_080005 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/4] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/4] ひまわり — 太陽を、追う夏の花
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n951e3262b23c.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/4] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0a3125a83e82.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[4/4] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n1bbb920a0ee7.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 4 / 新規コメント 0 / セレクタ外れ 4 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-10-06_001_cowork_code.yaml  id=2026-10-06_001
