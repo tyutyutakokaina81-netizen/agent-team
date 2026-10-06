@@ -551,7 +551,14 @@
 "query": "fish market japan morning",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Fishing_for_squid%2C_Hakodate_Morning_Market%2C_Hokkaido%2C_Japan.jpg/1280px-Fishing_for_squid%2C_Hakodate_Morning_Market%2C_Hokkaido%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-14_note記事_富山のよごし_野菜の常備菜": "wikimedia",
+"2026-06-14_note記事_富山のよごし_野菜の常備菜": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese vegetable side dish"
+],
+"tried": 3
+},
 "2026-06-14_note記事_富山のフクラギ": {
 "author": "Donvikro",
 "backend": "wikimedia",
@@ -581,11 +588,26 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Cod_soup-01.jpg/1280px-Cod_soup-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-14_note記事_発信を辞めたくなる週の対処": "wikimedia",
-"2026-06-14_note記事_高岡の昆布消費量_北前船の名残": "wikimedia",
+"2026-06-14_note記事_高岡の昆布消費量_北前船の名残": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"kelp seaweed"
+],
+"tried": 3
+},
 "2026-06-14_note記事_高岡金屋町_鋳物発祥の町並み": "wikimedia",
 "2026-06-15_note記事_ファイル名を日付で始める": "wikimedia",
 "2026-06-15_note記事_作業ログを毎日つけていたら時間の使い方が見えた": "wikimedia",
-"2026-06-15_note記事_庄川の鮎": "wikimedia",
+"2026-06-15_note記事_庄川の鮎": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"鮎",
+"ayu sweetfish grilled"
+],
+"tried": 3
+},
 "2026-06-15_note記事_最初の有料記事を出す前の3つの問い": "wikimedia",
 "2026-06-15_note記事_氷見潮風ギャラリー_もうひとりの藤子": {
 "author": "極地狐",
@@ -2311,12 +2333,12 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg/1280px-%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-07_note記事_福岡のもつ鍋_作らせる取り寄せ": {
-"author": "Indiana jo",
+"author": "経済特区",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg",
-"file": "File:蟻月 もつ鍋.jpg",
-"license": "CC0",
-"query": "もつ鍋",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg/1280px-%E8%9F%BB%E6%9C%88_%E3%82%82%E3%81%A4%E9%8D%8B.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg",
+"file": "File:もつ鍋虎福堂IMG 20220115 03.jpg",
+"license": "CC BY-SA 4.0",
+"query": "もつ鍋 鍋",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg/1280px-%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
