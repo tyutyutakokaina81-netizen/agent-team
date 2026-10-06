@@ -1766,6 +1766,40 @@ try:
 except Exception as _e38:
     add("R38 台帳の記載漏れ", "STALE", f"判定不能: {type(_e38).__name__} {str(_e38)[:60]}")
 
+# R39 内部リンクの実在: 記事本文に書いた note の URL が、**本当に公開されている記事か**。
+# 2026-10-06 に実際にやった: 風除室の記事で、リンク先の ID 2本を**記憶で書いて両方とも間違えた**。
+# 公開してしまえば読者は 404 に飛ぶ。しかも内部リンクは「回遊を作る」ために増やしている最中で、
+# 増やすほど間違える機会が増える。**書いた本人が気づけない型の誤り**なので機械で見る。
+# 判定: 直近の記事（未公開・公開済みの両方）の本文にある /n/nXXXXXXXXXXXX が
+#       published_registry.json に無ければ BROKEN。
+try:
+    import json as _json39
+    _reg39 = _json39.load(open(os.path.join(
+        ROOT, "CDO/outputs/note_publisher/published_registry.json"), encoding="utf-8"))
+    _ids39 = set()
+    for _r in _reg39:
+        _m = re.search(r"/n/(n[0-9a-f]{12})", _r.get("url", "") or "")
+        if _m:
+            _ids39.add(_m.group(1))
+    _bad39 = []
+    for _f in recent_arts:
+        _t = open(_f, encoding="utf-8").read()
+        for _i in sorted(set(re.findall(r"note\.com/\S*?/n/(n[0-9a-f]{12})", _t))):
+            if _i not in _ids39:
+                _bad39.append((os.path.basename(_f)[:-3], _i))
+    if not _ids39:
+        add("R39 内部リンクの実在", "STALE", "公開台帳が読めない＝未検査")
+    elif _bad39:
+        add("R39 内部リンクの実在", "BROKEN",
+            f"**公開台帳に無い note リンクが {len(_bad39)}件**: "
+            + "／".join(f"{_n[:26]}… → {_i}" for _n, _i in _bad39[:3])
+            + " → 読者が 404 に飛ぶ。ID を記憶で書かず、published_registry.json から引く")
+    else:
+        add("R39 内部リンクの実在", "OK",
+            f"直近{len(recent_arts)}本の note リンクはすべて公開台帳に実在する")
+except Exception as _e39:
+    add("R39 内部リンクの実在", "STALE", f"判定不能: {type(_e39).__name__} {str(_e39)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
