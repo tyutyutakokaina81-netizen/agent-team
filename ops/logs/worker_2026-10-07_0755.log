@@ -1,2 +1,3 @@
-Failed to authenticate: OAuth session expired and could not be refreshed
+Not logged in · Please run /login
+launcher_error=not_logged_in（Mac の claude が未ログイン。ターミナルで claude を起動し /login）
 exit_code=1
