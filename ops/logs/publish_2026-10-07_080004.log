@@ -215,3 +215,25 @@ Merge made by the 'ort' strategy.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-10-07_002_cowork_code.yaml  id=2026-10-07_002
+[main fbfcb7ca] cowork: paid-footer insertion pass (2026-10-07_080004)
+ 5 files changed, 203 insertions(+)
+ create mode 100644 ops/logs/sell_2026-10-07_080331.log
+ create mode 100644 ops/outbox/2026-10-07_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   38bbf07f..fbfcb7ca  main -> main
+
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-10-07_080335.log
+
+== 結果: 追記 6本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-10-07_080335.log
+  n135853de0716	UPDATED:更新する
+更新できた: 6 / 6  （2026-10-07 08:05）
+ログ: ops/logs/backfill_tags_2026-10-07_080458.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-10-07_003_cowork_code.yaml  id=2026-10-07_003
