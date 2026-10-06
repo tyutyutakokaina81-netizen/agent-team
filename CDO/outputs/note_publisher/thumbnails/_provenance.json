@@ -274,7 +274,14 @@
 ],
 "tried": 3
 },
-"2026-06-07_note記事_観光地に住んでいるということ": "wikimedia",
+"2026-06-07_note記事_観光地に住んでいるということ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese town daily life"
+],
+"tried": 3
+},
 "2026-06-07_note記事_高岡大仏_銅の町には銅の大仏がいる": {
 "author": "くろふね",
 "backend": "wikimedia",
@@ -294,7 +301,14 @@
 "src": "https://upload.wikimedia.org/wikipedia/commons/5/5b/%E9%AB%98%E5%B2%A1%E9%87%91%E5%B1%8B%E7%94%BA%E3%81%AE%E9%8B%B3%E7%89%A9%E5%B7%A5%E5%A0%B4.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-06-08_note記事_富山のぶり大根": "wikimedia",
-"2026-06-08_note記事_富山の山菜": "wikimedia",
+"2026-06-08_note記事_富山の山菜": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"mountain vegetables wild"
+],
+"tried": 3
+},
 "2026-06-08_note記事_日本の個人発信が海外で読まれる時代": {
 "backend": "wikimedia",
 "query": "books reading desk",
@@ -650,7 +664,14 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Himi_City_Shiokaze_Gallery.jpg/1280px-Himi_City_Shiokaze_Gallery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-16_note記事_笑ゥせぇるすまん_大人になって会いに行く": "wikimedia",
-"2026-06-16_note記事_紅ずわいがに_富山湾の冬の楽しみ": "wikimedia",
+"2026-06-16_note記事_紅ずわいがに_富山湾の冬の楽しみ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Toyama bay sea coast japan"
+],
+"tried": 3
+},
 "2026-06-17_note記事_大門素麺_ちょんまげ巻きのそうめん": {
 "author": "Andy Li",
 "backend": "wikimedia",
@@ -2331,6 +2352,15 @@
 "license": "CC BY-SA 4.0",
 "query": "どて煮",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg/1280px-%E3%81%A9%E3%81%A6%E7%85%AE_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-05_note記事_理由を考えたことがないもの20_日本の暮らし": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%AF%8C%E5%B1%B1%E5%B8%82%E5%86%85%E3%81%AE%E9%A2%A8%E6%99%AF_-_panoramio.jpg",
+"file": "File:富山市内の風景 - panoramio.jpg",
+"license": "CC BY 3.0",
+"query": "富山県 風景",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/%E5%AF%8C%E5%B1%B1%E5%B8%82%E5%86%85%E3%81%AE%E9%A2%A8%E6%99%AF_-_panoramio.jpg/1280px-%E5%AF%8C%E5%B1%B1%E5%B8%82%E5%86%85%E3%81%AE%E9%A2%A8%E6%99%AF_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-07_note記事_福岡のもつ鍋_作らせる取り寄せ": {
 "author": "経済特区",
