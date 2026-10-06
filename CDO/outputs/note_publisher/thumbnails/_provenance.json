@@ -735,8 +735,22 @@
 ],
 "tried": 3
 },
-"2026-06-19_note記事_げんげ_富山湾の深海の魚": "wikimedia",
-"2026-06-19_note記事_勝興寺_伏木の大きな古刹": "wikimedia",
+"2026-06-19_note記事_げんげ_富山湾の深海の魚": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Toyama bay sea coast japan"
+],
+"tried": 3
+},
+"2026-06-19_note記事_勝興寺_伏木の大きな古刹": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese old port town"
+],
+"tried": 3
+},
 "2026-06-19_note記事_千保川_鋳物の町を流れる川": {
 "author": "SilverHaze",
 "backend": "wikimedia",
@@ -794,7 +808,14 @@
 "query": "イクラ 醤油漬け",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Ikura_temaki_zushi_by_Adonis_Chen_in_Taipei.jpg/1280px-Ikura_temaki_zushi_by_Adonis_Chen_in_Taipei.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-26_note記事_五箇山白川郷の行き方": "wikimedia",
+"2026-06-26_note記事_五箇山白川郷の行き方": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"gassho thatched village japan"
+],
+"tried": 3
+},
 "2026-06-26_note記事_北陸の鉄道パスは得か": {
 "author": "rockriver",
 "backend": "wikimedia",
