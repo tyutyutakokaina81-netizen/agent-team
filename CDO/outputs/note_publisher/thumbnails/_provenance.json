@@ -382,7 +382,17 @@
 "query": "kelp seaweed",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG/1280px-Kelp_forest_at_Taranga_pinnacles_Hen_and_Chicken_Islands_PA232359.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-10_note記事_べっこう": "wikimedia",
+"2026-06-10_note記事_べっこう": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"豆腐",
+"木綿豆腐",
+"tofu block",
+"japanese egg jelly food"
+],
+"tried": 3
+},
 "2026-06-10_note記事_家庭の富山ブラック": {
 "author": "Shisma",
 "backend": "wikimedia",
@@ -852,7 +862,14 @@
 "query": "coast sea mountains japan",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg/1280px-Oumigawa%2C_Kashiwazaki%2C_Niigata_Prefecture_949-3661%2C_Japan_-_panoramio_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-06-27_note記事_ばい飯_バイ貝の炊き込みご飯": "wikimedia",
+"2026-06-27_note記事_ばい飯_バイ貝の炊き込みご飯": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"whelk shellfish"
+],
+"tried": 3
+},
 "2026-06-27_note記事_土曜朝の市場散歩": {
 "author": "OKJaguar",
 "backend": "wikimedia",
@@ -864,7 +881,14 @@
 },
 "2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子": "wikimedia",
 "2026-06-27_note記事_御旅屋通り_高岡のアーケード": "wikimedia",
-"2026-06-27_note記事_御車山会館_祭りの山車を見る": "wikimedia",
+"2026-06-27_note記事_御車山会館_祭りの山車を見る": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"japanese festival float"
+],
+"tried": 3
+},
 "2026-07-08_note記事_jinzu-river-ayu-summer": "wikimedia",
 "2026-07-08_note記事_nyuzen-jumbo-watermelon-summer": {
 "author": "George Chernilevsky",
@@ -2403,6 +2427,15 @@
 "license": "CC BY-SA 4.0",
 "query": "稲架掛け",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg/1280px-%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-06_note記事_魚売り場_魚が丸のまま売っている": {
+"author": "Satoh Junpei",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%B5%B7%E3%81%AE%E5%B8%82Uminoichi%EF%BC%88%E9%AE%AE%E9%AD%9A%E6%B5%B7%E7%94%A3%E7%89%A9%E5%A3%B2%E3%82%8A%E5%A0%B4%EF%BC%89_-_panoramio.jpg",
+"file": "File:海の市Uminoichi（鮮魚海産物売り場） - panoramio.jpg",
+"license": "CC BY-SA 3.0",
+"query": "鮮魚売り場",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/%E6%B5%B7%E3%81%AE%E5%B8%82Uminoichi%EF%BC%88%E9%AE%AE%E9%AD%9A%E6%B5%B7%E7%94%A3%E7%89%A9%E5%A3%B2%E3%82%8A%E5%A0%B4%EF%BC%89_-_panoramio.jpg/1280px-%E6%B5%B7%E3%81%AE%E5%B8%82Uminoichi%EF%BC%88%E9%AE%AE%E9%AD%9A%E6%B5%B7%E7%94%A3%E7%89%A9%E5%A3%B2%E3%82%8A%E5%A0%B4%EF%BC%89_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-07_note記事_福岡のもつ鍋_作らせる取り寄せ": {
 "author": "経済特区",
