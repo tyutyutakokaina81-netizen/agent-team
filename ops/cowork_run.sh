@@ -305,6 +305,14 @@ fi
 # ③ は投稿しない。**文面を用意するだけ**（投稿は owner が `run_x.sh --manual/--posted`）。
 # ①② は公開中の記事を編集するので、1日の本数を絞る。失敗が続くなら本数を増やさない。
 echo ""
+echo "=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）==="
+# 2026-10-06: 公開済みのはずの3本が note 上では下書きのままだった（読者に1文字も見えていない）。
+# 氷見牛でも同じことが起きていて、単発の事故ではなかった。
+# 全237本を一度に見ると時間がかかるので、毎日25本ずつ進める（判定済みは飛ばす）。
+_pub_out="$(python3 CDO/outputs/note_publisher/check_public_all.py --limit 25 2>&1 || true)"
+echo "$_pub_out" | tail -4
+_pub_sum="$(echo "$_pub_out" | grep -m1 -E '読者に見えていない記事|全部読者に見えている|新しく見るものは無い' || echo '結果行なし')"
+
 echo "=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）==="
 _en_out="$(bash ops/backfill_english.sh --go --limit 6 --nogit 2>&1 || true)"
 echo "$_en_out" | tail -3
@@ -350,6 +358,7 @@ python3 ops/process_inbox.py post --from cowork --to code --type report \
 #毎日note: ${_tg_sum}
 Xキュー: ${_xq_sum}
 X 自動投稿: ${_x_post_sum}
+読者に見えているか: ${_pub_sum}
 ※ キーが入っていれば1日1本だけ自動投稿する。入っていなければ文面を用意するだけ。
 ※ キーの入れ方: cd ~/agent-team-run && bash ops/run_x.sh --setup（ファイルが開くので4つ貼って保存）
 ※ 失敗が続くなら本数を増やさないこと。セレクタが当たっていない可能性がある。" || true

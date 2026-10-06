@@ -1800,6 +1800,47 @@ try:
 except Exception as _e39:
     add("R39 内部リンクの実在", "STALE", f"判定不能: {type(_e39).__name__} {str(_e39)[:60]}")
 
+# R40 公開したはずの記事が読者に見えているか: 台帳で公開済みなのに、note 上では下書き/非公開のまま
+# になっていないか。2026-10-06 に「コメントに返信して」と言われてコメントを探したら 0 件で、
+# 取得が壊れていないかを確かめるため失敗した 7 ページの保存 HTML を読んだら、**3本が下書きのまま**
+# だった（ひまわり／きのどくな／冷やしトマト）。台帳では公開済みなのに読者には1文字も見えていない。
+# 氷見牛の2本でも同じことが起きていて、そのときは単発の事故として処理していた＝**単発ではなかった**。
+# 判定: ops/public_status.tsv（check_public_all.py がログアウト状態で書く）に DRAFT/GONE があれば BROKEN。
+#       ファイルが無い／古い（14日より前）なら STALE＝**測っていないことを「問題なし」と読ませない**。
+try:
+    _f40 = os.path.join(ROOT, "ops", "public_status.tsv")
+    if not os.path.exists(_f40):
+        add("R40 記事が読者に見えているか", "STALE",
+            "**一度も確認していない**（公開 237本が本当に読めるか不明） → `bash ops/check_public.sh`")
+    else:
+        _age40 = (time.time() - os.path.getmtime(_f40)) / 86400
+        _bad40, _unk40, _n40 = [], 0, 0
+        for _ln in open(_f40, encoding="utf-8").read().splitlines():
+            if _ln.startswith("#") or _ln.startswith("note_id\t"):
+                continue
+            _p = _ln.split("\t")
+            if len(_p) < 2:
+                continue
+            _n40 += 1
+            if _p[1] in ("DRAFT", "GONE"):
+                _bad40.append((_p[0], _p[1], _p[3] if len(_p) > 3 else ""))
+            elif _p[1] == "UNKNOWN":
+                _unk40 += 1
+        _tail40 = (f"／判定できなかった {_unk40}本" if _unk40 else "")
+        if _bad40:
+            add("R40 記事が読者に見えているか", "BROKEN",
+                f"**公開したはずなのに読者に見えていない記事が {len(_bad40)}本**: "
+                + "／".join(f"{_v} {_i} {_t[:20]}" for _i, _v, _t in _bad40[:3])
+                + " → note で下書きを開いて公開する（code からはできない＝A1）" + _tail40)
+        elif _age40 > 14:
+            add("R40 記事が読者に見えているか", "STALE",
+                f"前回の確認から **{int(_age40)}日** 経っている（{_n40}本ぶん） → `bash ops/check_public.sh`")
+        else:
+            add("R40 記事が読者に見えているか", "OK",
+                f"確認した {_n40}本はすべて読者に見えている（{int(_age40)}日前に確認）" + _tail40)
+except Exception as _e40:
+    add("R40 記事が読者に見えているか", "STALE", f"判定不能: {type(_e40).__name__} {str(_e40)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
