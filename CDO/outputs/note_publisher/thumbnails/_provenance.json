@@ -1164,8 +1164,25 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/2009-365-230_Let_the_Harvest_Begin_%283858491970%29.jpg/1280px-2009-365-230_Let_the_Harvest_Begin_%283858491970%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-07-27_note記事_散居村_家が点在する風景": "wikimedia",
-"2026-07-27_note記事_高岡で本物と静けさを満たす場所": "wikimedia",
-"2026-07-27_note記事_高岡で食べる_寿司と富山ブラック": "wikimedia",
+"2026-07-27_note記事_高岡で本物と静けさを満たす場所": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"Zuiryuji temple Takaoka japan"
+],
+"tried": 3
+},
+"2026-07-27_note記事_高岡で食べる_寿司と富山ブラック": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"醤油ラーメン",
+"中華そば",
+"ラーメン 醤油",
+"shoyu ramen"
+],
+"tried": 3
+},
 "2026-07-28_note記事_家庭菜園は採れすぎる_おすそわけの夏": {
 "author": "cogdogblog",
 "backend": "wikimedia",
@@ -1212,7 +1229,14 @@
 "query": "japanese temple",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Ninna-ji%27s_Golden_Hall%2C_front_view_of_the_Shingon_Buddhist_temple%2C_Uky%C5%8D-ku%2C_Kyoto%2C_Japan.jpg/1280px-Ninna-ji%27s_Golden_Hall%2C_front_view_of_the_Shingon_Buddhist_temple%2C_Uky%C5%8D-ku%2C_Kyoto%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-07-29_note記事_じゃがいも料理_常備のいちばん": "wikimedia",
+"2026-07-29_note記事_じゃがいも料理_常備のいちばん": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"potato dish japanese food"
+],
+"tried": 3
+},
 "2026-07-29_note記事_夏のきゅうり料理_冷やして食べ切る": {
 "author": "Dasha",
 "backend": "wikimedia",
