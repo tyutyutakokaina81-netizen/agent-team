@@ -1455,7 +1455,15 @@
 "query": "books reading desk",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Census-reading-hi.jpg/1280px-Census-reading-hi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-02_note記事_お中元_夏のごあいさつ": "wikimedia",
+"2026-08-02_note記事_お中元_夏のごあいさつ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"お中元",
+"japanese gift box noshi"
+],
+"tried": 3
+},
 "2026-08-02_note記事_すだれとよしず_夏の日よけ": {
 "author": "Basile Morin",
 "backend": "wikimedia",
@@ -1474,7 +1482,15 @@
 "query": "そうめん",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E3%80%81%E6%98%86%E5%B8%83%E3%81%AE%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029192.jpg/1280px-%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E3%80%81%E6%98%86%E5%B8%83%E3%81%AE%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A%EF%BC%88%E3%81%9D%E3%81%86%E3%82%81%E3%82%93%E9%87%91%E9%BE%8D%EF%BC%8920230801-P1029192.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-02_note記事_オクラ_夏のねばねば野菜": "wikimedia",
+"2026-08-02_note記事_オクラ_夏のねばねば野菜": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"オクラ",
+"okra vegetable pods"
+],
+"tried": 3
+},
 "2026-08-02_note記事_セミの声_夏の音のはじまりと終わり": {
 "author": "vastateparksstaff",
 "backend": "wikimedia",
@@ -1484,7 +1500,15 @@
 "query": "cicada tree summer",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Cicada_on_a_tree_near_the_Visitor%27s_Center_at_Mason_Neck_%2814800175281%29.jpg/1280px-Cicada_on_a_tree_near_the_Visitor%27s_Center_at_Mason_Neck_%2814800175281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-03_note記事_スイカ_冷やして塩をふる夏": "wikimedia",
+"2026-08-03_note記事_スイカ_冷やして塩をふる夏": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"スイカ",
+"watermelon fruit"
+],
+"tried": 3
+},
 "2026-08-03_note記事_七夕_願いを吊るす夏の街": {
 "author": "★Kumiko★ from Tokyo, Japan",
 "backend": "wikimedia",
@@ -2549,13 +2573,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg/1280px-%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある": {
-"author": "RSSFSO",
+"author": "Andy Atzert",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg",
-"file": "File:雪ヶ谷住宅.jpg",
-"license": "CC BY-SA 4.0",
-"query": "雪 住宅",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg/1280px-%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_(15627920724).jpg",
+"file": "File:ポリタンク (15627920724).jpg",
+"license": "CC BY 2.0",
+"query": "ポリタンク",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg/1280px-%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-06_note記事_魚売り場_魚が丸のまま売っている": {
 "author": "Jun OHWADA",
