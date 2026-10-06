@@ -1373,7 +1373,15 @@
 "query": "夏祭り",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg/1280px-%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ": "wikimedia",
+"2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"ところてん",
+"tokoroten jelly noodles bowl"
+],
+"tried": 3
+},
 "2026-07-31_note記事_夏休みのラジオ体操_朝の広場": {
 "author": "Tatsuo Yamashita from Tokyo, Japan",
 "backend": "wikimedia",
@@ -1393,7 +1401,15 @@
 "query": "umeboshi pickled plum",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Yaki-onigiri_and_umeboshi_by_Ms_President.jpg/1280px-Yaki-onigiri_and_umeboshi_by_Ms_President.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-01_note記事_冷やし中華始めました_夏の合図": "wikimedia",
+"2026-08-01_note記事_冷やし中華始めました_夏の合図": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"冷やし中華",
+"hiyashi chuka cold noodles"
+],
+"tried": 3
+},
 "2026-08-01_note記事_冷やし甘酒_夏の飲むごほうび": {
 "author": "emily_harbour_in_july",
 "backend": "wikimedia",
@@ -1421,7 +1437,15 @@
 "query": "風鈴",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg/1280px-%E8%90%B1%E9%87%8E%E7%A5%9E%E7%A4%BE_%E9%A2%A8%E9%88%B4%28%E8%8A%B1%E7%81%AB%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
-"2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置": "wikimedia",
+"2026-08-01_note記事_麦茶_夏の冷蔵庫の定位置": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"麦茶",
+"barley tea glass pitcher"
+],
+"tried": 3
+},
 "2026-08-02_note記事_FIRE報告_本日FIREしました": {
 "author": "U.S. Federal Government",
 "backend": "wikimedia",
@@ -2525,13 +2549,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg/1280px-%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある": {
-"author": "ヨックン from Kagawa, Japan",
+"author": "RSSFSO",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Shiba_inu_at_the_entrance_of_a_house,_-Japan_2010_a.jpg",
-"file": "File:Shiba inu at the entrance of a house, -Japan 2010 a.jpg",
-"license": "CC BY 2.1 jp",
-"query": "玄関",
-"src": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Shiba_inu_at_the_entrance_of_a_house%2C_-Japan_2010_a.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg",
+"file": "File:雪ヶ谷住宅.jpg",
+"license": "CC BY-SA 4.0",
+"query": "雪 住宅",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg/1280px-%E9%9B%AA%E3%83%B6%E8%B0%B7%E4%BD%8F%E5%AE%85.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-06_note記事_魚売り場_魚が丸のまま売っている": {
 "author": "Jun OHWADA",
