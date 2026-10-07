@@ -1,70 +1,95 @@
 #!/bin/bash
-# ops/all_now.sh — いま溜まっている作業を、順番に全部やる（owner の Mac で実行）
+# ops/all_now.sh — これ1本で全部やる（owner の Mac で実行）
 #
 #   cd ~/agent-team && bash ops/all_now.sh
 #
-# なぜ（2026-10-07）: 「まとめてターミナルに貼りたい」。
-#   これまで公開・クレジット反映・コメント取得・集客を別々のコマンドで渡していて、
-#   そのたびに git で詰まっていた。順番と後片付けまで含めて1本にする。
-#
-# 順番には理由がある:
-#   1 公開   … いちばん読まれるのは公開直後。先に出す
-#   2 反映   … 英語要約とフォロー導線が未達の記事を note に届ける（フォロワー導線そのもの）
-#   3 コメント… 返信のために文面を取る
-#   4 集客   … フォロー＋スキ。フォロワー数を記録する
-#   5 固定記事… 初めて来た人が最初に見る場所
-set -u
-cd "$(dirname "$0")/.."
-echo "########## 0) 最新を取り込む ##########"
-git pull --rebase --autostash origin main || echo "⚠️ pull に失敗。手元のまま続行します"
+# 設計（2026-10-07 に作り直し）:
+#   オーナーから「一発で決まるコードを書け・エラー多すぎ」。そのとおりなので、
+#   **途中で何が失敗しても最後まで走り切り、最後に結果だけ出す**形にした。
+#   - set -u / set -e は使わない。未定義変数や1つの失敗で止まらないようにする。
+#   - git のロック残りは最初に自分で片付ける（2回詰まった実績がある）。
+#   - 各段は失敗しても次へ進む。失敗は最後の一覧にまとめて出す。
+#   - tty が無くても動く（tee /dev/tty を使わない）。
+set +e
+set +u
+cd "$(dirname "$0")/.." 2>/dev/null || exit 1
+
+FAILED=""
+note_fail() { FAILED="${FAILED}
+  - $1"; }
+
+echo "########## 0) 準備（git の詰まりを自分で片付ける） ##########"
+if ! pgrep -x git >/dev/null 2>&1; then
+  rm -f .git/index.lock .git/HEAD.lock .git/refs/heads/main.lock 2>/dev/null
+fi
+git rebase --abort >/dev/null 2>&1
+git pull --rebase --autostash origin main || { echo "pull に失敗。手元のまま続けます"; note_fail "git pull"; }
 
 echo ""
 echo "########## 1) キューの記事を公開する ##########"
-bash ops/go.sh --all || echo "⚠️ 公開でつまずきました。先へ進みます"
+bash ops/go.sh --all || note_fail "公開 (go.sh)"
 
 echo ""
-echo "########## 2) クレジット・英語要約・フォロー導線を note へ反映する ##########"
-for i in 1 2 3 4 5; do
-  LEFT="$(bash ops/fix_credits_on_note.sh 20 2>&1 | tee /dev/tty | sed -n 's/.*残り \([0-9]*\)本.*/\1/p' | tail -1)"
-  [ -z "${LEFT}" ] && break
-  [ "${LEFT}" = "0" ] && break
+echo "########## 2) クレジット・英語・フォロー導線を note へ反映する ##########"
+for i in 1 2 3 4 5 6; do
+  OUT_C="$(bash ops/fix_credits_on_note.sh 20 2>&1)"
+  echo "$OUT_C" | tail -3
+  LEFT="$(echo "$OUT_C" | sed -n 's/.*残り \([0-9]*\)本.*/\1/p' | tail -1)"
+  [ -z "$LEFT" ] && { note_fail "note への反映 (${i}周目で止まった)"; break; }
+  [ "$LEFT" = "0" ] && break
 done
 
 echo ""
 echo "########## 3) コメントを取りに行く ##########"
-bash ops/comments_now.sh || echo "⚠️ コメント取得でつまずきました。先へ進みます"
+bash ops/comments_now.sh || note_fail "コメント取得"
 
 echo ""
-echo "########## 3.5) コメントに返信する（自動） ##########"
-# 下書きを作る→READY だけ投稿する。質問・批判・スパム・短すぎるものは自動では返さない。
-python3 ops/auto_reply_comments.py --go || echo "⚠️ 返信の下書きでつまずきました"
-python3 CDO/outputs/note_publisher/post_comment_replies.py --go || echo "⚠️ 返信の投稿でつまずきました"
+echo "########## 4) コメントに返信する ##########"
+python3 ops/auto_reply_comments.py --go || note_fail "返信の下書き"
+python3 CDO/outputs/note_publisher/post_comment_replies.py --go || note_fail "返信の投稿"
 
 echo ""
-echo "########## 4) フォロワーを増やす（目標: 1日ひとり） ##########"
-bash ops/growth_now.sh || echo "⚠️ 集客でつまずきました。先へ進みます"
+echo "########## 5) フォロワーを増やす（目標 1日ひとり） ##########"
+bash ops/growth_now.sh || note_fail "集客"
 
 echo ""
-echo "########## 5) 固定記事を設定する（まだなら） ##########"
+echo "########## 6) 固定記事（まだなら1回だけ） ##########"
 if [ -f ops/.pinned_done ]; then
   echo "設定済みなので飛ばします"
 else
-  bash ops/pin_article.sh na096464584e5 --go && touch ops/.pinned_done || echo "⚠️ 固定記事の設定でつまずきました"
+  bash ops/pin_article.sh na096464584e5 --go && touch ops/.pinned_done || note_fail "固定記事"
 fi
 
 echo ""
-echo "########## 6) 片付けて push ##########"
-git add -A ops CDO/outputs/note_publisher/_before_update CMO/outputs ops/logs/follow_buttons.json ops/logs/like_buttons.json 2>/dev/null || true
-git commit -q -m "all_now: $(date +%F_%H%M) の実行結果" 2>/dev/null \
-  && (git pull --rebase --autostash -q origin main || true) \
-  && git push -u origin main 2>&1 | tail -1 || echo "変更なし"
+echo "########## 7) 片付けて push ##########"
+git add -A 2>/dev/null
+git commit -q -m "all_now: $(date +%F_%H%M)" 2>/dev/null
+if ! pgrep -x git >/dev/null 2>&1; then rm -f .git/index.lock 2>/dev/null; fi
+git pull --rebase --autostash -q origin main >/dev/null 2>&1
+PUSH_OUT="$(git push -u origin main 2>&1)"; PUSH_RC=$?
+echo "$PUSH_OUT" | tail -1
+[ "$PUSH_RC" != "0" ] && note_fail "push"
+
+QUEUE="$(ls drafts/queue/*.md 2>/dev/null | wc -l | tr -d ' ')"
+TODO="$(grep -c '^n[0-9a-f]\{12\}' ops/credit_update_todo.tsv 2>/dev/null)"; TODO="${TODO:-0}"
+DONE="$(grep -c '^n[0-9a-f]\{12\}' ops/credit_update_done.tsv 2>/dev/null)"; DONE="${DONE:-0}"
+CMT="$(wc -l < ops/comments/pending.tsv 2>/dev/null)"; CMT=$(( ${CMT:-1} - 1 ))
+POSTED="$(grep -c 'POSTED' ops/comments/replies.tsv 2>/dev/null)"; POSTED="${POSTED:-0}"
+FOL="$(tail -1 ops/follower_log.tsv 2>/dev/null | grep -v '^#' | grep -v '^date' | awk -F'\t' '{print $1" "$2" / 今回フォロー "$3"人"}')"
 
 echo ""
-echo "================ ここまでの結果 ================"
-echo "公開キューの残り   : $(ls drafts/queue/*.md 2>/dev/null | wc -l | tr -d ' ') 本"
-echo "note へ未反映の記事 : $(( $(grep -c '^n' ops/credit_update_todo.tsv 2>/dev/null || echo 0) - $(grep -c '^n' ops/credit_update_done.tsv 2>/dev/null || echo 0) )) 本"
-echo "取れたコメント      : $(( $(wc -l < ops/comments/pending.tsv 2>/dev/null || echo 1) - 1 )) 件"
-echo "フォロワーの記録    : $(tail -1 ops/follower_log.tsv 2>/dev/null || echo 'まだ無し')  ← 目標 1日ひとり"
-echo "返信: 投稿済 $(grep -c 'POSTED' ops/comments/replies.tsv 2>/dev/null || echo 0) 件 / 保留 $(grep -c 'HOLD' ops/comments/replies.tsv 2>/dev/null || echo 0) 件"
-echo ""
-echo "※ コメントが1件以上取れていたら、その行をそのまま Claude に貼ってください。返信文を書きます。"
+echo "================ 結果 ================"
+echo "公開キューの残り      : ${QUEUE} 本"
+echo "note へ未反映          : $(( TODO - DONE )) 本"
+echo "取れたコメント        : ${CMT} 件"
+echo "投稿した返信          : ${POSTED} 件"
+echo "フォロワー            : ${FOL:-記録できず}   目標 1日ひとり"
+if [ -n "$FAILED" ]; then
+  echo ""
+  echo "うまくいかなかったもの:${FAILED}"
+  echo ""
+  echo "この画面をそのまま Claude に貼ってください。原因を特定して直します。"
+else
+  echo ""
+  echo "全部通りました。"
+fi
