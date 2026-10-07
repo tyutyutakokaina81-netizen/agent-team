@@ -3,10 +3,16 @@
 # 読み取りだけ。note 側は変更しない。
 set -e
 cd "$(dirname "$0")/.."
-echo "=== コメントを取りに行く（全記事・見直し込み）==="
+echo "=== 1/3 通知欄から拾う（1ページで済む・いちばん速い）==="
+# 2026-10-07: オーナーが「コメントきてる」と気づくのは通知欄。そこを見れば、
+#   どの記事に来たかに関係なく1ページで分かる。237本の巡回は取りこぼし確認用に残す。
+python3 CDO/outputs/note_publisher/fetch_comments_from_notifications.py --go || \
+  echo "⚠️ 通知欄から取れなかった。保存した実物が push されるので、そのまま報告してください"
+echo ""
+echo "=== 2/3 念のため全記事も巡回する（見直し込み）==="
 python3 CDO/outputs/note_publisher/fetch_note_comments.py --rescan --limit 0 --debug
 echo ""
-echo "=== 仕分け ==="
+echo "=== 3/3 仕分け ==="
 python3 ops/draft_comment_replies.py --write || true
 echo ""
 echo "=== commit & push ==="
