@@ -3,6 +3,12 @@
 # 読み取りだけ。ログインしない（読者とまったく同じ条件で見る）。
 set -e
 cd "$(dirname "$0")/.."
+
+# ★2026-10-07: **自分で最新を取り込む**。
+#   これまでは「git pull && bash ops/xxx.sh」と二つ並べて渡していたが、
+#   手元に未コミットの変更があると pull が止まり、スクリプトまで届かなかった（実際に起きた）。
+#   --autostash は手元の変更を退避→取り込み→戻す、まで自動でやる（消さない）。
+git pull --rebase --autostash origin main || echo "⚠️ git pull に失敗。手元のまま続行します"
 echo "=== 読者に見えているかを確認（ログアウト状態・読み取りのみ）==="
 python3 CDO/outputs/note_publisher/check_public_all.py "$@"
 echo ""
