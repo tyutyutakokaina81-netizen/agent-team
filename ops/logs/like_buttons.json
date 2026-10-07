@@ -1,0 +1,222 @@
+{
+ "why": "スキのボタンが見つからない",
+ "url": "https://note.com/memetomamoru/n/n5f1cc444f116",
+ "buttons": [
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "検索フォームを閉じる",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "flex h-6 w-6 items-center justify-center border-0 bg-transparent text-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "メニュー",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "投稿メニュー",
+   "cls": "relative inline-flex cursor-pointer appearance-none items-center justi"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "プロフィールを非表示",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "41",
+   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "フォローする",
+   "aria": "",
+   "cls": "hidden ml-1 text-text-clickable-icon text-xs underline md:inline"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "41",
+   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "もっとみる",
+   "aria": "",
+   "cls": "mt-2 self-end text-sm text-text-secondary underline hover:text-text-pr"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
+  },
+  {
+   "tag": "button",
+   "txt": "スキ",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "共有",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "41",
+   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "リンクをコピー",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Xでシェア",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Facebookでシェア",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "LINEでシェア",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Threadsでシェア",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "41",
+   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  }
+ ]
+}
