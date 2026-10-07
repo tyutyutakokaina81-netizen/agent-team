@@ -57,6 +57,21 @@ def needs_credit(license_name: str | None) -> bool:
     return not any(k in low for k in NO_ATTRIB)
 
 
+# ★2026-10-07: **英文の最後がパーセント符号の壁になっていた。**
+#   Commons の出典URLは日本語ファイル名が符号化されていて、
+#   `…File:%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg`
+#   のように出る。英語で読んでいる人には**文字化けか不具合に見える**。
+#   戻しても Wikimedia 側は同じページを開くので、読める形にする。
+def _readable_url(u: str) -> str:
+    try:
+        from urllib.parse import unquote
+        d = unquote(u)
+        # 戻して壊れる（制御文字が混じる）ようなら元のまま使う＝リンクを壊さない
+        return d if d.isprintable() else u
+    except Exception:
+        return u
+
+
 def credit_line(stem: str, prov: dict) -> str | None:
     """クレジットが要るなら1行を返す。要らない／情報が無いなら None。"""
     v = prov.get(stem)
@@ -64,7 +79,7 @@ def credit_line(stem: str, prov: dict) -> str | None:
         return None
     fname = re.sub(r"^File:", "", v.get("file", "")).replace("_", " ")
     author = v.get("author") or "不明"
-    page = v.get("descpage") or "https://commons.wikimedia.org/"
+    page = _readable_url(v.get("descpage") or "https://commons.wikimedia.org/")
     lic = v["license"]
     # CC BY / CC BY-SA は「ライセンスへのリンク」を求めるので URL を添える（CQO指摘・提案10）。
     url = LICENSE_URLS.get(lic.strip())
@@ -94,7 +109,16 @@ def apply_credit(path: Path) -> str:
     if not span:
         return "本文ブロックが見つからない"
     s, e = span
-    new = text[:e] + "\n\n" + line + text[e:]
+    body = text[s:e]
+    # ★2026-10-07: これまで**本文ブロックの末尾**＝英語要約の後ろに入れていた。
+    #   その結果、英語で読んでいる人は**日本語のクレジットで記事が終わる**。
+    #   日本語パートの最後（英語要約の直前）に移す。英語要約が無ければ従来どおり末尾。
+    sep = "――――――――――\n【English】"
+    if sep in body:
+        nb = body.replace(sep, line + "\n\n" + sep, 1)
+        new = text[:s] + nb + text[e:]
+    else:
+        new = text[:e] + "\n\n" + line + text[e:]
     path.write_text(new, encoding="utf-8")
     return f"挿入: {line}"
 
