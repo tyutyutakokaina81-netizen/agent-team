@@ -155,7 +155,12 @@ if [ $login_fail -eq 0 ]; then
     # 「コメントは無い」と言えない**（R6 が STALE のまま）。15本なら5日で埋まる。
     # 1本あたり約10秒なので、日次の実行時間は +2分程度で収まる見込み。
     echo "=== コメント収集（新着10本＋backlog15本） ==="
-    cout="$("$PYBIN" "$CFETCH" --limit 10 --debug 2>&1; "$PYBIN" "$CFETCH" --backlog --limit 15 --debug 2>&1)"
+    # ★2026-10-06 追加: **見直し(--restale)**。これまで日次は「まだ見ていない記事」しか見ず、
+    #   2026-10-04 に全253本の巡回が終わってからは**どの記事も二度と見に行かなかった**。
+    #   つまり既存記事に後から来たコメントは構造的に見つからない。実際この日、
+    #   オーナーには見えているコメントを「新規0件」と報告していた。
+    #   3日より前に見たきりの記事を 20本/日 見直す＝全件をおよそ2週間で一周する。
+    cout="$("$PYBIN" "$CFETCH" --limit 10 --debug 2>&1; "$PYBIN" "$CFETCH" --backlog --limit 15 --debug 2>&1; "$PYBIN" "$CFETCH" --restale 3 --limit 20 --debug 2>&1)"
     echo "$cout" | tee -a "$LOG"
     # 「=== 結果: 巡回 N / 新規コメント M / セレクタ外れ K ===」を合算する
     comment_new=$(echo "$cout" | sed -n 's/.*新規コメント \([0-9]*\) .*/\1/p' | awk '{s+=$1} END{print s+0}')
@@ -170,6 +175,9 @@ if [ $login_fail -eq 0 ]; then
     # 2026-09-22: 404等（削除/非公開/下書き/URL誤り）は**巡回では直らない**ので別に数える。
     # 同じ3本が毎日「未描画」に混ざっており、報告を見ても何をすべきか分からなかった。
     comment_notfound=$(echo "$cout" | sed -n 's/.*到達不能(404等) \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
+    # ★2026-10-06: 「コメントは在るのに本文が取れない」を別に数える。
+    #   ここを数えないと、返信待ちが「新規0件」に紛れて放置される。
+    comment_unreadable=$(echo "$cout" | sed -n 's/.*本文が取れない \([0-9]*\).*/\1/p' | awk '{s+=$1} END{print s+0}')
   else
     echo "⚠️ ${CFETCH} が無い（未pull?）→ コメント収集はスキップ"
   fi
@@ -180,7 +188,7 @@ fi
 # outbox に結果報告（記事名つき・code が機械的に読める）
 body="公開 ${published} 件 / 失敗 ${failed} 件 / 写真サムネ未設定 ${thumb_fail} 件(note既定サムネ適用) / **サムネ設定に失敗 ${thumb_err} 件** / **タグ入力失敗 ${tag_err} 件 / タグ0個で公開 ${tag_zero} 件**（log: ${LOG}）"
 body="${body}
-【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / 未描画 ${comment_notrender} 件 / **到達不能(404等) ${comment_notfound} 件** / **未公開(draft) ${comment_draft} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
+【コメント収集】新規 ${comment_new} 件 / セレクタ外れ ${comment_sel_fail} 件 / 未描画 ${comment_notrender} 件 / **到達不能(404等) ${comment_notfound} 件** / **未公開(draft) ${comment_draft} 件** / **コメント有りだが本文が取れない ${comment_unreadable} 件**（0件でも必ずこの行を出す＝実績ゼロを見逃さないため）"
 if [ $((paid_ok + paid_ng)) -gt 0 ]; then
   body="${body}
 【有料note】公開 ${paid_ok} 件 / 失敗 ${paid_ng} 件"

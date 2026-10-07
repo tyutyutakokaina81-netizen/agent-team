@@ -84,33 +84,67 @@ def load_seen_comment_ids() -> set:
 
 
 def load_swept_urls() -> set:
+    return set(load_swept_at().keys())
+
+
+def load_swept_at() -> dict:
+    """url -> 最後に巡回した日時(文字列)。同じ url が何度も並ぶので**最後の行**を採る。"""
     if not SWEEP.exists():
-        return set()
+        return {}
+    out = {}
     with SWEEP.open(encoding="utf-8") as fh:
-        return {r[0] for r in csv.reader(fh, delimiter="\t") if r and not r[0].startswith("#")}
+        for row in csv.reader(fh, delimiter="\t"):
+            if len(row) >= 2 and row[0].startswith("https://"):
+                out[row[0]] = row[1]
+    return out
 
 
-def targets_from_registry(limit: int, include_swept: bool):
+def _days_since(ts: str) -> float:
+    """巡回日時から何日経ったか。読めなければ大きい値＝『ずっと見ていない』扱いにする
+    （読めないことを『最近見た』に倒すと、見落としが静かに続く）。"""
+    for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M"):
+        try:
+            return (datetime.datetime.now() - datetime.datetime.strptime(ts[:19], fmt)).total_seconds() / 86400
+        except Exception:
+            continue
+    return 9999.0
+
+
+def targets_from_registry(limit: int, include_swept: bool, restale_days: float = 0.0):
+    """巡回する記事を選ぶ。
+
+    ★2026-10-06 に直したところ:
+      これまでは **一度巡回した記事を二度と見に行かなかった**（`url in swept` で捨てていた）。
+      2026-10-04 に全253本の巡回が終わったので、**それ以降に来たコメントは構造的に見えない**。
+      実際この日、オーナーには見えているコメントを「新規0件」と報告していた。
+      `--rescan` は最初から在ったが、日次では一度も使われていなかった＝
+      **道具はあったのに繋がっていない**（マガジン196本・英語141本・フォロー導線と同じ型）。
+      `restale_days` を渡すと、**その日数より前に見たきりの記事を見直す**。
+      並べ方は「一度も見ていない」→「最後に見たのが古い順」。
+    """
     try:
         entries = json.loads(REGISTRY.read_text(encoding="utf-8"))
     except Exception as e:
         sys.exit(f"✗ published_registry.json を読めない: {e}")
-    swept = set() if include_swept else load_swept_urls()
-    out = []
+    swept_at = {} if include_swept else load_swept_at()
+    fresh, stale = [], []
     for e in entries:
         url = (e.get("url") or "").strip()
-        if not url.startswith("https://note.com/") or url in swept:
+        if not url.startswith("https://note.com/"):
             continue
-        out.append((url, e.get("title", "")))
-    out.reverse()   # 新しい記事から（registry は古い順に積まれている）
+        if url not in swept_at:
+            fresh.append((url, e.get("title", "")))
+            continue
+        if restale_days > 0:
+            age = _days_since(swept_at[url])
+            if age >= restale_days:
+                stale.append((age, url, e.get("title", "")))
+    fresh.reverse()                      # 新しい記事から（registry は古い順に積まれている）
+    stale.sort(key=lambda x: -x[0])      # 最後に見たのが古い順
+    out = fresh + [(u, t) for _a, u, t in stale]
     return out[:limit] if limit > 0 else out
 
 
-# 2026-09-09: 初回のセレクタ外れ1件を cowork が --debug で保存し、その HTML を読んで分かったこと。
-#   note のページには埋め込み状態 `noteDetail.data` があり、`status`（"published"/"draft"）と
-#   `commentCount` を持っている。DOMのclass名を推測するより**これを読むほうが確実**で、しかも
-#   「下書きだからコメント欄が無い」と「公開済みだがコメント0」を区別できる。
-#   実際その1件は **registryに公開済みとして載っているのに note 上は draft** だった（冷やしトマト）。
 _STATE_JS = """() => {
   try {
     const s = window.__NUXT__ && window.__NUXT__.state;
@@ -122,20 +156,66 @@ _STATE_JS = """() => {
 }"""
 
 
-def read_note_state(page):
-    """埋め込み状態から (status, commentCount) を取る。取れなければ (None, None)。"""
+# ★2026-10-06: **この経路が丸ごと死んでいた。**
+#   note は Nuxt から **Next.js** に移っていて、`window.__NUXT__` は**1件も無い**
+#   （保存HTMLで確認: __NUXT__=0 / self.__next_f=1）。つまり上の _STATE_JS は常に null を返し、
+#   「確実に読める」はずの経路が使われないまま、推測で書いた DOM セレクタだけに頼っていた。
+#   その結果が **セレクタ外れ12件**（2026-10-07 の朝の便）。
+#   Next.js の埋め込みデータには `\"commentCount\":N` と `\"status\":\"published\"` が入っている。
+#   ただし**おすすめ記事の分も一緒に入っている**ので、数だけ拾うと他人の記事の数を読む。
+#   直前に現れる `\"key\":\"nXXXXXXXXXXXX\"` で**その記事自身のものだけ**を取る。
+#   保存済みHTML 9件で検証済み（公開2件は自記事のcommentCountを正しく0と読み、下書きは0件）。
+_OWN_KEY_RE = r'\\"key\\":\\"(n[0-9a-f]{12})\\"'
+
+
+def read_state_from_payload(html: str, note_key: str):
+    """Next.js の埋め込みデータから、**その記事自身の** (status, commentCount) を取る。
+
+    取れなければ (None, None)。**推測しない**＝分からないときは分からないと言う。
+    """
+    if not html:
+        return None, None
+    # 下書きは埋め込みデータ自体が無い（保存HTML 5件で確認）。画面に出る言葉で拾う＝
+    # ここを落とすと「下書きだからコメント欄が無い」が「セレクタ外れ」に化ける。
+    if "公開前の下書き" in html or "これは下書き" in html:
+        return "draft", 0
+    if not note_key:
+        return None, None
+    status = count = None
+    for m in re.finditer(r'\\"commentCount\\":(\d+)', html):
+        back = html[max(0, m.start() - 4000):m.start()]
+        keys = re.findall(_OWN_KEY_RE, back)
+        if keys and keys[-1] == note_key:
+            count = int(m.group(1))
+            st = re.search(r'\\"status\\":\\"([a-z]+)\\"', back[-4000:])
+            if st:
+                status = st.group(1)
+            break
+    return status, count
+
+
+def read_note_state(page, note_key: str = ""):
+    """埋め込み状態から (status, commentCount) を取る。取れなければ (None, None)。
+
+    まず旧 Nuxt、次に現行の Next.js ペイロードを見る（note 側がまた変わっても片方は残る）。
+    """
     try:
         st = page.evaluate(_STATE_JS)
     except Exception:
+        st = None
+    if st and (st.get("status") or st.get("commentCount") is not None):
+        return st.get("status"), st.get("commentCount")
+    try:
+        html = page.content()
+    except Exception:
         return None, None
-    if not st:
-        return None, None
-    return st.get("status"), st.get("commentCount")
+    return read_state_from_payload(html, note_key)
 
 
 def extract_comments(page, url, debug=False):
     """(comments, status) を返す。status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）。"""
-    _st, _cc = read_note_state(page)
+    _key = (re.search(r"/n/(n[0-9a-f]{12})", url) or [None, ""])[1] if "/n/n" in url else ""
+    _st, _cc = read_note_state(page, _key)
     if _st == "draft":
         # 公開されていない記事＝コメント欄が無いのは当然。セレクタの問題ではない。
         return [], "draft"
@@ -163,6 +243,11 @@ def extract_comments(page, url, debug=False):
             name = re.sub(r"[^A-Za-z0-9]+", "_", url)[-60:] + ".html"
             (DEBUG_DIR / name).write_text(page.content(), encoding="utf-8")
             log(f"    debug: {DEBUG_DIR / name} を保存")
+        # ★2026-10-06: **件数が分かっているのに本文が取れない**のがいちばん危ない状態＝
+        #   「0件」と報告されてコメントが放置される。件数を添えて別扱いにする。
+        if _cc:
+            log(f"    ⚠️ コメントが {_cc}件あるのに本文が取れない（保存HTMLを code が読む）")
+            return [], f"has-{_cc}-unreadable"
         return [], ("ok" if has_area else "no-selector")
 
     def first_text(el, selectors):
@@ -215,6 +300,9 @@ def main():
     ap.add_argument("--backlog", action="store_true", help="未スイープの古い記事を優先する")
     ap.add_argument("--rescan", action="store_true", help="スイープ済みも対象に含める")
     ap.add_argument("--debug", action="store_true", help="セレクタが外れたページのHTMLを保存")
+    ap.add_argument("--restale", type=float, default=0.0,
+                    help="この日数より前に見たきりの記事を見直す（0=見直さない）。"
+                         "既に巡回した記事に後から来たコメントは、これを付けないと永久に見つからない")
     args = ap.parse_args()
 
     try:
@@ -228,7 +316,7 @@ def main():
     if args.url:
         targets = [(args.url, "")]
     else:
-        targets = targets_from_registry(args.limit, include_swept=args.rescan)
+        targets = targets_from_registry(args.limit, include_swept=args.rescan, restale_days=args.restale)
         if args.backlog:
             targets = list(reversed(targets))   # 古い記事から
     if not targets:
@@ -240,6 +328,7 @@ def main():
     seen = load_seen_comment_ids()
     now = datetime.datetime.now().isoformat(timespec="seconds")
     new_rows, swept_rows, drafts = [], [], []
+    unreadable, unreadable_urls = 0, []
     visited = found_total = no_selector = not_rendered = 0
     # 2026-09-22: 404等は**巡回では直らない**（削除/非公開/下書き/URL誤り）ので別に数える。
     # 同じ3本が毎日「未描画」に混ざっていて、何をすればいいのか分からない報告になっていた。
@@ -322,6 +411,18 @@ def main():
                 log("    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。"
                     "published_registry.json の記載と食い違うので確認が要る")
                 continue
+            if status.startswith("has-") and status.endswith("-unreadable"):
+                # ★2026-10-06: **いちばん危ない状態**＝コメントが在ることは分かっているのに
+                #   本文が取れない。黙って 0件 と報告されると、返信されないまま放置される。
+                try:
+                    _n = int(status.split("-")[1])
+                except Exception:
+                    _n = 0
+                unreadable += _n
+                unreadable_urls.append((url, _n))
+                log(f"    ❌ コメントが {_n}件 あるのに本文が取れない＝**返信待ちが放置される**。"
+                    "--debug の保存HTMLを push すれば code が読んで返信文を書けます")
+                continue
             if status == "no-selector":
                 no_selector += 1
                 log("    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）")
@@ -353,7 +454,10 @@ def main():
 
     # 結果行は**必ず**出す（対象0でも出す）。有料フッターで「結果行なし＝失敗扱い」の事故があったため。
     log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector}"
-        f" / 未描画 {not_rendered} / **到達不能(404等) {not_found}** / 未公開(draft) {len(drafts)} ===")
+        f" / 未描画 {not_rendered} / **到達不能(404等) {not_found}** / 未公開(draft) {len(drafts)}"
+        f" / **コメント有りだが本文が取れない {unreadable}** ===")
+    for _u, _n in unreadable_urls:
+        log(f"    ❌ 返信待ち {_n}件: {_u}")
     for _u in drafts:
         log(f"  未公開: {_u}  ← registryは公開済みとしているが note 上は下書き")
     if no_selector:
