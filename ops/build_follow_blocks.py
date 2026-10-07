@@ -48,6 +48,20 @@ CTA = {
 }
 
 
+def kind_of(cat: str) -> str:
+    """カテゴリ名から CTA の種類を決める。
+
+    ★2026-10-07: **「非食」が「食」に一致していた**（`"食" in cat`）。
+      28本の記事がカテゴリに「非食」と書いており、全部「食」として扱われていた。
+      風除室（玄関の話）に『富山の台所で毎日起きていることを書いています』が付いて気づいた。
+      **中身に合わない CTA は、それ自体がテンプレ**（A5）なので、先に打ち消し語を外す。
+    """
+    c = (cat or "").replace("非食", "")
+    return ("食" if "食" in c else
+            "風景" if any(w in c for w in ("風景", "気象", "自然")) else
+            "暮らし" if any(w in c for w in ("暮らし", "住まい")) else "その他")
+
+
 def load_articles():
     reg = json.load(open(REG, encoding="utf-8"))
     urls, out = {}, []
@@ -67,10 +81,7 @@ def load_articles():
         gm = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", t, re.S)
         tags = {x.lstrip("#").lower() for x in re.findall(r"#\S+", gm.group(1))} if gm else set()
         cm = re.search(r"-\s*カテゴリ:\s*(.+)", t)
-        cat = cm.group(1) if cm else ""
-        kind = ("食" if "食" in cat else
-                "風景" if any(w in cat for w in ("風景", "気象", "自然")) else
-                "暮らし" if "暮らし" in cat else "その他")
+        kind = kind_of(cm.group(1) if cm else "")
         out.append({"path": p, "stem": os.path.basename(p)[:-3], "title": title,
                     "url": url, "tags": tags, "kind": kind,
                     "nid": re.search(r"/n/(n[0-9a-f]+)", url).group(1),

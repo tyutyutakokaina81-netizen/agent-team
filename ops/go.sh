@@ -112,6 +112,17 @@ if ! git push origin HEAD:main; then
 fi
 
 echo ""
+echo "==================== 1.5) 公開前にフォロー導線を入れる ===================="
+# 2026-10-07: これまでフォロー導線は**公開済みの記事に後から**足していた（1日6本）。
+#   公開直後がいちばん読まれるのに、そのときだけ導線が無いのは順序が逆だった。
+#   これから出す分は、最初から入った状態で出す。すでに入っている記事は触らない。
+python3 ops/add_follow_before_publish.py --go || echo "⚠️ フォロー導線の挿入で問題。公開は続けます"
+for _f in drafts/queue/*.md; do
+  [ -e "$_f" ] || continue
+  python3 CDO/outputs/note_publisher/body_stats.py --sync "CMO/outputs/$(basename "$_f")" >/dev/null 2>&1 || true
+done
+
+echo ""
 echo "==================== 2) 公開 ===================="
 PUBARGS=""
 [ "${ARG}" = "--all" ]   && PUBARGS="--all"
