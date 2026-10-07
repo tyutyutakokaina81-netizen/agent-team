@@ -313,6 +313,25 @@ fi
 # ③ は投稿しない。**文面を用意するだけ**（投稿は owner が `run_x.sh --manual/--posted`）。
 # ①② は公開中の記事を編集するので、1日の本数を絞る。失敗が続くなら本数を増やさない。
 echo ""
+echo "=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）==="
+# ★2026-10-07: **フォロワーを実際に動かした唯一の施策が、70日間止まっていた。**
+#   7/25→7/28 で 39→47（+8）と効いていたのに、**日次に載っていなかった**ので単発で終わった。
+#   マガジン196本・英語141本・フォロー導線・#毎日note と同じ型＝**道具はあるのに繋がっていない**。
+#   コメントは付けない（--comment を渡さない）＝同一文面の連投を構造的に起こさない（A5）。
+#   1便の上限は script 側の DISCOVER_LIMIT=14 に従う（bot 判定を避ける）。
+_gr_out="$(python3 CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
+echo "$_gr_out" | tail -6
+_gr_after="$(echo "$_gr_out" | sed -n 's/^FOLLOWERS_AFTER:: *//p' | tail -1)"
+_gr_n="$(echo "$_gr_out" | grep -c '^DONE ')"
+# ★数字を**時系列で残す**。これまでログに埋もれて、いつ何人だったか後から追えなかった
+#   （閲覧数と同じで、測っていないものは改善できない）。
+if [ -n "${_gr_after}" ]; then
+  mkdir -p ops
+  [ -f ops/follower_log.tsv ] || printf '# note フォロワー数の推移（_cowork_growth.py が毎日書く）\ndate\tfollowers_raw\tnew_follows\n' > ops/follower_log.tsv
+  printf '%s\t%s\t%s\n' "$(date +%F)" "${_gr_after}" "${_gr_n}" >> ops/follower_log.tsv
+fi
+_gr_sum="フォロワー ${_gr_after:-取得できず} / 今回フォローした相手 ${_gr_n}人"
+
 echo "=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）==="
 # 2026-10-06: 公開済みのはずの3本が note 上では下書きのままだった（読者に1文字も見えていない）。
 # 氷見牛でも同じことが起きていて、単発の事故ではなかった。
@@ -367,6 +386,7 @@ python3 ops/process_inbox.py post --from cowork --to code --type report \
 Xキュー: ${_xq_sum}
 X 自動投稿: ${_x_post_sum}
 読者に見えているか: ${_pub_sum}
+集客: ${_gr_sum}
 ※ キーが入っていれば1日1本だけ自動投稿する。入っていなければ文面を用意するだけ。
 ※ キーの入れ方: cd ~/agent-team-run && bash ops/run_x.sh --setup（ファイルが開くので4つ貼って保存）
 ※ 失敗が続くなら本数を増やさないこと。セレクタが当たっていない可能性がある。" || true

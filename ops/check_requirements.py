@@ -1841,6 +1841,54 @@ try:
 except Exception as _e40:
     add("R40 記事が読者に見えているか", "STALE", f"判定不能: {type(_e40).__name__} {str(_e40)[:60]}")
 
+# R41 集客が止まっていないか: フォロワーを増やす施策（_cowork_growth.py）が動き続けているか。
+# 2026-10-07 に分かったこと: この施策は 7/25→7/28 で **39→47（+8）** と実際に数字を動かした
+# 唯一のものなのに、**日次に載っていなかったので70日間止まっていた**。
+# マガジン196本・英語141本・フォロー導線・#毎日note と同じ型＝道具はあるのに繋がっていない。
+# 止まったこと自体に誰も気づかなかったのが本質なので、**数字が動いているかを機械で見る**。
+# 判定: ops/follower_log.tsv が無い→STALE（測っていない）。
+#       最新が7日より前→BROKEN（止まっている）。
+#       直近2週間でフォロワーが1人も増えていない→BROKEN（効いていない＝やり方を変える）。
+try:
+    _f41 = os.path.join(ROOT, "ops", "follower_log.tsv")
+    if not os.path.exists(_f41):
+        add("R41 集客が止まっていないか", "STALE",
+            "**フォロワー数を一度も記録していない**（7月の実績はログに埋もれているだけ）"
+            " → 朝の便に `_cowork_growth.py` を入れた。次の便から記録が始まる")
+    else:
+        _rows41 = []
+        for _ln in open(_f41, encoding="utf-8").read().splitlines():
+            if _ln.startswith("#") or _ln.startswith("date\t"):
+                continue
+            _p = _ln.split("\t")
+            if len(_p) >= 2 and _p[0][:4].isdigit():
+                _num = re.search(r"(\d[\d,]*)", _p[1] or "")
+                _rows41.append((_p[0], int(_num.group(1).replace(",", "")) if _num else None))
+        if not _rows41:
+            add("R41 集客が止まっていないか", "STALE", "記録はあるが数が読めない")
+        else:
+            _last41 = _rows41[-1]
+            _age41 = (datetime.date.today() - datetime.date(*map(int, _last41[0].split("-")))).days
+            _nums41 = [n for _d, n in _rows41 if n is not None]
+            _recent = [(d, n) for d, n in _rows41 if n is not None
+                       and (datetime.date.today() - datetime.date(*map(int, d.split("-")))).days <= 14]
+            if _age41 > 7:
+                add("R41 集客が止まっていないか", "BROKEN",
+                    f"**{_age41}日間ぶん記録が無い＝集客が止まっている**（最後は {_last41[0]} の {_last41[1]}人）"
+                    " → 朝の便が回っていない。`bash ops/cowork_run.sh` の実行状況を見る")
+            elif len(_recent) >= 3 and _recent[-1][1] is not None and _recent[0][1] is not None \
+                    and _recent[-1][1] <= _recent[0][1]:
+                add("R41 集客が止まっていないか", "BROKEN",
+                    f"**直近2週間でフォロワーが増えていない**（{_recent[0][0]} {_recent[0][1]}人 → "
+                    f"{_recent[-1][0]} {_recent[-1][1]}人）→ 回っているが効いていない。やり方を変える")
+            else:
+                _d41 = (f"（{_recent[0][0]} {_recent[0][1]}人 → {_recent[-1][0]} {_recent[-1][1]}人）"
+                        if len(_recent) >= 2 else "")
+                add("R41 集客が止まっていないか", "OK",
+                    f"フォロワー {_nums41[-1]}人・{_age41}日前に記録あり{_d41}")
+except Exception as _e41:
+    add("R41 集客が止まっていないか", "STALE", f"判定不能: {type(_e41).__name__} {str(_e41)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
