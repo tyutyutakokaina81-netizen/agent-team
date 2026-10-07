@@ -53,6 +53,12 @@ echo "########## 5) フォロワーを増やす（目標 1日ひとり） ######
 bash ops/growth_now.sh || note_fail "集客"
 
 echo ""
+echo "########## 5.5) 閲覧数を取る（これが本当のスコア） ##########"
+# 234本書いて一度も見ていない。これが無いと「効いたか」を推測で決めることになる。
+python3 CDO/outputs/note_publisher/fetch_note_stats.py --go --all || note_fail "閲覧数の取得"
+python3 ops/analyze_stats.py 2>&1 | head -14 || true
+
+echo ""
 echo "########## 6) 固定記事（まだなら1回だけ） ##########"
 if [ -f ops/.pinned_done ]; then
   echo "設定済みなので飛ばします"
@@ -84,6 +90,8 @@ echo "note へ未反映          : $(( TODO - DONE )) 本"
 echo "取れたコメント        : ${CMT} 件"
 echo "投稿した返信          : ${POSTED} 件"
 echo "フォロワー            : ${FOL:-記録できず}   目標 1日ひとり"
+VIEWS="$(awk -F'\t' '$2 ~ /^[0-9]+$/ {n++; s+=$2} END {if(n) printf "%d本 / 合計 %d / 中央値を analyze で確認", n, s; else print "取得できず"}' ops/note_stats.tsv 2>/dev/null)"
+echo "閲覧数                : ${VIEWS:-取得できず}"
 if [ -n "$FAILED" ]; then
   echo ""
   echo "うまくいかなかったもの:${FAILED}"
