@@ -24,4 +24,4 @@ echo ""
 echo "=== 3/3 commit & push ==="
 git add -A ops/note_stats.tsv ops/logs/note_stats_dump.json CAO/outputs 2>/dev/null || true
 git commit -q -m "stats: note 閲覧数を取得（$(date +%Y-%m-%d_%H%M)）" 2>/dev/null \
-  && git push -u origin main 2>&1 | tail -1 || echo "変更なし"
+  && (git pull --rebase --autostash -q origin main || true) && git push -u origin main 2>&1 | tail -1 || echo "変更なし"

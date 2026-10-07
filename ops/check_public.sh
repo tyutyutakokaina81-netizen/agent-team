@@ -15,4 +15,4 @@ echo ""
 echo "=== commit & push ==="
 git add -A ops/public_status.tsv 2>/dev/null || true
 git commit -q -m "check: 記事が読者に見えているかの確認結果（$(date +%Y-%m-%d_%H%M)）" 2>/dev/null \
-  && git push -u origin main 2>&1 | tail -1 || echo "変更なし"
+  && (git pull --rebase --autostash -q origin main || true) && git push -u origin main 2>&1 | tail -1 || echo "変更なし"

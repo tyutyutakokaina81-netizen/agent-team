@@ -24,7 +24,7 @@ echo ""
 echo "=== commit & push ==="
 git add -A ops/comments 2>/dev/null || true
 git commit -q -m "comments: 取得結果（$(date +%Y-%m-%d_%H%M)）" 2>/dev/null \
-  && git push -u origin main 2>&1 | tail -1 || echo "新しいコメントは無し"
+  && (git pull --rebase --autostash -q origin main || true) && git push -u origin main 2>&1 | tail -1 || echo "新しいコメントは無し"
 echo ""
 echo "※ 本文が取れなかった記事があれば、保存HTMLも一緒に push されます。"
 echo "   その場合は『コメントきてる』ともう一度言ってください。保存HTMLから返信文を書きます。"

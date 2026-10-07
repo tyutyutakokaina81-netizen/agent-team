@@ -28,4 +28,4 @@ echo ""
 echo "== 今回 ${n}本 / 残り $(( $(grep -c '^n' "$TODO") - $(grep -c '^n' "$DONE") ))本 =="
 # 差し替え前の本文は必ず repo に残す（後から「何が消えたか」を確かめられるようにする）
 git add -A ops/credit_update_done.tsv CDO/outputs/note_publisher/_before_update 2>/dev/null || true
-git commit -q -m "credit: note 側へ反映 $(date +%F_%H%M)" 2>/dev/null && git push -u origin main 2>&1|tail -1 || echo "変更なし"
+git commit -q -m "credit: note 側へ反映 $(date +%F_%H%M)" 2>/dev/null && (git pull --rebase --autostash -q origin main || true) && git push -u origin main 2>&1|tail -1 || echo "変更なし"
