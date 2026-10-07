@@ -131,50 +131,78 @@ _FOLLOW_TXT = ("フォローする", "フォロー")
 _FOLLOWING_TXT = ("フォロー中", "フォローをやめる")
 
 
-def do_follow(page):
-    """フォローする。**クラス名を使わない**＝note の作り替えで黙って壊れないようにする。
+def do_follow(page, handle: str = ""):
+    """記事の著者をフォローする。**クラス名を使わない**＝note の作り替えで黙って壊れない。
 
-    末尾の「おすすめクリエイター」を誤ってフォローしないよう、
-    ページ内の**最初に見つかったフォローボタン**（＝記事の著者）だけを押す。
+    ★2026-10-07（2度目の改良）: 最初の版は「ページ内で最初に見つかったフォローボタン」を
+      押していた。note の記事ページは下部に**おすすめクリエイター**が並ぶので、
+      スクロール位置によっては**別人をフォローしてしまう**。
+      著者の handle が分かっているので、**そのプロフィールへのリンクを含むまとまりの中**に
+      あるボタンだけを押す。handle が無いときだけ、従来どおり最初の1つにする。
     """
-    try:
-        page.mouse.wheel(0, 6000)
-        page.wait_for_timeout(1200)
-    except Exception:
-        pass
-    cands = []
-    for sel in ("button", "[role='button']", "a[role='button']"):
+    # 画面下まで少しずつ送る（作者カードは本文の下にある）
+    for _ in range(6):
         try:
-            cands += page.query_selector_all(sel)
+            page.mouse.wheel(0, 1800)
+            page.wait_for_timeout(500)
         except Exception:
-            continue
-    target = None
-    for b in cands:
-        try:
-            txt = (b.inner_text() or "").strip()
-            aria = (b.get_attribute("aria-label") or "").strip()
-        except Exception:
-            continue
-        hay = txt + " " + aria
-        if any(w in hay for w in _FOLLOWING_TXT):
-            return "already-following"
-        if any(w in hay for w in _FOLLOW_TXT) and len(txt) <= 12:
-            target = b
             break
-    if target is None:
+
+    js = """(handle) => {
+      const texts = ['フォローする', 'フォロー'];
+      const following = ['フォロー中', 'フォローをやめる'];
+      const all = Array.from(document.querySelectorAll("button, [role='button'], a[role='button']"));
+      const hit = [];
+      for (let i = 0; i < all.length; i++) {
+        const e = all[i];
+        const t = ((e.innerText || '') + ' ' + (e.getAttribute('aria-label') || '')).trim();
+        if (following.some(w => t.includes(w))) { hit.push({i, state: 'following'}); continue; }
+        if (!texts.some(w => t.includes(w))) continue;
+        if ((e.innerText || '').trim().length > 12) continue;
+        let owns = false;
+        if (handle) {
+          let n = e;
+          for (let d = 0; d < 8 && n; d++) {
+            n = n.parentElement;
+            if (!n) break;
+            if (n.querySelector(`a[href*='/${handle}']`)) { owns = true; break; }
+          }
+        }
+        hit.push({i, state: 'follow', owns});
+      }
+      return hit;
+    }"""
+    try:
+        hits = page.evaluate(js, handle or "")
+    except Exception as e:
+        return f"err:{e}"
+
+    if any(h.get("state") == "following" for h in hits):
+        return "already-following"
+    cands = [h for h in hits if h.get("state") == "follow"]
+    if not cands:
         _dump_buttons(page, "フォローのボタンが見つからない", "follow")
         return "no-follow-btn"
+    owned = [h for h in cands if h.get("owns")]
+    if handle and not owned:
+        # 著者のものだと確認できない＝**押さない**。別人をフォローするより何もしないほうがよい。
+        _dump_buttons(page, f"著者({handle})のフォローボタンを特定できない", "follow")
+        return "no-author-follow-btn"
+    idx = (owned or cands)[0]["i"]
+
     try:
-        target.scroll_into_view_if_needed()
+        els = page.query_selector_all("button, [role='button'], a[role='button']")
+        b = els[idx]
+        b.scroll_into_view_if_needed()
         page.wait_for_timeout(600)
-        target.click()
+        b.click()
         for _ in range(10):
             page.wait_for_timeout(500)
             try:
-                t2 = (target.inner_text() or "") + (target.get_attribute("aria-label") or "")
+                t2 = (b.inner_text() or "") + (b.get_attribute("aria-label") or "")
             except Exception:
                 t2 = ""
-            if any(w in t2 for w in _FOLLOWING_TXT):
+            if "フォロー中" in t2 or "フォローをやめる" in t2:
                 return "followed"
         return "clicked"
     except Exception as e:
@@ -316,7 +344,7 @@ def main():
                         r["follow_state"] = (b.inner_text().strip() if b else "no-btn")
                         results.append(r); print("DRY", json.dumps(r, ensure_ascii=False)); continue
                     r["like"] = do_like(page); page.wait_for_timeout(2500)
-                    r["follow"] = do_follow(page); page.wait_for_timeout(2500)
+                    r["follow"] = do_follow(page, tg.get("a", "")); page.wait_for_timeout(2500)
                     # コメントは明示フラグ時のみ・重複検知でガード
                     if COMMENT and tg.get("c"):
                         if already_commented(page):

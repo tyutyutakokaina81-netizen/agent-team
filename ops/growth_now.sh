@@ -13,6 +13,13 @@ N="$(echo "$OUT" | grep -c '^DONE ')"
 #   70日気づかなかったのと同じ型。**0件は失敗として鳴らす**。
 FOLLOWED="$(echo "$OUT" | grep -c 'followed')"
 NOBTN="$(echo "$OUT" | grep -c 'no-follow-btn')"
+NOAUTH="$(echo "$OUT" | grep -c 'no-author-follow-btn')"
+if [ "${NOAUTH}" -gt 0 ]; then
+  echo ""
+  echo "❌ 著者のフォローボタンを特定できませんでした（${NOAUTH}件）。"
+  echo "   別人を誤ってフォローしないよう、押さずに止めています。"
+  echo "   ボタンの一覧を ops/logs/follow_buttons.json に保存しました。これを push すれば直せます。"
+fi
 if [ "${NOBTN}" -gt 0 ]; then
   echo ""
   echo "❌ フォローのボタンが ${NOBTN} 件で見つかりませんでした＝note の画面が変わっています。"
