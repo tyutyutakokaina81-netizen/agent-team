@@ -49,6 +49,10 @@ python3 ops/auto_reply_comments.py --go || note_fail "返信の下書き"
 python3 CDO/outputs/note_publisher/post_comment_replies.py --go || note_fail "返信の投稿"
 
 echo ""
+echo "########## 4.5) コメントをくれた人をフォローする ##########"
+python3 ops/follow_commenters.py --go || note_fail "コメント主のフォロー"
+
+echo ""
 echo "########## 5) フォロワーを増やす（目標 1日ひとり） ##########"
 bash ops/growth_now.sh || note_fail "集客"
 

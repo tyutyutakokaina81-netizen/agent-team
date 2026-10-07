@@ -98,7 +98,19 @@ _ROWS_JS = r"""() => {
     const key = m[1] + '|' + text.slice(0, 60);
     if (seen.has(key)) continue;
     seen.add(key);
-    out.push({nid: m[1], href: a.getAttribute('href'), text: text});
+    // ★2026-10-07: 相手の handle も拾う。コメントをくれた人は
+    //   いちばんフォローバックが期待できる相手なので、あとでフォローしに行く。
+    //   同じまとまりの中にある /xxxx 形式のリンク（記事URLでないもの）を相手のページとみなす。
+    let handle = '';
+    if (row) {
+      for (const h of row.querySelectorAll("a[href^='/']")) {
+        const hv = h.getAttribute('href') || '';
+        if (hv.includes('/n/n')) continue;
+        const hm = hv.match(/^\/([A-Za-z0-9_]{3,30})\/?$/);
+        if (hm) { handle = hm[1]; break; }
+      }
+    }
+    out.push({nid: m[1], href: a.getAttribute('href'), text: text, handle: handle});
   }
   return out;
 }"""
@@ -192,7 +204,10 @@ def main() -> int:
                 (r["nid"] + "|" + (author or "") + "|" + body[:40]).encode("utf-8")).hexdigest()[:16]
             if cid in seen:
                 continue
-            new.append([cid, url, author or "", detect_lang(body), body, now])
+            who = author or ""
+            if r.get("handle"):
+                who = f"{who}(@{r['handle']})" if who else f"@{r['handle']}"
+            new.append([cid, url, who, detect_lang(body), body, now])
             print(f"  + {author}: {body[:60]}")
         ctx.close()
 

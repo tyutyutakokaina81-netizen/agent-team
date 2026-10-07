@@ -4,6 +4,11 @@
 # フォロワー数を ops/follower_log.tsv に1行残す＝測らないと効いたか分からない。
 set -u
 cd "$(dirname "$0")/.."
+# ★2026-10-07: **コメントをくれた人を先にフォローする**。
+#   わざわざ名前を出して反応してくれた相手で、いちばんフォローバックが期待できる。
+#   これまではタグ検索で見つけた人だけを見ていて、ここを素通りしていた。
+python3 ops/follow_commenters.py --go || echo "⚠️ コメント主のフォローでつまずきました"
+
 OUT="$(python3 CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
 echo "$OUT" | tail -8
 AFTER="$(echo "$OUT" | sed -n 's/^FOLLOWERS_AFTER:: *//p' | tail -1)"
