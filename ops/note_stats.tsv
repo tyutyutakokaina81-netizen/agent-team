@@ -1,6 +1,6 @@
 # note 記事ごとの閲覧数（fetch_note_stats.py が書く・読み取りのみ）
-# 取得: 2026-10-07 20:12  元ページ: https://note.com/sitesettings/stats
+# 取得: 2026-10-08 05:35  元ページ: https://note.com/sitesettings/stats
 # view は画面の先頭の数。並びが違う可能性があるので nums に生の数列も残す
 note_id	view	nums	title
-n8e73c7dc118c			くわしくみる
 n2c65107d4eb1			くわしくみる
+n8e73c7dc118c			くわしくみる
