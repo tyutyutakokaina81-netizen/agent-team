@@ -28,3 +28,30 @@ git commit -q -m "comments: 取得結果（$(date +%Y-%m-%d_%H%M)）" 2>/dev/nul
 echo ""
 echo "※ 本文が取れなかった記事があれば、保存HTMLも一緒に push されます。"
 echo "   その場合は『コメントきてる』ともう一度言ってください。保存HTMLから返信文を書きます。"
+
+echo ""
+echo "================ 取れたコメント ================"
+python3 - <<'PYEOF'
+import csv, os
+f = os.path.join("ops", "comments", "pending.tsv")
+rows = []
+if os.path.exists(f):
+    with open(f, encoding="utf-8") as fh:
+        for r in csv.reader(fh, delimiter="\t"):
+            if r and not r[0].startswith("comment_id"):
+                rows.append(r)
+if not rows:
+    print("0件。通知欄にコメントが見えているのにここが0なら、")
+    print("ops/comments/_debug/notifications.txt を Claude に貼ってください（画面の実物です）")
+else:
+    print(f"{len(rows)}件。この下の行をそのまま Claude に貼れば、返信文を書きます。")
+    print("-" * 56)
+    for r in rows:
+        who = r[2] if len(r) > 2 else "?"
+        lang = r[3] if len(r) > 3 else "?"
+        text = r[4] if len(r) > 4 else ""
+        art = r[1] if len(r) > 1 else ""
+        print(f"[{lang}] {who} / {art}")
+        print(f"    {text}")
+    print("-" * 56)
+PYEOF

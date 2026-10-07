@@ -1876,11 +1876,22 @@ try:
                 add("R41 集客が止まっていないか", "BROKEN",
                     f"**{_age41}日間ぶん記録が無い＝集客が止まっている**（最後は {_last41[0]} の {_last41[1]}人）"
                     " → 朝の便が回っていない。`bash ops/cowork_run.sh` の実行状況を見る")
-            elif len(_recent) >= 3 and _recent[-1][1] is not None and _recent[0][1] is not None \
-                    and _recent[-1][1] <= _recent[0][1]:
-                add("R41 集客が止まっていないか", "BROKEN",
-                    f"**直近2週間でフォロワーが増えていない**（{_recent[0][0]} {_recent[0][1]}人 → "
-                    f"{_recent[-1][0]} {_recent[-1][1]}人）→ 回っているが効いていない。やり方を変える")
+            elif len(_recent) >= 3 and _recent[-1][1] is not None and _recent[0][1] is not None:
+                # ★2026-10-07 オーナーが目標を決めた: **1日ひとり獲得**。
+                #   「増えた/増えない」ではなく、**1日1人に届いているか**で見る。
+                _days = max(1, (datetime.date(*map(int, _recent[-1][0].split("-")))
+                                - datetime.date(*map(int, _recent[0][0].split("-")))).days)
+                _gain = _recent[-1][1] - _recent[0][1]
+                _pace = _gain / _days
+                if _pace < 1.0:
+                    add("R41 集客が止まっていないか", "BROKEN",
+                        f"**目標1日1人に届いていない**（{_recent[0][0]} {_recent[0][1]}人 → "
+                        f"{_recent[-1][0]} {_recent[-1][1]}人＝{_days}日で{_gain:+}人／1日あたり {_pace:.2f}人）"
+                        " → フォローの手数を増やすか、届く面を変える")
+                else:
+                    add("R41 集客が止まっていないか", "OK",
+                        f"**1日{_pace:.2f}人（目標1人）** {_recent[0][0]} {_recent[0][1]}人 → "
+                        f"{_recent[-1][0]} {_recent[-1][1]}人")
             else:
                 _d41 = (f"（{_recent[0][0]} {_recent[0][1]}人 → {_recent[-1][0]} {_recent[-1][1]}人）"
                         if len(_recent) >= 2 else "")
