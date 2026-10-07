@@ -54,7 +54,7 @@ fi
 
 echo ""
 echo "########## 6) 片付けて push ##########"
-git add -A ops CDO/outputs/note_publisher/_before_update CMO/outputs 2>/dev/null || true
+git add -A ops CDO/outputs/note_publisher/_before_update CMO/outputs ops/logs/follow_buttons.json ops/logs/like_buttons.json 2>/dev/null || true
 git commit -q -m "all_now: $(date +%F_%H%M) の実行結果" 2>/dev/null \
   && (git pull --rebase --autostash -q origin main || true) \
   && git push -u origin main 2>&1 | tail -1 || echo "変更なし"

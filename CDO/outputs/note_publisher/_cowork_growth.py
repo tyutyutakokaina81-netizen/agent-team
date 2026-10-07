@@ -67,49 +67,119 @@ TARGETS = [
     {"a":"eittoness0216","k":"n70cf653e123d","t":"黒部暮らし"},
 ]
 
-def do_like(page):
-    btns = page.query_selector_all('button.o-noteLikeV3__iconButton[aria-label]')
-    for b in btns:
-        al = (b.get_attribute("aria-label") or "")
-        if "スキ" in al and "取り消" not in al:
-            try:
-                b.scroll_into_view_if_needed(); page.wait_for_timeout(600)
-                b.click(); page.wait_for_timeout(1500)
-                al2 = b.get_attribute("aria-label") or ""
-                return ("取り消" in al2) or True
-            except Exception as e:
-                return f"err:{e}"
-    return "no-btn-or-already"
+# ★2026-10-07: **セレクタが全滅していた。**
+#   note は Nuxt から Next.js に移っており、保存した移行後の実ページで数えると
+#   `.m-creatorProfile__actions` `.m-follow` `.a-button` `.o-noteLikeV3__iconButton` は
+#   **すべて0件**だった。7月に書いたクラス名はもう存在しない。
+#   このまま走らせると「no-follow-btn」を返して**1人もフォローせずに終わる**のに、
+#   報告は「実行した」になる＝いつもの「成功と言いながら何も起きていない」型。
+#   対策は3つ:
+#     ① クラス名に頼らず、**aria-label と文字**で探す（note 側の作り替えに強い）
+#     ② 複数の探し方を順に試す
+#     ③ **どれも当たらなければ、その画面のボタンを全部書き出す**（次の実行で直せる）
+#   ※ note 側の DOM は code からは見られない（A1）ので、②③が無いと永久に直せない。
+DUMP_DIR = Path(__file__).resolve().parents[3] / "ops" / "logs"
 
-def do_follow(page):
-    # 2026-07-28 self-fix: note がヘッダのフォローボタン(button.o-noteContentHeader__actionFollow)を廃止し、
-    # 記事下部の作者プロフィールカード(.m-creatorProfile__actions / .m-follow)内の汎用 a-button に移設した
-    # (DOM実測: old_follow_sel=0 / 新=class 'a-button' anc .m-follow .m-creatorProfile__actions)。
-    # 作者カード限定でヒットさせ、末尾のおすすめクリエイターを誤フォローしない。
-    b = page.query_selector('.m-creatorProfile__actions button.a-button') \
-        or page.query_selector('.m-follow button.a-button')
-    if not b:
-        return "no-follow-btn"
-    txt = (b.inner_text() or "").strip()
-    if "フォロー中" in txt:
-        return "already-following"
-    if "フォロー" in txt:  # "フォローする" or "フォロー"
+
+def _dump_buttons(page, why: str, tag: str = "growth"):
+    """掴めなかった画面のボタンを全部書き出す。**次に直すための唯一の材料**。"""
+    try:
+        DUMP_DIR.mkdir(parents=True, exist_ok=True)
+        els = page.eval_on_selector_all(
+            "button, a[role='button'], [role='button'], [class*='ollow']",
+            """els => els.slice(0,120).map(e => ({
+                 tag: e.tagName.toLowerCase(),
+                 txt: (e.innerText||'').replace(/\s+/g,' ').trim().slice(0,30),
+                 aria: e.getAttribute('aria-label') || '',
+                 cls: (e.getAttribute('class')||'').slice(0,70)
+               }))""")
+        f = DUMP_DIR / f"{tag}_buttons.json"
+        f.write_text(json.dumps({"why": why, "url": page.url, "buttons": els},
+                                ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"DUMP:: {why} -> {f}")
+    except Exception as e:
+        print(f"DUMP_FAILED:: {type(e).__name__} {e}")
+
+
+def do_like(page):
+    """スキを付ける。aria-label に『スキ』を含み、『取り消』『見る』を含まないボタン。"""
+    cands = []
+    try:
+        cands = page.query_selector_all("button[aria-label], [role='button'][aria-label]")
+    except Exception:
+        pass
+    for b in cands:
+        al = (b.get_attribute("aria-label") or "")
+        if "スキ" not in al:
+            continue
+        if "取り消" in al or "見る" in al or "ユーザー" in al:
+            continue          # 既にスキ済み／スキした人の一覧ボタン
         try:
-            b.scroll_into_view_if_needed(); page.wait_for_timeout(600)
+            b.scroll_into_view_if_needed()
+            page.wait_for_timeout(600)
             b.click()
-            # クリック後、記事ヘッダのボタンは「フォロー中」への反映が1.8秒では間に合わず
-            # 誤って clicked(now=フォローする) と報告していた（実際は成功=プロフィールで確認済 2026-07-26）。
-            # 最大5秒ポーリングして反映を待つ＝正しく followed を返す（待機のみの機械修正）。
-            t2 = ""
-            for _ in range(10):
-                page.wait_for_timeout(500)
-                t2 = (b.inner_text() or "").strip()
-                if "フォロー中" in t2:
-                    return "followed"
-            return f"clicked(now={t2})"
+            page.wait_for_timeout(1500)
+            return True
         except Exception as e:
             return f"err:{e}"
-    return f"unknown-state:{txt}"
+    _dump_buttons(page, "スキのボタンが見つからない", "like")
+    return "no-btn-or-already"
+
+
+# フォローボタンの文字（note 側の表記ゆれをまとめて見る）
+_FOLLOW_TXT = ("フォローする", "フォロー")
+_FOLLOWING_TXT = ("フォロー中", "フォローをやめる")
+
+
+def do_follow(page):
+    """フォローする。**クラス名を使わない**＝note の作り替えで黙って壊れないようにする。
+
+    末尾の「おすすめクリエイター」を誤ってフォローしないよう、
+    ページ内の**最初に見つかったフォローボタン**（＝記事の著者）だけを押す。
+    """
+    try:
+        page.mouse.wheel(0, 6000)
+        page.wait_for_timeout(1200)
+    except Exception:
+        pass
+    cands = []
+    for sel in ("button", "[role='button']", "a[role='button']"):
+        try:
+            cands += page.query_selector_all(sel)
+        except Exception:
+            continue
+    target = None
+    for b in cands:
+        try:
+            txt = (b.inner_text() or "").strip()
+            aria = (b.get_attribute("aria-label") or "").strip()
+        except Exception:
+            continue
+        hay = txt + " " + aria
+        if any(w in hay for w in _FOLLOWING_TXT):
+            return "already-following"
+        if any(w in hay for w in _FOLLOW_TXT) and len(txt) <= 12:
+            target = b
+            break
+    if target is None:
+        _dump_buttons(page, "フォローのボタンが見つからない", "follow")
+        return "no-follow-btn"
+    try:
+        target.scroll_into_view_if_needed()
+        page.wait_for_timeout(600)
+        target.click()
+        for _ in range(10):
+            page.wait_for_timeout(500)
+            try:
+                t2 = (target.inner_text() or "") + (target.get_attribute("aria-label") or "")
+            except Exception:
+                t2 = ""
+            if any(w in t2 for w in _FOLLOWING_TXT):
+                return "followed"
+        return "clicked"
+    except Exception as e:
+        return f"err:{e}"
+
 
 def already_commented(page, handle=MY_HANDLE):
     """自分(handle)が既にこの記事にコメント済みかをDOMで判定＝重複コメント(A5違反)防止。
