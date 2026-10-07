@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/memetomamoru/n/n5f1cc444f116",
+ "url": "https://note.com/iroai_ai_x/n/neac56dd19106",
  "buttons": [
   {
    "tag": "button",
@@ -58,8 +58,8 @@
   },
   {
    "tag": "button",
-   "txt": "41",
-   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "txt": "44",
+   "aria": "44スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -76,14 +76,20 @@
   },
   {
    "tag": "button",
+   "txt": "チップで応援する",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
    "txt": "",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
-   "txt": "41",
-   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "txt": "44",
+   "aria": "44スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -115,24 +121,6 @@
    "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "もっとみる",
-   "aria": "",
-   "cls": "mt-2 self-end text-sm text-text-secondary underline hover:text-text-pr"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
   },
   {
    "tag": "button",
@@ -154,8 +142,8 @@
   },
   {
    "tag": "button",
-   "txt": "41",
-   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "txt": "44",
+   "aria": "44スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -202,8 +190,8 @@
   },
   {
    "tag": "button",
-   "txt": "41",
-   "aria": "41スキ この記事にスキをつけたユーザーを見る",
+   "txt": "44",
+   "aria": "44スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
