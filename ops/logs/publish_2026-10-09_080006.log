@@ -283,3 +283,40 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-10-09_002_cowork_code.yaml  id=2026-10-09_002
+[main 779ac2d0] cowork: paid-footer insertion pass (2026-10-09_080006)
+ 5 files changed, 106 insertions(+)
+ create mode 100644 ops/logs/sell_2026-10-09_080449.log
+ create mode 100644 ops/outbox/2026-10-09_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   47755c19..779ac2d0  main -> main
+
+=== コメントに自動返信する ===
+  File "/Users/apple/agent-team-run/ops/auto_reply_comments.py", line 108, in <module>
+    def pick_phrase(text: str, subject: str = "") -> str | None:
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+replies.tsv が空。先に `python3 ops/auto_reply_comments.py --go`
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+ }
+]
+⚠️ 今回フォローできた人は0人です。上の理由を確認してください。
+記録: 2026-10-09 70フォロワー / 今回フォロー 14人
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+読者に見えていない記事: 1本
+  GONE n0443f87ce4df 氷見牛は、地元でもめったに食べられない。
+
+直し方: note で下書きを開いて公開する（code からはできない＝A1）
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-10-09_082215.log
+
+== 結果: 追記 6本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-10-09_082215.log
+  nc54ca5114fa2	UPDATED:更新する
+更新できた: 6 / 6  （2026-10-09 08:24）
+ログ: ops/logs/backfill_tags_2026-10-09_082335.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-10-09_003_cowork_code.yaml  id=2026-10-09_003
