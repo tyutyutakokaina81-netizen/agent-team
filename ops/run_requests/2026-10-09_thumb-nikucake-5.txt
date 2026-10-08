@@ -1,7 +1,0 @@
-# サムネ再取得(5巡目): 2026-10-09_note記事_肉ケーキ_形だけを借りている
-# 4巡目は端末名と撮影日が焼き込まれた写真(REDMI NOTE 13 PRO / 2025.09.15)。見出しに使えない。
-# UNUSABLE_NAME_HINTS に端末名を追加した(redmi/xiaomi/huawei/img_2/dsc_0/screenshot)。
-# 語: wagyu beef / beef sashimi plate / sliced beef dish / 牛肉 薄切り 皿
-# 欲しい絵: 皿に並んだ生の薄切り牛肉(焼く前)。霜降りが見えるとよい
-# 不可: 透かし・日付の焼き込み／火を通した肉／弁当／人物の顔／店名や価格
-# ※ オーナーが実物を取り寄せたら、その写真が最良: bash ops/use_my_photo.sh <写真> 肉ケーキ
