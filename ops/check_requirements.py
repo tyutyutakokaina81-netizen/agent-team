@@ -997,7 +997,15 @@ _ver_shared_known = [g for _h, g in _ver_shared_all if _h in _shared_ok]
 # **配布数はverifiedを含めた全体で数える**。verified かどうかは重大度の判断にだけ使う。
 _all_groups = [v for v in _groups.values() if len(v) >= 3]
 _wide = [v for v in _all_groups if len(v) >= 4]                      # 4記事以上に同じ画像
-_wide_used = [v for v in _wide if sum(1 for st in v if st in verified) >= 2]  # うち実際に見出しに出る
+# 2026-10-08: **_shared_ok.tsv の承認を無視していた**。氷見の海岸線(md5=1bb4ac1a…)は
+# 2026-09-24に「富山湾はなぜ魚の宝庫か／海水浴」の2本での共有だけ目視承認され、
+# _rejected_hashes.tsv にも「only:」で他4本にだけ不可と明記済みだったのに、
+# _wide_used はこの承認を一切見ずに**毎日同じ組をBROKENと出し続けていた**
+# （_ver_shared は_shared_okを見るが、BROKEN本体のこの判定は別の集計で見ていなかった）。
+# 承認済みhashは「実際に見出しに出ている」側の判定から除く。
+_wide_used = [v for _h, v in _groups.items()
+              if len(v) >= 4 and sum(1 for st in v if st in verified) >= 2
+              and _h not in _shared_ok]
 _minor = sum(1 for v in _all_groups if len(v) == 3)
 _vs_note = ""
 if _ver_shared:
