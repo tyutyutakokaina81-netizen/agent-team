@@ -166,22 +166,29 @@ _STATE_JS = """() => {
 #   直前に現れる `\"key\":\"nXXXXXXXXXXXX\"` で**その記事自身のものだけ**を取る。
 #   保存済みHTML 9件で検証済み（公開2件は自記事のcommentCountを正しく0と読み、下書きは0件）。
 _OWN_KEY_RE = r'\\"key\\":\\"(n[0-9a-f]{12})\\"'
+# ★2026-10-08: API候補4つ（note_key指定）が**全部 total_count:0 の空応答**だった
+#   （200は返るのでエンドポイント自体は存在するが、記事の特定に失敗している＝
+#   おそらく note の内部APIは記事を alnum の key でなく**数値の noteId**で引く）。
+#   埋め込みデータに `\"noteId\":NNNN` が commentCount と同じ記事ブロックの中にある
+#   （保存HTML na5fac95f2eb2 で検証: 同じ逆方向4000文字の窓の中に
+#   own key・noteId・commentCount が揃って出てくる）。status/count と同じやり方で拾う。
+_NOTE_ID_RE = r'noteId\\"?:(\d+)'
 
 
 def read_state_from_payload(html: str, note_key: str):
-    """Next.js の埋め込みデータから、**その記事自身の** (status, commentCount) を取る。
+    """Next.js の埋め込みデータから、**その記事自身の** (status, commentCount, noteId) を取る。
 
-    取れなければ (None, None)。**推測しない**＝分からないときは分からないと言う。
+    取れなければ (None, None, None)。**推測しない**＝分からないときは分からないと言う。
     """
     if not html:
-        return None, None
+        return None, None, None
     # 下書きは埋め込みデータ自体が無い（保存HTML 5件で確認）。画面に出る言葉で拾う＝
     # ここを落とすと「下書きだからコメント欄が無い」が「セレクタ外れ」に化ける。
     if "公開前の下書き" in html or "これは下書き" in html:
-        return "draft", 0
+        return "draft", 0, None
     if not note_key:
-        return None, None
-    status = count = None
+        return None, None, None
+    status = count = note_id = None
     for m in re.finditer(r'\\"commentCount\\":(\d+)', html):
         back = html[max(0, m.start() - 4000):m.start()]
         keys = re.findall(_OWN_KEY_RE, back)
@@ -190,12 +197,15 @@ def read_state_from_payload(html: str, note_key: str):
             st = re.search(r'\\"status\\":\\"([a-z]+)\\"', back[-4000:])
             if st:
                 status = st.group(1)
+            ids = re.findall(_NOTE_ID_RE, back)
+            if ids:
+                note_id = ids[-1]
             break
-    return status, count
+    return status, count, note_id
 
 
 def read_note_state(page, note_key: str = ""):
-    """埋め込み状態から (status, commentCount) を取る。取れなければ (None, None)。
+    """埋め込み状態から (status, commentCount, noteId) を取る。取れなければ (None, None, None)。
 
     まず旧 Nuxt、次に現行の Next.js ペイロードを見る（note 側がまた変わっても片方は残る）。
     """
@@ -204,11 +214,11 @@ def read_note_state(page, note_key: str = ""):
     except Exception:
         st = None
     if st and (st.get("status") or st.get("commentCount") is not None):
-        return st.get("status"), st.get("commentCount")
+        return st.get("status"), st.get("commentCount"), None
     try:
         html = page.content()
     except Exception:
-        return None, None
+        return None, None, None
     return read_state_from_payload(html, note_key)
 
 
@@ -219,7 +229,12 @@ def read_note_state(page, note_key: str = ""):
 #   note の画面が変わっても壊れにくい。ログイン済みのブラウザから呼ぶので認証も通る。
 #   どの形か確かめられない（A1）ので、**候補を順に試し、応答をそのまま保存する**。
 #   保存さえされれば、次の実行で正しい形に直せる。
+# 2026-10-08: {key}版4種は実測で全滅（200/total_count:0）。数値 noteId 版を先に試す。
+# {key}版は note_id が取れなかった場合のフォールバックとして残す。
 _API_PATHS = [
+    "https://note.com/api/v3/notes/{id}/comments",
+    "https://note.com/api/v1/note/{id}/comments",
+    "https://note.com/api/v2/notes/{id}/comments",
     "https://note.com/api/v3/notes/{key}/comments",
     "https://note.com/api/v1/note/{key}/comments",
     "https://note.com/api/v3/notes/{key}/comments?page=1",
@@ -259,13 +274,15 @@ def _walk_comments(obj, out):
     return out
 
 
-def fetch_comments_via_api(page, note_key: str, debug: bool = False):
+def fetch_comments_via_api(page, note_key: str, note_id: str = "", debug: bool = False):
     """note の API からコメントを取る。取れなければ [] と、保存した応答のパスを返す。"""
     if not note_key:
         return [], None
     saved = None
     for tpl in _API_PATHS:
-        url = tpl.format(key=note_key)
+        if "{id}" in tpl and not note_id:
+            continue
+        url = tpl.format(key=note_key, id=note_id)
         try:
             r = page.request.get(url, timeout=20000)
         except Exception:
@@ -296,7 +313,7 @@ def fetch_comments_via_api(page, note_key: str, debug: bool = False):
 def extract_comments(page, url, debug=False):
     """(comments, status) を返す。status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）。"""
     _key = (re.search(r"/n/(n[0-9a-f]{12})", url) or [None, ""])[1] if "/n/n" in url else ""
-    _st, _cc = read_note_state(page, _key)
+    _st, _cc, _nid = read_note_state(page, _key)
     if _st == "draft":
         # 公開されていない記事＝コメント欄が無いのは当然。セレクタの問題ではない。
         return [], "draft"
@@ -328,7 +345,7 @@ def extract_comments(page, url, debug=False):
         #   「0件」と報告されてコメントが放置される。件数を添えて別扱いにする。
         if _cc:
             # ★まず API を試す（DOM より確実）。取れたらそれを返す。
-            _api, _saved = fetch_comments_via_api(page, _key, debug)
+            _api, _saved = fetch_comments_via_api(page, _key, _nid, debug)
             if _api:
                 _out = []
                 for i, c in enumerate(_api):
@@ -424,6 +441,15 @@ def main():
     # 2026-09-22: 404等は**巡回では直らない**（削除/非公開/下書き/URL誤り）ので別に数える。
     # 同じ3本が毎日「未描画」に混ざっていて、何をすればいいのか分からない報告になっていた。
     not_found = 0
+    # 2026-10-08: 保存されていた --debug HTML 75件のうち **61件が CloudFront の 403 Request blocked**
+    #   だった（<title>ERROR: The request could not be satisfied</title>）。このタイトルは
+    #   note の殻タイトルと**一致しない**ので従来ロジックでは「描画された」と誤判定され、
+    #   実体は本文ゼロの遮断ページのまま extract_comments に渡っていた＝「セレクタ外れ」として
+    #   22件も報告されていたのは**ほぼ全部これ**。原因はセレクタでなく、`--rescan --limit 0` で
+    #   244本を間隔なしに連続 goto していたこと＝CDNのレート制限に引っかかった。
+    #   遮断されている間は何本続けても同じ結果にしかならないので、検出したら**即座に巡回を打ち切る**。
+    _BLOCK_TITLE = "ERROR: The request could not be satisfied"
+    blocked = 0
 
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
@@ -443,6 +469,9 @@ def main():
                 # 「note側のエラーか読み込み失敗」では原因が絞れない＝人が動けない報告だった。
                 # 404 なら削除・非公開・下書き・URL誤りのいずれかで、**巡回では直らない**。
                 # 200 なのに描画されないのとは対処がまったく違うので、最初から分けて数える。
+                # 2026-10-08: CDNのレート制限対策＝連続 goto の間に短い間隔を空ける。
+                if visited > 1:
+                    page.wait_for_timeout(1200)
                 _resp = page.goto(url, timeout=45000, wait_until="domcontentloaded")
                 _status = getattr(_resp, "status", None) if _resp else None
                 _final = page.url
@@ -460,14 +489,31 @@ def main():
                 # 記事が描画されていない動かぬ証拠だった。要素の有無より **title** が確実な判別材料。
                 _NOTE_SHELL_TITLE = "note ――つくる、つながる、とどける。"
                 _rendered = False
+                _is_block = False
                 for _ in range(15):
                     try:
-                        if page.title().strip() != _NOTE_SHELL_TITLE:
+                        _t = page.title().strip()
+                        if _t == _BLOCK_TITLE:
+                            _is_block = True
+                            break
+                        if _t != _NOTE_SHELL_TITLE:
                             _rendered = True
                             break
                     except Exception:
                         pass
                     page.wait_for_timeout(1000)
+                if _is_block:
+                    blocked += 1
+                    try:
+                        DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+                        _n = re.sub(r"[^A-Za-z0-9]+", "_", url)[-60:] + ".html"
+                        (DEBUG_DIR / _n).write_text(page.content(), encoding="utf-8")
+                    except Exception:
+                        pass
+                    log(f"    🛑 BLOCKED（CloudFront 403 Request blocked）＝CDNのレート制限。"
+                        f"セレクタの問題ではない。残り {len(targets) - visited} 本を打ち切って、"
+                        "時間を空けてから少ない本数で再実行してください")
+                    break
                 if not _rendered:
                     if _status and _status >= 400:
                         not_found += 1
@@ -546,11 +592,15 @@ def main():
     # 結果行は**必ず**出す（対象0でも出す）。有料フッターで「結果行なし＝失敗扱い」の事故があったため。
     log(f"=== 結果: 巡回 {visited} / 新規コメント {found_total} / セレクタ外れ {no_selector}"
         f" / 未描画 {not_rendered} / **到達不能(404等) {not_found}** / 未公開(draft) {len(drafts)}"
-        f" / **コメント有りだが本文が取れない {unreadable}** ===")
+        f" / **コメント有りだが本文が取れない {unreadable}** / **CDN遮断 {blocked}** ===")
     for _u, _n in unreadable_urls:
         log(f"    ❌ 返信待ち {_n}件: {_u}")
     for _u in drafts:
         log(f"  未公開: {_u}  ← registryは公開済みとしているが note 上は下書き")
+    if blocked:
+        log(f"→ CDNに遮断されて {len(targets) - visited} 本を打ち切った。時間を空けて、"
+            "一度に巡回する本数を減らして（--limit を小さく）再実行すること。"
+            "遮断中に出た「セレクタ外れ」は実体がこれの可能性が高い＝セレクタは直さなくてよい。")
     if no_selector:
         log("→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。")
     if not_rendered:
