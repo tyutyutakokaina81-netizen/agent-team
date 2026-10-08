@@ -1325,14 +1325,32 @@ _arts17 = sorted([f for f in glob.glob(os.path.join(ROOT, "CMO/outputs/*note記�
                  key=lambda f: os.path.basename(f))
 
 
-def _jp_body(_t):
+def _body_block(_t):
     _m = _re17.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, _re17.S)
     return _m.group(1) if _m else ""
 
 
+def _jp_body(_t):
+    # 2026-10-08: 本文ブロックには後ろに**フォロー導線**（――区切り）と**Englishセクション**
+    # （――区切り＋【English】見出し）が同じ```内に入っている（R36移行後の正しい形＝これで合っている）。
+    # 切らずに読むと _paras[-1]（「締め」として比較する段落）が**常に英語の最終段落**になり、
+    # 日本語キープリストの正規表現が英語をほぼ全部「◯」に潰す＝**全記事が同じ骨格「◯」に収束**して
+    # 「直近10日28本すべてが同型」という意味のない1件を出していた（R17の自己検証が無かった盲点）。
+    # 最初の区切り(――)より前＝生来の日本語エッセイだけを見る。
+    _b = _body_block(_t)
+    _cut = _b.find("――")
+    return _b[:_cut] if _cut != -1 else _b
+
+
 def _en_summary(_t):
-    _m = _re17.search(r"##\s*English Summary\n\n\*\*(.+?)\*\*\n\n(.+?)\n\n---", _t, _re17.S)
-    return _m.group(2) if _m else ""
+    # 2026-10-08: Englishは別セクション「## English Summary」ではなく、**本文ブロック内の
+    # 【English】見出し以降**にある（R36で「ブロック外に書くとnote上で届かない」と判明し移行済み）。
+    # 旧パスのまま残っていたため、ここは移行後**常にNoneを返し**、英語側の反復検知
+    # (_seen_en／_EN_PHRASES＝CQOが「英語の反復のほうが致命的」として追加したもの)が
+    # ずっと死んでいた（作ってあるのに繋がっていない、という当社で繰り返す型がここにもあった）。
+    _b = _body_block(_t)
+    _m = _re17.search(r"【English】.*?\n\n(.+)", _b, _re17.S)
+    return _m.group(1) if _m else ""
 
 
 _dupes = []
@@ -1424,7 +1442,11 @@ _published = {os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "drafts/
 
 
 def _has_unpublished(_names):
-    return any(f"{n}.md" not in _published for n in _names)
+    # 2026-10-08: EN側の言い回し検知は末尾に "(EN)" を付けて記事名を積む（表示用の印）。
+    # 付けたまま _published と比較すると**公開済み記事も毎回「未公開」と誤判定**される
+    # （"xxx.md(EN)" はどの published ファイル名にも一致しない）。_en_summary が常にNoneを
+    # 返していた間はこの枝が実行されず隠れていたが、EN抽出を直したことで表に出た。
+    return any(f"{_re17.sub(r'\(EN\)$', '', n)}.md" not in _published for n in _names)
 
 
 _hist = 0
