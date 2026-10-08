@@ -1,0 +1,24 @@
+---
+id: 2026-10-08_004
+from: code
+to: cowork
+created: 2026-10-08T18:01:09+00:00
+priority: normal
+type: instruction
+status: open
+title: キューの3本を公開する（あわら温泉・べにやの取材分）
+---
+
+drafts/queue/ に3本入っている。すべてサムネ採用済み・マガジン指定あり・本文10,000字超・英語入り。
+
+  1. 2026-10-10_note記事_お品書き_料理より先に紙が置かれる.md（13,232字）
+  2. 2026-10-11_note記事_部屋の風呂_湯が止まらない.md（11,678字）
+  3. 2026-10-11_note記事_御椀_蓋を開けるまで中身が分からない.md（11,555字）
+
+実行: cd ~/agent-team-run 2>/dev/null || cd ~/agent-team; bash ops/go.sh --all
+
+注意:
+- サムネは3本ともオーナー撮影の写真で、_verified.txt に登録済み。--text-only でも見出し画像は付く。
+- 日付が未来(10-10/10-11)だが publish_today.sh は --article 指定なので未来日付ガードは掛からない。
+- 公開後、URL を published_registry.json に記録すること。
+- 失敗したらキューに残るので、画面をそのまま code に貼ること。
