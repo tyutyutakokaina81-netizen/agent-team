@@ -217,8 +217,18 @@ try:
         # 2026-09-22: コメント巡回の件数は **sed で抜いている**ため、grep だけを見ていた R20 は
         # それらを一度も検査していなかった（＝「写真サムネ未設定」と同じ断線が、
         # 別の抜き出し方で残っていた）。producer に fetch_note_comments.py も加える。
+        # ★2026-10-08: **出力元の一覧が古いと、この検査自身が誤検知する。**
+        #   日次に新しいスクリプトを足したのに、ここに追加し忘れて
+        #   「== 投稿」が実在しないと鳴った（実際は post_comment_replies.py が出している）。
+        #   **日次で件数を数える出力を増やしたら、必ずここにも足す。**
         _srcs = [_pubpy,
                  os.path.join(ROOT, "CDO/outputs/note_publisher/publish_paid_note.py"),
+                 os.path.join(ROOT, "CDO/outputs/note_publisher/post_comment_replies.py"),
+                 os.path.join(ROOT, "CDO/outputs/note_publisher/check_public_all.py"),
+                 os.path.join(ROOT, "CDO/outputs/note_publisher/_cowork_growth.py"),
+                 os.path.join(ROOT, "ops/auto_reply_comments.py"),
+                 os.path.join(ROOT, "ops/follow_commenters.py"),
+                 os.path.join(ROOT, "ops/growth_now.sh"),
                  os.path.join(ROOT, "CDO/outputs/note_publisher/fetch_note_comments.py")]
         _ps_parts = []
         for _sp in _srcs:

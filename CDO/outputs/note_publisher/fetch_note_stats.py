@@ -128,6 +128,36 @@ def main() -> int:
             return 1
         print(f"OPEN: {opened}")
 
+        # ★2026-10-08: **描画される前に読み取っていた。**
+        #   保存した画面（ops/logs/note_stats_dump.json）を見ると、
+        #   インプレッション・ページビューが全部「-」のまま、記事の表も0行だった。
+        #   拾えた2行は「あなたへの提案」カードの『くわしくみる』で、記事ではない。
+        #   数字が入るまで待ってから読む。
+        for _ in range(30):
+            body = page.inner_text("body")
+            if re.search(r"ページビュー\s*\n\s*[\d,]", body):
+                break
+            page.wait_for_timeout(1000)
+        else:
+            print("WARN: 数字が入らないまま先へ進みます（ログインや集計の遅れの可能性）")
+
+        # ★期間を「全期間」にする。既定は過去28日で、記事どうしを比べるには短い。
+        for label in ("全期間", "過去365日間"):
+            try:
+                el = page.get_by_text(label, exact=True).first
+                if el and el.is_visible():
+                    el.click()
+                    page.wait_for_timeout(3500)
+                    print(f"PERIOD: {label} に切り替えた")
+                    break
+            except Exception:
+                continue
+
+        # 記事ごとの表は下のほうにあるので、そこまで送ってから読む
+        for _ in range(6):
+            page.mouse.wheel(0, 2500)
+            page.wait_for_timeout(800)
+
         # 無限スクロール: 行数が増えなくなるまで下げる
         limit = 400 if ALL else 60
         rows, last = [], -1
@@ -143,6 +173,14 @@ def main() -> int:
         if not rows:
             _dump(page, "行が1件も取れなかった（DOM が変わった）")
             return 1
+
+        # ★2026-10-08: 「あなたへの提案」カードも /n/n へのリンクを持つので、記事と混ざる。
+        #   数が1つも無い行・案内文だけの行は落とす。**0件を記事0件と読み違えない**ため。
+        _before = len(rows)
+        rows = [r for r in rows
+                if not any(w in (r.get("row") or "") for w in ("くわしくみる", "あなたへの提案"))]
+        if len(rows) != _before:
+            print(f"SKIP: 記事でない行を {_before - len(rows)} 行外した（提案カード）")
 
         recs = []
         for r in rows:

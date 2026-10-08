@@ -212,6 +212,87 @@ def read_note_state(page, note_key: str = ""):
     return read_state_from_payload(html, note_key)
 
 
+# ★2026-10-08: **コメント本文はページに入っていない。**
+#   保存した実ページで数えると `commentCount` は 2/1/1 と実在するのに、
+#   本文の文字列はどこにも無い＝コメントは**別の通信であとから読み込まれている**。
+#   DOM のセレクタを当て続けるより、**note 自身が使っている API をそのまま呼ぶ**ほうが確実で、
+#   note の画面が変わっても壊れにくい。ログイン済みのブラウザから呼ぶので認証も通る。
+#   どの形か確かめられない（A1）ので、**候補を順に試し、応答をそのまま保存する**。
+#   保存さえされれば、次の実行で正しい形に直せる。
+_API_PATHS = [
+    "https://note.com/api/v3/notes/{key}/comments",
+    "https://note.com/api/v1/note/{key}/comments",
+    "https://note.com/api/v3/notes/{key}/comments?page=1",
+    "https://note.com/api/v2/notes/{key}/comments",
+]
+
+
+def _walk_comments(obj, out):
+    """応答の形が分からないので、**本文らしき文字列を持つ辞書**を再帰で拾う。
+    キー名は決め打ちしない（note 側が変えても拾えるように）。"""
+    if isinstance(obj, dict):
+        body = None
+        for k in ("body", "text", "comment", "message"):
+            v = obj.get(k)
+            if isinstance(v, str) and v.strip():
+                body = v.strip()
+                break
+        if body:
+            who = ""
+            for k in ("user", "author", "creator"):
+                u = obj.get(k)
+                if isinstance(u, dict):
+                    who = (u.get("nickname") or u.get("name") or "").strip()
+                    h = (u.get("urlname") or u.get("key") or "").strip()
+                    if h:
+                        who = f"{who}(@{h})" if who else f"@{h}"
+                    break
+            if not who:
+                who = (obj.get("nickname") or obj.get("name") or "").strip()
+            out.append({"author": who, "text": body,
+                        "id": str(obj.get("id") or obj.get("key") or "")})
+        for v in obj.values():
+            _walk_comments(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _walk_comments(v, out)
+    return out
+
+
+def fetch_comments_via_api(page, note_key: str, debug: bool = False):
+    """note の API からコメントを取る。取れなければ [] と、保存した応答のパスを返す。"""
+    if not note_key:
+        return [], None
+    saved = None
+    for tpl in _API_PATHS:
+        url = tpl.format(key=note_key)
+        try:
+            r = page.request.get(url, timeout=20000)
+        except Exception:
+            continue
+        if r.status != 200:
+            continue
+        try:
+            data = r.json()
+        except Exception:
+            continue
+        if debug and saved is None:
+            try:
+                DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+                saved = DEBUG_DIR / f"api_{note_key}.json"
+                saved.write_text(json.dumps(data, ensure_ascii=False, indent=1)[:200000],
+                                 encoding="utf-8")
+            except Exception:
+                saved = None
+        got = _walk_comments(data, [])
+        # 記事本文そのもの（長すぎるもの）は除く＝コメントだけ残す
+        got = [g for g in got if 1 <= len(g["text"]) <= 2000]
+        if got:
+            log(f"    API命中: {url} （{len(got)}件）")
+            return got, saved
+    return [], saved
+
+
 def extract_comments(page, url, debug=False):
     """(comments, status) を返す。status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）。"""
     _key = (re.search(r"/n/(n[0-9a-f]{12})", url) or [None, ""])[1] if "/n/n" in url else ""
@@ -246,7 +327,17 @@ def extract_comments(page, url, debug=False):
         # ★2026-10-06: **件数が分かっているのに本文が取れない**のがいちばん危ない状態＝
         #   「0件」と報告されてコメントが放置される。件数を添えて別扱いにする。
         if _cc:
-            log(f"    ⚠️ コメントが {_cc}件あるのに本文が取れない（保存HTMLを code が読む）")
+            # ★まず API を試す（DOM より確実）。取れたらそれを返す。
+            _api, _saved = fetch_comments_via_api(page, _key, debug)
+            if _api:
+                _out = []
+                for i, c in enumerate(_api):
+                    _cid = c["id"] or f"{_key}-{i}-{c['text'][:20]}"
+                    _out.append({"id": f"api_{_cid}", "author": c["author"] or "?",
+                                 "text": c["text"]})
+                return _out, "ok"
+            log(f"    ⚠️ コメントが {_cc}件あるのに本文が取れない"
+                f"（API応答を保存: {_saved}）")
             return [], f"has-{_cc}-unreadable"
         return [], ("ok" if has_area else "no-selector")
 
