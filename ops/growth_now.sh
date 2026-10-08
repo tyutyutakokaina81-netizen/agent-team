@@ -9,6 +9,14 @@ cd "$(dirname "$0")/.."
 #   これまではタグ検索で見つけた人だけを見ていて、ここを素通りしていた。
 python3 ops/follow_commenters.py --go || echo "⚠️ コメント主のフォローでつまずきました"
 
+# ★2026-10-08: **自分の記事にスキを付けた人**を追う。
+#   これまではタグ検索で見つけた知らない人だけを見ていて、
+#   **すでに反応してくれた人**を素通りしていた。実ページで確認したら、
+#   1本に17スキ付いている記事があった＝17人が関心を示している。
+#   関心の強い順に追う: コメント > スキ > タグ検索。
+python3 ops/follow_likers.py --go || echo "⚠️ スキをくれた人のフォローでつまずきました"
+
+
 OUT="$(python3 CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
 echo "$OUT" | tail -8
 AFTER="$(echo "$OUT" | sed -n 's/^FOLLOWERS_AFTER:: *//p' | tail -1)"

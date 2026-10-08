@@ -51,6 +51,7 @@ python3 CDO/outputs/note_publisher/post_comment_replies.py --go || note_fail "�
 echo ""
 echo "########## 4.5) コメントをくれた人をフォローする ##########"
 python3 ops/follow_commenters.py --go || note_fail "コメント主のフォロー"
+python3 ops/follow_likers.py --go || note_fail "スキをくれた人のフォロー"
 
 echo ""
 echo "########## 5) フォロワーを増やす（目標 1日ひとり） ##########"
