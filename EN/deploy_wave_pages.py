@@ -122,12 +122,40 @@ def convert(wave_dir: Path, slug: str):
 
 
 def _topic_tokens(title: str) -> set:
-    """題材トークン抽出（重複ゲート用・日英対応）"""
+    """題材トークン抽出（重複ゲート用・日英対応）
+
+    ★2026-10-08: **英語の文タイトルで誤検知していた。**
+      このゲートは日本語の題材語（『鱒寿司』『ホタルイカ』）を想定して作ってあり、
+      英語は travel 系の語を少し足しただけだった。
+      note 記事の【English】から作ったページは **英語の文がタイトル**になるので、
+      about / same / dish / there / left のような**ふつうの語**が題材語として扱われ、
+      36本中33本が「題材重複」で止まった（実際には別の題材）。
+      直し方は2つ:
+        ① ありふれた英語をまとめて除外する
+        ② **1語一致では止めない**（2語以上の重なりを要求する。呼び出し側で判定）
+      ゲート自体は残す。2026-07-07 に同じ題材のページを二重に出した事故があるため。
+    """
     stop = {"富山","高岡","氷見","富山県","富山市","高岡市","氷見市","富山湾","北陸","保存版","ガイド",
             "toyama","takaoka","himi","japan","guide","travel","the","and","for","with","how","best","your",
             "worth","stop","season","day","days","tips","near","from","food","eat","see","visit","trip","area",
             "place","spot","cost","price","time","way","get","when","where","what","which","around","local",
-            "honest","actually","really","things","that","this","you","are","was","its","not","but","real"}
+            "honest","actually","really","things","that","this","you","are","was","its","not","but","real",
+            # ★2026-10-08 追加: 英語の文タイトルに必ず出る語。題材を表さない。
+            "about","after","again","all","almost","along","already","also","always","another","any","anybody",
+            "anyone","anything","back","because","been","before","being","between","both","can","cannot","come",
+            "comes","could","did","does","done","down","each","even","ever","every","everybody","everyone",
+            "first","give","gives","goes","going","gone","good","had","has","have","her","here","him","his",
+            "into","just","keep","kind","kinds","know","known","last","least","left","less","let","like",
+            "little","long","look","looks","made","make","makes","many","matter","may","mean","means","might",
+            "more","most","much","must","name","named","names","need","needs","never","new","next","nobody",
+            "none","nothing","now","off","often","once","one","ones","only","other","others","our","out","over",
+            "own","part","parts","people","perhaps","put","puts","quite","rather","said","same","say","says",
+            "second","see","seem","seems","set","she","should","side","since","small","some","somebody",
+            "someone","something","sometimes","still","such","sure","take","takes","tell","than","their","them",
+            "then","there","these","they","thing","think","those","though","three","through","took","turn",
+            "turns","two","under","until","upon","use","used","uses","very","want","wants","well","went","were",
+            "when","while","who","whole","why","will","with","without","work","works","would","year","years",
+            "yet","your","yours","nobody","anybody","everybody","always","never"}
     toks = set()
     for seg in re.split(r"[、。，．,\.\s・「」『』【】\[\]（）()＝=＋+\-—–~〜…!！?？:：;；|｜/／']+", title or ""):
         seg = seg.strip().lower()
@@ -166,8 +194,10 @@ def main():
             skipped.append((s, "ファイル名衝突")); continue
         m = re.match(r"^#\s+(.*)", md.read_text(encoding="utf-8").strip())
         tok = _topic_tokens(m.group(1) if m else s)
-        if tok & seen:
-            skipped.append((s, "題材重複:" + "・".join(sorted(tok & seen))[:30])); continue
+        # ★2026-10-08: **2語以上**重なったときだけ止める。1語（例: 'rice'）では題材が同じとは言えない。
+        _ov = tok & seen
+        if len(_ov) >= 2:
+            skipped.append((s, "題材重複:" + "・".join(sorted(_ov))[:30])); continue
         try:
             made.append(convert(wave_dir, s)); seen |= tok
         except Exception as e:

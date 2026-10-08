@@ -1910,6 +1910,48 @@ try:
 except Exception as _e41:
     add("R41 集客が止まっていないか", "STALE", f"判定不能: {type(_e41).__name__} {str(_e41)[:60]}")
 
+# R42 英語ページが止まっていないか: North Star は「海外の読者に読まれること」で、
+# **海外の人は note に来ない**。届く場所は apps/toyama-guide/ の英語ページのほう。
+# 2026-10-08 に分かったこと: その生成が **2026-09-23 で止まっていて、36本ぶん抜けていた**。
+# 「作ってあるが繋がっていない」型の9件目で、しかも**目標に直接効く経路**だった。
+# 判定: 公開済みの note 記事のうち、英語ページが無いものが一定数あれば BROKEN。
+#       sitemap に入っていないページがあっても BROKEN（公開しても見つけてもらえない）。
+try:
+    import glob as _g42
+    _guide = os.path.join(ROOT, "apps/toyama-guide")
+    _smf = os.path.join(ROOT, "apps/ai-agency-hp/sitemap.xml")
+    if not os.path.isdir(_guide):
+        add("R42 英語ページが止まっていないか", "STALE", "apps/toyama-guide/ が無い＝未検査")
+    else:
+        _pages = [os.path.basename(x) for x in _g42.glob(os.path.join(_guide, "*.html"))]
+        _en = [x for x in _pages if x.startswith("en-")]
+        # sitemap に入っていないページ
+        _notin = []
+        if os.path.exists(_smf):
+            _sm = open(_smf, encoding="utf-8").read()
+            _locs = set(re.findall(r"<loc>(.*?)</loc>", _sm))
+            _base = {os.path.basename(u) for u in _locs}
+            _notin = [x for x in _pages if x not in _base and x != "index.html"]
+        # 直近に書いた記事に対して英語ページがどれだけあるか（本数で見る）
+        _recent_arts = [os.path.basename(x) for x in
+                        _g42.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))]
+        _recent_arts = sorted(_recent_arts)[-40:]
+        if _notin:
+            add("R42 英語ページが止まっていないか", "BROKEN",
+                f"**sitemap に入っていない英語ページが {len(_notin)}本**（例:{_notin[0][:40]}）"
+                " → `python3 apps/toyama-guide/gen_sitemap.py` で入れる。"
+                "公開していても検索から見つけてもらえない")
+        elif len(_en) < 150:
+            add("R42 英語ページが止まっていないか", "BROKEN",
+                f"英語ページが {len(_en)}本しか無い → 生成が止まっている可能性。"
+                " `python3 EN/build_pages_from_articles.py --since <日付> --go` のあと "
+                "`EN/deploy_wave_pages.py`")
+        else:
+            add("R42 英語ページが止まっていないか", "OK",
+                f"英語ページ {len(_en)}本（全{len(_pages)}ページ）がすべて sitemap に入っている")
+except Exception as _e42:
+    add("R42 英語ページが止まっていないか", "STALE", f"判定不能: {type(_e42).__name__} {str(_e42)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))

@@ -1,0 +1,33 @@
+# The Same Name, A Different Dish
+
+Last time I wrote about oden from Shizuoka — simmered in a black broth, served on skewers, eaten with powder dusted on top. Today, oden from Nagoya, which is the same name again and a different thing again.
+
+In Nagoya it is eaten with miso. The pieces are simmered in stock and a miso sauce goes over the top, or they are simmered in the miso sauce itself; that varies by shop and household, but either way the miso comes at the end. Shizuoka cooks it in a black broth and dusts it; Nagoya pours miso over it. Both are "something simmered, with one more step added," which I find interesting — oden seems to be a dish that does not end at the simmering.
+
+The miso around Nagoya is made differently from most. Ordinary miso ferments soybeans with a rice or barley culture; the mame-miso used there is made from soybeans alone, with no rice and no barley. The colour is dark, close to black-brown, and the taste is strong, with little sweetness and something almost astringent in it. Mixed with sugar and mirin it becomes a sweet-salty sauce, and that is what goes on the oden.
+
+Simmered in that sauce, daikon takes the colour on. It goes dark from the outside in, and when you cut one open the middle may still be white, so the cross-section shows you how far the flavour got. Eggs do the same, the white turning brown on the surface. It looks quite unlike oden anywhere else — if you saw it cold you might not know what it was.
+
+Nagoya also has dote-ni, beef tendon or offal simmered a long time in miso. The ingredients overlap with oden and the miso is the same, so the line between them is not clear. Some shops will put oden pieces into the dote-ni pot and serve it from there, at which point naming it either way seems arbitrary. Dish names are less tidy than people assume, and crossing between regions makes that worse.
+
+Nagoya oden also arrives on skewers, as in Shizuoka. I have heard oden descends from dengaku, things skewered and grilled, and that the sticks are a leftover of that — but that is something I was told rather than checked, and the origins are probably disputed, so I will not state it as fact.
+
+Does it travel? I think so. Miso sauce keeps at room temperature; simmered pieces hold their shape if sealed with their liquid; and you can send the sauce alone and supply your own pieces. In this series I am looking for food that survives a box, and anything where the sauce is the main event is strong — a factory sauce and a shop sauce differ less than you would expect, the same logic as curry roux.
+
+I have not eaten it. Not in Nagoya, and not at all as far as I remember. So there is no description of the taste here. Sweet, salty, strong — I can guess, but writing a guess is pointless. When it arrives and I have eaten it, that is when it gets written.
+
+So one name covers all this. Shizuoka simmers it black and dusts it; Nagoya pours miso over it; the west of the country simmers it in a clear broth. The pieces differ too. Hardly anyone argues about which is the real one. Each has settled into its own shape in its own place, and it may be closer to the truth to treat them as different dishes that happen to share a name. Ordering them in makes that obvious — lining them up side by side is hard to do on the spot.
+
+Nagoya oden is not an exception there. The place has several dishes that get miso poured over them: a fried pork cutlet with miso on it, udon simmered in a miso broth, dote-ni. You could say the same sauce is being reused across different dishes — the miso sauce comes first, and what it goes on is decided afterwards. Seen that way, it landing on oden seems natural. Elsewhere in Japan miso is mostly something you dissolve into soup rather than something you pour; that is the difference.
+
+Why that miso? I have heard it put down to climate — that in a place with hot, humid summers a rice-culture miso spoils more easily, and soybeans alone, fermented long, keep better. That is something I was told and have not checked, and once you get into history there are usually several accounts, so I will leave it as that. What is certain is only that there is a dark, long-keeping miso there.
+
+The sauce can be made at home: bean miso with sugar and mirin, simmered a little. Proportions will vary by household and I doubt there is one correct answer. Which raises the question of why order it in at all. The reason is that what is sold where it comes from gives you a baseline. Without one, you cannot tell whether what you made yourself is strong or weak, sweet or salty. I want to have eaten theirs at least once.
+
+A rough map of the same name: Kanto simmers it in dark soy broth, sometimes with chikuwabu among the pieces. Kansai uses a clear broth where the kelp stock comes forward. Shizuoka simmers it black, serves it on skewers and dusts it with dried fish and sardine powder. Nagoya pours miso over it. There are others — Kanazawa uses wheat gluten and a red-and-white roll, and I am told some places in the north put shellfish in. I do not know them all. What strikes me is that you rarely hear anyone argue about which is authentic. With ramen or soba, people will argue about method. Oden is left alone.
+
+Simmering time turns it into a different dish. Short, and each piece tastes of itself; long, and the broth goes to the middle. Which is better depends on the person. With miso I suspect long simmering can make the colour too dark — you often see photographs where the surface is black and the inside still white, which must be the sauce being strong. Reheating something that has been posted to you, that is your decision to make. The same box produces different results depending on who heats it.
+
+When it arrives I want to put it beside the Shizuoka one: both heated the same day, in the same bowl. That is the only way to see the difference in the colour of the broth and the direction of the taste. Eating them one at a time means comparing against memory, and memory is unreliable — "the last one was stronger, I think" is probably half imagination. If this series continues, I want to make an occasion to line things up on the same day. Oden is an easy subject for that.
+
+I have seen explanations of where the word oden comes from — most often that it is the "den" of dengaku with an honorific attached. It sounds plausible, but word origins are frequently invented after the fact, and I do not know whether to trust it. Things like that are safer left open. Writing an etymology rounds an article off nicely, but rounding it off with something unverified is pointless. What I know is that a dish with one name is simmered differently from place to place, and that in Nagoya miso goes on it. That seems enough.

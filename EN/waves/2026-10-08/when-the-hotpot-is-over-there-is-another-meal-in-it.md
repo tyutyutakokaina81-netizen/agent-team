@@ -1,0 +1,35 @@
+# When the Hotpot Is Over, There Is Another Meal in It
+
+Finish a hotpot and what is left is liquid. Almost nothing solid — just a cloudy broth in the bottom of the clay pot.
+
+You do not throw it away. You put rice into it and cook it again. This is called zōsui. Beaten egg goes in last, trailed over the surface; spring onion is scattered on top; the lid goes on for a moment. That is the second meal.
+
+The best part arrives at the end, which is the odd thing. A hotpot is eaten in sequence: meat goes in, vegetables go in, you take out what is cooked and eat it, then add more. All the while the broth is changing. What came out of the meat, the vegetables, the tofu — all of it accumulates there. So **the broth is at its strongest just as the hotpot is finishing**. What you have at the start and what you have at the end are not the same liquid. And it is into that final, concentrated version that the rice goes.
+
+As cooking, the order is backwards. Normally you make a stock first and then put things into it. With a hotpot, the stock turns out to have been made by the time you have eaten everything.
+
+You do not rebuild it, either. A little salt sometimes, a splash of soy if it is thin, but mostly nothing. The flavour is already settled, because everything that went in has given up what it had. This is the reverse of making dashi from dried goods, where the savour is drawn into the water and the material is thrown away. Here the material was the dinner, and the liquid is what remains.
+
+The egg has a timing to it. Into a hard boil, it sets into grains — edible, but not soft. Lower the heat or take the pot off, trail the beaten egg in thinly, wait a moment before stirring, and move it slowly. Then the white and yellow lie in ribbons across the surface. Every household does this slightly differently; this is only how mine does it.
+
+Something happens every single time: by the end of the hotpot everyone is full. Genuinely full, having eaten plenty. And the zōsui gets made anyway, and eaten anyway — people say "I couldn't possibly" while filling a bowl and finishing it. I cannot explain it. It tastes good, but that is not the whole reason. **Once it is made, it gets eaten**, and that is simply the shape of the evening; the hotpot is not over until the rice course has happened.
+
+Noodles work too. Udon is faster, since rice needs simmering and udon only needs warming. Some people use ramen — I wrote about that when writing about a hotpot ordered from Fukuoka. Lighter pots seem to suit rice and heavier ones noodles, though that is taste rather than rule. After a pot containing nothing but tofu, which I have also written about, the zōsui comes out very quiet indeed.
+
+A small point of difference: cooked rice put straight in releases surface starch and the broth goes slightly thick. People who dislike that rinse the rice in a sieve first, which leaves the grains distinct. There are rinsers and non-rinsers. We do not rinse, out of laziness. Some people prefer it thick anyway, so there is no correct answer.
+
+It can go wrong. Too much rice and there is not enough liquid left; you get something dense that no longer lets you taste the broth. Overcook it and the grains break down towards porridge. Both are edible, and most people seem to prefer the grains intact. Either way you notice after the fact — nobody stops to judge beforehand, because by the end of a hotpot everybody is full and nobody is thinking very hard.
+
+Sometimes it does not all get eaten, and the cold remains are still in the pot the next morning. Reheated, the rice has drunk more liquid and gone thick. I think it is good like that — more flavour has soaked in than the night before — though it looks terrible and is not something to show anyone. In the new-rice season there is a slight waste to it, since the point of new rice is that the grains stand up and this does the opposite. We do it anyway, because we have the hotpot anyway.
+
+There is always somebody watching the heat. Nobody appoints them, but it tends to be the same person skimming the scum, deciding what goes in and in what order, and handing out what is cooked. That person makes the zōsui as well: when the rice goes in, when the egg is trailed over. Everybody else sits holding a bowl. It is less an assigned role than simply how it falls out — the same person sees it through to the end.
+
+A green citrus was sitting at the edge of the photograph. Once the zōsui is in the bowls, a little of the peel is sometimes shaved over the top. The scent lifts and the taste changes. It is complete without it; with it, the same dish feels like a different one. Broth that has reduced all evening is heavy, and something fragrant at the end takes the weight off. Households differ — some use seven-spice pepper, some add nothing.
+
+It is also served in the clay pot itself. More precisely, the pot was already on the table and there is no reason to move it. That sounds obvious and may actually be unusual: **the vessel it was cooked in is the vessel on the table**, often still over a flame. Clay holds heat, so it stays hot to the last mouthful. The cost is that lifting the lid blinds anyone wearing glasses, which happens every time.
+
+I am writing this in October. I live in Takaoka, in Toyama, and in this part of the country the number of hotpots now starts rising, and keeps rising as it gets colder; by the time there is snow it is several times a week — which means the same number of zōsui. There is a season without them, too: the pot does not come out in summer, and sits on a high shelf for half the year. The day it comes down again in autumn is a small pleasure. It is heavy and awkward to fetch, and once it is out it stays out until spring.
+
+There is a practical gain as well. The same pot is used, so no second pan comes out. And because the liquid is either drunk or absorbed, **almost nothing is left to pour away** — no carrying a pot of strong broth to the sink. What remains is grains of rice stuck to the clay, which come off after soaking. I suspect not wasting the broth was the original motive and the fact that it tastes good came afterwards. That is a guess; I have not checked.
+
+Hotpot itself explains easily to people from elsewhere — a pot on the table, things cooked and eaten as you go, exists in plenty of countries. What does not carry is what comes next. Say "then we cook rice in what is left and make another meal," and there is a short pause. Leftover soup being drunk as soup the following day is the familiar idea; **leftover liquid being promoted to the main part of a different dish** is not. And it happens at the same table, in the same pot, immediately — a further course appears before anything is cleared away. It takes a long time to explain and no time at all to see, which is why the quickest answer is to have the hotpot together.
