@@ -1952,6 +1952,48 @@ try:
 except Exception as _e42:
     add("R42 英語ページが止まっていないか", "STALE", f"判定不能: {type(_e42).__name__} {str(_e42)[:60]}")
 
+# R43 ブラウザ操作が素の python3 で呼ばれていないか:
+# 2026-10-08 に日次ログ(publish_2026-10-08_080005.log)で `ModuleNotFoundError: No module named
+# 'playwright'` が出ていた。原因は **publish_to_note.py だけが $PYBIN（~/.note_venv/bin/python）で
+# 呼ばれ、ほかのブラウザ操作は全部 `python3`（macOS 既定の 3.9）で呼ばれていた**こと。
+# 公開だけ通るので表からは動いて見えるが、実際には毎日
+#   フォロー（＝オーナーが何度も「フォロワー増やして」と言っていた）／コメント取得と返信の投稿／
+#   閲覧数の取得／公開状態の確認
+# が「実行はされるが必ず失敗する」状態だった。「作ってあるが繋がっていない」型の**10件目**。
+# 判定: playwright を import するスクリプトが、シェルから `python3 ...` で呼ばれていたら BROKEN。
+try:
+    import glob as _g43
+    _pw = set()
+    for _f in _g43.glob(os.path.join(ROOT, "ops/*.py")) + \
+              _g43.glob(os.path.join(ROOT, "CDO/outputs/note_publisher/*.py")):
+        try:
+            if "playwright" in open(_f, encoding="utf-8", errors="replace").read():
+                _pw.add(os.path.relpath(_f, ROOT))
+        except Exception:
+            pass
+    _bad = []
+    for _sh in sorted(_g43.glob(os.path.join(ROOT, "ops/*.sh"))):
+        _txt = open(_sh, encoding="utf-8", errors="replace").read()
+        for _ln_no, _ln in enumerate(_txt.split("\n"), 1):
+            if _ln.lstrip().startswith("#"):
+                continue
+            if "python3" not in _ln:
+                continue
+            for _t in _pw:
+                if _t in _ln and re.search(r"(^|[^A-Za-z0-9_.\$\"/])python3\s", _ln):
+                    _bad.append(f"{os.path.basename(_sh)}:{_ln_no} {os.path.basename(_t)}")
+                    break
+    if _bad:
+        add("R43 ブラウザ操作の python 取り違え", "BROKEN",
+            f"**playwright を使うスクリプトが素の python3 で呼ばれている箇所が {len(_bad)}件**"
+            f"（例: {_bad[0]}） → `. \"$(dirname \"$0\")/_pybin.sh\"` を読み込んで `\"$PYBIN\"` で呼ぶ。"
+            "macOS 既定の python3 には playwright が入っていないので、**毎回だまって失敗する**")
+    else:
+        add("R43 ブラウザ操作の python 取り違え", "OK",
+            f"ブラウザを使う {len(_pw)}本は、シェルから素の python3 では呼ばれていない")
+except Exception as _e43:
+    add("R43 ブラウザ操作の python 取り違え", "STALE", f"判定不能: {type(_e43).__name__} {str(_e43)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))

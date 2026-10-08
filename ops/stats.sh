@@ -3,6 +3,7 @@
 # 読み取りだけ。note 側は一切変更しない（公開・下書き・スキ・フォローに触らない）。
 set -e
 cd "$(dirname "$0")/.."
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 
 # ★2026-10-07: **自分で最新を取り込む**。
 #   これまでは「git pull && bash ops/xxx.sh」と二つ並べて渡していたが、
@@ -10,10 +11,10 @@ cd "$(dirname "$0")/.."
 #   --autostash は手元の変更を退避→取り込み→戻す、まで自動でやる（消さない）。
 git pull --rebase --autostash origin main || echo "⚠️ git pull に失敗。手元のまま続行します"
 echo "=== 1/3 note のダッシュボードから閲覧数を取る ==="
-python3 CDO/outputs/note_publisher/fetch_note_stats.py --go --all || {
+"$PYBIN" CDO/outputs/note_publisher/fetch_note_stats.py --go --all || {
   echo ""
   echo "取れなかった。ログインが切れている可能性が高い:"
-  echo "  python3 CDO/outputs/note_publisher/publish_to_note.py --login"
+  echo "  bash ops/go.sh --login"
   echo "画面の実物は ops/logs/note_stats_dump.json に残っている（これを見て直せる）"
   exit 1
 }
