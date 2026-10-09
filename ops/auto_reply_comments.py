@@ -20,6 +20,10 @@
   python3 ops/auto_reply_comments.py          # 下書きを作って見せるだけ
   python3 ops/auto_reply_comments.py --go     # ops/comments/replies.tsv に書く
 """
+
+from __future__ import annotations  # macOS 既定の Python 3.9 では `str | None` が
+                                    # TypeError になる。日次ログで実際に落ちていた
+                                    # （2026-10-08 check_public_all / 2026-10-09 これ）。
 import csv
 import datetime
 import hashlib

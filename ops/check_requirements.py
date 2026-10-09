@@ -1994,6 +1994,46 @@ try:
 except Exception as _e43:
     add("R43 ブラウザ操作の python 取り違え", "STALE", f"判定不能: {type(_e43).__name__} {str(_e43)[:60]}")
 
+# R44 macOS の Python 3.9 で落ちる型注釈が無いか:
+# オーナーの Mac の既定は Python 3.9 で、`str | None` という書き方は 3.10 からの構文。
+# 3.9 では **import した瞬間ではなく def を実行した瞬間** に
+# `TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'` で落ちる。
+# 実際に落ちていた: 2026-10-08 `check_public_all.py`(公開状態の確認) ／
+# 2026-10-09 `auto_reply_comments.py`(コメント自動返信) ／ `fetch_note_stats.py`(閲覧数)。
+# **閲覧数が一度も取れていない**理由の片方がこれだった（もう片方は R43 の python 取り違え）。
+# 直し方は1行＝ファイル冒頭（docstring の直後）に `from __future__ import annotations`。
+# これで注釈は文字列のまま評価されないので 3.9 でも通る。
+try:
+    import glob as _g44
+    _bad44 = []
+    for _f in sorted(_g44.glob(os.path.join(ROOT, "ops/*.py")) +
+                     _g44.glob(os.path.join(ROOT, "CDO/outputs/note_publisher/*.py")) +
+                     _g44.glob(os.path.join(ROOT, "EN/*.py"))):
+        try:
+            _s44 = open(_f, encoding="utf-8", errors="replace").read()
+        except Exception:
+            continue
+        if "from __future__ import annotations" in _s44:
+            continue
+        for _i44, _ln44 in enumerate(_s44.split("\n"), 1):
+            if _ln44.lstrip().startswith("#"):
+                continue
+            if (re.search(r"def\s+\w+\([^)]*:\s*[\w\.\[\]]+\s*\|\s*[\w\.\[\]]+", _ln44) or
+                    re.search(r"->\s*[\w\.\[\]]+\s*\|\s*[\w\.\[\]]+", _ln44) or
+                    re.search(r"^\s*\w+\s*:\s*[\w\.\[\]]+\s*\|\s*None\s*=", _ln44)):
+                _bad44.append(f"{os.path.relpath(_f, ROOT)}:{_i44}")
+                break
+    if _bad44:
+        add("R44 Python3.9で落ちる型注釈", "BROKEN",
+            f"**`X | None` を使っていて `from __future__ import annotations` が無いファイルが "
+            f"{len(_bad44)}本**（例: {_bad44[0]}） → Mac の既定 python3 は 3.9 で、"
+            "**def を実行した瞬間に TypeError で落ちる**。docstring の直後に1行足す")
+    else:
+        add("R44 Python3.9で落ちる型注釈", "OK",
+            "`X | None` を使うファイルはすべて `from __future__ import annotations` 済み")
+except Exception as _e44:
+    add("R44 Python3.9で落ちる型注釈", "STALE", f"判定不能: {type(_e44).__name__} {str(_e44)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
