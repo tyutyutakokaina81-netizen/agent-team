@@ -1,0 +1,564 @@
+{
+ "why": "一覧は開いたが handle が増えなかった",
+ "url": "https://note.com/safe_canna441/n/nb3af50a459dd",
+ "buttons": [
+  {
+   "tag": "a",
+   "txt": "メインコンテンツへスキップ",
+   "aria": "",
+   "href": "#main-content"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "/"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "検索フォームを閉じる",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "メッセージ",
+   "href": "/messages/rooms"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "メニュー",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "投稿",
+   "aria": "新規投稿",
+   "href": "/notes/new"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "投稿メニュー",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "てつのプロフィール画像",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "てつ",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "多言語翻訳について",
+   "href": "https://www.help-note.com/hc/ja/articles/56332864927897--%E8%87%AA%E5%8B%95%E3%81%A7%E3%81%AE%E5%A4%9A%E8%A8%80%E8%AA%9E%E5%AF%BE%E5%BF%9C-%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"
+  },
+  {
+   "tag": "a",
+   "txt": "公開設定",
+   "aria": "",
+   "href": "https://editor.note.com/notes/nb3af50a459dd/publish"
+  },
+  {
+   "tag": "a",
+   "txt": "英語版",
+   "aria": "",
+   "href": "/safe_canna441/n/nb3af50a459dd?hl=en"
+  },
+  {
+   "tag": "a",
+   "txt": "韓国語版",
+   "aria": "",
+   "href": "/safe_canna441/n/nb3af50a459dd?hl=ko"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "見出し画像を拡大",
+   "href": "https://assets.st-note.com/production/uploads/images/322009726/rectangle_large_type_2_b991beb02f9a11a1b854a18cd3acb01e.jpeg?width=4000&height=4000&fit=bounds&format=jpg&quality=90"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "3",
+   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "てつ",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n7430a71d3c05"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n156a5199e9d7"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n59040531a80a"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n8a58b3a7c388"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n7430a71d3c05"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n89787d299b2d"
+  },
+  {
+   "tag": "a",
+   "txt": "#毎日note",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
+  },
+  {
+   "tag": "a",
+   "txt": "#japan",
+   "aria": "",
+   "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#富山",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
+  },
+  {
+   "tag": "a",
+   "txt": "#鍋",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%8D%8B"
+  },
+  {
+   "tag": "a",
+   "txt": "#japanesefood",
+   "aria": "",
+   "href": "https://note.com/hashtag/japanesefood"
+  },
+  {
+   "tag": "a",
+   "txt": "#高岡",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
+  },
+  {
+   "tag": "a",
+   "txt": "#雑炊",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%9B%91%E7%82%8A"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の暮らし",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
+  },
+  {
+   "tag": "a",
+   "txt": "#毎日note",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
+  },
+  {
+   "tag": "a",
+   "txt": "#japan",
+   "aria": "",
+   "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#富山",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
+  },
+  {
+   "tag": "a",
+   "txt": "#鍋",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%8D%8B"
+  },
+  {
+   "tag": "a",
+   "txt": "#japanesefood",
+   "aria": "",
+   "href": "https://note.com/hashtag/japanesefood"
+  },
+  {
+   "tag": "a",
+   "txt": "#高岡",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
+  },
+  {
+   "tag": "a",
+   "txt": "#雑炊",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%9B%91%E7%82%8A"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の暮らし",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "3",
+   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "てつ",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://x.com/FujimoriTe27067"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/rss"
+  },
+  {
+   "tag": "a",
+   "txt": "トップ",
+   "aria": "",
+   "href": "https://note.com"
+  },
+  {
+   "tag": "a",
+   "txt": "料理・グルメ",
+   "aria": "",
+   "href": "https://note.com/topic/cooking_gourmet"
+  },
+  {
+   "tag": "a",
+   "txt": "レシピ・作り方",
+   "aria": "",
+   "href": "https://note.com/topic/cooking_gourmet/recipes_how_to"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "北陸の暮らし",
+   "href": "https://note.com/safe_canna441/m/m22a5ea6838c5"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "高岡の食",
+   "href": "https://note.com/safe_canna441/m/m264cf69f123b"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "スキ",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "共有",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "3",
+   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "リンクをコピー",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Xでシェア",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Facebookでシェア",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "LINEでシェア",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "Threadsでシェア",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "3",
+   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "noteプレミアム",
+   "aria": "",
+   "href": "https://premium.lp-note.com"
+  },
+  {
+   "tag": "a",
+   "txt": "note pro",
+   "aria": "",
+   "href": "https://pro.lp-note.com/?utm_source=notecom&utm_medium=footer"
+  },
+  {
+   "tag": "a",
+   "txt": "ヘルプ",
+   "aria": "",
+   "href": "https://help-note.com/hc/ja"
+  },
+  {
+   "tag": "a",
+   "txt": "プライバシー",
+   "aria": "",
+   "href": "https://terms.help-note.com/hc/ja/articles/44948981050649"
+  },
+  {
+   "tag": "a",
+   "txt": "クリエイターへのお問い合わせ",
+   "aria": "",
+   "href": "/safe_canna441/message"
+  },
+  {
+   "tag": "a",
+   "txt": "フィードバック",
+   "aria": "",
+   "href": "https://help-note.com/hc/ja/requests/new?ticket_form_id=360000081181"
+  },
+  {
+   "tag": "a",
+   "txt": "ご利用規約",
+   "aria": "",
+   "href": "https://terms.help-note.com/hc/ja/articles/44943817565465"
+  },
+  {
+   "tag": "a",
+   "txt": "通常ポイント利用特約",
+   "aria": "",
+   "href": "https://note.com/terms/paid_point"
+  },
+  {
+   "tag": "a",
+   "txt": "加盟店規約",
+   "aria": "",
+   "href": "https://note.com/terms/seller_creators"
+  },
+  {
+   "tag": "a",
+   "txt": "資金決済法に基づく表示",
+   "aria": "",
+   "href": "https://note.com/terms/payment_service_act"
+  },
+  {
+   "tag": "a",
+   "txt": "特商法表記",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/terms/specified"
+  },
+  {
+   "tag": "a",
+   "txt": "投資情報の免責事項",
+   "aria": "",
+   "href": "https://note.com/terms/investment_disclaimer"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "刻空",
+   "href": "https://note.com/ozconsultingeasy"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "ヒデ",
+   "href": "https://note.com/agile_drake3912"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "夜の教科書",
+   "href": "https://note.com/yoru_textbook"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "閉じる",
+   "href": ""
+  }
+ ]
+}
