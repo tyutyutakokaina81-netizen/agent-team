@@ -1,0 +1,64 @@
+at	note_key	note_id	url	status	total_count	data_len
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments	200	0	0
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v1/note/n3042c8477cab/comments	404		
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments?page=1	200	0	0
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v2/notes/n3042c8477cab/comments	404		
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v1/note/184241722/comments	200	None	2
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v3/notes/184241722/comments	400		
+2026-10-11T08:02:16	n3042c8477cab	184241722	https://note.com/api/v2/notes/184241722/comments	404		
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments	200	0	0
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v1/note/n3042c8477cab/comments	404		
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments?page=1	200	0	0
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v2/notes/n3042c8477cab/comments	404		
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v1/note/184241722/comments	200	None	2
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v3/notes/184241722/comments	400		
+2026-10-11T08:03:12	n3042c8477cab	184241722	https://note.com/api/v2/notes/184241722/comments	404		
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments	200	0	0
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v1/note/n3042c8477cab/comments	404		
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v3/notes/n3042c8477cab/comments?page=1	200	0	0
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v2/notes/n3042c8477cab/comments	404		
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v1/note/184241722/comments	200	None	2
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v3/notes/184241722/comments	400		
+2026-10-11T08:03:19	n3042c8477cab	184241722	https://note.com/api/v2/notes/184241722/comments	404		
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v3/notes/n59040531a80a/comments	200	0	0
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v1/note/n59040531a80a/comments	404		
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v3/notes/n59040531a80a/comments?page=1	200	0	0
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v2/notes/n59040531a80a/comments	404		
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v1/note/177652191/comments	200	None	2
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v3/notes/177652191/comments	400		
+2026-10-11T08:03:48	n59040531a80a	177652191	https://note.com/api/v2/notes/177652191/comments	404		
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v3/notes/n7767e1fb0ccc/comments	200	0	0
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v1/note/n7767e1fb0ccc/comments	404		
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v3/notes/n7767e1fb0ccc/comments?page=1	200	0	0
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v2/notes/n7767e1fb0ccc/comments	404		
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v1/note/177129366/comments	200	None	2
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v3/notes/177129366/comments	400		
+2026-10-11T08:03:53	n7767e1fb0ccc	177129366	https://note.com/api/v2/notes/177129366/comments	404		
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v3/notes/na5fac95f2eb2/comments	200	0	0
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v1/note/na5fac95f2eb2/comments	404		
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v3/notes/na5fac95f2eb2/comments?page=1	200	0	0
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v2/notes/na5fac95f2eb2/comments	404		
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v1/note/179615520/comments	200	None	2
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v3/notes/179615520/comments	400		
+2026-10-11T08:03:58	na5fac95f2eb2	179615520	https://note.com/api/v2/notes/179615520/comments	404		
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v3/notes/n8acc12f6a576/comments	200	0	0
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v1/note/n8acc12f6a576/comments	404		
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v3/notes/n8acc12f6a576/comments?page=1	200	0	0
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v2/notes/n8acc12f6a576/comments	404		
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v1/note/172622281/comments	200	None	2
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v3/notes/172622281/comments	400		
+2026-10-11T08:04:02	n8acc12f6a576	172622281	https://note.com/api/v2/notes/172622281/comments	404		
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v3/notes/n3372e1361808/comments	200	0	0
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v1/note/n3372e1361808/comments	404		
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v3/notes/n3372e1361808/comments?page=1	200	0	0
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v2/notes/n3372e1361808/comments	404		
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v1/note/172506169/comments	200	None	2
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v3/notes/172506169/comments	400		
+2026-10-11T08:04:07	n3372e1361808	172506169	https://note.com/api/v2/notes/172506169/comments	404		
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v3/notes/na958299320ea/comments	200	0	0
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v1/note/na958299320ea/comments	404		
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v3/notes/na958299320ea/comments?page=1	200	0	0
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v2/notes/na958299320ea/comments	404		
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v1/note/172361740/comments	200	None	2
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v3/notes/172361740/comments	400		
+2026-10-11T08:04:12	na958299320ea	172361740	https://note.com/api/v2/notes/172361740/comments	404		
