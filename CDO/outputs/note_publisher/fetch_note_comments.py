@@ -194,6 +194,36 @@ def read_state_from_payload(html: str, note_key: str):
     return status, count
 
 
+# ★2026-10-10: **API は 200 を返すのに、中身が空だった。**
+#   保存済みの応答 7本すべてが `{"data": [], "total_count": 0, ...}`。
+#   形は note の正規の封筒なので**エンドポイントは当たっている**。それなのに 0 件で、
+#   記事ページのほうは `commentCount: 2` と言っている。つまり**引数が違う**可能性が高い。
+#   ページの埋め込みデータには `\"noteId\":184241722,\"noteKey\":\"n3042c8477cab\"` と、
+#   **数値の id が併記されている**。note の古い API は数値 id を取るので、そちらを試す。
+#   ※ code は note に繋げない(A1)ので**どちらが正しいかはここでは確かめられない**。
+#     だから「候補を足して、応答を全部保存して、次の便で判る」形にする。
+_NOTE_ID_RE = r'\\"noteId\\":(\d+),\\"noteKey\\":\\"(n[0-9a-f]{12})\\"'
+
+
+def read_note_id_from_payload(html: str, note_key: str):
+    """その記事自身の**数値 noteId** を取る。取れなければ None。
+    保存HTML 74本で検証済み＝コメントがある 8本すべてで取れた（残りは下書き等で埋め込み自体が無い）。
+    """
+    if not html or not note_key:
+        return None
+    for nid, k in re.findall(_NOTE_ID_RE, html):
+        if k == note_key:
+            return nid
+    return None
+
+
+def read_note_id(page, note_key: str = ""):
+    try:
+        return read_note_id_from_payload(page.content(), note_key)
+    except Exception:
+        return None
+
+
 def read_note_state(page, note_key: str = ""):
     """埋め込み状態から (status, commentCount) を取る。取れなければ (None, None)。
 
@@ -224,6 +254,12 @@ _API_PATHS = [
     "https://note.com/api/v1/note/{key}/comments",
     "https://note.com/api/v3/notes/{key}/comments?page=1",
     "https://note.com/api/v2/notes/{key}/comments",
+    # ★2026-10-10 追加: **数値 noteId を使う形**。上の4つは 200 を返すが中身が常に空だった
+    #   （保存応答7本すべて total_count=0。記事ページは commentCount=2 と言っている）。
+    #   ページの埋め込みに数値 id が併記されているので、そちらでも引けるようにする。
+    "https://note.com/api/v1/note/{id}/comments",
+    "https://note.com/api/v3/notes/{id}/comments",
+    "https://note.com/api/v2/notes/{id}/comments",
 ]
 
 
@@ -259,38 +295,78 @@ def _walk_comments(obj, out):
     return out
 
 
-def fetch_comments_via_api(page, note_key: str, debug: bool = False):
-    """note の API からコメントを取る。取れなければ [] と、保存した応答のパスを返す。"""
+def fetch_comments_via_api(page, note_key: str, debug: bool = False, note_id: str = ""):
+    """note の API からコメントを取る。取れなければ [] と、保存した応答のパスを返す。
+
+    ★2026-10-10 変更点（なぜ）:
+      これまでは **最初に 200 を返した応答だけ**を保存し、あとは黙って次を試していた。
+      そのため「7本とも total_count=0」とは分かっても、**残りの候補が何を返したのかが
+      一切残らず**、次に何を直せばいいのか決められなかった。
+      いまは **候補ごとに応答を保存し、一覧を `_api_summary.tsv` に1行ずつ書く**。
+      次の便のログを見れば、どの URL が何件返したかが確定する（A1 で今は確かめられないため）。
+    """
     if not note_key:
         return [], None
     saved = None
+    summary = []
     for tpl in _API_PATHS:
-        url = tpl.format(key=note_key)
+        if "{id}" in tpl and not note_id:
+            continue                      # 数値 id が取れていない記事では試さない
+        url = tpl.format(key=note_key, id=note_id or note_key)
         try:
             r = page.request.get(url, timeout=20000)
-        except Exception:
+        except Exception as e:
+            summary.append((url, f"err:{type(e).__name__}", "", ""))
             continue
         if r.status != 200:
+            summary.append((url, str(r.status), "", ""))
             continue
         try:
             data = r.json()
         except Exception:
+            summary.append((url, "200", "not-json", ""))
             continue
-        if debug and saved is None:
+        _tc = data.get("total_count") if isinstance(data, dict) else ""
+        _dl = len(data.get("data") or []) if isinstance(data, dict) else ""
+        summary.append((url, "200", str(_tc), str(_dl)))
+        if debug:
             try:
                 DEBUG_DIR.mkdir(parents=True, exist_ok=True)
-                saved = DEBUG_DIR / f"api_{note_key}.json"
-                saved.write_text(json.dumps(data, ensure_ascii=False, indent=1)[:200000],
-                                 encoding="utf-8")
+                _tag = re.sub(r"[^A-Za-z0-9]+", "_", url.split("note.com/")[-1])[:60]
+                _f = DEBUG_DIR / f"api_{note_key}__{_tag}.json"
+                _f.write_text(json.dumps(data, ensure_ascii=False, indent=1)[:200000],
+                              encoding="utf-8")
+                if saved is None:
+                    saved = _f
             except Exception:
-                saved = None
+                pass
         got = _walk_comments(data, [])
         # 記事本文そのもの（長すぎるもの）は除く＝コメントだけ残す
         got = [g for g in got if 1 <= len(g["text"]) <= 2000]
         if got:
             log(f"    API命中: {url} （{len(got)}件）")
+            _write_api_summary(note_key, note_id, summary)
             return got, saved
+    _write_api_summary(note_key, note_id, summary)
     return [], saved
+
+
+def _write_api_summary(note_key, note_id, rows):
+    """どの URL が何を返したかを1行ずつ残す。**次の便で原因を決められるようにするため**。"""
+    if not rows:
+        return
+    try:
+        DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+        f = DEBUG_DIR / "_api_summary.tsv"
+        head = not f.exists() or f.stat().st_size == 0
+        with open(f, "a", encoding="utf-8") as fh:
+            if head:
+                fh.write("at\tnote_key\tnote_id\turl\tstatus\ttotal_count\tdata_len\n")
+            at = datetime.datetime.now().isoformat(timespec="seconds")
+            for url, st, tc, dl in rows:
+                fh.write(f"{at}\t{note_key}\t{note_id}\t{url}\t{st}\t{tc}\t{dl}\n")
+    except Exception:
+        pass
 
 
 def extract_comments(page, url, debug=False):
@@ -328,7 +404,8 @@ def extract_comments(page, url, debug=False):
         #   「0件」と報告されてコメントが放置される。件数を添えて別扱いにする。
         if _cc:
             # ★まず API を試す（DOM より確実）。取れたらそれを返す。
-            _api, _saved = fetch_comments_via_api(page, _key, debug)
+            _nid = read_note_id(page, _key)
+            _api, _saved = fetch_comments_via_api(page, _key, debug, note_id=_nid or "")
             if _api:
                 _out = []
                 for i, c in enumerate(_api):
@@ -511,8 +588,15 @@ def main():
                     _n = 0
                 unreadable += _n
                 unreadable_urls.append((url, _n))
+                # ★2026-10-10 修正: ここは「保存HTMLを push すれば code が読める」と案内していたが、
+                #   **それは誤り**だった。保存HTML 75本を調べたところ、コメント本文は**1本にも入っていない**
+                #   （note は NoteCommentList を画面の後から読み込むので、保存した HTML には殻しか無い）。
+                #   この誤案内のせいで、何日も「保存HTMLを読めば直せる」と思い込んでいた。
+                #   いま本当に効くのは API 応答のほうなので、そちらを見るよう案内する。
                 log(f"    ❌ コメントが {_n}件 あるのに本文が取れない＝**返信待ちが放置される**。"
-                    "--debug の保存HTMLを push すれば code が読んで返信文を書けます")
+                    "保存HTMLには本文が入らない（画面の後から読み込まれるため）。"
+                    "ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、"
+                    "どの API が何件返したかで原因を決められる")
                 continue
             if status == "no-selector":
                 no_selector += 1
