@@ -4,20 +4,21 @@
 # フォロワー数を ops/follower_log.tsv に1行残す＝測らないと効いたか分からない。
 set -u
 cd "$(dirname "$0")/.."
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 # ★2026-10-07: **コメントをくれた人を先にフォローする**。
 #   わざわざ名前を出して反応してくれた相手で、いちばんフォローバックが期待できる。
 #   これまではタグ検索で見つけた人だけを見ていて、ここを素通りしていた。
-python3 ops/follow_commenters.py --go || echo "⚠️ コメント主のフォローでつまずきました"
+"$PYBIN" ops/follow_commenters.py --go || echo "⚠️ コメント主のフォローでつまずきました"
 
 # ★2026-10-08: **自分の記事にスキを付けた人**を追う。
 #   これまではタグ検索で見つけた知らない人だけを見ていて、
 #   **すでに反応してくれた人**を素通りしていた。実ページで確認したら、
 #   1本に17スキ付いている記事があった＝17人が関心を示している。
 #   関心の強い順に追う: コメント > スキ > タグ検索。
-python3 ops/follow_likers.py --go || echo "⚠️ スキをくれた人のフォローでつまずきました"
+"$PYBIN" ops/follow_likers.py --go || echo "⚠️ スキをくれた人のフォローでつまずきました"
 
 
-OUT="$(python3 CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
+OUT="$("$PYBIN" CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
 echo "$OUT" | tail -8
 AFTER="$(echo "$OUT" | sed -n 's/^FOLLOWERS_AFTER:: *//p' | tail -1)"
 N="$(echo "$OUT" | grep -c '^DONE ')"

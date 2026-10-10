@@ -4,6 +4,7 @@
 # 既定は1回6本（update_article.sh を1本ずつ呼ぶ）。
 set -u
 cd "$(dirname "$0")/.."
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 git pull --rebase --autostash origin main || echo "⚠️ git pull に失敗。手元のまま続行します"
 TODO="ops/credit_update_todo.tsv"
 DONE="ops/credit_update_done.tsv"
@@ -16,7 +17,7 @@ while IFS=$'\t' read -r nid md title; do
   grep -q "^${nid}" "$DONE" && continue
   [ "$n" -ge "$LIMIT" ] && break
   echo "--- ${nid}  ${title}"
-  if python3 CDO/outputs/note_publisher/update_article.py "$nid" "$md" --go 2>/dev/null \
+  if "$PYBIN" CDO/outputs/note_publisher/update_article.py "$nid" "$md" --go 2>/dev/null \
      || bash ops/update_article.sh "$nid" "$md" --go; then
     echo "${nid}	$(date +%F_%H%M)" >> "$DONE"
     n=$((n+1))
