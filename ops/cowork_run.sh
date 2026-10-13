@@ -6,6 +6,7 @@
 # code が repo の ops/logs/ と ops/outbox/ を読んで結果を確認できる。
 set -uo pipefail
 cd "$(dirname "$0")/.."
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 
 BR="$(git rev-parse --abbrev-ref HEAD)"
 mkdir -p ops/logs
@@ -37,7 +38,10 @@ fi
 
 PUB="CDO/outputs/note_publisher/publish_to_note.py"
 # ★Python3.14/PEP668対策：setup.shが作る専用venvがあれば自動でそれを使う
-PYBIN="python3"; [ -x "$HOME/.note_venv/bin/python" ] && PYBIN="$HOME/.note_venv/bin/python"
+# PYBIN は先頭の ops/_pybin.sh が決めている（playwright が import できる python を選ぶ）。
+# ★2026-10-08: ここに同じ定義が二重にあり、**venv の有無しか見ていなかった**ので、
+#   venv があっても playwright が入っていなければ気づけなかった。_pybin.sh に一本化する。
+: "${PYBIN:=python3}"
 shopt -s nullglob
 published=0
 failed=0
@@ -196,7 +200,7 @@ if [ $((paid_ok + paid_ng)) -gt 0 ]; then
 fi
 # ★ログイン切れ検知時は先頭に大きく警告（無人では復旧不可＝owner対応が必要）
 if [ $login_fail -eq 1 ]; then
-  body="⚠️【要対応】noteログイン切れ/未ログインで公開できません。owner は Mac で \`python3 CDO/outputs/note_publisher/publish_to_note.py --login\` を実行しnoteにログイン→再度公開してください。 || ${body}"
+  body="⚠️【要対応】noteログイン切れ/未ログインで公開できません。owner は Mac で \`bash ops/go.sh --login\` を実行しnoteにログイン→再度公開してください。 || ${body}"
 fi
 [ -n "$ok_list" ]   && body="${body} | OK:${ok_list}"
 [ -n "$fail_list" ] && body="${body} | NG:${fail_list}"
@@ -317,7 +321,7 @@ echo "=== コメントに自動返信する ==="
 # 2026-10-07: 自動返信は以前からの要件だったが、**投稿するスクリプトが無かった**ので
 #   READY にしても出ていかなかった（取得と下書きだけ在って出口が無い状態）。
 python3 ops/auto_reply_comments.py --go 2>&1 | tail -3 || true
-_rp_out="$(python3 CDO/outputs/note_publisher/post_comment_replies.py --go 2>&1 || true)"
+_rp_out="$("$PYBIN" CDO/outputs/note_publisher/post_comment_replies.py --go 2>&1 || true)"
 echo "$_rp_out" | tail -3
 _rp_sum="$(echo "$_rp_out" | sed -n 's/.*== 投稿 \([0-9]*\)件.*/\1/p' | tail -1)"
 
@@ -338,7 +342,7 @@ echo "=== 記事が読者に見えているかを少しずつ確認（ログア�
 # 2026-10-06: 公開済みのはずの3本が note 上では下書きのままだった（読者に1文字も見えていない）。
 # 氷見牛でも同じことが起きていて、単発の事故ではなかった。
 # 全237本を一度に見ると時間がかかるので、毎日25本ずつ進める（判定済みは飛ばす）。
-_pub_out="$(python3 CDO/outputs/note_publisher/check_public_all.py --limit 25 2>&1 || true)"
+_pub_out="$("$PYBIN" CDO/outputs/note_publisher/check_public_all.py --limit 25 2>&1 || true)"
 echo "$_pub_out" | tail -4
 _pub_sum="$(echo "$_pub_out" | grep -m1 -E '読者に見えていない記事|全部読者に見えている|新しく見るものは無い' || echo '結果行なし')"
 

@@ -13,6 +13,7 @@
 set +e
 set +u
 cd "$(dirname "$0")/.." 2>/dev/null || exit 1
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 
 FAILED=""
 note_fail() { FAILED="${FAILED}
@@ -46,12 +47,12 @@ bash ops/comments_now.sh || note_fail "コメント取得"
 echo ""
 echo "########## 4) コメントに返信する ##########"
 python3 ops/auto_reply_comments.py --go || note_fail "返信の下書き"
-python3 CDO/outputs/note_publisher/post_comment_replies.py --go || note_fail "返信の投稿"
+"$PYBIN" CDO/outputs/note_publisher/post_comment_replies.py --go || note_fail "返信の投稿"
 
 echo ""
 echo "########## 4.5) コメントをくれた人をフォローする ##########"
-python3 ops/follow_commenters.py --go || note_fail "コメント主のフォロー"
-python3 ops/follow_likers.py --go || note_fail "スキをくれた人のフォロー"
+"$PYBIN" ops/follow_commenters.py --go || note_fail "コメント主のフォロー"
+"$PYBIN" ops/follow_likers.py --go || note_fail "スキをくれた人のフォロー"
 
 echo ""
 echo "########## 5) フォロワーを増やす（目標 1日ひとり） ##########"
@@ -60,7 +61,7 @@ bash ops/growth_now.sh || note_fail "集客"
 echo ""
 echo "########## 5.5) 閲覧数を取る（これが本当のスコア） ##########"
 # 234本書いて一度も見ていない。これが無いと「効いたか」を推測で決めることになる。
-python3 CDO/outputs/note_publisher/fetch_note_stats.py --go --all || note_fail "閲覧数の取得"
+"$PYBIN" CDO/outputs/note_publisher/fetch_note_stats.py --go --all || note_fail "閲覧数の取得"
 python3 ops/analyze_stats.py 2>&1 | head -14 || true
 
 echo ""

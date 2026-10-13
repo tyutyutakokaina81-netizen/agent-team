@@ -1952,6 +1952,134 @@ try:
 except Exception as _e42:
     add("R42 英語ページが止まっていないか", "STALE", f"判定不能: {type(_e42).__name__} {str(_e42)[:60]}")
 
+# R43 ブラウザ操作が素の python3 で呼ばれていないか:
+# 2026-10-08 に日次ログ(publish_2026-10-08_080005.log)で `ModuleNotFoundError: No module named
+# 'playwright'` が出ていた。原因は **publish_to_note.py だけが $PYBIN（~/.note_venv/bin/python）で
+# 呼ばれ、ほかのブラウザ操作は全部 `python3`（macOS 既定の 3.9）で呼ばれていた**こと。
+# 公開だけ通るので表からは動いて見えるが、実際には毎日
+#   フォロー（＝オーナーが何度も「フォロワー増やして」と言っていた）／コメント取得と返信の投稿／
+#   閲覧数の取得／公開状態の確認
+# が「実行はされるが必ず失敗する」状態だった。「作ってあるが繋がっていない」型の**10件目**。
+# 判定: playwright を import するスクリプトが、シェルから `python3 ...` で呼ばれていたら BROKEN。
+try:
+    import glob as _g43
+    _pw = set()
+    for _f in _g43.glob(os.path.join(ROOT, "ops/*.py")) + \
+              _g43.glob(os.path.join(ROOT, "CDO/outputs/note_publisher/*.py")):
+        try:
+            if "playwright" in open(_f, encoding="utf-8", errors="replace").read():
+                _pw.add(os.path.relpath(_f, ROOT))
+        except Exception:
+            pass
+    _bad = []
+    for _sh in sorted(_g43.glob(os.path.join(ROOT, "ops/*.sh"))):
+        _txt = open(_sh, encoding="utf-8", errors="replace").read()
+        for _ln_no, _ln in enumerate(_txt.split("\n"), 1):
+            if _ln.lstrip().startswith("#"):
+                continue
+            if "python3" not in _ln:
+                continue
+            for _t in _pw:
+                if _t in _ln and re.search(r"(^|[^A-Za-z0-9_.\$\"/])python3\s", _ln):
+                    _bad.append(f"{os.path.basename(_sh)}:{_ln_no} {os.path.basename(_t)}")
+                    break
+    if _bad:
+        add("R43 ブラウザ操作の python 取り違え", "BROKEN",
+            f"**playwright を使うスクリプトが素の python3 で呼ばれている箇所が {len(_bad)}件**"
+            f"（例: {_bad[0]}） → `. \"$(dirname \"$0\")/_pybin.sh\"` を読み込んで `\"$PYBIN\"` で呼ぶ。"
+            "macOS 既定の python3 には playwright が入っていないので、**毎回だまって失敗する**")
+    else:
+        add("R43 ブラウザ操作の python 取り違え", "OK",
+            f"ブラウザを使う {len(_pw)}本は、シェルから素の python3 では呼ばれていない")
+except Exception as _e43:
+    add("R43 ブラウザ操作の python 取り違え", "STALE", f"判定不能: {type(_e43).__name__} {str(_e43)[:60]}")
+
+# R44 macOS の Python 3.9 で落ちる型注釈が無いか:
+# オーナーの Mac の既定は Python 3.9 で、`str | None` という書き方は 3.10 からの構文。
+# 3.9 では **import した瞬間ではなく def を実行した瞬間** に
+# `TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'` で落ちる。
+# 実際に落ちていた: 2026-10-08 `check_public_all.py`(公開状態の確認) ／
+# 2026-10-09 `auto_reply_comments.py`(コメント自動返信) ／ `fetch_note_stats.py`(閲覧数)。
+# **閲覧数が一度も取れていない**理由の片方がこれだった（もう片方は R43 の python 取り違え）。
+# 直し方は1行＝ファイル冒頭（docstring の直後）に `from __future__ import annotations`。
+# これで注釈は文字列のまま評価されないので 3.9 でも通る。
+try:
+    import glob as _g44
+    _bad44 = []
+    for _f in sorted(_g44.glob(os.path.join(ROOT, "ops/*.py")) +
+                     _g44.glob(os.path.join(ROOT, "CDO/outputs/note_publisher/*.py")) +
+                     _g44.glob(os.path.join(ROOT, "EN/*.py"))):
+        try:
+            _s44 = open(_f, encoding="utf-8", errors="replace").read()
+        except Exception:
+            continue
+        if "from __future__ import annotations" in _s44:
+            continue
+        for _i44, _ln44 in enumerate(_s44.split("\n"), 1):
+            if _ln44.lstrip().startswith("#"):
+                continue
+            if (re.search(r"def\s+\w+\([^)]*:\s*[\w\.\[\]]+\s*\|\s*[\w\.\[\]]+", _ln44) or
+                    re.search(r"->\s*[\w\.\[\]]+\s*\|\s*[\w\.\[\]]+", _ln44) or
+                    re.search(r"^\s*\w+\s*:\s*[\w\.\[\]]+\s*\|\s*None\s*=", _ln44)):
+                _bad44.append(f"{os.path.relpath(_f, ROOT)}:{_i44}")
+                break
+    if _bad44:
+        add("R44 Python3.9で落ちる型注釈", "BROKEN",
+            f"**`X | None` を使っていて `from __future__ import annotations` が無いファイルが "
+            f"{len(_bad44)}本**（例: {_bad44[0]}） → Mac の既定 python3 は 3.9 で、"
+            "**def を実行した瞬間に TypeError で落ちる**。docstring の直後に1行足す")
+    else:
+        add("R44 Python3.9で落ちる型注釈", "OK",
+            "`X | None` を使うファイルはすべて `from __future__ import annotations` 済み")
+except Exception as _e44:
+    add("R44 Python3.9で落ちる型注釈", "STALE", f"判定不能: {type(_e44).__name__} {str(_e44)[:60]}")
+
+# R45 記事が黙って消えていないか:
+# 2026-10-10 に実際に起きた。Mac 側の「自動バックアップ」が
+# `merge: sync with origin before auto-backup` というコミットを作り、**origin の中身を取り込まずに潰した**。
+# 失われたもの＝記事の .md 5本／サムネ 5枚／_verified.txt の 5行／台帳の 5行／STATE.md／
+# `ops/_pybin.sh`／R43・R44／Python3.9 の修正3ファイル。published_registry も 247→244 に巻き戻った。
+# **公開済みの記事がリポジトリから消えても、note 側には残る**ので、気づく手段が無かった。
+# 記事の .md は**消えることがあってはならない**（公開後は drafts/published へ move されるだけ）。
+# 判定: 直近のコミット履歴で削除された記事 .md のうち、いまワークツリーに存在しないものがあれば BROKEN。
+try:
+    import subprocess as _sp45
+    _dead = []
+    _out45 = _sp45.run(
+        # ★ここは3回まちがえた。全部そろって初めて拾える:
+        #   core.quotepath=false … 日本語パスが 8進エスケープされて grep が外れる（最初これで0件だった）
+        #   --full-history -m    … **merge コミットは既定で差分を出さない**。今回の事故は merge で起きた
+        #   drafts/ も対象       … 公開後は drafts/published へ move されるので、そちらも見る
+        ["git", "-c", "core.quotepath=false", "log", "--full-history", "-m",
+         "--diff-filter=D", "--name-only", "--pretty=format:", "-n", "120",
+         "--", "CMO/outputs/", "drafts/queue/", "drafts/published/"],
+        cwd=ROOT, capture_output=True, text=True, timeout=30).stdout
+    _cand = {x.strip() for x in _out45.split("\n")
+             if x.strip().endswith(".md") and "note記事" in x}
+    # 現存するファイル名を**再帰で**集める。move 先は published だけではない＝
+    # rejected_topicdup/ skipped_duplicate/ CMO/outputs/_shelved/ にも正しく置かれる
+    # （最初これを見ておらず、意図的に棚上げした記事を「消えた」と誤報した）
+    _alive = set()
+    for _root45 in (os.path.join(ROOT, "CMO/outputs"), os.path.join(ROOT, "drafts")):
+        for _dp, _dn, _fn in os.walk(_root45):
+            for _f45 in _fn:
+                if _f45.endswith(".md"):
+                    _alive.add(_f45)
+    for _base in sorted({os.path.basename(x) for x in _cand}):   # パス違いの二重計上を防ぐ
+        if _base not in _alive:
+            _dead.append(_base)
+    if _dead:
+        add("R45 記事が黙って消えていないか", "BROKEN",
+            f"**履歴では削除されたのに、どこにも残っていない記事が {len(_dead)}本**"
+            f"（例: {_dead[0][:40]}…） → `git log --diff-filter=D -- CMO/outputs/` で消したコミットを特定し、"
+            "`git checkout <その前のコミット> -- <パス>` で戻す。"
+            "**公開済みでも note 側には残るので、ここで気づかないと誰も気づけない**")
+    else:
+        add("R45 記事が黙って消えていないか", "OK",
+            f"直近120コミットで削除された記事 {len({os.path.basename(x) for x in _cand})}本は、すべて move 先に実在する")
+except Exception as _e45:
+    add("R45 記事が黙って消えていないか", "STALE", f"判定不能: {type(_e45).__name__} {str(_e45)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))

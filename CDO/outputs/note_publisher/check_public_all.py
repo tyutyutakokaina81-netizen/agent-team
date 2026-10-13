@@ -22,6 +22,9 @@
   python3 check_public_all.py --recheck       # 全件やり直す
   python3 check_public_all.py --ids nXXXX,nYYYY  # 指定した記事だけ
 """
+
+from __future__ import annotations  # macOS 既定の Python 3.9 で `int | None` が
+                                    # TypeError になる。2026-10-08 の日次ログで実際に落ちていた。
 import argparse
 import json
 import re

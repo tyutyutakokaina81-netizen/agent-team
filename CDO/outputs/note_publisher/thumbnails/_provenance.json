@@ -2723,13 +2723,20 @@
 "note": "オーナーが撮影した実物。クレジット表示は不要"
 },
 "2026-10-09_note記事_肉ケーキ_形だけを借りている": {
-"author": "Syced",
+"author": "Andy Li",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%BF%E3%83%9E%E3%82%B4%E3%82%BF%E3%82%B1_(in_the_center-bottom),_a_local_mushroom_served_at_a_pension_at_Yonezawa_ski_resort.jpg",
-"file": "File:タマゴタケ (in the center-bottom), a local mushroom served at a pension at Yonezawa ski resort.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:Sukiyaki_-_Sakura_Japanese_Restaurant_2025-07-28.jpg",
+"file": "File:Sukiyaki - Sakura Japanese Restaurant 2025-07-28.jpg",
 "license": "CC0",
 "query": "すき焼き",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E3%82%BF%E3%83%9E%E3%82%B4%E3%82%BF%E3%82%B1_%28in_the_center-bottom%29%2C_a_local_mushroom_served_at_a_pension_at_Yonezawa_ski_resort.jpg/1280px-%E3%82%BF%E3%83%9E%E3%82%B4%E3%82%BF%E3%82%B1_%28in_the_center-bottom%29%2C_a_local_mushroom_served_at_a_pension_at_Yonezawa_ski_resort.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Sukiyaki_-_Sakura_Japanese_Restaurant_2025-07-28.jpg/1280px-Sukiyaki_-_Sakura_Japanese_Restaurant_2025-07-28.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-10_note記事_お品書き_料理より先に紙が置かれる": {
+"author": "owner",
+"backend": "owner",
+"file": "0e7af04f-image.jpg",
+"license": "owner own work",
+"note": "オーナーが撮影した実物。クレジット表示は不要"
 },
 "2026-10-10_note記事_雑炊_鍋のあとにもう一食ある": {
 "author": "owner",
@@ -2737,5 +2744,51 @@
 "file": "zosui_owner.jpg",
 "license": "owner own work",
 "note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-11_note記事_御椀_蓋を開けるまで中身が分からない": {
+"author": "owner",
+"backend": "owner",
+"file": "fdb39dfd-image.jpg",
+"license": "owner own work",
+"note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-11_note記事_部屋の風呂_湯が止まらない": {
+"author": "owner",
+"backend": "owner",
+"file": "3fa69f21-image.jpg",
+"license": "owner own work",
+"note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-12_note記事_旅館に泊まる_どこへも行かない旅行": {
+"author": "owner",
+"backend": "owner",
+"file": "64eb6f1c-image.jpg",
+"license": "owner own work",
+"note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-12_note記事_旅館の朝食_席に着いたらもう火がついていた": {
+"author": "owner",
+"backend": "owner",
+"file": "breakfast_crop.jpg",
+"license": "owner own work",
+"note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-13_note記事_八戸せんべい汁_乾いたものだけで鍋になる": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg",
+"file": "File:せんべい汁（みなと食堂）.jpg",
+"license": "CC BY-SA 4.0",
+"query": "せんべい汁",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg/1280px-%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-14_note記事_ジンギスカン_花見で羊を焼く": {
+"author": "なよろ",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%90%8D%E5%AF%84%E5%B8%82%E3%81%AE%E7%85%AE%E8%BE%BC%E3%81%BF%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3.jpg",
+"file": "File:名寄市の煮込みジンギスカン.jpg",
+"license": "CC BY-SA 4.0",
+"query": "ジンギスカン 焼く",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E5%90%8D%E5%AF%84%E5%B8%82%E3%81%AE%E7%85%AE%E8%BE%BC%E3%81%BF%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3.jpg/1280px-%E5%90%8D%E5%AF%84%E5%B8%82%E3%81%AE%E7%85%AE%E8%BE%BC%E3%81%BF%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }

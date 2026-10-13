@@ -1,0 +1,276 @@
+=== publish run 2026-10-12_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/5] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[2/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/5] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 2** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/5] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/5] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 2** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+[1/20] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[2/20] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/20] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[6/20] 富山の新米：秋いちばんの一杯が、なぜこんなに違うのか
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n59040531a80a.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n59040531a80a__api_v3_notes_n59040531a80a_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[7/20] 富山の水道水は、なぜそのまま飲んでおいしいのか
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n7767e1fb0ccc.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n7767e1fb0ccc__api_v3_notes_n7767e1fb0ccc_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[8/20] 仏壇と神棚：ひとつの家に、祈る場所が二つある
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na5fac95f2eb2.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_na5fac95f2eb2__api_v3_notes_na5fac95f2eb2_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[9/20] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n8acc12f6a576.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n8acc12f6a576__api_v3_notes_n8acc12f6a576_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[10/20] 入善のジャンボ西瓜。— 富山の夏に、両手で抱える大玉がや
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3372e1361808.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3372e1361808__api_v3_notes_n3372e1361808_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[11/20] 夏の夜に、ドンと音がする。— 地方の花火大会は、町の一大
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na958299320ea.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_na958299320ea__api_v3_notes_na958299320ea_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[12/20] 富山の田んぼ、緑から金色へ：収穫前のひと月に起きているこ
+[13/20] 高岡コロッケ：地元民が毎日食べる理由と、観光客が見つけら
+[14/20] 紙の網で、いのちをすくう。— 縁日の金魚すくい
+[15/20] しゃがんで、火の玉を見つめる。— 線香花火という、夏の終
+[16/20] 街じゅうに、願いが揺れる。— 高岡の八月の七夕
+[17/20] 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器
+[18/20] アウディを買ってよかった、という話。— 地方で、車を選ぶ
+[19/20] 富山はなぜ、鉄道を手放さなかったのか
+[20/20] 彼岸花：田んぼの畦に、ある日突然あらわれる赤
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 11** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/n59040531a80a
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/n7767e1fb0ccc
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/na5fac95f2eb2
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n8acc12f6a576
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3372e1361808
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/na958299320ea
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/5] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[2/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/5] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 2** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/5] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/5] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/5] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/5] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/5] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 2** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+[1/20] 日本に住んでいる人が、理由を考えたことがないもの20
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3042c8477cab.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3042c8477cab__api_v3_notes_n3042c8477cab_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[2/20] 冷やしトマト — 丸ごと冷やして、切るだけの夏
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[4/20] ひまわり — 太陽を、追う夏の花
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[5/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[6/20] 富山の新米：秋いちばんの一杯が、なぜこんなに違うのか
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n59040531a80a.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n59040531a80a__api_v3_notes_n59040531a80a_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[7/20] 富山の水道水は、なぜそのまま飲んでおいしいのか
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n7767e1fb0ccc.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n7767e1fb0ccc__api_v3_notes_n7767e1fb0ccc_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[8/20] 仏壇と神棚：ひとつの家に、祈る場所が二つある
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na5fac95f2eb2.html を保存
+    ⚠️ コメントが 1件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_na5fac95f2eb2__api_v3_notes_na5fac95f2eb2_comments.json）
+    ❌ コメントが 1件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[9/20] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n8acc12f6a576.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n8acc12f6a576__api_v3_notes_n8acc12f6a576_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[10/20] 入善のジャンボ西瓜。— 富山の夏に、両手で抱える大玉がや
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n3372e1361808.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_n3372e1361808__api_v3_notes_n3372e1361808_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[11/20] 夏の夜に、ドンと音がする。— 地方の花火大会は、町の一大
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na958299320ea.html を保存
+    ⚠️ コメントが 2件あるのに本文が取れない（API応答を保存: /Users/apple/agent-team-run/ops/comments/_debug/api_na958299320ea__api_v3_notes_na958299320ea_comments.json）
+    ❌ コメントが 2件 あるのに本文が取れない＝**返信待ちが放置される**。保存HTMLには本文が入らない（画面の後から読み込まれるため）。ops/comments/_debug/_api_summary.tsv と api_*.json を push すれば、どの API が何件返したかで原因を決められる
+[12/20] 富山の田んぼ、緑から金色へ：収穫前のひと月に起きているこ
+[13/20] 高岡コロッケ：地元民が毎日食べる理由と、観光客が見つけら
+[14/20] 紙の網で、いのちをすくう。— 縁日の金魚すくい
+[15/20] しゃがんで、火の玉を見つめる。— 線香花火という、夏の終
+[16/20] 街じゅうに、願いが揺れる。— 高岡の八月の七夕
+[17/20] 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器
+[18/20] アウディを買ってよかった、という話。— 地方で、車を選ぶ
+[19/20] 富山はなぜ、鉄道を手放さなかったのか
+[20/20] 彼岸花：田んぼの畦に、ある日突然あらわれる赤
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 4 / **コメント有りだが本文が取れない 11** ===
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3042c8477cab
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/n59040531a80a
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/n7767e1fb0ccc
+    ❌ 返信待ち 1件: https://note.com/safe_canna441/n/na5fac95f2eb2
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n8acc12f6a576
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/n3372e1361808
+    ❌ 返信待ち 2件: https://note.com/safe_canna441/n/na958299320ea
+  未公開: https://note.com/safe_canna441/n/n1bbb920a0ee7  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0a3125a83e82  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n951e3262b23c  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-10-12_001_cowork_code.yaml  id=2026-10-12_001
+[main a1c63b6c] cowork auto: publish 0/0 paid=0/0 thumb_fail=0 (2026-10-12_080004)
+ 13 files changed, 440 insertions(+), 26 deletions(-)
+ create mode 100644 ops/logs/publish_2026-10-12_080004.log
+ create mode 100644 ops/outbox/2026-10-12_001_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   5af161fa..a1c63b6c  main -> main
+done. published=0 failed=0 paid=0/0 thumb_fail=0  log=ops/logs/publish_2026-10-12_080004.log
+
+=== 売る導線(sell_flow)が未完のため続けて実行します ===
+=== sell_flow 2026-10-12_080251 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+
+※ 8/19の事故で本文7文字の有料note3本が¥300で公開されたままなら、先に下げてください:
+    bash ops/finish_pending.sh --go
+
+=== ① 有料note(¥500)を公開 ===
+✅ 入口記事のURLは差し込み済みです。①②をとばします。
+   差し込み済みURL: （見つかりません・手で確認してください）
+
+✗ 有料noteのURLが取れませんでした。**入口記事は公開しません**（行き先の無いリンクを出さないため）。
+  noteの管理画面で公開されているか見て、URLが分かったら:
+    bash ops/sell_flow.sh --go --paid-url <そのURL>
+⚠️ sell_flow が途中で止まりました（上のログに理由）
+
+=== 有料note導線の差し込み（済 43 本／今回 10 本まで）===
+対象がありません（すべて処理済みか、条件に合う記事なし）。
+=== 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
+posted: ops/outbox/2026-10-12_002_cowork_code.yaml  id=2026-10-12_002
+[main 92f021c3] cowork: paid-footer insertion pass (2026-10-12_080004)
+ 5 files changed, 96 insertions(+)
+ create mode 100644 ops/logs/sell_2026-10-12_080251.log
+ create mode 100644 ops/outbox/2026-10-12_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   a1c63b6c..92f021c3  main -> main
+
+=== コメントに自動返信する ===
+新しく返すものは無い
+replies.tsv が空。先に `python3 ops/auto_reply_comments.py --go`
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+ }
+]
+⚠️ 今回フォローできた人は0人です。上の理由を確認してください。
+記録: 2026-10-12 70フォロワー / 今回フォロー 14人
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+⚠️  [25/25] ne9436e34e84c UNKNOWN 富山湾に魚が多いのは、海が「すり鉢」だからだ。 ログイン画面に飛ばされた（読者には見えない可能性）
+
+書き出し: /Users/apple/agent-team-run/ops/public_status.tsv
+今回見たぶんは全部読者に見えている
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-10-12_082001.log
+
+== 結果: 追記 6本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-10-12_082002.log
+  n348078642951	UPDATED:更新する
+更新できた: 6 / 6  （2026-10-12 08:22）
+ログ: ops/logs/backfill_tags_2026-10-12_082122.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-10-12_003_cowork_code.yaml  id=2026-10-12_003
+[main bf869b6e] cowork: daily backfill (english/follow/x-queue) 2026-10-12_080004
+ 15 files changed, 775 insertions(+), 6 deletions(-)
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n0489cfead712_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n1d6a8663ea3e_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n5397895aff4a_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n6540e46eda96_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/ncb6c6912f70a_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/ned1d1028cc22_follow.txt
+ create mode 100644 ops/logs/backfill_follow_2026-10-12_082002.log
+ create mode 100644 ops/logs/backfill_tags_2026-10-12_082122.log
+ create mode 100644 ops/outbox/2026-10-12_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   92f021c3..bf869b6e  main -> main

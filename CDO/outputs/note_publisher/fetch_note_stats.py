@@ -20,6 +20,10 @@
   python3 fetch_note_stats.py --go       # ops/note_stats.tsv に書き出す
   python3 fetch_note_stats.py --go --all # ページ送りを打ち切らず最後まで（既定は60回スクロール上限）
 """
+
+from __future__ import annotations  # macOS 既定の Python 3.9 では `str | None` が
+                                    # TypeError になる。日次ログで実際に落ちていた
+                                    # （2026-10-08 check_public_all / 2026-10-09 これ）。
 import sys, re, json, time
 from pathlib import Path
 

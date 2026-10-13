@@ -9,6 +9,7 @@
 # publisher のセレクタを直せる。だから成功しても失敗しても必ずログを push する。
 set -u
 cd "$(dirname "$0")/.." || exit 1
+. "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 REPO="$(pwd)"
 TS="$(date +%Y-%m-%d_%H%M%S)"
 LOG="ops/logs/header_fix_${TS}.log"
@@ -38,14 +39,14 @@ done
   # **1本だけ**見て、公開設定画面とエディタ画面のHTML・スクリーンショットを保存する。
   FIRST="$(grep -m1 '^n' ops/header_image_todo.tsv 2>/dev/null | cut -f1)"
   if [ -n "$FIRST" ] && [ ${#EXTRA[@]} -eq 0 ]; then
-    python3 CDO/outputs/note_publisher/set_header_image.py --probe --only "$FIRST"
+    "$PYBIN" CDO/outputs/note_publisher/set_header_image.py --probe --only "$FIRST"
   else
-    python3 CDO/outputs/note_publisher/set_header_image.py --probe ${EXTRA[@]+"${EXTRA[@]}"}
+    "$PYBIN" CDO/outputs/note_publisher/set_header_image.py --probe ${EXTRA[@]+"${EXTRA[@]}"}
   fi
   if [ "$PROBE_ONLY" -eq 0 ]; then
     echo
     echo "--- 手順2: 見出し画像を設定して更新 ---"
-    python3 CDO/outputs/note_publisher/set_header_image.py ${EXTRA[@]+"${EXTRA[@]}"}
+    "$PYBIN" CDO/outputs/note_publisher/set_header_image.py ${EXTRA[@]+"${EXTRA[@]}"}
   else
     echo "（--probe のため手順2はやりません）"
   fi
