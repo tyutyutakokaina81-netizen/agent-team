@@ -2772,5 +2772,23 @@
 "file": "breakfast_crop.jpg",
 "license": "owner own work",
 "note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-13_note記事_八戸せんべい汁_乾いたものだけで鍋になる": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg",
+"file": "File:せんべい汁（みなと食堂）.jpg",
+"license": "CC BY-SA 4.0",
+"query": "せんべい汁",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg/1280px-%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-14_note記事_ジンギスカン_花見で羊を焼く": {
+"author": "David McKelvey",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%8C%97%E6%B5%B7%E9%81%93%E5%9E%8B_%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E9%89%84%E9%8D%8B_(3733881681).jpg",
+"file": "File:北海道型 ジンギスカン鉄鍋 (3733881681).jpg",
+"license": "CC BY 2.0",
+"query": "ジンギスカン 鍋",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/%E5%8C%97%E6%B5%B7%E9%81%93%E5%9E%8B_%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E9%89%84%E9%8D%8B_%283733881681%29.jpg/1280px-%E5%8C%97%E6%B5%B7%E9%81%93%E5%9E%8B_%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E9%89%84%E9%8D%8B_%283733881681%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
