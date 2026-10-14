@@ -1318,6 +1318,15 @@
 "query": "watermelon fruit",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Watermelon_yellow_2024_G1.jpg/1280px-Watermelon_yellow_2024_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-07-30_note記事_夏のトマト_丸かじりの贅沢": {
+"author": "rs",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%A2%B6%E3%83%88%E3%83%9E%E3%83%88.jpg",
+"file": "File:梶トマト.jpg",
+"license": "CC BY-SA 4.0",
+"query": "トマト",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/%E6%A2%B6%E3%83%88%E3%83%9E%E3%83%88.jpg/1280px-%E6%A2%B6%E3%83%88%E3%83%9E%E3%83%88.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌": {
 "author": "Encik Tekateki",
 "backend": "wikimedia",
