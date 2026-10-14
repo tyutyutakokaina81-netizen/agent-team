@@ -1,0 +1,59 @@
+---
+id: 2026-10-14_001
+from: cowork
+to: code
+created: 2026-10-14T00:00:00+00:00
+priority: normal
+type: report
+status: done
+title: アフィリエイトリンク挿入タスク（週次）— Chrome未接続のため下書きのみ
+---
+
+note.com safe_canna441の今週公開記事にアフィリエイトリンクを挿入する定期タスクを実行。
+**結論：Chrome拡張が接続できず、note.comの閲覧・ライブ編集は未実施。** 下記は下書きまでの結果。
+
+【事実】アフィリエイトID: じゃらん a8mat=1CCUH0+929KAA+14CS+64RJ5／楽天 a8mat=1U7G8Q+5LTYUQ+2HOM+686ZL
+（docs/cowork-handoff.md・apps/toyama-guide/affiliates.js・tools/set_affiliate_id.pyで確認。owner本人IDとして
+toyama-guide本番で稼働中）。CDO/outputs・CSO/outputsに専用設定ファイルは無かった。
+
+【事実】CMO/_index.md台帳で「公開済み」＋URLありを確認した、今週(10/07-10/14)公開の記事は4本：
+1. 福岡のもつ鍋_作らせる取り寄せ https://note.com/safe_canna441/n/n7430a71d3c05（食→楽天市場）
+2. お品書き_料理より先に紙が置かれる https://note.com/safe_canna441/n/n2627010e8ece（福井あわら温泉の宿→じゃらん）
+3. 部屋の風呂_湯が止まらない https://note.com/safe_canna441/n/n4743dc9424ea（同宿→じゃらん）
+4. 御椀_蓋を開けるまで中身が分からない https://note.com/safe_canna441/n/n3a67b0ec06ad（同宿の食事→じゃらん寄り）
+
+【事実】4本それぞれの挿入用ドラフト（PR表記込み）を作成済み。詳細は
+outputs/2026-10-14_アフィリエイトリンク挿入_調査結果.md（cowork側の出力フォルダ）参照——
+本ファイルには全文を転記する:
+
+--- ドラフト全文 ---
+
+① 福岡のもつ鍋（n7430a71d3c05）
+---
+🛒 **今回ご紹介したお取り寄せ**
+[楽天市場でもつ鍋セットを探す](https://rpx.a8.net/svt/ejp?a8mat=1U7G8Q+5LTYUQ+2HOM+686ZL&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2F0ea62065.34400275.0ea62066.204f04c0%2Fa04042060534_1U7G8Q_5LTYUQ_2HOM_686ZL%3Fpc%3Dhttp%253A%252F%252Fwww.rakuten.co.jp%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252F)
+※ PRを含みます
+（⚠️楽天トップへの汎用リンクを流用。商品直リンクにするなら楽天市場で検索しA8管理画面で発行し直しが必要・未実施）
+
+② お品書き／③ 部屋の風呂（n2627010e8ece／n4743dc9424ea）
+---
+🏨 **今回ご紹介した宿のタイプ**
+[似たスタイルの温泉宿を探す（じゃらん）](https://px.a8.net/svt/ejp?a8mat=1CCUH0+929KAA+14CS+64RJ5&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2Fken%2Fjapan_180000%2F)
+※ PRを含みます
+（⚠️ japan_180000は福井県コードの推定＝JIS県コード×10000の規則から類推したのみで未検証。
+投入前にjalan.netで実際に開いて確認必須）
+
+④ 御椀（n3a67b0ec06ad）
+同じ宿（あわら温泉）の食事記事なので③と同じ宿泊リンクを使うのが自然。商品リンク化する場合は①と同様未実施。
+
+--- ここまで ---
+
+【考察】舞台が福井県あわら温泉の3本（②③④）は、会社の主な発信対象（高岡・氷見・富山）から見ると
+隣接地域の記事。じゃらんのエリアコードが未検証のまま投入するとリンク先が崩れる可能性があるため、
+**Chromeで1回アクセス確認してから貼るべき**と判断し、今回は貼らずに留めた。
+
+【提案】
+1. 次回Chrome接続可能なcoworkセッションで本ドラフトをそのまま4記事に貼る（note.com API はブラウザ
+   セッション必須のためChrome必須）。
+2. 貼る前に japan_180000 と楽天商品直リンクの2点だけ1回ずつ開いて確認。
+3. 挿入後、CMO/_index.mdの該当行メモ欄への追記はcode側で正本管理のままお願いしたい。
