@@ -129,8 +129,45 @@ def main() -> int:
         print(f"   コピーも削除: {s}")
     if n:
         print(f"   （{n}件）")
-    print("\n次: git add -f してから commit & push（thumbnails/ は .gitignore 済）")
+    _commit(jpg, line)
     return 0
+
+
+def _commit(jpg: Path, line: str) -> None:
+    """**却下の記録を自分で commit する。**
+
+    なぜ（2026-10-15）:
+      2026-10-14 の2巡目（ジンギスカン＝煮込みが来た回）で、**却下がまるごと消えていた**。
+      台帳 `_rejected_hashes.tsv` の最後は1巡目のままで、消したはずの jpg も戻っていて、
+      検索語を直した `fetch_thumbnails_wikimedia.py` の編集も残っていなかった。
+      翌朝クラウドが**同じ画像をもう一度取ってきて**、こちらは「3巡目が来た」と思って
+      また同じものを見ていた。どこで落ちたかは特定できていない
+      （`thumbnails/` は .gitignore 済なので `git add -A` では拾えず、
+        `git add -f` を**人が忘れずに打つ**前提になっていたのが根本）。
+      **道具が自分で commit すれば、打ち忘れも取りこぼしも起きない。**
+      失敗しても却下自体は成立しているので、ここは落ちても止めない（警告だけ出す）。
+    """
+    import subprocess
+    paths = [str(THUMB / "_rejected_hashes.tsv"), str(jpg)]
+    try:
+        subprocess.run(["git", "add", "-f", "--", *paths], cwd=ROOT, check=False,
+                       capture_output=True, timeout=30)
+        r = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=ROOT,
+                           capture_output=True, text=True, timeout=30)
+        if not r.stdout.strip():
+            print("\n⚠️ commit するものが無い（却下は台帳に書けている）。手で確認してください")
+            return
+        msg = "thumb: 却下を記録 — " + line.split("\t")[1][:60]
+        subprocess.run(["git", "commit", "-q", "-m", msg], cwd=ROOT, check=False,
+                       capture_output=True, timeout=30)
+        c = subprocess.run(["git", "show", "--stat", "--oneline", "-1"], cwd=ROOT,
+                           capture_output=True, text=True, timeout=30).stdout
+        ok = "_rejected_hashes.tsv" in c
+        print(f"\n{'✅' if ok else '⚠️'} 却下を commit しました"
+              f"{'' if ok else '（台帳がコミットに入っていません。手で確認してください）'}")
+        print("   次: git push（まとめて出すなら、このあとの作業と一緒でよい）")
+    except Exception as e:
+        print(f"\n⚠️ commit に失敗: {type(e).__name__}。却下自体は台帳に書けています")
 
 
 if __name__ == "__main__":

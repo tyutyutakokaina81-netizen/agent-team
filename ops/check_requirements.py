@@ -2080,6 +2080,49 @@ try:
 except Exception as _e45:
     add("R45 記事が黙って消えていないか", "STALE", f"判定不能: {type(_e45).__name__} {str(_e45)[:60]}")
 
+# R46 公開したのに台帳に無い記事:
+# 2026-10-15 に**同じ記事を2回公開してしまった**。八戸せんべい汁が 10-14 と 10-15 の両方で出て、
+# note 上に2本ある（`n8f9a9e90ea57` と `n26bb822c8847`）。
+# 起きたこと＝**10-14 の公開が記録されずに失われた**。registry への追記も、
+# キュー→published の move も残らず、翌朝キューに残ったまま再公開された。
+# note 側の重複ゲートは「note検索でヒットなし」で通している＝**前日の記事はまだ検索に載らない**ので、
+# あのゲートでは翌日の重複を止められない。
+# 判定: 公開ログに出た note ID（`最終URL: .../notes/<id>/publish/`）が registry に無ければ BROKEN。
+#       **記録が落ちた瞬間に分かる**＝翌朝もう一度出す前に気づける。
+try:
+    import glob as _g46
+    _ids46 = {}
+    for _lf in sorted(_g46.glob(os.path.join(ROOT, "ops/logs/publish_*.log")))[-30:]:
+        try:
+            _txt46 = open(_lf, encoding="utf-8", errors="replace").read()
+        except Exception:
+            continue
+        for _m46 in re.finditer(r"最終URL: https://editor\.note\.com/notes/(n[0-9a-f]{12})/publish/", _txt46):
+            _ids46.setdefault(_m46.group(1), os.path.basename(_lf))
+    # ★ここは最初 except で空集合に落としていた。すると**台帳が読めないだけで全件が「無い」**になり、
+    #   実際 1本の取りこぼしを **20本** と誤報した。読めないなら「判定できない」と言うのが正しい。
+    import json as _json46
+    _reg46 = _json46.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                               encoding="utf-8"))
+    _known46 = {x for r in _reg46 for x in re.findall(r"/n/(n[0-9a-f]{12})", r.get("url", "") or "")}
+    if not _known46:
+        raise RuntimeError("公開台帳からURLが1本も読めない")
+    _lost46 = [(k, v) for k, v in _ids46.items() if k not in _known46]
+    if not _ids46:
+        add("R46 公開したのに台帳に無い", "STALE", "公開ログに最終URLの行が無い＝未検査")
+    elif _lost46:
+        add("R46 公開したのに台帳に無い", "BROKEN",
+            f"**公開ログに出たのに台帳に無い note が {len(_lost46)}本**"
+            f"（{_lost46[0][0]} / {_lost46[0][1]}） → **記録が落ちている**。"
+            "このままだとキューに残った記事が翌朝もう一度公開される"
+            "（note の重複ゲートは前日の記事をまだ検索で拾えない）。"
+            "note 側を見て、要らないほうを消し、残すほうを registry に入れる")
+    else:
+        add("R46 公開したのに台帳に無い", "OK",
+            f"直近30便の公開ログに出た {len(_ids46)}本は、すべて公開台帳にある")
+except Exception as _e46:
+    add("R46 公開したのに台帳に無い", "STALE", f"判定不能: {type(_e46).__name__} {str(_e46)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
