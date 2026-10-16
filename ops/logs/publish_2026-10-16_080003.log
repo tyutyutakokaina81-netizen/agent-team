@@ -261,3 +261,16 @@ replies.tsv が空。先に `python3 ops/auto_reply_comments.py --go`
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-10-16_003_cowork_code.yaml  id=2026-10-16_003
+[main 38fefe15] cowork: daily backfill (english/follow/x-queue) 2026-10-16_080003
+ 15 files changed, 407 insertions(+), 6 deletions(-)
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n5f114cef1412_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n7a7a27ae06a6_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n8816235bcecd_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n936820e10c65_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/nac4021320e0b_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/nfcb35ebb2f13_follow.txt
+ create mode 100644 ops/logs/backfill_follow_2026-10-16_082000.log
+ create mode 100644 ops/logs/backfill_tags_2026-10-16_082126.log
+ create mode 100644 ops/outbox/2026-10-16_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   58381535..38fefe15  main -> main
