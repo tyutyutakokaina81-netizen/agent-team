@@ -7732,3 +7732,38 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-10-19_002_cowork_code.yaml  id=2026-10-19_002
+[main ad6f59fc] cowork: paid-footer insertion pass (2026-10-19_080003)
+ 5 files changed, 96 insertions(+)
+ create mode 100644 ops/logs/sell_2026-10-19_080246.log
+ create mode 100644 ops/outbox/2026-10-19_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   2c97327a..ad6f59fc  main -> main
+
+=== コメントに自動返信する ===
+新しく返すものは無い
+replies.tsv が空。先に `python3 ops/auto_reply_comments.py --go`
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+ }
+]
+⚠️ 今回フォローできた人は0人です。上の理由を確認してください。
+記録: 2026-10-19 70フォロワー / 今回フォロー 14人
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+⚠️  [25/25] n3a7360655e2c UNKNOWN 運動会：九月の校庭と、場所取りの朝 ログイン画面に飛ばされた（読者には見えない可能性）
+
+書き出し: /Users/apple/agent-team-run/ops/public_status.tsv
+今回見たぶんは全部読者に見えている
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-10-19_081952.log
+
+== 結果: 追記 6本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-10-19_081952.log
+  n6e1ec3ffbd02	UPDATED:更新する
+更新できた: 6 / 6  （2026-10-19 08:21）
+ログ: ops/logs/backfill_tags_2026-10-19_082112.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-10-19_003_cowork_code.yaml  id=2026-10-19_003
