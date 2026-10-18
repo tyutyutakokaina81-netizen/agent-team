@@ -37,6 +37,14 @@ THUMB_DIR = SCRIPT_DIR / "thumbnails"
 PROV_FILE = THUMB_DIR / "_provenance.json"
 VERIFIED_FILE = THUMB_DIR / "_verified.txt"
 NO_AUTO_FILE = THUMB_DIR / "_no_auto.txt"   # 意図的に無サムネ（誤サムネより無サムネが正）
+# ★2026-10-18 新設: **オーナーの写真待ち**。_no_auto とは別の状態。
+#   _no_auto は「無サムネで公開してよい」という意味で、A3（全記事にサムネ）と衝突する。
+#   ここに書くのは「**自動では当たらないと分かったので、撮ってもらうまで止める**」記事。
+#   なぜ要るか: 肉ケーキ（9巡）とジンギスカン（4巡）で打ち切りを決めて JP_QUERY から外したのに、
+#   **外すと EN_QUERY の緩い語へ落ちて、かえって遠い画像が来る**（高岡大仏に奈良の大仏が来た実害と同じ型）。
+#   実際、肉ケーキには打ち切り後に**調理済みのすき焼き**が割り当てられていた。
+#   → ここに載せた記事は JP/EN どちらも引かずに飛ばす。キューには入らないまま（R32 が止める）。
+AWAIT_PHOTO_FILE = THUMB_DIR / "_await_photo.txt"
 GOOD_BACKENDS = {"openai", "gemini", "pollinations", "wikimedia", "pexels"}
 MIN_IMAGE_BYTES = 8000
 UA = "toyama-guide-thumbnailer/1.0 (https://github.com/tyutyutakokaina81-netizen/agent-team; free real photos)"
@@ -1357,6 +1365,8 @@ def main() -> None:
     verified = load_verified()
     no_auto = {ln.strip() for ln in (NO_AUTO_FILE.read_text(encoding='utf-8').splitlines()
                if NO_AUTO_FILE.exists() else []) if ln.strip() and not ln.strip().startswith('#')}
+    await_photo = {ln.strip() for ln in (AWAIT_PHOTO_FILE.read_text(encoding='utf-8').splitlines()
+                   if AWAIT_PHOTO_FILE.exists() else []) if ln.strip() and not ln.strip().startswith('#')}
     files = sorted(glob.glob(str(ARTICLES_DIR / "*note記事*.md")))
     files = [f for f in files if (not args.filter or args.filter in Path(f).name)]
 
@@ -1380,6 +1390,12 @@ def main() -> None:
                     print(f"  removed rejected thumbnail: {p.stem}")
             except OSError:
                 pass
+        if p.stem in await_photo:   # オーナーの写真待ち＝自動では当たらないと分かった題材
+            print(f"  skip(await_photo): {p.stem[:40]}… は写真待ち。自動取得しない")
+            stray = THUMB_DIR / f"{p.stem}.jpg"
+            if stray.exists():
+                stray.unlink(); print(f"  removed stray thumbnail (await_photo): {p.stem}")
+            continue
         if p.stem in no_auto:       # 自動取得を断念した題材=無サムネで確定（--forceでも取りに行かない）
             # 別runの競合等で既にjpgが在る場合は**消す**。残すとpublisher経路が拾って誤サムネ公開になる。
             stray = THUMB_DIR / f"{p.stem}.jpg"

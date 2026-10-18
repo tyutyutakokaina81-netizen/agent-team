@@ -642,6 +642,12 @@ try:
     _na = os.path.join(_thumbdir, "_no_auto.txt")
     if os.path.exists(_na):
         _noauto = {l.strip() for l in open(_na, encoding="utf-8") if l.strip() and not l.startswith("#")}
+    # ★2026-10-18: **オーナーの写真待ち**も対象外にする。検索語が無いのは登録漏れではなく、
+    #   「自動では当たらないと分かったので止めた」という判断の結果（肉ケーキ9巡・ジンギスカン4巡）。
+    #   ここを数えると、意図した状態が毎朝 BROKEN として鳴り続ける。
+    _aw = os.path.join(_thumbdir, "_await_photo.txt")
+    if os.path.exists(_aw):
+        _noauto |= {l.strip() for l in open(_aw, encoding="utf-8") if l.strip() and not l.startswith("#")}
 # ★2026-09-21 修正: ここは `os.path.getmtime()` で「直近1週間」を切っていたが、**mtime は記事の
 #   属性ではなく checkout の属性**。コンテナは使い捨て(A7)なので clone した瞬間に全記事の mtime が
 #   同じ「今」になり、**353本すべてが「直近1週間に書いた記事」として母数に入っていた**
