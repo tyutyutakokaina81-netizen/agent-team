@@ -1,0 +1,385 @@
+### 見出し画像の修復 2026-10-21_192344
+--- 手順1: 今のUIを実測（変更しない・1本だけ） ---
+対象 1 件 / モード=PROBE(変更しない)
+
+=== n13aa4e281fd5 ===
+   見出し画像の有無（実行前）: あり
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_n13aa4e281fd5_publish.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_n13aa4e281fd5_publish.png ---
+   --- 画像に関係しそうな要素 8件 ---
+   * img | class=h-auto w-full align-top src=https://assets.st-note.com/production/uploads/images/293417574/rectangle_large_type_2_a90f3b8f56650186cdcb80703a702a
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+   ===== 同じ記事の /edit/ 画面 =====
+   --- 画面上のボタン/ラベル（aria-label と文言） ---
+   [button] aria='AIアシスタント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='目次' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='noteのヒント' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='エディタのガイド' txt='' cls='sc-c210b9dd-0 PDqMa'
+   [button] aria='' txt='閉じる' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='その他' txt='' cls='cursor-pointer appearance-none border-none bg-transparent'
+   [button] aria='' txt='一時保存' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='' txt='公開に進む' cls='relative m-0 inline-flex cursor-pointer touch-manipulation appearance-'
+   [button] aria='AIアシスタント' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='太字' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='取り消し線' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='リスト' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='文章の配置' txt='' cls='sc-a6403696-8 gGzynN'
+   [button] aria='リンク' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='引用' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='コード' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='代替テキスト' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='拡大' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='縮小' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='画像の配置' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='削除' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='音声を編集' txt='' cls='sc-fd3d5259-2 hlOnlO'
+   [button] aria='メニューを開く' txt='' cls='sc-876c5825-1 kPaGAS'
+   --- input[type=file] の数: 0 [] ---
+   --- HTMLを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/edit_n13aa4e281fd5_edit.html ---
+   --- スクリーンショットを保存: /Users/apple/agent-team-run/ops/logs/_thumb_debug/shot_n13aa4e281fd5_edit.png ---
+   --- 画像に関係しそうな要素 8件 ---
+   * img | class=h-auto w-full align-top src=https://assets.st-note.com/production/uploads/images/293417574/rectangle_large_type_2_a90f3b8f56650186cdcb80703a702a
+   * span | id=imageExpanded style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * span | id=imageShrinked style=border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; wid
+   * button | tabindex=-1 aria-label=拡大 aria-pressed=false aria-describedby=imageShrinked data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-disabled) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeIma
+   * button | tabindex=-1 aria-label=縮小 aria-pressed=false aria-describedby=imageExpanded data-border-right=false class=sc-fd3d5259-2 hlOnlO
+   * svg | xmlns=http://www.w3.org/2000/svg fill=var(--color-text-primary) height=24px viewBox=0 0 24 24 width=24px class=injected-svg data-src=/icons/resizeImag
+   * svg | xmlns=http://www.w3.org/2000/svg width=24px height=24px viewBox=0 0 123 123 fill=var(--color-text-disabled) class=injected-svg data-src=/icons/imageAl
+
+================ 結果 ================
+  n13aa4e281fd5	PROBED_HAS_IMAGE
+更新できた: 0 / 1  （2026-10-21 19:23）
+
+--- 手順2: 見出し画像を設定して更新 ---
+   ⏭ n951e3262b23c は触らない: 2026-10-06 に下書きのままと判明（コメント取得の保存HTMLに『公開前の下書きです』）。読者に見えていない
+   ⏭ n1bbb920a0ee7 は触らない: 2026-10-06 に下書きのままと判明（コメント取得の保存HTMLに『公開前の下書きです』）。読者に見えていない
+対象 49 件 / モード=設定して更新
+
+=== n13aa4e281fd5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== na958299320ea ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n7756798663c0 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n348078642951 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n688348718444 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n7750a5cf6e23 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n4820e9f55ff2 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nf0d70f771e55 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n486c5f74d316 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n7bccfe24f905 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n37073f8f1a77 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n6831b6aafc9f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== ndd3f5a3d0f13 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n21bd0b732dd3 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nf16a9483493d ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nade71b4d3898 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n6e2522bc9952 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nbd28a465d55b ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n185c079a4699 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n5d8ab11ef8bd ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nc9bda3191cc5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n242960f609cf ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nc98f0aadab22 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n4a3c7ea6a837 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n0d966e689b68 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nf5cf059a563e ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== ncbb225a489ff ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n12683c7cde17 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n411f121b2b26 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nb8583d2d191b ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n4a95d3c6a316 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nf2aad02f3b00 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n289a10bd5d2f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nf82a50257930 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n2302ebd451d9 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n9fb0f393f453 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n1ffab822c2a4 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n3a7360655e2c ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n7767e1fb0ccc ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== ne4e85cf2328f ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n815cc5e770b5 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n8181e09e55ac ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== nb50a98bea168 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n17788d0cfa17 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n47e24995aad0 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n92777d1d932c ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n8b3773143166 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== n13b8d8276acb ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+=== na889c3862499 ===
+   見出し画像の有無（実行前）: あり
+   → 既に画像があるので触らない（上書き事故を避ける）
+      差し替えたいなら --replace を付ける
+
+================ 結果 ================
+  n13aa4e281fd5	SKIP_HAS_IMAGE
+  na958299320ea	SKIP_HAS_IMAGE
+  n7756798663c0	SKIP_HAS_IMAGE
+  n348078642951	SKIP_HAS_IMAGE
+  n688348718444	SKIP_HAS_IMAGE
+  n7750a5cf6e23	SKIP_HAS_IMAGE
+  n4820e9f55ff2	SKIP_HAS_IMAGE
+  nf0d70f771e55	SKIP_HAS_IMAGE
+  n486c5f74d316	SKIP_HAS_IMAGE
+  n7bccfe24f905	SKIP_HAS_IMAGE
+  n37073f8f1a77	SKIP_HAS_IMAGE
+  n6831b6aafc9f	SKIP_HAS_IMAGE
+  ndd3f5a3d0f13	SKIP_HAS_IMAGE
+  n21bd0b732dd3	SKIP_HAS_IMAGE
+  nf16a9483493d	SKIP_HAS_IMAGE
+  nade71b4d3898	SKIP_HAS_IMAGE
+  n6e2522bc9952	SKIP_HAS_IMAGE
+  nbd28a465d55b	SKIP_HAS_IMAGE
+  n185c079a4699	SKIP_HAS_IMAGE
+  n5d8ab11ef8bd	SKIP_HAS_IMAGE
+  nc9bda3191cc5	SKIP_HAS_IMAGE
+  n242960f609cf	SKIP_HAS_IMAGE
+  nc98f0aadab22	SKIP_HAS_IMAGE
+  n4a3c7ea6a837	SKIP_HAS_IMAGE
+  n0d966e689b68	SKIP_HAS_IMAGE
+  nf5cf059a563e	SKIP_HAS_IMAGE
+  ncbb225a489ff	SKIP_HAS_IMAGE
+  n12683c7cde17	SKIP_HAS_IMAGE
+  n411f121b2b26	SKIP_HAS_IMAGE
+  nb8583d2d191b	SKIP_HAS_IMAGE
+  n4a95d3c6a316	SKIP_HAS_IMAGE
+  nf2aad02f3b00	SKIP_HAS_IMAGE
+  n289a10bd5d2f	SKIP_HAS_IMAGE
+  nf82a50257930	SKIP_HAS_IMAGE
+  n2302ebd451d9	SKIP_HAS_IMAGE
+  n9fb0f393f453	SKIP_HAS_IMAGE
+  n1ffab822c2a4	SKIP_HAS_IMAGE
+  n3a7360655e2c	SKIP_HAS_IMAGE
+  n7767e1fb0ccc	SKIP_HAS_IMAGE
+  ne4e85cf2328f	SKIP_HAS_IMAGE
+  n815cc5e770b5	SKIP_HAS_IMAGE
+  n8181e09e55ac	SKIP_HAS_IMAGE
+  nb50a98bea168	SKIP_HAS_IMAGE
+  n17788d0cfa17	SKIP_HAS_IMAGE
+  n47e24995aad0	SKIP_HAS_IMAGE
+  n92777d1d932c	SKIP_HAS_IMAGE
+  n8b3773143166	SKIP_HAS_IMAGE
+  n13b8d8276acb	SKIP_HAS_IMAGE
+  na889c3862499	SKIP_HAS_IMAGE
+更新できた: 0 / 49  （2026-10-21 19:27）
