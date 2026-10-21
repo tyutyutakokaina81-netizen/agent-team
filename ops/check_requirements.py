@@ -356,7 +356,16 @@ else:
         # ★2026-09-23: 終了コードだけでは owner が何をすればよいか分からない。
         #   実際に出た文言を見て、**対処が決まっているものは対処を名指しする**。
         _known = [
-            ("OAuth session expired", "Mac の claude のログインが切れている → ターミナルで `claude` を起動して `/login`"),
+            # ★2026-10-21 訂正: これを「ログイン切れ」と読んで `/login` を案内したが、**外れだった**。
+            #   オーナーがターミナルで `claude` を叩くと普通に起動する（"API Usage Billing" と出る）。
+            #   つまりログインは生きていて、**認証情報が cron / launchd に渡っていない**のが実体。
+            #   run_worker.sh は PATH は丁寧に直していたのに、環境変数は何も引き継いでいなかった。
+            #   `/login` を何度やっても直らない種類の故障なので、案内を変える。
+            ("OAuth session expired", "**`/login` では直らない**。対話では claude が起動するのに自動実行だけ落ちる＝"
+                                      "認証情報が cron/launchd に渡っていない。run_worker.sh が引き継ぐようにした（2026-10-21）。"
+                                      "次の便で `auth: ANTHROPIC_API_KEY を引き継ぎました` が出るか確認する。"
+                                      "出ないなら `$HOME/.agent-team.env` に `export ANTHROPIC_API_KEY=...` を置く"),
+            ("Failed to authenticate", "**`/login` では直らない**。認証情報が自動実行に渡っていない（上と同じ）"),
             ("Not logged in",         "Mac の claude が未ログイン → ターミナルで `claude` を起動して `/login`"),
             ("No such file or directory", "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),
             ("command not found",     "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),

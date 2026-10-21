@@ -57,6 +57,29 @@ mkdir -p ops/logs
   done | sort -u
 
   echo
+  echo "=== 認証情報が自動実行に渡るか（★値は出さない。有無と長さだけ） ==="
+  #   2026-10-21: worker が `OAuth session expired` で落ちるのに、対話の `claude` は起動する。
+  #   対話シェルにだけ鍵があり、cron/launchd に渡っていない、という読み。その裏取り。
+  for sh in 'zsh -lic' 'zsh -lc' 'bash -lc'; do
+    v=$($sh 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
+    if [ -n "$v" ]; then echo "  $sh : あり（${#v} 文字）"; else echo "  $sh : 無し"; fi
+  done
+  v=$(printenv ANTHROPIC_API_KEY 2>/dev/null)
+  if [ -n "$v" ]; then echo "  このスクリプトの環境 : あり（${#v} 文字）"; else echo "  このスクリプトの環境 : 無し"; fi
+  unset v
+  echo "  --- どのファイルで定義されているか（行番号だけ。値は出さない） ---"
+  for rc in "$HOME/.zshrc" "$HOME/.zprofile" "$HOME/.zshenv" "$HOME/.bash_profile" "$HOME/.profile" \
+            "$HOME/.agent-team.env" "$HOME/.config/agent-team/env"; do
+    [ -r "$rc" ] || continue
+    ln=$(grep -n 'ANTHROPIC_API_KEY' "$rc" 2>/dev/null | cut -d: -f1 | tr '\n' ',')
+    [ -n "$ln" ] && echo "  $rc : $ln 行目に記述あり"
+  done
+  echo "  --- claude の保存済み認証（存在と更新日だけ） ---"
+  for f in "$HOME/.claude/.credentials.json" "$HOME/.claude.json"; do
+    [ -e "$f" ] && echo "  $f : $(date -r "$f" '+%Y-%m-%d %H:%M' 2>/dev/null)"
+  done
+
+  echo
   echo "=== 18時台に走るもの＝order-check の中身（消失は毎回 18:09〜18:11） ==="
   for f in "$HOME"/agent-team/scripts/deliver/auto_check_orders.sh \
            "$HOME"/agent-team/scripts/morning.sh \
