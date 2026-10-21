@@ -1,4 +1,4 @@
-# 最終実行: 2026-10-21T01:38:43Z UTC / 成功: 14 / 失敗: 83
+# 最終実行: 2026-10-21T01:42:54Z UTC / 成功: 14 / 失敗: 83
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-10-09_note記事_肉ケーキ_形だけを借りている… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-14_note記事_ジンギスカン_花見で羊を焼く… は写真待ち。自動取得しない
@@ -71,7 +71,7 @@
   ✗ 2026-07-30_note記事_早期退職_今日で会社を辞めた  (tried ['office chair', '空のオフィス', 'デスク']): RuntimeError — 候補なし（query='デスク'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'badname': 1, 'jp_first': 0}
   ✗ 2026-07-31_note記事_打ち水_夕方のささやかな涼  (tried ['打ち水']): RuntimeError — 候補なし（query='打ち水'） diag={'pages': 8, 'img': 8, 'nonphoto': 0, 'too_small': 1, 'nojp_hint': 6, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-08-03_note記事_夕立と入道雲_夏の空の急変  (tried ['入道雲']): RuntimeError — 候補なし（query='入道雲'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
-  ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 4, 'too_tall': 6, 'nojp_hint': 2, 'jp_first': 0}
+  ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 3, 'too_tall': 6, 'nojp_hint': 3, 'jp_first': 0}
   ✗ 2026-08-04_note記事_鮎の塩焼き_夏の川の魚  (tried ['鮎']): RuntimeError — 候補なし（query='鮎'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 1, 'too_small': 2, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-05_note記事_夏の星空_庭に寝ころんで  (tried ['天の川']): RuntimeError — 候補なし（query='天の川'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'too_tall': 4, 'jp_first': 0}
   ✗ 2026-08-05_note記事_桃_したたる夏の果物  (tried ['桃']): RuntimeError — 候補なし（query='桃'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'nonjp': 1, 'too_tall': 2, 'jp_first': 0, 'rejected_md5': 1}
@@ -80,3 +80,23 @@
   ✗ 2026-08-07_note記事_夏のプール_塩素の匂いと唇の紫  (tried ['プール']): RuntimeError — 候補なし（query='プール'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'nonjp': 1, 'jp_first': 0}
   ✗ 2026-08-08_note記事_田んぼの夏_緑の波とカエルの声  (tried ['田んぼ']): RuntimeError — 候補なし（query='田んぼ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 1, 'nonjp': 11, 'jp_first': 0}
   ✗ 2026-08-09_note記事_麦わら帽子_かぶると夏になる  (tried ['麦わら帽子']): RuntimeError — 候補なし（query='麦わら帽子'） diag={'pages': 12, 'img': 12, 'nonphoto': 7, 'nojp_hint': 4, 'nonjp': 1, 'jp_first': 0}
+  ✗ 2026-08-10_note記事_うちわ_自分であおぐ風  (tried ['うちわ']): RuntimeError — 候補なし（query='うちわ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 2, 'nojp_hint': 5, 'too_small': 3, 'badname': 1, 'jp_first': 0}
+  ✗ 2026-08-11_note記事_サンダル_夏はこれ一足  (tried ['ビーチサンダル']): RuntimeError — 候補なし（query='ビーチサンダル'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'too_tall': 1, 'too_small': 2, 'nonjp': 1, 'jp_first': 0}
+  ✗ 2026-08-11_note記事_汗_かいてもかいても  (tried ['扇子', 'folding fan japan', '団扇 無地']): RuntimeError — 候補なし（query='団扇 無地'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  skip(place): 2026-08-13_note記事_富山の名水_立山からの贈… は「立山」を名乗る記事。土地名を含まないクエリ ['湧水'] は使わない
+  ✗ 2026-08-13_note記事_富山の名水_立山からの贈りもの  (「立山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「立山」入りの語を足すこと)
+  ✗ 2026-08-13_note記事_怪談_こわい話で涼む夜  (tried ['蚊帳', 'mosquito net japan', '線香']): RuntimeError — 候補なし（query='線香'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_tall': 3, 'nonjp': 5, 'nojp_hint': 4, 'jp_first': 0}
+  ✗ 2026-08-13_note記事_日傘_持ち歩く日陰  (tried ['日傘']): RuntimeError — 候補なし（query='日傘'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 9, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-14_note記事_網戸_風だけを通す夏  (tried ['網戸']): RuntimeError — 候補なし（query='網戸'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 6, 'too_small': 2, 'too_tall': 2, 'jp_first': 1, 'rejected_md5': 1}
+  ✗ 2026-08-16_note記事_夏バテ_だるさとつきあう  (tried ['麦茶 グラス', '扇風機', 'うちわ', '冷たい 麦茶']): RuntimeError — 候補なし（query='冷たい 麦茶'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-08-17_note記事_入道雲と夕立_山の上に立つ白  (tried ['入道雲']): RuntimeError — 候補なし（query='入道雲'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル  (tried ['盆踊り']): RuntimeError — 候補なし（query='盆踊り'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え  (tried ['稲穂', '水田 稲穂', '田んぼ 稲', '稲 実り']): RuntimeError — 候補なし（query='稲 実り'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  skip(place): 2026-09-05_note記事_共働き_富山で共働きが多… は「富山」を名乗る記事。土地名を含まないクエリ ['日本 住宅地', '郊外 住宅 日本', 'detached house japan', '一戸建て 住宅'] は使わない
+  ✗ 2026-09-05_note記事_共働き_富山で共働きが多いわけ  (「富山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「富山」入りの語を足すこと)
+  ✗ 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる  (tried ['富山 獅子舞', '百足獅子', '越中 獅子舞', '獅子舞 富山県']): RuntimeError — 候補なし（query='獅子舞 富山県'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝']): RuntimeError — 候補なし（query='ザクロ 実 枝'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
+  ✗ 2026-10-02_note記事_バスセンターのカレー_そば屋のカレーが箱で届く  (tried ['給食 カレー', '黄色 カレー', 'カレーライス 昭和', 'カレー 皿 ご飯']): RuntimeError — 候補なし（query='カレー 皿 ご飯'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-10-06_note記事_越前打刃物の包丁_食べ物以外を取り寄せる  (tried ['和包丁', '包丁', 'japanese kitchen knife', '出刃包丁']): RuntimeError — 候補なし（query='出刃包丁'） diag={'pages': 7, 'img': 7, 'nonphoto': 2, 'too_small': 3, 'nojp_hint': 2, 'jp_first': 0}
+  ✗ 2026-10-08_note記事_届いていなかった_234本の裏側  (tried ['ノート 文房具', '万年筆 ノート', '机 ノート', '文房具']): RuntimeError — 候補なし（query='文房具'） diag={'pages': 12, 'img': 12, 'nonphoto': 6, 'nojp_hint': 5, 'too_tall': 1, 'jp_first': 0}
