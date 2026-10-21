@@ -36,11 +36,32 @@ if [ -z "$ANTHROPIC_API_KEY" ]; then
     [ -r "$ef" ] && . "$ef" && break
   done
 fi
+# ★対話シェル（zsh -lic）は**使わない**。launchd から走るときに、.zshrc の中身次第で
+#   入力待ちになって止まる恐れがある。代わりに**代入の1行だけ**を読んで評価する。
+#   値が `$(security find-generic-password ...)` のような形でも、eval なら解決できる。
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+  for rc in "$HOME/.zshenv" "$HOME/.zprofile" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.profile"; do
+    [ -r "$rc" ] || continue
+    KLINE=$(grep -E '^[[:space:]]*(export[[:space:]]+)?ANTHROPIC_API_KEY=' "$rc" 2>/dev/null | tail -1)
+    if [ -n "$KLINE" ]; then
+      eval "$KLINE" 2>/dev/null
+      export ANTHROPIC_API_KEY
+      [ -n "$ANTHROPIC_API_KEY" ] && echo "auth: $rc から読みました" && break
+    fi
+  done
+  unset KLINE
+fi
+# それでも無ければ、非対話のログインシェル（-i は付けない）から1個だけ取り出す
 if [ -z "$ANTHROPIC_API_KEY" ] && command -v zsh >/dev/null 2>&1; then
-  K=$(zsh -lic 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
-  case "$K" in sk-*) ANTHROPIC_API_KEY="$K"; export ANTHROPIC_API_KEY;; esac
+  K=$(zsh -lc 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
+  [ -n "$K" ] && ANTHROPIC_API_KEY="$K" && export ANTHROPIC_API_KEY
   unset K
 fi
+# ★2026-10-21: **古いスクリプトが走ったことに気づけなかった。**
+#   19:07 の便は auth: の行が1つも出ず、こちらは「直したのに効かない」と読みかけた。
+#   実際は push の1分後に実行されていて、**Mac がまだ取り込んでいなかっただけ**。
+#   → **版が分かる印を必ず出す。** この行が無いログは、修正前のスクリプトの出力。
+echo "run_worker.sh 版: 2026-10-21 認証引き継ぎあり"
 # **値は絶対に出力しない。** 有無と長さだけ残す（ログは git に乗るため）。
 if [ -n "$ANTHROPIC_API_KEY" ]; then
   echo "auth: ANTHROPIC_API_KEY を引き継ぎました（${#ANTHROPIC_API_KEY} 文字）"

@@ -16,6 +16,10 @@ if [ "$(uname)" != "Darwin" ]; then
   exit 1
 fi
 
+# ★2026-10-21: **1回、何も出さずに終わった。** 出力を全部ファイルへ流していたので、
+#   途中で止まったのか、そもそも走っていないのかが**オーナーにもこちらにも分からなかった**。
+#   → 段階ごとに画面へ印を出す。**無言で終わることを無くす。**
+echo "mac_diag 開始（版: 2026-10-21 認証確認あり）"
 OUT="ops/logs/mac_diag.txt"
 mkdir -p ops/logs
 {
@@ -89,6 +93,21 @@ mkdir -p ops/logs
   done
 } > "$OUT" 2>&1
 
+echo "書き出しました: $OUT（$(wc -l < "$OUT" | tr -d ' ') 行）"
+# 画面にも**認証の有無だけ**出す。これが今いちばん知りたいことなので、
+# push を待たずにその場で分かるようにする。**値は出さない。**
+echo "--- 鍵が見えるか（値は出しません） ---"
+for sh in 'zsh -lc' 'bash -lc'; do
+  v=$($sh 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
+  if [ -n "$v" ]; then echo "  $sh : あり（${#v} 文字）"; else echo "  $sh : 無し"; fi
+done
+for rc in "$HOME/.zshenv" "$HOME/.zprofile" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.profile" \
+          "$HOME/.agent-team.env"; do
+  [ -r "$rc" ] || continue
+  ln=$(grep -nE '^[[:space:]]*(export[[:space:]]+)?ANTHROPIC_API_KEY=' "$rc" 2>/dev/null | cut -d: -f1 | tr '\n' ',')
+  [ -n "$ln" ] && echo "  $rc : $ln 行目に記述あり"
+done
+unset v ln
 git add -f "$OUT" >/dev/null 2>&1
 git commit -q -m "diag: Mac 側の自動実行の設定を収集" >/dev/null 2>&1
 for i in 1 2 3 4; do
