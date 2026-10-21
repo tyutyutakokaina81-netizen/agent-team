@@ -26,6 +26,8 @@
 
 | 2026-08-21 | site_audit: --fix + site-audit.yml | 自動化/自己修復 | owner「なぜ自動で直さないのか」→検知だけでなく自動修復を実装。--fix(x-default補完・トップへの非相互hreflang削除・idempotent)＋CIワークフローでpush毎に自己修復しbotがcommit。残56件の非相互を自動解消(warnings56→0)。機械で直せない致命的欠陥のみjob失敗で可視化 | 運用中 |
 | 2026-09-30 | ops/inline_english.py, note_publisher/append_english.py, ops/backfill_english.sh, ops/build_english_todo.py | 到達修復/検査 | オーナー「記事の閲覧が伸び悩み」→数えて発見＝**英語要約が公開本文に1文字も入っていなかった**。publisher は `## 本文` 直下のブロックだけを note に貼るのに、英語要約はブロックの外に書いていた（9/1以降60本全滅・累計141本）。md 141本を本文ブロックへ移し、公開済み96本は**全置換せず末尾に足す**append_english.py を新設（全置換だと本文中の写真が消える）。go.sh 3.5) に組み込み8本/回で自動消化。R36 で再発を監視（窓なし・370本OK） | 運用中 |
+| 2026-09-09 | outputs/2026-09-09_アフィリ挿入_週次.md | 定例レポート/週次(affiliate-link-weekly・遡及記録) | Claude in Chrome未接続のためnote.comライブ編集不可（9週連続）。じゃらん(A8.net)の貼るだけfooterをテーマ別に用意、楽天は未登録のためスキップ。※台帳への追記が当時漏れていたため2026-10-21時点で遡及記録 | 完了(次回へ引き継ぎ) |
+| 2026-10-21 | outputs/2026-10-21_アフィリ挿入_週次.md | 定例レポート/週次(affiliate-link-weekly) | 同様にChrome未接続（list_connected_browsers=空）でnote.comライブ一覧取得不可・編集は保留。じゃらんfooter(高岡/富山/氷見)を提供、楽天は09-09から約6週間未登録のまま継続。ローカルCMO/outputsに10-14以降のnote記事ドラフトが見当たらない点を参考情報として記録 | 完了(次回へ引き継ぎ) |
 
 ## メモ・引き継ぎ事項
 
