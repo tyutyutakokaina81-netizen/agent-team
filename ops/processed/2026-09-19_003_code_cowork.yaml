@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-19T11:16:54+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【要確認・3本】note上で開けない記事がある（毎日 NOT-RENDERED になる）
 ---
 
@@ -26,3 +26,10 @@ title: 【要確認・3本】note上で開けない記事がある（毎日 NOT-
 巡回ツールが HTTPステータスと最終URLを見るようにしました。次の実行からは
 「NOT-FOUND(404等)」「REDIRECTED」「NOT-RENDERED」を分けて数え、日次報告にも件数が出ます。
 404 だと分かれば、こちらで registry を直せます。
+
+
+---
+
+## 結果 (2026-10-22T07:20:56+09:00)
+
+2026-10-22 ログアウト状態で3本とも HTTP 404（n1bbb920a0ee7 冷やしトマト／n0a3125a83e82 きのどくな／n951e3262b23c ひまわり）。fix_header_images.sh も 10-06 の保存HTMLで『公開前の下書き』と判定済み＝3本とも下書き(未公開)。本日は既に4本公開で日次上限(5本・夜間便合算)に近いため公開は見送り。下書きの公開は 2026-09-09_003 側で継続（registry からの除外 or 公開の判断を code に委ねる）。
