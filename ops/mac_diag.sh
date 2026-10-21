@@ -43,7 +43,9 @@ mkdir -p ops/logs
   for d in "$HOME"/agent-team "$HOME"/agent-team-run "$HOME"/ai-auto "$HOME"/note-auto "$HOME"/quiet-japan; do
     [ -d "$d" ] || continue
     echo "----- $d"
-    echo "  remote: $(git -C "$d" remote -v 2>/dev/null | head -1)"
+    # remote URL にトークンが埋まっている clone がある。そのまま出すと mac_diag.txt 経由で
+    # コミットされる（2026-10-21 に push 保護で止まった）。認証部分は必ず伏せる。
+    echo "  remote: $(git -C "$d" remote -v 2>/dev/null | head -1 | sed -E 's#//[^/@]+@#//***@#')"
     echo "  branch: $(git -C "$d" rev-parse --abbrev-ref HEAD 2>/dev/null)"
     echo "  HEAD  : $(git -C "$d" log -1 --pretty='%h %an | %s' 2>/dev/null | cut -c1-80)"
     echo "  author: $(git -C "$d" config user.name 2>/dev/null) / $(git -C "$d" config user.email 2>/dev/null)"
