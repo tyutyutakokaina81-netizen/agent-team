@@ -64,7 +64,11 @@ mkdir -p ops/logs
   echo "=== 認証情報が自動実行に渡るか（★値は出さない。有無と長さだけ） ==="
   #   2026-10-21: worker が `OAuth session expired` で落ちるのに、対話の `claude` は起動する。
   #   対話シェルにだけ鍵があり、cron/launchd に渡っていない、という読み。その裏取り。
-  for sh in 'zsh -lic' 'zsh -lc' 'bash -lc'; do
+  # ★2026-10-21: **対話シェル(-i)をここに置いたせいで、スクリプトが黙って止まった。**
+  #   スクリプトから対話シェルを呼ぶと、端末の制御を奪い合って落ちることがある。
+  #   実際、画面には「mac_diag 開始」しか出ず、ファイルも push も作られなかった。
+  #   run_worker.sh からは外したのに、**こちらに残していた。** -i は使わない。
+  for sh in 'zsh -lc' 'bash -lc'; do
     v=$($sh 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
     if [ -n "$v" ]; then echo "  $sh : あり（${#v} 文字）"; else echo "  $sh : 無し"; fi
   done
