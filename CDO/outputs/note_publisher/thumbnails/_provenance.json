@@ -2615,7 +2615,7 @@
 "descpage": "https://commons.wikimedia.org/wiki/File:Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg",
 "file": "File:Deep-fried Tofu Japanese Curry Rice - MOGUMOGU 2024-07-26.jpg",
 "license": "CC0",
-"query": "ライスカレー",
+"query": "カレーライス",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg/1280px-Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-02_note記事_朝霧_出かけるころには消えている": {
@@ -2690,6 +2690,15 @@
 "query": "稲架掛け",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg/1280px-%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-10-06_note記事_越前打刃物の包丁_食べ物以外を取り寄せる": {
+"author": "Benlisquare",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Yanagiba_(front).jpg",
+"file": "File:Yanagiba (front).jpg",
+"license": "CC BY-SA 4.0",
+"query": "柳刃包丁",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Yanagiba_%28front%29.jpg/1280px-Yanagiba_%28front%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある": {
 "author": "Andy Atzert",
 "backend": "wikimedia",
@@ -2716,6 +2725,15 @@
 "license": "CC BY-SA 4.0",
 "query": "もつ鍋 鍋",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg/1280px-%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-08_note記事_届いていなかった_234本の裏側": {
+"author": "Ishikawa Ken",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_(4944175976).jpg",
+"file": "File:原稿用紙 (4944175976).jpg",
+"license": "CC BY-SA 2.0",
+"query": "原稿用紙",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_%284944175976%29.jpg/1280px-%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_%284944175976%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-08_note記事_焼きあご_食べない魚を買う": {
 "author": "owner",
@@ -2781,6 +2799,15 @@
 "file": "breakfast_crop.jpg",
 "license": "owner own work",
 "note": "オーナーが撮影した実物。クレジット表示は不要"
+},
+"2026-10-13_note記事_こたつ_机の下だけを暖める": {
+"author": "Toshihiro Matsui from Tsukuba and Yokohama, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%AD%E5%92%8C%E3%81%AE%E6%9A%96%E6%88%BF%E5%85%B7_(36509688656).jpg",
+"file": "File:昭和の暖房具 (36509688656).jpg",
+"license": "CC BY 2.0",
+"query": "こたつ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/%E6%98%AD%E5%92%8C%E3%81%AE%E6%9A%96%E6%88%BF%E5%85%B7_%2836509688656%29.jpg/1280px-%E6%98%AD%E5%92%8C%E3%81%AE%E6%9A%96%E6%88%BF%E5%85%B7_%2836509688656%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-13_note記事_八戸せんべい汁_乾いたものだけで鍋になる": {
 "author": "くろふね",
