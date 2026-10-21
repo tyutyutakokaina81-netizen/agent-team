@@ -177,8 +177,54 @@ jobs:
           fi
           git commit -m "auto: note用サムネを無料実写(Wikimedia/Pexels)から取得"
           # push前に main の進みを取り込む（並行commitでの非fast-forward拒否を回避）。最大5回リトライ。
+          # ★2026-10-21: **ここで取得できたサムネ3枚を捨てていた。**
+          #   run #399 は包丁・カレー・届いていなかった の3枚を**取得に成功していた**のに、
+          #   `ops/logs/thumb_fetch_last.txt` で rebase が衝突し、
+          #   **衝突を解かないまま `git pull` を4回繰り返して**「unmerged files」で全滅した。
+          #   衝突するのは **この job 自身が毎回全面的に書き直すファイル**だけなので、
+          #   そこは自分の版を採るのが常に正しい。
+          #   ただし **自分の出力以外で衝突したら絶対に自分の版で潰さない**（allowlist 方式）。
+          #   記事やSTATEを機械が勝手に上書きする事故は、このリポジトリがいま追っている
+          #   「18:09 の自動バックアップ」とまったく同じ型なので、同じ罠を自分で作らない。
+          SELF_OUTPUTS='CDO/outputs/note_publisher/thumbnails/ ops/logs/thumb_fetch_last.txt'
+          _is_self_output() {
+            for pre in $SELF_OUTPUTS; do
+              case "$1" in "$pre"*) return 0;; esac
+            done
+            return 1
+          }
           for i in 1 2 3 4 5; do
-            git pull --rebase origin main && git push && { echo "push成功"; exit 0; }
+            if git pull --rebase origin main; then
+              git push && { echo "push成功"; exit 0; }
+            else
+              conf=$(git diff --name-only --diff-filter=U)
+              if [ -n "$conf" ]; then
+                bad=''
+                while IFS= read -r f; do
+                  [ -n "$f" ] || continue
+                  _is_self_output "$f" || bad="$bad $f"
+                done <<< "$conf"
+                if [ -n "$bad" ]; then
+                  echo "::error::この job の出力でないファイルが衝突した:$bad"
+                  echo "::error::自分の版で潰さずに中断する（取得物は次の run で取り直す）"
+                  git rebase --abort || true
+                  exit 1
+                fi
+                echo "衝突はこの job の出力のみ → 自分の版を採る:"
+                echo "$conf"
+                while IFS= read -r f; do
+                  [ -n "$f" ] || continue
+                  # rebase 中の「自分の変更」= --theirs（適用中のコミット側）
+                  git checkout --theirs -- "$f" 2>/dev/null \
+                    || git checkout --ours -- "$f" 2>/dev/null || true
+                  git add -f -- "$f" || true
+                done <<< "$conf"
+                if GIT_EDITOR=true git rebase --continue; then
+                  git push && { echo "push成功（衝突を解いた）"; exit 0; }
+                fi
+                git rebase --abort || true
+              fi
+            fi
             echo "push失敗（$i回目）→再取得して再試行"
             sleep 3
           done
