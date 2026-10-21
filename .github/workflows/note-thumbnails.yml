@@ -106,7 +106,10 @@ jobs:
           {
             echo "# 最終実行: $(date -u +%FT%TZ) UTC / $line"
             echo "# ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。"
-            grep -E '^  ✗ |diag=|skip\(' /tmp/fetch.log | head -80
+            # ★2026-10-21: head -80 で切っていたら、**日付順の後ろにある7月・10月の記事が落ちて**
+            #   いちばん知りたかった3本（包丁・カレー・届いていなかった）が1行も出なかった。
+            #   いまは全部出す。ファイルは数十KBにしかならない。
+            grep -E '^  ✗ |diag=|skip\(' /tmp/fetch.log
           } > ops/logs/thumb_fetch_last.txt || true
 
       # ※ 有料AI生成(Gemini/Imagen)経路は撤去（¥0原則・A2/A3）。ランダムPicsumも廃止。
