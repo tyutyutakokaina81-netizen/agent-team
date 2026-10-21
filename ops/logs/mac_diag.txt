@@ -1,0 +1,14 @@
+=== 取得: Wed Oct 21 01:43:23 UTC 2026 ===
+
+=== LaunchAgents（agent-team 系の中身） ===
+=== crontab ===
+
+=== 'cfo-agent' を含むファイル（コミットの author がこれ） ===
+
+=== '自動バックアップ' を含むファイル ===
+
+=== git の author 設定 ===
+Claude
+noreply@anthropic.com
+Claude
+noreply@anthropic.com
