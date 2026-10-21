@@ -1,14 +1,362 @@
-=== 取得: Wed Oct 21 01:43:23 UTC 2026 ===
+=== 取得: 2026年 10月21日 水曜日 10時46分02秒 JST ===
 
 === LaunchAgents（agent-team 系の中身） ===
+----- /Users/apple/Library/LaunchAgents/com.agent-team.h9.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.agent-team.h9</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/zsh</string><string>/Users/apple/agent-team/now</string>
+  </array>
+  <key>StartCalendarInterval</key><dict>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>WorkingDirectory</key><string>/Users/apple/agent-team</string>
+  <key>StandardOutPath</key><string>/Users/apple/agent-team/logs/auto_9h.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/agent-team/logs/auto_9h_err.log</string>
+  <key>RunAtLoad</key><false/>
+</dict></plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agent-team.wakeup.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.agent-team.wakeup</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/zsh</string>
+    <string>/Users/apple/agent-team/schedule_wakeups.zsh</string>
+  </array>
+  <key>StartCalendarInterval</key><dict>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>50</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/Users/apple/agent-team/logs/wakeup.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/agent-team/logs/wakeup_err.log</string>
+</dict></plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.awake.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentteam.awake</string>
+  <key>ProgramArguments</key>
+  <array><string>/usr/bin/caffeinate</string><string>-s</string></array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.daily-workflow.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.agentteam.daily-workflow</string>
+
+	<!-- 実行コマンド -->
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/bash</string>
+		<string>/Users/apple/agent-team/scripts/daily_workflow.sh</string>
+	</array>
+
+	<!-- 実行スケジュール：毎日5:30 AM -->
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>5</integer>
+		<key>Minute</key>
+		<integer>30</integer>
+	</dict>
+
+	<!-- ログ出力 -->
+	<key>StandardOutPath</key>
+	<string>/Users/apple/.claude_daily_stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/apple/.claude_daily_stderr.log</string>
+
+	<!-- 設定 -->
+	<key>RunAtLoad</key>
+	<false/>
+
+	<key>KeepAlive</key>
+	<false/>
+
+	<!-- Environmentをリセット（システム環境変数を確実に読み込む） -->
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+		<key>HOME</key>
+		<string>/Users/apple</string>
+	</dict>
+
+	<!-- エラーハンドリング -->
+	<key>ThrottleInterval</key>
+	<integer>60</integer>
+
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.daily.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentteam.daily</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/apple/agent-team-run/docs/run_worker.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>17</integer></dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/apple/.agent-team-dispatch/daily.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/.agent-team-dispatch/daily.log</string>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.dashboard.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.agentteam.dashboard</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/apple/agent-team/scripts/update_dashboard.py</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>0</integer>
+    <key>Hour</key>
+    <integer>23</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>/Users/apple/agent-team/logs/dashboard.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/apple/agent-team/logs/dashboard_err.log</string>
+  <key>WorkingDirectory</key>
+  <string>/Users/apple/agent-team</string>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.dispatcher.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentteam.dispatcher</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/apple/agent-team-run/docs/worker_dispatcher.sh</string>
+  </array>
+  <key>StartInterval</key><integer>300</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/apple/.agent-team-dispatch/dispatch.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/.agent-team-dispatch/dispatch.log</string>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.agentteam.publish.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentteam.publish</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/apple/agent-team-run/ops/cowork_run.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>8</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key><string>/Users/apple/agent-team-run/ops/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/apple/agent-team-run/ops/logs/launchd.err.log</string>
+  <key>RunAtLoad</key><false/>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.user.agent-team.login.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.agent-team.login</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/apple/agent-team/scripts/open_dashboard.sh</string>
+    </array>
+
+    <!-- Macログイン/起動時にダッシュボードを自動で開く -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/apple/agent-team/logs/login_dashboard.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/apple/agent-team/logs/login_dashboard.err.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/apple/agent-team</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.user.agent-team.morning.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.agent-team.morning</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/apple/agent-team/scripts/morning.sh</string>
+    </array>
+
+    <!-- 毎日8時に実行。PCが寝てた場合、起動時にキャッチアップ実行される -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- launchctl load 時にも即実行（初回テスト用。日次ロックで重複防止） -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/apple/agent-team/logs/launchd.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/apple/agent-team/logs/launchd.err.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/apple/agent-team</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>
+
+----- /Users/apple/Library/LaunchAgents/com.user.agent-team.order-check.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.agent-team.order-check</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/apple/agent-team/scripts/deliver/auto_check_orders.sh</string>
+    </array>
+
+    <!-- 1日5回：8:30, 12:00, 15:00, 18:00, 21:00 に自動実行 -->
+    <!-- PCが寝てた場合、起動時にキャッチアップ実行 -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>8</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>12</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>15</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>18</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>21</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/apple/agent-team/logs/order_check.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/apple/agent-team/logs/order_check.err.log</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/apple/agent-team</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>
+
 === crontab ===
+0 20 */2 * * /Users/apple/ai-auto/run.sh
+0 20 * * * ~/note-auto/run_note.sh
+0 20 * * * ~/note-auto/run_quiet_japan.sh >> ~/note-auto/quiet_japan.log 2>&1
+10 20 * * * ~/note-auto/run_trend.sh >> ~/note-auto/trend.log 2>&1
+20 20 * * * ~/note-auto/run_world_brand.sh >> ~/note-auto/world_brand.log 2>&1
+0 21 * * * ~/note-auto/full_auto_quiet_japan.sh >> ~/note-auto/full_auto.log 2>&1
+0 20 * * * ~/quiet-japan/run.sh
+17 7 * * * cd $HOME/agent-team-run && /usr/bin/git pull origin main >/dev/null 2>&1 && /Users/apple/.npm-global/bin/claude -p "$(cat docs/worker-prompt.txt)" >> $HOME/agent-team-run/worker.log 2>&1
+*/5 * * * * /bin/bash /Users/apple/agent-team-run/docs/worker_dispatcher.sh >> /Users/apple/.agent-team-dispatch/dispatch.log 2>&1
 
 === 'cfo-agent' を含むファイル（コミットの author がこれ） ===
 
 === '自動バックアップ' を含むファイル ===
 
 === git の author 設定 ===
-Claude
-noreply@anthropic.com
-Claude
-noreply@anthropic.com
+cowork
+cowork@claude.local
+Tetsuji Fujimori
+tyutyu.taka.kaina81@gmail.com
