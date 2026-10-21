@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "ncb99237e8ed26",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "いいね！これからも富山の素敵なお話をよろしくお願いします。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-07-30T20:27:46.147+09:00",
+   "updated_at": "2026-07-30T20:27:46.147+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "6d1ca9986f8a3516595bdf0fc84d8378",
+    "urlname": "witty_deer873",
+    "nickname": "鈴木流光",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/129987710/profile_594ae28942c7cd09b66bf77bff62ad22.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "コメントありがとうございます。嬉しいです！",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/255696936/2f161c27e9a3d0bdff32561a42446059.jpg?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "n3372e1361808",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "ncb198a9f7a5f7",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "ありがとうございます！入善のジャンボ西瓜、両手で抱えるあの重さに毎年わくわくします。これからも富山の日常を綴っていきますね。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-07-30T21:20:48.412+09:00",
+    "updated_at": "2026-07-30T21:20:48.412+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "6d1ca9986f8a3516595bdf0fc84d8378",
+     "urlname": "witty_deer873",
+     "nickname": "鈴木流光",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/129987710/profile_594ae28942c7cd09b66bf77bff62ad22.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n3372e1361808",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

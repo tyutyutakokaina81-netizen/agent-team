@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc231de13ea06f",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "『夏の夜、家にいると、遠くで「ドン」と音がすることがある。』という書き出しから、一気に夏の景色が浮かびました。\n花火そのものだけではなく、待つ時間や屋台の灯り、帰り道まで含めて『地方の夏』として描かれているのが印象的でした。\n英語も添えられていることで、この何気ない日本の夏の日常を海外の方にも届けたいという思いが自然に伝わってきます。\n読後、久しぶりに花火の音を聞きたくなりました。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-07-30T07:32:58.023+09:00",
+   "updated_at": "2026-07-30T07:32:58.023+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "346d3d7d67a9c221912e506a5ffac03e",
+    "urlname": "localnotesjp",
+    "nickname": "港町編集室",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/292759081/profile_855b2f611cbaf822a4b19683e8dfeaaf.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "また港町でお話ししましょう",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/292789011/b945bf781cf5bf5323f9a7d49561a743.png?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "na958299320ea",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "ncd3bb8fcbc9ad",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "港町編集室さん、丁寧に読んでくださりありがとうございます。花火そのものより、待つ時間や帰り道の余韻にこそ夏がある、と感じてもらえて嬉しいです。ぜひ今年もあの音を聞きに出かけてみてください。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-07-30T15:06:51.990+09:00",
+    "updated_at": "2026-07-30T15:06:51.990+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "346d3d7d67a9c221912e506a5ffac03e",
+     "urlname": "localnotesjp",
+     "nickname": "港町編集室",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/292759081/profile_855b2f611cbaf822a4b19683e8dfeaaf.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "na958299320ea",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

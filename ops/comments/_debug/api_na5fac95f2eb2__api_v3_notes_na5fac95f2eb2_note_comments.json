@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nce9aab7877b27",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "実家の神棚と仏壇も同じように上下にありました。内容は忘れましたが、仏壇で何かのお勤めをするときに、お寺さんが「神様から見えないように」上にある神棚の前に真っ白な和紙を垂らしました。たった紙一枚の、それでいて完全なバリア。日本っていいなぁと思いました。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 1,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-09-14T09:09:46.554+09:00",
+   "updated_at": "2026-09-14T09:09:46.554+09:00",
+   "is_liked": true,
+   "is_creator_liked": true,
+   "is_creator_replied": true,
+   "user": {
+    "key": "d5df541b018949f3deafcca8d283f57d",
+    "urlname": "ozconsultingeasy",
+    "nickname": "刻空",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/261487970/profile_0207c79d5a95b79d85e934fa294a3300.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "嬉しいです！また来てくださいね！",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/263090283/403cc645d02be23e4d36f9b697cc56bc.png?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "na5fac95f2eb2",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "nc872c81be054f",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "読んでくださってありがとうございます。お勤めのときに神棚の前へ真っ白な和紙を垂らす、というお話は初めて知りました。紙一枚で分けてしまうところに、二つの祈る場所を一つの家に置いてきた知恵を感じます。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-10-21T19:31:19.923+09:00",
+    "updated_at": "2026-10-21T19:31:19.923+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "d5df541b018949f3deafcca8d283f57d",
+     "urlname": "ozconsultingeasy",
+     "nickname": "刻空",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/261487970/profile_0207c79d5a95b79d85e934fa294a3300.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "na5fac95f2eb2",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

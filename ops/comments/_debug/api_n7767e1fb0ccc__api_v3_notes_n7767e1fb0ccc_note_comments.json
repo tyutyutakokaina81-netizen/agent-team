@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc6582f0865400",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "おはようございます。\nセブンプレミアムの黒烏龍茶のメーカーとして表示されているNITTOH(ニットービバレッジ)は富山県に本社がある飲料メーカーです。\n富山県のメーカーが手がけた黒烏龍茶ということで、美味しくいただきました。ありがとうございます。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-09-01T08:50:40.582+09:00",
+   "updated_at": "2026-09-01T08:50:40.582+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "c075814d1b8b584b45ba18b54ef839fc",
+    "urlname": "magic_deer5743",
+    "nickname": "徒然",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/271929266/profile_4186bb354ee8aebaaaa3afe19f79b7ba.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": null,
+   "comment_like_appeal_image": null,
+   "is_root": true,
+   "note_key": "n7767e1fb0ccc",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "nc5a79eee79b21",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "こちらにもコメントをありがとうございます。黒烏龍茶のラベルのメーカー名までは見ていなかったので、今度手に取ったときに確かめてみます。水の話が飲み物の作り手につながっていくのが面白いです。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-10-21T19:31:03.082+09:00",
+    "updated_at": "2026-10-21T19:31:03.082+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "c075814d1b8b584b45ba18b54ef839fc",
+     "urlname": "magic_deer5743",
+     "nickname": "徒然",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/271929266/profile_4186bb354ee8aebaaaa3afe19f79b7ba.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n7767e1fb0ccc",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

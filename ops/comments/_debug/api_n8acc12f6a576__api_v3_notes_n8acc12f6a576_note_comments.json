@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc553cb4cc003d",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "東京都では新設の建物には太陽光パネルの設置義務を課すという愚かな政策が実施されていますが、雨水利用のための水槽やタンクの設置義務の方が、何倍も有効だと思います。\n仰るとおり水は大切な資源です。有効に使うことはもとよりですが、地表付近の水の循環を以前のように戻さなければならないと思います。\n夏といえば夕立があったように、俄雨は頻繁に降り、何処からか涼しい風が吹いてきて、もう直ぐ降りそうだなと感じたものです。\n都市部では道路が占める割合も多く、屋根面積は意外と少ない。でもそこに降り注ぐ雨水を全て一時的にでも溜められたら凄いことです。\nその水で緑化や打ち水を行えば、ヒートアイランド現象は少しでも抑えられると思います。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-08-10T05:50:58.664+09:00",
+   "updated_at": "2026-08-10T05:50:58.664+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "d8c30dc3812564082d13fc8f5406e26f",
+    "urlname": "great_oxalis8518",
+    "nickname": "渡邉嘉浩",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/308017282/profile_c358615664c4a1118992de0151e81429.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": null,
+   "comment_like_appeal_image": null,
+   "is_root": true,
+   "note_key": "n8acc12f6a576",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "ncb648a1fde17a",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "水の循環という視点、はっとしました。打ち水も、蒸発して空へ還る一瞬を眺める行為なのかもしれませんね。雨水を溜めて使う暮らし、うちでも少しずつ試してみたくなりました。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-08-10T15:22:11.873+09:00",
+    "updated_at": "2026-08-10T15:22:11.873+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "d8c30dc3812564082d13fc8f5406e26f",
+     "urlname": "great_oxalis8518",
+     "nickname": "渡邉嘉浩",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/308017282/profile_c358615664c4a1118992de0151e81429.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n8acc12f6a576",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

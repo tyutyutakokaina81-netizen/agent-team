@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc248ab559bc8a",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "いつも素敵なエッセーをありがとうございます。\n「説明できないものほど、毎日見ている」<-それが「文化」と言うものなのでしょうね、行動の理由をうまく説明できない。\n\n「アメリカの『文化』はカルバン主義を根とする『資本主義』だ」という説明を聞いてひどく納得した事があります。あれがアメリカの「文化」であれば、彼らが自分の行動をうまく説明できないのも無理はない。筋違いの感想で申し訳ないです。「文化」で、ふと思い出したもので。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 1,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-10-07T08:44:26.636+09:00",
+   "updated_at": "2026-10-07T08:44:26.636+09:00",
+   "is_liked": true,
+   "is_creator_liked": true,
+   "is_creator_replied": true,
+   "user": {
+    "key": "d5df541b018949f3deafcca8d283f57d",
+    "urlname": "ozconsultingeasy",
+    "nickname": "刻空",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/261487970/profile_0207c79d5a95b79d85e934fa294a3300.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "嬉しいです！また来てくださいね！",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/263090283/403cc645d02be23e4d36f9b697cc56bc.png?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "n3042c8477cab",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "nc1a6159629d16",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "お世話なります\n適当に書いてますが、よければまた読んでください"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 1,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-10-07T14:27:14.438+09:00",
+    "updated_at": "2026-10-07T14:27:14.438+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "d5df541b018949f3deafcca8d283f57d",
+     "urlname": "ozconsultingeasy",
+     "nickname": "刻空",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/261487970/profile_0207c79d5a95b79d85e934fa294a3300.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n3042c8477cab",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}
