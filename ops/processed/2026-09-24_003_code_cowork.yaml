@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-24T08:31:51+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 【最優先】氷見牛2本目 nc7a3522ade60 を下書きへ戻す（code の後付けツールが誤って再公開した）
 ---
 
@@ -34,3 +34,10 @@ title: 【最優先】氷見牛2本目 nc7a3522ade60 を下書きへ戻す（cod
 ## 報告に書いてほしいこと
 - 下書きに戻したか（はい/いいえ）
 - ログアウト状態の HTTP ステータス（404 なら成功）
+
+
+---
+
+## 結果 (2026-10-21T19:22:39+09:00)
+
+下書きに戻した（はい）。ログアウト状態 HTTP 404 を確認（2026-10-21 19:2x）。API では直前まで status=published＝10-02 の『下書きのまま』は誤認だった。使ったのは _cowork_unpublish_by_id.py（管理一覧のケバブ）。unpublish_article.py（編集画面）は押し先が無く使えない。nccce1e10499a は 200 のまま触っていない

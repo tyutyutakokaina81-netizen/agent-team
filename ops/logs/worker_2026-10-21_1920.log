@@ -1,0 +1,26 @@
+I'll be notified when the header-image retrofit finishes. Then I'll check the reply UI (whether threaded replies are possible), post the 3 replies, and write the outbox report.
+
+This run published 0 articles, unpublished 1, posted 3 comment replies, and marked 49 header-image items done. The X post is open and waiting for you to press "Post". The report is in `ops/outbox/2026-10-21_004` and everything is pushed to main.
+
+**Needs your attention first: a GitHub token was nearly pushed.**
+- The token is written into the git remote URL of both repo copies on the Mac (`agent-team` and `agent-team-run`). `ops/mac_diag.sh` printed that URL into `ops/logs/mac_diag.txt`, and `ops/unpublish.sh` committed that log along with its own.
+- GitHub's push protection rejected the push, so the token never reached GitHub. I rebuilt the two local commits without it, masked it in the log file, and changed `mac_diag.sh` so it no longer prints the token.
+- The token has still been sitting in plain text in a file on the Mac. I recommend replacing it with a new one and storing it in git's credential helper instead of the remote URL.
+
+**What happened at each step**
+- **Inbox (1 done, 6 left):** The duplicate Himi beef article `nc7a3522ade60` was still public; the October 2 record saying it was already a draft was wrong. I moved it back to drafts and confirmed it now returns 404 when logged out. The correct article `nccce1e10499a` still opens normally (200). `ops/unpublish.sh` couldn't find the button to do this; the older `_cowork_unpublish_by_id.py` worked. The six older open instructions were not started.
+- **Publishing (0):** This run started at 19:20 and the separate nightly posting jobs run at 20:00, which falls inside the 30-minute rule. The 4 queued articles are still waiting. This morning's run published 1 (Hachinohe senbei-jiru).
+- **Retroactive fixes:** All 50 articles on the header-image list already had images on note; the list had just never been marked done. I marked 49 done. The remaining 2 (`n951e3262b23c`, `n1bbb920a0ee7`) are actually drafts on note even though the publish record says published. The tag list was empty. I didn't get to the 133 magazine items.
+- **X:** I opened the post screen with the text filled in (the 2026-10-10 zosui article). After you press "Post", run `bash ops/run_x.sh --posted` to record it.
+- **Comment replies (3):**
+  - **What I posted:** replies on the new rice, tap water, and Buddhist altar/kamidana articles. The API confirmed each one landed as a reply under the commenter's comment.
+  - **Why replies weren't showing before:** the comment collector was calling the wrong address. I fixed it in `fetch_note_comments.py`, and it now skips comments that already have a reply.
+  - **Old reply tool not used:** `post_comment_replies.py` posts a new top-level comment instead of a reply. It could also click the header's "new post" button by mistake. I posted these with a new script, `reply_to_comment.py`.
+- **Requirement check:** 13 items show BROKEN and 2 show STALE (15 total). Two need you directly: R33, where the automatic worker can't run until you run `/login` on the Mac, and R41, where follower growth is about 0.3 per day against a target of 1. R40's warning about the first Himi beef article is a false alarm, since that article is meant to stay a draft. The rest are listed in the report.
+
+Commands to run on the Mac:
+```
+cd ~/agent-team-run && bash ops/run_x.sh --posted   # after pressing "Post" on X
+/login                                               # in Claude Code, to fix the automatic worker (R33)
+```
+exit_code=0

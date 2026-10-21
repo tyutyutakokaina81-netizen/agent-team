@@ -356,7 +356,25 @@ else:
         # ★2026-09-23: 終了コードだけでは owner が何をすればよいか分からない。
         #   実際に出た文言を見て、**対処が決まっているものは対処を名指しする**。
         _known = [
-            ("OAuth session expired", "Mac の claude のログインが切れている → ターミナルで `claude` を起動して `/login`"),
+            # ★2026-10-21 訂正: これを「ログイン切れ」と読んで `/login` を案内したが、**外れだった**。
+            #   オーナーがターミナルで `claude` を叩くと普通に起動する（"API Usage Billing" と出る）。
+            #   つまりログインは生きていて、**認証情報が cron / launchd に渡っていない**のが実体。
+            #   run_worker.sh は PATH は丁寧に直していたのに、環境変数は何も引き継いでいなかった。
+            #   `/login` を何度やっても直らない種類の故障なので、案内を変える。
+            # ★2026-10-21 再訂正: 上の訂正も外していた。鍵はどの rc ファイルにも無く、
+            #   しかも**オーナー自身の端末から手で走らせても同じエラー**で落ちた＝
+            #   cron/launchd の環境の問題ではない。
+            #   最初の「ログイン切れ」が正しかった可能性が高い。
+            #   **`claude` の起動画面が出たことを「ログインが有効」と読んだのが誤り**で、
+            #   起動画面は課金設定を出すだけ。一度も入力していないなら認証は試されていない。
+            #   決め手になる確認＝`claude -p "hi"` を1回打つ（これが通らなければ `/login`）。
+            ("OAuth session expired", "まず `claude -p \"hi\"` を1回打って確かめる（**起動画面が出ただけでは有効の証拠にならない**）。"
+                                      "同じエラーなら対話の claude で `/login`。"
+                                      "環境変数は見ていない＝ANTHROPIC_API_KEY はどの rc にも無いことを確認済み（2026-10-21）。旧案内＝"
+                                      "認証情報が cron/launchd に渡っていない。run_worker.sh が引き継ぐようにした（2026-10-21）。"
+                                      "次の便で `auth: ANTHROPIC_API_KEY を引き継ぎました` が出るか確認する。"
+                                      "出ないなら `$HOME/.agent-team.env` に `export ANTHROPIC_API_KEY=...` を置く"),
+            ("Failed to authenticate", "**`/login` では直らない**。認証情報が自動実行に渡っていない（上と同じ）"),
             ("Not logged in",         "Mac の claude が未ログイン → ターミナルで `claude` を起動して `/login`"),
             ("No such file or directory", "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),
             ("command not found",     "PATH に必要なコマンドが無い（cron は対話シェルと PATH が違う）"),
@@ -642,6 +660,12 @@ try:
     _na = os.path.join(_thumbdir, "_no_auto.txt")
     if os.path.exists(_na):
         _noauto = {l.strip() for l in open(_na, encoding="utf-8") if l.strip() and not l.startswith("#")}
+    # ★2026-10-18: **オーナーの写真待ち**も対象外にする。検索語が無いのは登録漏れではなく、
+    #   「自動では当たらないと分かったので止めた」という判断の結果（肉ケーキ9巡・ジンギスカン4巡）。
+    #   ここを数えると、意図した状態が毎朝 BROKEN として鳴り続ける。
+    _aw = os.path.join(_thumbdir, "_await_photo.txt")
+    if os.path.exists(_aw):
+        _noauto |= {l.strip() for l in open(_aw, encoding="utf-8") if l.strip() and not l.startswith("#")}
 # ★2026-09-21 修正: ここは `os.path.getmtime()` で「直近1週間」を切っていたが、**mtime は記事の
 #   属性ではなく checkout の属性**。コンテナは使い捨て(A7)なので clone した瞬間に全記事の mtime が
 #   同じ「今」になり、**353本すべてが「直近1週間に書いた記事」として母数に入っていた**
@@ -2079,6 +2103,49 @@ try:
             f"直近120コミットで削除された記事 {len({os.path.basename(x) for x in _cand})}本は、すべて move 先に実在する")
 except Exception as _e45:
     add("R45 記事が黙って消えていないか", "STALE", f"判定不能: {type(_e45).__name__} {str(_e45)[:60]}")
+
+# R46 公開したのに台帳に無い記事:
+# 2026-10-15 に**同じ記事を2回公開してしまった**。八戸せんべい汁が 10-14 と 10-15 の両方で出て、
+# note 上に2本ある（`n8f9a9e90ea57` と `n26bb822c8847`）。
+# 起きたこと＝**10-14 の公開が記録されずに失われた**。registry への追記も、
+# キュー→published の move も残らず、翌朝キューに残ったまま再公開された。
+# note 側の重複ゲートは「note検索でヒットなし」で通している＝**前日の記事はまだ検索に載らない**ので、
+# あのゲートでは翌日の重複を止められない。
+# 判定: 公開ログに出た note ID（`最終URL: .../notes/<id>/publish/`）が registry に無ければ BROKEN。
+#       **記録が落ちた瞬間に分かる**＝翌朝もう一度出す前に気づける。
+try:
+    import glob as _g46
+    _ids46 = {}
+    for _lf in sorted(_g46.glob(os.path.join(ROOT, "ops/logs/publish_*.log")))[-30:]:
+        try:
+            _txt46 = open(_lf, encoding="utf-8", errors="replace").read()
+        except Exception:
+            continue
+        for _m46 in re.finditer(r"最終URL: https://editor\.note\.com/notes/(n[0-9a-f]{12})/publish/", _txt46):
+            _ids46.setdefault(_m46.group(1), os.path.basename(_lf))
+    # ★ここは最初 except で空集合に落としていた。すると**台帳が読めないだけで全件が「無い」**になり、
+    #   実際 1本の取りこぼしを **20本** と誤報した。読めないなら「判定できない」と言うのが正しい。
+    import json as _json46
+    _reg46 = _json46.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
+                               encoding="utf-8"))
+    _known46 = {x for r in _reg46 for x in re.findall(r"/n/(n[0-9a-f]{12})", r.get("url", "") or "")}
+    if not _known46:
+        raise RuntimeError("公開台帳からURLが1本も読めない")
+    _lost46 = [(k, v) for k, v in _ids46.items() if k not in _known46]
+    if not _ids46:
+        add("R46 公開したのに台帳に無い", "STALE", "公開ログに最終URLの行が無い＝未検査")
+    elif _lost46:
+        add("R46 公開したのに台帳に無い", "BROKEN",
+            f"**公開ログに出たのに台帳に無い note が {len(_lost46)}本**"
+            f"（{_lost46[0][0]} / {_lost46[0][1]}） → **記録が落ちている**。"
+            "このままだとキューに残った記事が翌朝もう一度公開される"
+            "（note の重複ゲートは前日の記事をまだ検索で拾えない）。"
+            "note 側を見て、要らないほうを消し、残すほうを registry に入れる")
+    else:
+        add("R46 公開したのに台帳に無い", "OK",
+            f"直近30便の公開ログに出た {len(_ids46)}本は、すべて公開台帳にある")
+except Exception as _e46:
+    add("R46 公開したのに台帳に無い", "STALE", f"判定不能: {type(_e46).__name__} {str(_e46)[:60]}")
 
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}

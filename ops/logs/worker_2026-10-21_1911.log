@@ -1,0 +1,3 @@
+Failed to authenticate: OAuth session expired and could not be refreshed
+launcher_error=auth_not_inherited（認証情報が自動実行に渡っていない。対話で claude が起動するなら /login では直らない。$HOME/.agent-team.env に ANTHROPIC_API_KEY を置くか、ログインシェルの設定を確認）
+exit_code=1

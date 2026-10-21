@@ -250,6 +250,9 @@ def read_note_state(page, note_key: str = ""):
 #   どの形か確かめられない（A1）ので、**候補を順に試し、応答をそのまま保存する**。
 #   保存さえされれば、次の実行で正しい形に直せる。
 _API_PATHS = [
+    # ★2026-10-21 実測（cowork）: **本文が返るのはこれだけ**。`/comments` 系は 200 だが常に空。
+    #   応答の `comment` は文字列ではなく rich-text の木（type/children/value）。
+    "https://note.com/api/v3/notes/{key}/note_comments",
     "https://note.com/api/v3/notes/{key}/comments",
     "https://note.com/api/v1/note/{key}/comments",
     "https://note.com/api/v3/notes/{key}/comments?page=1",
@@ -263,6 +266,15 @@ _API_PATHS = [
 ]
 
 
+def _rich_text(node) -> str:
+    """note_comments の rich-text 木から本文を平文にする。"""
+    if isinstance(node, dict):
+        if node.get("type") == "text":
+            return node.get("value") or ""
+        return "".join(_rich_text(c) for c in node.get("children") or [])
+    return ""
+
+
 def _walk_comments(obj, out):
     """応答の形が分からないので、**本文らしき文字列を持つ辞書**を再帰で拾う。
     キー名は決め打ちしない（note 側が変えても拾えるように）。"""
@@ -270,9 +282,13 @@ def _walk_comments(obj, out):
         body = None
         for k in ("body", "text", "comment", "message"):
             v = obj.get(k)
+            if isinstance(v, dict) and v.get("type") == "root":
+                v = _rich_text(v)          # note_comments の形（2026-10-21）
             if isinstance(v, str) and v.strip():
                 body = v.strip()
                 break
+        if body and obj.get("is_creator_replied") is True:
+            return out                     # 返信済み＝拾わない（二重返信を防ぐ）
         if body:
             who = ""
             for k in ("user", "author", "creator"):

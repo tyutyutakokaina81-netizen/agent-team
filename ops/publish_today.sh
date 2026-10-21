@@ -61,6 +61,16 @@ fi
 ok=0; ng=0
 for f in "${files[@]}"; do
   echo ""; echo "========== 公開: $(basename "$f") =========="
+  # ★2026-10-21 追加: **同じ記事が3回公開された**のを止める。
+  #   八戸せんべい汁が 10-14 `n8f9a9e90ea57` / 10-15 `n26bb822c8847` / 10-21 `n71ca68cce9a8` と3本出た。
+  #   原因は、公開後の queue→published の move と registry への追記が**毎回巻き戻されていた**こと。
+  #   note 側の重複ゲートは「note検索でヒットなし」で通すので、**前日の記事は拾えない**＝止められない。
+  #   ここは**手元のファイルだけ**で判定する＝検索にもネットにも依存しない。
+  if [ -f "drafts/published/$(basename "$f")" ]; then
+    echo "  skip(既公開): drafts/published に同名がある。二重公開を防ぐためキューから外す"
+    git mv "$f" "drafts/published/$(basename "$f")" 2>/dev/null || mv -f "$f" "drafts/published/$(basename "$f")"
+    continue
+  fi
   if "$PYBIN" "$PUB" --text-only $EXTRA --article "$f"; then
     ok=$((ok+1))
     mkdir -p drafts/published

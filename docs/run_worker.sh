@@ -21,6 +21,54 @@ if [ -z "$(command -v node 2>/dev/null)" ] && [ -d "$HOME/.nvm/versions/node" ];
 fi
 export PATH
 
+# ★2026-10-21: **PATH は直していたのに、認証情報は一切引き継いでいなかった。**
+#   症状＝ログに `Failed to authenticate: OAuth session expired and could not be refreshed`、
+#   exit_code=1。ところが**オーナーがターミナルで `claude` を叩くと普通に起動する**
+#   （起動画面に "API Usage Billing" と出る）。つまり**ログイン切れではない**。
+#   対話シェルは ~/.zshrc などで `ANTHROPIC_API_KEY` を読み込んでいて、
+#   **cron / launchd はそれを読まない**ので、保存済みの OAuth に落ちて期限切れになる。
+#   PATH のときとまったく同じ型＝「ログインシェルにはあるが、自動実行には無い」。
+#   → ログインシェルの環境から **その1個だけ**取り出す。
+#     `zsh -lic` は ~/.zprofile と ~/.zshrc の両方を読む。printenv なので**値は出力に残らない**。
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+  # オーナーが鍵を置くための専用ファイル（あれば最優先。.gitignore 済の場所に作る）
+  for ef in "$HOME/.agent-team.env" "$HOME/.config/agent-team/env"; do
+    [ -r "$ef" ] && . "$ef" && break
+  done
+fi
+# ★対話シェル（zsh -lic）は**使わない**。launchd から走るときに、.zshrc の中身次第で
+#   入力待ちになって止まる恐れがある。代わりに**代入の1行だけ**を読んで評価する。
+#   値が `$(security find-generic-password ...)` のような形でも、eval なら解決できる。
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+  for rc in "$HOME/.zshenv" "$HOME/.zprofile" "$HOME/.zshrc" "$HOME/.bash_profile" "$HOME/.profile"; do
+    [ -r "$rc" ] || continue
+    KLINE=$(grep -E '^[[:space:]]*(export[[:space:]]+)?ANTHROPIC_API_KEY=' "$rc" 2>/dev/null | tail -1)
+    if [ -n "$KLINE" ]; then
+      eval "$KLINE" 2>/dev/null
+      export ANTHROPIC_API_KEY
+      [ -n "$ANTHROPIC_API_KEY" ] && echo "auth: $rc から読みました" && break
+    fi
+  done
+  unset KLINE
+fi
+# それでも無ければ、非対話のログインシェル（-i は付けない）から1個だけ取り出す
+if [ -z "$ANTHROPIC_API_KEY" ] && command -v zsh >/dev/null 2>&1; then
+  K=$(zsh -lc 'printenv ANTHROPIC_API_KEY' 2>/dev/null | tail -1)
+  [ -n "$K" ] && ANTHROPIC_API_KEY="$K" && export ANTHROPIC_API_KEY
+  unset K
+fi
+# ★2026-10-21: **古いスクリプトが走ったことに気づけなかった。**
+#   19:07 の便は auth: の行が1つも出ず、こちらは「直したのに効かない」と読みかけた。
+#   実際は push の1分後に実行されていて、**Mac がまだ取り込んでいなかっただけ**。
+#   → **版が分かる印を必ず出す。** この行が無いログは、修正前のスクリプトの出力。
+echo "run_worker.sh 版: 2026-10-21 認証引き継ぎあり"
+# **値は絶対に出力しない。** 有無と長さだけ残す（ログは git に乗るため）。
+if [ -n "$ANTHROPIC_API_KEY" ]; then
+  echo "auth: ANTHROPIC_API_KEY を引き継ぎました（${#ANTHROPIC_API_KEY} 文字）"
+else
+  echo "auth: ANTHROPIC_API_KEY は見つかりません（保存済みの認証で起動します）"
+fi
+
 # 実行中ロック（cron定期便・配車係・手動の三経路すべての二重起動防止）
 LOCK="$HOME/.agent-team-dispatch/worker.lock"
 mkdir -p "$(dirname "$LOCK")"
@@ -148,6 +196,16 @@ kill $LIVEPID 2>/dev/null
 if grep -q "Not logged in" "$RUNLOG" 2>/dev/null; then
   echo "launcher_error=not_logged_in（Mac の claude が未ログイン。ターミナルで claude を起動し /login）" | tee -a "$RUNLOG"
   [ "$RC" = "0" ] && RC=126
+fi
+# ★2026-10-21: **これと「未ログイン」は別物**。
+#   `Failed to authenticate: OAuth session expired and could not be refreshed` は、
+#   **対話では普通に起動するのに自動実行だけ落ちる**ときに出る。
+#   原因は認証情報が cron / launchd に渡っていないことで、`/login` では直らない
+#   （実際、この文言を「ログイン切れ」と読んで `/login` を案内して外した）。
+#   区別できる形で記録する。
+if grep -q "OAuth session expired\|Failed to authenticate" "$RUNLOG" 2>/dev/null; then
+  echo "launcher_error=auth_not_inherited（認証情報が自動実行に渡っていない。対話で claude が起動するなら /login では直らない。\$HOME/.agent-team.env に ANTHROPIC_API_KEY を置くか、ログインシェルの設定を確認）" | tee -a "$RUNLOG"
+  [ "$RC" = "0" ] && RC=125
 fi
 
 # 最終ログ送信

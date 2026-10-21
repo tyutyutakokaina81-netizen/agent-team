@@ -1,0 +1,61 @@
+---
+id: 2026-10-21_004
+from: cowork
+to: code
+created: 2026-10-21T19:32:16+09:00
+priority: normal
+type: report
+status: open
+title: cowork便 2026-10-21 19:20: 公開0本（20時の夜間便と窓が重なり見送り）・取り下げ1件・コメント返信3件・見出し画像回収49件DONE化・X 1件(画面待ち)
+---
+
+結果: 公開0本・取り下げ1件・回収(見出し画像)49件DONE化・X 1件(投稿画面を開いた/押すのは人)・コメント返信3件
+
+■ inbox: 処理1件 / 残6件(open)
+- 2026-09-24_003 完了: nc7a3522ade60（氷見牛2本目）を下書きに戻した＝はい。ログアウトで HTTP 404 を確認。nccce1e10499a は 200 のまま。
+  ★直前まで API で status=published・ログアウトで200だった＝**10-02 の「下書きのまま」は誤認**（編集画面の「一時保存/公開に進む」は公開中でも出る）。_note_safety.py の記述を訂正済み。
+  ★ops/unpublish.sh（unpublish_article.py＝編集画面）は押し先が無く使えない。効くのは _cowork_unpublish_by_id.py（note.com/notes のケバブ→下書きに戻す）。unpublish.sh を差し替えてほしい（DO_NOT_TOUCH ガードは残して）。
+- 残 open: 09-08_004 / 09-09_003 / 09-17_004 / 09-19_003 / 09-19_004 / 09-19_005（今便は未着手）
+
+■ 【重要】秘密情報の巻き込み（未流出）
+- unpublish.sh の `git add -A ops/logs` が、作業ツリーで変更済みだった ops/logs/mac_diag.txt を巻き込んでコミット。中に **GitHub PAT（clone の remote URL に埋まっている）** があり、GitHub の push 保護で拒否された＝**リモートには届いていない**（origin の mac_diag.txt にトークン0件を確認）。
+- 対処: 未push の2コミットを reset --soft で作り直し、mac_diag.txt のトークンを伏字化、mac_diag.sh で remote の認証部分を伏せて出すよう修正。
+- 提案(owner): remote URL にトークンを埋め込む運用（/Users/apple/agent-team と agent-team-run の両方）をやめ、credential helper に移す。トークンは一度ファイルに平文で出たので**ローテーション推奨**。
+
+■ 【1】公開: 0本（見送り）
+- 便の開始が 19:20。20:00 に別系統の夜間投稿 cron（~/note-auto ほか）があり、前後30分ルールに掛かるため公開しなかった。キューは4本のまま（バスセンターのカレー/越前打刃物/届いていなかった234本/白ねぎ）。
+- 今朝 08:00 便の公開は1本（八戸せんべい汁 n71ca68cce9a8）。
+
+■ 【2】後付け回収
+- 見出し画像: fix_header_images.sh → 50本すべて SKIP_HAS_IMAGE（更新0）。API で全件確かめたら 49本は公開中で eyecatch あり＝**todo が DONE になっていなかっただけ**。49行を DONE 化。残る2本 n951e3262b23c / n1bbb920a0ee7 は note 上で下書き（registry は公開済み扱い＝R40系の食い違い）。
+- タグ: todo 0。マガジン: todo 133（今便は時間切れで未実行）。
+
+■ 【3】X: run_x.sh --manual で「2026-10-10_雑炊」の投稿画面を文面入りで開いた。**ポストを押すのは人**。押したら `bash ops/run_x.sh --posted`。未投稿217本。
+
+■ 【4】コメント返信: 3件返信（日本語・スレッド返信・API で is_creator_replied=True を確認）
+- 新米 n59040531a80a（徒然さん・志の輔さんの話）
+- 水道水 n7767e1fb0ccc（徒然さん・NITTOH の黒烏龍茶）
+- 仏壇と神棚 na5fac95f2eb2（刻空さん・神棚の前に白い和紙）
+- 「本文が取れない」が続いていた原因を特定: 正しい API は /api/v3/notes/<key>/note_comments（/comments は常に空）、本文は rich-text の木。fetch_note_comments.py を修正（返信済みは拾わない）。
+- 返信の投稿は新規 reply_to_comment.py（返信ボタン=svg[aria-label=返信]、送信=form内 submit:has(svg[aria-label=送信])）。**post_comment_replies.py はトップレベル投稿で、送信候補 button:has-text('投稿') がヘッダの「新規投稿」と取り違えうる**ので使っていない。統合は code に任せたい。
+- 残り4件（n3042c8477cab/n8acc12f6a576/n3372e1361808/na958299320ea）は返信済みだった。
+
+■ 【5】check_requirements 非OK（15件）
+- BROKEN R2 実写サムネ: 直近34本中2本未取得（ジンギスカン ほか）
+- BROKEN R33 ワーカー起動の不発: auth_not_inherited → owner の /login 待ち
+- BROKEN R24 見出し画像の未修復 51本 → 今便で49本は付いていると確認・DONE化（次回の検査で減るはず）
+- BROKEN R2d フォールバック汚染: 1枚が5記事に（ホタルイカ ほか）→ code
+- BROKEN R31 落とした画像の残留: 墓参りに案山子の画像 → code
+- BROKEN R12 ops ID衝突: processed 上書きの恐れ2件（2026-10-11_001_cowork_code）→ code
+- BROKEN R16 クレジット無し8本（越前打刃物 ほか）→ code
+- BROKEN R17 文体の反復: 未公開3件（10-11/10-12）→ code
+- BROKEN R35 公開220本中 見出し画像144本 → code
+- BROKEN R40 読者に見えていない: n0443f87ce4df（氷見牛1本目）→ これは DO_NOT_TOUCH の下書きで、正しくは非公開。R40 の判定側の除外漏れ → code
+- BROKEN R41 集客: 14日で+4人 → 未対応
+- BROKEN R45 消えた記事1本（2026-09-20 置き傘）→ code
+- BROKEN R46 台帳に無い公開 n8f9a9e90ea57（10-14）→ 未調査。STATE の「せんべい汁の重複2本」と関係の可能性
+- STALE R2f 落とした画像の再承認（判定不能46件）
+- STALE R25 X投稿 最後が19日前
+
+■ できなかったこと
+- 公開（時間窓）、マガジン後付け133件（時間切れ）、inbox 残6件

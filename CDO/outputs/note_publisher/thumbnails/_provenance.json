@@ -1318,6 +1318,15 @@
 "query": "watermelon fruit",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Watermelon_yellow_2024_G1.jpg/1280px-Watermelon_yellow_2024_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-07-30_note記事_夏のトマト_丸かじりの贅沢": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"トマト",
+"fresh tomato food"
+],
+"tried": 3
+},
 "2026-07-30_note記事_夏の枝豆と一杯_縁側の晩酌": {
 "author": "Encik Tekateki",
 "backend": "wikimedia",
@@ -2601,13 +2610,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Hypsizygus_marmoreus_20101123_d.jpg/1280px-Hypsizygus_marmoreus_20101123_d.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-02_note記事_バスセンターのカレー_そば屋のカレーが箱で届く": {
-"author": "Andy Li",
+"author": "Kyu3a",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg",
-"file": "File:Deep-fried Tofu Japanese Curry Rice - MOGUMOGU 2024-07-26.jpg",
-"license": "CC0",
-"query": "ライスカレー",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg/1280px-Deep-fried_Tofu_Japanese_Curry_Rice_-_MOGUMOGU_2024-07-26.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%88%E3%82%82%E3%81%A0%E3%81%9D%E3%81%B0%E3%81%AE%E5%8D%8A%E3%82%AB%E3%83%AC%E3%83%BC%E3%81%A8%E3%82%B3%E3%83%AD%E3%83%83%E3%82%B1%E3%81%9D%E3%81%B0.jpg",
+"file": "File:よもだそばの半カレーとコロッケそば.jpg",
+"license": "CC BY-SA 4.0",
+"query": "そば屋 カレー",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/%E3%82%88%E3%82%82%E3%81%A0%E3%81%9D%E3%81%B0%E3%81%AE%E5%8D%8A%E3%82%AB%E3%83%AC%E3%83%BC%E3%81%A8%E3%82%B3%E3%83%AD%E3%83%83%E3%82%B1%E3%81%9D%E3%81%B0.jpg/1280px-%E3%82%88%E3%82%82%E3%81%A0%E3%81%9D%E3%81%B0%E3%81%AE%E5%8D%8A%E3%82%AB%E3%83%AC%E3%83%BC%E3%81%A8%E3%82%B3%E3%83%AD%E3%83%83%E3%82%B1%E3%81%9D%E3%81%B0.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-02_note記事_朝霧_出かけるころには消えている": {
 "author": "Qwert1234",
@@ -2681,6 +2690,15 @@
 "query": "稲架掛け",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg/1280px-%E5%A4%A7%E9%89%84%E7%A0%B2%E5%A4%A7%E8%B1%86%E3%81%AE%E7%A8%B2%E6%9E%B6%E6%8E%9B%E3%81%91.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-10-06_note記事_越前打刃物の包丁_食べ物以外を取り寄せる": {
+"author": "Benlisquare",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Yanagiba_(front).jpg",
+"file": "File:Yanagiba (front).jpg",
+"license": "CC BY-SA 4.0",
+"query": "柳刃包丁",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Yanagiba_%28front%29.jpg/1280px-Yanagiba_%28front%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある": {
 "author": "Andy Atzert",
 "backend": "wikimedia",
@@ -2707,6 +2725,15 @@
 "license": "CC BY-SA 4.0",
 "query": "もつ鍋 鍋",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg/1280px-%E3%82%82%E3%81%A4%E9%8D%8B%E8%99%8E%E7%A6%8F%E5%A0%82IMG_20220115_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-08_note記事_届いていなかった_234本の裏側": {
+"author": "Ishikawa Ken",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_(4944175976).jpg",
+"file": "File:原稿用紙 (4944175976).jpg",
+"license": "CC BY-SA 2.0",
+"query": "原稿用紙",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_%284944175976%29.jpg/1280px-%E5%8E%9F%E7%A8%BF%E7%94%A8%E7%B4%99_%284944175976%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-08_note記事_焼きあご_食べない魚を買う": {
 "author": "owner",
@@ -2773,6 +2800,15 @@
 "license": "owner own work",
 "note": "オーナーが撮影した実物。クレジット表示は不要"
 },
+"2026-10-13_note記事_こたつ_机の下だけを暖める": {
+"author": "hibino from Kanagawa, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Kotatsu_(5104045).jpg",
+"file": "File:Kotatsu (5104045).jpg",
+"license": "CC BY 2.0",
+"query": "kotatsu",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Kotatsu_%285104045%29.jpg/1280px-Kotatsu_%285104045%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-10-13_note記事_八戸せんべい汁_乾いたものだけで鍋になる": {
 "author": "くろふね",
 "backend": "wikimedia",
@@ -2782,6 +2818,15 @@
 "query": "せんべい汁",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg/1280px-%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84%E6%B1%81%EF%BC%88%E3%81%BF%E3%81%AA%E3%81%A8%E9%A3%9F%E5%A0%82%EF%BC%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
+"2026-10-13_note記事_白ねぎ_白いところは土に埋まっていた": {
+"author": "Asturio Cantabrio",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Shimonita_Negi_ac_(1).jpg",
+"file": "File:Shimonita Negi ac (1).jpg",
+"license": "CC BY-SA 4.0",
+"query": "ねぎ 畑",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Shimonita_Negi_ac_%281%29.jpg/1280px-Shimonita_Negi_ac_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
 "2026-10-14_note記事_ジンギスカン_花見で羊を焼く": {
 "author": "なよろ",
 "backend": "wikimedia",
@@ -2790,5 +2835,14 @@
 "license": "CC BY-SA 4.0",
 "query": "ジンギスカン 焼く",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E5%90%8D%E5%AF%84%E5%B8%82%E3%81%AE%E7%85%AE%E8%BE%BC%E3%81%BF%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3.jpg/1280px-%E5%90%8D%E5%AF%84%E5%B8%82%E3%81%AE%E7%85%AE%E8%BE%BC%E3%81%BF%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-15_note記事_布団を干す_晴れた日にベランダへ出す": {
+"author": "Jim Epler",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%B8%83%E5%9B%A3%E5%B9%B2%E3%81%97_(528985156).jpg",
+"file": "File:布団干し (528985156).jpg",
+"license": "CC BY 2.0",
+"query": "布団干し",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/%E5%B8%83%E5%9B%A3%E5%B9%B2%E3%81%97_%28528985156%29.jpg/1280px-%E5%B8%83%E5%9B%A3%E5%B9%B2%E3%81%97_%28528985156%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
