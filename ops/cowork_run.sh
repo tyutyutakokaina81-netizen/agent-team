@@ -57,6 +57,16 @@ fail_reasons=""
 for f in drafts/queue/*.md; do
   name="$(basename "$f")"
   echo "--- 公開試行: ${name} ---"
+  # ★2026-10-21 追加: **同じ記事が3回公開された**のを止める。
+  #   八戸せんべい汁が 10-14 `n8f9a9e90ea57` / 10-15 `n26bb822c8847` / 10-21 `n71ca68cce9a8` と3本出た。
+  #   原因は、公開後の queue→published の move と registry への追記が**毎回巻き戻されていた**こと。
+  #   note 側の重複ゲートは「note検索でヒットなし」で通すので、**前日の記事は拾えない**＝止められない。
+  #   ここは**手元のファイルだけ**で判定する＝検索にもネットにも依存しない。
+  if [ -f "drafts/published/${name}" ]; then
+    echo "  skip(既公開): drafts/published に同名がある。二重公開を防ぐためキューから外す"
+    git mv "$f" "drafts/published/${name}" 2>/dev/null || mv -f "$f" "drafts/published/${name}"
+    continue
+  fi
   out="$("$PYBIN" "$PUB" --text-only --article "$f" 2>&1)"
   rc=$?
   # ★一過性のnote不調(タイムアウト/UIのちらつき等)を無人で拾い直す＝自動リトライ1回。

@@ -37,6 +37,14 @@ THUMB_DIR = SCRIPT_DIR / "thumbnails"
 PROV_FILE = THUMB_DIR / "_provenance.json"
 VERIFIED_FILE = THUMB_DIR / "_verified.txt"
 NO_AUTO_FILE = THUMB_DIR / "_no_auto.txt"   # 意図的に無サムネ（誤サムネより無サムネが正）
+# ★2026-10-18 新設: **オーナーの写真待ち**。_no_auto とは別の状態。
+#   _no_auto は「無サムネで公開してよい」という意味で、A3（全記事にサムネ）と衝突する。
+#   ここに書くのは「**自動では当たらないと分かったので、撮ってもらうまで止める**」記事。
+#   なぜ要るか: 肉ケーキ（9巡）とジンギスカン（4巡）で打ち切りを決めて JP_QUERY から外したのに、
+#   **外すと EN_QUERY の緩い語へ落ちて、かえって遠い画像が来る**（高岡大仏に奈良の大仏が来た実害と同じ型）。
+#   実際、肉ケーキには打ち切り後に**調理済みのすき焼き**が割り当てられていた。
+#   → ここに載せた記事は JP/EN どちらも引かずに飛ばす。キューには入らないまま（R32 が止める）。
+AWAIT_PHOTO_FILE = THUMB_DIR / "_await_photo.txt"
 GOOD_BACKENDS = {"openai", "gemini", "pollinations", "wikimedia", "pexels"}
 MIN_IMAGE_BYTES = 8000
 UA = "toyama-guide-thumbnailer/1.0 (https://github.com/tyutyutakokaina81-netizen/agent-team; free real photos)"
@@ -622,8 +630,29 @@ JP_QUERY = [
     #   落とす＝生きた羊（料理ではない）／人物／店名が読めるもの。
     # ★2026-10-13 1巡目の反省: 先頭を「ジンギスカン 鍋」にしたら**売り場の鍋のパネル**が来た。
     #   欲しいのは道具のカタログ写真ではなく**焼いている場面**なので、順番を入れ替える。
-    ("ジンギスカン", ["ジンギスカン 焼く", "ジンギスカン 肉", "羊肉 焼く", "ラム肉 焼肉",
-                     "jingisukan", "mutton grill", "ジンギスカン"]),
+    # ★2026-10-14 2巡目も外れ: 「ジンギスカン 焼く」で **『名寄市の煮込みジンギスカン』**（汁で煮た鍋）が来た。
+    #   **煮込む形が実在する**ので、日本語で「ジンギスカン」と引くと混ざる。
+    #   記事の芯は**焼いて脂を流す**ほうなので、**焼きを明示する語と英語を先に**置く。
+    #   ★2026-10-15: この修正は一度入れたのに**消えていた**（却下の記録ごと失われていた）。
+    #     以後 reject_thumb.py が自分で commit するようにした。
+    # ★2026-10-17: **ジンギスカンの自動取得は打ち切った。** 4巡して当たらなかった。
+    #   1巡目「北海道型 ジンギスカン鉄鍋」= 店頭の陳列（¥4000/¥4500 の値札と商品名が読める）
+    #   2巡目「名寄市の煮込みジンギスカン」= 汁で煮込んだ鍋（記事は焼く話）
+    #   3巡目「Lamb chop on the barbecue 02」= 西洋の炭火グリルの骨付きラムチョップ
+    #         （記事が『焼肉＝脂を網から落として捨てる』として**対比に使っている側**）
+    #   4巡目「Ulanhot Genghis Khan Park - Genghis Khan Temple」= 内モンゴルの廟。料理ですらない。
+    #   分かったこと:
+    #     ・日本語で「ジンギスカン」= **煮込み版が混ざる**
+    #     ・英語の barbecue 系 = **西洋料理が来る**
+    #     ・漢字「成吉思汗」= **人物のほうが来る**（料理名と人名が同じ字）
+    #   欲しいのは「中央が盛り上がった鉄鍋で薄切り肉と野菜を焼いている場面」だが、
+    #   **どの語からもそこへ行けなかった**。語を増やす段階ではないと判断した。
+    #   → オーナーが撮ったら: bash ops/use_my_photo.sh <写真> ジンギスカン
+    #   それまでこの記事はキューに入れない（サムネ無しで出さない＝A3）。
+
+    # 2026-10-15 追加: 布団を干す。**ベランダの手すりに掛かった布団**が写っていれば最良。
+    #   落とす＝人物の顔／店名や値札が読めるもの／寝具売り場（室内の陳列）／ベッドのマットレス。
+    ("布団を干す", ["布団干し", "布団 ベランダ", "futon airing", "布団 天日干し", "bedding balcony"]),
 ]
 
 
@@ -1336,6 +1365,8 @@ def main() -> None:
     verified = load_verified()
     no_auto = {ln.strip() for ln in (NO_AUTO_FILE.read_text(encoding='utf-8').splitlines()
                if NO_AUTO_FILE.exists() else []) if ln.strip() and not ln.strip().startswith('#')}
+    await_photo = {ln.strip() for ln in (AWAIT_PHOTO_FILE.read_text(encoding='utf-8').splitlines()
+                   if AWAIT_PHOTO_FILE.exists() else []) if ln.strip() and not ln.strip().startswith('#')}
     files = sorted(glob.glob(str(ARTICLES_DIR / "*note記事*.md")))
     files = [f for f in files if (not args.filter or args.filter in Path(f).name)]
 
@@ -1359,6 +1390,12 @@ def main() -> None:
                     print(f"  removed rejected thumbnail: {p.stem}")
             except OSError:
                 pass
+        if p.stem in await_photo:   # オーナーの写真待ち＝自動では当たらないと分かった題材
+            print(f"  skip(await_photo): {p.stem[:40]}… は写真待ち。自動取得しない")
+            stray = THUMB_DIR / f"{p.stem}.jpg"
+            if stray.exists():
+                stray.unlink(); print(f"  removed stray thumbnail (await_photo): {p.stem}")
+            continue
         if p.stem in no_auto:       # 自動取得を断念した題材=無サムネで確定（--forceでも取りに行かない）
             # 別runの競合等で既にjpgが在る場合は**消す**。残すとpublisher経路が拾って誤サムネ公開になる。
             stray = THUMB_DIR / f"{p.stem}.jpg"
