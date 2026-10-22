@@ -61,13 +61,22 @@ fi
 #   19:07 の便は auth: の行が1つも出ず、こちらは「直したのに効かない」と読みかけた。
 #   実際は push の1分後に実行されていて、**Mac がまだ取り込んでいなかっただけ**。
 #   → **版が分かる印を必ず出す。** この行が無いログは、修正前のスクリプトの出力。
-echo "run_worker.sh 版: 2026-10-21 認証引き継ぎあり"
+# ★2026-10-23: **版の印は出していたのに、git に載るログには入っていなかった。**
+#   committed されるのは `$RUNLOG`（claude 自身の出力）の tail だけで、
+#   ランチャーの echo は launchd の stdout に出るだけだった。
+#   そのため 10-23 の便を読んでも「どの版が走ったか」が分からず、
+#   10-21 に入れた印がまるごと無駄になっていた。**印は読む場所に出す。**
+#   → 行を貯めておいて、$RUNLOG の先頭に書き込む。
+LAUNCHER_INFO="run_worker.sh 版: 2026-10-23 認証引き継ぎ＋版印をログへ"
 # **値は絶対に出力しない。** 有無と長さだけ残す（ログは git に乗るため）。
 if [ -n "$ANTHROPIC_API_KEY" ]; then
-  echo "auth: ANTHROPIC_API_KEY を引き継ぎました（${#ANTHROPIC_API_KEY} 文字）"
+  LAUNCHER_INFO="${LAUNCHER_INFO}
+auth: ANTHROPIC_API_KEY を引き継ぎました（${#ANTHROPIC_API_KEY} 文字）"
 else
-  echo "auth: ANTHROPIC_API_KEY は見つかりません（保存済みの認証で起動します）"
+  LAUNCHER_INFO="${LAUNCHER_INFO}
+auth: ANTHROPIC_API_KEY は見つかりません（保存済みの認証で起動します）"
 fi
+echo "$LAUNCHER_INFO"
 
 # 実行中ロック（cron定期便・配車係・手動の三経路すべての二重起動防止）
 LOCK="$HOME/.agent-team-dispatch/worker.lock"
@@ -167,8 +176,12 @@ echo "=== ワーカー開始 ${TS}（実行中も3分ごとに状況が自動送
 # リポジトリの外に置く＝ops/logs/ を git add したときに生ログまで載らないようにする。
 RUNLOG="$HOME/.agent-team-dispatch/worker_run_${TS}.out"
 mkdir -p "$(dirname "$RUNLOG")"
+# ★ランチャーの情報を**ログの先頭に置く**。送信されるのは $RUNLOG の tail -120 なので、
+#   出力が長い便では流れてしまうが、短い便（＝失敗便）では必ず残る。
+#   失敗便こそ版を知りたいので、これで足りる。
+{ echo "$LAUNCHER_INFO"; echo "claude: $CLA"; echo "---- ここからワーカーの出力 ----"; } > "$RUNLOG"
 set -o pipefail
-"$CLA" -p --dangerously-skip-permissions "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log > "$RUNLOG" &
+"$CLA" -p --dangerously-skip-permissions "$(cat docs/worker-prompt.txt)" 2>&1 | tee -a worker.log >> "$RUNLOG" &
 PID=$!
 
 # ライブ送信ループ（ワーカーが生きている間だけ）
