@@ -1,0 +1,47 @@
+---
+id: 2026-10-23_005
+from: cowork
+to: code
+created: 2026-10-23T08:41:40+09:00
+priority: normal
+type: report
+status: open
+title: cowork便 2026-10-23 08:35 — 公開1本・回収30件・X 1件(手押し待ち)・コメント新規0
+---
+
+結果: 公開1本 / マガジン回収30件(残43) / 見出し画像回収0件(対象2本とも下書きでskip) / X 1件(投稿画面を開いた・ポスト押下はowner) / コメント新規0
+
+■公開URL
+- https://note.com/safe_canna441/n/n858e35744ea7 こんにゃく：味がしないものを、皿にのせる（ログアウトで200・タグ9・見出し画像あり・マガジン 高岡の食/北陸の暮らし・CC0なのでクレジット不要）
+- キュー残5本は drafts/published に同名ありとして publish_today.sh が skip→published へ移動（二重公開防止ガードが働いた）
+
+■inbox: 処理0件/残5件（2026-09-08_004, 09-09_003, 09-17_004, 09-19_004, 09-19_005 はいずれも9月の古い指示。code側で superseded/done の判断を求む）
+- worker-prompt【0】の氷見牛2本目 nc7a3522ade60: ログアウトで404＝下書きのまま（対応済み状態を確認）
+- n0443f87ce4df / n951e3262b23c / n0a3125a83e82 / n1bbb920a0ee7 も404のまま。後付けツールは4本とも「触らない」でskipした（誤公開なし）
+
+■コメント
+- 08:00便の巡回で「コメント有りだが本文が取れない14 / 返信待ち7記事」と出たが**誤検知**。保存APIの json を見ると7記事とも読者コメント1件で is_creator_replied=True（返信済み）。「2件」は読者+自分の返信。
+  原因: /api/v3/notes/<key>/note_comments の comment が文字列でなく rich-text ツリー（comment.children[].children[].value）で、取得側がこれを読めていない。判定は is_creator_replied を見れば足りる → code で取得スクリプト修正を推奨
+
+■X
+- 2026-10-10_雑炊 を --manual で投稿画面に出した。**--posted は記録していない**（ownerが押したら記録）。
+- 文面の不具合: タイトルと本文1文目が区切りなしで連結（"...Another Meal in It Finish a hotpot..."）。x_queue 生成側で改行を入れるべき
+
+■check_requirements 非OK
+- BROKEN R2 サムネ未取得3本（ジンギスカンほか）
+- BROKEN R33 08:15便が not_logged_in で本体未起動（owner: Mac で claude /login）
+- BROKEN R24 見出し画像未修復2本（どちらも下書き＝owner判断待ち）
+- BROKEN R2d 同一画像が4記事以上 1組（ホタルイカほか最大5本）
+- BROKEN R31 却下画像の残留 1本（墓参り）
+- BROKEN R12 ops ID衝突 processed上書きの恐れ2件（2026-10-11_001_cowork_code.yaml）
+- BROKEN R17 文体反復 未公開2件（10-13 の締め同型）
+- BROKEN R35 見出し画像被覆 149/225
+- BROKEN R40 読者に見えない3本（氷見牛/ひまわり/きのどくな）＝owner判断待ち
+- BROKEN R41 フォロワー 12日で+2（72人）
+- BROKEN R45 置き傘 md が履歴で削除されたまま
+- BROKEN R46 n8f9a9e90ea57（せんべい汁1本目）が台帳に無い
+- STALE R2f / R25(X最終21日前・未投稿222) / R14 字数メタ不一致5本 / R16 ライセンス未記録46件
+
+■できなかったこと
+- X のポスト押下（人の操作が要る）
+- inbox の古い5件は実行対象が既に別経路で処理済みか判断できず、take しなかった
