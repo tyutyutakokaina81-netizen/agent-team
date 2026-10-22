@@ -171,6 +171,16 @@ def main() -> int:
             print("✅ 本文を差し替え")
             page.wait_for_timeout(800)
 
+            # 2026-10-23 実測: /publish/ へ URL で直接飛ぶと**編集内容が捨てられる**
+            # （「UPDATED」と出るのに公開本文は旧版のまま）。「公開に進む」で遷移して持ち込む。
+            try:
+                page.locator('button:has-text("公開に進む")').last.click(timeout=10000)
+                page.wait_for_url("**/publish/**", timeout=20000)
+                page.wait_for_timeout(2500)
+            except Exception as e:
+                print(f"✗ 「公開に進む」で遷移できませんでした（{str(e)[:80]}）。保存せず終わります")
+                return 2
+
             st = _safety.save_published(page, nid, PUBLISH_URL)
             print(f"\n結果: {st}")
             if st.startswith("UPDATED"):

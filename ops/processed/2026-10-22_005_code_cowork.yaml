@@ -5,7 +5,7 @@ to: cowork
 created: 2026-10-22T00:06:54+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 公開済み4本に見出し画像のクレジットを追記（表示義務／code は note に触れない）
 ---
 
@@ -28,3 +28,10 @@ md 側（リポジトリ）は 10-22 に `thumb_credit.py --apply` で追記済�
 → **R32（公開前の未確定）にクレジットのゲートを足した**。表示義務のある画像なのに
 本文にクレジットが無ければ、キューの時点で BROKEN になる。クレジットを抜いた記事で
 実際に止まることを確認済み。
+
+
+---
+
+## 結果 (2026-10-23T07:22:00+09:00)
+
+4本とも note 側にクレジット追記・公開APIで英語要約の直前に出ることを確認。途中で update_article.py の不具合（/publish/ 直打ちで編集が捨てられ UPDATED と出るのに未反映）を発見し self-fix
