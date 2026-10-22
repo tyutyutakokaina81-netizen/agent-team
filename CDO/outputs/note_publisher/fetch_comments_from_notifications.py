@@ -132,6 +132,38 @@ def parse_row(text: str):
     return author, (body or text.strip())
 
 
+def _rows_from_api(page, pages: int = 3):
+    """通知 API（ベルを押したときに画面が読むもの）から、_ROWS_JS と同じ形の行を作る。
+    取れなければ None（従来の画面読みへ落ちる）。"""
+    try:
+        page.goto("https://note.com/", wait_until="domcontentloaded", timeout=45000)
+        page.wait_for_timeout(1500)
+        rows = []
+        for p in range(1, pages + 1):
+            r = page.request.get(f"https://note.com/api/v3/notices?page={p}&per=12&body_ast=1")
+            if r.status != 200:
+                return None if p == 1 else rows
+            items = (r.json() or {}).get("data")
+            if not isinstance(items, list):
+                return None if p == 1 else rows
+            for it in items:
+                href = it.get("all_area_url") or ""
+                m = re.search(r"/n/(n[0-9a-f]{12})", href)
+                if not m:
+                    continue
+                text = re.sub(r"<[^>]+>", "\n", it.get("body") or "").strip()
+                users = it.get("action_users") or []
+                handle = (users[0].get("urlname") if users and isinstance(users[0], dict) else "") or ""
+                rows.append({"nid": m.group(1), "href": href, "text": text,
+                             "handle": handle, "kind": it.get("kind", "")})
+            if not items:
+                break
+        return rows
+    except Exception as e:
+        print(f"API_FAILED: {type(e).__name__} {e}")
+        return None
+
+
 def main() -> int:
     try:
         from playwright.sync_api import sync_playwright
@@ -144,8 +176,13 @@ def main() -> int:
     with sync_playwright() as pw:
         ctx = P.load_context(pw)                 # 公開と同じログイン済みプロファイル
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        opened = None
-        for u in URLS:
+        # ★2026-10-23 実測: 通知は独立ページでなくなった（/notifications は同名ユーザーの
+        #   プロフィールになる）。ヘッダーのベルが叩く API を直接読む。
+        rows = _rows_from_api(page)
+        if rows is not None:
+            print(f"OPEN: api/v3/notices（{len(rows)}件）")
+        opened = "api" if rows is not None else None
+        for u in ([] if opened else URLS):
             try:
                 page.goto(u, wait_until="domcontentloaded", timeout=45000)
                 page.wait_for_timeout(3000)
@@ -163,16 +200,17 @@ def main() -> int:
             return 1
         print(f"OPEN: {opened}")
 
-        # 通知は下に続くので少し送る
-        for _ in range(8):
-            page.mouse.wheel(0, 3000)
-            page.wait_for_timeout(700)
+        if rows is None:
+            # 通知は下に続くので少し送る
+            for _ in range(8):
+                page.mouse.wheel(0, 3000)
+                page.wait_for_timeout(700)
 
-        try:
-            rows = page.evaluate(_ROWS_JS)
-        except Exception as e:
-            dump(page, f"行を取れなかった: {type(e).__name__} {e}")
-            return 1
+            try:
+                rows = page.evaluate(_ROWS_JS)
+            except Exception as e:
+                dump(page, f"行を取れなかった: {type(e).__name__} {e}")
+                return 1
         print(f"通知の行: {len(rows)}")
 
         cands = []
