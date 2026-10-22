@@ -1,0 +1,15 @@
+2026-10-22 タイヤのサムネ取り直し（2巡目）
+
+1巡目＝File:TOKYO MOTOR SHOW 2011 261 → **却下**。モーターショーの展示台で、
+銘柄（BLIZZAK / REVO 2 / REVO GZ / DM-V1 / BRIDGESTONE）と商品札がはっきり読めた。
+本文では製品名を書かないと決めているのに、画像のほうが言ってしまう。
+ジンギスカンの値札・こたつの博物館展示と同じ「展示・陳列」の型。
+
+直したもの:
+- UNUSABLE_NAME_HINTS に見本市系（モーターショー/motor show/見本市/展示会/ブース/booth/expo）
+  → `_looks_unusable_name("File:TOKYO MOTOR SHOW 2011 261…") = True` を確認済み
+- クエリを**走行場面**へ変更（雪道 車／雪 道路 車／snow road japan car／タイヤ 雪）。
+  タイヤ単体を狙うとカタログ的な展示写真が返り、銘柄が必ず写る。
+  車に付いた状態なら銘柄は小さく読めない。
+
+こんにゃくは1巡目で採用（File:Konnyaku 001.jpg／CC0＝クレジット不要）。キュー投入済み。
