@@ -175,12 +175,18 @@ def read_state_from_payload(html: str, note_key: str):
     """
     if not html:
         return None, None
-    # 下書きは埋め込みデータ自体が無い（保存HTML 5件で確認）。画面に出る言葉で拾う＝
-    # ここを落とすと「下書きだからコメント欄が無い」が「セレクタ外れ」に化ける。
-    if "公開前の下書き" in html or "これは下書き" in html:
-        return "draft", 0
+    # ★2026-10-22 修正: **ここで本文の言葉を先に見ていたのが誤り。**
+    #   「公開前の下書き」は画面の案内にも出るが、**記事本文にも出うる**。
+    #   実害＝`na0c047034e1c`（公開の仕組みそのものを書いた記事）が
+    #   **公開済みなのに「下書き」と判定され**、朝便の報告に「未公開」として並んだ。
+    #   HTML には `\"status\":\"published\"` が入っていたので、**埋め込みを先に見れば防げた**。
+    #   → 埋め込みから**その記事自身の** status を取れたらそれを信じる。
+    #     取れなかったときだけ、画面の言葉で拾う（下書きは埋め込み自体が無い＝保存HTML 5件で確認）。
+    def _draft_by_words():
+        return "公開前の下書き" in html or "これは下書き" in html
+
     if not note_key:
-        return None, None
+        return ("draft", 0) if _draft_by_words() else (None, None)
     status = count = None
     for m in re.finditer(r'\\"commentCount\\":(\d+)', html):
         back = html[max(0, m.start() - 4000):m.start()]
@@ -191,6 +197,9 @@ def read_state_from_payload(html: str, note_key: str):
             if st:
                 status = st.group(1)
             break
+    if status is None and count is None and _draft_by_words():
+        # 埋め込みから自記事の情報が取れなかった＝下書きで埋め込みが無い形。
+        return "draft", 0
     return status, count
 
 

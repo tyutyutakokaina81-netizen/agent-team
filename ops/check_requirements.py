@@ -608,17 +608,48 @@ try:
         #   5つ作ってあるのに **196本が1本も入っていなかった**（編成リストは6月にできていたが
         #   手でクリックする前提だった）。公開の瞬間に入れないと、後から196本の手作業になる。
         #   publisher は記事情報の `- マガジン: A／B` 行を読んで /publish/ 画面で追加する。
-        _undecided, _noimg, _nomag = [], [], []
+        # ★2026-10-22 追加: **クレジット行**も公開前に決まっているべきこと。
+        #   10-21 に検品してキューへ入れた4本が、**4本ともクレジット無しで公開された**
+        #   （カレー/包丁/届いていなかった/白ねぎ。すべて CC BY-SA ＝表示義務あり）。
+        #   サムネを `_verified.txt` に入れる作業と、本文にクレジットを書く作業が
+        #   別々で、片方だけやっても誰も止めなかった。R16 は**公開後**に気づく検査なので遅い。
+        #   表示義務は守らなければならないものなので、**キューのゲートで止める**。
+        #   直す道具＝`python3 CDO/outputs/note_publisher/thumb_credit.py --apply <md>`
+        _prov32 = {}
+        _pp32 = os.path.join(thumbdir, "_provenance.json")
+        if os.path.exists(_pp32):
+            try:
+                import json as _j32
+                _prov32 = _j32.load(open(_pp32, encoding="utf-8"))
+            except Exception:
+                _prov32 = {}
+
+        def _needs_credit32(_st):
+            """表示義務があるか。CC0/PD は不要、ライセンス不明は判定しない（Falseを返す）。"""
+            _v = _prov32.get(_st)
+            if not isinstance(_v, dict):
+                return False
+            _lic = (_v.get("license") or "").strip().lower()
+            if not _lic:
+                return False
+            if "cc0" in _lic or "public domain" in _lic or _lic.startswith("pd"):
+                return False
+            return True
+
+        _undecided, _noimg, _nomag, _nocredit = [], [], [], []
         for _f in _q32:
             _st = os.path.basename(_f)[:-3]
             if _st not in verified and _st not in _approved32:
                 (_noimg if _st in no_auto else _undecided).append(_st)
             try:
-                if not re.search(r"^-\s*マガジン:\s*\S", open(_f, encoding="utf-8").read(), re.M):
+                _body32 = open(_f, encoding="utf-8").read()
+                if not re.search(r"^-\s*マガジン:\s*\S", _body32, re.M):
                     _nomag.append(_st)
+                if _needs_credit32(_st) and "（見出し画像：" not in _body32:
+                    _nocredit.append(_st)
             except OSError:
                 pass
-        if _undecided or _noimg or _nomag:
+        if _undecided or _noimg or _nomag or _nocredit:
             _msg = []
             if _undecided:
                 _msg.append(f"**サムネ未確定 {len(_undecided)}本**({_undecided[0][:32]}…)")
@@ -630,6 +661,11 @@ try:
                 _msg.append(f"**マガジン指定なし {len(_nomag)}本**({_nomag[0][:32]}…)"
                             "＝記事情報に `- マガジン: 高岡の食／北陸の暮らし` の行を足す。"
                             "無いと**どのマガジンにも入らずに公開**され、後から手作業になる")
+            if _nocredit:
+                _msg.append(f"**クレジット行なし {len(_nocredit)}本**({_nocredit[0][:32]}…)"
+                            "＝見出し画像に表示義務があるのに本文に書いていない。"
+                            "`python3 CDO/outputs/note_publisher/thumb_credit.py --apply <md>` で入れる。"
+                            "**10-21 はこのゲートが無くて4本が無クレジットで公開された**")
             # ★2026-09-23: 末尾の定型文が「あとから画像は付けられない」のままだった。
             #   これは同じ日に訂正した誤り（fix_header_images.sh で後から付けられる）。
             #   しかもマガジンだけ欠けている場合にもサムネの話が出ていた。

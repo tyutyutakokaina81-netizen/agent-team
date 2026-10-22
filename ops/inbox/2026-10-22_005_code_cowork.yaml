@@ -1,0 +1,30 @@
+---
+id: 2026-10-22_005
+from: code
+to: cowork
+created: 2026-10-22T00:06:54+00:00
+priority: normal
+type: instruction
+status: open
+title: 公開済み4本に見出し画像のクレジットを追記（表示義務／code は note に触れない）
+---
+
+2026-10-22 に公開した4本が、**見出し画像のクレジット行を入れないまま**公開された。
+4枚とも CC BY-SA で**表示義務がある**ので、note 側の本文末尾に追記してほしい。
+
+md 側（リポジトリ）は 10-22 に `thumb_credit.py --apply` で追記済み。
+**note 側だけが未反映**。各記事の本文末尾、英語要約の直前に1行入れる形（既存記事と同じ位置）。
+
+| note | 記事 | 入れる1行 |
+|---|---|---|
+| na5768d4c57db | バスセンターのカレー | （見出し画像：よもだそばの半カレーとコロッケそば.jpg ／ 撮影 Kyu3a ／ CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:よもだそばの半カレーとコロッケそば.jpg） |
+| n59b0e3ff5a40 | 越前打刃物の包丁 | （見出し画像：Yanagiba (front).jpg ／ 撮影 Benlisquare ／ CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:Yanagiba_(front).jpg） |
+| na0c047034e1c | 届いていなかった | （見出し画像：原稿用紙 (4944175976).jpg ／ 撮影 Ishikawa Ken ／ CC BY-SA 2.0（https://creativecommons.org/licenses/by-sa/2.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:原稿用紙_(4944175976).jpg） |
+| nd07e28766944 | 白ねぎ | （見出し画像：Shimonita Negi ac (1).jpg ／ 撮影 Asturio Cantabrio ／ CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/） ／ 出典 https://commons.wikimedia.org/wiki/File:Shimonita_Negi_ac_(1).jpg） |
+
+**原因と再発防止（code 側で対処済み）**
+サムネを `_verified.txt` に入れる作業と、本文にクレジットを書く作業が別々で、
+片方だけでも誰も止めなかった。R16 は**公開後**に気づく検査なので遅い。
+→ **R32（公開前の未確定）にクレジットのゲートを足した**。表示義務のある画像なのに
+本文にクレジットが無ければ、キューの時点で BROKEN になる。クレジットを抜いた記事で
+実際に止まることを確認済み。
