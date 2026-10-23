@@ -1,0 +1,19 @@
+### X投稿 2026-10-24_072513
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+tweepy : あり（/Users/apple/.agent_venv/bin/python3）
+投稿実績 :        4 件（ops/logs/x_posted.tsv）
+
+--- DRY-RUN（投稿しません。次に出る文面の確認）---
+スレッド総数 226 / 未投稿 222
+
+--- 次に投稿するスレッド: 2026-10-10_雑炊_鍋のあとにもう一食ある（1ツイート）---
+  [1] (272字) When the Hotpot Is Over, There Is Another Meal in It Finish a hotpot and what is left is liquid. Almost nothing solid — just a cloudy broth in the bottom of the clay pot. You do not throw it away. https://note.com/safe_canna441/n/nb3af50a459dd #Japan #JapaneseFood #Toyama
+
+[DRY-RUN] 投稿しません。投稿するには認証を環境変数に入れて --go を付けて再実行。
+
+問題なければ:  bash ops/run_x.sh --go
