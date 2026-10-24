@@ -203,14 +203,14 @@ DONE	n4a95d3c6a316	高岡の食
 DONE	nf2fd2e308101	北陸の暮らし
 DONE	n17788d0cfa17	高岡の食
 DONE	nb1866577b2da	北陸の暮らし
-nb50a98bea168	北陸の暮らし
-n8181e09e55ac	高岡の食
-n64cc1243922a	高岡の食
-nfa9647b9affd	北陸の暮らし
-n9fb0f393f453	北陸の暮らし
-n815cc5e770b5	高岡の食
-n2302ebd451d9	北陸の暮らし
-n1ffab822c2a4	高岡の食
+DONE	nb50a98bea168	北陸の暮らし
+DONE	n8181e09e55ac	高岡の食
+DONE	n64cc1243922a	高岡の食
+DONE	nfa9647b9affd	北陸の暮らし
+DONE	n9fb0f393f453	北陸の暮らし
+DONE	n815cc5e770b5	高岡の食
+DONE	n2302ebd451d9	北陸の暮らし
+DONE	n1ffab822c2a4	高岡の食
 # ★2026-09-24: 公開時のマガジン自動追加が両方とも ALREADY になり、実際に入ったか不明。
 #   次の fix_magazines.sh で確認する（本当に入っていれば SKIP_ALREADY で無害）。
 #
@@ -220,5 +220,5 @@ n1ffab822c2a4	高岡の食
 #   名前の要素から親を4段たどる方式が、タブを含む祖先まで届いていたのが原因。
 #   → 文書順で「名前の次に来る 追加/追加済み/削除 ボタン」を対にする方式へ変更（保存HTMLで5/5確認）。
 #   DONE を全部外して未処理に戻した。
-n47e24995aad0	高岡の食
-n92777d1d932c	高岡の食
+DONE	n47e24995aad0	高岡の食
+DONE	n92777d1d932c	高岡の食
