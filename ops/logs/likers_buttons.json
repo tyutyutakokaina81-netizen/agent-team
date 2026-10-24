@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/na5768d4c57db",
+ "url": "https://note.com/safe_canna441/n/n59b0e3ff5a40",
  "buttons": [
   {
    "tag": "a",
@@ -78,25 +78,25 @@
    "tag": "a",
    "txt": "公開設定",
    "aria": "",
-   "href": "https://editor.note.com/notes/na5768d4c57db/publish"
+   "href": "https://editor.note.com/notes/n59b0e3ff5a40/publish"
   },
   {
    "tag": "a",
    "txt": "英語版",
    "aria": "",
-   "href": "/safe_canna441/n/na5768d4c57db?hl=en"
+   "href": "/safe_canna441/n/n59b0e3ff5a40?hl=en"
   },
   {
    "tag": "a",
    "txt": "韓国語版",
    "aria": "",
-   "href": "/safe_canna441/n/na5768d4c57db?hl=ko"
+   "href": "/safe_canna441/n/n59b0e3ff5a40?hl=ko"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/327033083/rectangle_large_type_2_d57eeb7e8679be08a4de662110263cae.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/327033198/rectangle_large_type_2_78b788b3dbe442c0f6323c9ab6f10f6f.jpeg?width=1200"
   },
   {
    "tag": "button",
@@ -106,8 +106,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -136,21 +136,15 @@
   },
   {
    "tag": "a",
-   "txt": "#カレー",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E3%82%AB%E3%83%AC%E3%83%BC"
-  },
-  {
-   "tag": "a",
-   "txt": "#新潟",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%96%B0%E6%BD%9F"
-  },
-  {
-   "tag": "a",
    "txt": "#japan",
    "aria": "",
    "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#福井",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E7%A6%8F%E4%BA%95"
   },
   {
    "tag": "a",
@@ -160,21 +154,27 @@
   },
   {
    "tag": "a",
-   "txt": "#レトルト",
+   "txt": "#包丁",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%83%AC%E3%83%88%E3%83%AB%E3%83%88"
+   "href": "https://note.com/hashtag/%E5%8C%85%E4%B8%81"
   },
   {
    "tag": "a",
-   "txt": "#japanfood",
+   "txt": "#japanesecraft",
    "aria": "",
-   "href": "https://note.com/hashtag/japanfood"
+   "href": "https://note.com/hashtag/japanesecraft"
   },
   {
    "tag": "a",
-   "txt": "#日本の日常",
+   "txt": "#越前打刃物",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%97%A5%E5%B8%B8"
+   "href": "https://note.com/hashtag/%E8%B6%8A%E5%89%8D%E6%89%93%E5%88%83%E7%89%A9"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の道具",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%81%93%E5%85%B7"
   },
   {
    "tag": "a",
@@ -184,21 +184,15 @@
   },
   {
    "tag": "a",
-   "txt": "#カレー",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E3%82%AB%E3%83%AC%E3%83%BC"
-  },
-  {
-   "tag": "a",
-   "txt": "#新潟",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%96%B0%E6%BD%9F"
-  },
-  {
-   "tag": "a",
    "txt": "#japan",
    "aria": "",
    "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#福井",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E7%A6%8F%E4%BA%95"
   },
   {
    "tag": "a",
@@ -208,21 +202,27 @@
   },
   {
    "tag": "a",
-   "txt": "#レトルト",
+   "txt": "#包丁",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%83%AC%E3%83%88%E3%83%AB%E3%83%88"
+   "href": "https://note.com/hashtag/%E5%8C%85%E4%B8%81"
   },
   {
    "tag": "a",
-   "txt": "#japanfood",
+   "txt": "#japanesecraft",
    "aria": "",
-   "href": "https://note.com/hashtag/japanfood"
+   "href": "https://note.com/hashtag/japanesecraft"
   },
   {
    "tag": "a",
-   "txt": "#日本の日常",
+   "txt": "#越前打刃物",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%97%A5%E5%B8%B8"
+   "href": "https://note.com/hashtag/%E8%B6%8A%E5%89%8D%E6%89%93%E5%88%83%E7%89%A9"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の道具",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%81%93%E5%85%B7"
   },
   {
    "tag": "button",
@@ -232,8 +232,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -292,15 +292,15 @@
   },
   {
    "tag": "a",
-   "txt": "料理・グルメ",
+   "txt": "レビュー",
    "aria": "",
-   "href": "https://note.com/topic/cooking_gourmet"
+   "href": "https://note.com/topic/review"
   },
   {
    "tag": "a",
-   "txt": "お店・買い物",
+   "txt": "商品レビュー",
    "aria": "",
-   "href": "https://note.com/topic/cooking_gourmet/shops_shopping"
+   "href": "https://note.com/topic/review/product_reviews"
   },
   {
    "tag": "a",
@@ -340,8 +340,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -388,8 +388,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -475,18 +475,6 @@
    "txt": "投資情報の免責事項",
    "aria": "",
    "href": "https://note.com/terms/investment_disclaimer"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "刻空",
-   "href": "https://note.com/ozconsultingeasy"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
   },
   {
    "tag": "a",
