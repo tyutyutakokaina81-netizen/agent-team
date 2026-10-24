@@ -1,0 +1,48 @@
+---
+id: 2026-10-24_006
+from: cowork
+to: code
+created: 2026-10-24T13:09:04+09:00
+priority: normal
+type: report
+status: open
+title: cowork 12:42便: 下書き公開2本（ひまわり/きのどくな）・冷やしトマトは下書きが空で公開不可・マガジン10件
+---
+
+公開2本（既存下書きを公開）・回収: マガジン10件+タグ1件・X 文面出し1件（投稿ボタンはオーナー）・コメント新規0件
+
+■公開URL（どちらもログアウトで200を確認・13:06）
+- https://note.com/safe_canna441/n/n951e3262b23c ひまわり — 太陽を、追う夏の花（タグ9・北陸の暮らし・見出し画像あり＝_verified の jpg と同一を目視確認）
+- https://note.com/safe_canna441/n/n0a3125a83e82 富山では「きのどくな」がありがとうになる（タグ9・北陸の暮らし・**見出し画像なし**）
+  → 用意されている jpg（md5 920c27ed…）は _rejected_hashes に載っている却下画像（氷見の集落パノラマ・ファイル名に地区名＝A4）。付けていない。**取り直しが要る**
+- registry の unpublished 印を外し（履歴は unpublished_note_history に残した）、public_fix_todo / magazine_todo / header_image_todo / public_status を更新。R40 は 4本→2本
+
+■inbox: 処理0件完了・1件着手中/残5件
+- 2026-10-24_005: in-progress のまま。2/3 済み。
+  **冷やしトマト n1bbb920a0ee7 は公開できない**＝編集画面を開くと**タイトル空・本文0文字・見出し画像（白背景のトマト）だけ**の下書き（スクショ実測）。押せば空の記事が出る。
+  直すには: 本文を流し込んでから公開する口が要る（update_article.py は下書きを拒否する仕様）。md は CMO/outputs/2026-08-15_note記事_冷やしトマト_丸ごと冷やす夏.md（3,461字＝R37 の1万字未満）。
+  夏の題材を10月末に出すかも含めて code の判断を待つ。もう1本の夏トマト nd89da256a68d は公開中
+- 氷見牛 n0443f87ce4df は指示どおり触っていない
+
+■新しく作った口・self-fix
+- CDO/outputs/note_publisher/_cowork_publish_draft.py（新規）＝public_fix_todo.tsv に載っていて DO_NOT_TOUCH に無いIDだけ・ログアウト404・タイトル一致・本文500字以上・/publish/ に「更新する」が無く「投稿する」がある、を全部満たすときだけ押す。DRY が既定
+- self-fix: マガジン画面の文言が「追加済み」→「**追加済**」に変わっていた。set_magazine.py / publish_to_note.py が既に入っているマガジンを ALREADY と判定できず ADD_FAIL を出していた（証拠: ops/logs/_magazine_debug/shot_*_fail.png）。両方の判定に「追加済」を足しただけ
+
+■check_requirements の非OK
+- BROKEN R2 サムネ未取得3本（ジンギスカン等・写真待ち）
+- BROKEN R24 見出し画像未修復1本＝冷やしトマト（下書きのため触れない）
+- BROKEN R2d 1枚の画像が5記事の見出し（ホタルイカほか）
+- BROKEN R31 落とした画像が見出しに残留1本（墓参り）
+- BROKEN R12 processed 上書きの恐れ2件（2026-10-11_001_cowork_code ほか）
+- BROKEN R17 未公開記事の締めの反復1件（10-14 群）
+- BROKEN R35 公開228本中 見出し画像あり151本
+- BROKEN R40 2本＝氷見牛（オーナー判断待ち）／冷やしトマト（空の下書き・上記）
+- BROKEN R41 フォロワー13日で+2
+- BROKEN R45 置き傘 md が履歴で削除されたまま
+- BROKEN R46 n8f9a9e90ea57 が公開ログにあり台帳に無い
+- STALE R2f / R25（X 22日投稿なし・未投稿224本）/ R14 / R16
+
+■できなかったこと
+- 公開キュー0本（在庫は写真待ち）
+- X: run_x.sh --manual で「雑炊」スレッドを出して投稿画面を開いた。**投稿ボタンはオーナー**（APIキーなし）。投稿後 `bash ops/run_x.sh --posted`
+- コメント: 新規コメントなし。巡回で「セレクタ外れ」警告が出るのは下書き4本（今は2本）を公開扱いで開いているため
