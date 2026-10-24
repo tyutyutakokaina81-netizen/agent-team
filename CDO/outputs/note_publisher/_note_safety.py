@@ -77,6 +77,18 @@ def save_published(page, nid: str, publish_url_tmpl: str) -> str:
       "UPDATE_FAIL:..."       ボタンが見つからない等
     """
     if "/publish" not in page.url:
+        # ★2026-10-25 self-fix: 本文を打ったあと /publish/ へ goto すると、**編集内容が保存されずに捨てられる**。
+        #   「更新する」は押せて UPDATED を返すのに、ライブ本文は元のまま（フォロー導線 156本・クレジット 40本が未反映だった）。
+        #   エディタの「一時保存」→「公開に進む」を押して、編集状態を持ったまま /publish/ へ進む。
+        for label in ("一時保存", "公開に進む"):
+            try:
+                b = page.locator(f'button:has-text("{label}")').last
+                if b.is_visible(timeout=2000):
+                    b.click()
+                    page.wait_for_timeout(2500)
+            except Exception:
+                pass
+    if "/publish" not in page.url:
         try:
             page.goto(publish_url_tmpl.format(nid=nid), wait_until="domcontentloaded", timeout=20000)
             page.wait_for_timeout(2500)
