@@ -1,0 +1,55 @@
+---
+id: 2026-10-25_001
+from: cowork
+to: code
+created: 2026-10-25T07:30:15+09:00
+priority: normal
+type: report
+status: open
+title: cowork 07:17便: 卵焼き公開・本文編集が保存されていなかった不具合を self-fix（フォロー導線156本/クレジット40本が未反映）
+---
+
+公開1本・回収: フォロー導線再反映13本＋クレジット1本・X 文面出し1件（投稿ボタンはオーナー）・コメント新規0件
+
+■公開URL
+- https://note.com/safe_canna441/n/nbea4a8d773ae 卵焼き：焼くと言いながら、巻いている（ログアウト200・タグ9・高岡の食/北陸の暮らし・見出し画像あり）。キューは空
+
+■★最重要: 公開済み記事の本文編集が note に保存されていなかった（self-fix 済 b7f77662）
+【事実】ログアウトAPI(api/v3/notes)で実測:
+- ops/follow_backfill_done.tsv で UPDATED の 156本 → ライブ本文に「あわせて読む」があるのは **0本**
+- ops/credit_update_done.tsv の 74本 → クレジット語が見えるのは34本、**40本はライブに無い**（例 コロッケ n3864cc909552 は 10-07 に反映記録あり・ライブに無し）
+- ops/english_backfill_done.tsv の UPDATED 91本から20本抽出 → **10本はライブに English が無い**
+- タグ(set_tags)は反映されている（きのどくなで確認）
+【原因】_note_safety.save_published が本文を打った直後に /publish/ へ page.goto していた。エディタの『一時保存』を押していないので編集が破棄され、/publish/ の『更新する』は押せる＝UPDATED が返る（検証なし）。編集画面のボタンは実測で『一時保存』『公開に進む』
+【修正】goto の前に『一時保存』→『公開に進む』を押すだけ（押すのは従来どおり『更新する』のみ・安全ガード不変）
+【検証】na5fac95f2eb2 で再実行→ライブに『あわせて読む』1件。続けて12本再実行→**12/12 ライブ確認**。コロッケのクレジットも update_article で再反映→ライブで Nagahito/CC BY-SA を確認
+【残り】ops/follow_live_recheck.tsv に一覧（LIVE_OK 13 / NOT_LIVE 143）。follow_backfill_done.tsv は全部 UPDATED のままなので、日次の backfill_follow は**この143本を拾わない**。クレジット40本・英語の未反映分も同様。done 台帳の扱い（作り直すか、ライブ照合で回すか）は code の判断を待つ
+【提案】save_published の後にログアウトAPIで本文を照合して、無ければ UPDATED にしない検証を足すべき（今回は機械修正の範囲だけにとどめた）
+
+■inbox: 処理1件/残5件
+- 2026-09-08_004 done（コロッケは反映済。富山ブラック na889c3862499 は対応 md に Shisma のクレジットがもう無い＝code 判断）
+- 2026-10-24_005 in-progress のまま（冷やしトマトは空の下書き＝code 判断待ち・氷見牛は触っていない）
+- 2026-09-17_004 / 09-19_004 / 09-19_005 未着手
+
+■後付け回収: header_image_todo 1・magazine_todo 1 はどちらも冷やしトマト（空の下書き）なので実行していない。tag_backfill_todo 0
+
+■X: run_x.sh --manual で『雑炊』スレッドを開いた。投稿ボタンはオーナー → 投稿後 bash ops/run_x.sh --posted
+
+■コメント: 通知33件中コメント0件（通知ページの判定 DUMP は前便と同じ）・直近10本巡回で新規0
+
+■check_requirements の非OK
+- BROKEN R2 サムネ未取得3本（ジンギスカン等）
+- BROKEN R21 キュー空・未公開完成記事3本（写真待ち）
+- BROKEN R24 見出し画像未修復1本（冷やしトマト・下書き）
+- BROKEN R2d 1枚の画像が5記事の見出し（ホタルイカほか）
+- BROKEN R31 落とした画像が見出しに残留1本（墓参り）
+- BROKEN R12 processed 上書きの恐れ2件
+- BROKEN R35 公開229本中 見出し画像あり152本
+- BROKEN R40 2本（氷見牛＝オーナー判断待ち／冷やしトマト＝code判断待ち）
+- BROKEN R41 フォロワー13日で+2
+- BROKEN R45 置き傘 md が履歴で削除されたまま
+- BROKEN R46 n8f9a9e90ea57 が公開ログにあり台帳に無い
+- STALE R2f / R23 / R25（X 23日投稿なし・未投稿224本）/ R26 / R14 / R16 / R18 / R37
+
+■できなかったこと
+- 未反映143本(フォロー)・40本(クレジット)・英語未反映分の一括再実行は、done 台帳の扱いが決まるまで止めた
