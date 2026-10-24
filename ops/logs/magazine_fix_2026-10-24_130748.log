@@ -1,0 +1,20 @@
+   ⏭ n1bbb920a0ee7 は触らない: 2026-10-06 に下書きのままと判明（コメント取得の保存HTMLに『公開前の下書きです』）。読者に見えていない
+対象 2 本
+
+=== n951e3262b23c … 入れたいマガジン: 北陸の暮らし
+   いまの状態: 北陸の暮らし=? / 高岡の食=追加 / 仕事とAI=追加 / 高岡・富山を歩く=追加 / English Articles=追加
+   北陸の暮らし: FAIL:NOBUTTON
+   ✗ 1つも追加できなかった → 証拠を残す
+   --- 証拠を保存: /Users/apple/agent-team-run/ops/logs/_magazine_debug ---
+
+=== n0a3125a83e82 … 入れたいマガジン: 北陸の暮らし
+   いまの状態: 北陸の暮らし=? / 高岡の食=追加 / 仕事とAI=追加 / 高岡・富山を歩く=追加 / English Articles=追加
+   北陸の暮らし: FAIL:NOBUTTON
+   ✗ 1つも追加できなかった → 証拠を残す
+   --- 証拠を保存: /Users/apple/agent-team-run/ops/logs/_magazine_debug ---
+
+================ 結果 ================
+  n951e3262b23c	ADD_FAIL
+  n0a3125a83e82	ADD_FAIL
+更新できた: 0 / 2  （2026-10-24 13:07）
+失敗分の証拠: /Users/apple/agent-team-run/ops/logs/_magazine_debug  ← このフォルダごと commit すれば code が直せます
