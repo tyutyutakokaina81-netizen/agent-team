@@ -903,7 +903,7 @@ def publish(md_path: Path, photo_dir: Path | None, draft: bool, text_only: bool 
                             if (all[j].tagName !== 'BUTTON') break;
                             const t = (all[j].innerText || '').trim();
                             if (t === '追加') { all[j].click(); return 'CLICKED'; }
-                            if (t === '追加済み' || t === '削除') return 'ALREADY';
+                            if (t === '追加済み' || t === '追加済' || t === '削除') return 'ALREADY';
                           }
                           return 'NOBUTTON';
                         }

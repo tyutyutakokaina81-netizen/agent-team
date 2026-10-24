@@ -113,7 +113,7 @@ _READ_JS = """() => {
     for (let j = i + 1; j < all.length; j++) {
       if (all[j].tagName !== 'BUTTON') break;          // 次の名前に当たった＝この行にボタン無し
       const t = (all[j].innerText || '').trim();
-      if (t === '追加' || t === '追加済み' || t === '削除') { label = t; break; }
+      if (t === '追加' || t === '追加済み' || t === '追加済' || t === '削除') { label = t; break; }
     }
     rows.push({name, label});
   }
@@ -149,7 +149,7 @@ def add_to(page, name: str) -> str:
                 if (all[j].tagName !== 'BUTTON') break;
                 const t = (all[j].innerText || '').trim();
                 if (t === '追加') { all[j].click(); return 'CLICKED'; }
-                if (t === '追加済み' || t === '削除') return 'ALREADY';
+                if (t === '追加済み' || t === '追加済' || t === '削除') return 'ALREADY';
               }
               return 'NOBUTTON';
             }
