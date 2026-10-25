@@ -2183,6 +2183,50 @@ try:
 except Exception as _e46:
     add("R46 公開したのに台帳に無い", "STALE", f"判定不能: {type(_e46).__name__} {str(_e46)[:60]}")
 
+# R47 「反映した」と記録したのにライブに無い編集: 2026-10-25 に cowork が実測で見つけた。
+# `_note_safety.save_published` が本文を打った直後に /publish/ へ遷移しており、
+# **エディタの「一時保存」を押していなかったので編集が捨てられていた**。
+# 台帳には UPDATED と書かれるので、こちらからは「やった」ように見える。実測:
+#   フォロー導線 156本 UPDATED → **ライブに有るのは 0本**
+#   クレジット   74本 done    → **40本がライブに無い**（＝CC BY/BY-SA の表示義務が未達）
+#   英語        91本 UPDATED → 抽出20本中 10本がライブに無い
+# この型（台帳は done、実物は未反映）はマガジン196本・英語141本・タグ25本と**同じ**で、
+# 繰り返している。**台帳を信じない。実物と突き合わせた記録だけを見る。**
+# 判定: ops/follow_live_recheck.tsv（cowork がログアウトAPIで実測して書く）の NOT_LIVE を数える。
+#       ファイルが無ければ STALE＝**測っていないことを「問題なし」と読ませない**。
+try:
+    _f47 = os.path.join(ROOT, "ops", "follow_live_recheck.tsv")
+    if not os.path.exists(_f47):
+        add("R47 反映したはずの編集がライブに無い", "STALE",
+            "実測ファイルが無い＝**測っていない**（台帳の UPDATED は実物を見ていない）")
+    else:
+        _live47 = _notlive47 = 0
+        for _ln in open(_f47, encoding="utf-8").read().splitlines():
+            if _ln.startswith("#"):
+                continue
+            _p47 = _ln.split("\t")
+            if len(_p47) < 2:
+                continue
+            if _p47[1].strip() == "LIVE_OK":
+                _live47 += 1
+            elif _p47[1].strip() == "NOT_LIVE":
+                _notlive47 += 1
+        _age47 = (time.time() - os.path.getmtime(_f47)) / 86400
+        if _notlive47:
+            add("R47 反映したはずの編集がライブに無い", "BROKEN",
+                f"**台帳では反映済みなのに、ライブ本文に無い記事が {_notlive47}本**"
+                f"（実測できたうち LIVE_OK {_live47}本）→ 保存の不具合は修正済みなので、"
+                "NOT_LIVE の分を done 台帳から外して再実行する。"
+                "**再実行のたびにログアウトAPIで本文を照合し、見えたものだけ UPDATED にする**")
+        elif _age47 > 14:
+            add("R47 反映したはずの編集がライブに無い", "STALE",
+                f"前回の実測から **{int(_age47)}日** 経っている（{_live47}本ぶん）")
+        else:
+            add("R47 反映したはずの編集がライブに無い", "OK",
+                f"実測した {_live47}本はすべてライブ本文に反映されている（{int(_age47)}日前に実測）")
+except Exception as _e47:
+    add("R47 反映したはずの編集がライブに無い", "STALE", f"判定不能: {type(_e47).__name__} {str(_e47)[:60]}")
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
