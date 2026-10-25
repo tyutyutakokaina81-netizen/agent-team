@@ -72,6 +72,18 @@ while IFS=$'\t' read -r NID STEM BLK; do
   if echo "$OUT" | grep -q "SKIP_HAS_FOOTER"; then R="SKIP"; SKIP=$((SKIP+1))
   elif echo "$OUT" | grep -q "^結果: UPDATED"; then R="UPDATED"; OK=$((OK+1))
   else R="FAILED"; NG=$((NG+1)); fi
+  # ★2026-10-26: 「UPDATED」と出ても note に保存されていなかった（156本中0本・b7f77662）。
+  #   **ログアウトAPIで本文を見て、見えたものだけ UPDATED/SKIP にする**（inbox 2026-10-25_005 で採用）。
+  if [ "$R" != "FAILED" ]; then
+    sleep 3
+    if curl -s --max-time 20 "https://note.com/api/v3/notes/${NID}" | grep -q "あわせて読む"; then
+      sed -i '' "s/^${NID}	NOT_LIVE	.*/${NID}	LIVE_OK	$(date +%F)/" ops/follow_live_recheck.tsv 2>/dev/null || true
+    else
+      echo "  ⚠️ ${R} と出たがライブ本文に無い → FAILED_NOT_LIVE"
+      [ "$R" = "UPDATED" ] && OK=$((OK-1)) || SKIP=$((SKIP-1))
+      R="FAILED_NOT_LIVE"; NG=$((NG+1))
+    fi
+  fi
   printf '%s\t%s\t%s\n' "$NID" "$R" "$(date +%F_%H%M%S)" >> "$DONE"
 done < ops/follow_blocks.tsv
 

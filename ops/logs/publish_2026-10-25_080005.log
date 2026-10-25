@@ -237,3 +237,16 @@ To https://github.com/tyutyutakokaina81-netizen/agent-team.git
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-10-25_004_cowork_code.yaml  id=2026-10-25_004
+[main 86b300dd] cowork: daily backfill (english/follow/x-queue) 2026-10-25_080005
+ 18 files changed, 652 insertions(+), 155 deletions(-)
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n0a3125a83e82_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n242960f609cf_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n4a3c7ea6a837_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n951e3262b23c_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/nc9bda3191cc5_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/ne4e85cf2328f_follow.txt
+ create mode 100644 ops/logs/backfill_follow_2026-10-25_082007.log
+ create mode 100644 ops/logs/backfill_tags_2026-10-25_082143.log
+ create mode 100644 ops/outbox/2026-10-25_004_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   cf25636b..86b300dd  main -> main
