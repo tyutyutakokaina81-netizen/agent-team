@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/n59b0e3ff5a40",
+ "url": "https://note.com/safe_canna441/n/na0c047034e1c",
  "buttons": [
   {
    "tag": "a",
@@ -78,25 +78,25 @@
    "tag": "a",
    "txt": "公開設定",
    "aria": "",
-   "href": "https://editor.note.com/notes/n59b0e3ff5a40/publish"
+   "href": "https://editor.note.com/notes/na0c047034e1c/publish"
   },
   {
    "tag": "a",
    "txt": "英語版",
    "aria": "",
-   "href": "/safe_canna441/n/n59b0e3ff5a40?hl=en"
+   "href": "/safe_canna441/n/na0c047034e1c?hl=en"
   },
   {
    "tag": "a",
    "txt": "韓国語版",
    "aria": "",
-   "href": "/safe_canna441/n/n59b0e3ff5a40?hl=ko"
+   "href": "/safe_canna441/n/na0c047034e1c?hl=ko"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/327033198/rectangle_large_type_2_78b788b3dbe442c0f6323c9ab6f10f6f.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/327033385/rectangle_large_type_2_ce796346db89c94039e7bb6da2270f00.jpeg?width=1200"
   },
   {
    "tag": "button",
@@ -106,8 +106,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -132,49 +132,7 @@
    "tag": "a",
    "txt": "#毎日note",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
-  },
-  {
-   "tag": "a",
-   "txt": "#japan",
-   "aria": "",
-   "href": "https://note.com/hashtag/japan"
-  },
-  {
-   "tag": "a",
-   "txt": "#福井",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E7%A6%8F%E4%BA%95"
-  },
-  {
-   "tag": "a",
-   "txt": "#お取り寄せ",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8A%E5%8F%96%E3%82%8A%E5%AF%84%E3%81%9B"
-  },
-  {
-   "tag": "a",
-   "txt": "#包丁",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E5%8C%85%E4%B8%81"
-  },
-  {
-   "tag": "a",
-   "txt": "#japanesecraft",
-   "aria": "",
-   "href": "https://note.com/hashtag/japanesecraft"
-  },
-  {
-   "tag": "a",
-   "txt": "#越前打刃物",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E8%B6%8A%E5%89%8D%E6%89%93%E5%88%83%E7%89%A9"
-  },
-  {
-   "tag": "a",
-   "txt": "#日本の道具",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%81%93%E5%85%B7"
+   "href": "https://note.com/hashtag/毎日note"
   },
   {
    "tag": "a",
@@ -184,45 +142,93 @@
   },
   {
    "tag": "a",
+   "txt": "#毎日更新",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5%E6%9B%B4%E6%96%B0"
+  },
+  {
+   "tag": "a",
+   "txt": "#note初心者",
+   "aria": "",
+   "href": "https://note.com/hashtag/note%E5%88%9D%E5%BF%83%E8%80%85"
+  },
+  {
+   "tag": "a",
+   "txt": "#継続",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E7%B6%99%E7%B6%9A"
+  },
+  {
+   "tag": "a",
    "txt": "#japan",
    "aria": "",
    "href": "https://note.com/hashtag/japan"
   },
   {
    "tag": "a",
-   "txt": "#福井",
+   "txt": "#富山",
    "aria": "",
-   "href": "https://note.com/hashtag/%E7%A6%8F%E4%BA%95"
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
   },
   {
    "tag": "a",
-   "txt": "#お取り寄せ",
+   "txt": "#ブログ運営",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8A%E5%8F%96%E3%82%8A%E5%AF%84%E3%81%9B"
+   "href": "https://note.com/hashtag/%E3%83%96%E3%83%AD%E3%82%B0%E9%81%8B%E5%96%B6"
   },
   {
    "tag": "a",
-   "txt": "#包丁",
+   "txt": "#writing",
    "aria": "",
-   "href": "https://note.com/hashtag/%E5%8C%85%E4%B8%81"
+   "href": "https://note.com/hashtag/writing"
   },
   {
    "tag": "a",
-   "txt": "#japanesecraft",
+   "txt": "#毎日note",
    "aria": "",
-   "href": "https://note.com/hashtag/japanesecraft"
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
   },
   {
    "tag": "a",
-   "txt": "#越前打刃物",
+   "txt": "#毎日更新",
    "aria": "",
-   "href": "https://note.com/hashtag/%E8%B6%8A%E5%89%8D%E6%89%93%E5%88%83%E7%89%A9"
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5%E6%9B%B4%E6%96%B0"
   },
   {
    "tag": "a",
-   "txt": "#日本の道具",
+   "txt": "#note初心者",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%81%93%E5%85%B7"
+   "href": "https://note.com/hashtag/note%E5%88%9D%E5%BF%83%E8%80%85"
+  },
+  {
+   "tag": "a",
+   "txt": "#継続",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E7%B6%99%E7%B6%9A"
+  },
+  {
+   "tag": "a",
+   "txt": "#japan",
+   "aria": "",
+   "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#富山",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
+  },
+  {
+   "tag": "a",
+   "txt": "#ブログ運営",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E3%83%96%E3%83%AD%E3%82%B0%E9%81%8B%E5%96%B6"
+  },
+  {
+   "tag": "a",
+   "txt": "#writing",
+   "aria": "",
+   "href": "https://note.com/hashtag/writing"
   },
   {
    "tag": "button",
@@ -232,8 +238,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -292,21 +298,27 @@
   },
   {
    "tag": "a",
-   "txt": "レビュー",
+   "txt": "ビジネス",
    "aria": "",
-   "href": "https://note.com/topic/review"
+   "href": "https://note.com/topic/business"
   },
   {
    "tag": "a",
-   "txt": "商品レビュー",
+   "txt": "SNS活用",
    "aria": "",
-   "href": "https://note.com/topic/review/product_reviews"
+   "href": "https://note.com/topic/business/social_media_utilization"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "北陸の暮らし",
    "href": "https://note.com/safe_canna441/m/m22a5ea6838c5"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "仕事とAI",
+   "href": "https://note.com/safe_canna441/m/m3f05ef12917b"
   },
   {
    "tag": "button",
@@ -340,8 +352,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -388,8 +400,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -475,6 +487,18 @@
    "txt": "投資情報の免責事項",
    "aria": "",
    "href": "https://note.com/terms/investment_disclaimer"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "KEN★AI時代のアフィリエイト攻略",
+   "href": "https://note.com/kensr88888"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
   },
   {
    "tag": "a",
