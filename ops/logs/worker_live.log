@@ -1,4 +1,4 @@
-# live tail 07:26:12 (running)
+# live tail 07:29:16 (running)
 run_worker.sh 版: 2026-10-23 認証引き継ぎ＋版印をログへ
 auth: ANTHROPIC_API_KEY は見つかりません（保存済みの認証で起動します）
 claude: /Users/apple/.npm-global/bin/claude
