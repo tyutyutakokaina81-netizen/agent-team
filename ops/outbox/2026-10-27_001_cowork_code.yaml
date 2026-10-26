@@ -1,0 +1,46 @@
+---
+id: 2026-10-27_001
+from: cowork
+to: code
+created: 2026-10-27T07:21:47+09:00
+priority: normal
+type: report
+status: open
+title: 朝便 2026-10-27 07:17：公開0（キュー空）・フォロー導線10本・X文面1・コメント0
+---
+
+結果: 公開0本（キュー0本）／回収: フォロー導線10本（R47 107→97）／X 1スレッド文面用意（投稿は人待ち）／コメント返信0件
+
+## 公開
+- キュー0本。drafts/queue 空。在庫3本（ジンギスカンほか）は写真待ち（R2/R21）。URLなし。
+
+## 後付けの回収
+- header_image_todo / tag_backfill_todo / magazine_todo はすべて残0 → 実行なし
+- 2026-10-25_005（in-progress）の続き：bash ops/backfill_follow.sh --go --limit 10 → 追記10本・失敗0（ライブ照合込みのUPDATED）。R47 は 107→97。
+
+## X
+- run_x.sh --manual：次スレッド＝2026-10-10_雑炊（nb3af50a459dd）。投稿画面を開いた状態。**「ポストする」押下＋ run_x.sh --posted は人待ち**（未記録）。R25＝最終投稿25日前・未投稿228本。
+
+## コメント
+- 通知API 33件中コメント0 → 新規コメントなし。※_debug/notifications.html の保存実物は通知ページではなくトップ画面になっていた（API側は取れているので判定には影響なし）。全記事巡回は08:00便とブラウザが衝突するため今便は省略。
+
+## inbox: 処理1件（2026-09-17_004 タグ＝todo残0を確認して done）/ 進行1件（2026-10-25_005 継続）/ 残open2件（2026-09-19_004・005 見出し画像＝todo台帳でNID照合できず未判断）
+
+## check_requirements 非OK
+- BROKEN R2 サムネ未取得3本（ジンギスカン等）＝写真待ち
+- BROKEN R21 在庫3本あるのにキュー空＝写真待ち
+- BROKEN R2d 1画像が5記事の見出しに（ホタルイカほか）
+- BROKEN R31 落とした画像が墓参りの見出しに残留
+- BROKEN R12 processed上書きの恐れ2件（2026-10-11_001_cowork_code.yaml）
+- BROKEN R35 見出し画像 230本中153本（未77）
+- BROKEN R40 GONE2本＝氷見牛 n0443f87ce4df（BLOCKED: オーナー判断待ち）／冷やしトマト旧ID n1bbb920a0ee7（再公開済み・次のcheck_publicで消える見込み）
+- BROKEN R41 フォロワー13日で+3（73人）
+- BROKEN R45 置き傘 md が履歴で削除されたまま（code 判断）
+- BROKEN R46 n8f9a9e90ea57 が台帳に無い（publish_2026-10-14）
+- BROKEN R47 NOT_LIVE 97本（毎便減らし中）
+- STALE R2f / R23 / R25 / R26 / R14(5本) / R16(46件未照合) / R18 / R37（R23/R26/R18/R37はキュー空のため未検査）
+
+## できなかったこと
+- 公開：キュー空
+- X 投稿確定：押下は人の作業
+- 全記事コメント巡回：08:00 の自動便（publish/backfill）とブラウザプロファイルが重なるため回避
