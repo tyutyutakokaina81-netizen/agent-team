@@ -181,3 +181,38 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-10-28_002_cowork_code.yaml  id=2026-10-28_002
+[main bf54ab7e] cowork: paid-footer insertion pass (2026-10-28_080408)
+ 5 files changed, 94 insertions(+)
+ create mode 100644 ops/logs/sell_2026-10-28_080639.log
+ create mode 100644 ops/outbox/2026-10-28_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   acb6eeea..bf54ab7e  main -> main
+
+=== コメントに自動返信する ===
+新しく返すものは無い
+出すものが無い（READY が無い／すでに投稿済み）
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+ }
+]
+⚠️ 今回フォローできた人は0人です。上の理由を確認してください。
+記録: 2026-10-28 74フォロワー / 今回フォロー 14人
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+読者に見えていない記事: 1本
+  DRAFT na0c047034e1c 196本が、どのマガジンにも入っていなかった
+
+直し方: note で下書きを開いて公開する（code からはできない＝A1）
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-10-28_082331.log
+
+== 結果: 追記 6本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-10-28_082331.log
+  n1996bbcd70cc	UPDATED:更新する
+更新できた: 6 / 6  （2026-10-28 08:26）
+ログ: ops/logs/backfill_tags_2026-10-28_082528.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-10-28_003_cowork_code.yaml  id=2026-10-28_003
