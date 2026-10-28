@@ -26,6 +26,7 @@
 from __future__ import annotations  # macOS 既定の Python 3.9 で `int | None` が
                                     # TypeError になる。2026-10-08 の日次ログで実際に落ちていた。
 import argparse
+import os
 import json
 import re
 import sys
@@ -71,8 +72,38 @@ def load_done() -> dict[str, str]:
     return done
 
 
-def classify(body: str, status: int | None, final_url: str) -> tuple[str, str]:
+def _payload_status(html: str, nid: str):
+    """埋め込みデータから**その記事自身の** status を取る。取れなければ None。
+
+    ★2026-10-28: **fetch_note_comments.py で 10-22 に直したのと同じバグが、ここにも残っていた。**
+      `DRAFT_MARKS` は画面の文字列を丸ごと見るので、**本文に「公開前の下書き」と書いてある記事**を
+      下書きと誤判定する。実例＝`na0c047034e1c`（公開の仕組みそのものを書いた記事・22,259字）。
+      **片方のツールだけ直して、もう片方を見ていなかった。**
+      同じ判定を2か所で別々に書いているのが原因なので、**実装を1つに寄せる**。
+    """
+    if not html or not nid:
+        return None
+    try:
+        import importlib.util as _ilu
+        _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fetch_note_comments.py")
+        _sp = _ilu.spec_from_file_location("_fnc_for_check", _p)
+        _m = _ilu.module_from_spec(_sp)
+        _sp.loader.exec_module(_m)
+        st, _ = _m.read_state_from_payload(html, nid)
+        return st
+    except Exception:
+        return None
+
+
+def classify(body: str, status: int | None, final_url: str,
+             html: str = "", nid: str = "") -> tuple[str, str]:
     """(判定, 理由) を返す。判定は PUBLIC / DRAFT / GONE / UNKNOWN。"""
+    # 埋め込みデータで自記事の status が取れたら、**画面の文字より先にそちらを信じる**。
+    _st = _payload_status(html, nid)
+    if _st == "published":
+        return "PUBLIC", ""
+    if _st == "draft":
+        return "DRAFT", "埋め込みデータの status が draft＝読者には見えない"
     if any(k in body for k in DRAFT_MARKS):
         return "DRAFT", "画面に『公開前の下書きです』と出ている＝読者には見えない"
     if any(k in body for k in GONE_MARKS):
@@ -100,6 +131,9 @@ def main() -> int:
         return 1
 
     targets = load_targets()
+    # ★台帳にある記事の一覧は、--ids で絞る**前**に取っておく。
+    #   あとで「台帳から外れた記事の行」を落とすのに使う（下の書き出しを参照）。
+    all_ids = {t[0] for t in targets}
     if args.ids:
         want = {x.strip() for x in args.ids.split(",") if x.strip()}
         targets = [t for t in targets if t[0] in want]
@@ -124,7 +158,9 @@ def main() -> int:
                 r = page.goto(url, wait_until="domcontentloaded", timeout=45000)
                 page.wait_for_timeout(2500)
                 body = page.evaluate("()=>document.body.innerText")
-                verdict, why = classify(body, r.status if r else None, page.url)
+                html = page.evaluate("()=>document.documentElement.outerHTML")
+                verdict, why = classify(body, r.status if r else None, page.url,
+                                        html=html, nid=nid)
             except Exception as e:
                 verdict, why = "UNKNOWN", f"読み込み失敗: {type(e).__name__} {str(e)[:60]}"
             rows.append((nid, verdict, why, title))
@@ -133,14 +169,30 @@ def main() -> int:
         ctx.close()
         b.close()
 
-    new = not OUT.exists() or args.recheck
+    # ★2026-10-28: **追記しかしていなかったので、台帳から外れた記事の行が残り続けていた。**
+    #   実例＝冷やしトマトの旧ID `n1bbb920a0ee7`。10-26 に再公開して台帳から外したのに、
+    #   GONE の行が残って R40 が2日鳴り続けた。
+    #   こちらは「次の実行で自然に消える」と書いたが、**追記なので消えなかった**。
+    #   → 毎回**全文を書き直す**。いま台帳にある記事だけを残し、同じ記事は新しい結果で上書きする。
+    #   ※ `--ids` で一部だけ見たときに他が消えないよう、残す判定には**絞る前の一覧**を使う。
+    merged = {}
+    if OUT.exists() and not args.recheck:
+        for _ln in OUT.read_text(encoding="utf-8").splitlines():
+            if _ln.startswith("#") or _ln.startswith("note_id\t"):
+                continue
+            _p = _ln.split("\t")
+            if len(_p) >= 4 and _p[0] in all_ids:
+                merged[_p[0]] = (_p[0], _p[1], _p[2], _p[3])
+    for nid, verdict, why, title in rows:
+        merged[nid] = (nid, verdict, why, title)
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    with OUT.open("w" if new else "a", encoding="utf-8") as f:
-        if new:
-            f.write("# 記事が読者に見えているか（check_public_all.py が書く・読み取りのみ・ログアウト状態）\n")
-            f.write("# PUBLIC=見える / DRAFT=下書きのまま / GONE=無い・非公開 / UNKNOWN=判定できず\n")
-            f.write("note_id\tverdict\treason\ttitle\n")
-        for nid, verdict, why, title in rows:
+    with OUT.open("w", encoding="utf-8") as f:
+        f.write("# 記事が読者に見えているか（check_public_all.py が書く・読み取りのみ・ログアウト状態）\n")
+        f.write("# PUBLIC=見える / DRAFT=下書きのまま / GONE=無い・非公開 / UNKNOWN=判定できず\n")
+        f.write("# 毎回このファイルを書き直す。**公開台帳から外れた記事の行は落とす**（2026-10-28）\n")
+        f.write("note_id\tverdict\treason\ttitle\n")
+        for nid, verdict, why, title in merged.values():
             f.write(f"{nid}\t{verdict}\t{why}\t{title}\n")
 
     bad = [r for r in rows if r[1] in ("DRAFT", "GONE")]
