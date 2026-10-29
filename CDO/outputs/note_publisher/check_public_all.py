@@ -117,6 +117,44 @@ def classify(body: str, status: int | None, final_url: str,
     return "PUBLIC", ""
 
 
+def _rewrite(all_ids: set, rows: list) -> int:
+    """`public_status.tsv` を**毎回全文書き直す**。落とした行数を返す。
+
+    ★2026-10-28: 追記しかしていなかったので、台帳から外れた記事の行が残り続けていた。
+      実例＝冷やしトマトの旧ID `n1bbb920a0ee7`（10-26 に再公開して台帳から外したのに
+      GONE の行が残り、R40 が鳴り続けた）。
+    ★2026-10-29: その掃除を書き出しの中に置いたため、**見るものが無い回では走らなかった**。
+      呼び出し側の早い return より前でも呼べるよう、関数に切り出した。
+    ※ `--ids` で一部だけ見たときに他が消えないよう、残す判定には**絞る前の一覧**を使う。
+    """
+    merged = {}
+    dropped = 0
+    if OUT.exists():
+        for _ln in OUT.read_text(encoding="utf-8").splitlines():
+            if _ln.startswith("#") or _ln.startswith("note_id\t"):
+                continue
+            _p = _ln.split("\t")
+            if len(_p) < 4:
+                continue
+            if _p[0] in all_ids:
+                merged[_p[0]] = (_p[0], _p[1], _p[2], _p[3])
+            else:
+                dropped += 1
+    for nid, verdict, why, title in rows:
+        merged[nid] = (nid, verdict, why, title)
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    with OUT.open("w", encoding="utf-8") as f:
+        f.write("# 記事が読者に見えているか（check_public_all.py が書く・読み取りのみ・ログアウト状態）\n")
+        f.write("# PUBLIC=見える / DRAFT=下書きのまま / GONE=無い・非公開 / UNKNOWN=判定できず\n")
+        f.write("# 毎回このファイルを書き直す。**公開台帳から外れた記事の行は落とす**（2026-10-28）\n")
+        f.write("# PUBLIC 以外は毎回見直す（あとで変わる判定なので・2026-10-29）\n")
+        f.write("note_id\tverdict\treason\ttitle\n")
+        for row in merged.values():
+            f.write("\t".join(row) + "\n")
+    return dropped
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="この本数だけ見る（0=全部）")
@@ -138,13 +176,26 @@ def main() -> int:
         want = {x.strip() for x in args.ids.split(",") if x.strip()}
         targets = [t for t in targets if t[0] in want]
     done = {} if args.recheck else load_done()
-    todo = [t for t in targets if t[0] not in done]
+    # ★2026-10-29: **一度 PUBLIC 以外と判定した記事を、二度と見直していなかった。**
+    #   DRAFT / GONE / UNKNOWN は**あとで変わる**判定で、実際に変わっている
+    #   （ひまわり・きのどくなは公開された／冷やしトマトは再公開された）。
+    #   それなのに `done` に入っているだけで飛ばしていたので、
+    #   **直ったことにも、誤判定にも、誰も気づけなかった**。
+    #   → PUBLIC 以外は毎回もう一度見る。安定している PUBLIC だけを飛ばす。
+    _recheck_verdicts = {"DRAFT", "GONE", "UNKNOWN"}
+    todo = [t for t in targets
+            if t[0] not in done or done.get(t[0]) in _recheck_verdicts]
     if args.limit:
         todo = todo[:args.limit]
 
     print(f"台帳 {len(targets)}本 / 判定済み {len(done)}本 / これから {len(todo)}本")
     if not todo:
-        print("新しく見るものは無い（--recheck で全部やり直せる）")
+        # ★見るものが無くても、**台帳から外れた記事の行は落とす**。
+        #   ここで return していたので、2026-10-28 に入れた掃除がそもそも走っていなかった
+        #   （冷やしトマトの旧ID `n1bbb920a0ee7` の GONE 行が残り続けた理由）。
+        _pruned = _rewrite(all_ids, [])
+        print("新しく見るものは無い（--recheck で全部やり直せる）"
+              + (f"／台帳から外れた {_pruned}行を落とした" if _pruned else ""))
         return 0
 
     rows = []
@@ -169,31 +220,7 @@ def main() -> int:
         ctx.close()
         b.close()
 
-    # ★2026-10-28: **追記しかしていなかったので、台帳から外れた記事の行が残り続けていた。**
-    #   実例＝冷やしトマトの旧ID `n1bbb920a0ee7`。10-26 に再公開して台帳から外したのに、
-    #   GONE の行が残って R40 が2日鳴り続けた。
-    #   こちらは「次の実行で自然に消える」と書いたが、**追記なので消えなかった**。
-    #   → 毎回**全文を書き直す**。いま台帳にある記事だけを残し、同じ記事は新しい結果で上書きする。
-    #   ※ `--ids` で一部だけ見たときに他が消えないよう、残す判定には**絞る前の一覧**を使う。
-    merged = {}
-    if OUT.exists() and not args.recheck:
-        for _ln in OUT.read_text(encoding="utf-8").splitlines():
-            if _ln.startswith("#") or _ln.startswith("note_id\t"):
-                continue
-            _p = _ln.split("\t")
-            if len(_p) >= 4 and _p[0] in all_ids:
-                merged[_p[0]] = (_p[0], _p[1], _p[2], _p[3])
-    for nid, verdict, why, title in rows:
-        merged[nid] = (nid, verdict, why, title)
-
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    with OUT.open("w", encoding="utf-8") as f:
-        f.write("# 記事が読者に見えているか（check_public_all.py が書く・読み取りのみ・ログアウト状態）\n")
-        f.write("# PUBLIC=見える / DRAFT=下書きのまま / GONE=無い・非公開 / UNKNOWN=判定できず\n")
-        f.write("# 毎回このファイルを書き直す。**公開台帳から外れた記事の行は落とす**（2026-10-28）\n")
-        f.write("note_id\tverdict\treason\ttitle\n")
-        for nid, verdict, why, title in merged.values():
-            f.write(f"{nid}\t{verdict}\t{why}\t{title}\n")
+    _rewrite(all_ids, rows)
 
     bad = [r for r in rows if r[1] in ("DRAFT", "GONE")]
     print(f"\n書き出し: {OUT}")
