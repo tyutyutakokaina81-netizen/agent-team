@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/black_mensore/n/na1d2b4bd948e",
+ "url": "https://note.com/trave_japan/n/n56cd328c5933",
  "buttons": [
   {
    "tag": "button",
@@ -58,8 +58,8 @@
   },
   {
    "tag": "button",
-   "txt": "55",
-   "aria": "55スキ この記事にスキをつけたユーザーを見る",
+   "txt": "38",
+   "aria": "38スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -76,9 +76,27 @@
   },
   {
    "tag": "button",
+   "txt": "すべて表示",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative inline-block  outline-0 hover:outline-0 focus:outline-0 activ"
+  },
+  {
+   "tag": "button",
    "txt": "チップで応援する",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "すべてのタグを表示",
+   "aria": "",
+   "cls": "text-sm underline"
   },
   {
    "tag": "button",
@@ -88,8 +106,8 @@
   },
   {
    "tag": "button",
-   "txt": "55",
-   "aria": "55スキ この記事にスキをつけたユーザーを見る",
+   "txt": "38",
+   "aria": "38スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -119,6 +137,24 @@
   {
    "tag": "button",
    "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "もっとみる",
+   "aria": "",
+   "cls": "mt-2 self-end text-sm text-text-secondary underline hover:text-text-pr"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
+  },
+  {
+   "tag": "button",
+   "txt": "",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -142,8 +178,8 @@
   },
   {
    "tag": "button",
-   "txt": "55",
-   "aria": "55スキ この記事にスキをつけたユーザーを見る",
+   "txt": "38",
+   "aria": "38スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -190,8 +226,8 @@
   },
   {
    "tag": "button",
-   "txt": "55",
-   "aria": "55スキ この記事にスキをつけたユーザーを見る",
+   "txt": "38",
+   "aria": "38スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
