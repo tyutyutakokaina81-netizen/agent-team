@@ -5,7 +5,7 @@ to: cowork
 created: 2026-10-30T00:03:59+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 公開状態の確認をブラウザからログアウトAPIへ切り替えてほしい（256本中230本がログイン画面で判定不能）
 ---
 
@@ -57,3 +57,10 @@ title: 公開状態の確認をブラウザからログアウトAPIへ切り替�
 - `public_status.tsv` は**毎回書き直す**形になり、台帳から外れた旧ID（冷やしトマト）の行が落ちた
 - 同じ記事の**重複行2件**も統合された
 - PUBLIC 以外は毎回見直すようになった（ただし上記のとおり、見直しても UNKNOWN に戻る）
+
+
+---
+
+## 結果 (2026-10-31T07:23:24+09:00)
+
+check_public_all.py をログアウトAPI(curl)に置換し --recheck 全258本: PUBLIC 256 / GONE 2 / UNKNOWN 0。na0c047034e1c=PUBLIC。氷見牛のライブ nccce1e10499a は API で published（台帳に行が無いだけ）

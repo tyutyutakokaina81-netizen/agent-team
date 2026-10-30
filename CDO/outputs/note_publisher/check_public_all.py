@@ -12,7 +12,8 @@
 
 設計:
   - **読み取りのみ**。note 側を一切変更しない。
-  - **ログインしない**（素の chromium）。読者とまったく同じ条件で見る。
+  - **ログインしない**（ログアウトAPI `api/v3/notes/<key>`）。読者と同じ条件で見る。
+    ※2026-10-31 にブラウザから切り替えた（chromium はログイン画面へ飛ばされていた）。
   - 途中で止まっても続きから再開できる（結果がある ID は飛ばす。`--recheck` で全部やり直す）。
   - 判定は本文が見えるかどうか。見えなければ **理由も残す**（下書き／404／非公開／読み込み失敗）。
 
@@ -117,6 +118,49 @@ def classify(body: str, status: int | None, final_url: str,
     return "PUBLIC", ""
 
 
+def check_api(nid: str) -> tuple[str, str]:
+    """ログアウトAPIで (判定, 理由) を返す（2026-10-31・ブラウザ方式の置き換え）。
+
+    取得は curl で行う。macOS 既定の Python は証明書ストアが空で urllib が
+    CERTIFICATE_VERIFY_FAILED になる（2026-10-31 に実際に全件で落ちた）。
+    cowork の他の照合（backfill_follow.sh 等）も curl で動いている。
+    """
+    import subprocess
+    url = f"https://note.com/api/v3/notes/{nid}"
+    for attempt in range(3):
+        try:
+            r = subprocess.run(
+                ["curl", "-s", "--max-time", "25", "-A", "Mozilla/5.0",
+                 "-H", "Accept: application/json", "-w", "\n%{http_code}", url],
+                capture_output=True, text=True, timeout=40)
+            body, _, code = r.stdout.rpartition("\n")
+            code = int(code) if code.strip().isdigit() else 0
+        except Exception as e:
+            code, body = 0, f"{type(e).__name__} {str(e)[:60]}"
+        if code == 200:
+            try:
+                x = (json.loads(body).get("data") or {})
+            except Exception:
+                return "UNKNOWN", "API の応答が JSON でない"
+            st = x.get("status")
+            owner = (x.get("user") or {}).get("urlname")
+            if owner and owner != AUTHOR:
+                return "UNKNOWN", f"API が別の作者の記事を返した（{owner}）"
+            if st == "published":
+                return "PUBLIC", ""
+            if st == "draft":
+                return "DRAFT", "API の status が draft＝読者には見えない"
+            return "UNKNOWN", f"API の status が想定外（{st}）"
+        if code == 404:
+            # ログアウトでは下書き・削除・非公開の区別はつかない（どれも読者には見えない）
+            return "GONE", "API が 404（下書き・削除・非公開のいずれか＝読者には見えない）"
+        if attempt < 2:
+            time.sleep(5 * (attempt + 1))
+            continue
+        return "UNKNOWN", f"API が HTTP {code or '応答なし'}"
+    return "UNKNOWN", "API 取得失敗（再試行切れ）"
+
+
 def _rewrite(all_ids: set, rows: list) -> int:
     """`public_status.tsv` を**毎回全文書き直す**。落とした行数を返す。
 
@@ -162,12 +206,6 @@ def main() -> int:
     ap.add_argument("--ids", default="", help="この記事だけ見る（カンマ区切り）")
     args = ap.parse_args()
 
-    try:
-        from playwright.sync_api import sync_playwright
-    except Exception:
-        print("NG: playwright が入っていない。cowork 側（owner の Mac）で実行する")
-        return 1
-
     targets = load_targets()
     # ★台帳にある記事の一覧は、--ids で絞る**前**に取っておく。
     #   あとで「台帳から外れた記事の行」を落とすのに使う（下の書き出しを参照）。
@@ -198,27 +236,19 @@ def main() -> int:
               + (f"／台帳から外れた {_pruned}行を落とした" if _pruned else ""))
         return 0
 
+    # ★2026-10-31: **ブラウザをやめてログアウトAPIで見る**（inbox 2026-10-30_005）。
+    #   Playwright の素の chromium は note にログイン画面へ飛ばされ、
+    #   256本中230本が UNKNOWN になっていた＝R40 は26本だけを見て全体を語っていた。
+    #   `api/v3/notes/<key>` はログアウトでも公開記事を返し、下書き/削除/非公開は 404 を返す。
+    #   画面の文字列（DRAFT_MARKS）に頼らないので、本文に「公開前の下書き」と書いた記事
+    #   （na0c047034e1c）も誤判定しない。
     rows = []
-    with sync_playwright() as pw:
-        b = pw.chromium.launch(headless=True)
-        ctx = b.new_context()          # ログインしない＝読者と同じ条件
-        page = ctx.new_page()
-        for i, (nid, title) in enumerate(todo, 1):
-            url = f"https://note.com/{AUTHOR}/n/{nid}"
-            try:
-                r = page.goto(url, wait_until="domcontentloaded", timeout=45000)
-                page.wait_for_timeout(2500)
-                body = page.evaluate("()=>document.body.innerText")
-                html = page.evaluate("()=>document.documentElement.outerHTML")
-                verdict, why = classify(body, r.status if r else None, page.url,
-                                        html=html, nid=nid)
-            except Exception as e:
-                verdict, why = "UNKNOWN", f"読み込み失敗: {type(e).__name__} {str(e)[:60]}"
-            rows.append((nid, verdict, why, title))
-            mark = {"PUBLIC": "  ", "DRAFT": "❌", "GONE": "❌", "UNKNOWN": "⚠️ "}[verdict]
-            print(f"{mark} [{i}/{len(todo)}] {nid} {verdict:<7} {title[:36]} {why}")
-        ctx.close()
-        b.close()
+    for i, (nid, title) in enumerate(todo, 1):
+        verdict, why = check_api(nid)
+        rows.append((nid, verdict, why, title))
+        mark = {"PUBLIC": "  ", "DRAFT": "❌", "GONE": "❌", "UNKNOWN": "⚠️ "}[verdict]
+        print(f"{mark} [{i}/{len(todo)}] {nid} {verdict:<7} {title[:36]} {why}")
+        time.sleep(0.7)
 
     _rewrite(all_ids, rows)
 

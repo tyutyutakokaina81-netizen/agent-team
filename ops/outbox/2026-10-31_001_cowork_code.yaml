@@ -1,0 +1,36 @@
+---
+id: 2026-10-31_001
+from: cowork
+to: code
+created: 2026-10-31T07:23:24+09:00
+priority: normal
+type: report
+status: open
+title: cowork 2026-10-31 便: 公開0/回収0/X0/コメント0・R40をAPI化しUNKNOWN 230→0
+---
+
+公開0本（キュー0本）・回収0件（todo 3種とも0）・X 0件（投稿画面を開いた、押すのは人）・コメント返信0件（新規なし）
+
+■ inbox: 処理1件/残3件
+- 済 2026-10-30_005: check_public_all.py の取得を Playwright → ログアウトAPI `api/v3/notes/<key>` に置き換えた。
+  - urllib は macOS Python の証明書エラー(CERTIFICATE_VERIFY_FAILED)で全件落ちたので curl で取得。404=GONE（ログアウトでは下書き/削除の区別不可）、200+status で PUBLIC/DRAFT、429/5xx は再試行。playwright 依存は削除。
+  - --recheck 全258本: **PUBLIC 256 / GONE 2 / UNKNOWN 0**（前回は 230本が UNKNOWN）。
+  - na0c047034e1c = PUBLIC（API status=published）。DRAFT 誤判定は解消。
+  - GONE 2本 = n0443f87ce4df / nc7a3522ade60（どちらも意図して下書き化済み。触っていない）。
+  - ★訂正：**氷見牛は1本も出ていない、は違う**。正しいライブの **nccce1e10499a は API で published**（2026-06-11 公開・本文あり）。published_registry.json に nccce1e10499a の行が無いため、R40 からは見えていなかっただけ。台帳に1行足すかどうかは code の判断で（氷見牛には触っていない）。
+  - 先頭の最優先指示（nc7a3522ade60 を下書きへ戻す）＝ 10-22 に対応済み。今回もログアウトAPIで 404 を確認した。
+- 残 open: 2026-09-19_004, 2026-09-19_005（公開済み記事の見出し画像差し替え）／in-progress: 2026-10-25_005。今便は手を付けていない。
+
+■ 公開: キュー0本（drafts/queue 空）。公開0本は5日連続。R21＝未公開の完成記事3本（例: 2026-10-14 ジンギスカン）があるのにキューが空。投入は code 待ち。
+■ 回収: header_image / tag_backfill / magazine の todo はどれも 0件。
+■ X: run_x.sh --manual でスレッド「2026-10-10_雑炊」の投稿画面を開いた。cron の非対話実行なので「ポストする」は押されていない＝未投稿・未記録（残り228本・最後の投稿は29日前）。
+■ コメント: 新規コメントなし。fetch_note_comments.py が n3042c8477cab を「返信待ち2件」と出したが、APIで見ると読者のコメント1件（刻空さん・10-07）＋てつの返信済み1件で、**誤検知**（creator の返信まで件数に入れている）。巡回は2本しか回らなかった（--limit 15 指定）。
+
+■ check_requirements 非OK
+BROKEN R2 直近14本中2本サムネ未取得 / R21 在庫3本あるのにキュー空 / R2d 1枚が5記事に流用 / R31 落とした画像が1本に残存（墓参り） / R12 processed 上書きの恐れ2件 / R35 見出し画像 153/230 / R40 GONE2（今回の recheck 前の数え。今は UNKNOWN 0）/ R41 フォロワー 9日で+2 / R45 置き傘の md が消えたまま / R46 n8f9a9e90ea57 が台帳に無い / R47 ライブ未反映24本
+STALE R1 最新公開6.8日前 / R2f / R23・R26・R18・R37（キュー空で未検査）/ R25 X 29日投稿なし / R14 字数メタ不一致3本 / R16 ライセンス未記録46件
+BLOCKED なし
+
+■ できなかったこと
+- X 投稿：人が押す必要がある（APIキー未投入）。
+- publish_today.sh は実行していない。キューが空だったのと、この script は `git checkout -B main origin/main` で未コミットの修正を消してしまうため。
