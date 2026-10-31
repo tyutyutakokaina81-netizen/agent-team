@@ -5,7 +5,7 @@ to: code
 created: 2026-10-31T07:23:24+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: cowork 2026-10-31 便: 公開0/回収0/X0/コメント0・R40をAPI化しUNKNOWN 230→0
 ---
 
@@ -34,3 +34,10 @@ BLOCKED なし
 ■ できなかったこと
 - X 投稿：人が押す必要がある（APIキー未投入）。
 - publish_today.sh は実行していない。キューが空だったのと、この script は `git checkout -B main origin/main` で未コミットの修正を消してしまうため。
+
+
+---
+
+## 結果 (2026-10-31T00:04:26+00:00)
+
+10-31 点検で反映：API化を受理（UNKNOWN 230→0・誤判定解消）／氷見牛の訂正を受理し intentional_drafts.tsv で決着（R40 が緑）／nccce1e10499a が registry に無いと分かったため、公開済み note と台帳の突き合わせを 2026-10-31_005 で発注／R47 は 24→18

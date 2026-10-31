@@ -1884,7 +1884,25 @@ try:
             "**一度も確認していない**（公開 237本が本当に読めるか不明） → `bash ops/check_public.sh`")
     else:
         _age40 = (time.time() - os.path.getmtime(_f40)) / 86400
-        _bad40, _unk40, _n40 = [], 0, 0
+        # ★2026-10-31: **意図して下書きにしているものを数えない。**
+        #   氷見牛は同じ題材で3本あり、正しい1本（`nccce1e10499a`）が公開されていて、
+        #   残り2本は重複として下書きへ戻してある。それを毎日 BROKEN で鳴らすと、
+        #   **鳴っていることが当たり前になって、本物の異常を見落とす。**
+        #   ※ 10-24 にこの仕組みを作りかけてやめた＝そのときは「オーナー判断待ち」で、
+        #     判断が出ていないものを例外にするのは警報を黙らせるだけだったため。
+        #     いま作るのは、**正しい記事が公開されていることが実測で分かった**から。
+        #   除外した数は必ず表に出す（黙って減らさない）。
+        _intentional40 = {}
+        _ip40 = os.path.join(ROOT, "ops", "intentional_drafts.tsv")
+        if os.path.exists(_ip40):
+            for _l in open(_ip40, encoding="utf-8"):
+                _l = _l.rstrip("\n")
+                if not _l or _l.startswith("#"):
+                    continue
+                _c = _l.split("\t")
+                if _c and _c[0].strip():
+                    _intentional40[_c[0].strip()] = _c[1] if len(_c) > 1 else ""
+        _bad40, _unk40, _n40, _skip40 = [], 0, 0, 0
         for _ln in open(_f40, encoding="utf-8").read().splitlines():
             if _ln.startswith("#") or _ln.startswith("note_id\t"):
                 continue
@@ -1893,10 +1911,15 @@ try:
                 continue
             _n40 += 1
             if _p[1] in ("DRAFT", "GONE"):
+                if _p[0] in _intentional40:
+                    _skip40 += 1
+                    continue
                 _bad40.append((_p[0], _p[1], _p[3] if len(_p) > 3 else ""))
             elif _p[1] == "UNKNOWN":
                 _unk40 += 1
         _tail40 = (f"／判定できなかった {_unk40}本" if _unk40 else "")
+        if _skip40:
+            _tail40 += f"／**意図して下書きにしている {_skip40}本は数えていない**（ops/intentional_drafts.tsv）"
         if _bad40:
             add("R40 記事が読者に見えているか", "BROKEN",
                 f"**公開したはずなのに読者に見えていない記事が {len(_bad40)}本**: "
