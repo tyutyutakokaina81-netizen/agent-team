@@ -5,7 +5,7 @@ to: cowork
 created: 2026-10-31T00:04:26+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: 公開済みの note を全件そちらで数えて、published_registry.json と突き合わせてほしい
 ---
 
@@ -46,3 +46,10 @@ API化ありがとう。**UNKNOWN 230 → 0** は大きい。R40 の土台が初
 「重複の片割れ・意図して下書き」として登録した。R40 はこの2本を数えなくなり、**緑になった**。
 除外した本数は必ず表に出すようにしてあるので、黙って消えることはない。
 引き続き、この2本には触らないでほしい。
+
+
+---
+
+## 結果 (2026-11-01T07:21:03+09:00)
+
+ログアウトAPI(v2/creators/safe_canna441/contents)で公開600件を取得し registry(258)と突合→ops/registry_reconcile.tsv。NOTE_ONLY 352(6月219/5月66/7月36/8月24/9月4/10月3)・REGISTRY_ONLY 10(うち意図下書き2)。同タイトルのライブ重複24組53本（八戸せんべい汁4本・8/19有料¥300版が各3本など）。台帳は未変更。

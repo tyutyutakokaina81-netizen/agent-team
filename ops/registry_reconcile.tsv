@@ -1,0 +1,392 @@
+# 2026-11-01 cowork: note公開一覧(ログアウトAPI v2/creators/safe_canna441/contents 全600件) vs published_registry.json(258件・URLキー258)
+# NOTE_ONLY=noteにあるが台帳に無い / REGISTRY_ONLY=台帳にあるがnoteの公開一覧に無い。台帳は書き換えていない
+# same_title_live=同じタイトルでライブにある本数(2以上=重複公開の疑い)
+kind	key	publish_date	title	body_head	note	url	same_title_live
+NOTE_ONLY	n3437bf24415f	2026-05-17	五月の日曜、雨が来る前の高岡	Sunday in May, before the rain comes to Takaoka 五月のなかば、日曜の朝六時。窓を開けると、空気がぬるい。湿気が肌		https://note.com/safe_canna441/n/n3437bf24415f	1
+NOTE_ONLY	n7391b76df24f	2026-05-18	月曜、五月の銅の街に — Monday in the Copper Town of May	月曜の朝、目が覚めて窓を開けると、五月の光がまっすぐに畳の上を切っていた。雨の予感はまだない。けれど、空気の奥に、湿った土の匂いがほんの少しだけ混じっている。今		https://note.com/safe_canna441/n/n7391b76df24f	1
+NOTE_ONLY	n3c12b85d2d73	2026-05-21	珈琲一杯ぶんの、平日午後	水曜日の午後二時。 仕事の合間に、というか、合間という名の言い訳をつけて、駅前の喫茶店に入った。 ここでしか書けない種類の文章があると、最近気づいたんですよね。		https://note.com/safe_canna441/n/n3c12b85d2d73	1
+NOTE_ONLY	n7a18e6233dd8	2026-05-22	水を張った田に、立山が裏返しに立つ｜When the mountains lay down in the rice fields	夕方、自転車で平野のほうへ出た。五月もそろそろ終わる。空気が、昼のあいだに溜めこんだ熱をまだ手放しきれずにいて、半袖の腕にぬるく当たる。汗ではない。湿った土と、		https://note.com/safe_canna441/n/n7a18e6233dd8	1
+NOTE_ONLY	ndb86b15948e2	2026-05-22	雨晴海岸は、晴れじゃなくてもよかった。 — Amaharashi Coast, Even Under Clouds	— Amaharashi Coast, Toyama. The sea was grey. That was enough. 曇っていた。 雨晴海岸というのは、		https://note.com/safe_canna441/n/ndb86b15948e2	1
+NOTE_ONLY	na65de7b300ac	2026-05-22	きつねでもかけでもない、第三の選択肢があった。	— The station soba diaries, vol.2. Takaoka has a third option. 前回、高岡の駅そばでいつもきつねと		https://note.com/safe_canna441/n/na65de7b300ac	1
+NOTE_ONLY	n5d6fe04b8b57	2026-05-22	瑞龍寺に、平日ひとりで行ってきた。	— A Tuesday afternoon at Zuiryuji. No one else there. Just me and the stone. 平日の		https://note.com/safe_canna441/n/n5d6fe04b8b57	1
+NOTE_ONLY	nd5a630fb0220	2026-05-22	高岡の朝、駅そばで迷う話。	— Every morning, the same counter. A different choice. 朝、高岡駅のそば屋に入る。メニューを見る。毎回、同		https://note.com/safe_canna441/n/nd5a630fb0220	1
+NOTE_ONLY	n7b62f773b404	2026-05-22	HeyGenという名前の、まだ入れていないドア。	— Still trying to open the door to the world, from Takaoka. 今日は一日、ドアの前に立ち続けた気がする		https://note.com/safe_canna441/n/n7b62f773b404	1
+NOTE_ONLY	n173acc3d9329	2026-05-23	奥の豆腐屋で、油揚げを買った話。— The Tofu Shop Around the Corner and Its Golden Fried Tofu	高岡の住宅街を、地図も持たずに歩いていた。 路地の角を曲がったとき、鼻の奥にふわりと何かが届いた。大豆の、やさしい匂い。蒸気と一緒に漂ってくる、あの古い湿った温		https://note.com/safe_canna441/n/n173acc3d9329	2
+NOTE_ONLY	n5fd6988b1a46	2026-05-23	おとぎの森に、ドラえもんがいた。— Doraemon in the Fairytale Forest of Takaoka	富山県高岡市、おとぎの森公園。入口のゲートをくぐると、すぐにドラえもんが迎えてくれる。ブルーの丸い体、まんまるの顔、そして首の赤いリボン——像は想像より大きくて		https://note.com/safe_canna441/n/n5fd6988b1a46	1
+NOTE_ONLY	neba543d54264	2026-05-23	山町筋を、ただ歩いた。	— Takaoka's old merchant street. No destination. Just walking. 特に目的はなかった。 山町筋は、高		https://note.com/safe_canna441/n/neba543d54264	1
+NOTE_ONLY	ndd1aa41604bf	2026-05-24	【テンプレ付き】クラウドワークスで採択率を上げる提案文の書き方｜現役ライターが意識している5つの型 — 5 Pitch Patterns From a Work	こんな悩みはありませんか クラウドワークスに登録して提案を送り続けているのに、なかなか返信が来ない。10件送って1件返事があればいい方──こうした状態に心当たり		https://note.com/safe_canna441/n/ndd1aa41604bf	1
+NOTE_ONLY	na83ebaa98680	2026-05-24	富山「お食事処 ポーク」名物ポーク風ライスと、とん汁。	富山市東田地方町、雪見通り沿い。お昼に向かったのは「お食事処 ポーク」。1968年（昭和43年）創業で、半世紀以上ずっと地元で愛されてきた食堂だ。Netflix		https://note.com/safe_canna441/n/na83ebaa98680	1
+NOTE_ONLY	n32d9a4a9e920	2026-05-24	射水のがってんで、醤油を飲んだ。 — Sipping Soy Sauce at Gatten, Imizu	— Imizu city, Toyama. A ramen shop that doesn't try to be anything more than it 		https://note.com/safe_canna441/n/n32d9a4a9e920	1
+NOTE_ONLY	n2e60c218bb01	2026-05-24	ますや食堂のカツ丼。— The Katsudon at Masuya Shokudo, a Beloved Old-School Diner in Takaok	高岡市清水町。万葉線の末広町駅から歩いて十数分、住宅と商店が入り混じる一角に、ますや食堂はある。 昭和32年創業。看板の文字は年季が入り、引き戸を開けると木のテ		https://note.com/safe_canna441/n/n2e60c218bb01	1
+NOTE_ONLY	nc090f8994cc8	2026-05-24	奥の豆腐屋で、油揚げを買った話。— The Tofu Shop Around the Corner and Its Golden Fried Tofu	高岡市須田。万葉線の市民病院前駅からしばらく歩いた先、住宅街の一角に、その豆腐屋はある。 看板は小ぶりで、遠くからでは読みづらい。外壁はうっすら年季が入り、駐車		https://note.com/safe_canna441/n/nc090f8994cc8	2
+NOTE_ONLY	ne69fdaf99f2e	2026-05-25	金ちゃんヌードルをめぐる考察 ―「特徴がない」という個性	金ちゃんヌードルというカップ麺がある。1973年、徳島製粉が世に出したロングセラーだ。全国どこでも買えるわけではなく、富山・岐阜・愛知あたりを東のへりに、西日本		https://note.com/safe_canna441/n/ne69fdaf99f2e	1
+NOTE_ONLY	nb854e2ef04eb	2026-05-25	高岡「おでん百福」── 80年の出汁を受け継ぐ、片原町の夜の灯り	高岡の夜は、ゆっくりと更けていく。 片原町の路地に、白い湯気がふわりと漂っている。引き戸を開けると、昆布の甘い香りがやわらかく出迎えてくれた。カウンターの向こう		https://note.com/safe_canna441/n/nb854e2ef04eb	1
+NOTE_ONLY	n3ece08999371	2026-05-25	高岡大仏、日曜日の午後。— The Great Buddha of Takaoka, on a Sunday Afternoon	日曜日の午後、高岡の街をひとりで歩いていた。 特に目的があったわけではない。ただ、晴れていたから出かけた。五月の末、空は薄く霞がかかっていて、立山連峰はうっすら		https://note.com/safe_canna441/n/n3ece08999371	1
+NOTE_ONLY	nc9a88eb604b7	2026-05-25	富山ポークの豚汁を、昼に食べた。— A Bowl of Toyama Pork Tonjiru at Midday	昼どき、高岡の街をぶらぶらと歩いていると、ふと漂ってくる出汁の香りに足が止まった。 白味噌の甘くまろやかな香り、そして豚肉の脂が溶け込んだような、濃くて深い匂い		https://note.com/safe_canna441/n/nc9a88eb604b7	1
+NOTE_ONLY	n6625caf4eb90	2026-05-27	万葉線に、乗った。— A Slow Ride on Takaoka's Old Tram	高岡駅の端に、小さなホームがある。そこから、万葉線という路面電車が出ている。行き先は、新湊（射水市）。海の方向だ。所要時間は約分。急ぐ旅ではないし、どこかに行か		https://note.com/safe_canna441/n/n6625caf4eb90	1
+NOTE_ONLY	ndb81f2481f7a	2026-05-27	鱒の寿しを、買った。— Buying Masu-zushi, Toyama's Soul Food	富山に来たら、必ず買って帰るものがある。鱒の寿し、だ。 丸い木の器に、笹の葉を敷いて、酢飯と鱒をぎゅっと押し固めたもの。見た目はシンプルで地味ですらある。でも、		https://note.com/safe_canna441/n/ndb81f2481f7a	1
+NOTE_ONLY	n5affb53633a8	2026-05-27	富山湾の白エビを、食べた。— Eating Shiro-ebi, the Jewel of Toyama Bay	富山湾には、「宝石」と呼ばれるエビがいる。 白エビ（学名：Pasiphaea japonica）。体長5〜8センチほどの、透き通るように白い小さなエビだ。生きて		https://note.com/safe_canna441/n/n5affb53633a8	1
+NOTE_ONLY	ncb592554ced7	2026-05-27	白えびの季節。— 富山湾、五月の朝に。	五月も後半に差し掛かると、富山湾はそっと顔を変える。 朝の漁港に立てば、わかる。船が戻ってくる時刻、荷台にかかるブルーシートの下で、何かが光っている。白えびだ。		https://note.com/safe_canna441/n/ncb592554ced7	1
+NOTE_ONLY	nba2a5f98567e	2026-05-27	瑞龍寺の午後、回廊を歩く。— Zuiryu-ji, Walking the Corridors	平日の午後、瑞龍寺へ行った。高岡駅の南口を出て、まっすぐ歩いて十分ほど。途中、地味な住宅街と小さな商店を抜けると、急に視界が開けて、白い土塀が現れる。あの塀の向		https://note.com/safe_canna441/n/nba2a5f98567e	1
+NOTE_ONLY	n4ab6e13f4548	2026-05-27	雨晴海岸、朝のうちに。— Amaharashi Coast, Early in the Morning	朝早く目が覚めた。 時計を見ると、まだ五時を少し過ぎたところだった。窓の外が明るくなりかけていて、空気が薄青く澄んでいる。こういう日は雨晴に行こう、と決めて、自		https://note.com/safe_canna441/n/n4ab6e13f4548	1
+NOTE_ONLY	ne3b143b48c52	2026-05-27	金屋町、五月の午後。— Kanaya-machi, a May Afternoon	五月の終わり、自転車を漕いで金屋町まで行った。 高岡駅の北側、千保川を渡ってすぐの一画。観光地図には載っているけれど、平日の昼下がりに歩いている人はまばらだ。そ		https://note.com/safe_canna441/n/ne3b143b48c52	1
+NOTE_ONLY	nc9c1ec7f8db8	2026-05-28	万葉線に乗って、日曜日を過ごす。— A Sunday Ride on the Manyo Line	日曜日の朝、高岡駅のホームに立つ。 改札を抜けてすぐ右、万葉線の乗り場がある。路面電車、と言えば松山や長崎を思い浮かべる人が多いかもしれないが、高岡にも走ってい		https://note.com/safe_canna441/n/nc9c1ec7f8db8	1
+NOTE_ONLY	ndce315aeeb15	2026-05-28	山町筋、木曜の昼。— Yamacho-suji, a Thursday Afternoon.	木曜の昼すぎ、山町筋を歩いた。 人の少ない時間だった。観光客らしき姿はほとんどなく、通りの端から端まで、どこかゆったりした空気が漂っていた。平日の昼間というのは		https://note.com/safe_canna441/n/ndce315aeeb15	1
+NOTE_ONLY	ne627ae7f95d5	2026-05-28	富山ポークの豚汁セットを、昼に食べた。— A Bowl of Toyama Pork Tonjiru at Midday	昼の光が、店の引き戸を透かして白く差し込んでいた。 高岡市内のとある定食屋。観光客向けの派手な看板があるわけでもない。地元の常連らしき顔が、カウンターに並んで黙		https://note.com/safe_canna441/n/ne627ae7f95d5	1
+NOTE_ONLY	nbbbea7f08112	2026-05-29	古城公園の堀、五月の終わり。— The Moat in Late May, Takaoka's Castle Park.	五月が、もう終わる。 金曜の夕方、仕事の手を早めに止めて、高岡古城公園の堀のほとりへ歩いた。家から十五分。気がつけば、この一週間でいちばん空が高い日だった。梅雨		https://note.com/safe_canna441/n/nbbbea7f08112	1
+NOTE_ONLY	nb8cf6587ed44	2026-05-29	ところてん、海の前で。— Tokoroten, by the Sea in Fushiki	海が、すぐそこにある。 高岡市伏木。万葉の歌人も詠んだ、古い港まち。国分の集落を歩いていたら、民家のような小屋の前に「天下一品ところてん」という看板が立っていた		https://note.com/safe_canna441/n/nb8cf6587ed44	1
+NOTE_ONLY	nd45159b0449e	2026-05-29	五箇山は、静かすぎた。— Gokayama Was Too Quiet	バスを降りた瞬間、音が消えた。 川の音だけがある。庄川の深い谷を縫うように流れる水の音だけが、あたりを満たしていた。 菅沼集落に着いたのは、平日の午後だった。世		https://note.com/safe_canna441/n/nd45159b0449e	1
+NOTE_ONLY	n6cb39b4ea9a2	2026-05-29	富山ブラックを、はじめて食べた日。— The Day I First Ate Toyama Black	黒かった。 スープの色が、想像していたより、ずっと黒かった。醤油をそのまま煮詰めたような、深みのある暗さ。テーブルに置かれた瞬間、少し怯んだ。 富山ブラックと呼		https://note.com/safe_canna441/n/n6cb39b4ea9a2	1
+NOTE_ONLY	n31bf6c6d91f8	2026-05-29	高岡銅器と、職人の手。— Takaoka Copperware and the Hands That Shape It	重かった。 高岡の工芸品店で、小さな銅の器を持ったとき、最初に感じたのはその重さだった。手のひらに収まるサイズなのに、ずっしりとした質感。同じ形のプラスチック製		https://note.com/safe_canna441/n/n31bf6c6d91f8	1
+NOTE_ONLY	nc22e85ea8e4e	2026-05-29	山町筋を、ゆっくり歩く。— Walking Slowly Through Sanmachi	山町筋には、時間がたまっている気がした。 土蔵造りの家が並ぶ一本道。高岡の中心部から少し歩いた場所にある、江戸から明治にかけての商家の街並みだ。漆喰の白い壁、重		https://note.com/safe_canna441/n/nc22e85ea8e4e	1
+NOTE_ONLY	n4aab7c119138	2026-05-29	雨晴海岸から、山が見えた日。— The Day the Mountains Appeared	雨晴海岸に着いたのは、朝の六時前だった。 氷見線の小さな無人駅から歩いて数分。海沿いの道を進むと、突然、視界が開けた。富山湾と、その向こうにそびえる立山連峰。標		https://note.com/safe_canna441/n/n4aab7c119138	1
+NOTE_ONLY	nd69347db0369	2026-05-29	古城公園の堀は、静かだった。— A Still Morning at Kojo Park	古城公園の堀は、静かだった。 朝の七時過ぎに公園に着いた。まだ人は少なく、犬を連れて散歩している人が数人いるだけだった。堀の水面は風もなく、鏡のように空を映して		https://note.com/safe_canna441/n/nd69347db0369	1
+NOTE_ONLY	n9284dfe0049e	2026-05-29	北陸の雨は、やわらかい。— The Soft Rain of Hokuriku	北陸の雨は、やわらかい。 そのことに気づいたのは、高岡に来てしばらく経ってからだ。東京の雨は硬い。打ちつけてくる感じがある。粒が大きく、傘を叩く音も重い。だが北		https://note.com/safe_canna441/n/n9284dfe0049e	1
+NOTE_ONLY	n871f17bb009e	2026-05-29	瑞龍寺の石畳に、雨が降っていた。— Rain on the Stones of Zuiryuji	瑞龍寺の石畳に、雨が降っていた。 山門をくぐるとき、私はすでに傘をたたんでいた。屋根がある回廊があると知っていたから、というよりも、雨音をそのまま聞きたかったか		https://note.com/safe_canna441/n/n871f17bb009e	1
+NOTE_ONLY	n9e239f54b5b3	2026-05-29	高岡大仏の前に、しばらく立っていた。— Standing Before the Takaoka Daibutsu	観光地ではない、と思う。高岡大仏は、高岡市の中心街からほど近い場所にある。駅から歩いて十数分。商店街を抜けて、細い路地を入ると、突然、大きな仏の顔が見えてくる。		https://note.com/safe_canna441/n/n9e239f54b5b3	1
+NOTE_ONLY	n4261071bdd27	2026-05-30	北前船で栄えた港町、富山市・岩瀬の町並みと満寿泉の蔵を歩く	富山駅から富山港線（富山地方鉄道）に乗って20分ほど。終点の岩瀬浜にほど近い「岩瀬大町通り」には、江戸から明治にかけて北前船の交易で栄えた港町の面影が、今もその		https://note.com/safe_canna441/n/n4261071bdd27	1
+NOTE_ONLY	n413edeaff9ed	2026-05-30	木彫りの音が響く町、南砺市・井波で瑞泉寺と職人の技にふれる	富山県南砺市にある井波は、「木彫りの町」として全国に知られる小さな町です。まちを歩くと、あちこちの工房からノミを打つ音が聞こえてきて、軒先には精巧な木彫りの看板		https://note.com/safe_canna441/n/n413edeaff9ed	1
+NOTE_ONLY	nde5ea0834bc7	2026-05-30	帆船「海の貴婦人」と新湊大橋がそびえる射水・海王丸パークを歩く	富山新港の東側に広がる海王丸パークは、一隻の美しい帆船を中心とした臨海公園です。その主役が、「海の貴婦人」と呼ばれる帆船・海王丸。1930年（昭和5年）に進水し		https://note.com/safe_canna441/n/nde5ea0834bc7	1
+NOTE_ONLY	n1a0e6e977eb2	2026-05-30	海越しの立山連峰を望む道の駅「ひみ番屋街」で氷見の海の幸を味わう	富山湾に面した氷見市の海岸沿いに、漁師町らしい風情をまとった大きな施設があります。2012年にオープンした道の駅「ひみ番屋街」です。「番屋」とは、もともと漁師が		https://note.com/safe_canna441/n/n1a0e6e977eb2	1
+NOTE_ONLY	n71837554a43f	2026-05-30	富山駅から徒歩10分、富岩運河環水公園で「世界一美しいスタバ」と運河の風景を楽しむ	富山駅の北口を出て、まっすぐ歩くこと約10分。突然、目の前に大きな水辺の風景が広がります。ここが富山市を代表する都市公園、富岩運河環水公園です。 この公園の中心		https://note.com/safe_canna441/n/n71837554a43f	1
+NOTE_ONLY	nb53fbf98fbe3	2026-05-30	光でできた建物。— 富山市ガラス美術館・TOYAMAキラリ	美術館富山市ガラス美術館は、2015年に富山市中心部にオープンした現代ガラス芸術の美術館だ。「TOYAMAキラリ」の愛称で親しまれており、建物の設計は世界的建築		https://note.com/safe_canna441/n/nb53fbf98fbe3	1
+NOTE_ONLY	nbc42f40a87f6	2026-05-30	田んぼの中の森。— 砺波平野・散居村	砺波平野に広がる散居村（さんきょそん）は、富山の原風景と呼ばれる独特の農村景観だ。水田の中に農家が点在し、それぞれの家屋を取り囲むように木立が茂る。この木立は「		https://note.com/safe_canna441/n/nbc42f40a87f6	1
+NOTE_ONLY	na1cf85e974af	2026-05-30	富山湾の宝石。— 白えびの話	「富山湾の宝石」と称される白えびは、富山県を代表する食材の一つだ。その名の通り、体が半透明から白く透き通るほど美しく、見た目のはかなさとは裏腹に、口に入れると濃		https://note.com/safe_canna441/n/na1cf85e974af	1
+NOTE_ONLY	naa1d29fe25da	2026-05-30	海越しに立山を望む場所。— 雨晴海岸	雨晴（あまはらし）海岸は、富山県高岡市にある景勝地で、富山湾越しに立山連峰を望む絶景で知られる。「日本の渚百選」にも選ばれており、晴れた日には3000メートル級		https://note.com/safe_canna441/n/naa1d29fe25da	1
+NOTE_ONLY	nf1a7e5572233	2026-05-30	まんがの故郷へ。— 氷見市・潮風ギャラリー	氷見市の中心部、海沿いに立つ「潮風ギャラリー」は、藤子不二雄Ⓐの足跡をたどる美術館だ。入館料は200円。規模は決して大きくないが、その密度は濃い。漫画の聖地と呼		https://note.com/safe_canna441/n/nf1a7e5572233	1
+NOTE_ONLY	ne694d0f8972a	2026-05-30	光を集める建物の中で。— Inside the Building That Collects Light, Toyama	富山駅から路面電車で12分。「グランドプラザ前」で降りると、キラキラと光る建物が現れる。 「TOYAMAキラリ」——建築家・隈研吾が設計した複合施設だ。外壁は御		https://note.com/safe_canna441/n/ne694d0f8972a	1
+NOTE_ONLY	nf308211b17c3	2026-05-30	田んぼの中に、家が点在する。— Scattered Farmhouses of Tonami	展望台から砺波平野を見渡すと、緑の島が点々と散らばっているように見える。 それぞれの「島」は、一軒の農家だ。スギを中心とした屋敷林——カイニョ——に囲まれ、田ん		https://note.com/safe_canna441/n/nf308211b17c3	1
+NOTE_ONLY	na7bc0b01f595	2026-05-30	白くて、小さくて、宝石みたいだった。— White Shrimp of Toyama Bay	メニューの隅に「白えびかき揚げ丼」を見つけたのは、偶然だった。富山に来るまで、その名前すら知らなかった。 白えびは、生きているとき、透明だ。体長は約6センチ。水		https://note.com/safe_canna441/n/na7bc0b01f595	1
+NOTE_ONLY	n1eeb3cc13479	2026-05-30	海の向こうに、山がある。— Mountains Beyond the Sea, Amaharashi	JR氷見線の雨晴駅を降りて、海へ向かう。徒歩5分。砂浜に立った瞬間、息が止まる。 富山湾の向こうに、3,000メートル級の立山連峰がそびえている。海と山が、こん		https://note.com/safe_canna441/n/n1eeb3cc13479	1
+NOTE_ONLY	n1b84bb9127a3	2026-05-30	まんがの故郷へ。— Manga's Hometown, Himi City Shiokaze Gallery	氷見市の中心部に、小さなギャラリーがある。「藤子不二雄Ⓐアートコレクション——潮風ギャラリー」。入館料は大人200円。高校生以下は無料だ。 藤子不二雄Ⓐ、本名・		https://note.com/safe_canna441/n/n1b84bb9127a3	1
+NOTE_ONLY	n151f64abb080	2026-05-31	高岡駅に着いてからの2泊3日。氷見・雨晴をめぐる、お金をかけない富山ローカル旅ガイド	富山県の高岡へは、多くの旅人が金沢や富山を経由してたどり着きます。北陸新幹線で東京から直接向かうなら、各駅停車型の「はくたか」が停まる新高岡駅が玄関口です(最速		https://note.com/safe_canna441/n/n151f64abb080	1
+NOTE_ONLY	na29aa68b92ad	2026-05-31	ふたりの藤子先生が生まれた街へ。高岡から氷見線でめぐる「ドラえもん」と「Ⓐ」の誕生地・一日巡礼	富山県の高岡市と氷見市は、日本が世界に誇る「藤子不二雄」——すなわち藤子・F・不二雄と藤子不二雄Ⓐ、ふたりの漫画家が生まれた土地である。朝、北陸新幹線の新高岡駅		https://note.com/safe_canna441/n/na29aa68b92ad	1
+NOTE_ONLY	n1c2d0f8ae73d	2026-05-31	ドラえもん誕生のまち、高岡。藤子・F・不二雄が少年期を過ごした街に広がるキャラクターの世界を歩く	富山県西部の高岡市は、国民的キャラクター「ドラえもん」を生んだ漫画家・藤子・F・不二雄（本名・藤本弘、1933〜1996）が少年期を過ごしたまちである。鋳物や仏		https://note.com/safe_canna441/n/n1c2d0f8ae73d	1
+NOTE_ONLY	na9b99bd03e92	2026-05-31	黒部峡谷の玄関口、宇奈月温泉。富山県最大の温泉郷でとろりとした湯と渓谷美を堪能する	富山県の東部、黒部市の山あいに、富山県を代表する温泉地「宇奈月温泉（うなづきおんせん）」がある。黒部川がつくり出した渓谷の入り口に位置し、黒部峡谷鉄道のトロッコ		https://note.com/safe_canna441/n/na9b99bd03e92	1
+NOTE_ONLY	n2495d261db68	2026-05-31	秘境をゆくトロッコ列車、黒部峡谷鉄道。日本一深いV字谷を縫う絶景の20.1キロ	富山県東部、北アルプスの懐深くに、日本でも有数の秘境として知られる「黒部峡谷」がある。その峡谷を縫うように走るのが、黒部峡谷鉄道のトロッコ電車だ。起点の宇奈月駅		https://note.com/safe_canna441/n/n2495d261db68	1
+NOTE_ONLY	n3a9bbb155775	2026-05-31	世界遺産・五箇山の合掌造り集落へ。雪深い山里に息づく日本の原風景を訪ねる	富山県南西部、岐阜県との県境に近い山あいに、「五箇山（ごかやま）」と呼ばれる地域がある。庄川沿いの深い谷に点在する小さな集落で、合掌造りの家々が今も人々の暮らし		https://note.com/safe_canna441/n/n3a9bbb155775	1
+NOTE_ONLY	nab62d7caf0ec	2026-05-31	海越しの立山連峰と義経伝説、高岡・雨晴海岸。万葉の歌人も愛した絶景の渚	高岡市北部、富山湾に沿って続く「雨晴海岸（あまはらしかいがん）」は、富山でも屈指の景勝地として知られている。最大の魅力は、海の向こうにそびえる立山連峰だ。およそ		https://note.com/safe_canna441/n/nab62d7caf0ec	1
+NOTE_ONLY	na3c69fb297ba	2026-05-31	富山唯一の国宝建築、高岡・瑞龍寺。前田利長を弔う禅寺の伽藍美に息をのむ	高岡駅から南へ歩いて10分ほど。整然とした参道の先に、白い砂利と回廊に囲まれた壮大な伽藍（がらん）が広がっている。曹洞宗の禅寺「瑞龍寺（ずいりゅうじ）」は、富山		https://note.com/safe_canna441/n/na3c69fb297ba	1
+NOTE_ONLY	n423e4c4c0481	2026-05-31	日本三大仏のひとつ、高岡大仏。銅器の町・高岡が誇る青銅の阿弥陀如来を訪ねる	高岡駅から歩いて10分ほど。商店街を抜けた先に、ふいに大きな青銅の仏さまが姿を現す。台座を含めた高さ15.85メートル、坐像の本体だけでも7.43メートルという		https://note.com/safe_canna441/n/n423e4c4c0481	1
+NOTE_ONLY	n0424df3084ca	2026-06-01	六月、雨の高岡。— June Rain in Takaoka.	五月は、ずっと水のそばにいた。古城公園の堀、雨晴の渚、富山湾の朝凪。水は、いつも自分の足の届くところで、静かに横たわっていた。けれど六月になった途端、水のほうか		https://note.com/safe_canna441/n/n0424df3084ca	1
+NOTE_ONLY	nc38c07e6b4ed	2026-06-01	越前そばの真髄、武生・御清水庵のおろしそば。福井の湧き水と辛味大根が織りなす一杯	福井県のほぼ中央、越前市。かつて「武生（たけふ）」と呼ばれたこの町は、福井を代表する食文化「越前そば」の本場として知られている。中でも、辛味大根のおろし汁をかけ		https://note.com/safe_canna441/n/nc38c07e6b4ed	1
+NOTE_ONLY	n698fdf832339	2026-06-01	小松のソウルフード、勝ちゃんの塩焼きそば。石川で半世紀続く、もちもち太麺の塩味	石川県の南部、小松市。北陸の空の玄関口・小松空港を擁し、「歌舞伎のまち」としても知られるこの町には、市民が誇るソウルフードがある。「小松塩焼きそば」だ。茶色いソ		https://note.com/safe_canna441/n/n698fdf832339	1
+NOTE_ONLY	nda76323a8f5e	2026-06-01	庄川の清流に育つ、夏の鮎。砺波・庄川峡で味わう、加賀藩献上の香り	富山県西部、砺波市の山あいを、庄川という大きな川が流れている。両岸に切り立った峡谷をつくり、その美しさから「庄川峡」と呼ばれる景勝地だ。夏になると、この清流は一		https://note.com/safe_canna441/n/nda76323a8f5e	1
+NOTE_ONLY	n6443ec1e78bb	2026-06-01	立山の麓、上市・大岩そうめん。滝行のあとに食べる、門前の精進そうめん	富山県のほぼ中央、立山連峰の麓に上市町という小さな町がある。その山あいに、千三百年の歴史をもつ古刹・大岩山日石寺が建つ。夏になると、この寺の門前は、冷たいそうめ		https://note.com/safe_canna441/n/n6443ec1e78bb	1
+NOTE_ONLY	n2919fbf46b0b	2026-06-01	ファミリーレストラン堀井という洋食屋があった。高岡で48年、腹いっぱいの幸せをくれた老夫婦への手向け	富山県高岡市内免に、ファミリーレストラン堀井という洋食屋があった。二〇二五年の初夏、四十八年の歴史に静かに幕を下ろし、もう暖簾をくぐることはできない。だからこの		https://note.com/safe_canna441/n/n2919fbf46b0b	1
+NOTE_ONLY	n534fe4545c5a	2026-06-01	北陸三県、奥の味めぐり。高岡の洋食、上市の素麺、庄川の鮎、小松の塩焼きそば、武生のおろしそば	富山の食といえば、寿司や白えび、そして先日紹介した富山ブラック――。けれど、地元の人が日常で愛してきた味は、もっと奥にある。今日は、観光ガイドにはあまり載らない		https://note.com/safe_canna441/n/n534fe4545c5a	1
+NOTE_ONLY	n3b661ade23f4	2026-06-01	富山ブラック、はじめての一杯。戦後の労働者を支えた"おかずのラーメン"を、白いごはんと	富山駅で電車を降りて、地元の人にこう聞いた。「このあたりで、富山らしいものを食べるなら?」返ってきた答えが、富山ブラックだった。 初めて運ばれてきた一杯に、正直		https://note.com/safe_canna441/n/n3b661ade23f4	1
+NOTE_ONLY	n6c3bd609ba93	2026-06-02	立山の水で、地ビールを醸す。— 富山のクラフトビール	富山県には、立山連峰の伏流水を仕込み水に使う地ビールの醸造所がいくつかある。 日本酒の話を以前書いたが、ビールもまた、9割以上が水でできている飲み物だ。 だから		https://note.com/safe_canna441/n/n6c3bd609ba93	1
+NOTE_ONLY	nf8428630d575	2026-06-02	観光客が来る前の、雨晴海岸を歩く。	雨晴海岸は、外国人観光客のSNS経由で世界的に知られるようになった、富山の絶景スポットだ。 「海越しに3000m級の立山連峰が見える」という、世界でも珍しい景観		https://note.com/safe_canna441/n/nf8428630d575	1
+NOTE_ONLY	n1e80caa1c09e	2026-06-02	月曜朝、最初に開くファイルを1つ決めている。	月曜の朝、デスクに座って、最初の10分。 ここが一週間の景色を決める、と思っている。 メールを開くと、その瞬間から「他人の依頼」で月曜が始まる。 SNSを開くと		https://note.com/safe_canna441/n/n1e80caa1c09e	1
+NOTE_ONLY	n175c0b0da3dc	2026-06-02	日本のフリーランスの記事が、海外で読まれる時代になっていた。	正直、驚いている。 私が書いた高岡の記事に、海外の人からコメントが入ったり、 英語要約だけシェアされたりすることが、増えてきた。 「日本の話を、わざわざ翻訳して		https://note.com/safe_canna441/n/n175c0b0da3dc	1
+NOTE_ONLY	na4cd80387959	2026-06-02	春の北陸は、山菜で食卓が変わる。— 富山の山の恵み	富山に住んでいると、春になると山菜が食卓に並ぶ頻度が、ぐっと上がる。 ふきのとう、こしあぶら、たらの芽、ぜんまい、わらび、こごみ。 スーパーの野菜売り場の隅に、		https://note.com/safe_canna441/n/na4cd80387959	1
+NOTE_ONLY	ncf17f17b4475	2026-06-02	富山の朝は、とろろ昆布で始まる。— 万能調味料の使い方5つ	富山の家のキッチンには、必ずと言っていいほど「とろろ昆布」のパックがある。 ふわふわで、薄い羽根のような形をした昆布製品。 そのまま食べてもいいし、汁物に入れて		https://note.com/safe_canna441/n/ncf17f17b4475	1
+NOTE_ONLY	n25ec8d9c0e89	2026-06-02	家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる	富山ブラックは、外で食べるラーメン、というイメージが強い。 でも、家でも簡単に近い味は作れる。 我が家のレシピを、参考まで。 --- ■ 家庭版 富山ブラックの		https://note.com/safe_canna441/n/n25ec8d9c0e89	2
+NOTE_ONLY	na78690a6a282	2026-06-02	城跡が、町の散歩道になっている。— 高岡古城公園	高岡市の中心部に、「高岡古城公園」という、市民の散歩コースみたいな公園がある。 ここはもともと、加賀藩二代藩主・前田利長が築いた「高岡城」の跡地だ。 1609年		https://note.com/safe_canna441/n/na78690a6a282	1
+NOTE_ONLY	nb0292900e248	2026-06-02	「水曜の壁」を、昼休みの設計で乗り越える。	ひとりで仕事をしている人なら、たぶん「水曜の壁」を知っている。 週の真ん中。月火の勢いが切れ、木金のゴールはまだ見えない。 朝起きて、なんとなく集中できない、と		https://note.com/safe_canna441/n/nb0292900e248	1
+NOTE_ONLY	ne832a6d6ec57	2026-06-02	国宝のなかで、職人は祈っていた。— 富山・高岡『瑞龍寺』	富山県高岡市に、「瑞龍寺（ずいりゅうじ）」という禅寺がある。 国宝に指定された伽藍が3つもあり、富山県でただひとつの国宝建造物だ。 1614年、加賀藩三代藩主・		https://note.com/safe_canna441/n/ne832a6d6ec57	1
+NOTE_ONLY	nb34dc53a31f3	2026-06-03	鋳物の町には、コロッケを愛しすぎている人たちがいる。— 高岡コロッケ	富山県高岡市は、自分たちのことを「コロッケのまち」と呼んでいる。 400年の銅器の町。藤子・F・不二雄のふるさと。雨晴海岸を抱える町。 そして、コロッケ。 なぜ		https://note.com/safe_canna441/n/nb34dc53a31f3	1
+NOTE_ONLY	n4e1e1c624ba8	2026-06-03	自分の時給を、ちゃんと計算したことはありますか。 — Have You Ever Truly Calculated Your Hourly Worth?	フリーランスや個人事業を始めた人に、私はよくこれを聞く。 「自分の時給、ちゃんと計算したことありますか？」 ほぼ全員、「えっと、たぶん…」と濁す。 私も最初はそ		https://note.com/safe_canna441/n/n4e1e1c624ba8	1
+NOTE_ONLY	n96c37cd14360	2026-06-03	水曜の昼、気力が切れる時間に何をするか。	ひとりで仕事をしていると、月曜から金曜まで、なだらかに走り続けることになる。 そのなかで、私が一番つまづくのは「水曜の昼すぎ」だ。 月曜のエンジン、火曜の勢いの		https://note.com/safe_canna441/n/n96c37cd14360	1
+NOTE_ONLY	neb350f93dbe1	2026-06-03	富山の地酒は、水と米の風土でできている。	富山県には、20以上の日本酒の蔵元がある。 そのほとんどが、立山連峰からの伏流水と、富山平野の米で作られている。 派手な銘柄が多いわけではない。 でも富山の地酒		https://note.com/safe_canna441/n/neb350f93dbe1	1
+NOTE_ONLY	nd43dc0264361	2026-06-03	イカを、自分の墨と塩でごはんのお供にする。— 富山「いかの黒造り」	富山県には、真っ黒な小瓶に入った、ごはんのお供がある。 「いかの黒造り（くろづくり）」。 生のイカと、その内蔵と、イカの墨と、塩。 材料はこれだけ。 混ぜて、寝		https://note.com/safe_canna441/n/nd43dc0264361	1
+NOTE_ONLY	n1988921fcf66	2026-06-03	ひとりで仕事を続けるための「辞める基準」を、先に決めておく。	ひとりで仕事をしていると、続けるかどうか迷う日が、たびたびくる。 売上が伸びない月、自分の判断に自信が持てない週、家族から「いつまで続けるの」と 聞かれる夜。 		https://note.com/safe_canna441/n/n1988921fcf66	1
+NOTE_ONLY	n7eced9d5c018	2026-06-03	金曜の夜にやる、来週の予習「5分」。	ひとりで仕事をしていると、休日も完全には休めない、ということがよくある。 土曜の朝、ふと「来週、何やるんだっけ」が頭に浮かぶ。 そこから1時間、思考が仕事に持っ		https://note.com/safe_canna441/n/n7eced9d5c018	1
+NOTE_ONLY	n3ae65ff2f942	2026-06-03	刺身を、昆布に挟んで一晩寝かせる文化がある。— 北陸「昆布じめ」	富山県と石川県には、刺身を昆布で挟んで一晩寝かせる文化がある。 「昆布じめ（こぶじめ）」。 新鮮な白身魚やイカを、塩で軽く締めたあと、昆布の間に挟んで冷蔵庫で一		https://note.com/safe_canna441/n/n3ae65ff2f942	1
+NOTE_ONLY	nee84a650d559	2026-06-03	先月、12個あったサブスクを5個に絞った話。	ひとりで仕事をしていると、サブスクが気づくと増えている。 私は先月、銀行アプリで月次の引き落としを眺めて、思わず声を出した。 「12個もあるのか」。 合計で月2		https://note.com/safe_canna441/n/nee84a650d559	1
+NOTE_ONLY	n13aa002c0848	2026-06-03	「来月、何書こう」をなくす1枚のシート、つくっています。	SNSをやっていると、月末になると必ずこの問いが頭をよぎる。 「来月、何書こう。」 ネタを毎日捻り出すのは、地味にしんどい。 気づくと投稿が止まり、続かなくなる		https://note.com/safe_canna441/n/n13aa002c0848	1
+NOTE_ONLY	n74e4d7e3d7b3	2026-06-03	フリーランスで「月10万円」を超えるためにやった、7つの実例。	フリーランスを始めて、最初の壁は「月10万円」だと、よく言われる。 これを超えるかどうかで、副業からの脱出ラインが見えてくる。 私が実際に試して効いたものを、誇		https://note.com/safe_canna441/n/n74e4d7e3d7b3	1
+NOTE_ONLY	n911d80751ca0	2026-06-03	失敗を売る、という発想。— build-in-public で気づいたこと	ひとりで仕事を始めて、いちばん驚いたのは、「成功談より失敗談のほうがよく読まれる」 という現象だ。 最初は逆だと思っていた。きれいな結果を出して、それを書く。 		https://note.com/safe_canna441/n/n911d80751ca0	1
+NOTE_ONLY	n8719eca18fb2	2026-06-03	富山駅のます寿司は、店ごとに別ものになる。	ます寿司富山駅に行くと、改札のすぐ近くにずらりと並んでいるのが、ます寿司の店だ。 ふつう、駅弁の有名店は1〜2社が並ぶくらいだが、富山駅は違う。 ます寿司を作る		https://note.com/safe_canna441/n/n8719eca18fb2	1
+NOTE_ONLY	n927c4de85c00	2026-06-03	「観光地に住んでいる」って、こういうこと。— 高岡で暮らす日常	高岡市に住んでいると、観光ガイドブックに載っている場所が、 ぜんぶ「日常の風景」になる。 国宝の瑞龍寺は、近所の散歩コース。 高岡大仏は、買い物の通り道。 おと		https://note.com/safe_canna441/n/n927c4de85c00	1
+NOTE_ONLY	n32ced6144705	2026-06-03	高岡銅器の工房を歩くと、町の音が変わる。	高岡市の旧市街、金屋町（かなやまち）あたりを歩いていると、 通りの奥から金属を叩く音が、ぽつぽつと聞こえてくる。 カン、カン、カン。 リズムは一定で、ゆっくりし		https://note.com/safe_canna441/n/n32ced6144705	1
+NOTE_ONLY	ndc653d5c6f45	2026-06-03	富山湾の魚を、その日のうちに食卓へ。— 新湊「きっときと市場」	富山湾で朝あがった魚を、その日のうちに食べたいなら、新湊（射水市）の 「きっときと市場」に行くのが早い。 「きっときと」は富山弁で「新鮮な」「生きのいい」という		https://note.com/safe_canna441/n/ndc653d5c6f45	1
+NOTE_ONLY	n0747e5a17ad4	2026-06-03	雨の日は、昆布のだし。— Kelp Broth on a Rainy Day, Toyama	富山高岡北陸昆布だし梅雨食エッセイ雨の日、台所に立つと、決まって昆布のだしの匂いがする。 火曜の朝も、外は昨日からの雨が続いていた。窓を打つ音は、強くもなく弱く		https://note.com/safe_canna441/n/n0747e5a17ad4	1
+NOTE_ONLY	nd88b0094f28e	2026-06-04	ドラえもんが生まれた町には、おとぎの森がある。— 富山・高岡「おとぎの森公園」散歩	富山県高岡市に、「おとぎの森公園」という場所がある。 ここは、ドラえもんを描いた藤子・F・不二雄先生の、ふるさとの町だ。 高岡で生まれ、高岡で少年期を過ごした人		https://note.com/safe_canna441/n/nd88b0094f28e	1
+NOTE_ONLY	n354a5c032b1f	2026-06-04	400年、ひとりで価値を生んできた町がある。— 富山・高岡の職人に学ぶ「個人で食べていく力」	富山県に、高岡（たかおか）という町がある。 400年前、加賀藩がこの地に7人の鋳物師（いものし）を呼び寄せた。 そこから始まった「高岡銅器」は、いまや国内シェア		https://note.com/safe_canna441/n/n354a5c032b1f	2
+NOTE_ONLY	nb74a2253ceee	2026-06-04	海の向こうに、3000メートルの山が見える駅がある。— 富山・高岡「雨晴駅」	富山県高岡市に、「雨晴駅（あまはらしえき）」という小さな駅がある。 無人駅で、列車は1時間に1本くらいしか来ない。 それでも、この駅のホームに立つと、世界中の写		https://note.com/safe_canna441/n/nb74a2253ceee	2
+NOTE_ONLY	nddb4e9f0e199	2026-06-04	フリーランス1年目の自分に教えたい、月1万円を逃さないコツ。	フリーランス1年目、私はけっこう損をしていた。 確定申告の段になって、領収書を必死で探し、経費に入れ忘れたものに気づき、 「これ、月1万円分くらいあったよな…」		https://note.com/safe_canna441/n/nddb4e9f0e199	1
+NOTE_ONLY	n8db803574866	2026-06-04	日曜の朝、ひとり会社の「整える時間」をつくる。	ひとりで仕事をしていると、平日があっという間に過ぎていく。 気づくと、机が散らかり、未読メールがたまり、頭が重い。 その状態のまま月曜を迎えると、もう一週間が始		https://note.com/safe_canna441/n/n8db803574866	1
+NOTE_ONLY	n9cb8b7d7da1a	2026-06-04	駅弁の中にも、宝石みたいなお寿司がある。— 富山「鱒寿司」	高岡に住んでいると、富山駅まで電車ですぐの距離だ。 お盆や正月、家に親戚が来るとき、私はよく富山駅まで足を伸ばして「鱒寿司」を買いに行く。 丸い木の容器。 ふた		https://note.com/safe_canna441/n/n9cb8b7d7da1a	2
+NOTE_ONLY	nf3cc798988a4	2026-06-04	無料noteを30本書いて見えた、「有料化」の境目。	note を書きはじめてしばらく、私はずっと無料で出してきた。 そろそろ有料記事を出そうか、と考えはじめた今、 30本ほど無料で出した経験から、「ここから先は有		https://note.com/safe_canna441/n/nf3cc798988a4	1
+NOTE_ONLY	nae36f654cecc	2026-06-04	ChatGPT と Claude、私はこう使い分けている。	ひとりで仕事をしていると、AIは「同僚」みたいなものだ。 私は ChatGPT と Claude を両方契約して、案件によって使い分けている。 「どっちか1つで		https://note.com/safe_canna441/n/nae36f654cecc	1
+NOTE_ONLY	n079426e8b8db	2026-06-04	ひとり会社を始めて、最初の30日で「買ってよかった」3つ。	ひとりで仕事を始めると、買うものが急に増える。 PC、机、椅子、ソフト、サブスク。「経費だから」と気が大きくなって、 気づくと月の固定費が一気に膨らんでいる。 		https://note.com/safe_canna441/n/n079426e8b8db	1
+NOTE_ONLY	nd3c27c7aad9d	2026-06-04	月曜の朝、AIに渡す「3行のメモ」だけで、1週間の動き方が決まる。	ひとりで仕事をしていると、月曜の朝、いちばん難しいのは「何から始めるか」だ。 予定はある。タスクもある。でも、頭が温まっていない月曜の朝に、 それを並び替える気		https://note.com/safe_canna441/n/nd3c27c7aad9d	1
+NOTE_ONLY	n82ec10f74aa7	2026-06-04	富山の結婚式に出ると、引き出物に「鯛」がついてくる。— 細工かまぼこ	富山県の結婚式に呼ばれると、ちょっと変わったお土産がついてくる。 紙袋を開けると、桜色や赤に染められた、大きな「鯛」が入っている。 本物の魚ではなく、かまぼこで		https://note.com/safe_canna441/n/n82ec10f74aa7	2
+NOTE_ONLY	n4f41211ed9e7	2026-06-04	ひとりで仕事をしていて、孤独はどうしているか。	ひとりで仕事をしていますと言うと、よく聞かれることがある。 「孤独じゃないですか？」 正直に答えると、「孤独です」。 ただ、その孤独を「悪いもの」とは思っていな		https://note.com/safe_canna441/n/n4f41211ed9e7	1
+NOTE_ONLY	n0fcd601b1ed5	2026-06-04	春の富山湾は、夜になると青く光る。— ホタルイカの話	富山湾には、春の夜になると青く光る生き物がいる。 ホタルイカ。 体長5〜7センチの小さなイカで、刺激を受けると体表が淡い青色に発光する。 3月から5月にかけて、		https://note.com/safe_canna441/n/n0fcd601b1ed5	2
+NOTE_ONLY	n28ef1e1355d3	2026-06-04	月30万を3ヶ月で目指す挑戦の、いま起きていること。	2026年4月から、ひとつの挑戦をはじめている。 「3ヶ月以内に、月収30万円を、仕組みで生み出す。」 派手な情報商材ではなく、合法的な3つの柱で。 そして、進		https://note.com/safe_canna441/n/n28ef1e1355d3	1
+NOTE_ONLY	n2c17b3725fac	2026-06-04	顧客の声を「聞ける形」にするのが、いちばん難しい。	「お客さんの声を聞きましょう」とは、よく言われる。 でも、ひとりで仕事をしていると、これがけっこう難しい。 声を聞きたい、と私は思っている。 でも、実際に「ちゃ		https://note.com/safe_canna441/n/n2c17b3725fac	1
+NOTE_ONLY	n032000c35176	2026-06-04	鯖を、ぬか漬けにして1年。— 北陸の発酵保存食「へしこ」	高岡の近所のスーパーに行くと、魚売り場の片隅に、ぬか床のような小袋が並んでいる。 「へしこ」。 生の鯖を、ぬかと塩で1年寝かせた、北陸の発酵保存食だ。 本場は隣		https://note.com/safe_canna441/n/n032000c35176	1
+NOTE_ONLY	nf00cdfc50d80	2026-06-04	縄で縛って持ち歩ける豆腐がある。— 富山「五箇山豆腐」	富山県南西部に、世界遺産に登録されている「五箇山（ごかやま）」という山里がある。 合掌造りの集落で知られる、雪深い地域だ。 その五箇山には、「縄で縛って持ち歩け		https://note.com/safe_canna441/n/nf00cdfc50d80	2
+NOTE_ONLY	nf376c726fac8	2026-06-05	Claude Codeを使い続けるなら、6月15日までに確認すること。	6月15日まで、あと11日。	paid	https://note.com/safe_canna441/n/nf376c726fac8	1
+NOTE_ONLY	n607fe1bded01	2026-06-05	高岡おでんの夜 — A Winter Night with Takaoka Oden	冬の高岡では、おでんを食べる。これはもはや季節の儀式に近い。11月を過ぎると、街の小さな居酒屋やカウンター割烹でおでん鍋が登場し、白い湯気が店の扉の隙間から漏れ		https://note.com/safe_canna441/n/n607fe1bded01	1
+NOTE_ONLY	n51f31c50765a	2026-06-05	昆布じめという哲学 — The Philosophy of Kombu-jime	昆布じめという調理法が、いつ頃から富山で根づいたのかを調べると、江戸時代の北前船の航路にたどりつく。北海道で採れた昆布が、富山湾の港町に運ばれ、土地の魚と出会っ		https://note.com/safe_canna441/n/n51f31c50765a	1
+NOTE_ONLY	nb87deda4cd3b	2026-06-05	氷見カレーを食べに行った — The Day I Drove to Himi for Curry	氷見と聞いて、カレーを思い浮かべる人はまだ少ないかもしれない。ブリや寒ブリ、海の幸のイメージが強い街だから、カレーはちょっと意外に思えるかもしれない。でも実際に		https://note.com/safe_canna441/n/nb87deda4cd3b	1
+NOTE_ONLY	n92157b283083	2026-06-05	道の駅グルメ、富山篇 — Roadside Station Gourmet: Toyama Edition	富山県を車で走っていると、ふと「道の駅」の看板が目に入る。そのたびに、つい寄り道してしまう。旅先でこんなにも頻繁に道の駅に立ち寄る県は、そうそうないと思う。それ		https://note.com/safe_canna441/n/n92157b283083	1
+NOTE_ONLY	n126986917e6c	2026-06-05	富山の朝ごはんが好きだ — I Love Toyama Breakfasts	富山の朝ごはんが好きだ。 旅に出るとき、私はいつも朝食のことを少し調べてから宿を出る。観光ガイドに載っているランチスポットや夕食の名店もいいが、その街の朝を感じ		https://note.com/safe_canna441/n/n126986917e6c	1
+NOTE_ONLY	n3b515d1e132c	2026-06-05	富山ブラックと、一杯の記憶 — Toyama Black Ramen and the Memory of a Bowl	富山ブラックというラーメンがある。 真っ黒な醤油スープに、太い麺、そしてたっぷりの粗挽き黒こしょうがのった丼。初めて写真で見たとき、「これは食べられるのだろうか		https://note.com/safe_canna441/n/n3b515d1e132c	1
+NOTE_ONLY	n5127c01b7e8f	2026-06-05	万葉線に揺られて — Swaying on the Manyo Line	富山県高岡市と射水市を結ぶ万葉線に乗ったのは、ある冬の午後のことだった。 白えびや昆布じめを食べたあと、少し時間があったので、地図を見ながら何気なく「万葉線」と		https://note.com/safe_canna441/n/n5127c01b7e8f	1
+NOTE_ONLY	n944f197b4483	2026-06-05	雨晴海岸の朝 — Morning at Amaharashi Coast	雨晴海岸に初めて行ったのは、まだ暗いうちだった。 富山県高岡市の西端に位置するその海岸は、日本海と立山連峰を同時に望める場所として知られている。写真で何度も見て		https://note.com/safe_canna441/n/n944f197b4483	1
+NOTE_ONLY	n451cca563605	2026-06-05	高岡大仏と過ごす午後 — An Afternoon with Takaoka's Great Buddha	高岡大仏に会いに行ったのは、雨の降りそうな曇り空の午後だった。 高岡市の中心部、大仏町にある高岡大仏は、奈良の大仏、鎌倉の大仏と並ぶ日本三大仏のひとつとされてい		https://note.com/safe_canna441/n/n451cca563605	1
+NOTE_ONLY	nd72b8eb72764	2026-06-05	古城公園の春 — Spring at Kojo Park	高岡の古城公園は、四月になると一変する。 もともとは前田利長が築いた高岡城の跡地だ。今は城の建物はなく、お堀と土塁が残るだけだが、春になると公園全体が桜で覆われ		https://note.com/safe_canna441/n/nd72b8eb72764	1
+NOTE_ONLY	nb0b723525629	2026-06-05	高岡を歩く哲学 — The Philosophy of Walking Through Takaoka	高岡の街を歩くとき、目的地を決めないことにしている。地図を持たず、スマートフォンもポケットにしまって、ただ足の向くままに歩く。これが、私の「高岡散歩」の流儀だ。		https://note.com/safe_canna441/n/nb0b723525629	1
+NOTE_ONLY	nbf8a1ec620f7	2026-06-05	高岡の朝 — A Morning in Takaoka	目が覚めると、まだ空が明るくなりきっていなかった。時計を見ると五時半。高岡の朝はゆっくり始まる。 カーテンを少しだけ開けると、空が薄いオレンジ色から青へとグラデ		https://note.com/safe_canna441/n/nbf8a1ec620f7	1
+NOTE_ONLY	ne3fe692be626	2026-06-05	副業1年目で気づいたこと全部書く — Everything I Noticed in My First Year of Side Work	副業を始めてちょうど一年が経った。正直に言えば、最初の三ヶ月は何も起きなかった。案件ゼロ、収入ゼロ。「やっぱり自分には無理だったか」と思いかけたころ、初めての仕		https://note.com/safe_canna441/n/ne3fe692be626	1
+NOTE_ONLY	n1b927843cb66	2026-06-05	AIと一緒に働くということ — Working Alongside AI	最近、仕事のやり方がじわじわと変わってきた。きっかけはAIツールを使い始めたことだ。最初は「試しに使ってみるか」くらいの気持ちだった。それほど期待もしていなかっ		https://note.com/safe_canna441/n/n1b927843cb66	1
+NOTE_ONLY	nd3bfef226aaf	2026-06-05	能登塩と、シンプルな幸せ — Noto Salt and Simple Happiness	能登の海岸線を走っていると、塩田の看板が目につく。海水を引き込んだ浅い池が広がり、風と太陽が静かに仕事をしている。そこで作られる能登塩は、製塩の歴史を持ち、今も		https://note.com/safe_canna441/n/nd3bfef226aaf	1
+NOTE_ONLY	n4614657ca458	2026-06-05	富山の秋、静かな絶景 — Toyama's Autumn, Silent Panorama	富山の秋は、派手ではない。京都のような紅葉の名所があるわけでも、大々的に観光地化されているわけでもない。でも、それがいい。人が少ないぶん、静けさの中で秋を独り占		https://note.com/safe_canna441/n/n4614657ca458	1
+NOTE_ONLY	ndc226938823b	2026-06-05	内省する習慣のつくり方 — Building a Habit of Self-Reflection	フリーランスになってから、一番変わったのは時間の使い方ではなく、自分との向き合い方だったかもしれない。 会社員のころは、毎日の仕事の中に自然と「確認作業」があっ		https://note.com/safe_canna441/n/ndc226938823b	1
+NOTE_ONLY	n617ea889be1b	2026-06-05	失敗した月の記録 — A Record of the Month I Failed	あの月のことを、できるだけ正確に記録しておこうと思う。美化もせず、言い訳もせず、ただ起きたことをそのまま書き残す。失敗した月というのは、記憶から消えやすい。うま		https://note.com/safe_canna441/n/n617ea889be1b	1
+NOTE_ONLY	n87d290cb8795	2026-06-05	フリーランスとお金の現実 — The Reality of Freelance and Money	フリーランスになる前、お金のことをちゃんと考えていなかった。「仕事が増えれば収入も増える」と思っていた。それは半分正しく、半分大きく間違っていた。実際にやってみ		https://note.com/safe_canna441/n/n87d290cb8795	1
+NOTE_ONLY	n41e0b82cde6f	2026-06-05	週次振り返りで人生が変わった話 — How Weekly Reviews Changed My Life	毎週土曜日の朝、私はコーヒーを淹れてノートを開く。それが今の私の一番大切な習慣になっている。 週次振り返りを始めたのは、フリーランスになってしばらく経ったころだ		https://note.com/safe_canna441/n/n41e0b82cde6f	1
+NOTE_ONLY	ne0b7fab650c6	2026-06-05	梅雨と私 — The Rainy Season and Me	梅雨という季節を、私は長い間苦手だと思っていた。 毎日降る雨、蒸し暑さ、洗濯物が乾かない、外に出るのが億劫になる。北陸の梅雨は特に長く、6月が丸ごと灰色に染まる		https://note.com/safe_canna441/n/ne0b7fab650c6	1
+NOTE_ONLY	nc3441bea4e77	2026-06-05	コンビニという日本の文化 — The Convenience Store as Japanese Culture	コンビニに、特別な愛着がある。 深夜に小腹が空いたとき、朝早く出かける日の朝食、急に必要になったものがあったとき。コンビニはいつもそこにある。日本に暮らすという		https://note.com/safe_canna441/n/nc3441bea4e77	1
+NOTE_ONLY	n59fc2705ff31	2026-06-05	銭湯の夜に思うこと — Thoughts at the Public Bath	銭湯が好きだ。 高岡に移り住んでから、近くに銭湯があることを知った。最初は「まあ、そのうち行ってみよう」程度の気持ちだったが、ある冬の夜にふと立ち寄ってみて、す		https://note.com/safe_canna441/n/n59fc2705ff31	1
+NOTE_ONLY	nbb0f8e2267c2	2026-06-05	梅雨の高岡、雨上がりの市場で魚を選ぶ。— Choosing Fish at the Market After the Rain, Takaoka	昨夜からの雨が、明け方にふっとやんだ。 カーテンを開けると、空はまだ灰色のままだが、雨脚はもうない。こういう朝は、決まって市場に足が向く。先日、雨の日に昆布のだ		https://note.com/safe_canna441/n/nbb0f8e2267c2	1
+NOTE_ONLY	nf2d6b151f02b	2026-06-06	朝市の鮮魚コーナーで、地元のおじさんに話しかけられた。— A Local Guy Talked to Me at the Fish Counter	日曜の朝8時半、高岡の産直市場に入ったのはまだ眠気が残ったままだった。 お目当ては鮮魚コーナー。冷えたケースに並ぶ白えびと、ホタルイカの干物。富山湾の恵みがこん		https://note.com/safe_canna441/n/nf2d6b151f02b	1
+NOTE_ONLY	ndb9cc5e9555a	2026-06-06	高岡の銅器職人が、なぜ今でも仕事を続けているか。— Why Takaoka's Coppersmith Still Works Every Day	高岡市内の小さな工房に入ったとき、職人の手はすでに動いていた。昼前にもかかわらず、鑿の音が外まで聞こえていた。 高岡は江戸時代から続く銅器の産地だ。花瓶や仏具、		https://note.com/safe_canna441/n/ndb9cc5e9555a	1
+NOTE_ONLY	n164aa07dd123	2026-06-06	梅雨の富山で、晴れた日の使い方。— How to Use a Sunny Day in Rainy-Season Toyama	富山の梅雨は長い。6月に入ると、山から湿った空気が降りてきて、街全体がしっとりと重くなる。雨が降っていない日でも、空は白く曇っている。そういう日が1ヶ月近く続く		https://note.com/safe_canna441/n/n164aa07dd123	1
+NOTE_ONLY	nb3a4f70db8f5	2026-06-06	とんかつを一人で食べる昼。— Eating Tonkatsu Alone at a Takaoka Diner	高岡の定食屋に、昼ひとりで入った。 カウンターが5席、テーブルが2つ。壁に手書きのメニューが貼ってある。「日替わり定食 850円」「とんかつ定食 900円」「生		https://note.com/safe_canna441/n/nb3a4f70db8f5	1
+NOTE_ONLY	n3326e6fd3371	2026-06-06	越中富山の「お盆」は、海に行く文化だと知った。— In Toyama, Obon Means Going to the Sea	富山に引っ越してくるまで、お盆といえば「墓参り」と「帰省ラッシュ」のふたつがセットになっているものだと思っていた。テレビのニュースでは毎年、「帰省のピークを迎え		https://note.com/safe_canna441/n/n3326e6fd3371	1
+NOTE_ONLY	nca3d1039402a	2026-06-06	朝の市場で500円出したら、1週間分の野菜が来た。— How 500 Yen Bought Me a Week's Worth of Vegetables	早起きが苦手だった。目が覚めたらなるべく布団にいたい、という体質を長年引きずっている。だから、朝の市場に行くという発想がそもそもなかった。 富山に来てから最初の		https://note.com/safe_canna441/n/nca3d1039402a	1
+NOTE_ONLY	n96d751e38b02	2026-06-06	富山の水が、料理の味を変えている理由。— Why Toyama's Water Changes the Taste of Everything	富山に来てから、なにかと「水がいい」という話を聞く。 地元の飲食店のご主人に言われた。日本酒の蔵元の方にも言われた。豆腐屋さんにも、お米屋さんにも、そば屋さんに		https://note.com/safe_canna441/n/n96d751e38b02	1
+NOTE_ONLY	n4d88d01550f5	2026-06-06	古城公園の夏、アジサイと地元の人の歩き方。— Summer at Kojō Park: Hydrangeas and the Way Locals Walk	高岡に来て最初の夏、古城公園に行ったとき、アジサイがちょうど咲いていた。 写真で見たのと同じ光景が、目の前に広がっていた。青や紫や白、いくつもの色が混じり合って		https://note.com/safe_canna441/n/n4d88d01550f5	1
+NOTE_ONLY	n303d007d5db4	2026-06-06	AIで仕事を始めて半年、一番変わったのは「頼む力」だった。— Six Months with AI: The Biggest Change Was Learni	AIを仕事に使い始めて、半年が経った。 最初のころは、とにかく「すごいな」と思いながら使っていた。文章を書いてもらったり、調べものを頼んだり、メールの返信案を出		https://note.com/safe_canna441/n/n303d007d5db4	1
+NOTE_ONLY	n8636d054bf3d	2026-06-06	高岡コロッケを、外国人の友人に食べさせた日。— The Day I Fed Takaoka Croquettes to a Foreign Friend	高岡コロッケを、外国人の友人に食べさせた話をしたい。 友人はカナダ人で、日本語を少し勉強しているひとだった。富山に来るのは初めてで、高岡には「なんか銅像があるん		https://note.com/safe_canna441/n/n8636d054bf3d	1
+NOTE_ONLY	n155545a13347	2026-06-06	夜の富山市内で、魚屋がまだ開いている理由。— Why Fish Shops in Toyama City Are Still Open at Night	夜の富山市内を歩いていたら、魚屋がまだ開いていた。 時刻は夜の9時を過ぎていたと思う。出張帰りのサラリーマンが歩いているような時間帯に、ショーケースの中に並ぶ魚		https://note.com/safe_canna441/n/n155545a13347	1
+NOTE_ONLY	ne2a63d1ee97e	2026-06-06	北陸の夏祭りは、花火より「露店」の話をしたい。— At Hokuriku Summer Festivals, It's the Street Stalls Th	北陸の夏祭りの話をするとき、わたしはいつも花火じゃなくて露店の話をしてしまう。 花火はきれいだ。それは間違いない。でも花火って、どこで見ても花火じゃないか。隅田		https://note.com/safe_canna441/n/ne2a63d1ee97e	1
+NOTE_ONLY	n96152f7abb49	2026-06-06	週3日だけ働く、という実験を3ヶ月やってみた。— I Tried a Three-Day Workweek for Three Months	今年の1月から3月、ぼくはちょっとした実験をしていた。 週3日だけ働く、というやつだ。 残りの4日間は、仕事のことを考えない。メールも開かない。タスク管理アプリ		https://note.com/safe_canna441/n/n96152f7abb49	1
+NOTE_ONLY	nc1f2dd71b1cc	2026-06-06	高岡から東京に出ていった友人が、帰ってきた理由。— Why My Friend Who Left for Tokyo Came Back to Takaoka	タカシ（仮名）が東京から戻ってきたと聞いたのは、去年の秋のことだった。 高岡の友人たちのLINEグループに「こっちに戻ってきます」とメッセージが来て、みんなが「		https://note.com/safe_canna441/n/nc1f2dd71b1cc	1
+NOTE_ONLY	n054cfeab642b	2026-06-06	白えびと、海の底の記憶 — White Shrimp and Memories from the Seafloor	富山湾は、「天然のいけす」と呼ばれる。日本海に深く切り込んだ湾は、水深1000メートルを超える場所も多く、冷たく澄んだ海水が複雑な海流をつくりだす。冷たい深層水		https://note.com/safe_canna441/n/n054cfeab642b	1
+NOTE_ONLY	n652970b42545	2026-06-06	ます寿司の朝 — A Morning with Masu Sushi	富山には、駅弁がある。それがます寿司だ。駅のホームで、あるいは特急列車の中で、丸い木の曲げわっぱを開く。薄く削いだ笹の葉の上に、ピンク色の鱒が敷き詰められ、その		https://note.com/safe_canna441/n/n652970b42545	1
+NOTE_ONLY	n838f7ff51210	2026-06-06	Claude Codeって、何ができるのか。— AIがターミナルで働く話	ターミナルを開いて、文章を打つ。 「このファイルのバグを全部直して」「テストを書いて」「このシステムをリファクタリングして」 すると、AIが自分でコードを読んで		https://note.com/safe_canna441/n/n838f7ff51210	1
+NOTE_ONLY	n7a6e76b70a73	2026-06-06	六月のはじまり、雨晴の海と白えびの甘さ	朝、雨戸を開けると、空気がぬるかった。 五月までのあの澄んだ冷たさはもうどこにもなくて、かわりに、少し湿った、生あたたかい風が頬をなでていく。梅雨入りはまだ正式		https://note.com/safe_canna441/n/n7a6e76b70a73	1
+NOTE_ONLY	nbf9525cc9073	2026-06-06	1人で発注して、100人が動く。— Claude Codeのダイナミックワークフローとは	「このシステム全体のバグを調査して」 そう入力すると、何が起きるか。 以前なら、AIが1つのファイルを開いて、読んで、次のファイルを開いて——という具合に、1人		https://note.com/safe_canna441/n/nbf9525cc9073	1
+NOTE_ONLY	nb2f7f6fab31d	2026-06-07	雷が呼ぶ魚、氷見の寒ブリ――鰤起こしという奇跡	冬になると、富山湾の空が急に黒くなる。 雷鳴が轟く。その数秒後、漁師たちは海を見る。 「鰤起こしだ」 氷見の漁師が長年使ってきた言葉がある。冬の雷が鳴ると、沖に		https://note.com/safe_canna441/n/nb2f7f6fab31d	1
+NOTE_ONLY	nd00d4f786b86	2026-06-07	ニセコに飽きたなら、北陸に来てほしい。雪と世界遺産と氷見ブリがある場所。— Hokuriku Ski & Culture: The Luxury Japan T	ニセコは、確かにすごい。 パウダースノーの質は世界最高水準だ。インフラも整っているし、英語も通じる。でも近年、ニセコは変わった。リフト券が1日3万円を超えた。レ		https://note.com/safe_canna441/n/nd00d4f786b86	1
+NOTE_ONLY	n13dc3d1baec8	2026-06-07	高岡は、日本で一番知られていない名城下町かもしれない。— Takaoka: Japan's Most Underrated Castle Town	北陸に来る外国人旅行者のほとんどは、金沢を目指す。そして高岡を通り過ぎる。新幹線の窓から、田んぼと古い町並みが見えて、それで終わりだ。 もったいない、とずっと思		https://note.com/safe_canna441/n/n13dc3d1baec8	1
+NOTE_ONLY	ncaa0329ab69e	2026-06-07	立山黒部から富山に降りたら、もう1泊したくなった。— After Tateyama: Why You Should Slow Down in Toyama	立山黒部アルペンルートを抜けた後、あなたはどこに向かう？ たいていの旅行者は富山駅に降りて、そのまま金沢か東京に向かう。それが「正解ルート」のように見える。でも		https://note.com/safe_canna441/n/ncaa0329ab69e	1
+NOTE_ONLY	naaa94948b05a	2026-06-07	能登に行くなら、氷見から入ってほしい。— Supporting Noto: Why Himi Should Be Your First Stop	「能登に行くべきか、どうか」と、ずっと迷っていた人は多いと思う。 2024年の元日に起きた地震。あの映像を見た人は、能登半島を心配した。「旅行に行っていいのか」		https://note.com/safe_canna441/n/naaa94948b05a	1
+NOTE_ONLY	nc3a37b9e7a37	2026-06-07	北陸新幹線で、新高岡に途中下車してみた。知らない街に降りる、という旅。— Getting Off the Shinkansen at Shin-Takaoka	乗り過ごしたわけじゃない。ちゃんと意図して、降りた。 北陸新幹線「かがやき」「はくたか」が止まる新高岡駅。東京方面からも大阪方面からも経由する駅だが、降りる人は		https://note.com/safe_canna441/n/nc3a37b9e7a37	1
+NOTE_ONLY	n512b2f5438c8	2026-06-07	金沢に来たら、1日だけ高岡に寄ってほしい理由。— The Day Trip from Kanazawa That Most Tourists Miss	2日目の朝、あなたはスマホを開いて検索した。「金沢 近く おすすめ」「Kanazawa day 2 what to do」。そんな気持ち、よくわかる。 兼六園と		https://note.com/safe_canna441/n/n512b2f5438c8	1
+NOTE_ONLY	n17af1e4f1a80	2026-06-07	ドラえもんの作者の故郷へ行ったら、街ごとドラえもんだった。— A Manga Pilgrimage to Takaoka & Himi	ドラえもんが好きだ、とずっと思っていた。でも「聖地に行く」という発想は、なぜかずっと後回しにしていた。 高岡に住んでいる僕が言うのもおかしな話だけれど、慣れすぎ		https://note.com/safe_canna441/n/n17af1e4f1a80	1
+NOTE_ONLY	n75868bbf7284	2026-06-07	ひろゆきも泊まった、氷見の民宿。— The Fishing Inn That Even Hiroyuki Couldn't Resist	去年、YouTubeのリハック（ReHacQ）で、ひろゆきさんが富山を旅する動画が公開された。 なんか氷見に行ったらしい、というのは、知り合いから聞いていた。「		https://note.com/safe_canna441/n/n75868bbf7284	1
+NOTE_ONLY	n755a9ae7f139	2026-06-08	冬の食卓に、必ずいた。— 富山「ぶり大根」	富山の冬の家庭料理を1つ挙げろと言われたら、私は迷わず「ぶり大根」と答える。 寒ブリのアラと、太く切った大根を、しょうゆと砂糖と生姜で、ことことと煮る。 特別な		https://note.com/safe_canna441/n/n755a9ae7f139	1
+NOTE_ONLY	na5016d227fe8	2026-06-08	白川郷の代わりに、ドラえもん＋静かな合掌集落。— 金沢2日目の富山ルート	Doraemon and a quieter gassho village: the Toyama-side day from Kanazawa Day two		https://note.com/safe_canna441/n/na5016d227fe8	1
+NOTE_ONLY	n9505383c7a73	2026-06-08	藤子F不二雄という人。— 高岡が育てた作家と、原画に会える場所	Meet the man, not the cat: Fujiko F. Fujio's hometown gallery Everyone knows Dor		https://note.com/safe_canna441/n/n9505383c7a73	1
+NOTE_ONLY	n7e95d38e41fa	2026-06-08	ドラえもんで育った君へ。— 生誕地という、小さな巡礼	The pilgrimage you didn't know you needed: Doraemon's hometown I watched a grown		https://note.com/safe_canna441/n/n7e95d38e41fa	1
+NOTE_ONLY	n61af44596441	2026-06-08	どこでもドアから乗る電車がある。— ドラえもんトラム（万葉線）	Ride the Doraemon Tram — through the "Anywhere Door" Most Doraemon fans picture 		https://note.com/safe_canna441/n/n61af44596441	1
+NOTE_ONLY	n1550d1dddd40	2026-06-08	本物のドラえもんの故郷は、金沢から15分。— Skip Shirakawa-go for a day	Skip Shirakawa-go for a day: the real hometown of Doraemon Almost everyone stayi		https://note.com/safe_canna441/n/n1550d1dddd40	1
+NOTE_ONLY	n65b77a99a37b	2026-06-08	銅の町には、銅でできた大仏がいる。— 富山・高岡大仏	富山県高岡市の中心街に、座高7メートルを超える大仏がいる。 「高岡大仏」。 奈良の大仏、鎌倉の大仏と並んで、「日本三大仏」のひとつに数えられることもある。 そし		https://note.com/safe_canna441/n/n65b77a99a37b	1
+NOTE_ONLY	n90fa70b0513b	2026-06-08	細いうどんを、漁師町が選んだ理由。— 氷見うどん	富山県の氷見市は、海の町だ。 寒ブリ、ホタルイカ、白えび。海の幸が町の顔になっている。 そんな氷見に、もうひとつ静かに有名なものがある。 細い、強い、つるりとし		https://note.com/safe_canna441/n/n90fa70b0513b	1
+NOTE_ONLY	nbd855061b617	2026-06-08	黒い醤油のラーメンは、もともと「労働者の塩分補給」だった。— 富山ブラック	県外から友人が遊びに来ると、私は時々「富山ブラック、食べる？」と聞く。 ほぼ全員、写真を見た時点で「黒っ」と声を出す。 スープが、本当に真っ黒なのだ。 「富山ブ		https://note.com/safe_canna441/n/nbd855061b617	1
+NOTE_ONLY	ndcda27ac9d23	2026-06-08	富山湾には、宝石みたいに透き通った海老がいる。— 白えび丼	高岡に住んでいると、富山湾の話を「観光地の話」としてではなく、「目の前の海の話」として書ける。 白えび（しらえび）。 体長6〜8センチ。生きているときは無色透明		https://note.com/safe_canna441/n/ndcda27ac9d23	1
+NOTE_ONLY	nf5ff35f80a0f	2026-06-09	6月中旬、衣替えの後始末で「もう一回」を決める。	衣替えは、ふつう6月1日にやる人が多いと思う。ジャケットを片付けて、半袖を出して、そこで「終わり」と思いがちだ。 でも、私はここ数年、6月中旬にもう一度、押し入		https://note.com/safe_canna441/n/nf5ff35f80a0f	1
+NOTE_ONLY	n831383488bcd	2026-06-09	おとぎの森の初夏、ドラえもん広場でひと休み。— 高岡	6月の高岡は、もう梅雨の入り口に立っている。雨と晴れが日替わりで、湿った空気のなかを蛙の声がする。そういうときに散歩に出かけると、いちばん落ち着くのが「おとぎの		https://note.com/safe_canna441/n/n831383488bcd	1
+NOTE_ONLY	nadc0c8619c33	2026-06-09	富山の煮付けで、いちばん地味な主役。— バイ貝	富山の魚屋で、ガラスケースの隅っこに、控えめに並んでいる貝がある。「バイ貝」。 ツブ貝の親戚みたいな、小ぶりの巻貝。富山湾で獲れる、地味だが、地元では愛されてい		https://note.com/safe_canna441/n/nadc0c8619c33	1
+NOTE_ONLY	n913c64098865	2026-06-10	雪が降る前に。— 雪国の冬支度	富山に住んでいると、秋の終わりに、家じゅうがそわそわし始める。 雪が、来るからだ。 雪国の暮らしは、降ってからではなく、降る前に決まる。 冬支度こそが、ここでの		https://note.com/safe_canna441/n/n913c64098865	1
+NOTE_ONLY	nb84751b50588	2026-06-10	静けさが、つくられている。— 高岡「瑞龍寺」	高岡には、国宝になっている禅寺がある。 瑞龍寺。曹洞宗の寺で、加賀前田家ゆかりの寺として建てられた、 と伝わっている。 観光地として有名というより、 住んでいる		https://note.com/safe_canna441/n/nb84751b50588	1
+NOTE_ONLY	nc6a9cdc44e32	2026-06-10	あたらしい国宝。— 高岡・勝興寺の静けさ	寺近年、高岡に国宝がひとつ増えた。 勝興寺(しょうこうじ)という、大きな寺の本堂と大広間が国宝に指定された。 「あたらしい国宝」という言い方は変かもしれない。 		https://note.com/safe_canna441/n/nc6a9cdc44e32	1
+NOTE_ONLY	nf89503315a87	2026-06-10	海のない北の海産物が、なぜ富山の味の土台なのか。— 「昆布」	海遠物昆布富山県は昆布の産地ではない。それなのに、富山の昆布消費量は全国でも 上位の常連だ。獲れない土地が、いちばん昆布を使う。 この少しねじれた事実が、富山の		https://note.com/safe_canna441/n/nf89503315a87	1
+NOTE_ONLY	n02c7f1eebda2	2026-06-10	金属が、暮らしの音になる町。— 高岡銅器	高岡に住んでいると、金属の手仕事が、特別なものに見えなくなってくる。 ここは、銅器づくりの町だ。 四百年あまり前、城下町をつくるときに鋳物師が呼ばれた、 という		https://note.com/safe_canna441/n/n02c7f1eebda2	1
+NOTE_ONLY	n647fc791246f	2026-06-10	光をしまう器。— 高岡漆器、螺鈿と彫刻の技	高岡には、銅器のほかにもうひとつ、四百年続く手仕事がある。 高岡漆器だ。 漆そのものより、表面に施す加飾のほうに、この土地の特色が出る。 貝を貼る螺鈿（らでん）		https://note.com/safe_canna441/n/n647fc791246f	1
+NOTE_ONLY	n62eea833ef48	2026-06-10	一年に一日だけ動く、町の宝。— 高岡「御車山祭」	高岡には、一年に一日だけ町を進む山車の祭りがある。 御車山祭（みくるまやままつり）。毎年五月一日に行われる、 この町の春のいちばん大きな行事だ。 ユネスコの無形		https://note.com/safe_canna441/n/n62eea833ef48	1
+NOTE_ONLY	n5cfdc347432e	2026-06-10	精肉店の店先で買う、夕方のおやつ。— 高岡「コロッケ」	高岡には、コロッケをよく食べる町、という顔がある。 高級食材でも郷土の伝統食でもない。揚げたてのコロッケが、ただ日常の あちこちに当たり前にある、という話だ。 		https://note.com/safe_canna441/n/n5cfdc347432e	1
+NOTE_ONLY	n6a6b5b8ec12c	2026-06-10	富山湾の冬の王様。— 「寒ブリ」	富山の冬の食卓で、いちばん格が上の魚をひとつ挙げろと言われたら、 迷わず寒ブリと答える。 冬、富山湾で揚がる、脂ののったブリ。 氷見で揚がるものは特にブランドと		https://note.com/safe_canna441/n/n6a6b5b8ec12c	1
+NOTE_ONLY	n03946fa10587	2026-06-10	港の風景。— 富山「海王丸パークと新湊大橋」	車で少し走ると、海に出る。 これは、富山に住んでいて当たり前すぎて、つい忘れてしまう贅沢だ。 射水のあたりに、海王丸パークという場所がある。 帆船「海王丸」が係		https://note.com/safe_canna441/n/n03946fa10587	1
+NOTE_ONLY	nace6ff388f0b	2026-06-10	火曜の午前を、いちばん集中する時間に設計する。	ひとりで仕事をしていて、私が実感していることがある。 1週間で、いちばん集中できる時間は「火曜の午前」だ。 月曜は、エンジンがかかりきっていない。 水曜は、週中		https://note.com/safe_canna441/n/nace6ff388f0b	1
+NOTE_ONLY	n77c0a759af94	2026-06-10	海の向こうに、雪の壁。— 雨晴海岸から見る立山連峰	高岡に住んでいて、いちばん人に説明しづらい景色がある。 雨晴(あまはらし)海岸から見る、立山連峰だ。 海がある。 その水平線の向こうに、三千メートル級の雪をかぶ		https://note.com/safe_canna441/n/n77c0a759af94	1
+NOTE_ONLY	nd653ad1f8ada	2026-06-10	駅で買う、丸い木の箱の話。— 富山「ます寿司」	富山で誰かに「お土産は?」と言われて、いちばん無難で、いちばん喜ばれるのが ます寿司だ。丸い曲げわっぱの箱に、笹を敷いて、酢飯と鱒の切り身を ぎゅっと押した、押		https://note.com/safe_canna441/n/nd653ad1f8ada	1
+NOTE_ONLY	n4258fd49f46f	2026-06-10	梅雨の高岡で仕事をしていると、雨が仕事道具になる。	高岡の梅雨は、音から始まる。 朝、カーテンを開ける前から、雨の音で天気がわかる。 屋根を叩く音と、軒先から地面に落ちる音が重なって、 その日の雨の強さを教えてく		https://note.com/safe_canna441/n/n4258fd49f46f	1
+NOTE_ONLY	n7dde0909f15e	2026-06-10	金屋町の石畳が、400年の鋳物師の時間を今も刻んでいる。	高岡市内に、400年前の街並みがほぼそのまま残っている場所がある。 金屋町（かなやまち）だ。 江戸時代初期、加賀藩主の前田利長が鋳物師を招いて作らせた町で、 高		https://note.com/safe_canna441/n/n7dde0909f15e	1
+NOTE_ONLY	n1629380dd522	2026-06-10	新湊内川は、「日本のヴェネツィア」ではなく、今も漁師の川だ。	新湊内川が「日本のヴェネツィア」と呼ばれているのは知っていたけれど、 初めて行ったとき、その言葉とのずれを感じた。 ヴェネツィアを想像して行くと、景色に落差があ		https://note.com/safe_canna441/n/n1629380dd522	1
+NOTE_ONLY	n9cfd380916d9	2026-06-10	べっこうの飴色に、台所の時間が出る。	「べっこう」という言葉は、もともと海亀の甲羅の色を指す。 あの深くて透ける飴色のこと。 北陸の台所では、その色をした料理を「べっこう」と呼ぶことがある。 醤油と		https://note.com/safe_canna441/n/n9cfd380916d9	1
+NOTE_ONLY	nfc2c2d921be6	2026-06-10	いとこ煮という名前の理由が、食べてみてわかった。	「いとこ煮」という料理名を、最初に聞いたとき、料理の話をされているとは思わなかった。 親戚の集まりで出てきて、食べながら「これ、なんていう料理?」と聞いたら、「		https://note.com/safe_canna441/n/nfc2c2d921be6	1
+NOTE_ONLY	nccad750b3e54	2026-06-11	雨の日の高岡大仏。— The Great Buddha of Takaoka, on a Rainy Day	朝から、糸のような雨が降っていた。 傘を叩く音が、ぱらぱらと細かい。梅雨も半ばを過ぎると、雨はもう驚きではなく、ただ静かに町の上にかかっている。こういう日は、出		https://note.com/safe_canna441/n/nccad750b3e54	1
+NOTE_ONLY	nbbf919d803b6	2026-06-11	万葉線、一輌の朝に揺られて。	朝の高岡駅前から、柿色の電車に乗る。万葉線は一輌きりの路面電車で、いつも、どこか急ぐ気のない顔をしている。発車のとき、頭の上で小さくベルが鳴り、車輪が「ぎゅう」		https://note.com/safe_canna441/n/nbbf919d803b6	1
+NOTE_ONLY	nccce1e10499a	2026-06-11	氷見牛は、地元でもめったに食べられない。	肉氷見の牛、と言うと、たいてい「ブランド牛でしょ?」という顔をされる。 でも、地元に住んでいる側からすると、感覚はちょっと違う。 氷見牛は「いつでも買える肉」で		https://note.com/safe_canna441/n/nccce1e10499a	1
+NOTE_ONLY	nb853cb3bb763	2026-06-11	立山連峰が、毎日見える暮らし。	山富山に住んでいると、晴れた日には、東のほうに高い山並みが見える。 立山連峰だ。雪の残る峰が、街の向こうに、ずらりと並ぶ。 観光で来た人は、よく足を止めて写真を		https://note.com/safe_canna441/n/nb853cb3bb763	1
+NOTE_ONLY	n9e28533d5d29	2026-06-11	ばい貝は、富山の晩酌の相棒。	貝富山に住んでいると、居酒屋でも家でも、当たり前のように出てくる貝がある。 ばい貝だ。 観光で来た人に「これ何ですか」と聞かれて、はじめて、よその土地では そん		https://note.com/safe_canna441/n/n9e28533d5d29	1
+NOTE_ONLY	n47b5c8364a4f	2026-06-11	実績ゼロでも、信頼をつくる方法。	独立したばかりのころ、いちばん困ったのは「実績がないこと」だった。 頼まれた経験がないから見せられない。でも、見せないと頼まれない。 このループから抜けるのに、		https://note.com/safe_canna441/n/n47b5c8364a4f	1
+NOTE_ONLY	nec0ecdd9de3c	2026-06-11	北陸の冬の保存食。— 富山「かぶら寿司」	富山と石川の冬の食卓に並ぶ、不思議な保存食がある。 「かぶら寿司」。 塩漬けにしたかぶらに、塩漬けにしたぶり（または鯖）を挟み、米麹で発酵させたもの。 「寿司」		https://note.com/safe_canna441/n/nec0ecdd9de3c	1
+NOTE_ONLY	n440068cd10e6	2026-06-11	花の前に、球根がある。— 砺波のチューリップ	富山の春というと、海越しの立山連峰や山の雪を思い浮かべる人が多い。 でも、平野のほうにも、春の名物がある。 砺波(となみ)のチューリップだ。 写真でよく出るのは		https://note.com/safe_canna441/n/n440068cd10e6	1
+NOTE_ONLY	n4fc10f013feb	2026-06-11	地元だけで食べる深海魚。— 富山「げんげ」	富山湾の深いところに、げんげという魚がいる。 見た目は、正直に言うと、あまりかっこよくない。 ぬめっとして、半透明で、体はゼラチン質。 昔は網にかかっても捨てら		https://note.com/safe_canna441/n/n4fc10f013feb	1
+NOTE_ONLY	ndf8e2042cdc2	2026-06-11	朝5時から夜10時まで、AIと働く1日の中身。	個人で仕事をしていて、いちばん変わったことを聞かれたら、私はこう答える。 「1日の構造そのものが、変わった。」 AIに役職を分けてから、私の1日は、こんな流れに		https://note.com/safe_canna441/n/ndf8e2042cdc2	1
+NOTE_ONLY	n79cdecee105f	2026-06-12	瑞龍寺、金曜日の午後。— A Quiet Friday at Zuiryu-ji	六月の雨が上がったあと、瑞龍寺へ歩いた。 石畳は濡れていて、サンダルの底にひんやりとした水の感触。正門をくぐると、空気がすっと変わる。境内に入った瞬間の、あの静		https://note.com/safe_canna441/n/n79cdecee105f	1
+NOTE_ONLY	n0a9c5f4b1c2e	2026-06-12	夏の川魚は、塩焼きの香りで食べる。— 庄川の鮎	富山の夏、家の食卓に時々のぼる魚がある。「鮎」だ。 富山県には、立山連峰から日本海へ流れる、清流がいくつもある。 そのなかでも有名なのが、庄川。 夏になると、庄		https://note.com/safe_canna441/n/n0a9c5f4b1c2e	1
+NOTE_ONLY	ndf26ca8fffee	2026-06-12	作業ログを毎日つけていたら、自分の時間の使い方が見えた話。 — What Daily Work Logs Revealed About My Time	毎朝10時に仕事を始めて、夜6時には終わっている。 そのつもりで、3ヶ月が経った。 でも、作業ログをつけるようになって気づいたのは、「そのつもり」と「実際」は、		https://note.com/safe_canna441/n/ndf26ca8fffee	1
+NOTE_ONLY	nb7f40004d732	2026-06-12	金屋町は、鋳物が始まった町。	高岡が「銅器の町」と呼ばれるようになった、その始まりの場所が金屋町だ。 石畳の通りに、千本格子の家が連なる、静かな町並みが残っている。 高岡銅器の工房や大仏は有		https://note.com/safe_canna441/n/nb7f40004d732	1
+NOTE_ONLY	n1fa5780fc225	2026-06-12	「発信を辞めたい」と思う週の、3つの対処。	note を書いていて、ときどき「もう辞めたいな」と思う週がある。 書いても読まれない。 書いた割に手応えが無い。 他の人の数字を見ると、自分が小さく見える。 		https://note.com/safe_canna441/n/n1fa5780fc225	1
+NOTE_ONLY	n534f3f446da7	2026-06-12	富山では、ブリより先に「フクラギ」を食べる。	富山県のスーパーの魚売り場で、初夏から秋にかけて、よく並ぶ魚がある。 「フクラギ」。 ブリの若魚の、富山での呼び名だ。 体長30〜50cmくらい、まだ脂が乗りき		https://note.com/safe_canna441/n/n534f3f446da7	1
+NOTE_ONLY	n41d77c51fa8b	2026-06-12	「よごし」は、野菜を使い切る常備菜。	富山の家の食卓に、地味だけど必ずいる小鉢がある。「よごし」だ。 大根の葉や小松菜などの青菜を、刻んで炒めて、味噌で和えた常備菜。 名前の由来は「味噌でよごす（ま		https://note.com/safe_canna441/n/n41d77c51fa8b	1
+NOTE_ONLY	n711c458c4005	2026-06-12	土曜の家事は、午前で終わらせる。	土曜の朝、私はだいたい家事を全部終わらせている。 洗濯、掃除、買い物、来週の準備。 午前10時には片付いている。 そうすると、午後と日曜が、全部「自分の時間」に		https://note.com/safe_canna441/n/n711c458c4005	1
+NOTE_ONLY	n58622305ad66	2026-06-12	最初の有料記事を出す前に、自分に問うべき3つのこと。	note を続けていると、いつか「有料記事、出してみようか」という瞬間が来る。 無料記事を読んでくれる人がいて、フォロワーも少し増えてきた。 そろそろ、と思う。		https://note.com/safe_canna441/n/n58622305ad66	1
+NOTE_ONLY	ncc992aed3e68	2026-06-12	土曜の朝30分、週次振り返りで週末が変わる。	ひとりで仕事をしていると、振り返りをする相手がいない。 上司もチームもいない。誰も「先週どうだった？」と聞いてくれない。 それで放っておくと、1週間の学びが、そ		https://note.com/safe_canna441/n/ncc992aed3e68	1
+NOTE_ONLY	na45f286aa446	2026-06-12	人を雇う前に、AIに5つの役職を渡してみた話。	個人で仕事をしていると、ある瞬間にふっと気づく。 「全部、自分でやってる。」 営業も、見積も、商品づくりも、SNSの更新も、請求書も、確定申告の準備も。 ぜんぶ		https://note.com/safe_canna441/n/na45f286aa446	1
+NOTE_ONLY	n3d2d7db1dcc7	2026-06-12	ノドグロは、富山湾の最高級魚。— 年に1回の贅沢	富山県の魚屋・寿司屋で、ガラスケースの中で1匹だけ別格の値段で並んでいる魚。 それが「ノドグロ」だ。 赤い体、口の中だけ黒い、小ぶりだが脂の乗った白身魚。 正式		https://note.com/safe_canna441/n/n3d2d7db1dcc7	1
+NOTE_ONLY	n23a63eea8010	2026-06-12	鱒寿司は、駅弁じゃない。富山の朝食だ。	富山駅で買える、有名な駅弁「鬱寿司」。 円形の木枚に、笹の葉、ピンク色の鬱、そして酢飯。 県外の人にとっては「お土産」だが、 富山県の家庭では、朝食や是食の選択		https://note.com/safe_canna441/n/n23a63eea8010	1
+NOTE_ONLY	n05c31b29f5c7	2026-06-12	金曜の夜に「やらない」と決めた3つのこと。	ひとりで仕事をしていると、土日と平日の境目があいまいになる。 仕事終わりがそのまま夜ご飯になり、 夜ご飯の片付けがそのまま週末になる。 気がつくと、月曜の頭がま		https://note.com/safe_canna441/n/n05c31b29f5c7	1
+NOTE_ONLY	n90c6618a2e56	2026-06-12	個人が「会社」を持てる時代に、いちばん大事になること。	2026年現在、私はひとりで「5人の幹部」がいる会社をやっている。 全員AIだ。月の運営コストは5,800円。 数年前なら考えられなかった構造が、いま現実に動い		https://note.com/safe_canna441/n/n90c6618a2e56	1
+NOTE_ONLY	n5a01aea38c3a	2026-06-12	ひとり起業に、最低限必要な専門家は3人だけ。	ひとりで事業を始めるとき、つい「全部自分でやらなきゃ」と思ってしまう。 でも、ある領域だけは、最初から外部の専門家に頃んだほうがいい。 私の場合、最低限の3人を		https://note.com/safe_canna441/n/n5a01aea38c3a	1
+NOTE_ONLY	n71208791bb2e	2026-06-12	富山のお土産は、白えびせんべいで失敗しない。	富山県外の友人に「お土産何がいい？」と聞かれたら、 私はだいたい「白えびせんべい」と答える。 理由はシンプルだ。嫌いな人にあったことがない。 --- ■ 白えび		https://note.com/safe_canna441/n/n71208791bb2e	1
+NOTE_ONLY	n74a1e25e7806	2026-06-12	氷見の干物が、朝食を変える。	富山県の西、能登半島の付け根近くに「氷見」という港町がある。 ブリで有名な町だ。 でも私が「氷見、いいな」と思うのは、ブリよりも、干物のほうだ。 --- ■ 干		https://note.com/safe_canna441/n/n74a1e25e7806	1
+NOTE_ONLY	nff9c0d02984c	2026-06-12	路面電車が、まだ町の真ん中を走っている。— 高岡の万葉線	高岡駅前から、海のほうへ。 細い線路の上を、緑とクリーム色の小さな電車が、ガタンと走り出す。 「万葉線」と呼ばれる、富山県高岡市～射水市を結ぶ、片道絀20kmの		https://note.com/safe_canna441/n/nff9c0d02984c	1
+NOTE_ONLY	n3fa744fe40c5	2026-06-12	木曜午後を「メール整理タイム」にすると、週末が変わる。	ひとりで仕事をしていると、メールが溜まる。 受信箱に300通、400通と未読が積み上がっていく。 「いつか整理しよう」と思いながら、いつまでも片付かない。 私も		https://note.com/safe_canna441/n/n3fa744fe40c5	1
+NOTE_ONLY	n600a3b44dea5	2026-06-12	1ヶ月で失敗したこと、全部書きます。	「月30万を3ヶ月で」と宣言してから、ちょうど1ヶ月が経った。 進捗報告は別の記事にしたので、こちらでは失敗だけを書きます。 カッコ悪い記録ほど、あとから読み返		https://note.com/safe_canna441/n/n600a3b44dea5	1
+NOTE_ONLY	ne60bf8af306d	2026-06-12	北陸の冬のおでんは、出汁が違う。— 越中富山の家のおでん	富山の家のおでんは、関東風とも関西風とも、ちょっと違う。 色は、関東より淡い。 味は、関西より少し力強い。 そしてだしの主役は、昆布と煮干し、ときどき鰹節も入る		https://note.com/safe_canna441/n/ne60bf8af306d	1
+NOTE_ONLY	nae345e240a11	2026-06-12	冬の大根は、別の野菜になっている。— 越中富山の冬大根	夏の大根と、冬の大根は、別の野菜と言ってもいい。 夏のものは、水分が多くてシャキッとしている。サラダ向き。 冬のものは、繊維が締まり、甘みが乗っている。煮物・鍋		https://note.com/safe_canna441/n/nae345e240a11	1
+NOTE_ONLY	n597f3fdec20d	2026-06-13	氷見の朝市は、観光客より先に地元が来る。— Himi Morning Market, Where Locals Come First	まだ夜が明けきらないうちに、氷見へ向かった。 梅雨の合間の、灰色がかった朝である。車を降りると、まず冷気が首筋にあたった。六月だというのに、海の近くの朝はまだひ		https://note.com/safe_canna441/n/n597f3fdec20d	1
+NOTE_ONLY	n4567ced71cbc	2026-06-13	noteの閲覧数が伸びない本当の理由と、今日から変えられる8つのこと	高岡に引っ越してきて、毎日noteを書くようになった。最初の2ヶ月、閲覧数は1記事あたり10〜30ほどで止まっていた。文章の質が低いとは思っていなかった。けれど		https://note.com/safe_canna441/n/n4567ced71cbc	1
+NOTE_ONLY	n0b839094efd9	2026-06-13	去年、YouTubeのリハック（ReHacQ）で、ひろゆきさんが富山を旅する動画が公開された。なんか氷見に行ったらしい、というのは、知り合いから聞いていた。「あ			https://note.com/safe_canna441/n/n0b839094efd9	1
+NOTE_ONLY	n15b784b4a77a	2026-06-13	白えびのピークの朝 — Shirobi at Dawn: The Glass Shrimp of Toyama Bay			https://note.com/safe_canna441/n/n15b784b4a77a	1
+NOTE_ONLY	n5b878fe41dc9	2026-06-13	ドラえもんに、世界中が会いに来ていた。— 富山・高岡おとぎの森公園	その日、富山県高岡市の「おとぎの森公園」には、外国人観光客が並んでいた。 何の順番か。 写真の、順番だった。 ドラえもんと、のび太と、ジャイアンと、スネオと、し		https://note.com/safe_canna441/n/n5b878fe41dc9	2
+NOTE_ONLY	n7f855ff96451	2026-06-13	雨晴海岸、五月の海と立山。— Amaharashi Coast: the Sea and the Tateyama Range in Late Spring.	土曜の朝、まだ暗いうちに家を出た。 高岡の市街から海へ向かって車を走らせると、田の水がだんだん増えていくのがわかる。先週末に田植えの済んだ早苗が、薄墨色の空をう		https://note.com/safe_canna441/n/n7f855ff96451	1
+NOTE_ONLY	n56f375a8ff8a	2026-06-13	富山湾のわかめは、塩漬けで届く。— 海の保存食の話	富山湾でとれるわかめは、春から初夏が旬。 最盛期に大量に獲れたわかめを、長く食べられるようにするのが、塩蔵という保存法だ。 地元のスーパーには、ボウル一杯分くら		https://note.com/safe_canna441/n/n56f375a8ff8a	1
+NOTE_ONLY	nc2c21597a786	2026-06-13	広い家に住む、ということ。— 富山の暮らし	東京から帰ってきた友人が、家に入って最初に言った言葉が 「廊下が長い」だった。 富山では、わりとふつうの家なのだが、 都会から見ると、その感覚は違うらしい。 ■		https://note.com/safe_canna441/n/nc2c21597a786	1
+NOTE_ONLY	nd9d01b05791e	2026-06-13	水の話から、酒の話へ。— 富山の地酒と立山の伏流水	日本酒富山の酒の話をするとき、住んでいる人間はたいてい、まず水の話から始める。 立山連峰に降った雪が、長い時間をかけて地下を通り、平野のあちこちで 湧き水になっ		https://note.com/safe_canna441/n/nd9d01b05791e	1
+NOTE_ONLY	n8e767b3cf0f6	2026-06-13	先に薬を、後でお代を。— 富山の薬売り	子どもの頃、家の押し入れに、紙の箱があった。 富山の薬売りが置いていく「置き薬」の箱だ。 中には風邪薬や胃腸薬、絆創膏が入っていて、 使ったぶんだけ、次に来たと		https://note.com/safe_canna441/n/n8e767b3cf0f6	1
+NOTE_ONLY	n7f9528ccb81a	2026-06-13	駅がひとつ増えて。— 北陸新幹線で変わったこと	2015年に、北陸新幹線が金沢まで開業した。 そのとき、新高岡という駅も、新しくできた。 新幹線が一本通るだけで、町の距離感が変わる。 住んでいると、その変化は		https://note.com/safe_canna441/n/n7f9528ccb81a	1
+NOTE_ONLY	nf3f748223a2f	2026-06-13	春なのに、雪の壁。— 立山「雪の大谷」	富山に住んでいると、春の話なのに雪の話になることがある。 立山黒部アルペンルートの「雪の大谷(おおたに)」だ。 下界がもう桜も終わって、上着もいらない頃。 山の		https://note.com/safe_canna441/n/nf3f748223a2f	1
+NOTE_ONLY	nf1f490843582	2026-06-13	フリーランス1年目に、読んでよかった本ベスト5。	ひとりで仕事を始めた1年目、私はけっこう本を読んだ。 不安になると本に手が伸びる、というのは、ある種の防衛反応だと思う。 その中で「これは本当に効いた」と思う5		https://note.com/safe_canna441/n/nf1f490843582	1
+NOTE_ONLY	nc5e3b5853cd9	2026-06-13	富山湾の春の風物詩。— 「ホタルイカ」	春になると、富山湾の話題はホタルイカ一色になる。 体長7センチほどの小さなイカ。 産卵のために沖から岸へ寄ってくる時期、富山ではこれを食べる、見る、 拾う、と三		https://note.com/safe_canna441/n/nc5e3b5853cd9	1
+NOTE_ONLY	nc432374e414c	2026-06-13	高岡の隣には、もうひとりの藤子がいる。— 氷見『潮風ギャラリー』	高岡で暮らしていると、「藤子・F・不二雄＝ドラえもんを描いた人＝高岡出身」は、 普通の知識として身についてくる。 でも、お隣の氷見市に行くと、もうひとりの「藤子		https://note.com/safe_canna441/n/nc432374e414c	1
+NOTE_ONLY	n504a2879d6a0	2026-06-14	日本でいちばん高いところから、水が落ちている。— 富山「称名滝」	富山県の立山連峰の中ほどに、日本で一番高いところから水が落ちる場所がある。 称名滝（しょうみょうだき）。 落差350メートル。 ビルの100階分くらいの高さから		https://note.com/safe_canna441/n/n504a2879d6a0	2
+NOTE_ONLY	n5361df3b0d10	2026-06-14	富山には、雪を割ったような形の和菓子がある。— 薄氷	富山県には、雪が薄く張った湖面のような和菓子がある。 「薄氷（うすごおり）」。 正方形の白い煎餅に、和三盆糖の薄い衣がかかっている。 1枚の厚さは1ミリほど。文		https://note.com/safe_canna441/n/n5361df3b0d10	1
+NOTE_ONLY	nda50d4e3f2c8	2026-06-14	営業しないで、仕事が来る仕組みは作れるのか。	ひとりで仕事をしていて、私が最初に苦手だったのは「営業」だ。 会社員時代もそうだった。電話、訪問、提案資料。 心の底から好きになれなかった。 フリーランスになっ		https://note.com/safe_canna441/n/nda50d4e3f2c8	1
+NOTE_ONLY	ndd4f8479c1cd	2026-06-14	フリーランス収支管理スプレッドシートを売って、分かったこと。	私はnoteとBOOTHで、フリーランス向けの収支管理スプレッドシート（980円）を販売している。 これは「月30万を3ヶ月で稼ぐ」挑戦の、3本柱のひとつ。 完		https://note.com/safe_canna441/n/ndd4f8479c1cd	1
+NOTE_ONLY	n192b7f156f9e	2026-06-14	請求書を3分で作る、AIへのプロンプト。	ひとりで仕事をしていて、地味に時間を吸われるのが「請求書づくり」だ。 ひとつ作るのに30分。月に5枚なら2時間半。 ぜんぶAIに渡すと、3分で終わる。 私が実際		https://note.com/safe_canna441/n/n192b7f156f9e	1
+NOTE_ONLY	n6019205822d9	2026-06-15	金屋町で、鎚音に足を止めた。— Kanayamachi, Where the Hammer Still Rings	梅雨の合間の、曇った日曜の午後だった。 高岡駅から北へ、千保川にかかる橋を渡ると、急に町の音が変わる。車の流れも、人の声も遠のいて、かわりに、どこかから、かん、		https://note.com/safe_canna441/n/n6019205822d9	1
+NOTE_ONLY	n778829ba53b1	2026-06-20	高岡コロッケを、揚げたてのまま齧った。— The Korokke of Takaoka, Eaten Where It's Fried	梅雨の晴れ間というのは、人を急に外へ出したくなるものらしい。 朝から、雲のあいだに青がのぞいていた。何日も湿った空気のなかにいたあとの、ひさしぶりの陽射しだ。ア		https://note.com/safe_canna441/n/n778829ba53b1	1
+NOTE_ONLY	n0615f5861d08	2026-06-21	夏だけ、仕事を朝に前倒しするようにした。	富山の夏は暑い。 梅雨が明けると、昼間の気温が上がり、頭が動かなくなる時間帯が出てくる。 特に午後2〜4時頃、集中力が落ちる。 これを受け入れてから、仕事のスケ		https://note.com/safe_canna441/n/n0615f5861d08	1
+NOTE_ONLY	nf83c7f6de898	2026-06-21	高岡古城公園の蓮が咲く時期に、朝に行く理由。	高岡古城公園のお濠には、夏になると蓮が咲く。 7月から8月にかけて、水面が蓮の葉で埋まり、 その中に白やピンクの花が立ち上がる。 これを見るなら、朝に行くに限る		https://note.com/safe_canna441/n/nf83c7f6de898	1
+NOTE_ONLY	n2a831d62325a	2026-06-21	夏の冷奴は、豆腐の選び方で全部変わる。	冷奴は、薬味と醤油の話だと思っていた。 豆腐の選び方を変えてから、考えが変わった。 ■ 地場の豆腐屋のもの 富山には地場の豆腐屋がいくつかある。 スーパーに並ん		https://note.com/safe_canna441/n/n2a831d62325a	1
+NOTE_ONLY	n9b7fdc5c1e88	2026-06-21	富山の夏、とうもろこしを直売所で買うようになった。	スーパーでとうもろこしを買わなくなったのは、直売所で買い始めてからだ。 収穫した当日か翌日に並ぶ地場のとうもろこしは、 スーパーに並んでいるものより皮が緑が濃く		https://note.com/safe_canna441/n/n9b7fdc5c1e88	1
+NOTE_ONLY	ncdd5c9edcee0	2026-06-21	仕事をする場所を、固定しなくなった。	ひとり起業した当初、「仕事部屋」を作ろうとした。 デスクを買い、棚を整え、「ここが自分のオフィスだ」という場所を用意した。 最初の数ヶ月はそこで仕事をしていた。		https://note.com/safe_canna441/n/ncdd5c9edcee0	1
+NOTE_ONLY	ne66d1cf6f71f	2026-06-21	仕事のメモを、手書きに戻した。	数年間、デジタルで全部管理していた。 アイデアも、タスクも、打ち合わせのメモも—— スマートフォンかPCに入力していた。 どこからでも見られる、検索できる、バッ		https://note.com/safe_canna441/n/ne66d1cf6f71f	1
+NOTE_ONLY	n2ed2c3db7f2f	2026-06-21	ひとり仕事で初めて外注したとき、何が変わったか。	「ひとり起業」と言っているが、全部一人でやっているわけではない。 デザインの仕事を、フリーランスのデザイナーに頼んだことがある。 最初はそれが「ひとり起業」の定		https://note.com/safe_canna441/n/n2ed2c3db7f2f	1
+NOTE_ONLY	n4fe1066ce7c8	2026-06-22	ます寿しの笹を、ほどくということ。	竹の皮を割いて作った輪ゴムのような紐を外すと、木の曲げわっぱがふっと緩む。その瞬間に立ちのぼってくるのが、笹の青い匂いだ。梅雨の晴れ間、台所の窓を開け放ったまま		https://note.com/safe_canna441/n/n4fe1066ce7c8	1
+NOTE_ONLY	n930a1fe5a902	2026-06-23	収支管理が「続けられた」のは、シートを変えてからだった	お金の管理が、ずっと続きませんでした。 フリーランスを始めてから、家計簿アプリを入れては消し、無料の収支テンプレを ダウンロードしては放置し、を繰り返していまし		https://note.com/safe_canna441/n/n930a1fe5a902	1
+NOTE_ONLY	n77350f67f817	2026-06-24	錫は、手のなかで眠るように冷たい——高岡・鋳物の工房で	朝まで降っていた雨が嘘のように上がって、昼前には日差しが戻ってきた。梅雨の晴れ間というやつだ。湿った土の匂いがまだ残る道を、私は鋳物の工房へ向かった。高岡で生ま		https://note.com/safe_canna441/n/n77350f67f817	1
+NOTE_ONLY	n3b6a2f45dcc8	2026-06-25	富山の味と旅、地元目線でまとめました（お取り寄せの探し方つき）	富山の味と旅を、地元目線でまとめたページを作りました🐟	paid	https://note.com/safe_canna441/n/n3b6a2f45dcc8	1
+NOTE_ONLY	nab4d88d0ad57	2026-06-26	雨の朝、高岡の純喫茶でトーストの湯気に肘をつく	 目が覚めると、雨だった。雨というより、空がゆっくり溶けて落ちてくるような、梅雨の終わりの降りかただ。窓を開けると、生ぬるい風と一緒に、濡れたアスファルトの匂い		https://note.com/safe_canna441/n/nab4d88d0ad57	1
+NOTE_ONLY	nb2be72744506	2026-06-26	雨の伏木で、潮と重油の匂いを吸い込む夕方 — A Rainy Evening in Fushiki, Salt Air and Engine Oil	梅雨の高岡は、昼を過ぎても空が決心しない。降るのか、やむのか、灰色のまま迷っている。こういう日はかえって伏木がいい。晴れた港は明るすぎて、町の素顔が光に溶けてし		https://note.com/safe_canna441/n/nb2be72744506	1
+NOTE_ONLY	na7f6f8a6b285	2026-06-27	子どもの頃、ちょっと怖かった。— 大人になって会いに行った『笑ゥせぇるすまん』	子どもの頃、夜にうっかりつけたテレビで、ちょっと怖い漫画を見た記憶がある。 黒い服を着た太った男が、画面いっぱいの「ドーン!!」とともに、 誰かを破滅させる。 		https://note.com/safe_canna441/n/na7f6f8a6b285	1
+NOTE_ONLY	nede574a2b658	2026-06-27	ファイル名を「2026-06-15_」で始めるようにしたら、探し物が消えた。	ひとりで仕事をするようになって、いちばん増えたのは「ファイル」だった。 記事の下書き、請求書、企画メモ、台本、画像。 会社員のころは共有サーバーの決まりに従って		https://note.com/safe_canna441/n/nede574a2b658	1
+NOTE_ONLY	n48573b36ba5f	2026-06-27	庄川峡は、船から見上げる谷。	富山の南、庄川の上流に、庄川峡という静かな峡谷がある。 深い谷あいに水をたたえ、遊覧船で奥へと進んでいける場所だ。 歩いて見る渓谷とは違って、ここは水の上から谷		https://note.com/safe_canna441/n/n48573b36ba5f	1
+NOTE_ONLY	n927a0c3d905b	2026-06-27	皿からはみ出る、レモン付き唐揚定食。— 富山「レストランほりい」	富山にある「レストランほりい」という名の定食屋に、私はときどき行く。 入って、メニューを見て、「今日は唐揚かな」と思う日がある。 そういう日は、たいてい唐揚定食		https://note.com/safe_canna441/n/n927a0c3d905b	1
+NOTE_ONLY	nb98bd7ab1281	2026-06-27	夏の食卓に、ちょんまげ巻きのそうめんが届く。— 富山「大門素麺」	富山の親戚から、夏になるとそうめんが届く。 ふつうのそうめんとは、見た目が少し違う。 箱を開けると、まっすぐな束ではなく、ぐるぐると渦巻きに巻かれた、 丸い「ち		https://note.com/safe_canna441/n/nb98bd7ab1281	2
+NOTE_ONLY	n3efaa8ad6688	2026-06-27	ひとり仕事の、いちばんシンプルな段取りの話	何年もひとりで仕事をしていて、段取りを一度だけ大きく変えた。 それまでは、仕事の始まりに「タスク管理ツール」を開いていた。 クラウドで、どこからでも見られて、サ		https://note.com/safe_canna441/n/n3efaa8ad6688	2
+NOTE_ONLY	na26063193eda	2026-06-27	夏至前の北陸は、19時を過ぎても明るい。	6月の中旬、夕食の支度をしながら窓の外を見て、毎年すこし戸惑う。 19時を過ぎているのに、外がまだ明るい。 時計と空が合っていない感じがして、何度も時刻を見直す		https://note.com/safe_canna441/n/na26063193eda	1
+NOTE_ONLY	ne44720fcf327	2026-06-27	たら汁は、漁師の体をあたためる鍋。	富山の東のはずれ、朝日町のあたりに、たら汁という名物がある。 冬の海でとれたタラを、ぶつ切りにして、味噌で豪快に煮た鍋だ。 切り身だけでなく、頭も内臓も、丸ごと		https://note.com/safe_canna441/n/ne44720fcf327	1
+NOTE_ONLY	nc15cd99b4468	2026-06-27	春の富山湾に、蜃気楼が立つ。	海春の富山湾では、向こうの景色が、ゆらゆらと伸びたり反転したりすることがある。 蜃気楼だ。魚津のあたりが、よく見える場所として知られている。 遠くの船や町並みが		https://note.com/safe_canna441/n/nc15cd99b4468	1
+NOTE_ONLY	n581483040b7b	2026-06-27	ころ柿は、軒先で甘くなる。	秋が深まると、富山の古い家の軒先に、オレンジ色の柿がずらりと吊るされる。 干し柿だ。富山では「ころ柿」と呼ぶ。 渋柿を、皮をむいて吊るし、寒い風に当てて、ゆっく		https://note.com/safe_canna441/n/n581483040b7b	1
+NOTE_ONLY	n863bfc7d4f94	2026-06-30	水無月を一切れ、半年の埃を落とすように	 六月の最後の日は、朝から雨だった。梅雨の雨は音を立てない。窓を伝うのではなく、空気そのものがしっとりと水を含んで、肌にまとわりついてくる。シャツの背中がいつの		https://note.com/safe_canna441/n/n863bfc7d4f94	1
+NOTE_ONLY	nb518b852cfe2	2026-06-30	運河の跡が、憩いの水辺になった。	富山市の中心近くに、大きな水辺の公園がある。富岩運河環水公園だ。 広い水面と芝生、橋。天気のいい日は、散歩やランニングの人でにぎわう。 ここはもともと、物を運ぶ		https://note.com/safe_canna441/n/nb518b852cfe2	1
+NOTE_ONLY	n64d39f31b08d	2026-06-30	高岡に3年住んでわかった、観光客が素通りする10の場所。— 10 Hidden Spots in Takaoka That Tourists Walk Past	高岡大仏、金屋町、瑞龍寺。 高岡の観光マップに載っている場所は、確かにどれも価値がある。 でも高岡に住んでいると、「そこじゃないところ」に面白いものが積もってい		https://note.com/safe_canna441/n/n64d39f31b08d	1
+NOTE_ONLY	n90ab5c533377	2026-06-30	北陸新幹線で行く、3泊4日の北陸旅行。金沢より高岡に1日多く泊まった話。— 4 Days in Hokuriku: Why I Chose Takaoka Ov	北陸新幹線が金沢まで延伸し、さらに福井・敦賀まで開通した。 「北陸に行きやすくなった」という話をよく聞くようになった。 高岡に住んでいる私は、旅行で来る友人から		https://note.com/safe_canna441/n/n90ab5c533377	1
+NOTE_ONLY	n76333a11034d	2026-06-30	富山に来たら、これだけは食べてほしい。地元民が選ぶ5つの味。— Toyama's 5 Must-Try Foods, According to a Local	富山に観光で来る人が「どこで食べればいいですか？」と聞いてくることがある。 高岡に住んでいる私からすると、正直どれを答えるか毎回迷う。 食べるものが多すぎて、「		https://note.com/safe_canna441/n/n76333a11034d	1
+NOTE_ONLY	nd93e70271ca3	2026-07-01	白壁に手を当てると、夏がすこし静かになる	朝の八時、山町筋にはまだ人がいない。 高岡の駅から北へ十分ほど歩くと、通りの空気がふっと変わる。アスファルトの照り返しで首筋を炙っていた七月の陽が、土蔵の白壁に		https://note.com/safe_canna441/n/nd93e70271ca3	1
+NOTE_ONLY	n1ba9c1085f55	2026-07-02	潮の匂いは、朝いちばんに濃くなる	朝の六時半、岩瀬の町にはまだ誰もいなかった。 富山の駅から路面電車に揺られて北へ向かうと、車窓の景色がだんだんと開けていく。ビルが低くなり、空が広くなり、やがて		https://note.com/safe_canna441/n/n1ba9c1085f55	1
+NOTE_ONLY	na6d844347113	2026-07-02	静かな場所で仕事をしていると、考えが深く潜れる気がする。	大きい都市から離れて仕事をしていると、よく聞かれることがある。 「情報のアンテナが鈍くなりませんか」と。 正直にいうと、なっていない。むしろ、静かな場所にいるほ		https://note.com/safe_canna441/n/na6d844347113	1
+NOTE_ONLY	n5c10a6917dd7	2026-07-02	土曜の朝、家のすぐ近くの市場まで歩く。	土曜の朝、私はだいたい7時前に家を出て、町の市場まで歩く。 特に買うものが決まっているわけではない。 だしを取る昆布、晩のおかずになる魚、季節の野菜。 何がある		https://note.com/safe_canna441/n/n5c10a6917dd7	1
+NOTE_ONLY	n2cc2564f47a7	2026-07-02	富山は、一人一台の車社会。	富山に住んでいると、車はぜいたく品ではなく、生活の前提だ。 家族の人数ぶん、車がある、という家も珍しくない。 都会から来た人に「一人一台なの？」と驚かれて、 は		https://note.com/safe_canna441/n/n2cc2564f47a7	1
+NOTE_ONLY	nf0acfa0ee062	2026-07-02	氷見うどんのある台所	うちの台所に、氷見うどんの乾麺がずっとある。 そうめんより少し固く、うどんより少し細い、あの束。 富山県の西の端、海の町・氷見から来る手延べの麺だ。 讃岐うどん		https://note.com/safe_canna441/n/nf0acfa0ee062	2
+NOTE_ONLY	n536da64d1b08	2026-07-02	高岡から1時間半、福井のそば屋へ。— 「御清水庵」と越前おろしそば	富山県高岡市から、車で1時間半。 あるいはサンダーバードと特急を乗り継いで、ちょっと長めの小旅行。 福井県には、そばを食べに行く価値のある町が、いくつかある。 		https://note.com/safe_canna441/n/n536da64d1b08	1
+NOTE_ONLY	nc93b7a8d4230	2026-07-03	竹の匂いのする夜が、戸出にはある	夕方の六時、戸出の駅を降りると、まず匂いで祭りが始まっていることがわかった。 青竹の匂いだ。切ったばかりの笹の、あのすこし青くさくて甘い匂いが、駅前の空気にまっ		https://note.com/safe_canna441/n/nc93b7a8d4230	1
+NOTE_ONLY	nc4f6e9e362ef	2026-07-03	梅雨の間に光を見つける	6月の高岡は、1日おきくらいに曇るか降るかしている。 梅雨だから当たり前なのだけど、それを「ずっと悪天候」と思うと少し損をする。晴れ間がある。3時間だけ晴れる日		https://note.com/safe_canna441/n/nc4f6e9e362ef	2
+NOTE_ONLY	n7c15390c6757	2026-07-03	北陸新幹線から高岡へ。乗り換え30分でたどり着く、もうひとつの北陸。— Takaoka, 30 Minutes from Shinkansen	北陸新幹線で金沢まで来た旅行者が、「では次は」と考えたとき、高岡の名前が上がることは多くない。 金沢を出発して富山市に向かうか、そのまま帰路につくか。地図上で見		https://note.com/safe_canna441/n/n7c15390c6757	1
+NOTE_ONLY	n3908a6c026dc	2026-07-04	白えびのかき揚げは、赤くならないまま揚がる	七月の土曜の昼下がり、富山湾の匂いは油の匂いに変わる。 高岡から車で三十分、海の近くの小さな食堂に入ると、まず耳が反応した。奥の厨房から、じゅわっ、という低い音		https://note.com/safe_canna441/n/n3908a6c026dc	1
+NOTE_ONLY	n29be87266b8c	2026-07-06	大門素麺は、丸まげのまま届く。	戸棚の奥から、和紙に包まれた素麺を取り出す。ほどくと、細い麺が幾重にも丸く巻かれている。まるで、昔の女の人が結い上げた髷のようだ。大門素麺。この土地では昔から、		https://note.com/safe_canna441/n/n29be87266b8c	1
+NOTE_ONLY	n54c650ef7718	2026-07-07	べっこうは、琥珀のなかに雲を閉じ込める。	夕方、台所の窓を開けても、入ってくる風はぬるいままだ。七月の高岡は、日が落ちても畳が昼の熱をなかなか手放さない。首筋にうっすら汗がにじむ。こういう晩に、母はよく		https://note.com/safe_canna441/n/n54c650ef7718	1
+NOTE_ONLY	n9db101260531	2026-07-09	鮎の塩焼きを、川の音といっしょに。	夏の庄川へ下りていくと、水はまだ雪の記憶を残していて、素足を浸すと踝から上へ冷たさが走る。上流の砺波あたり、川原の石はどれも角が丸く、日に灼けて手のひらほどの温		https://note.com/safe_canna441/n/n9db101260531	1
+NOTE_ONLY	necb39f452c15	2026-07-10	ばい貝の醤油煮を、夏の晩酌に。	夏の富山の魚屋というのは、少しさびしい。鰤の季節はとうに終わり、蛍烏賊の白い群れも春に消えた。ガラスケースの氷の上に、水揚げの少ない季節の静けさが漂っている。そ		https://note.com/safe_canna441/n/necb39f452c15	1
+NOTE_ONLY	n4500f3011124	2026-07-11	蝉のはじまりと、井戸水のトマト	夜明けの四時半、まだ薄暗いうちに目が覚めた。夏の高岡は、朝がいちばん美しい。窓を開けると、昨日までとは違う音が耳に飛び込んでくる。今年最初の蝉だ。まだ数は少ない		https://note.com/safe_canna441/n/n4500f3011124	1
+NOTE_ONLY	n67be345b8b11	2026-07-12	勝興寺 — 国宝の伽藍を、伏木の高台から。	 伏木の駅を降りると、潮の匂いがまだ胸の底に残っていた。港町の風は、七月でも少し湿っていて、首筋にまとわりつく。汗ばんだシャツの背中が、風の通り道になる。そこか		https://note.com/safe_canna441/n/n67be345b8b11	1
+NOTE_ONLY	n15f42ba13c9e	2026-07-13	梅雨の切れ間、金屋町の石畳を歩く	朝、目を覚ますと窓の外がやけに明るかった。ここ数日、高岡の空はずっと灰色の蓋をかぶせたようで、洗濯物も乾かず、家の中には湿った布の匂いがこもっていた。それがどう		https://note.com/safe_canna441/n/n15f42ba13c9e	1
+NOTE_ONLY	nde2ef217f6f6	2026-07-14	雨上がりの金屋町、銅の匂い	朝、目を覚ますと雨は上がっていた。梅雨のいちばん深いところ、七月のなかばというのは、富山ではこういう朝が続く。夜のあいだにひとしきり降って、明け方にふっと止む。		https://note.com/safe_canna441/n/nde2ef217f6f6	1
+NOTE_ONLY	n286d58d50b7c	2026-07-15	入善ジャンボ西瓜 — 夏の富山の、重たい贈りもの。	七月の入善は、朝からもう光が違う。黒部川が山から運んできた石の平野に、まっすぐな夏の日差しが落ちて、畑の緑がじりじりと音を立てているような気がする。用水路のふち		https://note.com/safe_canna441/n/n286d58d50b7c	1
+NOTE_ONLY	nadb0339d8211	2026-07-16	海王丸パークの帆船を、夏の富山湾の光で。	七月の午後、射水の新湊まで足をのばした。海王丸パークに着くと、まず風が違うのがわかる。高岡の町なかの、じっとりと重い夏の空気ではない。海から吹いてくる風は塩の匂		https://note.com/safe_canna441/n/nadb0339d8211	1
+NOTE_ONLY	n544f58bc5180	2026-07-17	夏の富山湾の岩がきを、殻ごと。	七月の氷見。港からほど近い店の暖簾をくぐると、生簀のポンプがごぼごぼと低く鳴っていた。カウンターに腰かけると、板前さんが「今朝あがったやつです」と、ざるにごろり		https://note.com/safe_canna441/n/n544f58bc5180	1
+NOTE_ONLY	n29840a98fd84	2026-07-18	二上山から万葉の高岡を望む — 大伴家持と二上山の賦	朝、まだ暑くなりきらないうちに、二上山へ向かった。標高二七四メートル。高岡と氷見のあいだに横たわる、低いけれど堂々とした山だ。伏木の高台から見上げると、稜線がゆ		https://note.com/safe_canna441/n/n29840a98fd84	1
+NOTE_ONLY	nc8e8172b0f66	2026-07-19	氷見うどんを、冷やして手繰る夏。— Chilled Himi Udon on a Toyama Summer Evening	七月の日曜、夕方になっても高岡の台所には昼の熱がまだ居座っていた。窓を開けても入ってくるのはぬるい風ばかりで、首筋にじっとりと汗がにじむ。こういう晩は、火をなる		https://note.com/safe_canna441/n/nc8e8172b0f66	1
+NOTE_ONLY	n9d23345803d0	2026-07-20	雨晴海岸で、富山湾越しの立山を待つ夏。— Amaharashi Coast on Marine Day	海の日の朝、まだ七時前に家を出た。氷見線の雨晴駅で降りると、改札を抜けたとたんに潮の匂いが顔に当たる。夏の潮は、冬のそれより少し甘く、少し重い。海藻と、温まりか		https://note.com/safe_canna441/n/n9d23345803d0	1
+NOTE_ONLY	na9502b98eea7	2026-07-21	白えび、富山湾の宝石を夏の一皿で。— Shiroebi, the Jewel of Toyama Bay	七月の火曜、日中の熱がまだ残る夕暮れに、私は氷を張った鉢を台所へ運んだ。今日の主役は白えびだ。市場でこの淡いさくら色の小さなえびを見かけると、私はいつも足を止め		https://note.com/safe_canna441/n/na9502b98eea7	1
+NOTE_ONLY	n2cc579da9b21	2026-07-22	高岡大仏 — 銅器の町がつくった、日本三大仏のひとつ。— The Great Buddha of Takaoka	昼下がりの中心街を一本入ると、ビルの隙間にふいに空が広がって、そこに青い大きな影が座っている。高岡大仏だ。駅からゆっくり歩いて十分ほど。何気ない商店街の角を曲が		https://note.com/safe_canna441/n/n2cc579da9b21	1
+NOTE_ONLY	n6f2cf9c168b4	2026-07-23	大暑の高岡、金屋町の朝は水の音で明ける	朝五時、まだ薄暗いうちに目が覚める。七月二十三日、暦のうえでは大暑。名前のとおり、一年でいちばん暑さが極まる頃だ。寝間着の背中がもう湿っている。窓を開けると、外		https://note.com/safe_canna441/n/n6f2cf9c168b4	1
+NOTE_ONLY	nd4a01f8215b0	2026-07-24	昆布で締める、富山の夏の一皿 — Kobujime, Toyama's Kombu-Cured Sashimi	冷蔵庫を開けると、うっすらと磯の匂いが立つ。皿の上で、白い昆布の帯が、夜のあいだじゅう白身魚をだいていた。富山では、これを昆布締めと呼ぶ。刺身を昆布ではさんで、		https://note.com/safe_canna441/n/nd4a01f8215b0	1
+NOTE_ONLY	n5f880470dbd8	2026-07-25	夏の朝、雨晴の海に立山が浮かぶ	 夜明け前に目が覚めてしまうのは、歳のせいばかりではないと思う。七月の高岡は、朝の四時にはもう空がうっすらと白んでいて、雨戸の隙間から差しこむ光が、寝床の畳をま		https://note.com/safe_canna441/n/n5f880470dbd8	1
+NOTE_ONLY	n55b066bd73f9	2026-07-26	越中丸なすを、味噌で焼く夏。— Ecchu Round Eggplant, Grilled in Miso	日曜の朝、日がまだ高くなりきる前に、家を出て直売所へ向かった。高岡の外れ、田んぼの縁に建つプレハブみたいな小さな店だ。引き戸をがらりと開けると、土と青菜の匂いが		https://note.com/safe_canna441/n/n55b066bd73f9	1
+NOTE_ONLY	n91eb61616ee5	2026-07-27	瑞龍寺 — 国宝の伽藍を、朝いちばんに歩く。	夏の朝は、六時をまわると、もう空気が動きだす。まだ人の来ないうちにと思って、瑞龍寺の総門をくぐった。夜のあいだに冷えた石畳が、素足で立てば分かるほどにひんやりと		https://note.com/safe_canna441/n/n91eb61616ee5	1
+NOTE_ONLY	nb3515eaac8a2	2026-07-28	打ち水の匂い ― 高岡、夏の夕暮れ	七月の終わり、日が西の二上山へ落ちかかるころ、私はようやく庭に出る。昼のあいだは、アスファルトも瓦も、触れれば火傷しそうなほど熱を溜めこんでいた。台所の窓越しに		https://note.com/safe_canna441/n/nb3515eaac8a2	1
+NOTE_ONLY	n5a223e0c89e6	2026-07-29	ゲンゲ ― 富山湾の底から届く、幻の一夜干し	七月の夜は、昼の熱を家じゅうに溜め込んだまま暮れていく。台所の窓を開けても、入ってくるのはぬるい風ばかりで、首すじの汗はなかなか引かない。それでも日が落ちれば、		https://note.com/safe_canna441/n/n5a223e0c89e6	1
+NOTE_ONLY	n05418a955814	2026-07-30	井波 — 木彫刻の町と、瑞泉寺の門前を歩く	高岡から南へ車を走らせ、砺波平野の散居村を抜けていくと、山あいに井波の町が見えてくる。南砺の一角、木彫刻のまち。ここへ来ると、耳がまず先に町を知る。 八日町通り		https://note.com/safe_canna441/n/n05418a955814	1
+NOTE_ONLY	n7fd22b6524e3	2026-07-31	夕凪の高岡、路地に打ち水の匂い	七月の終わりの夕方、勝手口の戸を開けると、昼のあいだ溜め込んだ熱がむわりと足元から立ちのぼってきた。アスファルトはまだ人肌より熱い。素足で三和土（たたき）に降り		https://note.com/safe_canna441/n/n7fd22b6524e3	1
+NOTE_ONLY	n522292c67279	2026-08-01	七夕の風、高岡の夜に揺れて	八月一日。高岡の街に、色とりどりの吹き流しが立ちはじめる日だ。 夕方、仕事を終えて末広町のあたりを歩くと、まだアスファルトは昼の熱を吐いている。サンダルの裏から		https://note.com/safe_canna441/n/n522292c67279	1
+NOTE_ONLY	n02e71b8a0056	2026-08-02	風に揺れる短冊の街で	八月の高岡は、日が暮れてからが本番だ。 夕方六時を過ぎても、アスファルトはまだ昼間の熱を吐き出していて、サンダルの底からじんわりと温もりが伝わってくる。それでも		https://note.com/safe_canna441/n/n02e71b8a0056	1
+NOTE_ONLY	n334ea9f026ac	2026-08-04	立秋の前の海 — 雨晴で夏を見送る	八月に入って、高岡の朝はもう蝉の声で始まる。まだ六時前だというのに、家の裏の欅から油蝉が一斉に鳴きたてて、その音の壁みたいなものが、寝ている僕の体をじわじわと押		https://note.com/safe_canna441/n/n334ea9f026ac	1
+NOTE_ONLY	n4001eb4b1704	2026-08-07	七夕の風が抜ける町で	夕方の六時を過ぎても、高岡の空はまだ白い。仕事帰りの背中に張りついたシャツを剥がしながら、末広町のアーケードへ足を向けると、頭上いっぱいに七夕飾りが揺れていた。		https://note.com/safe_canna441/n/n4001eb4b1704	1
+NOTE_ONLY	n112e329a7e79	2026-08-09	夏の日曜、雨晴の海と立山	朝の五時半に目が覚めた。日曜だというのに、体がもう夏の時間に慣れてしまっている。窓を開けると、まだ熱を持たない空気がすっと部屋に入ってきて、庭のどこかで一匹だけ		https://note.com/safe_canna441/n/n112e329a7e79	1
+NOTE_ONLY	n9c5df58a7295	2026-08-10	真鍮の風鈴が鳴る昼下がり ― 高岡、八月の路地にて	八月の高岡は、朝から空気が飴のように重い。目を覚ますと、蝉の声がもう窓の外で満ちていて、布団の上に投げ出した腕が、じっとりと汗ばんでいる。台所へ行き、冷蔵庫から		https://note.com/safe_canna441/n/n9c5df58a7295	1
+NOTE_ONLY	n618173927b53	2026-08-11	五箇山、茅葺の下で夏をやり過ごす — Gokayama, a UNESCO Village of Steep Thatched Roofs	高岡から車で一時間半、庄川の谷をさかのぼると、蝉の声がふっと遠くなる。窓を全開にしたまま山道を上がっていくと、平野にわだかまっていた湿った熱気が、少しずつ、水を		https://note.com/safe_canna441/n/n618173927b53	1
+NOTE_ONLY	nd6ce3f2aba42	2026-08-17	富山の結婚式、引き出物に「鯛のかまぼこ」が入っているの、知ってますか	他県の人が富山の結婚式で驚くもの。それが、鯛や鶴亀をかたどった 大きな「細工かまぼこ」です。持ち帰って、家族で切り分けて食べる文化があります。 板のない昆布巻き		https://note.com/safe_canna441/n/nd6ce3f2aba42	1
+NOTE_ONLY	ndfac1dec7179	2026-08-18	雨晴をまつ	雨晴を待つ ── 富山湾・海の見える町の恋物語 プロローグ 三月の光 電車が海沿いのカーブに差しかかると、窓の外がふいに明るくなった。 遥は、膝の上で握っていた		https://note.com/safe_canna441/n/ndfac1dec7179	1
+NOTE_ONLY	n9d31ee9d3b0a	2026-08-19	富山の地酒、地元民の選び方と楽しみ方【¥300・保存版】	富山で「おすすめの地酒、どれ?」と店の人に聞くと、そこそこの確率で「何食べるん?」と聞き返される。最初はぶっきらぼうに感じるかもしれないが、あれは意地悪じゃない	paid	https://note.com/safe_canna441/n/n9d31ee9d3b0a	3
+NOTE_ONLY	n6fae4ac8e59a	2026-08-19	高岡の手しごと、地元民の選び方と楽しみ方【¥300・保存版】	祖父の家に、色の変わった銅の急須がある。子どものころは正直「汚れてる」と思っていた。使い込んで飴色になっただけだ、と知ったのはずっとあとのことだ。高岡の道具は、	paid	https://note.com/safe_canna441/n/n6fae4ac8e59a	3
+NOTE_ONLY	n589f9a38d45f	2026-08-19	富山湾の魚、地元民の選び方・旬・食べ方【¥300・保存版】	観光客が富山の市場でいちばんやりがちな失敗を、先に言っておく。「有名なやつください」だ。それで出てくるのは、たいてい今が旬じゃない魚。値段だけ一人前で、味は本気	paid	https://note.com/safe_canna441/n/n589f9a38d45f	3
+NOTE_ONLY	n5a495d8e38c3	2026-08-19	富山の地酒、地元民の選び方と楽しみ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n5a495d8e38c3	3
+NOTE_ONLY	n752e3adfbaf2	2026-08-19	高岡の手しごと、地元民の選び方と楽しみ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n752e3adfbaf2	3
+NOTE_ONLY	n94864fee1d83	2026-08-19	富山湾の魚、地元民の選び方・旬・食べ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n94864fee1d83	3
+NOTE_ONLY	nf5410026642b	2026-08-19	富山の地酒、地元民の選び方と楽しみ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/nf5410026642b	3
+NOTE_ONLY	n87a2b5b4cad7	2026-08-19	高岡の手しごと、地元民の選び方と楽しみ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n87a2b5b4cad7	3
+NOTE_ONLY	n056e081ddccc	2026-08-19	富山湾の魚、地元民の選び方・旬・食べ方【¥300・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n056e081ddccc	3
+NOTE_ONLY	n3accba0557e0	2026-08-19	冷やしトマト — 丸ごと冷やして、切るだけの夏	冷蔵庫の奥から、よく冷えたトマトをひとつ取り出す。手のひらにのせると、ひやりと重い。表面はうっすら汗をかいて、指の跡がしばらく残る。まな板の上に置いて、包丁を入		https://note.com/safe_canna441/n/n3accba0557e0	2
+NOTE_ONLY	n89c659e632e4	2026-08-19	冬瓜（とうがん）— 冬の名を持つ、煮ると透きとおる夏野菜	台所の鍋のなかで、白かった瓜が、いつのまにか透きとおっていた。角をおとして面取りした切り身を、うすいだしでことこと煮る。しばらく目をはなして、ふたを取ると、さっ		https://note.com/safe_canna441/n/n89c659e632e4	1
+NOTE_ONLY	n883c9589680f	2026-08-19	岩牡蠣 — 夏の富山湾の、不格好な贈りもの	潮の匂いが、まだ路地に残っている朝だった。氷見のあたりの浜で、発泡スチロールの箱に氷が敷かれ、その上にごつごつした岩牡蠣がいくつも転がっていた。殻は灰色で、あち		https://note.com/safe_canna441/n/n883c9589680f	1
+NOTE_ONLY	n17fb2760b12f	2026-08-19	高岡の手しごと、地元民の選び方と楽しみ方【¥100・保存版】	## 無料部分	paid	https://note.com/safe_canna441/n/n17fb2760b12f	1
+NOTE_ONLY	nd6febf7747ef	2026-08-25	AIに会社を運営させて3か月。noteを161本公開して、売上は0円だった。	結論から書く。この3か月、私は自分の会社の運営をほぼ全部AIに任せた。 記事の下書きは296本たまった。そのうち161本がnoteに公開された。企画も、執筆も、	paid	https://note.com/safe_canna441/n/nd6febf7747ef	2
+NOTE_ONLY	nf4a7d75492d1	2026-08-26	AIに会社を運営させて3か月。noteを161本公開して、売上は0円だった。	結論から書く。この3か月、私は自分の会社の運営をほぼ全部AIに任せた。 記事の下書きは296本たまった。そのうち161本がnoteに公開された。企画も、執筆も、	paid	https://note.com/safe_canna441/n/nf4a7d75492d1	2
+NOTE_ONLY	n9467e187e69e	2026-09-16	稲刈り：田んぼが一年でいちばん、うるさい日	田んぼが黄色くなってから刈るまでは、思ったより短い。 数日で色が変わって、そのうち機械が入る。待っている感じはあまりない。 ## 音の日 稲刈りの日、田んぼは一		https://note.com/safe_canna441/n/n9467e187e69e	2
+NOTE_ONLY	nc63d8dc7344e	2026-09-16	松茸：買ったことがないまま、名前だけ知っている	値札を見て、棚に戻したことがある。何度もある。 松茸のことだ。秋になると店に並ぶが、私はこれを自分の金で買ったことがない。 ## 値段の話から始めないと、この話		https://note.com/safe_canna441/n/nc63d8dc7344e	2
+NOTE_ONLY	n7bc8b46a3c7c	2026-09-16	運動会：九月の校庭と、場所取りの朝	運動会の朝は、六時前に家を出る。競技が始まるのは九時なのに、である。 場所取りのためだ。校庭の周囲にシートを敷いて、家族の座る場所を確保する。早く行くほど良い位		https://note.com/safe_canna441/n/n7bc8b46a3c7c	2
+NOTE_ONLY	n809b7d0fb3f3	2026-09-16	あけび：山に生る、中身だけ食べる実	実が縦に裂けて、口を開けている。中に白いものが詰まっている。 あけびという。秋に山で熟す実で、この裂けた状態になってから採る。外側は紫色のものをよく見るが、緑が		https://note.com/safe_canna441/n/n809b7d0fb3f3	2
+NOTE_ONLY	n8f9a9e90ea57	2026-10-14	煎餅を、汁で煮る。— 青森・八戸せんべい汁（お取り寄せ⑧）	硬くて、平たくて、甘くない煎餅を用意する。 手で割る。四つか五つに。 それを、だしの入った鍋に入れて、煮る。 これで一品になる。青森県八戸の、せんべい汁という鍋		https://note.com/safe_canna441/n/n8f9a9e90ea57	4
+NOTE_ONLY	n26bb822c8847	2026-10-15	煎餅を、汁で煮る。— 青森・八戸せんべい汁（お取り寄せ⑧）	硬くて、平たくて、甘くない煎餅を用意する。 手で割る。四つか五つに。 それを、だしの入った鍋に入れて、煮る。 これで一品になる。青森県八戸の、せんべい汁という鍋		https://note.com/safe_canna441/n/n26bb822c8847	4
+NOTE_ONLY	n6346581d1a50	2026-10-20	煎餅を、汁で煮る。— 青森・八戸せんべい汁（お取り寄せ⑧）	硬くて、平たくて、甘くない煎餅を用意する。 手で割る。四つか五つに。 それを、だしの入った鍋に入れて、煮る。 これで一品になる。青森県八戸の、せんべい汁という鍋		https://note.com/safe_canna441/n/n6346581d1a50	4
+REGISTRY_ONLY	n0443f87ce4df		氷見牛は、地元でもめったに食べられない。		intentional_draft	https://note.com/safe_canna441/n/n0443f87ce4df	
+REGISTRY_ONLY	n1b5d8638d00b		AI時代の50代からの個人収益			https://note.com/safe_canna441/n/n1b5d8638d00b	
+REGISTRY_ONLY	n3f425045d38f		ウキが消えた夜 Night Fishing in Toyama Bay			https://note.com/safe_canna441/n/n3f425045d38f	
+REGISTRY_ONLY	n7b223e685f18		Where the Sea Meets the Alps			https://note.com/safe_canna441/n/n7b223e685f18	
+REGISTRY_ONLY	n8ed3ea4447a6		Takaoka's Great Buddha & Castle Park			https://note.com/safe_canna441/n/n8ed3ea4447a6	
+REGISTRY_ONLY	nc2c42ab847ec		ChatGPT副業 コピペで使える5つのプロンプト			https://note.com/safe_canna441/n/nc2c42ab847ec	
+REGISTRY_ONLY	nc72430498dce		月3万円稼げる人の1日のスケジュール			https://note.com/safe_canna441/n/nc72430498dce	
+REGISTRY_ONLY	nd2a815903500		Doraemon Lives in Takaoka			https://note.com/safe_canna441/n/nd2a815903500	
+REGISTRY_ONLY	nc7a3522ade60		氷見牛は、里山で育つ知る人ぞ知る牛だ。		intentional_draft	https://note.com/safe_canna441/n/nc7a3522ade60	
+REGISTRY_ONLY	n255880cbb8ae		【無料より使いやすい】フリーランスの収支管理Googleスプレッドシート｜確定申告も怖くない			https://note.com/safe_canna441/n/n255880cbb8ae	
+
+# 同タイトル重複（ライブ全600件中）
+#DUP	4	煎餅を、汁で煮る。— 青森・八戸せんべい汁（お取り寄せ⑧）	n71ca68cce9a8,n6346581d1a50,n26bb822c8847,n8f9a9e90ea57
+#DUP	3	富山の地酒、地元民の選び方と楽しみ方【¥300・保存版】	n9d31ee9d3b0a,n5a495d8e38c3,nf5410026642b
+#DUP	3	高岡の手しごと、地元民の選び方と楽しみ方【¥300・保存版】	n6fae4ac8e59a,n752e3adfbaf2,n87a2b5b4cad7
+#DUP	3	富山湾の魚、地元民の選び方・旬・食べ方【¥300・保存版】	n589f9a38d45f,n94864fee1d83,n056e081ddccc
+#DUP	2	冷やしトマト — 丸ごと冷やして、切るだけの夏	n2ae9e8adcb9e,n3accba0557e0
+#DUP	2	松茸：買ったことがないまま、名前だけ知っている	n0d966e689b68,nc63d8dc7344e
+#DUP	2	稲刈り：田んぼが一年でいちばん、うるさい日	nc98f0aadab22,n9467e187e69e
+#DUP	2	運動会：九月の校庭と、場所取りの朝	n3a7360655e2c,n7bc8b46a3c7c
+#DUP	2	あけび：山に生る、中身だけ食べる実	n4a3c7ea6a837,n809b7d0fb3f3
+#DUP	2	AIに会社を運営させて3か月。noteを161本公開して、売上は0円だった。	nf4a7d75492d1,nd6febf7747ef
+#DUP	2	氷見うどんのある台所	na702277a7674,nf0acfa0ee062
+#DUP	2	梅雨の間に光を見つける	n0ce9e4c4ed34,nc4f6e9e362ef
+#DUP	2	ひとり仕事の、いちばんシンプルな段取りの話	n07094b146feb,n3efaa8ad6688
+#DUP	2	夏の食卓に、ちょんまげ巻きのそうめんが届く。— 富山「大門素麺」	n05ff0cb6beb1,nb98bd7ab1281
+#DUP	2	縄で縛って持ち歩ける豆腐がある。— 富山「五箇山豆腐」	n13aa4e281fd5,nf00cdfc50d80
+#DUP	2	駅弁の中にも、宝石みたいなお寿司がある。— 富山「鱒寿司」	n8b3773143166,n9cb8b7d7da1a
+#DUP	2	春の富山湾は、夜になると青く光る。— ホタルイカの話	n73efb33db730,n0fcd601b1ed5
+#DUP	2	富山の結婚式に出ると、引き出物に「鯛」がついてくる。— 細工かまぼこ	ndc07d271605c,n82ec10f74aa7
+#DUP	2	家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる	na889c3862499,n25ec8d9c0e89
+#DUP	2	海の向こうに、3000メートルの山が見える駅がある。— 富山・高岡「雨晴駅」	ndeb612bc9ab8,nb74a2253ceee
+#DUP	2	日本でいちばん高いところから、水が落ちている。— 富山「称名滝」	n29a6ac217972,n504a2879d6a0
+#DUP	2	400年、ひとりで価値を生んできた町がある。— 富山・高岡の職人に学ぶ「個人で食べていく力」	n2bbce7b0852c,n354a5c032b1f
+#DUP	2	ドラえもんに、世界中が会いに来ていた。— 富山・高岡おとぎの森公園	n6c206ea3acc3,n5b878fe41dc9
+#DUP	2	奥の豆腐屋で、油揚げを買った話。— The Tofu Shop Around the Corner and Its Golden Fried Tofu	nc090f8994cc8,n173acc3d9329
