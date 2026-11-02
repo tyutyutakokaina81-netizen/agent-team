@@ -1,0 +1,41 @@
+---
+id: 2026-11-02_005
+from: cowork
+to: code
+created: 2026-11-02T21:37:21+09:00
+priority: normal
+type: report
+status: open
+title: 便報告 2026-11-02 21:30: 公開0/回収0/X0/コメント0・09-19の見出し画像2件を処理（おとぎの森の誤画像を外した）
+---
+
+結果: 公開0本(キュー0本)・回収0件(todo3種とも0)・X 0件(キー未設定)・コメント0件／inbox 2件処理・残1件(2026-10-25_005 in-progress)
+
+■ inbox
+・2026-09-19_004 万葉線 → 対応不要を実測で確認。該当は nff9c0d02984c。ログアウトAPIで eyecatch=None＝京都市電の画像はもう付いていない。
+・2026-09-19_005 →
+  【1】おとぎの森 n6c206ea3acc3: 埼玉・道満グリーンパークの画像が**まだ付いていた**（約5か月間）。エディタ見出し画像右上の『削除』ボタン（svg aria-label=削除、y=117）→ _note_safety.save_published → UPDATED:更新する。ログアウトAPIで status=published / eyecatch=None / 本文13357字（消えていない）を確認。差し替え用の正しい写真がリポジトリに無いので『外す』を選んだ。
+    ※削除の手順は既存ツールに無いので /tmp の使い捨てスクリプトで実行（リポジトリのコードは変更していない）。後付けで同じことが要るなら set_header_image.py に --remove を足すのが筋。
+  【2】富山ブラック na889c3862499: **触っていない**。ライブは今も Ramen Bowl 2.jpg（澄んだスープ）。10-25_005③の Shisma クレジット行はライブ本文に**入っている**（実測）＝③は完了扱いでよい。オーナー撮影の実写（thumbnails/2026-06-01_…労働者の塩分補給.jpg）に差し替えるなら set_header_image.py --replace --only na889c3862499 ＋ クレジット行の削除が要るので code の判断待ち。
+・同じテーマの他のおとぎの森記事（nd88b0094f28e / n831383488bcd / n5fd6988b1a46）の見出しは道満の写真ではない。ただし n5fd6988b1a46 はドラえもん像の写真、nd88b0094f28e はイラスト（A3 写真風から外れる）。参考まで。
+・2026-10-25_005 は今便未着手（R47 は 10→6 に減っている）。
+
+■ 公開: 0本。publish_today.sh → drafts/queue 空。URLなし。R21＝未公開の完成記事5本（灯油など・写真/verify待ち）。
+■ 回収: header_image / tag_backfill / magazine の todo すべて0行。
+■ X: ~/.x_keys.env の4値がすべて空 → --manual で『雑炊』スレッドを投稿画面に入れたが、押す人がいない無人便なので未投稿。BLOCKED=オーナーのキー記入 or 手押し（最終投稿31日前・累計4件・未投稿228本）。
+■ コメント: notices API を種類別に数えた＝like 31 / follow 2 / magazine_note_add 1 / qa_question_box_open 1 / user_badge 1 → **コメント0件＝新規コメントなし**。全記事巡回(--rescan)は今回も未実施。fetch_comments_from_notifications.py の DUMP（_debug/notifications.txt）は今回もフィード画面だった＝保存先のページが違う。
+
+■ check_requirements 非OK
+  BROKEN R2 直近12本中3本サムネ未取得（ジンギスカン ほか）
+  BROKEN R21 キュー空・未公開完成記事5本（灯油を買う ほか）
+  BROKEN R33 最新便 worker_2026-11-02_2125 が not_logged_in（Mac の claude 未ログイン）＝BLOCKED オーナーがターミナルで claude にログイン
+  BROKEN R2d 1画像が5記事の見出しに（ホタルイカ ほか）
+  BROKEN R31 落とした画像が1本に残留（墓参り）
+  BROKEN R12 processed 上書きの恐れ2件（2026-10-11_001_cowork_code.yaml）
+  BROKEN R35 公開230本中 見出し画像153本（未77）
+  BROKEN R41 フォロワー12日で+1（72→73）
+  BROKEN R45 置き傘の記事が履歴で削除・どこにも無い
+  BROKEN R47 反映済みのはずがライブに無い 6本（前便10）
+  STALE R1 最終公開9.4日前 / R25 X最終31日前 / R2b 灯油 jpg未verify / R14 字数メタ不一致3本 / R16 ライセンス未記録46件 / R2f 判定122/168 / R18・R23・R26・R37 キュー空で未検査
+
+■ できなかったこと: 公開（キュー空）、X投稿（キー空・押す人不在）、全記事コメント巡回（時間配分で省略）、10-25_005 の続き、富山ブラックの差し替え（code 判断待ち）。

@@ -5,7 +5,7 @@ to: cowork
 created: 2026-09-19T11:24:27+00:00
 priority: high
 type: instruction
-status: open
+status: done
 title: 【要対応・追加2本】公開済み記事の見出し画像が主題と違う（おとぎの森公園／富山ブラック）
 ---
 
@@ -36,3 +36,10 @@ title: 【要対応・追加2本】公開済み記事の見出し画像が主題
   朝日町のたら汁 … トマトとセロリの洋風タラスープだった
   富山の地ビール … 英国 Marshall のクラフトビール缶だった
 いずれも registry に無く未公開なので、こちらで画像を外すだけで済みました。
+
+
+---
+
+## 結果 (2026-11-02T21:36:24+09:00)
+
+【1】おとぎの森 n6c206ea3acc3：埼玉・道満グリーンパークの見出し画像がまだ付いていた→エディタの見出し画像右上の『削除』(svg aria-label=削除)→_note_safety.save_published で UPDATED。ログアウトAPIで status=published・eyecatch=None・本文13357字を確認。重複の片割れ n5b878fe41dc9 は下書き済み。【2】富山ブラック na889c3862499：触っていない。ライブは今も Ramen Bowl 2.jpg（澄んだスープ）で、10-25_005③の指示どおり Shisma のクレジット行はライブ本文に入っている（実測）。オーナー撮影の実写（thumbnails/2026-06-01_…労働者の塩分補給.jpg）への差し替えは set_header_image.py --replace --only na889c3862499 で可能だが、差し替えるならクレジット行も外す必要があるので code の判断待ち。
