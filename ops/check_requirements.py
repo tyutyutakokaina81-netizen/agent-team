@@ -2188,6 +2188,19 @@ try:
     _reg46 = _json46.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/published_registry.json"),
                                encoding="utf-8"))
     _known46 = {x for r in _reg46 for x in re.findall(r"/n/(n[0-9a-f]{12})", r.get("url", "") or "")}
+    # ★2026-11-02: **意図して下書きに戻したものは「台帳に無い」で鳴らさない。**
+    #   実例＝`n8f9a9e90ea57`（八戸せんべい汁の重複の片割れ）。
+    #   11-02 に下書きへ戻したので、**もう台帳に入れるべきではない**。
+    #   入れるとライブに無い記事が台帳に載ることになり、R40 の側で逆に鳴る。
+    #   「公開ログに出た」のは事実なので、記録としては `ops/intentional_drafts.tsv` に残る。
+    _intentional46 = set()
+    _ip46 = os.path.join(ROOT, "ops", "intentional_drafts.tsv")
+    if os.path.exists(_ip46):
+        for _l in open(_ip46, encoding="utf-8"):
+            _l = _l.strip()
+            if _l and not _l.startswith("#"):
+                _intentional46.add(_l.split("\t")[0].strip())
+    _known46 |= _intentional46
     if not _known46:
         raise RuntimeError("公開台帳からURLが1本も読めない")
     _lost46 = [(k, v) for k, v in _ids46.items() if k not in _known46]
@@ -2202,7 +2215,9 @@ try:
             "note 側を見て、要らないほうを消し、残すほうを registry に入れる")
     else:
         add("R46 公開したのに台帳に無い", "OK",
-            f"直近30便の公開ログに出た {len(_ids46)}本は、すべて公開台帳にある")
+            f"直近30便の公開ログに出た {len(_ids46)}本は、すべて公開台帳にある"
+            + (f"／**意図して下書きに戻した {len(_intentional46)}本は数えていない**"
+               "（ops/intentional_drafts.tsv）" if _intentional46 else ""))
 except Exception as _e46:
     add("R46 公開したのに台帳に無い", "STALE", f"判定不能: {type(_e46).__name__} {str(_e46)[:60]}")
 
