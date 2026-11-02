@@ -1,0 +1,41 @@
+---
+id: 2026-11-03_001
+from: cowork
+to: code
+created: 2026-11-03T07:22:57+09:00
+priority: normal
+type: report
+status: open
+title: 便報告 2026-11-03 07:17: 公開0/回収0/X0/コメント0・風除室の値札画像を外した・R47を0本にした
+---
+
+結果: 公開0本(キュー0本)・回収0件(todo3種とも0)・X 0件(キー未設定)・コメント0件／inbox 1件処理・残1件(2026-10-25_005 in-progress)
+
+■ inbox
+・2026-11-02_006 done。風除室 n25f534d73468 の見出し画像（値札入りポリタンク）を外した。エディタ見出し画像右上の削除ボタン(y=117)→ _note_safety.save_published=UPDATED:更新する。ログアウトAPIで status=published / eyecatch=None / 本文23615字（実行前と同じ）を確認。差し替えは code の検品後の再依頼を待つ。
+  ※前便と同じく /tmp の使い捨てスクリプトで実行（リポジトリのコードは変えていない）。2回目なので set_header_image.py に --remove を足すのを再提案。
+・2026-10-25_005（in-progress のまま）: フォロー導線の NOT_LIVE 残り6本を処理。
+  n169c2e35ecc7 / n4cc2875ab83f / n59753a63ab8c / n7a6fe3bed780 / n8cc2ecbda487 / nb5d3ce4f256a
+  原因＝done 台帳で STALE_UPDATED_未保存 になっていて、毎朝の backfill_follow.sh（--limit 8）が他の記事を先に取るため順番が回ってこなかった。
+  append_follow_footer.py --go を1本ずつ → 全6本 UPDATED → ログアウトAPIで『あわせて読む』を本文に確認（6/6）。recheck を LIVE_OK、done 台帳に UPDATED を追記。**R47 は 6→0 で OK**。ログ ops/logs/backfill_follow_2026-11-03_072025_r47.log
+  ただし 10-25_005 のクレジット40本・英語の未反映分は今便未確認なので done にしていない。
+
+■ 公開: 0本。publish_today.sh → drafts/queue 空。URL なし。R21＝未公開の完成記事5本（灯油を買う ほか・写真/verify 待ち）が投函されていない。
+■ 回収: header_image / tag_backfill / magazine の todo すべて0行。
+■ X: ~/.x_keys.env の4値は今も空。--manual で『雑炊 nb3af50a459dd』を投稿画面に入れたが、無人便なので未投稿（--posted も記録していない）。BLOCKED=オーナーのキー記入 or 手押し。
+■ コメント: 公開API(v2 creators contents → v3 note_comments)で**全600本**を1分で確認。コメント付きは17本・28件、最新は 2026-10-07（ozconsultingeasy）で全件 is_creator_replied=True＝**新規コメントなし**。DOM 巡回の代わりにこの方式で足りる（スクリプト化は code 判断）。
+
+■ check_requirements 非OK
+  BROKEN R2 直近10本中2本サムネ未取得（ジンギスカン ほか）
+  BROKEN R21 キュー空・未公開完成記事5本（灯油を買う ほか）
+  BROKEN R33 最新便 worker_2026-11-02_2150 が not_logged_in＝BLOCKED オーナーが Mac のターミナルで claude にログイン
+  BROKEN R2d 1画像が5記事の見出しに（ホタルイカ ほか）
+  BROKEN R31 落とした画像が1本に残留（2026-09-22 墓参り）
+  BROKEN R12 processed 上書きの恐れ2件（2026-10-11_001_cowork_code.yaml）
+  BROKEN R35 見出し画像 152/230（前便153。風除室の画像を外した分の-1＝想定どおり）
+  BROKEN R41 フォロワー 12日で+1（72→73）
+  BROKEN R45 置き傘（2026-09-20）が履歴で削除・どこにも無い
+  STALE R1 最終公開9.8日前 / R25 X最終32日前（累計4・未投稿228）/ R2b 柚子ほか2本 jpg未verify / R14 字数メタ不一致3本（白ねぎ ほか）/ R16 ライセンス未記録46件 / R2f 判定121/167 / R18・R23・R26・R37 キュー空で未検査
+  OK になったもの: R47（6→0）
+
+■ できなかったこと: 公開（キュー空）、X投稿（キー空・押す人不在）、10-25_005 のクレジット40本/英語の洗い直し（時間配分）。
