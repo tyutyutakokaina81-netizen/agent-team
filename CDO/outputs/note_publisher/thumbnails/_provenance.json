@@ -1963,7 +1963,14 @@
 ],
 "tried": 3
 },
-"2026-08-16_note記事_バシャコーヒー_モロッコ生まれの珈琲物語": "wikimedia",
+"2026-08-16_note記事_バシャコーヒー_モロッコ生まれの珈琲物語": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"コーヒー"
+],
+"tried": 3
+},
 "2026-08-16_note記事_夏バテ_だるさとつきあう": {
 "author": "Allervous",
 "backend": "wikimedia",
@@ -2708,13 +2715,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Yanagiba_%28front%29.jpg/1280px-Yanagiba_%28front%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある": {
-"author": "Andy Atzert",
+"author": "Akiyoshi's Room",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_(15627920724).jpg",
-"file": "File:ポリタンク (15627920724).jpg",
-"license": "CC BY 2.0",
-"query": "ポリタンク",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg/1280px-%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%BA%93%E9%83%B7%E3%81%AE%E6%A3%AE_%E9%BB%92%E6%9D%BF%E4%BA%94%E9%83%8E%E3%81%AE%E4%B8%B8%E5%A4%AA%E5%B0%8F%E5%B1%8B_%E7%8E%84%E9%96%A2%E9%83%A8%E5%88%86_Akiyoshi%27s_RoomP6220392P6220393.jpg",
+"file": "File:麓郷の森 黒板五郎の丸太小屋 玄関部分 Akiyoshi's RoomP6220392P6220393.jpg",
+"license": "CC BY-SA 3.0",
+"query": "雪 玄関",
+"src": "https://upload.wikimedia.org/wikipedia/commons/d/d4/%E9%BA%93%E9%83%B7%E3%81%AE%E6%A3%AE_%E9%BB%92%E6%9D%BF%E4%BA%94%E9%83%8E%E3%81%AE%E4%B8%B8%E5%A4%AA%E5%B0%8F%E5%B1%8B_%E7%8E%84%E9%96%A2%E9%83%A8%E5%88%86_Akiyoshi%27s_RoomP6220392P6220393.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-10-06_note記事_魚売り場_魚が丸のまま売っている": {
 "author": "Jun OHWADA",
@@ -2881,21 +2888,21 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/%E5%B8%83%E5%9B%A3%E5%B9%B2%E3%81%97_%28528985156%29.jpg/1280px-%E5%B8%83%E5%9B%A3%E5%B9%B2%E3%81%97_%28528985156%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-16_note記事_柚子_果肉を食べない果物": {
-"author": "Syced",
+"author": "Nikita from Russian Federation",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%9F%9A%E5%AD%90%E5%85%A5%E3%82%8A%E3%81%95%E3%81%A3%E3%81%B1%E3%82%8A%E7%B3%BB%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3.jpg",
-"file": "File:柚子入りさっぱり系ラーメン.jpg",
-"license": "CC0",
-"query": "柚子 皮",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/%E6%9F%9A%E5%AD%90%E5%85%A5%E3%82%8A%E3%81%95%E3%81%A3%E3%81%B1%E3%82%8A%E7%B3%BB%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3.jpg/1280px-%E6%9F%9A%E5%AD%90%E5%85%A5%E3%82%8A%E3%81%95%E3%81%A3%E3%81%B1%E3%82%8A%E7%B3%BB%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Yuzu_oranges_(6459456959).jpg",
+"file": "File:Yuzu oranges (6459456959).jpg",
+"license": "CC BY 2.0",
+"query": "Citrus junos",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Yuzu_oranges_%286459456959%29.jpg/1280px-Yuzu_oranges_%286459456959%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-16_note記事_灯油を買う_燃料を自分で運ぶ暖房": {
-"author": "Andy Atzert",
+"author": "Douglas P Perkins (Douglaspperkins (talk))",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_(15627920724).jpg",
-"file": "File:ポリタンク (15627920724).jpg",
-"license": "CC BY 2.0",
-"query": "ポリタンク",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg/1280px-%E3%83%9D%E3%83%AA%E3%82%BF%E3%83%B3%E3%82%AF_%2815627920724%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_kerosene_heater_with_tank.jpg",
+"file": "File:Japanese kerosene heater with tank.jpg",
+"license": "CC BY 3.0",
+"query": "石油ストーブ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Japanese_kerosene_heater_with_tank.jpg/1280px-Japanese_kerosene_heater_with_tank.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
