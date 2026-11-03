@@ -77,6 +77,18 @@ while IFS=$'\t' read -r NID MD TITLE; do
   else
     R="FAILED"; NG=$((NG + 1))
   fi
+  # ★2026-11-04: フォローと同じく、ログアウトAPIで本文に**その記事の英語要約**が見えたものだけ済みにする（ops/check_english_live.py）
+  #   （修正前の UPDATED は 97本中77本がライブに無かった・inbox 2026-10-25_005 ①-3）。
+  if [ "$R" != "FAILED" ]; then
+    sleep 3
+    if python3 ops/check_english_live.py "$NID" "$MD" >/dev/null 2>&1; then
+      sed -i '' "s/^${NID}	NOT_LIVE	.*/${NID}	LIVE_OK	$(date +%F)/" ops/english_live_recheck.tsv 2>/dev/null || true
+    else
+      echo "  ⚠️ ${R} と出たがライブ本文に無い → FAILED_NOT_LIVE"
+      [ "$R" = "UPDATED" ] && OK=$((OK - 1)) || SKIP=$((SKIP - 1))
+      R="FAILED_NOT_LIVE"; NG=$((NG + 1))
+    fi
+  fi
   printf '%s\t%s\t%s\t%s\n' "$NID" "$R" "$(date +%F_%H%M%S)" "$TITLE" >> "$DONE"
 done < "$TODO"
 

@@ -39,6 +39,15 @@ def main() -> int:
             c = l.rstrip("\n").split("\t")
             if len(c) >= 2 and c[1] in ("UPDATED", "SKIP"):
                 done.add(c[0].strip())
+    # ★2026-11-04: 2026-10-25 の保存修正(b7f77662)より前の UPDATED は note に保存されていなかった
+    #   （ログアウトAPIで 97本中77本に英語なし）。english_live_recheck.tsv で NOT_LIVE の記事は
+    #   **台帳に UPDATED とあっても済みに数えない**（inbox 2026-10-25_005 ①）。
+    recheck = os.path.join(ROOT, "ops/english_live_recheck.tsv")
+    if os.path.exists(recheck):
+        for l in open(recheck, encoding="utf-8"):
+            c = l.rstrip("\n").split("\t")
+            if len(c) >= 2 and c[1] == "NOT_LIVE":
+                done.discard(c[0].strip())
 
     # 対象は **今回英語を足した記事だけ**。もともと本文に英語が入っていた記事（〜8月）を
     # 混ぜると、開いて SKIP_HAS_ENGLISH と出るだけの記事を100本ブラウザで回すことになる。

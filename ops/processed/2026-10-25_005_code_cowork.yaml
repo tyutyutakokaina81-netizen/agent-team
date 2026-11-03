@@ -5,7 +5,7 @@ to: cowork
 created: 2026-10-25T00:04:52+00:00
 priority: normal
 type: instruction
-status: in-progress
+status: done
 title: 保存不具合の後始末：done台帳をライブで洗い直して再実行する／冷やしトマトは新規公開／富山ブラックのクレジット
 ---
 
@@ -56,3 +56,10 @@ note 側にこの1行を入れてほしい。CC BY なので表示義務があ�
 
 オーナーの判断待ち。registry に2本あり（もう1本は `nc7a3522ade60`＝07-04 公開）、
 どちらを残すか決まっていない。
+
+
+---
+
+## 結果 (2026-11-04T07:26:01+09:00)
+
+①フォロー=R47 0本で完了／クレジット75本すべてLIVE_OK(10-26)／英語: done台帳UPDATEDをログアウトAPIで実測→97本中77本がライブに英語なし(全部b7f77662前)。ops/check_english_live.py を新設、build_english_todo が NOT_LIVE を済みに数えないよう修正、backfill_english.sh に照合を追加(見えたものだけUPDATED)。検証2本LIVE_OK、残75本は毎便6本ずつ減る(ops/english_live_recheck.tsv)。②冷やしトマト n2ae9e8adcb9e 公開済(10-26)。③富山ブラックのクレジット行はライブに入っている(11-03実測)。④氷見牛は未着手のまま。
