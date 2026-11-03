@@ -1,14 +1,14 @@
 # 英語要約のライブ照合（ログアウトAPI本文に md の要約の単語があるか）2026-11-04 07:24
 n56f284ca4fbf	LIVE_OK	2026-11-04
 n025a57e50884	LIVE_OK	2026-11-04
-n23f95d4e25c9	NOT_LIVE	UPDATED	冬じゃない。富山湾の岩ガキは、夏に食べる牡蠣だ。
-n34a423bf25de	NOT_LIVE	UPDATED	岩瀬の家が大きいのは、北前船の商いの名残だ。
+n23f95d4e25c9	LIVE_OK	2026-11-04
+n34a423bf25de	LIVE_OK	2026-11-04
 na889c3862499	NO_MD_ENGLISH	UPDATED	家で作る、富山ブラックラーメン。— 黒さは醤油の選び方で決まる
 na2218fba8640	LIVE_OK	SKIP	紅ずわいがには、庶民のごちそう。
-ned78ad5ee024	NOT_LIVE	UPDATED	新湊の帆船・海王丸には、年に何度か「すべての帆を張る日」がある。
-n63b5318141f6	NOT_LIVE	UPDATED	富山城の天守は、じつは戦後に建てられた模擬天守だ。
-n09933b286612	NOT_LIVE	UPDATED	富山の人間が、福井まで"辛い蕎麦"を食べに行く話。— 三国・新保屋のおろしそば
-n88c12c3cedae	NOT_LIVE	UPDATED	甘くて、しょっぱくて、日持ちする。— 氷見の「みりん干し」
+ned78ad5ee024	LIVE_OK	2026-11-04
+n63b5318141f6	LIVE_OK	2026-11-04
+n09933b286612	LIVE_OK	2026-11-04
+n88c12c3cedae	LIVE_OK	2026-11-04
 n5ffd70da907b	NOT_LIVE	UPDATED	夏の富山湾で釣って、その日に揚げる。— キスとメゴチの天ぷら
 n1ccb0065472f	NOT_LIVE	UPDATED	富山の台所の、いちばん安い贅沢。— 魚の「アラ」の手に入れ方
 nc25b1a7f72fb	NOT_LIVE	UPDATED	冬にしか会えない発酵食。— 富山の食卓の「かぶら寿司」
