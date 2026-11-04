@@ -2227,41 +2227,55 @@ except Exception as _e46:
 # 台帳には UPDATED と書かれるので、こちらからは「やった」ように見える。実測:
 #   フォロー導線 156本 UPDATED → **ライブに有るのは 0本**
 #   クレジット   74本 done    → **40本がライブに無い**（＝CC BY/BY-SA の表示義務が未達）
-#   英語        91本 UPDATED → 抽出20本中 10本がライブに無い
+#   英語        97本 UPDATED → **77本がライブに無い**（2026-11-04 に実測で判明）
 # この型（台帳は done、実物は未反映）はマガジン196本・英語141本・タグ25本と**同じ**で、
 # 繰り返している。**台帳を信じない。実物と突き合わせた記録だけを見る。**
-# 判定: ops/follow_live_recheck.tsv（cowork がログアウトAPIで実測して書く）の NOT_LIVE を数える。
-#       ファイルが無ければ STALE＝**測っていないことを「問題なし」と読ませない**。
+#
+# ★2026-11-04: **フォローだけを数えていたので、英語の77本に気づけなかった。**
+#   cowork は「english_live_recheck.tsv も数えてほしい」と言ってきたが、
+#   **1つずつ足していくと、次に増えた台帳でまた同じことが起きる。**
+#   → `ops/*_live_recheck.tsv` を**全部まとめて**数える。新しい照合ファイルが増えたら自動で入る。
+#   いまあるのは credit / english / follow の3つ。
 try:
-    _f47 = os.path.join(ROOT, "ops", "follow_live_recheck.tsv")
-    if not os.path.exists(_f47):
+    _f47s = sorted(_g46.glob(os.path.join(ROOT, "ops", "*_live_recheck.tsv")))
+    if not _f47s:
         add("R47 反映したはずの編集がライブに無い", "STALE",
-            "実測ファイルが無い＝**測っていない**（台帳の UPDATED は実物を見ていない）")
+            "実測ファイルが1つも無い＝**測っていない**（台帳の UPDATED は実物を見ていない）")
     else:
-        _live47 = _notlive47 = 0
-        for _ln in open(_f47, encoding="utf-8").read().splitlines():
-            if _ln.startswith("#"):
-                continue
-            _p47 = _ln.split("\t")
-            if len(_p47) < 2:
-                continue
-            if _p47[1].strip() == "LIVE_OK":
-                _live47 += 1
-            elif _p47[1].strip() == "NOT_LIVE":
-                _notlive47 += 1
-        _age47 = (time.time() - os.path.getmtime(_f47)) / 86400
-        if _notlive47:
+        _tot_live = _tot_not = 0
+        _per47 = []
+        _oldest47 = 0.0
+        for _f47 in _f47s:
+            _live = _not = 0
+            for _ln in open(_f47, encoding="utf-8").read().splitlines():
+                if _ln.startswith("#"):
+                    continue
+                _p47 = _ln.split("\t")
+                if len(_p47) < 2:
+                    continue
+                _v47 = _p47[1].strip()
+                if _v47 == "LIVE_OK":
+                    _live += 1
+                elif _v47 == "NOT_LIVE":
+                    _not += 1
+            _tot_live += _live
+            _tot_not += _not
+            _oldest47 = max(_oldest47, (time.time() - os.path.getmtime(_f47)) / 86400)
+            if _not:
+                _per47.append(f"{os.path.basename(_f47).replace('_live_recheck.tsv', '')} {_not}本")
+        if _tot_not:
             add("R47 反映したはずの編集がライブに無い", "BROKEN",
-                f"**台帳では反映済みなのに、ライブ本文に無い記事が {_notlive47}本**"
-                f"（実測できたうち LIVE_OK {_live47}本）→ 保存の不具合は修正済みなので、"
-                "NOT_LIVE の分を done 台帳から外して再実行する。"
+                f"**台帳では反映済みなのに、ライブ本文に無い記事が {_tot_not}本**"
+                f"（{' / '.join(_per47)}／実測できたうち LIVE_OK {_tot_live}本）→ "
+                "保存の不具合は修正済みなので、NOT_LIVE の分を done 台帳から外して再実行する。"
                 "**再実行のたびにログアウトAPIで本文を照合し、見えたものだけ UPDATED にする**")
-        elif _age47 > 14:
+        elif _oldest47 > 14:
             add("R47 反映したはずの編集がライブに無い", "STALE",
-                f"前回の実測から **{int(_age47)}日** 経っている（{_live47}本ぶん）")
+                f"前回の実測から **{int(_oldest47)}日** 経っている（{_tot_live}本ぶん）")
         else:
             add("R47 反映したはずの編集がライブに無い", "OK",
-                f"実測した {_live47}本はすべてライブ本文に反映されている（{int(_age47)}日前に実測）")
+                f"実測した {_tot_live}本はすべてライブ本文に反映されている"
+                f"（{len(_f47s)}種類の台帳・{int(_oldest47)}日前までに実測）")
 except Exception as _e47:
     add("R47 反映したはずの編集がライブに無い", "STALE", f"判定不能: {type(_e47).__name__} {str(_e47)[:60]}")
 
