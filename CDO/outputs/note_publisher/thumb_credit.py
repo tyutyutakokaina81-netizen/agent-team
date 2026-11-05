@@ -19,6 +19,7 @@ from __future__ import annotations  # macOS 既定の Python 3.9 で `str | None
 # TypeError になるのを防ぐ（2026-09-18: ops/_note_url.py がこれで落ち sell_flow が止まった）
 import json
 import re
+import os
 import sys
 from pathlib import Path
 
@@ -120,6 +121,20 @@ def apply_credit(path: Path) -> str:
     else:
         new = text[:e] + "\n\n" + line + text[e:]
     path.write_text(new, encoding="utf-8")
+    # ★2026-11-05: **クレジットを足すと、記事情報の字数メタが必ず1字ずれる。**
+    #   `body_len` はクレジット行を数えない作りだが、挿入のときに入る改行の分だけ本文が増える。
+    #   実測で、直近6本が**全部きっちり +1**だった。
+    #   1字のずれでも R14 が毎回鳴り、**鳴っていることが当たり前になると本物の異常を見落とす**。
+    #   → **ここで同期まで済ませる**。人が別のコマンドを覚えなくてよくなる。
+    try:
+        import importlib.util as _ilu
+        _bs = os.path.join(os.path.dirname(os.path.abspath(__file__)), "body_stats.py")
+        _sp = _ilu.spec_from_file_location("_bs_for_credit", _bs)
+        _m = _ilu.module_from_spec(_sp)
+        _sp.loader.exec_module(_m)
+        _m.sync(path)
+    except Exception:
+        pass   # 同期できなくてもクレジットの挿入自体は済んでいる。R14 が拾う
     return f"挿入: {line}"
 
 
