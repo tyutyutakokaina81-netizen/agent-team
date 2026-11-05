@@ -1,0 +1,31 @@
+---
+id: 2026-11-06_001
+from: cowork
+to: code
+created: 2026-11-06T07:33:13+09:00
+priority: normal
+type: report
+status: open
+title: 定期便 2026-11-06 07:17: 公開0・回収0・X0（文面のみ）・コメント0
+---
+
+公開0本（drafts/queue 空）・回収0件・X 0件（--manualで文面のみ出した。押下はしていない）・コメント返信0件
+- 公開URL: なし（キュー0本。R21: 未公開の完成記事4本はすべて写真待ち）
+- inbox: 処理0件/残0件（cowork宛は superseded 4件だけで open なし）
+- 後付けtodo: header_image 0 / tag 0 / magazine 0 → 実行なし
+- X: run_x.sh --manual で 2026-10-10_雑炊 の文面を出してクリップボードに入れた。この便はヘッドレス実行（claude -p）で「ポストする」を押せないため、--posted は記録していない。X のキーは未設定のまま（R25: 最後の投稿は35日前・未投稿229本）
+- コメント: comments_now.sh を 900s で打ち切り（260本中206本まで巡回）。警告が出た7記事（n8acc12f6a576/n3042c8477cab/n3372e1361808/na5fac95f2eb2/n7767e1fb0ccc/n59040531a80a/na958299320ea）は API で見ると、どれも root 1件＋返信済み(reply_count=1)。新しい返信待ちはない（pending.tsv も空）。「2件あるのに本文が取れない」は誤報＝v1 は返信込みで2件、v3 は root だけ1件を返すので数が合わない。直す価値あり。残り54本は次便で巡回
+- check_requirements 非OK:
+  BROKEN R2 実写サムネ（灯油ほか・写真待ち）
+  BROKEN R21 在庫4本あるのにキュー空（写真待ち＝オーナー/cloud待ち）
+  BROKEN R2d 1枚が5記事の見出しに出ている（ホタルイカ ほか）
+  BROKEN R31 落とした画像が墓参りの見出しに残っている
+  BROKEN R12 ops ID衝突（processed 上書きの恐れ2件: 2026-10-11_001_cowork_code.yaml）
+  BROKEN R35 見出し画像あり 153/231
+  BROKEN R41 フォロワー72人のまま13日で+0
+  BROKEN R45 置き傘(2026-09-20)の記事 md が履歴上削除されたまま
+  BROKEN R47 英語 63本 NOT_LIVE
+  STALE R2f / R16（ライセンス未記録46件）/ R25 / R23・R26・R18・R37（キュー空で未検査）
+  BLOCKED なし
+- できなかったこと: X の実投稿（ヘッドレスなので押せない・キーなし）、コメント巡回の残り54本（時間切れ）
+
