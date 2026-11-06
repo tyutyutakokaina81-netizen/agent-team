@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/n858e35744ea7",
+ "url": "https://note.com/safe_canna441/n/nccce1e10499a",
  "buttons": [
   {
    "tag": "a",
@@ -78,25 +78,25 @@
    "tag": "a",
    "txt": "公開設定",
    "aria": "",
-   "href": "https://editor.note.com/notes/n858e35744ea7/publish"
+   "href": "https://editor.note.com/notes/nccce1e10499a/publish"
   },
   {
    "tag": "a",
    "txt": "英語版",
    "aria": "",
-   "href": "/safe_canna441/n/n858e35744ea7?hl=en"
-  },
-  {
-   "tag": "a",
-   "txt": "韓国語版",
-   "aria": "",
-   "href": "/safe_canna441/n/n858e35744ea7?hl=ko"
+   "href": "/safe_canna441/n/nccce1e10499a?hl=en"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/327403536/rectangle_large_type_2_1927f4f3de4d747938cc6bf126cf7b0a.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/290426424/rectangle_large_type_2_2f040345a3994fe92e6246c3e5ea2b33.png?width=1200"
+  },
+  {
+   "tag": "a",
+   "txt": "cgc",
+   "aria": "",
+   "href": "https://note.com/cgc/n/n6048f4aa0727"
   },
   {
    "tag": "button",
@@ -106,8 +106,8 @@
   },
   {
    "tag": "button",
-   "txt": "3",
-   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -130,33 +130,9 @@
   },
   {
    "tag": "a",
-   "txt": "",
+   "txt": "#旅行",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n156a5199e9d7"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441/n/n815cc5e770b5"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441/n/nd07e28766944"
-  },
-  {
-   "tag": "a",
-   "txt": "#毎日note",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
-  },
-  {
-   "tag": "a",
-   "txt": "#japan",
-   "aria": "",
-   "href": "https://note.com/hashtag/japan"
+   "href": "https://note.com/hashtag/%E6%97%85%E8%A1%8C"
   },
   {
    "tag": "a",
@@ -166,51 +142,51 @@
   },
   {
    "tag": "a",
-   "txt": "#食感",
+   "txt": "#北陸",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%A3%9F%E6%84%9F"
+   "href": "https://note.com/hashtag/%E5%8C%97%E9%99%B8"
   },
   {
    "tag": "a",
-   "txt": "#煮物",
+   "txt": "#和牛",
    "aria": "",
-   "href": "https://note.com/hashtag/%E7%85%AE%E7%89%A9"
+   "href": "https://note.com/hashtag/%E5%92%8C%E7%89%9B"
   },
   {
    "tag": "a",
-   "txt": "#japanesefood",
+   "txt": "#氷見",
    "aria": "",
-   "href": "https://note.com/hashtag/japanesefood"
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B"
   },
   {
    "tag": "a",
-   "txt": "#高岡",
+   "txt": "#氷見市",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B%E5%B8%82"
   },
   {
    "tag": "a",
-   "txt": "#こんにゃく",
+   "txt": "#富山グルメ",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%93%E3%82%93%E3%81%AB%E3%82%83%E3%81%8F"
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1%E3%82%B0%E3%83%AB%E3%83%A1"
   },
   {
    "tag": "a",
-   "txt": "#日本の食",
+   "txt": "#ブランド牛",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A3%9F"
+   "href": "https://note.com/hashtag/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E7%89%9B"
   },
   {
    "tag": "a",
-   "txt": "#毎日note",
+   "txt": "#氷見牛",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B%E7%89%9B"
   },
   {
    "tag": "a",
-   "txt": "#japan",
+   "txt": "#旅行",
    "aria": "",
-   "href": "https://note.com/hashtag/japan"
+   "href": "https://note.com/hashtag/%E6%97%85%E8%A1%8C"
   },
   {
    "tag": "a",
@@ -220,39 +196,45 @@
   },
   {
    "tag": "a",
-   "txt": "#食感",
+   "txt": "#北陸",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%A3%9F%E6%84%9F"
+   "href": "https://note.com/hashtag/%E5%8C%97%E9%99%B8"
   },
   {
    "tag": "a",
-   "txt": "#煮物",
+   "txt": "#和牛",
    "aria": "",
-   "href": "https://note.com/hashtag/%E7%85%AE%E7%89%A9"
+   "href": "https://note.com/hashtag/%E5%92%8C%E7%89%9B"
   },
   {
    "tag": "a",
-   "txt": "#japanesefood",
+   "txt": "#氷見",
    "aria": "",
-   "href": "https://note.com/hashtag/japanesefood"
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B"
   },
   {
    "tag": "a",
-   "txt": "#高岡",
+   "txt": "#氷見市",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B%E5%B8%82"
   },
   {
    "tag": "a",
-   "txt": "#こんにゃく",
+   "txt": "#富山グルメ",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%93%E3%82%93%E3%81%AB%E3%82%83%E3%81%8F"
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1%E3%82%B0%E3%83%AB%E3%83%A1"
   },
   {
    "tag": "a",
-   "txt": "#日本の食",
+   "txt": "#ブランド牛",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A3%9F"
+   "href": "https://note.com/hashtag/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E7%89%9B"
+  },
+  {
+   "tag": "a",
+   "txt": "#氷見牛",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%B0%B7%E8%A6%8B%E7%89%9B"
   },
   {
    "tag": "button",
@@ -262,8 +244,8 @@
   },
   {
    "tag": "button",
-   "txt": "3",
-   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -335,12 +317,6 @@
   {
    "tag": "a",
    "txt": "",
-   "aria": "北陸の暮らし",
-   "href": "https://note.com/safe_canna441/m/m22a5ea6838c5"
-  },
-  {
-   "tag": "a",
-   "txt": "",
    "aria": "高岡の食",
    "href": "https://note.com/safe_canna441/m/m264cf69f123b"
   },
@@ -376,8 +352,8 @@
   },
   {
    "tag": "button",
-   "txt": "3",
-   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -424,8 +400,8 @@
   },
   {
    "tag": "button",
-   "txt": "3",
-   "aria": "3スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -515,32 +491,8 @@
   {
    "tag": "a",
    "txt": "",
-   "aria": "刻空",
-   "href": "https://note.com/ozconsultingeasy"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "気ままな船乗り｜分岐点にいる人の灯台",
-   "href": "https://note.com/hisa3396"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "ヒデ",
-   "href": "https://note.com/agile_drake3912"
+   "aria": "TwoThree",
+   "href": "https://note.com/number_twothree"
   },
   {
    "tag": "button",

@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/lucky_kiwi9297/n/n51abe0b98387",
+ "url": "https://note.com/info/n/n60612f992ff5",
  "buttons": [
   {
    "tag": "button",
@@ -34,7 +34,19 @@
   },
   {
    "tag": "button",
-   "txt": "フォロー中",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "プロフィールを非表示",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -46,15 +58,21 @@
   },
   {
    "tag": "button",
-   "txt": "268",
-   "aria": "268スキ この記事にスキをつけたユーザーを見る",
+   "txt": "452",
+   "aria": "452スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
    "tag": "button",
-   "txt": "すべてのタグを表示",
+   "txt": "フォローする",
    "aria": "",
-   "cls": "text-sm underline"
+   "cls": "hidden ml-1 text-text-clickable-icon text-xs underline md:inline"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
@@ -64,8 +82,8 @@
   },
   {
    "tag": "button",
-   "txt": "268",
-   "aria": "268スキ この記事にスキをつけたユーザーを見る",
+   "txt": "452",
+   "aria": "452スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -88,13 +106,19 @@
   },
   {
    "tag": "button",
-   "txt": "",
+   "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
-   "txt": "フォロー中",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
+  },
+  {
+   "tag": "button",
+   "txt": "",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -118,8 +142,8 @@
   },
   {
    "tag": "button",
-   "txt": "268",
-   "aria": "268スキ この記事にスキをつけたユーザーを見る",
+   "txt": "452",
+   "aria": "452スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -166,8 +190,8 @@
   },
   {
    "tag": "button",
-   "txt": "268",
-   "aria": "268スキ この記事にスキをつけたユーザーを見る",
+   "txt": "452",
+   "aria": "452スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
