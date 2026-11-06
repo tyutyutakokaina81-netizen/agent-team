@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-05T00:07:55Z UTC / 成功: 14 / 失敗: 75
+# 最終実行: 2026-11-06T06:23:25Z UTC / 成功: 17 / 失敗: 75
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-09_note記事_肉ケーキ_形だけを借りている… は写真待ち。自動取得しない
@@ -84,11 +84,11 @@
   ✗ 2026-08-11_note記事_汗_かいてもかいても  (tried ['扇子', 'folding fan japan', '団扇 無地']): RuntimeError — 候補なし（query='団扇 無地'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   skip(place): 2026-08-13_note記事_富山の名水_立山からの贈… は「立山」を名乗る記事。土地名を含まないクエリ ['湧水'] は使わない
   ✗ 2026-08-13_note記事_富山の名水_立山からの贈りもの  (「立山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「立山」入りの語を足すこと)
-  ✗ 2026-08-13_note記事_日傘_持ち歩く日陰  (tried ['日傘']): RuntimeError — 候補なし（query='日傘'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 9, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-13_note記事_日傘_持ち歩く日陰  (tried ['日傘']): RuntimeError — 候補なし（query='日傘'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 8, 'too_tall': 1, 'nonjp_lic': 1, 'jp_first': 0}
   ✗ 2026-08-14_note記事_網戸_風だけを通す夏  (tried ['網戸']): RuntimeError — 候補なし（query='網戸'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 6, 'too_small': 2, 'too_tall': 2, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-16_note記事_夏バテ_だるさとつきあう  (tried ['麦茶 グラス', '扇風機', 'うちわ', '冷たい 麦茶']): RuntimeError — 候補なし（query='冷たい 麦茶'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   ✗ 2026-08-17_note記事_入道雲と夕立_山の上に立つ白  (tried ['入道雲']): RuntimeError — 候補なし（query='入道雲'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
-  ✗ 2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル  (tried ['盆踊り']): RuntimeError — 候補なし（query='盆踊り'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル  (tried ['盆踊り']): RuntimeError — 候補なし（query='盆踊り'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 12, 'jp_first': 0}
   ✗ 2026-08-30_note記事_二百十日_稲の実る頃に来る風への備え  (tried ['稲穂', '水田 稲穂', '田んぼ 稲', '稲 実り']): RuntimeError — 候補なし（query='稲 実り'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   skip(place): 2026-09-05_note記事_共働き_富山で共働きが多… は「富山」を名乗る記事。土地名を含まないクエリ ['日本 住宅地', '郊外 住宅 日本', 'detached house japan', '一戸建て 住宅'] は使わない
   ✗ 2026-09-05_note記事_共働き_富山で共働きが多いわけ  (「富山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「富山」入りの語を足すこと)
