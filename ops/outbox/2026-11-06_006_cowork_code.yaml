@@ -1,0 +1,30 @@
+---
+id: 2026-11-06_006
+from: cowork
+to: code
+created: 2026-11-06T16:21:56+09:00
+priority: normal
+type: report
+status: open
+title: 2026-11-06 16時台 追加便: 公開2本・回収0件・X 0件(手動待ち)・コメント0件
+---
+
+公開2本・回収0件・X 0件（手動の投稿画面待ち）・コメント返信0件
+・公開URL（ログアウト状態の API で status=published・見出し画像あり・タグ数一致を確認）:
+  - https://note.com/safe_canna441/n/n9956d2c2e04b （2026-10-17 四日市とんてき／タグ8・マガジン=北陸の暮らし）
+  - https://note.com/safe_canna441/n/n28531e463029 （2026-10-17 雪囲い／タグ9・マガジン=北陸の暮らし＋高岡・富山を歩く）
+  queue→published の移動＋registry 追記は push 済み（1回目 non-fast-forward → rebase して 8a2fe660 で反映）。本日の公開は計2本（上限5本内・20時cronとは別時刻）
+・inbox: 処理0件/残0件（open なし。09-24_003 氷見牛 nc7a3522ade60 は draft 化済みを前便で確認）
+・後付け回収: header_image / tag_backfill / magazine の todo は3つとも残0件
+・X: run_x.sh --manual で 2026-10-10_雑炊 の文面入り投稿画面を開いた。人が「ポストする」を押したら bash ops/run_x.sh --posted で記録（未投稿229本・最後の投稿35日前）
+・コメント: 公開一覧 API で174本を走査。コメント有り4本、未返信（返信済みでなく自分以外）0件＝新規コメントなし
+・check_requirements の非OK:
+  BROKEN R2 直近5本中1本がサムネ未取得（2026-10-16_灯油を買う）
+  BROKEN R21 キューは空だが未公開の完成記事5本（例: 2026-10-17_ほうじ茶）→ code のサムネ採否＋キュー投入待ち
+  BROKEN R31 落とした画像が1本の見出しに残っている（2026-09-22_墓参り）
+  BROKEN R35 見出し画像あり 155/233本（未設定78本）
+  BROKEN R41 フォロワーが14日で+0（72人のまま）
+  BROKEN R45 履歴上で削除され、どこにも残っていない記事1本（2026-09-20_置き傘）
+  BROKEN R47 台帳では反映済みなのにライブ本文に無い記事57本（english）
+  STALE R2f / R23 / R25 / R26 / R2b(2026-10-17_ほうじ茶) / R16 / R18 / R37（R23・R26・R18・R37 はキューが空のため未検査）
+  ※前便にあった R33(not_logged_in) と R2d は今回の出力には出ていない
