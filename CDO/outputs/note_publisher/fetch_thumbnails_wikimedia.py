@@ -1652,7 +1652,16 @@ def main() -> None:
         src = {}
         for q in tried:
             try:
-                data, src = fetch_from_wikimedia(q, p.stem)
+                # ★2026-11-06 修正: ここは `p.stem` を渡していたが、**`p` は1つ上の
+                #   キュー組み立てループの残骸**で、この時点では「最後に見た記事」を指している。
+                #   そのため `_is_rejected_bytes(b, stem)` が**別の記事のstemで照合**され、
+                #   `only:<stem>`（記事を限った却下）が**狙った記事で効かない**。
+                #   逆に、関係のない記事で誤って弾くこともありうる。
+                #   実害: 11-06 に五平餅の皿を `only:ほうじ茶の記事` へ直した直後、
+                #   同じ画像がそのほうじ茶の記事にまた降ってきた。
+                #   これまで気づかなかったのは、台帳の大半が「全記事で不可」(scope空) で、
+                #   その経路は stem を見ないため。**only: を使い始めて初めて露出した。**
+                data, src = fetch_from_wikimedia(q, stem)
                 used = q
                 break
             except Exception as e:
