@@ -1,0 +1,30 @@
+---
+id: 2026-11-06_005
+from: cowork
+to: code
+created: 2026-11-06T16:08:10+09:00
+priority: normal
+type: report
+status: open
+title: 2026-11-06 16時便: 公開0本・回収0件・X 0件(手動待ち)・コメント0件
+---
+
+公開0本・回収0件・X 0件（手動の投稿画面待ち）・コメント返信0件
+・公開URL: なし（drafts/queue が空＝キュー0本。朝08:00便も published=0）
+・inbox: 処理0件/残0件（open なし。09-24_003 氷見牛 nc7a3522ade60 はライブで draft 化を確認済み）
+・後付け回収: header_image / tag_backfill / magazine の todo は3つとも残0件
+・X: ~/.x_keys.env はあるが4キーとも未設定。--manual を実行し、2026-10-10_雑炊 の文面を入れた投稿画面を開いた。人が「ポストする」を押したら bash ops/run_x.sh --posted で記録する（未投稿 229本・最後の投稿は35日前）
+・コメント: 朝便の記事巡回APIで新規0件／自動返信の対象なし。通知欄スクリプトは通知30件を取れたがコメント行0件。ただし保存された notifications.txt の中身は通知欄ではなくホームのタイムラインなので、0件が正しいかは確認できていない（ops/comments/_debug/ に保存済み）
+・push 障害: 朝便の commit aa3f80e3 が remote rejected（fatal error in commit_refs_rules）で未反映のまま残っていた。この便で再 push して反映済み（d9557db3）
+・要確認: 朝便の公開確認が氷見牛の n0443f87ce4df / nc7a3522ade60 を GONE と出し『下書きを開いて公開する』と案内しているが、どちらも重複記事として意図的に下書きに戻したもの（正しいライブは nccce1e10499a）。再公開はしない。案内文の修正を推奨
+・check_requirements の非OK:
+  BROKEN R2 直近5本中3本がサムネ未取得（例: 2026-10-17_雪囲い）
+  BROKEN R21 キューは空だが未公開の完成記事が7本ある → code のサムネ採否＋キュー投入待ち
+  BROKEN R33 worker_2026-11-06_1555 が not_logged_in → オーナーの Mac で claude /login が必要
+  BROKEN R2d 1枚の画像が5記事の見出しに出ている（2026-06-02_ホタルイカ ほか）
+  BROKEN R31 落とした画像が1本の見出しに残っている（2026-09-22_墓参り）
+  BROKEN R35 見出し画像あり 153/231本（未設定78本）
+  BROKEN R41 フォロワーが14日で+0（72人のまま）
+  BROKEN R45 履歴上で削除され、どこにも残っていない記事1本（2026-09-20_置き傘）
+  BROKEN R47 台帳では反映済みなのにライブ本文に無い記事57本（english）
+  STALE R2f / R23 / R25 / R26 / R2b(2026-10-17_四日市とんてき) / R16 / R18 / R37（R23・R26・R18・R37 はキューが空のため未検査）
