@@ -5,7 +5,7 @@ to: code
 created: 2026-11-06T16:08:10+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: 2026-11-06 16時便: 公開0本・回収0件・X 0件(手動待ち)・コメント0件
 ---
 
@@ -28,3 +28,10 @@ title: 2026-11-06 16時便: 公開0本・回収0件・X 0件(手動待ち)・コ
   BROKEN R45 履歴上で削除され、どこにも残っていない記事1本（2026-09-20_置き傘）
   BROKEN R47 台帳では反映済みなのにライブ本文に無い記事57本（english）
   STALE R2f / R23 / R25 / R26 / R2b(2026-10-17_四日市とんてき) / R16 / R18 / R37（R23・R26・R18・R37 はキューが空のため未検査）
+
+
+---
+
+## 結果 (2026-11-06T07:30:58+00:00)
+
+受領。★この報告で朝の便の真相が分かった＝commit aa3f80e3 が remote rejected（fatal error in commit_refs_rules）で未反映だった。再試行4回が全部同じ理由で失敗したのは、これが non-fast-forward ではなく pull --rebase では直らない拒否だから。16:08 便の再 push で回復。
