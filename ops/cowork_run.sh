@@ -8,6 +8,32 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 . "$(dirname "$0")/_pybin.sh"   # ブラウザを開くものは playwright 入りの python で動かす
 
+# ---- 1工程の時間上限（★2026-11-06 追加） ----------------------------------
+# なぜ: 11-06 の便は paid-footer まで進んだあと **1時間以上どこかで止まり**、
+#   後ろに並んでいる4工程（自動返信／フォロワー／公開確認／積み残し）が
+#   **1つも動かなかった**。英語の未反映63本は最後の工程でしか減らないので、
+#   前のどれかが固まると **毎日きっちり0本しか進まない**。
+#   前日は同じ区間が20分で終わっている＝止まるのは異常で、待っても終わらない。
+#   mac には timeout が無い（coreutils 未導入）ので perl の alarm で代替する。
+_limit() {            # _limit <秒> <コマンド...>
+  local _s="$1"; shift
+  if command -v timeout >/dev/null 2>&1; then timeout -k 10 "$_s" "$@"; return $?; fi
+  if command -v gtimeout >/dev/null 2>&1; then gtimeout -k 10 "$_s" "$@"; return $?; fi
+  # exec したあとも alarm は生き残り、**子が SIGALRM で死ぬ＝rc=142**。
+  # （$SIG{ALRM} ハンドラは exec で消えるので呼ばれない。実測して分かった）
+  # 判定を1か所にするため 124 に揃える。
+  perl -e 'alarm shift; exec @ARGV' "$_s" "$@"
+  local _r=$?
+  [ "$_r" = "142" ] && _r=124
+  return $_r
+}
+_limit_note() {       # 打ち切ったことを**ログに必ず残す**（黙って飛ばすと原因が消える）
+  local _rc="$1" _name="$2" _s="$3"
+  if [ "$_rc" = "124" ] || [ "$_rc" = "137" ] || [ "$_rc" = "142" ]; then
+    echo "⚠️ ${_name} を ${_s}秒で打ち切った（固まっていた）。後続の工程は続ける"
+  fi
+}
+
 BR="$(git rev-parse --abbrev-ref HEAD)"
 mkdir -p ops/logs
 TS="$(date +%Y-%m-%d_%H%M%S)"
@@ -330,8 +356,10 @@ echo ""
 echo "=== コメントに自動返信する ==="
 # 2026-10-07: 自動返信は以前からの要件だったが、**投稿するスクリプトが無かった**ので
 #   READY にしても出ていかなかった（取得と下書きだけ在って出口が無い状態）。
-python3 ops/auto_reply_comments.py --go 2>&1 | tail -3 || true
-_rp_out="$("$PYBIN" CDO/outputs/note_publisher/post_comment_replies.py --go 2>&1 || true)"
+_limit 240 python3 ops/auto_reply_comments.py --go 2>&1 | tail -3
+_limit_note "${PIPESTATUS[0]}" "返信の下書き作成" 240
+_rp_out="$(_limit 300 "$PYBIN" CDO/outputs/note_publisher/post_comment_replies.py --go 2>&1)"; _rc=$?
+_limit_note "$_rc" "コメント自動返信" 300
 echo "$_rp_out" | tail -3
 _rp_sum="$(echo "$_rp_out" | sed -n 's/.*== 投稿 \([0-9]*\)件.*/\1/p' | tail -1)"
 
@@ -342,7 +370,8 @@ echo "=== フォロワーを増やす（富山/氷見/高岡の発信者に フ�
 #   コメントは付けない（--comment を渡さない）＝同一文面の連投を構造的に起こさない（A5）。
 #   1便の上限は script 側の DISCOVER_LIMIT=14 に従う（bot 判定を避ける）。
 # 実体は ops/growth_now.sh（1か所にまとめる＝2つ持つと必ず片方が古くなる）
-_gr_out="$(bash ops/growth_now.sh 2>&1 || true)"
+_gr_out="$(_limit 600 bash ops/growth_now.sh 2>&1)"; _rc=$?
+_limit_note "$_rc" "フォロワーを増やす" 600
 echo "$_gr_out" | tail -4
 _gr_after="$(echo "$_gr_out" | sed -n 's/^記録: [0-9-]* //p' | sed 's#/.*##' | tail -1)"
 _gr_n="$(echo "$_gr_out" | grep -o '今回フォロー [0-9]*' | grep -o '[0-9]*' | tail -1)"
@@ -352,24 +381,29 @@ echo "=== 記事が読者に見えているかを少しずつ確認（ログア�
 # 2026-10-06: 公開済みのはずの3本が note 上では下書きのままだった（読者に1文字も見えていない）。
 # 氷見牛でも同じことが起きていて、単発の事故ではなかった。
 # 全237本を一度に見ると時間がかかるので、毎日25本ずつ進める（判定済みは飛ばす）。
-_pub_out="$("$PYBIN" CDO/outputs/note_publisher/check_public_all.py --limit 25 2>&1 || true)"
+_pub_out="$(_limit 600 "$PYBIN" CDO/outputs/note_publisher/check_public_all.py --limit 25 2>&1)"; _rc=$?
+_limit_note "$_rc" "読者に見えているかの確認" 600
 echo "$_pub_out" | tail -4
 _pub_sum="$(echo "$_pub_out" | grep -m1 -E '読者に見えていない記事|全部読者に見えている|新しく見るものは無い' || echo '結果行なし')"
 
 echo "=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）==="
-_en_out="$(bash ops/backfill_english.sh --go --limit 6 --nogit 2>&1 || true)"
+_en_out="$(_limit 600 bash ops/backfill_english.sh --go --limit 6 --nogit 2>&1)"; _rc=$?
+_limit_note "$_rc" "英語の追記" 600
 echo "$_en_out" | tail -3
 _en_sum="$(echo "$_en_out" | grep -m1 -E '^== 結果:' || echo '結果行なし')"
 
-_fl_out="$(bash ops/backfill_follow.sh --go --limit 6 --nogit 2>&1 || true)"
+_fl_out="$(_limit 480 bash ops/backfill_follow.sh --go --limit 6 --nogit 2>&1)"; _rc=$?
+_limit_note "$_rc" "フォロー導線の追記" 480
 echo "$_fl_out" | tail -3
 _fl_sum="$(echo "$_fl_out" | grep -m1 -E '^== 結果:' || echo '結果行なし')"
 
-_tg_out="$(bash ops/backfill_tags.sh --go --limit 6 --nogit 2>&1 || true)"
+_tg_out="$(_limit 480 bash ops/backfill_tags.sh --go --limit 6 --nogit 2>&1)"; _rc=$?
+_limit_note "$_rc" "#毎日note の追記" 480
 echo "$_tg_out" | tail -3
 _tg_sum="$(echo "$_tg_out" | grep -m1 -E 'まだ足していない|結果' || echo 'タグの行なし')"
 
-_xq_out="$(python3 ops/build_x_queue.py --go 2>&1 || true)"
+_xq_out="$(_limit 180 python3 ops/build_x_queue.py --go 2>&1)"; _rc=$?
+_limit_note "$_rc" "Xキューの作り直し" 180
 echo "$_xq_out" | tail -3
 _xq_sum="$(echo "$_xq_out" | grep -m1 -E 'キューに入れる' || echo 'Xキューの行なし')"
 

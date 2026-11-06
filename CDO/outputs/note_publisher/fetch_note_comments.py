@@ -284,9 +284,14 @@ def _rich_text(node) -> str:
     return ""
 
 
-def _walk_comments(obj, out):
+def _walk_comments(obj, out, replied=None):
     """応答の形が分からないので、**本文らしき文字列を持つ辞書**を再帰で拾う。
-    キー名は決め打ちしない（note 側が変えても拾えるように）。"""
+    キー名は決め打ちしない（note 側が変えても拾えるように）。
+
+    ★2026-11-06: `replied` に list を渡すと、**返信済みで拾わなかったコメント**をそこに溜める。
+      これを数えないと、呼び出し側は「拾えた件数0」しか見えないので、
+      「返信済みで拾う必要が無かった」と「本文が読めなかった」の区別がつかない。
+      実際この取り違えで **1便18件の誤報が毎日出ていた**（2026-10-06 からずっと）。"""
     if isinstance(obj, dict):
         body = None
         for k in ("body", "text", "comment", "message"):
@@ -297,6 +302,8 @@ def _walk_comments(obj, out):
                 body = v.strip()
                 break
         if body and obj.get("is_creator_replied") is True:
+            if replied is not None:        # ★数えてから返す（上のコメント参照）
+                replied.append({"text": body, "id": str(obj.get("key") or obj.get("id") or "")})
             return out                     # 返信済み＝拾わない（二重返信を防ぐ）
         if body:
             who = ""
@@ -313,10 +320,10 @@ def _walk_comments(obj, out):
             out.append({"author": who, "text": body,
                         "id": str(obj.get("id") or obj.get("key") or "")})
         for v in obj.values():
-            _walk_comments(v, out)
+            _walk_comments(v, out, replied)
     elif isinstance(obj, list):
         for v in obj:
-            _walk_comments(v, out)
+            _walk_comments(v, out, replied)
     return out
 
 
@@ -352,7 +359,17 @@ def fetch_comments_via_api(page, note_key: str, debug: bool = False, note_id: st
             summary.append((url, "200", "not-json", ""))
             continue
         _tc = data.get("total_count") if isinstance(data, dict) else ""
-        _dl = len(data.get("data") or []) if isinstance(data, dict) else ""
+        # ★2026-11-06: ここは `len(data["data"])` を書いていたが、v1 の data は
+        #   {"comments": [...], "rest_comment_count": n} という **辞書**なので、
+        #   件数ではなく **キーの数2** を記録していた。「v1 は2件返す」という誤読の出どころ。
+        #   リストのときだけ件数として数え、辞書なら中の配列を探す。
+        _d = data.get("data") if isinstance(data, dict) else None
+        if isinstance(_d, list):
+            _dl = len(_d)
+        elif isinstance(_d, dict):
+            _dl = sum(len(v) for v in _d.values() if isinstance(v, list))
+        else:
+            _dl = ""
         summary.append((url, "200", str(_tc), str(_dl)))
         if debug:
             try:
@@ -365,15 +382,23 @@ def fetch_comments_via_api(page, note_key: str, debug: bool = False, note_id: st
                     saved = _f
             except Exception:
                 pass
-        got = _walk_comments(data, [])
+        _replied = []
+        got = _walk_comments(data, [], _replied)
         # 記事本文そのもの（長すぎるもの）は除く＝コメントだけ残す
         got = [g for g in got if 1 <= len(g["text"]) <= 2000]
         if got:
             log(f"    API命中: {url} （{len(got)}件）")
             _write_api_summary(note_key, note_id, summary)
-            return got, saved
+            return got, saved, 0
+        # ★2026-11-06: 返信待ちが0件でも、**返信済みのコメントが取れている**なら
+        #   「本文が読めなかった」ではない。root が全部返信済みなら、ここで確定させる
+        #   （total_count は root の数。_cc は返信を含むので突き合わせには使わない）。
+        if _replied and isinstance(_tc, int) and _tc > 0 and len(_replied) >= _tc:
+            log(f"    API命中: {url} （root {_tc}件はすべて返信済み＝返信待ちなし）")
+            _write_api_summary(note_key, note_id, summary)
+            return [], saved, len(_replied)
     _write_api_summary(note_key, note_id, summary)
-    return [], saved
+    return [], saved, 0
 
 
 def _write_api_summary(note_key, note_id, rows):
@@ -395,8 +420,24 @@ def _write_api_summary(note_key, note_id, rows):
 
 
 def extract_comments(page, url, debug=False):
-    """(comments, status) を返す。status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）。"""
+    """(comments, status) を返す。
+    status は 'ok' / 'no-selector' / 'draft'（下書きで公開されていない）/
+    'upstream-error'（note側が応答を返せなかった＝一時的な取得失敗）。"""
     _key = (re.search(r"/n/(n[0-9a-f]{12})", url) or [None, ""])[1] if "/n/n" in url else ""
+    # ★2026-11-06: note 側のゲートウェイが落ちた応答（本文246バイトの
+    #   "upstream connect error or disconnect/reset before headers"）を
+    #   **セレクタ外れ**として数えていた。そのため「--debug のHTMLを送れ、codeが直す」と
+    #   案内が出て、cowork が**壊れていないセレクタの調査を依頼してくる**ことになる。
+    #   記事が開けていないだけなので、一時的な取得失敗として分ける（再訪で直る）。
+    try:
+        _html = page.content() or ""
+    except Exception:
+        _html = ""
+    if len(_html) < 2000 and ("upstream connect error" in _html
+                              or "disconnect/reset before headers" in _html
+                              or "502 Bad Gateway" in _html
+                              or "503 Service" in _html):
+        return [], "upstream-error"
     _st, _cc = read_note_state(page, _key)
     if _st == "draft":
         # 公開されていない記事＝コメント欄が無いのは当然。セレクタの問題ではない。
@@ -430,7 +471,11 @@ def extract_comments(page, url, debug=False):
         if _cc:
             # ★まず API を試す（DOM より確実）。取れたらそれを返す。
             _nid = read_note_id(page, _key)
-            _api, _saved = fetch_comments_via_api(page, _key, debug, note_id=_nid or "")
+            _api, _saved, _done_n = fetch_comments_via_api(page, _key, debug, note_id=_nid or "")
+            if not _api and _done_n:
+                # 返信待ちは無い。DOM が読めないこと自体は事故ではないので ok で返す。
+                log(f"    ✅ コメント {_done_n}件はすべて返信済み（返信待ちなし）")
+                return [], "ok"
             if _api:
                 _out = []
                 for i, c in enumerate(_api):
@@ -598,6 +643,12 @@ def main():
                 comments, status = extract_comments(page, url, args.debug)
             except Exception as e:
                 log(f"    ✗ 取得失敗: {e}")
+                continue
+            if status == "upstream-error":
+                # note 側が応答を返せなかっただけ。セレクタの話ではないので別に数える。
+                not_rendered += 1
+                log("    ⚠️ note 側が応答を返せなかった（upstream error）＝一時的な取得失敗。"
+                    "セレクタの問題ではないので次の便で再訪する")
                 continue
             if status == "draft":
                 drafts.append(url)
