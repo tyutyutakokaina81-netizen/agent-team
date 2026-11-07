@@ -9795,3 +9795,60 @@ To https://github.com/tyutyutakokaina81-netizen/agent-team.git
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-07_004_cowork_code.yaml  id=2026-11-07_004
+[main 55d014ee] cowork: daily backfill (english/follow/x-queue) 2026-11-07_080004
+ 28 files changed, 764 insertions(+), 137 deletions(-)
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n1ffab822c2a4_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n47e24995aad0_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n5ceb4b0d5252_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n6534b9fe02ce_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/n92777d1d932c_follow.txt
+ create mode 100644 CDO/outputs/note_publisher/_before_update/na096464584e5_follow.txt
+ create mode 100644 ops/logs/backfill_english_2026-11-07_081228.log
+ create mode 100644 ops/logs/backfill_follow_2026-11-07_081422.log
+ create mode 100644 ops/logs/backfill_tags_2026-11-07_081616.log
+ create mode 100644 ops/outbox/2026-11-07_004_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   13f2a359..55d014ee  main -> main
+=== publish run 2026-11-08_080002 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] ひとり仕事の、いちばんシンプルな段取りの話
+[4/20] 日傘 — 持ち歩く、日陰
+[5/20] 富山の名水 — 立山からの、贈りもの
+[6/20] 怪談 — こわい話で、涼む夜
+[7/20] メロン — スプーンで、すくう贅沢
+[8/20] メジマグロ — 夜明けの海から、食卓まで
+[9/20] ゴーヤチャンプルー — 苦いのが、いい
+[10/20] ざるそば — つゆに、ちょんと、つけるだけ
+[11/20] 冷ややっこ — 何もしない、という料理
+[12/20] 水鉄砲 — ずぶ濡れの、戦い
+[13/20] 汗 — かいても、かいても
+[14/20] サンダル — 夏は、これ一足
+[15/20] おにぎり — 塩を、きかせて握る
+[16/20] 夏の草むしり — 抜いても、抜いても
+[17/20] 田んぼの夏 — 緑の波と、カエルの声
+[18/20] 夏の昼寝 — 畳の上の、うたた寝
+[19/20] 温泉は、特別じゃない。— 富山の、日帰り温泉のある暮らし
+[20/20] 夏は、氷を食べる。— かき氷という、うちの夏のごほうび
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-11-08_002_cowork_code.yaml  id=2026-11-08_002
