@@ -33,14 +33,14 @@ nf6f6a1000aa4	LIVE_OK	SKIP	高岡：江戸から昭和への時間旅行
 n3864cc909552	LIVE_OK	SKIP	高岡コロッケ：地元民が毎日食べる理由と、観光客が見つけられない食べ方ガイド
 n18bdc02fb5e0	LIVE_OK	2026-11-07
 n7767e1fb0ccc	LIVE_OK	UPDATED	富山の水道水は、なぜそのまま飲んでおいしいのか
-n9135a4cca98c	NOT_LIVE	UPDATED	コスモス：チューリップの富山が、静かに咲かせるもう一つの花
-n2d4f04f08ab5	NOT_LIVE	UPDATED	二百十日：稲が実る頃に来る風を、昔の人はどう恐れたか
-n59040531a80a	NOT_LIVE	UPDATED	富山の新米：秋いちばんの一杯が、なぜこんなに違うのか
+n9135a4cca98c	LIVE_OK	2026-11-08
+n2d4f04f08ab5	LIVE_OK	2026-11-08
+n59040531a80a	LIVE_OK	2026-11-08
 n9c061eacd454	LIVE_OK	UPDATED	十五夜：稲を刈り終えた富山の、月を見る夜
-n969249cd6538	NOT_LIVE	UPDATED	彼岸花：田んぼの畦に、ある日突然あらわれる赤
+n969249cd6538	LIVE_OK	2026-11-08
 nd14bddf5ff9d	LIVE_OK	UPDATED	富山はなぜ、鉄道を手放さなかったのか
-n8816235bcecd	NOT_LIVE	UPDATED	富山の梨は、りんごのように齧る
-n936820e10c65	NOT_LIVE	UPDATED	富山で共働きが多いわけ
+n8816235bcecd	LIVE_OK	2026-11-08
+n936820e10c65	LIVE_OK	2026-11-08
 nfcb35ebb2f13	NOT_LIVE	UPDATED	富山の秋は、笛と太鼓で始まる
 nac4021320e0b	NOT_LIVE	UPDATED	栗ご飯：日本では、栗を甘くしない
 n5f114cef1412	NOT_LIVE	UPDATED	虫の声：日本語では、それを「声」と呼ぶ
