@@ -304,16 +304,38 @@ def discover(page, known_handles):
     return list(found.values())
 
 def read_followers(page):
+    """プロフィール画面からフォロワー数を読む。
+
+    ★2026-11-08 作り直し: これまでは「『フォロワー』を含む20字未満の行」を返すだけで、
+      当たらなければ黙って "unknown" を返していた。**11-07・11-08 の2便が
+      『取得できず』**で、ops/follower_log.tsv も 11-06 で止まっている。
+      note の表示が変わったのだと思われるが、**何が見えていたのかが残らない**ので
+      直しようがなかった（「何も無い」と「読めない」を区別できない作りだった）。
+    → ①数字＋フォロワー／フォロワー＋数字の両方を拾う ②字数で切らない
+      ③**外したときは、画面に『フォロワー』を含む行が何と書いてあったかを出す**。
+      次の便のログを見れば、どう変わったのかが分かる。
+    """
+    import re as _re
     try:
         page.goto(f"https://note.com/{MY_HANDLE}", wait_until="domcontentloaded", timeout=45000)
         page.wait_for_timeout(4000)
         body = page.inner_text("body")
-        for line in body.splitlines():
-            if "フォロワー" in line and len(line) < 20:
-                return line.strip()
     except Exception as e:
         return f"err:{e}"
-    return "unknown"
+    cands = [ln.strip() for ln in body.splitlines() if "フォロワー" in ln]
+    # 「1,234フォロワー」「1,234 フォロワー」「フォロワー 1,234」のどれでも数字を取る
+    for ln in cands:
+        m = (_re.search(r"([0-9][0-9,]*)\s*フォロワー", ln)
+             or _re.search(r"フォロワー\s*([0-9][0-9,]*)", ln))
+        if m:
+            return f"{m.group(1).replace(',', '')}フォロワー"
+    if cands:
+        # ★読めなかったときは、見えていた行をそのまま出す＝次の便で直せるようにする
+        print("FOLLOWERS_RAW_LINES::", " | ".join(c[:40] for c in cands[:5]))
+        return "unknown(行はあるが数字が取れない)"
+    print("FOLLOWERS_RAW_LINES:: （『フォロワー』を含む行が1つも無い＝"
+          "ログイン切れか、画面の作りが変わった）")
+    return "unknown(行が無い)"
 
 def main():
     results = []
