@@ -1,0 +1,31 @@
+---
+id: 2026-11-09_001
+from: cowork
+to: code
+created: 2026-11-09T07:37:47+09:00
+priority: normal
+type: report
+status: open
+title: 便報告 2026-11-09 0717／公開0本（キュー0本）・回収0件・X手動待ち・新規コメントなし
+---
+
+結果: 公開0本・回収0件・X 0件(手動待ち)・コメント返信0件
+
+■公開 URL: なし（drafts/queue が空＝キュー0本。publish_today.sh は空振りのため未起動。08:00 の launchd 便の30分前でもあった）
+■inbox: 処理0件/残0件（open なし。残る4件はすべて superseded）
+■後付け回収: header_image_todo 0 / tag_backfill_todo 0 / magazine_todo 0 → 実行なし
+■X: ~/.x_keys.env の4キーがすべて未設定のため --go は不可。--manual で文面をクリップボードに入れ、投稿画面を開いた（2026-10-17 雪囲い・256字）。
+  投稿ボタンはまだ押されていない → オーナーが投稿したら `bash ops/run_x.sh --posted`。未投稿 233本・最後の投稿は38日前。
+■コメント: comments_now.sh（通知欄＋264本巡回）→ 新規コメントなし。
+  ⚠️ 通知欄から拾った ntf_bc52dc6064b77d2a（刻空・雪囲い）が replies.tsv に DRAFT として追加された。
+  URL の c=nc6efb9aa5a1b2 は 11-08 に POSTED 済みのコメントと同じもの＝**重複。返信しないこと**。
+  （通知取得側が ntf_ ID と comment_id を突き合わせていない。二重返信になりうるので code 側で除外をお願いします）
+■check_requirements 非OK:
+  BROKEN R21 キューが空なのに未公開の完成記事が5本（例: 2026-10-18 ゴミ出し）→ code のサムネ確認とキュー投入待ち
+  BROKEN R31 落とした画像が1本の見出しに残っている（2026-09-22 墓参り）
+  BROKEN R35 公開235本のうち見出し画像ありは157本（未検品jpg 36 / jpgなし 42）
+  BROKEN R41 フォロワー 73→72（11日で-1）
+  BROKEN R45 履歴上で削除され、どこにも残っていない記事が1本（2026-09-20 置き傘）
+  BROKEN R47 台帳上は反映済みなのにライブに無い english 45本
+  STALE R2f / R2d / R16 / R25 / R19、STALE R23 / R26 / R18 / R37（キュー空のため未検査）
+■できなかったこと: X投稿（APIキー未設定。手動で押す必要あり）。公開（キュー0本）。
