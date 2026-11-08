@@ -1,0 +1,19 @@
+### X投稿 2026-11-09_071738
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+tweepy : あり（/Users/apple/.agent_venv/bin/python3）
+投稿実績 :        4 件（ops/logs/x_posted.tsv）
+
+--- DRY-RUN（投稿しません。次に出る文面の確認）---
+スレッド総数 237 / 未投稿 233
+
+--- 次に投稿するスレッド: 2026-10-17_雪囲い_冬が来る前に庭を板で囲む（1ツイート）---
+  [1] (256字) The Garden Is Boarded Up Before the Snow Once the middle of October has passed, the garden starts coming up in conversation. Someone says *we'd better get on with it soon*. They do not say what. https://note.com/safe_canna441/n/n28531e463029 #Japan #Toyama
+
+[DRY-RUN] 投稿しません。投稿するには認証を環境変数に入れて --go を付けて再実行。
+
+問題なければ:  bash ops/run_x.sh --go
