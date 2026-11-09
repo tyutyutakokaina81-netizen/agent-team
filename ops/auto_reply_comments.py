@@ -180,13 +180,32 @@ def build(lang: str, phrase: str, subject: str, seed: int, own_place: bool) -> s
     return pool[seed % len(pool)]
 
 
+def canonical_comment_id(cid: str, article_url: str = "") -> str:
+    """コメントの id を1つの形に揃える。
+
+    ★2026-11-09 追加（cowork 報告 2026-11-09_001）:
+      **同じコメントに2回返信しかけた。** 記事を巡回して拾うと id は `nc6efb9aa5a1b2`
+      （コメントの key）だが、**通知欄から拾うと `ntf_bc52dc6064b77d2a`**（通知の id）になる。
+      文字列が違うので「もう返信した」の照合をすり抜け、**返信済みのコメントに
+      もう一度 DRAFT が立った**。相手は実在の読者なので、出ていたら二重返信だった。
+      通知側の URL には `?...&c=<コメントのkey>` が付いているので、そこから戻せる。
+    """
+    cid = (cid or "").strip()
+    if cid.startswith("ntf_") or not re.fullmatch(r"n[0-9a-f]{12,}", cid):
+        m = re.search(r"[?&]c=(n[0-9a-f]{12,})", article_url or "")
+        if m:
+            return m.group(1)
+    return cid
+
+
 def load_done():
+    """すでに扱ったコメント。**id を揃えてから**集める（上の canonical_comment_id 参照）。"""
     done = set()
     if os.path.exists(REPLIES):
         with open(REPLIES, encoding="utf-8") as fh:
             for r in csv.reader(fh, delimiter="\t"):
                 if r and not r[0].startswith("comment_id"):
-                    done.add(r[0])
+                    done.add(canonical_comment_id(r[0], r[1] if len(r) > 1 else ""))
     return done
 
 
@@ -200,9 +219,14 @@ def main():
     rows, skipped = [], []
     with open(PENDING, encoding="utf-8") as fh:
         for r in csv.reader(fh, delimiter="\t"):
-            if not r or r[0].startswith("comment_id") or r[0] in done:
+            if not r or r[0].startswith("comment_id"):
                 continue
-            cid, art = r[0], (r[1] if len(r) > 1 else "")
+            # ★拾った経路（記事巡回／通知欄）で id の形が違うので、先に揃えてから照合する
+            _art0 = r[1] if len(r) > 1 else ""
+            _cid0 = canonical_comment_id(r[0], _art0)
+            if _cid0 in done:
+                continue
+            cid, art = _cid0, _art0
             lang = r[3] if len(r) > 3 else "ja"
             text = r[4] if len(r) > 4 else ""
             kind = classify(text)

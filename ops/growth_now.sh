@@ -21,6 +21,17 @@ cd "$(dirname "$0")/.."
 OUT="$("$PYBIN" CDO/outputs/note_publisher/_cowork_growth.py --discover --go 2>&1 || true)"
 echo "$OUT" | tail -8
 AFTER="$(echo "$OUT" | sed -n 's/^FOLLOWERS_AFTER:: *//p' | tail -1)"
+# ★2026-11-09: AFTER は**この script の最後**に出る。途中で打ち切られると空になり、
+#   フォロワー数が1行も記録されない。実際 11-07〜11-09 の3便がそうなっていた
+#   （cowork_run.sh に付けた 600秒の上限で、この工程が切られていた＝**こちらの入れた上限が原因**）。
+#   BEFORE は**最初**に出るので、AFTER が無ければそちらを使う。
+#   数えられた分だけでも残す＝「測っていない日」を作らない。
+if [ -z "${AFTER}" ]; then
+  AFTER="$(echo "$OUT" | sed -n 's/^FOLLOWERS_BEFORE:: *//p' | tail -1)"
+  [ -n "${AFTER}" ] && echo "※ 途中で終わったので、開始時点の値を記録します（AFTER が無い）"
+fi
+# 画面に見えていた『フォロワー』の行（read_followers が外したときに出す）も残す
+echo "$OUT" | grep -a '^FOLLOWERS_RAW_LINES::' | tail -2 || true
 N="$(echo "$OUT" | grep -c '^DONE ')"
 # ★2026-10-07: **0人でも「実行した」と報告されるのがいちばん危ない。**
 #   セレクタが全滅していた（note の Next.js 移行でクラス名が消えた）ことに

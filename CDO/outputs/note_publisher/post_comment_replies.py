@@ -142,9 +142,37 @@ def main():
         print("replies.tsv が空。先に `python3 ops/auto_reply_comments.py --go`")
         return 0
     today = datetime.date.today().isoformat()
+
+    # ★2026-11-09 追加（cowork 報告 2026-11-09_001）:
+    #   **同じコメントに2回返信しかけた。** 記事巡回だと id は `nc6efb9aa5a1b2`、
+    #   通知欄だと `ntf_bc52dc6064b77d2a` になり、文字列が違うので
+    #   「もう返信した」の照合をすり抜けて、返信済みのコメントに DRAFT が立った。
+    #   書き出す側（ops/auto_reply_comments.py）も直したが、**実際に投稿するのはここ**なので
+    #   最後の砦としてここでも見る。同じ処理を2つ書かないよう、あちらの関数を読み込む。
+    try:
+        import importlib.util as _ilu2
+        _sp2 = _ilu2.spec_from_file_location("_arc", str(ROOT / "ops/auto_reply_comments.py"))
+        _arc = _ilu2.module_from_spec(_sp2)
+        _sp2.loader.exec_module(_arc)
+        _canon = _arc.canonical_comment_id
+    except Exception as e:
+        print(f"⚠️ id を揃える関数を読めない（{type(e).__name__}）。この回は投稿しない")
+        return 1
+
+    replied_ids = {_canon(r[0], r[1] if len(r) > 1 else "")
+                   for r in rows if len(r) > 3 and r[3] == "POSTED"}
+
     targets, seen_articles = [], set()
     for i, r in enumerate(rows):
         if len(r) < 5 or r[3] != "READY" or not r[4].strip():
+            continue
+        cid = _canon(r[0], r[1])
+        if cid in replied_ids:
+            # ★返信済みのコメントには出さない。**二度と拾わないよう印を付ける**
+            #   （放っておくと毎日ここで黙って飛ばされ、理由が残らない）
+            print(f"  ⏭ 返信済みのコメントなので出さない: {cid}（行{i+1}）→ DUPLICATE にする")
+            rows[i][3] = "DUPLICATE"
+            rows[i][6] = datetime.datetime.now().isoformat(timespec="seconds")
             continue
         art = r[1]
         if art in seen_articles:          # 同じ記事に同日2件出さない
@@ -153,7 +181,15 @@ def main():
         targets.append((i, r))
         if len(targets) >= LIMIT:
             break
+    def _save_rows():
+        with REPLIES.open("w", encoding="utf-8", newline="") as fh:
+            w = csv.writer(fh, delimiter="\t")
+            if head:
+                w.writerow(head)
+            w.writerows(rows)
+
     if not targets:
+        _save_rows()          # DUPLICATE の印を残す（次回また同じ判定をしないため）
         print("出すものが無い（READY が無い／すでに投稿済み）")
         return 0
     print(f"出す予定: {len(targets)}件")
