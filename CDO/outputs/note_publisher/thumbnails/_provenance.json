@@ -2953,5 +2953,32 @@
 "license": "CC BY-SA 2.0",
 "query": "明石焼き",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/%E6%98%8E%E7%9F%B3%E7%87%92%2C_%E7%8E%89%E5%AD%90%E7%87%92_%2825165926536%29.jpg/1280px-%E6%98%8E%E7%9F%B3%E7%87%92%2C_%E7%8E%89%E5%AD%90%E7%87%92_%2825165926536%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-19_note記事_中津からあげ_買って帰る前提の料理": {
+"author": "くろふね",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E6%8F%9A%E3%81%92%E3%81%9D%E3%81%B0%EF%BC%88%E5%86%B7%E3%82%84%E3%81%97%EF%BC%89%EF%BC%88%E6%88%91%E5%AD%AB%E5%AD%90%E9%A7%85%E3%83%BB%E5%BC%A5%E7%94%9F%E8%BB%92%EF%BC%8920210812-P1210621.jpg",
+"file": "File:唐揚げそば（冷やし）（我孫子駅・弥生軒）20210812-P1210621.jpg",
+"license": "CC BY 4.0",
+"query": "唐揚げ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/%E5%94%90%E6%8F%9A%E3%81%92%E3%81%9D%E3%81%B0%EF%BC%88%E5%86%B7%E3%82%84%E3%81%97%EF%BC%89%EF%BC%88%E6%88%91%E5%AD%AB%E5%AD%90%E9%A7%85%E3%83%BB%E5%BC%A5%E7%94%9F%E8%BB%92%EF%BC%8920210812-P1210621.jpg/1280px-%E5%94%90%E6%8F%9A%E3%81%92%E3%81%9D%E3%81%B0%EF%BC%88%E5%86%B7%E3%82%84%E3%81%97%EF%BC%89%EF%BC%88%E6%88%91%E5%AD%AB%E5%AD%90%E9%A7%85%E3%83%BB%E5%BC%A5%E7%94%9F%E8%BB%92%EF%BC%8920210812-P1210621.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-19_note記事_油揚げ_豆腐を揚げると別の食べものになる": {
+"author": "Northwalker",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%B2%B9%E6%8F%9A%E3%81%92.jpg",
+"file": "File:油揚げ.jpg",
+"license": "CC0",
+"query": "油揚げ",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/%E6%B2%B9%E6%8F%9A%E3%81%92.jpg/1280px-%E6%B2%B9%E6%8F%9A%E3%81%92.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-19_note記事_部屋干し_冬は外に干せない": {
+"author": "urasimaru",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E9%83%A8%E5%B1%8B%E5%B9%B2%E3%81%97_(12901598145).jpg",
+"file": "File:部屋干し (12901598145).jpg",
+"license": "CC BY-SA 2.0",
+"query": "部屋干し",
+"src": "https://upload.wikimedia.org/wikipedia/commons/a/a8/%E9%83%A8%E5%B1%8B%E5%B9%B2%E3%81%97_%2812901598145%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 }
 }
