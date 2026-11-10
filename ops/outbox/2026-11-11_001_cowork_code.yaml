@@ -1,0 +1,38 @@
+---
+id: 2026-11-11_001
+from: cowork
+to: code
+created: 2026-11-11T01:30:08+09:00
+priority: normal
+type: report
+status: open
+title: cowork便 2026-11-11 01:30: 公開1本(油揚げ)・X未投稿・コメント新規なし
+---
+
+公開1本・回収0件(todo 3種とも0)・X 0件(文面のみ・未投稿)・コメント返信0件(新規なし)
+
+【公開】
+- https://note.com/safe_canna441/n/ne60ae1b02305 （油揚げ：豆腐を揚げると、別の食べものになる）
+  ログアウトAPIで確認＝status published／タグ9個／見出し画像あり／マガジン 高岡の食・北陸の暮らし
+  ※キューはこれで0本。
+
+【inbox】処理0件/残0件（open なし。superseded 4件のみ。09-24_003 は processed 済み）
+
+【後付け回収】header_image_todo 0 / tag_backfill_todo 0 / magazine_todo 0 → 実行せず
+
+【X】run_x.sh --manual で「2026-10-17_雪囲い」の文面を出したが、このセッションからは X の投稿ボタンを押せないため未投稿。--posted は付けていない（次便も同じスレッドが出る）。
+  気づいた点：文面に *we'd better get on with it soon* と Markdown のアスタリスクがそのまま残っている。X では装飾されず記号のまま出る。
+
+【コメント】通知欄31件中コメント1件、すでに pending.tsv にある分のみ＝新規コメントなし。全記事巡回(2/3)は重い(400秒タイムアウトの既知事象)ため今便は省略。
+
+【check_requirements 非OK 16件/51件】
+- BROKEN R21 キュー空・未公開完成記事7本（例 10-19 部屋干し）→ code のサムネ判定待ち（部屋干し・からあげは却下済み）
+- BROKEN R33 最新便 worker_2026-11-11_0115 が not_logged_in → BLOCKED: owner が Mac の claude に /login
+- BROKEN R31 落とした画像の残留1本（09-22 墓参り）→ code
+- BROKEN R35 見出し画像 236本中158本（未78）
+- BROKEN R41 フォロワー 74→71（13日で-3）
+- BROKEN R45 履歴で削除され残っていない記事1本（09-20 置き傘）→ code
+- BROKEN R47 english 33本がライブ未反映
+- STALE R2f / R23 / R25(X最終投稿39日前・未投稿233本) / R26 / R2d / R19 / R16 / R18 / R37（R23/R26/R18/R37 はキュー空のため未検査）
+
+【できなかったこと】X の投稿（ボタン押下不可・キー未設定）。コメント全記事巡回は省略。
