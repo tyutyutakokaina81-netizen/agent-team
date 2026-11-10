@@ -53,11 +53,26 @@ if [ "${NOBTN}" -gt 0 ]; then
 fi
 if [ "${FOLLOWED}" = "0" ]; then
   echo "⚠️ 今回フォローできた人は0人です。上の理由を確認してください。"
+  # ★2026-11-10: cowork_run.sh が既定で `tail -4` しか残さないため、
+  #   **なぜ0人なのかが毎日ログから消えていた**（10-25 以降ずっと0人だったのに気づけなかった）。
+  #   0人のときだけ、1人ずつの結果をここで出す＝次の便で原因を決められるようにする。
+  echo "---- フォローできなかった理由（1人ずつ・最大14行）----"
+  echo "$OUT" | grep -a '^DONE ' | tail -14 || echo "（DONE の行が1つも無い＝対象を1人も開けていない）"
+  echo "---- ここまで ----"
 fi
+# ★2026-11-10 修正: ここは ${N}（＝DONE の行数＝**試した人数**）を
+#   「今回フォロー」として記録・報告していた。**実際にフォローできた人数ではない。**
+#   そのため、毎日「今回フォロー 14人」と出ていたのに、同じ run が
+#   「⚠️ 今回フォローできた人は0人です」も出していた＝**同じ便の中で数字が矛盾していた**。
+#   10-25 以降の記録を数えたら、**0人警告が出ていない日が1日も無い**
+#   （11-07〜09 は上限で切られて警告まで届いていないだけ）。
+#   ＝**16日以上、1人もフォローできていない**のに、台帳には毎日 14 と入っていた。
+#   フォロワーが増えないのは当然で、R41 はその結果を見ていた。
+#   → **成功した人数を記録する**。試した人数は別の欄に残す（0/14 のように見える）。
 if [ -n "${AFTER}" ]; then
-  [ -f ops/follower_log.tsv ] || printf '# note フォロワー数の推移\ndate\tfollowers_raw\tnew_follows\n' > ops/follower_log.tsv
-  printf '%s\t%s\t%s\n' "$(date +%F)" "${AFTER}" "${N}" >> ops/follower_log.tsv
-  echo "記録: $(date +%F) ${AFTER} / 今回フォロー ${N}人"
+  [ -f ops/follower_log.tsv ] || printf '# note フォロワー数の推移\n# new_follows は**実際にフォローできた人数**（2026-11-10 以前は「試した人数」が入っている＝あてにしない）\ndate\tfollowers_raw\tnew_follows\ttried\n' > ops/follower_log.tsv
+  printf '%s\t%s\t%s\t%s\n' "$(date +%F)" "${AFTER}" "${FOLLOWED}" "${N}" >> ops/follower_log.tsv
+  echo "記録: $(date +%F) ${AFTER} / 今回フォローできた ${FOLLOWED}人（試した ${N}人）"
 else
   echo "⚠️ フォロワー数が読めなかった（ログインが切れている可能性）"
 fi
