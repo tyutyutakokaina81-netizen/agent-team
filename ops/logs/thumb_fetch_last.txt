@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-10T16:39:43Z UTC / 成功: 2 / 失敗: 77
+# 最終実行: 2026-11-10T16:51:14Z UTC / 成功: 1 / 失敗: 77
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-09_note記事_肉ケーキ_形だけを借りている… は写真待ち。自動取得しない
@@ -7,6 +7,7 @@
   skip(await_photo): 2026-10-16_note記事_灯油を買う_燃料を自分で運ぶ暖房… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-17_note記事_ほうじ茶_茶の葉を焼いてから飲む… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-18_note記事_ゴミ出し_曜日で出せるものが決まっている… は写真待ち。自動取得しない
+  skip(await_photo): 2026-10-19_note記事_部屋干し_冬は外に干せない… は写真待ち。自動取得しない
   skip(place): 2026-05-28_note記事_氷見牛_富山のブランド牛… は「氷見」を名乗る記事。土地名を含まないクエリ ['wagyu beef'] は使わない
   ✗ 2026-05-28_note記事_氷見牛_富山のブランド牛  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
   ✗ 2026-05-28_note記事_高岡の職人に学ぶ個人で稼ぐ力  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
@@ -38,7 +39,7 @@
   ✗ 2026-06-15_note記事_最初の有料記事を出す前の3つの問い  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_発信を辞めたくなる週の対処  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_静かな場所で仕事をしていると考えが深く潜れる気がする  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
-  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1031: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1036: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
   ✗ 2026-06-16_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-18_note記事_二上山_家持が見た高岡の里山  (tried ['二上山 高岡', '高岡 二上', '高岡 里山']): RuntimeError — 候補なし（query='高岡 里山'） diag={'pages': 12, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 12}, 'jp_first': 0}
   ✗ 2026-06-18_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
@@ -74,7 +75,7 @@
   ✗ 2026-07-30_note記事_早期退職_今日で会社を辞めた  (tried ['office chair', '空のオフィス', 'デスク']): RuntimeError — 候補なし（query='デスク'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'badname': 1, 'jp_first': 0}
   ✗ 2026-07-31_note記事_打ち水_夕方のささやかな涼  (tried ['打ち水']): RuntimeError — 候補なし（query='打ち水'） diag={'pages': 8, 'img': 8, 'nonphoto': 0, 'too_small': 1, 'nojp_hint': 6, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-08-03_note記事_夕立と入道雲_夏の空の急変  (tried ['入道雲']): RuntimeError — 候補なし（query='入道雲'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
-  ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 4, 'too_tall': 6, 'nojp_hint': 2, 'jp_first': 0}
+  ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 3, 'too_tall': 6, 'nojp_hint': 3, 'jp_first': 0}
   ✗ 2026-08-04_note記事_鮎の塩焼き_夏の川の魚  (tried ['鮎']): RuntimeError — 候補なし（query='鮎'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 1, 'too_small': 2, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-05_note記事_ざるそば_つゆにちょんとつける  (tried ['蕎麦']): RuntimeError — 候補なし（query='蕎麦'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 2, 'jp_first': 1, 'rejected_md5': 1, 'mono': 1}
   ✗ 2026-08-05_note記事_夏の星空_庭に寝ころんで  (tried ['天の川']): RuntimeError — 候補なし（query='天の川'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'too_tall': 4, 'jp_first': 0}
@@ -83,7 +84,7 @@
   ✗ 2026-08-07_note記事_夏のプール_塩素の匂いと唇の紫  (tried ['プール']): RuntimeError — 候補なし（query='プール'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'nonjp': 1, 'jp_first': 0}
   ✗ 2026-08-08_note記事_田んぼの夏_緑の波とカエルの声  (tried ['田んぼ']): RuntimeError — 候補なし（query='田んぼ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 1, 'nonjp': 11, 'jp_first': 0}
   ✗ 2026-08-09_note記事_麦わら帽子_かぶると夏になる  (tried ['麦わら帽子']): RuntimeError — 候補なし（query='麦わら帽子'） diag={'pages': 12, 'img': 12, 'nonphoto': 7, 'nojp_hint': 4, 'nonjp': 1, 'jp_first': 0}
-  ✗ 2026-08-10_note記事_うちわ_自分であおぐ風  (tried ['うちわ']): RuntimeError — 候補なし（query='うちわ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 2, 'nojp_hint': 4, 'too_small': 3, 'badname': 1, 'jp_first': 1, 'rejected_md5': 1}
+  ✗ 2026-08-10_note記事_うちわ_自分であおぐ風  (tried ['うちわ']): RuntimeError — 候補なし（query='うちわ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 2, 'nojp_hint': 2, 'badname': 3, 'too_small': 3, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-11_note記事_サンダル_夏はこれ一足  (tried ['ビーチサンダル']): RuntimeError — 候補なし（query='ビーチサンダル'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'too_tall': 1, 'too_small': 2, 'nonjp': 1, 'jp_first': 0}
   ✗ 2026-08-11_note記事_汗_かいてもかいても  (tried ['扇子', 'folding fan japan', '団扇 無地']): RuntimeError — 候補なし（query='団扇 無地'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   skip(place): 2026-08-13_note記事_富山の名水_立山からの贈… は「立山」を名乗る記事。土地名を含まないクエリ ['湧水'] は使わない
