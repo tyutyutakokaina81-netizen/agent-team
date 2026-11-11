@@ -1527,13 +1527,37 @@ _queue_files = sorted(glob.glob(os.path.join(ROOT, "drafts/queue/*.md")))
 #   代わりに **タグの地域が本文に出てくるか**を見る＝「地域タグに根拠があるか」という
 #   R18 本来の目的はそのまま保つ（富山かどうかではなく、名乗った土地のことを書いているか）。
 _SERIES_MARK = "シリーズ「全国のお取り寄せ」"
+# ★2026-11-11: **この2つがどちらも効いていなかった**ので直した。
+# (1) お取り寄せの判定が `_SERIES_MARK` の一文だけを見ていた。
+#     キューの4本を数えたら**1本もこの文字列を持っていない**＝例外の枝に一度も入らず、
+#     全国題材が「富山の語が無い」で鳴る（または下の(2)で素通りする）状態だった。
+#     → **カテゴリ行かタイトルの「お取り寄せ」**でも判定する。
+# (2) 富山語の判定が**本文ブロック全体**を見ていた。本文ブロックの末尾には
+#     「富山の暮らしのことを毎日書いています。よければフォローしてください。」という
+#     **定型フッター**が入る＝**どの記事でも必ず「富山」が1回出る**。
+#     10月以降の49本で数えたら、**18本が本編に富山圏の語が無いのに定型文だけで通っていた**。
+#     R18 の目的は「**本文に根拠のない地域タグを付けない**」ことなので、これでは意味が無い。
+#     → **区切り線より前（＝日本語本編）だけ**を見る。
+def _r18_main_body(_body: str) -> str:
+    """定型フッター（フォロー導線・あわせて読む・英語要約）を落として本編だけ返す。"""
+    return _body.split("――――――――――")[0]
+
+def _r18_is_series(_t: str) -> bool:
+    if _SERIES_MARK in _t:
+        return True
+    for _ln in _t.splitlines():
+        if _ln.startswith("- カテゴリ") and "お取り寄せ" in _ln:
+            return True
+    _tm = re.search(r"##\s*タイトル.*?\n```\n(.+?)\n```", _t, re.S)
+    return bool(_tm and "お取り寄せ" in _tm.group(1))
+
 _offstar = []
 for _f in _queue_files:
     _b = os.path.basename(_f)[:-3]
     _t = open(_f, encoding="utf-8").read()
     _m = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t, re.S) if "re" in dir() else None
     _body = _m.group(1) if _m else _t
-    if _SERIES_MARK in _t:
+    if _r18_is_series(_t):
         # タグに書いた都道府県が本文に出ているか（例: #静岡 なら本文に「静岡」）
         _tm = re.search(r"##\s*ハッシュタグ.*?\n```\n(.+?)\n```", _t, re.S)
         _pref = [x.lstrip("#") for x in re.findall(r"#\S+", _tm.group(1))] if _tm else []
@@ -1553,8 +1577,9 @@ for _f in _queue_files:
         if _place and not any(x.rstrip("県都府") in _body for x in _place):
             _offstar.append(_b + "（お取り寄せ：タグの土地が本文に出てこない）")
         continue
-    if not any(w in _body for w in _TOYAMA_WORDS):
-        _offstar.append(_b)
+    if not any(w in _r18_main_body(_body) for w in _TOYAMA_WORDS):
+        # 定型フッターの「富山の暮らしのことを毎日書いています」では通さない
+        _offstar.append(_b + "（本編に富山圏の記述がない＝定型フッターだけ）")
 if not _queue_files:
     add("R18 North Star整合", "STALE",
         "公開キューが空＝**検査対象なし**（0本を『すべてOK』と表示しない）。次の記事を投函したら判定される")
