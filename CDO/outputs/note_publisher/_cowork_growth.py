@@ -151,24 +151,65 @@ def do_follow(page, handle: str = ""):
     js = """(handle) => {
       const texts = ['フォローする', 'フォロー'];
       const following = ['フォロー中', 'フォローをやめる'];
+      // note の1ページ分の中には「おすすめのクリエイター」など**他人のフォローボタン**が並ぶ。
+      // 誰のボタンかは、**ボタンのすぐ上にあるプロフィールリンク**で決める。
+      const NOT_HANDLE = new Set(['search','login','signup','settings','notes','timeline',
+        'explore','hashtag','api','membership','following','followers','mypage','help',
+        'terms','privacy','contact','sitemap','pro','store','info','sp','magazine','interest']);
+      const norm = (h) => (h || '').replace(/^https?:\/\/note\.com/, '')
+        .replace(/[?#].*$/, '').replace(/\/+$/, '');
+      const handleOf = (h) => {
+        const p = norm(h);
+        if (!/^\/[^\/]+$/.test(p)) return null;
+        const s = p.slice(1);
+        return NOT_HANDLE.has(s) ? null : s;
+      };
+      // ★2026-11-11: 祖先を **body まで上がってはいけない**。
+      //   body には他人のプロフィールリンクも全部入っているので、
+      //   querySelector が必ず当たり、**どのボタンも「著者のもの」と判定されていた**。
+      //   実測（合成ページ）では、他人のボタンまで owns=true になり、
+      //   しかも先頭が選ばれるので**別人を押しに行く**経路だった。
+      //   直し方＝**最初にプロフィールリンクを含んだ祖先で打ち切る**。
+      //   そこに複数人のリンクがあれば「誰のものか不明」として押さない。
+      const ownerOf = (el) => {
+        let n = el;
+        for (let d = 0; d < 8 && n; d++) {
+          n = n.parentElement;
+          if (!n || n === document.body || n === document.documentElement) return null;
+          const hs = Array.from(n.querySelectorAll('a[href]'))
+            .map(a => handleOf(a.getAttribute('href')))
+            .filter(x => x);
+          const uniq = Array.from(new Set(hs));
+          if (uniq.length === 0) continue;
+          return uniq.length === 1 ? uniq[0] : null;
+        }
+        return null;
+      };
+      // ★見えているかどうかを **JS の側で** 見る。
+      //   見えない要素を Python に渡すと scroll_into_view_if_needed が
+      //   30秒待って失敗する（11-11 の便は 14人中10人がこれ＝300秒を捨てていた）。
+      const visible = (el) => {
+        if (el.getClientRects().length === 0) return false;
+        const s = getComputedStyle(el);
+        return s.visibility !== 'hidden' && s.display !== 'none' && Number(s.opacity) !== 0;
+      };
       const all = Array.from(document.querySelectorAll("button, [role='button'], a[role='button']"));
       const hit = [];
       for (let i = 0; i < all.length; i++) {
         const e = all[i];
         const t = ((e.innerText || '') + ' ' + (e.getAttribute('aria-label') || '')).trim();
-        if (following.some(w => t.includes(w))) { hit.push({i, state: 'following'}); continue; }
-        if (!texts.some(w => t.includes(w))) continue;
-        if ((e.innerText || '').trim().length > 12) continue;
-        let owns = false;
-        if (handle) {
-          let n = e;
-          for (let d = 0; d < 8 && n; d++) {
-            n = n.parentElement;
-            if (!n) break;
-            if (n.querySelector(`a[href*='/${handle}']`)) { owns = true; break; }
-          }
+        const isFollowing = following.some(w => t.includes(w));
+        if (!isFollowing) {
+          if (!texts.some(w => t.includes(w))) continue;
+          if ((e.innerText || '').trim().length > 12) continue;
         }
-        hit.push({i, state: 'follow', owns});
+        const owner = ownerOf(e);
+        // ★2026-11-11: 添字ではなく**要素そのものに印**を付ける。
+        //   note は画面を描き直すので、JS で数えた添字と、あとから Python が
+        //   数え直した添字が**ずれる**。ずれると別の要素を掴む。
+        e.setAttribute('data-cc-follow-idx', String(i));
+        hit.push({i, state: isFollowing ? 'following' : 'follow',
+                  owns: handle ? owner === handle : false, owner, vis: visible(e)});
       }
       return hit;
     }"""
@@ -177,7 +218,11 @@ def do_follow(page, handle: str = ""):
     except Exception as e:
         return f"err:{e}"
 
-    if any(h.get("state") == "following" for h in hits):
+    # ★2026-11-11: 「フォロー中」は **著者のボタンだけ**を見る。
+    #   前は画面のどこかに1つでも「フォロー中」があれば already-following を返していた。
+    #   おすすめクリエイターのカードで当たるので、**著者を未フォローのまま
+    #   「もうフォロー済み」と報告していた**。11-11 の 4/14 はこれだと見ている。
+    if any(h.get("state") == "following" and h.get("owns") for h in hits):
         return "already-following"
     cands = [h for h in hits if h.get("state") == "follow"]
     if not cands:
@@ -188,12 +233,27 @@ def do_follow(page, handle: str = ""):
         # 著者のものだと確認できない＝**押さない**。別人をフォローするより何もしないほうがよい。
         _dump_buttons(page, f"著者({handle})のフォローボタンを特定できない", "follow")
         return "no-author-follow-btn"
-    idx = (owned or cands)[0]["i"]
+    pool = owned or cands
+    # 同じ著者のボタンが隠れている方と見えている方の両方ある（note は両方描く）。
+    # **見えている方を選ぶ**＝30秒の無駄待ちがそもそも起きない。
+    pool = [h for h in pool if h.get("vis")] or pool
+    idx = pool[0]["i"]
 
     try:
-        els = page.query_selector_all("button, [role='button'], a[role='button']")
-        b = els[idx]
-        b.scroll_into_view_if_needed()
+        # ★2026-11-11: **印で引く**（添字で引き直さない。上の JS のコメント参照）
+        b = page.query_selector(f"[data-cc-follow-idx='{idx}']")
+        if b is None:
+            # 画面が描き直されて印ごと消えた＝**別の要素を押さない**で次へ
+            return "err:target-vanished(画面が描き直された)"
+        if not b.is_visible():
+            # ★見えない要素は押さない。30秒待っても見えるようにはならない
+            #   （11-11 の便は、ここで1人30秒×10人を捨てていた）
+            return "err:not-visible(ボタンが画面に出ていない)"
+        try:
+            b.scroll_into_view_if_needed(timeout=5000)
+        except Exception:
+            # 5秒で諦める。押さずに次へ＝1人あたりの無駄を30秒から5秒に減らす
+            return "err:scroll-timeout(5秒で諦めた)"
         page.wait_for_timeout(600)
         b.click()
         for _ in range(10):
@@ -206,7 +266,9 @@ def do_follow(page, handle: str = ""):
                 return "followed"
         return "clicked"
     except Exception as e:
-        return f"err:{e}"
+        # ★2026-11-11: Playwright の例外は call log が30行付いてくる。
+        #   そのまま入れると DONE 行が読めなくなる（11-11 の便が実際そうなった）。
+        return "err:" + " ".join(str(e).split())[:80]
 
 
 def already_commented(page, handle=MY_HANDLE):
