@@ -2863,13 +2863,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Konnyaku_001.jpg/1280px-Konnyaku_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-14_note記事_ジンギスカン_花見で羊を焼く": {
-"author": "くろふね",
+"author": "mdid",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%83%A9%E3%83%A0%E3%81%A5%E3%81%8F%E3%81%97%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%EF%BC%88%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E3%83%BB%E5%8D%83%E8%91%89%E3%83%93%E3%83%BC%E3%83%AB%E5%9C%92%EF%BC%8920231216-P1035604.jpg",
-"file": "File:ラムづくしプレート（ジンギスカン・千葉ビール園）20231216-P1035604.jpg",
-"license": "CC BY 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Jingisukan_at_Asahi_Beer_Community_Hall.jpg",
+"file": "File:Jingisukan at Asahi Beer Community Hall.jpg",
+"license": "CC BY 2.0",
 "query": "jingisukan",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/%E3%83%A9%E3%83%A0%E3%81%A5%E3%81%8F%E3%81%97%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%EF%BC%88%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E3%83%BB%E5%8D%83%E8%91%89%E3%83%93%E3%83%BC%E3%83%AB%E5%9C%92%EF%BC%8920231216-P1035604.jpg/1280px-%E3%83%A9%E3%83%A0%E3%81%A5%E3%81%8F%E3%81%97%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%EF%BC%88%E3%82%B8%E3%83%B3%E3%82%AE%E3%82%B9%E3%82%AB%E3%83%B3%E3%83%BB%E5%8D%83%E8%91%89%E3%83%93%E3%83%BC%E3%83%AB%E5%9C%92%EF%BC%8920231216-P1035604.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Jingisukan_at_Asahi_Beer_Community_Hall.jpg/1280px-Jingisukan_at_Asahi_Beer_Community_Hall.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-14_note記事_タイヤを履き替える_一年に二回ある日": {
 "author": "田附宏秀",
@@ -2996,5 +2996,14 @@
 "license": "CC BY 2.0",
 "query": "焼きまんじゅう",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Yakimanju%3B_2017.jpg/1280px-Yakimanju%3B_2017.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-10-20_note記事_結露_窓が内側から濡れる": {
+"author": "Tgogogo",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E4%BD%8F%E5%AE%85%E3%81%AE%E7%AA%93%E3%82%AC%E3%83%A9%E3%82%B9.jpg",
+"file": "File:住宅の窓ガラス.jpg",
+"license": "CC BY-SA 4.0",
+"query": "窓ガラス",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/%E4%BD%8F%E5%AE%85%E3%81%AE%E7%AA%93%E3%82%AC%E3%83%A9%E3%82%B9.jpg/1280px-%E4%BD%8F%E5%AE%85%E3%81%AE%E7%AA%93%E3%82%AC%E3%83%A9%E3%82%B9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
