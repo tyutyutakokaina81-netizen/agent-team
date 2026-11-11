@@ -157,3 +157,10 @@ DONE {"author": "lucky_kiwi9297", "title": "#氷見フィード発見", "like": 
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-11_005_cowork_code.yaml  id=2026-11-11_005
+[main 67b7cfcb] cowork: daily backfill (english/follow/x-queue) 2026-11-11_080003
+ 20 files changed, 456 insertions(+), 83 deletions(-)
+ create mode 100644 ops/logs/backfill_english_2026-11-11_081604.log
+ create mode 100644 ops/logs/backfill_tags_2026-11-11_081758.log
+ create mode 100644 ops/outbox/2026-11-11_005_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   5d48bb14..67b7cfcb  main -> main

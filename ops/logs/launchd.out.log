@@ -10303,3 +10303,141 @@ DONE {"author": "lucky_kiwi9297", "title": "#氷見フィード発見", "like": 
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-11_005_cowork_code.yaml  id=2026-11-11_005
+[main 67b7cfcb] cowork: daily backfill (english/follow/x-queue) 2026-11-11_080003
+ 20 files changed, 456 insertions(+), 83 deletions(-)
+ create mode 100644 ops/logs/backfill_english_2026-11-11_081604.log
+ create mode 100644 ops/logs/backfill_tags_2026-11-11_081758.log
+ create mode 100644 ops/outbox/2026-11-11_005_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   5d48bb14..67b7cfcb  main -> main
+=== publish run 2026-11-12_080006 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-10-13_note記事_こたつ_机の下だけを暖める.md ---
+📝 記事: 2026-10-13_note記事_こたつ_机の下だけを暖める.md
+🏷️  タイトル: こたつ：机の下だけを暖める
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-13_note記事_こたつ_机の下だけを暖める.jpg
+🔖 ハッシュタグ: 9 個 (こたつ, 暖房, 富山, 高岡, 日本の暮らし…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/nbb5afbfa26b7/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-13_note記事_こたつ_机の下だけを暖める.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 9 個を入力
+📚 マガジンに追加: 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/nbb5afbfa26b7/publish/
+📒 published_registry.json に追記しました（267件）
+--- 公開試行: 2026-10-14_note記事_ジンギスカン_花見で羊を焼く.md ---
+📝 記事: 2026-10-14_note記事_ジンギスカン_花見で羊を焼く.md
+🏷️  タイトル: 花見で、羊を焼く。— 北海道のジンギスカン（お取り寄せ⑨）
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-14_note記事_ジンギスカン_花見で羊を焼く.jpg
+🔖 ハッシュタグ: 8 個 (北海道, ジンギスカン, お取り寄せ, B級グルメ, 羊肉…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n3645e938e50f/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-14_note記事_ジンギスカン_花見で羊を焼く.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 8 個を入力
+📚 マガジンに追加: 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n3645e938e50f/publish/
+📒 published_registry.json に追記しました（268件）
+--- 公開試行: 2026-10-20_note記事_ごぼう_土のついたまま売っている根.md ---
+📝 記事: 2026-10-20_note記事_ごぼう_土のついたまま売っている根.md
+🏷️  タイトル: ごぼう：土のついたまま売っている根
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-20_note記事_ごぼう_土のついたまま売っている根.jpg
+🔖 ハッシュタグ: 9 個 (ごぼう, 根菜, 富山, 高岡, 日本の食…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n3ca8daa5ac15/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-20_note記事_ごぼう_土のついたまま売っている根.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 9 個を入力
+📚 マガジンに追加: 高岡の食 / 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n3ca8daa5ac15/publish/
+📒 published_registry.json に追記しました（269件）
+--- 公開試行: 2026-10-20_note記事_焼きまんじゅう_味がついているのは外側だけ.md ---
+📝 記事: 2026-10-20_note記事_焼きまんじゅう_味がついているのは外側だけ.md
+🏷️  タイトル: 味がついているのは、外側だけ。— 群馬・焼きまんじゅう（お取り寄せ⑬）
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-10-20_note記事_焼きまんじゅう_味がついているのは外側だけ.jpg
+🔖 ハッシュタグ: 8 個 (焼きまんじゅう, 群馬, お取り寄せ, B級グルメ, 味噌…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+🚪 エディタ入口: https://editor.note.com/new → https://editor.note.com/notes/n5b4d7b8f9a0d/edit/
+✅ タイトル入力完了
+✅ 本文＆写真の挿入処理が完了
+✅ サムネ(見出し画像)に 2026-10-20_note記事_焼きまんじゅう_味がついているのは外側だけ.jpg を設定（button:has(svg[aria-label="画像を追加"]) → 画像をアップロード（file_chooser））
+
+🚀 公開フロー：下書き保存→『公開に進む』→ ハッシュタグ →『投稿する』
+✅ 下書き保存で編集状態を確定
+✅ ハッシュタグ 8 個を入力
+📚 マガジンに追加: 北陸の暮らし
+✅ 公開リクエスト送信。最終URL: https://editor.note.com/notes/n5b4d7b8f9a0d/publish/
+📒 published_registry.json に追記しました（270件）
+=== summary(無料): published=4 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/5] 味がついているのは、外側だけ。— 群馬・焼きまんじゅう（
+[2/5] ごぼう：土のついたまま売っている根
+[3/5] 花見で、羊を焼く。— 北海道のジンギスカン（お取り寄せ⑨
+[4/5] こたつ：机の下だけを暖める
+[5/5] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 5 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] あけび：山に生る、中身だけ食べる実
+[4/20] 赤とんぼ：山で夏を過ごして、秋に降りてくる
+[5/20] 鱒寿司は土産ではなく、富山の朝の話
+[6/20] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+[7/20] ひまわり — 太陽を、追う夏の花
+[8/20] 浴衣 — 年に一度の、晴れ着
+[9/20] 盆踊り — やぐらを、囲む輪
+[10/20] 牛の昆布締め — 富山の昆布好きが、肉にたどりついた
+[11/20] 夏の終わりの気配 — 風に、まじる秋
+[12/20] ざるそば — つゆに、ちょんと、つけるだけ
+[13/20] 冷ややっこ — 何もしない、という料理
+[14/20] 水鉄砲 — ずぶ濡れの、戦い
+[15/20] 汗 — かいても、かいても
+[16/20] サンダル — 夏は、これ一足
+[17/20] おにぎり — 塩を、きかせて握る
+[18/20] 夏の草むしり — 抜いても、抜いても
+[19/20] 田んぼの夏 — 緑の波と、カエルの声
+[20/20] 夏のなすは、こう食べ切る。— 採れすぎた日の、うちの定番
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-11-12_002_cowork_code.yaml  id=2026-11-12_002
