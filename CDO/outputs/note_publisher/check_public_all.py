@@ -252,13 +252,40 @@ def main() -> int:
 
     _rewrite(all_ids, rows)
 
-    bad = [r for r in rows if r[1] in ("DRAFT", "GONE")]
+    # ★2026-11-11: **意図して下書きにしている分を「見えていない記事」に数えない**。
+    #   `ops/intentional_drafts.tsv` は R40（check_requirements.py）だけが読んでいて、
+    #   こちらは読んでいなかった。そのため氷見牛の重複2本（n0443f87ce4df /
+    #   nc7a3522ade60）が **毎日「読者に見えていない記事: 2本」として報告され**、
+    #   そのたびに「どの記事か」を調べ直すことになっていた。
+    #   実際このファイルを足した 10-31 以降、11日ぶん同じ2本を鳴らし続けていた。
+    #   ※**黙らせるのではなく、別の行に分けて出す**。消すと、下書きに戻したこと自体が
+    #     記録から見えなくなる（このファイルの冒頭に書いてある通り、鳴っている警報を
+    #     黙らせるだけにならないようにする）。
+    _intentional = {}
+    _ip = ROOT / "ops" / "intentional_drafts.tsv"
+    if _ip.exists():
+        for _l in _ip.read_text(encoding="utf-8").splitlines():
+            if not _l.strip() or _l.startswith("#"):
+                continue
+            _c = _l.split("\t")
+            if _c and _c[0].strip():
+                _intentional[_c[0].strip()] = (_c[1].strip() if len(_c) > 1 else "")
+
+    _off = [r for r in rows if r[1] in ("DRAFT", "GONE")]
+    bad = [r for r in _off if r[0] not in _intentional]
+    known = [r for r in _off if r[0] in _intentional]
+
     print(f"\n書き出し: {OUT}")
     print(f"読者に見えていない記事: {len(bad)}本" if bad else "今回見たぶんは全部読者に見えている")
     for nid, verdict, why, title in bad:
         print(f"  {verdict} {nid} {title[:40]}")
     if bad:
         print("\n直し方: note で下書きを開いて公開する（code からはできない＝A1）")
+    if known:
+        # 数には入れないが、**毎回必ず出す**＝下書きに戻した記事がある事実は見えたままにする
+        print(f"（意図して下書きにしている {len(known)}本は数えていない＝ops/intentional_drafts.tsv）")
+        for nid, verdict, why, title in known:
+            print(f"  - {nid} {title[:34]} … {_intentional.get(nid, '')[:40]}")
     return 0
 
 
