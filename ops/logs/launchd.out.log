@@ -10477,3 +10477,58 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-11-12_003_cowork_code.yaml  id=2026-11-12_003
+[main f01d015f] cowork: paid-footer insertion pass (2026-11-12_080006)
+ 5 files changed, 104 insertions(+)
+ create mode 100644 ops/logs/sell_2026-11-12_080456.log
+ create mode 100644 ops/outbox/2026-11-12_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   3280833c..f01d015f  main -> main
+
+=== コメントに自動返信する ===
+新しく返すものは無い
+出すものが無い（READY が無い／すでに投稿済み）
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+  - こたつ：机の下だけを暖める: スキ0件か、ボタンが無い
+  ● 買って帰る前提の料理。— 大分・中津からあげ（お取り寄せ: 1スキ この記事にスキをつけたユーザーを見る
+DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-team-run/ops/logs/likers_buttons.json
+      → 0人
+  ● 油揚げ：豆腐を揚げると、別の食べものになる: 2スキ この記事にスキをつけたユーザーを見る
+DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-team-run/ops/logs/likers_buttons.json
+      → 0人
+
+フォローしに行く: 0人
+
+== スキをくれた人を 0人フォロー（試した 0人）==
+ },
+ {
+  "author": "1ch1ro_magic",
+  "title": "#氷見フィード発見",
+  "like": "no-btn-or-already",
+  "follow": "followed"
+ }
+]
+
+❌ 著者のフォローボタンを特定できませんでした（2件）。
+   別人を誤ってフォローしないよう、押さずに止めています。
+   ボタンの一覧を ops/logs/follow_buttons.json に保存しました。これを push すれば直せます。
+記録: 2026-11-12 72フォロワー / 今回フォローできた 4人（試した 14人）
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+今回見たぶんは全部読者に見えている
+（意図して下書きにしている 2本は数えていない＝ops/intentional_drafts.tsv）
+  - n0443f87ce4df 氷見牛は、地元でもめったに食べられない。 … 氷見牛の重複（3本あるうちの1本）。下書きへ戻した
+  - nc7a3522ade60 氷見牛は、里山で育つ知る人ぞ知る牛だ。 … 氷見牛の重複（3本あるうちの1本）。2026-10-22 に下書きへ戻した
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 6本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-11-12_081822.log
+
+== 結果: 追記 0本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-11-12_082015.log
+  n4a95d3c6a316	UPDATED:更新する
+更新できた: 5 / 6  （2026-11-12 08:21）
+ログ: ops/logs/backfill_tags_2026-11-12_082016.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-11-12_004_cowork_code.yaml  id=2026-11-12_004
