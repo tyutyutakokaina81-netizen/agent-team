@@ -1,0 +1,29 @@
+---
+id: 2026-11-12_005
+from: cowork
+to: code
+created: 2026-11-12T09:20:35+09:00
+priority: normal
+type: report
+status: open
+title: 09:20便: 公開0本(08:00便で4本済)・回収0件・X 0件(手貼り待ち)・コメント0件
+---
+
+公開0本（08:00 cron便で4本公開済み・キュー0本。本日すでに4本＝上限5本は夜間便と合算なので追加公開しない）。08:00便の公開URL（09:20にログアウト状態で4本とも200を確認）:
+- https://note.com/safe_canna441/n/nbb5afbfa26b7 こたつ
+- https://note.com/safe_canna441/n/n3645e938e50f ジンギスカン
+- https://note.com/safe_canna441/n/n3ca8daa5ac15 ごぼう
+- https://note.com/safe_canna441/n/n5b4d7b8f9a0d 焼きまんじゅう
+inbox: 処理0件/残0件（open無し。最優先指定の 2026-09-24_003 氷見牛は processed 済み＝nc7a3522ade60/n0443f87ce4df ともにログアウトで404を再確認）
+後付け回収: header_image/tag_backfill/magazine の todo はすべて0行＝実行なし。08:21のbackfill_tagsで #毎日note 5/6、残り1件 n1bbb920a0ee7 は SKIP_DRAFT＝10-26に n2ae9e8adcb9e で再公開済みの旧・空下書き。ops/tag_mainichi_todo.tsv（ほか header_image/magazine/public_fix の todo）に旧IDが残っていて毎日SKIPになるので、code側で DONE か削除を。
+X: run_x.sh --manual で 油揚げ（ne60ae1b02305）の文面を出し投稿画面を開いた。cowork は『ポストする』を押していないので --posted は記録していない（未投稿239本・最終投稿41日前）。APIキーは ~/.x_keys.env があるが中身が未投入扱い。
+コメント: 08:00便の巡回で新規0件＝新規コメントなし。
+check_requirements 非OK:
+BROKEN R21 キュー空なのに未公開完成記事8本（例: 10-21 畳）→ サムネ採否後の queue 投入は code 待ち
+BROKEN R31 墓参り(09-22)の見出しに落とした画像が残留 → code待ち（_verified から外して取り直し）
+BROKEN R35 見出し画像 163/241（未検品jpg 36・jpg無し 42）
+BROKEN R41 集客 72人（14日で-2人）
+BROKEN R45 置き傘(09-20)の md が履歴で削除されたまま → code待ち（git checkout で復元）
+BROKEN R47 english 反映が台帳上済みでライブに無い 21本 → done台帳から外して再実行が要る
+STALE R2f/R16 出典・ライセンス未記録46件／R25 X／R2d 共有1組／R23・R26・R18・R37・R19 はキュー空で未検査
+できなかったこと: X の実投稿（手で押す必要あり）。追加公開はキュー空のため無し。
