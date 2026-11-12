@@ -34,19 +34,7 @@
   },
   {
    "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "プロフィールを非表示",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
+   "txt": "フォロー中",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -58,21 +46,9 @@
   },
   {
    "tag": "button",
-   "txt": "17",
-   "aria": "17スキ この記事にスキをつけたユーザーを見る",
+   "txt": "18",
+   "aria": "18スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
-  },
-  {
-   "tag": "button",
-   "txt": "フォローする",
-   "aria": "",
-   "cls": "hidden ml-1 text-text-clickable-icon text-xs underline md:inline"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
@@ -94,8 +70,8 @@
   },
   {
    "tag": "button",
-   "txt": "17",
-   "aria": "17スキ この記事にスキをつけたユーザーを見る",
+   "txt": "18",
+   "aria": "18スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -124,7 +100,7 @@
   },
   {
    "tag": "button",
-   "txt": "フォロー",
+   "txt": "フォロー中",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -148,8 +124,8 @@
   },
   {
    "tag": "button",
-   "txt": "17",
-   "aria": "17スキ この記事にスキをつけたユーザーを見る",
+   "txt": "18",
+   "aria": "18スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -196,8 +172,8 @@
   },
   {
    "tag": "button",
-   "txt": "17",
-   "aria": "17スキ この記事にスキをつけたユーザーを見る",
+   "txt": "18",
+   "aria": "18スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
