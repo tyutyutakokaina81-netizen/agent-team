@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-12T00:25:26Z UTC / 成功: 1 / 失敗: 77
+# 最終実行: 2026-11-12T00:28:49Z UTC / 成功: 1 / 失敗: 77
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-09_note記事_肉ケーキ_形だけを借りている… は写真待ち。自動取得しない
@@ -38,7 +38,7 @@
   ✗ 2026-06-15_note記事_最初の有料記事を出す前の3つの問い  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_発信を辞めたくなる週の対処  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_静かな場所で仕事をしていると考えが深く潜れる気がする  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
-  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1118: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1126: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
   ✗ 2026-06-16_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-18_note記事_二上山_家持が見た高岡の里山  (tried ['二上山 高岡', '高岡 二上', '高岡 里山']): RuntimeError — 候補なし（query='高岡 里山'） diag={'pages': 12, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 12}, 'jp_first': 0}
   ✗ 2026-06-18_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)

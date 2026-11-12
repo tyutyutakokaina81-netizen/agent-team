@@ -436,7 +436,17 @@
 ],
 "tried": 3
 },
-"2026-06-10_note記事_金屋町": "wikimedia",
+"2026-06-10_note記事_金屋町": {
+"backend": "unknown",
+"match": "failed",
+"queries": [
+"tatami room",
+"畳 部屋",
+"tatami mat room",
+"畳の部屋"
+],
+"tried": 3
+},
 "2026-06-10_note記事_高岡古城公園を歩く": {
 "backend": "unknown",
 "match": "failed",
@@ -3025,12 +3035,12 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/%E5%BA%83%E5%B3%B6%E9%A2%A8%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC%E3%81%8D.jpg/1280px-%E5%BA%83%E5%B3%B6%E9%A2%A8%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC%E3%81%8D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-21_note記事_畳_床に草を敷いてある": {
-"author": "na0905",
+"author": "Douglas P Perkins",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%87%90%E8%8F%AF%E6%A8%93_%E7%BE%A4%E9%9D%92%E3%81%AE%E9%96%93_%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97_May_4,_2010.jpg",
-"file": "File:懐華樓 群青の間 ひがし茶屋街 May 4, 2010.jpg",
-"license": "CC BY 2.0",
-"query": "畳の部屋",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/%E6%87%90%E8%8F%AF%E6%A8%93_%E7%BE%A4%E9%9D%92%E3%81%AE%E9%96%93_%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97_May_4%2C_2010.jpg/1280px-%E6%87%90%E8%8F%AF%E6%A8%93_%E7%BE%A4%E9%9D%92%E3%81%AE%E9%96%93_%E3%81%B2%E3%81%8C%E3%81%97%E8%8C%B6%E5%B1%8B%E8%A1%97_May_4%2C_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Hitane_Elementary_School_tatami_room_1.jpg",
+"file": "File:Hitane Elementary School tatami room 1.jpg",
+"license": "CC BY 3.0",
+"query": "tatami room",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Hitane_Elementary_School_tatami_room_1.jpg/1280px-Hitane_Elementary_School_tatami_room_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
