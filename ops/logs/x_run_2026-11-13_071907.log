@@ -1,0 +1,19 @@
+### X投稿 2026-11-13_071907
+--- 前提チェック（値は表示しません）---
+認証ファイル /Users/apple/.x_keys.env : あり
+  X_API_KEY : ★未設定
+  X_API_SECRET : ★未設定
+  X_ACCESS_TOKEN : ★未設定
+  X_ACCESS_SECRET : ★未設定
+tweepy : あり（/Users/apple/.agent_venv/bin/python3）
+投稿実績 :        4 件（ops/logs/x_posted.tsv）
+
+--- DRY-RUN（投稿しません。次に出る文面の確認）---
+スレッド総数 243 / 未投稿 239
+
+--- 次に投稿するスレッド: 2026-10-19_油揚げ_豆腐を揚げると別の食べものになる（1ツイート）---
+  [1] (200字) Fry the Tofu and It Stops Being Tofu There is a packet on a shelf in the refrigerator holding something thin and pale brown. https://note.com/safe_canna441/n/ne60ae1b02305 #Japan #JapaneseFood #Toyama
+
+[DRY-RUN] 投稿しません。投稿するには認証を環境変数に入れて --go を付けて再実行。
+
+問題なければ:  bash ops/run_x.sh --go
