@@ -1,0 +1,6 @@
+### 見出し画像の修復 2026-11-13_175818
+--- 手順1: 今のUIを実測（変更しない・1本だけ） ---
+Playwright未インストール。CDO/outputs/note_publisher/setup.sh を先に実行してください。
+
+--- 手順2: 見出し画像を設定して更新 ---
+Playwright未インストール。CDO/outputs/note_publisher/setup.sh を先に実行してください。
