@@ -1,0 +1,68 @@
+=== publish run 2026-11-14_080003 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/3] 甘いのとしょっぱいのが、同じ顔で並んでいる。— 長野・お
+[2/3] みかん：皮を、道具なしでむく
+[3/3] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 3 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/11] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/11] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/11] 富山の人間が、福井まで"辛い蕎麦"を食べに行く話。— 三
+[4/11] 秋刀魚：日本の秋の魚。ただし富山では、少し事情が違う
+[5/11] 富山の電気は、冬に降った雪でできている
+[6/11] 立山の紅葉：日本の紅葉は十一月、と思っている人へ
+[7/11] 焼き芋：この二十年で、日本の芋は「ほくほく」から「ねっと
+[8/11] 夕方のチャイム：町じゅうのスピーカーが、決まった時刻に音
+[9/11] 仏壇と神棚：ひとつの家に、祈る場所が二つある
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na5fac95f2eb2.html を保存
+    API命中: https://note.com/api/v3/notes/na5fac95f2eb2/note_comments （root 1件はすべて返信済み＝返信待ちなし）
+    ✅ コメント 1件はすべて返信済み（返信待ちなし）
+[10/11] メジマグロ — 夜明けの海から、食卓まで
+[11/11] ゴーヤチャンプルー — 苦いのが、いい
+=== 結果: 巡回 11 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+[1/3] 甘いのとしょっぱいのが、同じ顔で並んでいる。— 長野・お
+[2/3] みかん：皮を、道具なしでむく
+[3/3] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 3 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/11] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/11] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/11] 富山の人間が、福井まで"辛い蕎麦"を食べに行く話。— 三
+[4/11] 秋刀魚：日本の秋の魚。ただし富山では、少し事情が違う
+[5/11] 富山の電気は、冬に降った雪でできている
+[6/11] 立山の紅葉：日本の紅葉は十一月、と思っている人へ
+[7/11] 焼き芋：この二十年で、日本の芋は「ほくほく」から「ねっと
+[8/11] 夕方のチャイム：町じゅうのスピーカーが、決まった時刻に音
+[9/11] 仏壇と神棚：ひとつの家に、祈る場所が二つある
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_na5fac95f2eb2.html を保存
+    API命中: https://note.com/api/v3/notes/na5fac95f2eb2/note_comments （root 1件はすべて返信済み＝返信待ちなし）
+    ✅ コメント 1件はすべて返信済み（返信待ちなし）
+[10/11] メジマグロ — 夜明けの海から、食卓まで
+[11/11] ゴーヤチャンプルー — 苦いのが、いい
+=== 結果: 巡回 11 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-11-14_004_cowork_code.yaml  id=2026-11-14_004
