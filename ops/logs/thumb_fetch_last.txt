@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-12T00:28:49Z UTC / 成功: 1 / 失敗: 77
+# 最終実行: 2026-11-13T16:33:19Z UTC / 成功: 2 / 失敗: 78
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-09_note記事_肉ケーキ_形だけを借りている… は写真待ち。自動取得しない
@@ -7,6 +7,7 @@
   skip(await_photo): 2026-10-18_note記事_ゴミ出し_曜日で出せるものが決まっている… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-19_note記事_部屋干し_冬は外に干せない… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-20_note記事_結露_窓が内側から濡れる… は写真待ち。自動取得しない
+  skip(await_photo): 2026-10-21_note記事_畳_床に草を敷いてある… は写真待ち。自動取得しない
   skip(place): 2026-05-28_note記事_氷見牛_富山のブランド牛… は「氷見」を名乗る記事。土地名を含まないクエリ ['wagyu beef'] は使わない
   ✗ 2026-05-28_note記事_氷見牛_富山のブランド牛  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
   ✗ 2026-05-28_note記事_高岡の職人に学ぶ個人で稼ぐ力  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
@@ -38,7 +39,7 @@
   ✗ 2026-06-15_note記事_最初の有料記事を出す前の3つの問い  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_発信を辞めたくなる週の対処  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-15_note記事_静かな場所で仕事をしていると考えが深く潜れる気がする  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
-  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1126: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  ✗ 2026-06-16_note記事_夏至前の北陸_19時でも明るい夕方  (tried ['北陸 夕焼け', '富山 夕方', '富山湾 夕景']): RuntimeError — 候補なし（query='富山湾 夕景'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}/home/runner/work/agent-team/agent-team/CDO/outputs/note_publisher/fetch_thumbnails_wikimedia.py:1151: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
   ✗ 2026-06-16_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
   ✗ 2026-06-18_note記事_二上山_家持が見た高岡の里山  (tried ['二上山 高岡', '高岡 二上', '高岡 里山']): RuntimeError — 候補なし（query='高岡 里山'） diag={'pages': 12, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 12}, 'jp_first': 0}
   ✗ 2026-06-18_note記事_笑ゥせぇるすまん_大人になって会いに行く  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
@@ -99,3 +100,4 @@
   ✗ 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる  (tried ['富山 獅子舞', '百足獅子', '越中 獅子舞', '獅子舞 富山県']): RuntimeError — 候補なし（query='獅子舞 富山県'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
+  ✗ 2026-10-22_note記事_甲府鳥もつ煮_そば屋のもう一皿  (tried ['甲府鳥もつ煮', '鳥もつ煮', '甲府 もつ煮', '鶏もつ煮']): RuntimeError — 候補なし（query='鶏もつ煮'） diag={'pages': 1, 'img': 1, 'nonphoto': 0, 'too_tall': 1, 'jp_first': 0}
