@@ -874,7 +874,27 @@ try:
             # 地名の文字列しか探さないと後者を見落として**開示済みの記事を3件も鳴らした**
             # （消雪パイプ=「※撮影地は新潟」／さつまいも=「※撮影地は県外」／おはぎ=「撮影地は富山県外」）。
             # 要件は「県外だと読者に分かるか」なので、断り書きも開示として数える。
-            _disclosed = any(x in _body for x in _found) or "撮影地" in _body
+            # ★2026-11-13: ここに**取りこぼし**があった。_pl は (漢字, ローマ字) の対を
+            #   平らにして作るので**対の相手が分からなくなる**。ファイル名は英語なので
+            #   ローマ字側（nagano）で一致するのに、**日本語の本文は漢字（長野）で書く**ため、
+            #   `"nagano" in _body` は永久に偽になる。
+            #   実例＝おやき（File:Nozawana-Oyaki-**Nagano**.JPG／本文に「長野」が14回）。
+            #   しかも _body を小文字化していないので、英語要約の "Nagano" とも一致しない。
+            #   **ちゃんと開示している記事が BROKEN になる**＝検査が嘘をつく側の失敗。
+            #   ※いま鳴っているのは1件だが、これは**お取り寄せシリーズの構造**＝
+            #     記事名に県名が入らない料理（おやき・焼きまんじゅう・甲府鳥もつ煮…）で
+            #     ローマ字のファイル名を引くたびに再発する。だから個別ではなく共通側を直す。
+            _pair = {}
+            for _k, _r in _PREF:
+                _pair.setdefault(_k, set()).add(_r)
+                _pair.setdefault(_r, set()).add(_k)
+            _lb = _body.lower()
+            _disclosed = (
+                any(x in _body or x in _lb for x in _found)
+                or any(_q in _body or _q.lower() in _lb
+                       for x in _found for _q in _pair.get(x, ()))
+                or "撮影地" in _body
+            )
             if not _disclosed:
                 _bad30.append((_st, _v.get("file"), _found[0]))
     if _bad30:
