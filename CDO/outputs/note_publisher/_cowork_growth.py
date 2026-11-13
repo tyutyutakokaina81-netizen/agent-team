@@ -131,6 +131,35 @@ _FOLLOW_TXT = ("フォローする", "フォロー")
 _FOLLOWING_TXT = ("フォロー中", "フォローをやめる")
 
 
+
+# ★2026-11-13: Playwright の click 失敗から**理由にあたる部分だけ**を取り出す。
+#   11-11 に「call log が30行付いてきて DONE 行が読めない」ので先頭80字に切ったが、
+#   **先頭80字はどの失敗でも同じ定型文**（"elementHandle.click: Timeout 30000ms exceeded.
+#   Call log: - attempting click action..."）で、**理由は後ろにある**。
+#   そのため 11-13 の便は「8人が click でタイムアウト」までは分かったのに
+#   **何に邪魔されたのかが分からなかった**。切る位置を間違えると、診断が消える。
+#   実測（合成ページで確認）＝覆いがあるときは
+#   `<div id="veil"></div> intercepts pointer events` が後ろのほうに入る。
+_ANSI_RE = re.compile(r"\x1b?\[\d+m")
+_CLICK_REASONS = (
+    "intercepts pointer events",      # 何かが上に覆いかぶさっている（いちばん知りたい）
+    "element is not stable",          # 動いている最中（アニメーション）
+    "element is not enabled",         # 無効化されている
+    "element is not visible",
+    "element is outside of the viewport",
+    "did not receive pointer events",
+)
+
+
+def _why_click_failed(e) -> str:
+    s = _ANSI_RE.sub("", " ".join(str(e).split()))
+    for pat in _CLICK_REASONS:
+        i = s.find(pat)
+        if i >= 0:
+            # 直前の要素記述も一緒に返す＝**何が覆っているか**が DONE 行に出る
+            return s[max(0, i - 90):i + len(pat)]
+    return s[:120]
+
 def do_follow(page, handle: str = ""):
     """記事の著者をフォローする。**クラス名を使わない**＝note の作り替えで黙って壊れない。
 
@@ -255,7 +284,9 @@ def do_follow(page, handle: str = ""):
             # 5秒で諦める。押さずに次へ＝1人あたりの無駄を30秒から5秒に減らす
             return "err:scroll-timeout(5秒で諦めた)"
         page.wait_for_timeout(600)
-        b.click()
+        # ★2026-11-13: **click に上限をつける**。既定は30秒で、11-13 の便は
+        #   8人がここで30秒ずつ待って計240秒を捨てていた（それで時間切れに見えていた）。
+        b.click(timeout=8000)
         for _ in range(10):
             page.wait_for_timeout(500)
             try:
@@ -266,9 +297,7 @@ def do_follow(page, handle: str = ""):
                 return "followed"
         return "clicked"
     except Exception as e:
-        # ★2026-11-11: Playwright の例外は call log が30行付いてくる。
-        #   そのまま入れると DONE 行が読めなくなる（11-11 の便が実際そうなった）。
-        return "err:" + " ".join(str(e).split())[:80]
+        return "err:" + _why_click_failed(e)
 
 
 def already_commented(page, handle=MY_HANDLE):
