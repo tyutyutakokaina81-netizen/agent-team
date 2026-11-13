@@ -92,7 +92,21 @@ _old_nojpg = [os.path.basename(f)[:-3] for f in _all_arts
               and os.path.basename(f)[:-3] not in no_auto
               and not os.path.exists(os.path.join(thumbdir, os.path.basename(f)[:-3] + ".jpg"))
               and f not in recent_arts]
-_missing_all = [b for b in _nojpg if b not in verified and b not in no_auto]
+# ★2026-11-13 追加: **写真待ち(`_await_photo.txt`)を「自動取得の欠落」に数えていた。**
+#   R2 が見ていた除外は `_verified.txt` と `_no_auto.txt` の2つだけで、写真待ちは素通りしていた。
+#   写真待ちは**取得側が意図的に引かない**ようにしてある記事（fetcher が JP_QUERY も EN_QUERY も
+#   引かない）なので、R2 が出す指示「ops/run_requests/ にpushして note-thumbnails を起動」は
+#   **押しても何も起きない**＝**満たしようのない BROKEN** を毎回出していた。
+#   R30 で直したのと同じ「検査が嘘をつく」型なので、**消すのではなく別の欄に分ける**＝
+#   枚数は必ず出し、**正しい手当て（オーナーに撮ってもらう）**を書く。
+_ap = os.path.join(thumbdir, "_await_photo.txt")
+await_photo = set()
+if os.path.exists(_ap):
+    await_photo = {ln.strip() for ln in open(_ap, encoding="utf-8").read().splitlines()
+                   if ln.strip() and not ln.strip().startswith("#")}
+_await_recent = [b for b in _nojpg if b in await_photo and b not in verified]
+_missing_all = [b for b in _nojpg
+                if b not in verified and b not in no_auto and b not in await_photo]
 _missing_pub = [b for b in _missing_all if _is_published(b)]
 missing = [b for b in _missing_all if b not in _missing_pub]
 if not recent_arts:
@@ -101,6 +115,9 @@ elif missing:
     add("R2 実写サムネ", "BROKEN",
         f"直近{len(recent_arts)}本中 {len(missing)}本がサムネ未取得(例:{missing[0][:26]}…)"
         " → ops/run_requests/ にpushして note-thumbnails を起動"
+        + (f"／別に**写真待ち {len(_await_recent)}本**（自動取得の対象外。"
+           f"オーナーに撮ってもらう＝`thumbnails/_await_photo.txt` に撮るものを書いてある）"
+           if _await_recent else "")
         + (f"／別に**公開済みで無サムネのまま {len(_missing_pub)}本**"
            f"（`ops/header_image_todo.tsv` に積んで `bash ops/fix_header_images.sh` で後から付けられる）"
            if _missing_pub else ""))

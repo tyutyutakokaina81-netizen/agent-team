@@ -1272,7 +1272,10 @@ def _is_color_photo(data: bytes) -> bool:
             return False
         # 2026-09-06 CQO指摘: セピアの銅版画スキャンは彩度0.168で閾値を超え素通りした。
         # セピア/単色調は「色相がひとつに集中する」ので、色相の広がりでも判定する。
-        hues = [h for h, s_, v_ in hsv.getdata() if s_ > 40 and v_ > 30]
+        # 2026-11-13: `getdata()` は Pillow 14（2027-10-15）で消えるので、チャンネルを
+        #   バイト列で取り出して zip する形に変えた。実画像で出力の一致を確認済み。
+        _hc, _sc, _vc = (c.tobytes() for c in hsv.split())
+        hues = [h for h, s_, v_ in zip(_hc, _sc, _vc) if s_ > 40 and v_ > 30]
         if len(hues) > 50:
             spread = len({h // 16 for h in hues})     # 色相を16分割した占有ビン数
             if spread <= 2:                            # ほぼ単一色相＝セピア/単色着色
