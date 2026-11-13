@@ -118,20 +118,8 @@
   },
   {
    "tag": "button",
-   "txt": "6,095",
-   "aria": "6,095スキ この記事にスキをつけたユーザーを見る",
-   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "3,909",
-   "aria": "3,909スキ この記事にスキをつけたユーザーを見る",
+   "txt": "4,114",
+   "aria": "4,114スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -144,6 +132,18 @@
    "tag": "button",
    "txt": "5,406",
    "aria": "5,406スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "5,560",
+   "aria": "5,560スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -454,8 +454,8 @@
   },
   {
    "tag": "button",
-   "txt": "297",
-   "aria": "297スキ この記事にスキをつけたユーザーを見る",
+   "txt": "333",
+   "aria": "333スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -478,8 +478,56 @@
   },
   {
    "tag": "button",
-   "txt": "297",
-   "aria": "297スキ この記事にスキをつけたユーザーを見る",
+   "txt": "333",
+   "aria": "333スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "1,038",
+   "aria": "1,038スキ この記事にスキをつけたユーザーを見る",
+   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "1,038",
+   "aria": "1,038スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -598,8 +646,8 @@
   },
   {
    "tag": "button",
-   "txt": "314",
-   "aria": "314スキ この記事にスキをつけたユーザーを見る",
+   "txt": "297",
+   "aria": "297スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -622,56 +670,8 @@
   },
   {
    "tag": "button",
-   "txt": "314",
-   "aria": "314スキ この記事にスキをつけたユーザーを見る",
-   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "696",
-   "aria": "696スキ この記事にスキをつけたユーザーを見る",
-   "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "696",
-   "aria": "696スキ この記事にスキをつけたユーザーを見る",
+   "txt": "297",
+   "aria": "297スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {

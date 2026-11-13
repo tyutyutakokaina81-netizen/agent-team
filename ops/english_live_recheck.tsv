@@ -77,15 +77,15 @@ nb8583d2d191b	LIVE_OK	2026-11-13
 n4a95d3c6a316	LIVE_OK	2026-11-13
 nf2fd2e308101	LIVE_OK	UPDATED	衣替え：日付で服を入れ替える決まりがある
 n17788d0cfa17	LIVE_OK	UPDATED	むかご：一度に採れる量が、料理の単位に届かない
-nb1866577b2da	NOT_LIVE	UPDATED	二番穂：刈り終えた田んぼが、もう一度緑になる
-nb50a98bea168	NOT_LIVE	UPDATED	落ち葉：掃いた次の日に、同じだけ落ちている
+nb1866577b2da	LIVE_OK	2026-11-14
+nb50a98bea168	LIVE_OK	2026-11-14
 n8181e09e55ac	LIVE_OK	UPDATED	鮭：生まれた川に戻る魚を、海で獲っている
 n64cc1243922a	LIVE_OK	UPDATED	柿：見ただけでは、甘いか渋いか分からない
-nfa9647b9affd	NOT_LIVE	UPDATED	渡り鳥：いなくなったほうに、先に気づく
-n9fb0f393f453	NOT_LIVE	UPDATED	石油ストーブ：出す日を、自分で決めないといけない
+nfa9647b9affd	LIVE_OK	2026-11-14
+n9fb0f393f453	LIVE_OK	2026-11-14
 n815cc5e770b5	LIVE_OK	UPDATED	豚汁：具が多いほうが正しいわけではない
-n2302ebd451d9	NOT_LIVE	UPDATED	カメムシ：数を数えて、冬を占う人がいる
-n1ffab822c2a4	NOT_LIVE	UPDATED	白菜：一玉のまま買うかどうかで、毎回止まる
+n2302ebd451d9	LIVE_OK	2026-11-14
+n1ffab822c2a4	LIVE_OK	2026-11-14
 n47e24995aad0	NOT_LIVE	UPDATED	味噌：買うときに、種類を選んでいない
 n5ceb4b0d5252	NOT_LIVE	UPDATED	障子：破れるのは、だいたい同じ高さ
 n92777d1d932c	NOT_LIVE	UPDATED	かぼちゃ：包丁が、途中で止まる

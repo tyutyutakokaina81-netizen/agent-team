@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/nbb5afbfa26b7",
+ "url": "https://note.com/safe_canna441/n/n3ca8daa5ac15",
  "buttons": [
   {
    "tag": "a",
@@ -78,25 +78,25 @@
    "tag": "a",
    "txt": "公開設定",
    "aria": "",
-   "href": "https://editor.note.com/notes/nbb5afbfa26b7/publish"
+   "href": "https://editor.note.com/notes/n3ca8daa5ac15/publish"
   },
   {
    "tag": "a",
    "txt": "英語版",
    "aria": "",
-   "href": "/safe_canna441/n/nbb5afbfa26b7?hl=en"
+   "href": "/safe_canna441/n/n3ca8daa5ac15?hl=en"
   },
   {
    "tag": "a",
    "txt": "韓国語版",
    "aria": "",
-   "href": "/safe_canna441/n/nbb5afbfa26b7?hl=ko"
+   "href": "/safe_canna441/n/n3ca8daa5ac15?hl=ko"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/335068883/rectangle_large_type_2_02c299f9c1b53a846c4fa6a4f8c074e0.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/335069354/rectangle_large_type_2_538a54b016bf940d979490dee7233867.jpeg?width=1200"
   },
   {
    "tag": "button",
@@ -132,19 +132,19 @@
    "tag": "a",
    "txt": "",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n9fb0f393f453"
+   "href": "https://note.com/safe_canna441/n/ne4e85cf2328f"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n25f534d73468"
+   "href": "https://note.com/safe_canna441/n/nd07e28766944"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n9d830439d8e4"
+   "href": "https://note.com/safe_canna441/n/nf82a50257930"
   },
   {
    "tag": "a",
@@ -166,27 +166,9 @@
   },
   {
    "tag": "a",
-   "txt": "#冬支度",
+   "txt": "#japanesefood",
    "aria": "",
-   "href": "https://note.com/hashtag/%E5%86%AC%E6%94%AF%E5%BA%A6"
-  },
-  {
-   "tag": "a",
-   "txt": "#暖房",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%9A%96%E6%88%BF"
-  },
-  {
-   "tag": "a",
-   "txt": "#こたつ",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%93%E3%81%9F%E3%81%A4"
-  },
-  {
-   "tag": "a",
-   "txt": "#Japaneseculture",
-   "aria": "",
-   "href": "https://note.com/hashtag/Japaneseculture"
+   "href": "https://note.com/hashtag/japanesefood"
   },
   {
    "tag": "a",
@@ -196,9 +178,27 @@
   },
   {
    "tag": "a",
-   "txt": "#日本の暮らし",
+   "txt": "#ごぼう",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
+   "href": "https://note.com/hashtag/%E3%81%94%E3%81%BC%E3%81%86"
+  },
+  {
+   "tag": "a",
+   "txt": "#きんぴら",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E3%81%8D%E3%82%93%E3%81%B4%E3%82%89"
+  },
+  {
+   "tag": "a",
+   "txt": "#根菜",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%A0%B9%E8%8F%9C"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の食",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A3%9F"
   },
   {
    "tag": "a",
@@ -220,27 +220,9 @@
   },
   {
    "tag": "a",
-   "txt": "#冬支度",
+   "txt": "#japanesefood",
    "aria": "",
-   "href": "https://note.com/hashtag/%E5%86%AC%E6%94%AF%E5%BA%A6"
-  },
-  {
-   "tag": "a",
-   "txt": "#暖房",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%9A%96%E6%88%BF"
-  },
-  {
-   "tag": "a",
-   "txt": "#こたつ",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%93%E3%81%9F%E3%81%A4"
-  },
-  {
-   "tag": "a",
-   "txt": "#Japaneseculture",
-   "aria": "",
-   "href": "https://note.com/hashtag/Japaneseculture"
+   "href": "https://note.com/hashtag/japanesefood"
   },
   {
    "tag": "a",
@@ -250,9 +232,27 @@
   },
   {
    "tag": "a",
-   "txt": "#日本の暮らし",
+   "txt": "#ごぼう",
    "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
+   "href": "https://note.com/hashtag/%E3%81%94%E3%81%BC%E3%81%86"
+  },
+  {
+   "tag": "a",
+   "txt": "#きんぴら",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E3%81%8D%E3%82%93%E3%81%B4%E3%82%89"
+  },
+  {
+   "tag": "a",
+   "txt": "#根菜",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%A0%B9%E8%8F%9C"
+  },
+  {
+   "tag": "a",
+   "txt": "#日本の食",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A3%9F"
   },
   {
    "tag": "button",
@@ -322,21 +322,27 @@
   },
   {
    "tag": "a",
-   "txt": "ライフスタイル",
+   "txt": "料理・グルメ",
    "aria": "",
-   "href": "https://note.com/topic/lifestyle"
+   "href": "https://note.com/topic/cooking_gourmet"
   },
   {
    "tag": "a",
-   "txt": "インテリア・家具",
+   "txt": "レシピ・作り方",
    "aria": "",
-   "href": "https://note.com/topic/lifestyle/interior_furniture"
+   "href": "https://note.com/topic/cooking_gourmet/recipes_how_to"
   },
   {
    "tag": "a",
    "txt": "",
    "aria": "北陸の暮らし",
    "href": "https://note.com/safe_canna441/m/m22a5ea6838c5"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "高岡の食",
+   "href": "https://note.com/safe_canna441/m/m264cf69f123b"
   },
   {
    "tag": "button",
@@ -509,12 +515,12 @@
   {
    "tag": "a",
    "txt": "",
-   "aria": "いとのある生活",
-   "href": "https://note.com/ito__seikatu"
+   "aria": "刻空",
+   "href": "https://note.com/ozconsultingeasy"
   },
   {
    "tag": "button",
-   "txt": "フォロー",
+   "txt": "フォロー中",
    "aria": "",
    "href": ""
   },
