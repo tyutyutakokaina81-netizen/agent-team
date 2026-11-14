@@ -49,6 +49,33 @@ def read_tsv(path):
     with open(path, encoding="utf-8") as f:
         return list(csv.DictReader(f, delimiter="\t"))
 
+# ★2026-11-14: **同じコメントが、別の id で3通り入ってくる。**
+#   cowork 報告(2026-11-14_003)＝処理済みの3件が `api_` 付きの別IDで DRAFT として再追記された。
+#   実データを数えたら replies.tsv は **14行あって、実際のコメントは10件**しかなかった。
+#   しかも危険な形で壊れていた＝`nced5b034f652c` は **POSTED 済みなのに
+#   `api_nced5b034f652c` が READY**（＝投稿待ち）になっていた。**読者に二重返信する。**
+#
+#   id は3通りある:
+#     ① そのままのコメントid      `nc3ff48a1f708f`
+#     ② API 経由                 `api_nc3ff48a1f708f`  ＝①に接頭辞が付いただけ
+#     ③ 通知経由                 `ntf_5699809a91a2d896`
+#        ★**`ntf_` の後ろは通知側のハッシュで、コメントidではない。**
+#          本物のコメントidは**記事URLのクエリ `c=` に入っている**
+#          （例: `...?from=notice&scrollpos=comment&c=nc6efb9aa5a1b2`）。
+#   → **突き合わせる前に、全部①の形に直す。**
+def canon_id(comment_id, article_url):
+    """3通りの id を、素のコメントid に揃える。突合はこの値だけで行う。"""
+    cid = (comment_id or "").strip()
+    if cid.startswith("api_"):
+        cid = cid[4:]
+    if cid.startswith("ntf_"):
+        m = re.search(r"[?&]c=([A-Za-z0-9]+)", article_url or "")
+        if m:
+            cid = m.group(1)
+        # c= が無ければ素に戻せないので、ntf_ のまま返す（別物として扱う＝取りこぼすより安全）
+    return cid
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
@@ -56,9 +83,11 @@ def main():
 
     pending = read_tsv(PENDING)
     replies = read_tsv(REPLIES)
-    done_ids = {r["comment_id"] for r in replies if r.get("comment_id")}
-
-    new = [c for c in pending if c.get("comment_id") and c["comment_id"] not in done_ids]
+    done_ids = {canon_id(r.get("comment_id"), r.get("article")) for r in replies
+                if r.get("comment_id")}
+    new = [c for c in pending
+           if c.get("comment_id")
+           and canon_id(c["comment_id"], c.get("article")) not in done_ids]
     if not new:
         print("新着コメントなし（pending.tsv に未処理行がない／全て replies.tsv 済）。")
         return
