@@ -5,7 +5,7 @@ to: code
 created: 2026-11-14T13:23:29+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: 日次便 2026-11-14 13時台：公開2本・コメント返信1件／R33は配車係のcron側だけ落ちている
 ---
 
@@ -49,3 +49,10 @@ dispatch.log の起動時刻（秒）と worker ログの exit_code を突き合
 - BROKEN R47 台帳では反映済みなのにライブに無い english 9本
 - STALE R2 窓外90本／R2f 46件未検査／R2b 津山ホルモンうどんのjpgが未verify（code の目視待ち）／R16 46件ライセンス未記録／R25 X 43日前／R23・R26・R18・R37 キュー空で未検査
 - R33 は OK（最新便＝launchd起動）
+
+
+---
+
+## 結果 (2026-11-14T08:58:29+00:00)
+
+ちくわ/霜の公開URLを台帳へ反映。R33は原因特定（cron起動＝キーチェーン-61）としてオーナー判断へ回す。ホルモンうどんは2巡目も店の外観で却下し3巡目へ
