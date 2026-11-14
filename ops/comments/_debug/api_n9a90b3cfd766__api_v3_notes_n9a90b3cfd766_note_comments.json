@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc80484eacac82",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "おやきの記事、楽しく読ませていただきました😊 甘いものとしょっぱいものが同じ顔で並んでいて、割るまで何か分からないなんて、まるでくじ引きみたいでワクワクしますね✨ 焼き印の目印や、温め方で食感が変わるお話も面白かったです。電子レンジでもっちり、フライパンで香ばしく、どちらも試してみたくなりました🍵 食べたあとの続き、楽しみにしています😊"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 2,
+   "is_edited": false,
+   "created_at": "2026-11-14T12:21:27.373+09:00",
+   "updated_at": "2026-11-14T12:21:27.373+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "595ecb289f8643bc2fdc9f14d6461902",
+    "urlname": "kota2ww",
+    "nickname": "食べ歩きの買い物帖",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": null,
+   "comment_like_appeal_image": null,
+   "is_root": true,
+   "note_key": "n9a90b3cfd766",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "ncb64c98f54b64",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "おやきの記事を読んでくださって、ありがとうございます。割るまで中身が分からないところは、書いていて自分でもいちばん面白かったところなので、くじ引きと言ってもらえて腑に落ちました。食べたら、温め方の違いも含めて続きを書きますね。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 0,
+    "reply_count": 1,
+    "is_edited": false,
+    "created_at": "2026-11-14T13:22:51.432+09:00",
+    "updated_at": "2026-11-14T13:22:51.432+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "595ecb289f8643bc2fdc9f14d6461902",
+     "urlname": "kota2ww",
+     "nickname": "食べ歩きの買い物帖",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n9a90b3cfd766",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}
