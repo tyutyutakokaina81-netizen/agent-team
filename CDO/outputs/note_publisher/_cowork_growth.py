@@ -284,18 +284,51 @@ def do_follow(page, handle: str = ""):
             # 5秒で諦める。押さずに次へ＝1人あたりの無駄を30秒から5秒に減らす
             return "err:scroll-timeout(5秒で諦めた)"
         page.wait_for_timeout(600)
-        # ★2026-11-13: **click に上限をつける**。既定は30秒で、11-13 の便は
-        #   8人がここで30秒ずつ待って計240秒を捨てていた（それで時間切れに見えていた）。
-        b.click(timeout=8000)
-        for _ in range(10):
-            page.wait_for_timeout(500)
+        # ★2026-11-14: **フォローボタンを飲んでいた相手が分かった＝左上の固定サイドバー。**
+        #   11-13 に入れたエラー理由の抜き出しが効いて、便のログにこう出ていた:
+        #     `<div class="fixed top-24 left-8 max-[1124px]:hidden print:hidden">
+        #      intercepts pointer events`  ← **14人中8人がこれ**。
+        #   ★★**クラスの `max-[1124px]:hidden` は「画面幅が1124px以下なら note 自身が消す」の意味。**
+        #     つまり**ページを書き換えなくても、窓を狭めれば消える**。
+        #     force クリックや要素の削除より安全＝**note 自身の CSS に従うだけ**で、
+        #     レイアウトを壊さないし、押す相手を取り違える危険も増えない。
+        #   実測（合成ページ・Playwright）: 幅1280 → ボタン中心にあるのは overlay。
+        #     幅1125/1124/1100 → overlay は描画されず follow 本体が出る。
+        #   ⚠️**本番のタイムアウトそのものは手元で再現できていない**（合成ページでは
+        #     余白が多く Playwright が勝手にスクロールして避けてしまう）。
+        #     **効いたかどうかは次の便の DONE 行で確かめる。**
+        _vp = page.viewport_size or {}
+        _narrowed = False
+        if (_vp.get("width") or 0) > 1124:
             try:
-                t2 = (b.inner_text() or "") + (b.get_attribute("aria-label") or "")
+                page.set_viewport_size({"width": 1100,
+                                        "height": _vp.get("height") or 900})
+                _narrowed = True
+                page.wait_for_timeout(300)
+                b.scroll_into_view_if_needed(timeout=3000)
+                page.wait_for_timeout(300)
             except Exception:
-                t2 = ""
-            if "フォロー中" in t2 or "フォローをやめる" in t2:
-                return "followed"
-        return "clicked"
+                _narrowed = False
+        try:
+            # ★2026-11-13: **click に上限をつける**。既定は30秒で、11-13 の便は
+            #   8人がここで30秒ずつ待って計240秒を捨てていた（それで時間切れに見えていた）。
+            b.click(timeout=8000)
+            for _ in range(10):
+                page.wait_for_timeout(500)
+                try:
+                    t2 = (b.inner_text() or "") + (b.get_attribute("aria-label") or "")
+                except Exception:
+                    t2 = ""
+                if "フォロー中" in t2 or "フォローをやめる" in t2:
+                    return "followed"
+            return "clicked"
+        finally:
+            # 狭めたままにしない。次の人の判定や、ほかの処理が別の幅を前提にしている。
+            if _narrowed:
+                try:
+                    page.set_viewport_size(_vp)
+                except Exception:
+                    pass
     except Exception as e:
         return "err:" + _why_click_failed(e)
 
