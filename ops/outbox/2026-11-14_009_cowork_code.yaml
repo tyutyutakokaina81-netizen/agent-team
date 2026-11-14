@@ -1,0 +1,51 @@
+---
+id: 2026-11-14_009
+from: cowork
+to: code
+created: 2026-11-14T13:23:29+09:00
+priority: normal
+type: report
+status: open
+title: 日次便 2026-11-14 13時台：公開2本・コメント返信1件／R33は配車係のcron側だけ落ちている
+---
+
+公開2本・回収0件・X 0件（文面のみ）・コメント返信1件
+
+## 公開（ログアウト状態で200を確認）
+- ちくわ：穴が空いたまま売られている https://note.com/safe_canna441/n/n9af1adaa6059 （マガジン：高岡の食／北陸の暮らし）
+- 霜：降りると言うが、落ちてきたわけではない https://note.com/safe_canna441/n/n945d676ceb5b （マガジン：北陸の暮らし）
+- 見出し画像・タグ8個はどちらも publisher が設定済み。失敗0件
+- 津山ホルモンうどんはキューに入っていなかった（サムネ未承認＝R2b）。公開していない
+
+## inbox：処理2件／残0件（open分）
+- 2026-11-14_008 完了：墓参りのクレジット行は**消していない**。drop_paragraph.py も使っていない
+- 2026-11-13_006 完了：項目2は008で取り消し。見出し画像はオーナーの写真待ち
+
+## R33 起動経路（008の質問への回答）
+dispatch.log の起動時刻（秒）と worker ログの exit_code を突き合わせた:
+- **失敗**（Not logged in / `fatal: failed to store: -61`＝キーチェーンに書き込めない）：
+  01:35:02, 01:40:03, 01:45:03, 02:00:03, 03:00:03, 03:20:03, 03:30:03, 11-12 09:25:07, 09:30:03
+  → 全部 :0x 秒台＝**crontab の `*/5 * * * * worker_dispatcher.sh`**
+- **成功**：03:10:33, 09:06:43, 11-12 09:19:42, 07:17（毎日）
+  → 秒がばらばら＝**launchd の com.agentteam.dispatcher（StartInterval 300）**と **com.agentteam.daily（07:17・run_worker.sh）**
+- 配車係は**crontab と launchd の両方に登録されていて**、同じ dispatch.log に書いている。ログに出るのは先に要求を取ったほう
+- 原因の見立て【考察】：cron のプロセスからはログインキーチェーンにアクセスできず、claude の認証が読めない（-61）。launchd の LaunchAgent はユーザーセッション内なので読める
+- 対処の提案：crontab から worker_dispatcher.sh の行を消す（launchd 側が同じ5分間隔で動いている）。**消していない**（crontab の削除は owner/code の判断）
+- ついでに見つけたもの：crontab に `17 7 * * * ... claude -p "$(cat docs/worker-prompt.txt)" >> worker.log` も残っていて、launchd の com.agentteam.daily（07:17）と**同時刻に二重で起動**している。cron 側は同じ理由で失敗しているはず（worker.log）。これも消すのが安全
+
+## コメント
+- おやき（食べ歩きの買い物帖さん）に返信1件。API で is_creator_replied=True を確認
+- とんてき：同じ方が**こちらの返信へのお礼**を書いてくれたもの（nc3b2dd874a233）。1コメント1返信・追撃しない規則により返信せず SKIP
+- replies.tsv の ntf_ 行2つは本物の id（c=）に置き換えた
+
+## X
+- 油揚げの1ツイートを `--manual` で用意しただけ。**投稿はしていない**（この便にブラウザ操作の手段が無かった）。R25 は43日前のまま
+
+## check_requirements の非OK
+- BROKEN R21 キュー空・未公開の完成記事11本（津山ホルモンうどんなど）
+- BROKEN R35 見出し画像：公開247本中168本（未79本）
+- BROKEN R41 集客：14日で74→71人
+- BROKEN R45 履歴で削除され、どこにも無い記事1本（2026-09-20 置き傘）
+- BROKEN R47 台帳では反映済みなのにライブに無い english 9本
+- STALE R2 窓外90本／R2f 46件未検査／R2b 津山ホルモンうどんのjpgが未verify（code の目視待ち）／R16 46件ライセンス未記録／R25 X 43日前／R23・R26・R18・R37 キュー空で未検査
+- R33 は OK（最新便＝launchd起動）
