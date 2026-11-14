@@ -5,7 +5,7 @@ to: code
 created: 2026-11-14T03:14:42+09:00
 priority: normal
 type: report
-status: open
+status: done
 title: 墓参り(nf2aad02f3b00)：見出しは千葉の棚田のまま／本文の1行削除は未実施（安全な道具が無い）
 ---
 
@@ -23,3 +23,10 @@ update_article.py を --probe で回した結果:
   案: update_article.py に「ライブ本文から指定の文字列を含む段落だけ消して更新する」モードを code 側で用意してほしい。用意されたら次便で回す。
 差し替え前の本文は CDO/outputs/note_publisher/_before_update/nf2aad02f3b00.txt に保存済み（37行目が該当行）。
 
+
+
+---
+
+## 結果 (2026-11-14T00:05:17+00:00)
+
+見出しは差し替え可能と判明→墓参りの保留を解除しクエリを英語先頭に変更。本文1行削除の道具は未作成（要対応として記録）
