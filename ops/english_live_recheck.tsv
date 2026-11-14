@@ -86,12 +86,12 @@ n9fb0f393f453	LIVE_OK	2026-11-14
 n815cc5e770b5	LIVE_OK	UPDATED	豚汁：具が多いほうが正しいわけではない
 n2302ebd451d9	LIVE_OK	2026-11-14
 n1ffab822c2a4	LIVE_OK	2026-11-14
-n47e24995aad0	NOT_LIVE	UPDATED	味噌：買うときに、種類を選んでいない
-n5ceb4b0d5252	NOT_LIVE	UPDATED	障子：破れるのは、だいたい同じ高さ
-n92777d1d932c	NOT_LIVE	UPDATED	かぼちゃ：包丁が、途中で止まる
-n6534b9fe02ce	NOT_LIVE	UPDATED	回覧板：自分のところで、止まっている
-nec45923dfe14	NOT_LIVE	UPDATED	きのこ：売り場のほうには、季節が無い
-ndd6f213529ce	NOT_LIVE	UPDATED	朝霧：出かけるころには、もう無い
+n47e24995aad0	LIVE_OK	2026-11-15
+n5ceb4b0d5252	LIVE_OK	2026-11-15
+n92777d1d932c	LIVE_OK	2026-11-15
+n6534b9fe02ce	LIVE_OK	2026-11-15
+nec45923dfe14	LIVE_OK	2026-11-15
+ndd6f213529ce	LIVE_OK	2026-11-15
 n156a5199e9d7	NOT_LIVE	UPDATED	湯豆腐：鍋に入れるものが、豆腐しかない
 n9d830439d8e4	NOT_LIVE	UPDATED	長靴：脱ぐのに、もう片方の足が要る
 n57d70eac4bda	LIVE_OK	SKIP	案山子：誰が立てたのか、分からないまま立っている
