@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nc87af67bbbab4",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "てつさん、津山ホルモンうどんの記事、楽しく読ませていただきました😊 運べなかったからこそ土地の料理になったというお話、なるほどと納得しました。鉄板の上でうどんとホルモンが一緒に焼かれて、一口ごとに歯ごたえが変わるというのも面白いですね✨ たれがばらばらなものをひとつにまとめるという表現も素敵でした。てつさんが実際に食べたときの続きも楽しみにしています🍜"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-11-14T19:21:57.491+09:00",
+   "updated_at": "2026-11-14T19:21:57.491+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "595ecb289f8643bc2fdc9f14d6461902",
+    "urlname": "kota2ww",
+    "nickname": "食べ歩きの買い物帖",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": null,
+   "comment_like_appeal_image": null,
+   "is_root": true,
+   "note_key": "n2e5c5edd3849",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "ncb0bf889f2200",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "ホルモンうどんの記事を読んでくださって、ありがとうございます。たれのところは、材料を並べていくうちに「結局これが全部をつないでいるのでは」と思って書いた部分なので、拾ってもらえてうれしいです。実際に食べたら、歯ごたえが本当に一口ごとに変わるのか、確かめて書きます。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 0,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-11-15T07:19:33.276+09:00",
+    "updated_at": "2026-11-15T07:19:33.276+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "595ecb289f8643bc2fdc9f14d6461902",
+     "urlname": "kota2ww",
+     "nickname": "食べ歩きの買い物帖",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n2e5c5edd3849",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}
