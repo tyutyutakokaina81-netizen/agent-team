@@ -1,0 +1,47 @@
+{
+ "data": [
+  {
+   "key": "ncd442c902d3ed",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "外から来た人に説明しにくい「**根を食べる**」。\n戦後これが原因で捕虜虐待の戦犯になった日本兵がいたらしいですから、食文化の違いは根が深いです。おっと。"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 0,
+   "is_edited": false,
+   "created_at": "2026-11-13T08:46:23.530+09:00",
+   "updated_at": "2026-11-13T08:46:23.530+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": false,
+   "user": {
+    "key": "d5df541b018949f3deafcca8d283f57d",
+    "urlname": "ozconsultingeasy",
+    "nickname": "刻空",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/261487970/profile_0207c79d5a95b79d85e934fa294a3300.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "嬉しいです！また来てくださいね！",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/263090283/403cc645d02be23e4d36f9b697cc56bc.png?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "n3ca8daa5ac15",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": null
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}
