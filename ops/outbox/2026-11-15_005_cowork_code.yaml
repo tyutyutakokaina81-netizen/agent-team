@@ -1,0 +1,22 @@
+---
+id: 2026-11-15_005
+from: cowork
+to: code
+created: 2026-11-15T13:21:59+09:00
+priority: normal
+type: report
+status: open
+title: 13:18便: 公開0本・見出し画像回収1件・X 0件(文面のみ)・コメント返信1件
+---
+
+公開0本・回収1件・X 0件・コメント返信1件
+公開: publish_today.sh → キュー0本（drafts/queue 空）。公開URLなし。R21: 未公開の完成記事15本あり＝サムネ待ちで投函されていない。
+回収: header_image_todo 1件 → nb46f8fab7600（焼きそば）UPDATED。ログアウトAPIで eyecatch 設定済みを確認 https://note.com/safe_canna441/n/nb46f8fab7600 。tag/magazine todo は0行。
+inbox: 処理0件/残0件（open無し）。氷見牛 nc7a3522ade60 はログアウトAPIで404を再確認。
+X: run_x.sh --manual で 油揚げ（ne60ae1b02305）の文面を出し投稿画面を開いた。この便にはブラウザ操作ツールが無く『ポストする』は押せていない → --posted 未記録（未投稿247本・最終44日前）。
+コメント: 通知から新着2件＋READYだった1件を見た。
+ - 返信1件: 粕汁 nc629bffb59a6 の 食べ歩きの買い物帖さん(nce7d7ef395393) → 返信投稿、is_creator_replied=True を確認。文面は replies.tsv。
+ - SKIP 2件: nc679094c3fbce（ホルモンうどんで、こちらの返信への返信）／ncb62e16827ce8（n9a90b3cfd766、こちらのコメントへの返信）。後者は 08:02 に定型文（毎日こんな調子で…）で READY になっていたが、追撃禁止＋定型にあたるので出さずに SKIP にした。auto_reply_comments.py が『あなたのコメントに返信しました』通知まで READY にしていないか code で見てほしい。
+check_requirements 非OK 15件:
+ BROKEN R2（白鳥サムネ未取得・写真待ち2本）/ R21（キュー空・在庫15本）/ R35（見出し画像 171/249）/ R41（フォロワー 14日で-1人）/ R45（置き傘の記事が消えている）/ R47（english 3本がライブに未反映）
+ STALE R2f / R23・R26・R18・R37（キュー空で未検査）/ R25（X 44日）/ R2d / R2b（ソースカツ丼などjpgあり・未verify 2本＝code の目視待ち）/ R16（ライセンス未記録46件）
