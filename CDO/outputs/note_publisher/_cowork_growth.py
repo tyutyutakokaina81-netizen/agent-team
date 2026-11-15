@@ -313,14 +313,40 @@ def do_follow(page, handle: str = ""):
             # ★2026-11-13: **click に上限をつける**。既定は30秒で、11-13 の便は
             #   8人がここで30秒ずつ待って計240秒を捨てていた（それで時間切れに見えていた）。
             b.click(timeout=8000)
+            # ★2026-11-15: **押せるようになったのに「できた人数」が0のままだった。**
+            #   11-14 の窓を狭める修正で `intercepts pointer events` 8件は消え、
+            #   DONE 行は **7件が `clicked`** になった＝**クリック自体は通っている**。
+            #   それでも集計が0人だったのは、ここの確認のしかたが悪かったため:
+            #   ★**押したあと、同じ要素ハンドル `b` を見続けていた。**
+            #     note は押すと**ボタンを描き直す**ので、`b` は死んだ要素を指したままになる。
+            #     `inner_text()` が例外を投げ、それを握りつぶして `t2=""` にしていたので、
+            #     **10回まわしても永久に一致しない**＝必ず "clicked" で終わる。
+            #   → **著者のボタンを数え直して状態を見る**（最初の判定と同じ JS を使う）。
+            #     これなら描き直されても、著者のボタンが「フォロー中」になったかが分かる。
             for _ in range(10):
                 page.wait_for_timeout(500)
+                # ① 印が残っていれば、そこから読む（速い道）
+                el = page.query_selector(f"[data-cc-follow-idx='{idx}']")
+                if el is not None:
+                    try:
+                        t2 = (el.inner_text() or "") + (el.get_attribute("aria-label") or "")
+                    except Exception:
+                        t2 = ""
+                    if "フォロー中" in t2 or "フォローをやめる" in t2:
+                        return "followed"
+                # ② 描き直されていたら、著者のボタンを数え直す（確実な道）
                 try:
-                    t2 = (b.inner_text() or "") + (b.get_attribute("aria-label") or "")
+                    hits2 = page.evaluate(js, handle or "")
                 except Exception:
-                    t2 = ""
-                if "フォロー中" in t2 or "フォローをやめる" in t2:
+                    hits2 = []
+                if any(h.get("state") == "following" and h.get("owns") for h in hits2):
                     return "followed"
+            # ここに来る＝押せたのに5秒たっても「フォロー中」にならない。
+            # 画面が変わったのか、押した先が効いていないのかは、この時点では分からない。
+            # ⚠️**戻り値の文字列は "clicked" のままにする。**
+            #   `ops/follow_commenters.py` と `ops/follow_likers.py` が
+            #   `if r in ("followed", "clicked", "already-following")` と**完全一致**で見ている。
+            #   ここに説明を足すと、その判定から外れて数え方が静かに変わる。
             return "clicked"
         finally:
             # 狭めたままにしない。次の人の判定や、ほかの処理が別の幅を前提にしている。
