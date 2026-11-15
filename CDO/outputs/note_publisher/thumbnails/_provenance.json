@@ -126,13 +126,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/President_Working_Alone_in_Oval_Office_-_DPLA_-_d842f6fdbde9ae3d206038e02d9e54d5.jpg/1280px-President_Working_Alone_in_Oval_Office_-_DPLA_-_d842f6fdbde9ae3d206038e02d9e54d5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-02_note記事_ホタルイカ_春の海が光る話": {
-"author": "Earth Science and Remote Sensing Unit, Lyndon B. Johnson Space Center",
+"author": "Own work",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:ISS024-E-9451_-_View_of_Japan.jpg",
-"file": "File:ISS024-E-9451 - View of Japan.jpg",
-"license": "Public domain",
+"descpage": "https://commons.wikimedia.org/wiki/File:Uodu_Oki.jpg",
+"file": "File:Uodu Oki.jpg",
+"license": "CC BY-SA 3.0",
 "query": "Toyama bay sea coast japan",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/ISS024-E-9451_-_View_of_Japan.jpg/1280px-ISS024-E-9451_-_View_of_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Uodu_Oki.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 },
 "2026-06-02_note記事_月30万への挑戦の途中経過": "wikimedia",
 "2026-06-02_note記事_顧客の声をどう拾うか": {
@@ -558,13 +558,13 @@
 "tried": 3
 },
 "2026-06-13_note記事_魚津の蜃気楼_春の富山湾の不思議": {
-"author": "Earth Science and Remote Sensing Unit, Lyndon B. Johnson Space Center",
+"author": "Fuseoyama",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:ISS024-E-9451_-_View_of_Japan.jpg",
-"file": "File:ISS024-E-9451 - View of Japan.jpg",
-"license": "Public domain",
+"descpage": "https://commons.wikimedia.org/wiki/File:Tateyamausirotateyama.jpg",
+"file": "File:Tateyamausirotateyama.jpg",
+"license": "CC BY-SA 3.0",
 "query": "Toyama bay sea coast japan",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/ISS024-E-9451_-_View_of_Japan.jpg/1280px-ISS024-E-9451_-_View_of_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Tateyamausirotateyama.jpg/1280px-Tateyamausirotateyama.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-06-13_note記事_鱒寿司は富山の朝食": {
 "backend": "unknown",
@@ -1224,20 +1224,20 @@
 "2026-07-28_note記事_富山弁きときと_言葉でわかる富山": {
 "author": "kiwa dokokano",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Marunouchi,_Toyama,_Toyama_Prefecture_930-0085,_Japan_-_panoramio.jpg",
-"file": "File:Marunouchi, Toyama, Toyama Prefecture 930-0085, Japan - panoramio.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:Yatsuomachi_Nishijinzu,_Toyama,_Toyama_Prefecture_939-2311,_Japan_-_panoramio_(22).jpg",
+"file": "File:Yatsuomachi Nishijinzu, Toyama, Toyama Prefecture 939-2311, Japan - panoramio (22).jpg",
 "license": "CC BY-SA 3.0",
 "query": "富山県",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg/1280px-Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Yatsuomachi_Nishijinzu%2C_Toyama%2C_Toyama_Prefecture_939-2311%2C_Japan_-_panoramio_%2822%29.jpg/1280px-Yatsuomachi_Nishijinzu%2C_Toyama%2C_Toyama_Prefecture_939-2311%2C_Japan_-_panoramio_%2822%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-07-28_note記事_高岡の梵鐘_日本の鐘の音の出どころ": {
 "author": "Basile Morin",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Ninna-ji%27s_Golden_Hall,_front_view_of_the_Shingon_Buddhist_temple,_Uky%C5%8D-ku,_Kyoto,_Japan.jpg",
-"file": "File:Ninna-ji's Golden Hall, front view of the Shingon Buddhist temple, Ukyō-ku, Kyoto, Japan.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:Water_reflection_of_Kinkaku-ji_Temple_a_sunny_day,_Kyoto,_Japan.jpg",
+"file": "File:Water reflection of Kinkaku-ji Temple a sunny day, Kyoto, Japan.jpg",
 "license": "CC BY-SA 4.0",
 "query": "japanese temple",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Ninna-ji%27s_Golden_Hall%2C_front_view_of_the_Shingon_Buddhist_temple%2C_Uky%C5%8D-ku%2C_Kyoto%2C_Japan.jpg/1280px-Ninna-ji%27s_Golden_Hall%2C_front_view_of_the_Shingon_Buddhist_temple%2C_Uky%C5%8D-ku%2C_Kyoto%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Water_reflection_of_Kinkaku-ji_Temple_a_sunny_day%2C_Kyoto%2C_Japan.jpg/1280px-Water_reflection_of_Kinkaku-ji_Temple_a_sunny_day%2C_Kyoto%2C_Japan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-07-29_note記事_じゃがいも料理_常備のいちばん": {
 "backend": "unknown",
@@ -1384,13 +1384,13 @@
 "tried": 3
 },
 "2026-07-31_note記事_お盆_家族が帰ってくる夏": {
-"author": "ColdSleeper",
+"author": "Krmt",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_(7580477186).jpg",
-"file": "File:春日部夏祭り (7580477186).jpg",
-"license": "CC BY 2.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%B2%BC%E6%B4%A5%E5%A4%8F%E7%A5%AD%E3%82%8A.JPG",
+"file": "File:沼津夏祭り.JPG",
+"license": "CC BY-SA 4.0",
 "query": "夏祭り",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg/1280px-%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/%E6%B2%BC%E6%B4%A5%E5%A4%8F%E7%A5%AD%E3%82%8A.JPG/1280px-%E6%B2%BC%E6%B4%A5%E5%A4%8F%E7%A5%AD%E3%82%8A.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-07-31_note記事_ところてん_夏のするりと涼しいおやつ": {
 "backend": "unknown",
@@ -1466,13 +1466,13 @@
 "tried": 3
 },
 "2026-08-02_note記事_FIRE報告_本日FIREしました": {
-"author": "U.S. Federal Government",
+"author": "Dietmar Rabich",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Census-reading-hi.jpg",
-"file": "File:Census-reading-hi.jpg",
-"license": "Public domain",
+"descpage": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_St.-Jakobus-Kirche,_Chor_und_Altar_--_2022_--_4184-8.jpg",
+"file": "File:Dülmen, Kirchspiel, St.-Jakobus-Kirche, Chor und Altar -- 2022 -- 4184-8.jpg",
+"license": "CC BY-SA 4.0",
 "query": "books reading desk",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Census-reading-hi.jpg/1280px-Census-reading-hi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg/1280px-D%C3%BClmen%2C_Kirchspiel%2C_St.-Jakobus-Kirche%2C_Chor_und_Altar_--_2022_--_4184-8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-02_note記事_お中元_夏のごあいさつ": {
 "backend": "unknown",
@@ -1566,13 +1566,13 @@
 "tried": 3
 },
 "2026-08-04_note記事_夏の高校野球_テレビの前の夏": {
-"author": "Myotus",
+"author": "翁維德(Wei-Te Wong)",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Baseball_field_scoreboard-Bemidji_State_University.jpg",
-"file": "File:Baseball field scoreboard-Bemidji State University.jpg",
-"license": "CC BY 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Taoyuan_International_Baseball_Stadium_scoreboard_20140826_night.jpg",
+"file": "File:Taoyuan International Baseball Stadium scoreboard 20140826 night.jpg",
+"license": "CC BY-SA 2.0",
 "query": "baseball scoreboard",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Baseball_field_scoreboard-Bemidji_State_University.jpg/1280px-Baseball_field_scoreboard-Bemidji_State_University.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Taoyuan_International_Baseball_Stadium_scoreboard_20140826_night.jpg/1280px-Taoyuan_International_Baseball_Stadium_scoreboard_20140826_night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-04_note記事_扇風機_首を振る夏の音": "wikimedia",
 "2026-08-04_note記事_線香花火_夏を終わらせる小さな火": {
@@ -1675,13 +1675,13 @@
 "tried": 3
 },
 "2026-08-07_note記事_わらび餅_ひんやりぷるんの涼菓": {
-"author": "経済特区",
+"author": "m-louis .® from Osaka, Japan",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%A2%E3%83%8B%E3%83%BC%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0%E5%B1%8B%E3%81%95%E3%82%93%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A03%E3%83%88%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0(%E8%87%AA%E5%AE%B6%E8%A3%BD%E3%81%82%E3%82%93%E3%81%93%EF%BC%8C%E6%8A%B9%E8%8C%B6%E3%81%AE%E3%83%A0%E3%83%BC%E3%82%B9%EF%BC%8C%E6%8A%B9%E8%8C%B6%E3%82%8F%E3%82%89%E3%81%B3%E9%A4%85).jpg",
-"file": "File:アニーのアイスクリーム屋さんのアイスクリーム3トッピング(自家製あんこ，抹茶のムース，抹茶わらび餅).jpg",
-"license": "CC BY-SA 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%9C%AC%E6%B0%97%E3%81%AE%E3%82%8F%E3%82%89%E3%81%B3%E9%A4%85_(52730084576).jpg",
+"file": "File:本気のわらび餅 (52730084576).jpg",
+"license": "CC BY-SA 2.0",
 "query": "わらび餅",
-"src": "https://upload.wikimedia.org/wikipedia/commons/4/48/%E3%82%A2%E3%83%8B%E3%83%BC%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A0%E5%B1%8B%E3%81%95%E3%82%93%E3%81%AE%E3%82%A2%E3%82%A4%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%A03%E3%83%88%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0%28%E8%87%AA%E5%AE%B6%E8%A3%BD%E3%81%82%E3%82%93%E3%81%93%EF%BC%8C%E6%8A%B9%E8%8C%B6%E3%81%AE%E3%83%A0%E3%83%BC%E3%82%B9%EF%BC%8C%E6%8A%B9%E8%8C%B6%E3%82%8F%E3%82%89%E3%81%B3%E9%A4%85%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E6%9C%AC%E6%B0%97%E3%81%AE%E3%82%8F%E3%82%89%E3%81%B3%E9%A4%85_%2852730084576%29.jpg/1280px-%E6%9C%AC%E6%B0%97%E3%81%AE%E3%82%8F%E3%82%89%E3%81%B3%E9%A4%85_%2852730084576%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-07_note記事_ゴーヤチャンプルー_苦いのがいい": {
 "backend": "unknown",
@@ -1711,13 +1711,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/%E5%A4%9A%E6%91%A9%E5%B7%9D%E7%81%AF%E7%B1%A0%E6%B5%81%E3%81%97_%2813173648604%29.jpg/1280px-%E5%A4%9A%E6%91%A9%E5%B7%9D%E7%81%AF%E7%B1%A0%E6%B5%81%E3%81%97_%2813173648604%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-08_note記事_夏の昼寝_畳の上のうたた寝": {
-"author": "RachelH_",
+"author": "Emuchan",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Tatami_room_in_Dogo_Onsen_(22408557315).jpg",
-"file": "File:Tatami room in Dogo Onsen (22408557315).jpg",
-"license": "CC BY 2.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Inryoji_Temple_Tatami.jpg",
+"file": "File:Inryoji Temple Tatami.jpg",
+"license": "CC0",
 "query": "tatami room",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Tatami_room_in_Dogo_Onsen_%2822408557315%29.jpg/1280px-Tatami_room_in_Dogo_Onsen_%2822408557315%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Inryoji_Temple_Tatami.jpg/1280px-Inryoji_Temple_Tatami.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-08_note記事_夏の草むしり_抜いても抜いても": {
 "author": "See-ming Lee",
@@ -1766,13 +1766,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/%E3%81%86%E3%81%AA%E3%81%8E%E8%92%B2%E7%84%BC%E5%BC%81%E5%BD%93%EF%BC%88%E6%9D%B1%E8%8F%AF%E8%BB%92%EF%BC%8920250713-P1070343.jpg/1280px-%E3%81%86%E3%81%AA%E3%81%8E%E8%92%B2%E7%84%BC%E5%BC%81%E5%BD%93%EF%BC%88%E6%9D%B1%E8%8F%AF%E8%BB%92%EF%BC%8920250713-P1070343.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-09_note記事_日焼け_跡がくっきり残る夏": {
-"author": "Diego Delso",
+"author": "Kritzolina",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Playa_Para%C3%ADso,_Villajoyosa,_Espa%C3%B1a,_2014-07-03,_DD_01-02_PAN.JPG",
-"file": "File:Playa Paraíso, Villajoyosa, España, 2014-07-03, DD 01-02 PAN.JPG",
+"descpage": "https://commons.wikimedia.org/wiki/File:Folding_umbrella_01.jpg",
+"file": "File:Folding umbrella 01.jpg",
 "license": "CC BY-SA 4.0",
 "query": "parasol",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Playa_Para%C3%ADso%2C_Villajoyosa%2C_Espa%C3%B1a%2C_2014-07-03%2C_DD_01-02_PAN.JPG/1280px-Playa_Para%C3%ADso%2C_Villajoyosa%2C_Espa%C3%B1a%2C_2014-07-03%2C_DD_01-02_PAN.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Folding_umbrella_01.jpg/1280px-Folding_umbrella_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-09_note記事_麦わら帽子_かぶると夏になる": "wikimedia",
 "2026-08-10_note記事_うちわ_自分であおぐ風": {
@@ -1804,13 +1804,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/%E7%89%B9%E8%A3%BD%E7%84%BC%E3%81%8D%E3%81%9D%E3%81%B0%EF%BC%88%E3%81%93%E3%81%86%E3%82%84%E9%A3%9F%E5%A0%82%EF%BC%8920230503-P1025987.jpg/1280px-%E7%89%B9%E8%A3%BD%E7%84%BC%E3%81%8D%E3%81%9D%E3%81%B0%EF%BC%88%E3%81%93%E3%81%86%E3%82%84%E9%A3%9F%E5%A0%82%EF%BC%8920230503-P1025987.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-10_note記事_行水_たらいの水を浴びる": {
-"author": "thesandiegomuseumofartcollection",
+"author": "Britt Reints",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Okubo_Hikozaemon_in_a_washtub_visiting_the_castle_(5759535834).jpg",
-"file": "File:Okubo Hikozaemon in a washtub visiting the castle (5759535834).jpg",
-"license": "Public domain",
+"descpage": "https://commons.wikimedia.org/wiki/File:New_Orleans_2011-11-23_Washtub_Bass_player.jpg",
+"file": "File:New Orleans 2011-11-23 Washtub Bass player.jpg",
+"license": "CC BY 2.0",
 "query": "washtub",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Okubo_Hikozaemon_in_a_washtub_visiting_the_castle_%285759535834%29.jpg/1280px-Okubo_Hikozaemon_in_a_washtub_visiting_the_castle_%285759535834%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/New_Orleans_2011-11-23_Washtub_Bass_player.jpg/1280px-New_Orleans_2011-11-23_Washtub_Bass_player.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-11_note記事_おにぎり_塩をきかせて握る": {
 "author": "くろふね",
@@ -1872,11 +1872,11 @@
 "2026-08-12_note記事_盆踊り_やぐらを囲む輪": {
 "author": "ColdSleeper",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_(7580477186).jpg",
-"file": "File:春日部夏祭り (7580477186).jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_(7580477542).jpg",
+"file": "File:春日部夏祭り (7580477542).jpg",
 "license": "CC BY 2.0",
 "query": "夏祭り",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg/1280px-%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477542%29.jpg/1280px-%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477542%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-13_note記事_メジマグロ_夜明けの海から食卓まで": "owner",
 "2026-08-13_note記事_メロン_スプーンですくう贅沢": "wikimedia",
@@ -1902,13 +1902,13 @@
 },
 "2026-08-14_note記事_ひまわり_太陽を追う夏の花": "wikimedia",
 "2026-08-14_note記事_富山弁_きのどくながありがとう": {
-"author": "kiwa dokokano",
+"author": "SONIC BLOOMING",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Marunouchi,_Toyama,_Toyama_Prefecture_930-0085,_Japan_-_panoramio.jpg",
-"file": "File:Marunouchi, Toyama, Toyama Prefecture 930-0085, Japan - panoramio.jpg",
-"license": "CC BY-SA 3.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Toyama_Kitokito_Airport.jpg",
+"file": "File:Toyama Kitokito Airport.jpg",
+"license": "CC BY-SA 4.0",
 "query": "富山県",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg/1280px-Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Toyama_Kitokito_Airport.jpg/1280px-Toyama_Kitokito_Airport.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-14_note記事_岩牡蠣_夏の富山湾の贈りもの": {
 "backend": "unknown",
@@ -1956,13 +1956,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/%E9%A2%A8%E5%9C%9F%E8%A8%98%E3%81%AE%E4%B8%98%E3%81%AE%E5%8F%A4%E3%81%84%E5%AE%B6%EF%BD%A4%E7%B8%81%E5%81%B4_-_panoramio.jpg/1280px-%E9%A2%A8%E5%9C%9F%E8%A8%98%E3%81%AE%E4%B8%98%E3%81%AE%E5%8F%A4%E3%81%84%E5%AE%B6%EF%BD%A4%E7%B8%81%E5%81%B4_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-15_note記事_富山弁_いじくらしい": {
-"author": "kiwa dokokano",
+"author": "RESPITE",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Marunouchi,_Toyama,_Toyama_Prefecture_930-0085,_Japan_-_panoramio.jpg",
-"file": "File:Marunouchi, Toyama, Toyama Prefecture 930-0085, Japan - panoramio.jpg",
-"license": "CC BY-SA 3.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Toyama_Airport.jpg",
+"file": "File:Toyama Airport.jpg",
+"license": "Public domain",
 "query": "富山県",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg/1280px-Marunouchi%2C_Toyama%2C_Toyama_Prefecture_930-0085%2C_Japan_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Toyama_Airport.jpg/1280px-Toyama_Airport.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-15_note記事_花火の帰り_遠くの音を背に": {
 "backend": "unknown",
@@ -2086,13 +2086,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/JRW_Himi-line_Kiha47-1015.jpg/1280px-JRW_Himi-line_Kiha47-1015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-25_note記事_富山の8月_仕事と帰省と祭りのサイクル": {
-"author": "ColdSleeper",
+"author": "nakashi from Chofu, Tokyo, JAPAN",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_(7580477186).jpg",
-"file": "File:春日部夏祭り (7580477186).jpg",
-"license": "CC BY 2.0",
-"query": "夏祭り",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg/1280px-%E6%98%A5%E6%97%A5%E9%83%A8%E5%A4%8F%E7%A5%AD%E3%82%8A_%287580477186%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:Kuramyami_Matsuri_vendors_%E3%81%8F%E3%82%89%E3%82%84%E3%81%BF%E7%A5%AD%E3%82%8A_%E5%B1%8B%E5%8F%B0_%E5%BA%9C%E4%B8%AD_(33905466678).jpg",
+"file": "File:Kuramyami Matsuri vendors くらやみ祭り 屋台 府中 (33905466678).jpg",
+"license": "CC BY-SA 2.0",
+"query": "屋台 祭り",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Kuramyami_Matsuri_vendors_%E3%81%8F%E3%82%89%E3%82%84%E3%81%BF%E7%A5%AD%E3%82%8A_%E5%B1%8B%E5%8F%B0_%E5%BA%9C%E4%B8%AD_%2833905466678%29.jpg/1280px-Kuramyami_Matsuri_vendors_%E3%81%8F%E3%82%89%E3%82%84%E3%81%BF%E7%A5%AD%E3%82%8A_%E5%B1%8B%E5%8F%B0_%E5%BA%9C%E4%B8%AD_%2833905466678%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-08-25_note記事_富山の夏_標高で涼しさが変わる理由": {
 "author": "くろふね",
@@ -2215,13 +2215,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg/1280px-%E4%B8%89%E9%87%8D%E3%81%AE%E7%8D%85%E5%AD%90%E8%88%9E%E3%81%A7%E4%BD%BF%E3%81%86%E3%80%8C%E7%8D%85%E5%AD%90%E9%A0%AD%E3%80%8D%E3%81%A7%E3%81%99%E3%80%82.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方": {
-"author": "メルビル",
+"author": "harum.koh from Kobe city, Japan",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Castanea_crenata_-_Japanese_Chestnut_floor.jpg",
-"file": "File:Castanea crenata - Japanese Chestnut floor.jpg",
-"license": "CC BY-SA 3.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:Japanese_Chestnut_(Castanea_crenata)_(22100055151).jpg",
+"file": "File:Japanese Chestnut (Castanea crenata) (22100055151).jpg",
+"license": "CC BY-SA 2.0",
 "query": "chestnut japanese",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Castanea_crenata_-_Japanese_Chestnut_floor.jpg/1280px-Castanea_crenata_-_Japanese_Chestnut_floor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Japanese_Chestnut_%28Castanea_crenata%29_%2822100055151%29.jpg/1280px-Japanese_Chestnut_%28Castanea_crenata%29_%2822100055151%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-09-08_note記事_虫の声_日本語では鳴き声を声と呼ぶ": {
 "backend": "unknown",
@@ -3188,13 +3188,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/%E5%A4%A7%E5%AD%97%E7%94%B0%E5%90%89%EF%BC%99%EF%BC%94%EF%BC%97%E7%95%AA%E5%9C%B0%E4%BB%98%E8%BF%91%E3%81%AE%E3%82%AB%E3%83%BC%E3%83%96%E3%83%9F%E3%83%A9%E3%83%BC_-_panoramio.jpg/1280px-%E5%A4%A7%E5%AD%97%E7%94%B0%E5%90%89%EF%BC%99%EF%BC%94%EF%BC%97%E7%95%AA%E5%9C%B0%E4%BB%98%E8%BF%91%E3%81%AE%E3%82%AB%E3%83%BC%E3%83%96%E3%83%9F%E3%83%A9%E3%83%BC_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-27_note記事_大学芋_なぜ大学なのかは誰も説明しない": {
-"author": "Kyu3",
+"author": "gundam2345",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E4%BA%95%E6%9D%91%E5%B1%8B%E3%82%84%E3%82%8F%E3%82%82%E3%81%A1%E3%82%A2%E3%82%A4%E3%82%B9%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82%E5%91%B3.jpg",
-"file": "File:井村屋やわもちアイス大学いも味.jpg",
-"license": "CC BY-SA 4.0",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%84%E3%82%82%E5%B0%82%E7%A7%91_%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82_%E3%81%AA%E3%81%8B%E3%81%AE_%E3%83%8A%E3%82%AB%E3%83%8E%E9%A3%9F%E5%93%81_%E8%8A%8B%E3%81%A1%E3%82%85%E3%81%86_(%E6%84%9B%E7%9F%A5%E7%9C%8C%E7%9F%A5%E5%A4%9A%E9%83%A1%E6%AD%A6%E8%B1%8A%E7%94%BA)_-_panoramio.jpg",
+"file": "File:いも専科 大学いも なかの ナカノ食品 芋ちゅう (愛知県知多郡武豊町) - panoramio.jpg",
+"license": "CC BY 3.0",
 "query": "大学芋",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/%E4%BA%95%E6%9D%91%E5%B1%8B%E3%82%84%E3%82%8F%E3%82%82%E3%81%A1%E3%82%A2%E3%82%A4%E3%82%B9%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82%E5%91%B3.jpg/1280px-%E4%BA%95%E6%9D%91%E5%B1%8B%E3%82%84%E3%82%8F%E3%82%82%E3%81%A1%E3%82%A2%E3%82%A4%E3%82%B9%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82%E5%91%B3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E3%81%84%E3%82%82%E5%B0%82%E7%A7%91_%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82_%E3%81%AA%E3%81%8B%E3%81%AE_%E3%83%8A%E3%82%AB%E3%83%8E%E9%A3%9F%E5%93%81_%E8%8A%8B%E3%81%A1%E3%82%85%E3%81%86_%28%E6%84%9B%E7%9F%A5%E7%9C%8C%E7%9F%A5%E5%A4%9A%E9%83%A1%E6%AD%A6%E8%B1%8A%E7%94%BA%29_-_panoramio.jpg/1280px-%E3%81%84%E3%82%82%E5%B0%82%E7%A7%91_%E5%A4%A7%E5%AD%A6%E3%81%84%E3%82%82_%E3%81%AA%E3%81%8B%E3%81%AE_%E3%83%8A%E3%82%AB%E3%83%8E%E9%A3%9F%E5%93%81_%E8%8A%8B%E3%81%A1%E3%82%85%E3%81%86_%28%E6%84%9B%E7%9F%A5%E7%9C%8C%E7%9F%A5%E5%A4%9A%E9%83%A1%E6%AD%A6%E8%B1%8A%E7%94%BA%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-10-27_note記事_宇都宮の餃子_完成は買った人の台所でやる": {
 "author": "Jun OHWADA",
