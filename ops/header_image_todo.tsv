@@ -137,3 +137,15 @@ DONE	ne5465bde9682	CDO/outputs/note_publisher/thumbnails/2026-08-09_note記事_�
 # ★2026-09-29 オーナー撮影の実写に差し替え（本物の富山ブラック）
 DONE	na889c3862499	CDO/outputs/note_publisher/thumbnails/2026-06-01_note記事_富山ブラックラーメン_労働者の塩分補給.jpg
 DONE	nb46f8fab7600	CDO/outputs/note_publisher/thumbnails/2026-08-10_note記事_焼きそば_休日のソースの匂い.jpg
+# ★2026-11-15: ops/r35_triage.md の「要目視13本」を1枚ずつ見て、採用できた4本。
+#   いずれも公開済みで見出し画像が無い記事。fix_header_images.sh で後から設定できる。
+#   ⚠️★★**4本とも CC BY / CC BY-SA ＝表示義務がある。**
+#   `fix_header_images.sh` は**画像を貼るだけでクレジット行を本文に入れない**ので、
+#   **同じ回に `ops/update_article.sh <NID> <md> --go` も走らせること**
+#   （4本とも ops/credit_update_todo.tsv に積んである）。
+#   片方だけ動かすと、表示なしで CC 画像を掲げた状態になる
+#   （2026-11-14 の墓参りで一度やりかけた型＝画像と表示は同時に入れ替える）。
+nc188ca19aafa	CDO/outputs/note_publisher/thumbnails/2026-07-27_note記事_庭の畑と採れたてレシピ.jpg
+n94125f32d208	CDO/outputs/note_publisher/thumbnails/2026-07-29_note記事_車は第二の部屋_地方の車内の暮らし.jpg
+nc7298065295f	CDO/outputs/note_publisher/thumbnails/2026-08-07_note記事_夏の夕焼け_海に沈む一日の終わり.jpg
+nac019b6530b9	CDO/outputs/note_publisher/thumbnails/2026-08-12_note記事_浴衣_年に一度の晴れ着.jpg
