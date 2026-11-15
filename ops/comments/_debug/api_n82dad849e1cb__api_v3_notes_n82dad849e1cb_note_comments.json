@@ -1,0 +1,47 @@
+{
+ "data": [
+  {
+   "key": "nc14ec259b07eb",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "富山にお住まいなのですね。うらやましい。私のペンネームも富山からいただきました。親戚が富山にあるので。。　フォローありがとうございます。フォローバックさせていただきました。どうぞ末永くよろしくお願いします"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 0,
+   "is_edited": false,
+   "created_at": "2026-11-15T16:27:33.094+09:00",
+   "updated_at": "2026-11-15T16:27:33.094+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": false,
+   "user": {
+    "key": "a87421d7ae9a20b9ecfc60f317eedf48",
+    "urlname": "luluchiru",
+    "nickname": "立山　剣",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/141178574/profile_be7375919432f6b63a9082dad4f06e51.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": "スキありがとう。また見てくださいね",
+   "comment_like_appeal_image": "https://assets.st-note.com/production/uploads/images/144843831/fc73ceb70ab6538c100bd37ee6ac9484.png?fit=bounds&format=jpeg&height=500&quality=85&width=500",
+   "is_root": true,
+   "note_key": "n82dad849e1cb",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": null
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

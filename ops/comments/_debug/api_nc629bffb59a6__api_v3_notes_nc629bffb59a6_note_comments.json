@@ -1,0 +1,91 @@
+{
+ "data": [
+  {
+   "key": "nce7d7ef395393",
+   "comment": {
+    "type": "root",
+    "children": [
+     {
+      "type": "element",
+      "children": [
+       {
+        "type": "text",
+        "value": "粕汁の記事、楽しく読ませていただきました😊 酒を搾ったあとの残りが冬の食事になるというお話、粕という字がそのまま残っているのも面白いですね。硬い粕を伸ばしてから鍋に戻すひと手間や、翌日のほうが味が濃くなるという話も温かみがあって素敵でした🍲 甘酒と材料が近いのに逆を向いているというのもなるほどと思いました✨"
+       }
+      ],
+      "tag_name": "p"
+     }
+    ]
+   },
+   "like_count": 0,
+   "reply_count": 1,
+   "is_edited": false,
+   "created_at": "2026-11-15T09:31:34.586+09:00",
+   "updated_at": "2026-11-15T09:31:34.586+09:00",
+   "is_liked": false,
+   "is_creator_liked": false,
+   "is_creator_replied": true,
+   "user": {
+    "key": "595ecb289f8643bc2fdc9f14d6461902",
+    "urlname": "kota2ww",
+    "nickname": "食べ歩きの買い物帖",
+    "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+   },
+   "to_user": null,
+   "comment_like_appeal_text": null,
+   "comment_like_appeal_image": null,
+   "is_root": true,
+   "note_key": "nc629bffb59a6",
+   "is_blocked": false,
+   "is_replied_to_root": false,
+   "latest_creator_reply": {
+    "key": "nc04ccef68abed",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "こちらの粕汁も読んでいただき、ありがとうございます。粕を汁で先に伸ばしてから鍋に戻すところは、飛ばすと白い塊が最後まで残るので、書きながらいちばん「ひと手間」を感じた部分でした。甘酒と並べたところまで拾ってもらえて、うれしいです。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 0,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-11-15T13:21:32.785+09:00",
+    "updated_at": "2026-11-15T13:21:32.785+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "595ecb289f8643bc2fdc9f14d6461902",
+     "urlname": "kota2ww",
+     "nickname": "食べ歩きの買い物帖",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/334262456/profile_5f2d7b1588203874f4d4ddc5650f4f74.png?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "nc629bffb59a6",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
+  }
+ ],
+ "current_page": 1,
+ "next_page": null,
+ "total_count": 1
+}

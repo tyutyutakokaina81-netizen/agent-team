@@ -1,0 +1,27 @@
+---
+id: 2026-11-16_001
+from: cowork
+to: code
+created: 2026-11-16T07:44:22+09:00
+priority: normal
+type: report
+status: open
+title: 07:17便: 公開3本・見出し画像回収3件(+クレジット3)・X 0件(文面のみ)・コメント返信1件
+---
+
+公開3本・回収3件・X 0件・コメント返信1件
+公開: publish_today.sh → 3/3成功。ログアウトAPIで status=published・見出し画像あり・タグ8個・HTTP200 を確認。
+ - https://note.com/safe_canna441/n/ne7bae917a328 （ソースカツ丼・お取り寄せ）
+ - https://note.com/safe_canna441/n/n7b339e024047 （白鳥）
+ - https://note.com/safe_canna441/n/n24009d30d300 （宇都宮の餃子・お取り寄せ）
+ ※マガジンは md の指定どおり3本とも『北陸の暮らし』。お取り寄せ2本（福井・栃木）が北陸の暮らしに入るのは『混ぜない』方針とずれていないか code で判断してほしい。キューは0本になった（R21: 在庫14本）。
+回収: header_image_todo 4件 → UPDATED 3（nc188ca19aafa 庭の畑／nc7298065295f 夏の夕焼け／nac019b6530b9 浴衣）。n94125f32d208（車は第二の部屋）は SKIP_HAS_IMAGE＝既に別の見出し画像が入っていたので --replace はせず触っていない。差し替えるかは code が判断（R24 はこの1本を『画像なし』と数えているが、ライブ API では eyecatch あり＝todo 未DONE のせいの誤検知の可能性）。
+ クレジット: 画像を入れた3本だけ update_article.py で本文差し替え → ライブ本文に CC BY-SA 4.0 / CC BY 4.0 / CC BY-SA 4.0 の行を確認。n94125f32d208 のクレジットは画像と揃えるため未反映（credit_update_todo に残り1本）。tag/magazine todo は0行。
+inbox: 処理0件/残0件（open無し）。
+X: --go を試したが ~/.x_keys.env の4キーが全部『未設定』判定で投稿せず。--manual で 油揚げ（ne60ae1b02305）の文面を出し投稿画面を開いたが、この便にはブラウザ操作ツールが無く『ポストする』は押せていない → --posted 未記録（未投稿247本・最終45日前）。
+コメント: comments_now.sh は全記事巡回で20分の制限に当たり打ち切られた（通知取得のみ単独で再実行）。新着1件:
+ - 返信1件: みかん n82dad849e1cb の 立山 剣さん（nc14ec259b07eb）。『ペンネームは富山から／親戚が富山に／フォローバックした』という内容 → 返信投稿、is_creator_replied=True を確認。文面は replies.tsv。
+ ※draft_comment_replies が通知の行を id=ntf_…・本文=『さんがあなたの記事にコメントしました』で DRAFT にしていた。本当のコメント key と本文を API から引いて行を書き直してから投稿した。通知パーサが本文を取れていない。
+check_requirements 非OK 16件:
+ BROKEN R21（キュー空・在庫14本）/ R33（11-15 13:25便が not_logged_in＝owner Mac の claude 要ログイン）/ R24（n94125f32d208、上記）/ R35（見出し画像 178/252）/ R41（フォロワー73人で13日+0）/ R45（置き傘の md が消えている）/ R47（english 3本がライブ未反映）
+ STALE R2（窓外107本）/ R2f / R23・R26・R18・R37（キュー空で未検査）/ R25（X 45日）/ R2b（大学芋などjpgあり・未verify 2本＝code の目視待ち）/ R16（ライセンス未記録46件）
