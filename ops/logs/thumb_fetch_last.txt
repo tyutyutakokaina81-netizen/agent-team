@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-15T04:19:20Z UTC / 成功: 2 / 失敗: 78
+# 最終実行: 2026-11-15T04:24:22Z UTC / 成功: 2 / 失敗: 77
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -106,4 +106,3 @@
   ✗ 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる  (tried ['富山 獅子舞', '百足獅子', '越中 獅子舞', '獅子舞 富山県']): RuntimeError — 候補なし（query='獅子舞 富山県'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
-  ✗ 2026-10-26_note記事_白鳥_刈ったあとの田に白いものが降りている  (tried ['コハクチョウ', 'オオハクチョウ', 'ハクチョウ 群れ', '白鳥 田']): RuntimeError — 候補なし（query='白鳥 田'） diag={'pages': 12, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 12}, 'jp_first': 0}
