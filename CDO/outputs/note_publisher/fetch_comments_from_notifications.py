@@ -46,7 +46,14 @@ URLS = [
 
 # 通知欄には「スキ」「フォロー」「コメント」が混ざる。コメントだけを採る。
 COMMENT_WORDS = ("コメント", "返信")
-SKIP_WORDS = ("スキしました", "フォローしました", "マガジンに追加")
+# ★2026-11-17 追加（cowork 2026-11-16_001 の指摘）:
+#   **「あなたのコメントに返信しました」まで拾って READY にしていた。**
+#   これは *よその記事に自分が書いたコメント* への返信で、ここに返すと**追撃**になる。
+#   実例＝nc679094c3fbce（ホルモンうどん・こちらの返信への返信）/ ncb62e16827ce8（n9a90b3cfd766）。
+#   cowork が毎回 SKIP で止めていたが、**止めるのは道具の側の仕事**なので語で落とす。
+#   ⚠️**「あなたの記事にコメントしました」は残す**（これが返すべき相手）。
+SKIP_WORDS = ("スキしました", "フォローしました", "マガジンに追加",
+              "あなたのコメントに返信", "あなたの返信に返信")
 
 
 def detect_lang(text: str) -> str:
@@ -116,6 +123,18 @@ _ROWS_JS = r"""() => {
 }"""
 
 
+_DESC_ONLY = re.compile(
+    r"^(さん)?が?(あなたの(記事|コメント|返信|note)に)?(コメント|返信)(を)?(しました)?[。．.:：]?$")
+
+
+def _is_description_only(body: str) -> bool:
+    """通知の説明文しか残っていないか（＝コメント本文が取れていない）。"""
+    b = (body or "").strip()
+    if not b:
+        return True
+    return bool(_DESC_ONLY.match(b))
+
+
 def parse_row(text: str):
     """通知1行から (相手, コメント本文) を取る。取れなければ (None, None)。
 
@@ -129,7 +148,17 @@ def parse_row(text: str):
     body = " ".join(lines[1:]).strip()
     # 「〜さんがコメントしました」のような説明行を落とす
     body = re.sub(r"^(さん)?が?(コメント|返信)(を)?(しました|를)?[：:]?\s*", "", body)
-    return author, (body or text.strip())
+
+    # ★2026-11-17 追加（cowork 2026-11-16_001 の指摘）:
+    #   通知の行に**本文が入っていないことがある**。そのとき従来は `body or text.strip()` で
+    #   **行全体（「さんがあなたの記事にコメントしました」）を本文として DRAFT にしていた。**
+    #   その文面のまま返信しかけたので、cowork が API から本当のコメントを引き直して直していた。
+    #   → **説明文しか残らなかったら本文なしとして返す**（捨てる側に倒す）。
+    #     取りこぼしても、記事側の巡回（fetch_note_comments.py）が拾える。
+    #     偽の本文で返信するほうが取り返しがつかない。
+    if _is_description_only(body):
+        return author, None
+    return author, (body or None)
 
 
 def _rows_from_api(page, pages: int = 3):

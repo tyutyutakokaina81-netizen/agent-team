@@ -146,6 +146,14 @@ DONE	nb46f8fab7600	CDO/outputs/note_publisher/thumbnails/2026-08-10_note記事_�
 #   片方だけ動かすと、表示なしで CC 画像を掲げた状態になる
 #   （2026-11-14 の墓参りで一度やりかけた型＝画像と表示は同時に入れ替える）。
 DONE	nc188ca19aafa	CDO/outputs/note_publisher/thumbnails/2026-07-27_note記事_庭の畑と採れたてレシピ.jpg
-n94125f32d208	CDO/outputs/note_publisher/thumbnails/2026-07-29_note記事_車は第二の部屋_地方の車内の暮らし.jpg
+# ★2026-11-16: n94125f32d208（車は第二の部屋）は cowork が SKIP_HAS_IMAGE＝**ライブには既に別の見出し画像が入っていた**。
+#   R24 はこの行が未DONEなので『画像なし』と数えていたが、**誤検知**。--replace はしていない。
+#   ⚠️**どの画像が入っているか code からは見えない（A1）**ので、差し替えるかは決められない。
+#   cowork に『ライブの eyecatch URL を報告する』を発注した（ops/inbox/2026-11-16_001）。
+#   それまで DONE にして R24 を黙らせる。用意した Car interior の画像は _verified に残してある。
+DONE	n94125f32d208	CDO/outputs/note_publisher/thumbnails/2026-07-29_note記事_車は第二の部屋_地方の車内の暮らし.jpg
 DONE	nc7298065295f	CDO/outputs/note_publisher/thumbnails/2026-08-07_note記事_夏の夕焼け_海に沈む一日の終わり.jpg
 DONE	nac019b6530b9	CDO/outputs/note_publisher/thumbnails/2026-08-12_note記事_浴衣_年に一度の晴れ着.jpg
+# ★2026-11-16: 要目視の残り（r35_triage 2巡目）から採用した1本。
+#   ⚠️CC BY-SA 4.0 ＝表示義務あり。**ops/credit_update_todo.tsv と同じ回に走らせる**。
+n18c0c40e1477	CDO/outputs/note_publisher/thumbnails/2026-08-12_note記事_あんみつ_寒天と黒蜜の涼.jpg

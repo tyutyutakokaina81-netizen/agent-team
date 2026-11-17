@@ -342,3 +342,26 @@ d17b3e5e9bbcdf05e539116534f485b6	**ニューオーリンズのウォッシュタ
 4d382a790c1d634edd747a9d14db8f4f	**富山空港**の写真。同上＝言葉の記事に空港の写真は根拠が無い（2026-11-15）		file:File:Toyama Airport.jpg
 825695ab25f3d39ff3bb09902b40562b	**くらやみ祭り（東京・府中）**の屋台＝他県。記事に出てこない地名なので R30 でも落ちる（2026-11-15）		file:File:Kuramyami Matsuri vendors くらやみ祭り 屋台 府中 (33905466678).jpg
 004af419dd39806eb7bc0213ba462524	**栗の木の幹**。栗の実も栗ご飯も写っていない。前回は栗の花で、**2回続けて木に当たった**＝クエリ 'chestnut japanese' が植物の文脈を引く。REJECTED_FILES に 'castanea crenata' を substring で足した（2026-11-15）		file:File:Japanese Chestnut (Castanea crenata) (22100055151).jpg
+8f2853198ef118dc76cd7a47d51304dc	ファイル名が人名（アンドレ・デビュース）＝**人物の写真**で題材と無関係（却下型①）（2026-11-16）		file:File:アンドレ・デビュース.jpg
+28fad0cee6e91a33a34fa92bb6a7d555	**オランダのチューリップ畑**（Tulip field in Holland）＝他国。記事は砺波の話（2026-11-16）		file:File:Tulip field in Holland.jpg
+b11089c9f8a5362698dbcd06011f88e7	**ファーマーズマーケットの売り場**（FarmersMarketProduce）＝家庭菜園ではなく店。しかも他国の見込み（2026-11-16）		file:File:FarmersMarketProduce.jpg
+b024b07c104fe60e7df3218b9cb5ac51	**富山きときと空港のターミナル**。言葉の記事に空港の建物は根拠が無い（前2回と同じ外れ方＝この題材は構造的に難しい）（2026-11-16）		file:File:Toyama kitokito airport terminal building.jpg
+2540739416c9a1b9b55478771b576376	**銀閣寺（京都）**＝他県の特定寺院（却下型③）。梵鐘も写っていない。1巡目の金閣寺に続いて2回連続＝クエリ 'japanese temple' が京都の有名寺院を引く（2026-11-16）		file:File:Sunlight through clouds and view of Ginkaku-ji Temple from above, Kyoto, Japan.jpg
+f00288e81dcfaacd9646d23df83afd44	**アルゼンチンのきゅうりサラダ**＝他国。1巡目のディルのサラダに続いて2回連続＝クエリ 'cucumber fresh vegetable food' が英語で他国を引く（2026-11-16）		file:File:Argentine cucumber salad with balsamic vinegar.jpg
+53db9676e61520f893d6cb2ea10b624c	**英国の教会の書見台**（Holy Trinity Church, Eccleshall）＝他国・題材と無関係。1巡目のドイツの祭壇に続いて2回連続＝クエリ 'books reading desk' が教会を引く（2026-11-16）		file:File:Lectern at Holy Trinity Church, Eccleshall.jpg
+e806932ac3d5b26023bbdfb12a999b96	**音楽MVのサムネイル画像**（いるはーと『milk crown』MV）＝実写ではなく宣材。却下型⑦（加工・合成）（2026-11-16）		file:File:いるはーと『milk crown』MV（サムネイル）.jpg
+761a6156376d84f0bdffeeeaabc785ec	**軍手の回収箱**（手すり用軍手 いらない軍手入れて下さい）＝草むしりではない。1巡目の洗濯物に続いて2回連続＝「軍手」では草むしりに行き着かない（2026-11-16）		file:File:手すり用軍手 いらない軍手入れて下さい (33937294011).jpg
+5f0148e2c09229e2761846bd696ead1e	**サモア・アピアの風景**（The Scenes In And Around Apia）＝他国（2026-11-16）		file:File:The Scenes In And Around Apia = アピアの風景 (36724276225).jpg
+d29be77d768cd127f153d80b79ed85fb	**富山県総合体育センター**の建物。言葉の記事に体育館は根拠が無い（この題材は構造的に難しい）（2026-11-16）		file:File:Toyama Prefectural General Sports Center.jpg
+70a9f6cd16ef48c6b51336050824d597	**富山県繊維試験場の模型工場**。言葉の記事に工場は根拠が無い（この題材は構造的に難しい）（2026-11-16）		file:File:The model factory of Toyama prefecture textile.jpg
+646daab0ded2bd0f4a07713737ea4c95	**生そうめんの束**＝記事は竹の樋を流れる話。★**「そば記事に乾麺の束」として却下基準に明記されている型そのもの**（2026-11-16）		file:File:生そうめん.jpg
+22ef638a3d495406b3739c754ec4f859	**くらやみ祭り（東京・府中）の別カット**＝他県。1枚落としたら同じ連作の別番号が来たので REJECTED_FILES に「くらやみ祭り」を substring で足した（2026-11-16）		file:File:Kuramyami Matsuri vendors くらやみ祭り 屋台 府中 (32839270627).jpg
+76fe2c228033d53f9d445144db8408f4	**台湾の道路反射鏡**（菁山路101巷）＝他国＋ファイル名に住所。語を2番目の『道路反射鏡』に進めたら他国へ出た（2026-11-16）		file:File:202506 台灣安全方向導引標誌「輔2 」與道路反射鏡，位於菁山路101巷彎道.jpg
+1c3fdf20ad61506852133d6318d5a4bc	**おでん**（Japanese-Oden-Dish）＝別物。しかも**おでんは既出記事の題材**。クエリ『揚げ さつまいも』が別の煮物に流れた（2026-11-16）		file:File:Japanese-Oden-Dish-2023-11-01.jpg
+6eb0ec879dc87350dc80eae820d60ae5	★**この題材は人そのものが被写体**なので、語を変えても却下型①から逃げられない。2巡とも人の写真だった。→ 構造的に難しい側へ分類し、写真待ちか無サムネで置く（2026-11-16）		file:File:ラジオ体操 2011-08 (6030579202).jpg
+e2bab10b2cb3d7adfee1fa44fd3b74d8	**大阪城公園のラジオ体操**＝他県の特定施設（却下型③）＋人物。上と同じ理由で構造的に難しい側へ（2026-11-16）		file:File:Radio calisthenics at Osaka Castle in 2013.jpg
+50e9a41158020a48be865699052d8a6a	**特定の学校名が大書された横断幕**（横浜高等学校／慶應義塾高等学校・南神奈川／北神奈川代表）＋**商業施設名（The DIAMOND 横浜駅西口地下街）**が読める＝却下型②③。野球そのものは写っていない。日本の高校野球には当たったので語は合っているが、**この題材は幕・ユニフォーム・観客のどれかが必ず写る**＝構造的に難しい側（2026-11-16）		file:File:高校野球 (2755545217).jpg
+eab5f031f58fc58842fe1dfbe331d3f2	茶屋の軒先の赤提灯と幟で、**店名「忠僕茶屋」が読める**（却下型②）。**わらび餅そのものは写っていない**うえ、背景が**紅葉**＝記事は夏の涼菓。1巡目の商店街に続いて2回連続で「のぼりに文字があるだけ」の写真（2026-11-16）		file:File:特製ひやしあめ 忠僕茶屋わらび餅 (4605689844).jpg
+e462e58a3610ee74a5a1e2ab11b81bd4	**熊本のアーケードの時計**（案内板に「市役所・熊本城」）＝他県。さらに**日付の焼き込み（SEP 1 2011 17:03）**と**時計のブランド名**が読める。行水とは無関係。クエリ『たらい 水』が土地も題材も外した（2026-11-16）		file:File:午後5時過ぎ (6105695522).jpg
+162d782a8013a9ffeff8d4cf27921e47	**戦前の印刷物のモノクロ写真**（キャプション「漁港内フィッシュミュル工場」・右横書き）。A3「写真風で統一」に反するうえ、**干物も朝食も写っていない**（工場の外観）。※`_is_color_photo` のモノクロ除外を**紙の変色ですり抜けた**可能性（2026-11-16）		file:File:Himi Fishing Port(6).jpg
+c3280e4b3ef4fd440e528b53aecbed7a	**カップ焼きそばの商品パッケージ**（ペヤング超超超大盛やきそばGIGAMAX GREATBOSS もつ煮入り）＝銘柄が読める（却下型②）うえに**別物**。甲府鳥もつ煮は写っていない。★大学芋（井村屋のアイス「大学いも味」）と同じ型＝**料理名が商品名・フレーバー名に取られる**。UNUSABLE_NAME_HINTS に商品パッケージの語が入っているのに素通りした（2026-11-17）		file:File:ペヤング超超超大盛やきそばGIGAMAX GREATBOSSもつ煮入り1374 02.jpg
