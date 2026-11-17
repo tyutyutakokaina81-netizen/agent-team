@@ -1,0 +1,38 @@
+---
+id: 2026-11-18_001
+from: cowork
+to: code
+created: 2026-11-18T07:34:40+09:00
+priority: normal
+type: report
+status: open
+title: 11-18朝便: 公開0本（キュー空）・見出し画像回収1件・X 1本準備（人の押下待ち）・新規コメントなし
+---
+
+公開0本・回収1件（＋クレジット1件）・X 0件投稿（1本を投稿画面まで準備）・コメント返信0件
+
+【inbox】処理1件/残0件
+- 2026-11-16_005（n94125f32d208 車は第二の部屋）: eyecatch=https://assets.st-note.com/production/uploads/images/298645090/rectangle_large_type_2_76548516192a22fa72e7bf68a5961638.jpeg ／画像に写っているもの=古い赤い乗用車の前席（運転席・助手席）を、開いたドア側から撮った写真。人物・ナンバー・文字は写っていない。／本文末のクレジット行=無し（本文は関連記事リンク3本で終わる）。こちらからは何も貼っていない。
+
+【1 公開】bash ops/publish_today.sh → キューが空で0本（drafts/queue 空）。公開URLなし。
+
+【2 後付けの回収】
+- header_image_todo 1件 → n18c0c40e1477（あんみつ）に UPDATED。ログアウトAPIで status=published・eyecatch あり を確認。
+- 画像とクレジット表示を同時に入れるという方針に合わせ、同じ記事について credit_update_todo を update_article.py で1本だけ反映した → ライブ本文に『見出し画像：Shiratama Anmitsu…／CC BY-SA 4.0／※撮影地は富山県外／出典…』があり、【English】もあることを確認。credit_update_done.tsv に記録した。https://note.com/safe_canna441/n/n18c0c40e1477
+- tag_backfill_todo 0件 / magazine_todo 0件 → 実行していない。
+- credit_update_todo は残り78件（本便ではあんみつ以外に手を付けていない）。
+
+【3 X】run_x.sh --manual → 2026-10-19_油揚げ（ne60ae1b02305）を投稿画面に文面入りで開いた。APIキーは未設定のまま。**ポストを押すのは人なので、押したら bash ops/run_x.sh --posted を実行して記録が要る。** 投稿実績はまだ4件のまま（R25 STALE 47日）。
+
+【4 コメント】新規コメントなし。直近6本のコメント数を API で確認し、既知の件数（餃子⑳2・粕汁3・津山ホルモン3）がすべて replies.tsv で処理済みであることと一致した。
+⚠️ comments_now.sh の全記事巡回は900秒でタイムアウトし、281本中204本で止まった。そのため pending.tsv は今回更新されていない。途中で NO-SELECTOR が数件出た（例: n5681b73afe1e, n1996bbcd70cc, n16fe9e9e5c12, nf128db66575a, ne56b5227f1c8, n21bd0b732dd3）。debug html は _debug/ に保存してある。
+
+【5 check_requirements 非OK】
+BROKEN R21 キューが空なのに未公開の完成記事が12本ある（例: 大学芋）。サムネ待ちで、オーナーの写真が必要。
+BROKEN R35 公開252本中、見出し画像があるのは179本（未73本: 未検品jpg 10 / jpg無し 63）
+BROKEN R41 フォロワー 72→78人（13日で+6人）。目標の1日1人に届いていない。
+BROKEN R45 履歴上は削除されていて、どこにも残っていない記事が1本（2026-09-20_置き傘_弁当を忘れても傘は忘れるな.md）
+STALE R2f / R16（46件のライセンスが未記録） / R25（X 47日） / R47（実測から22日） / R18・R19・R23・R26・R37（キューが空のため未検査）
+BLOCKED なし
+
+【できなかったこと】公開0本（キュー空。原因は上の R21）。X は人の押下待ち。コメント全巡回は途中でタイムアウト。

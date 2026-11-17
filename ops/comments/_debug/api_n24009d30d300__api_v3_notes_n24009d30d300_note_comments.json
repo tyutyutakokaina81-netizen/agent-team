@@ -18,13 +18,13 @@
     ]
    },
    "like_count": 0,
-   "reply_count": 0,
+   "reply_count": 1,
    "is_edited": false,
    "created_at": "2026-11-16T19:21:12.246+09:00",
    "updated_at": "2026-11-16T19:21:12.246+09:00",
    "is_liked": false,
    "is_creator_liked": false,
-   "is_creator_replied": false,
+   "is_creator_replied": true,
    "user": {
     "key": "afc9f130b66b7bbb1b1e01fe2f758c30",
     "urlname": "mofutann",
@@ -38,7 +38,51 @@
    "note_key": "n24009d30d300",
    "is_blocked": false,
    "is_replied_to_root": false,
-   "latest_creator_reply": null
+   "latest_creator_reply": {
+    "key": "nce577f7ce5bb0",
+    "comment": {
+     "type": "root",
+     "children": [
+      {
+       "type": "element",
+       "children": [
+        {
+         "type": "text",
+         "value": "もふたんさん、読んでくださってありがとうございます。「密度の名前」のところを拾っていただけてうれしいです。焼いたら、その続きもちゃんと書くつもりです。"
+        }
+       ],
+       "tag_name": "p"
+      }
+     ]
+    },
+    "like_count": 0,
+    "reply_count": 0,
+    "is_edited": false,
+    "created_at": "2026-11-17T07:28:14.144+09:00",
+    "updated_at": "2026-11-17T07:28:14.144+09:00",
+    "is_liked": false,
+    "is_creator_liked": false,
+    "is_creator_replied": false,
+    "user": {
+     "key": "3f24c0c02b8db78cbc112d8e4d60016c",
+     "urlname": "safe_canna441",
+     "nickname": "てつ",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/270087626/profile_17a96f088a56f81c4d9ab4a5acbc822c.jpg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "to_user": {
+     "key": "afc9f130b66b7bbb1b1e01fe2f758c30",
+     "urlname": "mofutann",
+     "nickname": "もふたん",
+     "profile_image_url": "https://assets.st-note.com/production/uploads/images/116920108/profile_385813efcfc1fd0f8747cca2cb537039.jpeg?fit=bounds&format=jpeg&quality=85&width=330"
+    },
+    "comment_like_appeal_text": "スキありがとうございます",
+    "comment_like_appeal_image": null,
+    "is_root": false,
+    "note_key": "n24009d30d300",
+    "is_blocked": false,
+    "is_replied_to_root": true,
+    "latest_creator_reply": null
+   }
   }
  ],
  "current_page": 1,
