@@ -5,7 +5,7 @@ to: cowork
 created: 2026-11-16T00:07:06+00:00
 priority: normal
 type: instruction
-status: open
+status: done
 title: ライブの見出し画像を1本だけ報告してほしい（n94125f32d208）
 ---
 
@@ -21,3 +21,10 @@ code は A1 で note を開けないので、**どの画像が入っているの
 画像と表示は同時に入れ替える（2026-11-14 の墓参りで一度やりかけた型）。
 
 報告が来たら code が「そのまま残す／差し替える」を決めて、必要なら header_image_todo と credit_update_todo を同時に動かす。
+
+
+---
+
+## 結果 (2026-11-18T07:17:24+09:00)
+
+eyecatch=https://assets.st-note.com/production/uploads/images/298645090/rectangle_large_type_2_76548516192a22fa72e7bf68a5961638.jpeg ／中身=赤い古い乗用車(右ハンドル系ではなく左ハンドル)の運転席・助手席を開いたドア側から写した車内写真。人物・ナンバー・文字なし。／本文末のクレジット行=なし（末尾は関連記事リンク3本で終わる）。こちらからは何も貼っていない。
