@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-18T19:32:22Z UTC / 成功: 3 / 失敗: 106
+# 最終実行: 2026-11-18T19:38:30Z UTC / 成功: 0 / 失敗: 107
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -16,6 +16,7 @@
   skip(await_photo): 2026-10-25_note記事_焼きラーメン_売る場所が料理の形を決めた… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-26_note記事_厚揚げ_揚げても中は豆腐のまま… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-29_note記事_春菊_春と名前にあるのに冬に食べる… は写真待ち。自動取得しない
+  skip(await_photo): 2026-10-29_note記事_踏切_道が線路で切れている… は写真待ち。自動取得しない
   skip(place): 2026-05-28_note記事_氷見牛_富山のブランド牛… は「氷見」を名乗る記事。土地名を含まないクエリ ['wagyu beef'] は使わない
   ✗ 2026-05-28_note記事_氷見牛_富山のブランド牛  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
   ✗ 2026-05-28_note記事_高岡の職人に学ぶ個人で稼ぐ力  (**JP_QUERY にも EN_QUERY にも登録が無い**＝検索語が1本も無い。新しい記事を書いたら JP_QUERY に題材語を登録すること)
@@ -135,5 +136,6 @@
   ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
+  ✗ 2026-10-22_note記事_甲府鳥もつ煮_そば屋のもう一皿  (tried ['鶏もつ煮', '砂肝 煮', '鳥もつ', 'もつ煮']): RuntimeError — 候補なし（query='もつ煮'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 2, 'badname': 9, 'rejected': 1, 'jp_first': 0}
   ✗ 2026-10-27_note記事_カーブミラー_角ごとに鏡が立っている  (tried ['カーブミラー', 'カーブミラー 田', 'カーブミラー 交差点', 'カーブミラー 道路']): RuntimeError — 候補なし（query='カーブミラー 道路'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_tall': 2, 'nojp_hint': 10, 'jp_first': 0}
   ✗ 2026-10-28_note記事_電柱_空に線が何本も渡してある  (tried ['電柱', '電線 町並み', '住宅街 電線', '電柱 並ぶ']): RuntimeError — 候補なし（query='電柱 並ぶ'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
