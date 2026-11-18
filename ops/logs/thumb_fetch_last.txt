@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-18T19:17:26Z UTC / 成功: 2 / 失敗: 107
+# 最終実行: 2026-11-18T19:19:51Z UTC / 成功: 2 / 失敗: 107
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -95,7 +95,7 @@
   ✗ 2026-07-31_note記事_打ち水_夕方のささやかな涼  (tried ['打ち水']): RuntimeError — 候補なし（query='打ち水'） diag={'pages': 8, 'img': 8, 'nonphoto': 0, 'too_small': 1, 'nojp_hint': 6, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-08-02_note記事_FIRE報告_本日FIREしました  (tried ['books reading desk']): RuntimeError — 候補なし（query='books reading desk'） diag={'pages': 12, 'img': 12, 'nonphoto': 4, 'too_tall': 3, 'rejected': 3, 'nonjp': 1, 'jp_first': 0, 'rejected_md5': 1}
   ✗ 2026-08-03_note記事_夕立と入道雲_夏の空の急変  (tried ['入道雲']): RuntimeError — 候補なし（query='入道雲'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
-  ✗ 2026-08-04_note記事_夏の高校野球_テレビの前の夏  (tried ['高校野球', 'スコアボード', '野球 グラウンド', '野球 ボール']): RuntimeError — 候補なし（query='野球 ボール'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 3, 'nojp_hint': 8, 'nonjp': 1, 'jp_first': 0}
+  ✗ 2026-08-04_note記事_夏の高校野球_テレビの前の夏  (tried ['高校野球', 'スコアボード', '野球 グラウンド', '野球 ボール']): RuntimeError — 候補なし（query='野球 ボール'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 4, 'nojp_hint': 7, 'nonjp': 1, 'jp_first': 0}
   ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 4, 'too_tall': 6, 'nojp_hint': 2, 'jp_first': 0}
   ✗ 2026-08-04_note記事_鮎の塩焼き_夏の川の魚  (tried ['鮎']): RuntimeError — 候補なし（query='鮎'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 1, 'too_small': 2, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-05_note記事_ざるそば_つゆにちょんとつける  (tried ['蕎麦']): RuntimeError — 候補なし（query='蕎麦'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 2, 'jp_first': 1, 'rejected_md5': 1, 'mono': 1}
