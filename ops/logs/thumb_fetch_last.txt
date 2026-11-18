@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-18T19:19:51Z UTC / 成功: 2 / 失敗: 107
+# 最終実行: 2026-11-18T19:22:34Z UTC / 成功: 1 / 失敗: 107
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -136,4 +136,4 @@
   ✗ 2026-10-22_note記事_甲府鳥もつ煮_そば屋のもう一皿  (tried ['鶏もつ煮', '砂肝 煮', '鳥もつ', 'もつ煮']): RuntimeError — 候補なし（query='もつ煮'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 2, 'badname': 9, 'rejected': 1, 'jp_first': 0}
   ✗ 2026-10-27_note記事_カーブミラー_角ごとに鏡が立っている  (tried ['カーブミラー', 'カーブミラー 田', 'カーブミラー 交差点', 'カーブミラー 道路']): RuntimeError — 候補なし（query='カーブミラー 道路'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_tall': 2, 'nojp_hint': 10, 'jp_first': 0}
   ✗ 2026-10-28_note記事_電柱_空に線が何本も渡してある  (tried ['電柱', '電線 町並み', '住宅街 電線', '電柱 並ぶ']): RuntimeError — 候補なし（query='電柱 並ぶ'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
-  ✗ 2026-10-29_note記事_春菊_春と名前にあるのに冬に食べる  (tried ['春菊', '春菊 鍋', 'しゅんぎく', '春菊 葉']): RuntimeError — 候補なし（query='春菊 葉'） diag={'pages': 12, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 12}, 'jp_first': 0}
+  ✗ 2026-10-29_note記事_春菊_春と名前にあるのに冬に食べる  (tried ['春菊', 'しゅんぎく', 'シュンギク', '菊菜']): RuntimeError — 候補なし（query='菊菜'） diag={'pages': 1, 'img': 1, 'nonphoto': 0, 'too_tall': 1, 'jp_first': 0}
