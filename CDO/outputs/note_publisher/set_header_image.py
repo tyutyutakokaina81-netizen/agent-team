@@ -65,8 +65,16 @@ _HAS_IMAGE_JS = """() => {
 }"""
 
 
-def load_todo(only: str = "") -> list[tuple[str, Path]]:
-    """未処理の行を返す。`only` を渡したらその1本だけ。
+def load_todo(only: str = "") -> list[tuple[str, Path, bool]]:
+    """未処理の行を返す。`only` を渡したらその1本だけ。戻りは (note_id, 画像, 差し替えるか)。
+
+    ★2026-11-18 追加: **行ごとの `REPLACE` 札**。
+    `--replace` は CLI の全体フラグなので、1本だけ差し替えたいときに
+    **リスト全部が差し替え対象になってしまう**（上書き事故）。
+    行の先頭に `REPLACE<TAB>` と書いてあるものだけ差し替える。
+    実例＝n94125f32d208（車は第二の部屋）。ライブの画像が
+    **ライセンス未記録の Wikimedia 画像**（出典が `"wikimedia"` の文字列だけ）で、
+    表示義務を果たせないので、ライセンスの分かる画像に置き換える。
 
     ★2026-09-29: **--only の ID を打ち間違えても「対象なし（リストが空か全部DONE）」
     と出ていた**。未処理が51本あるのに「やることが無い」に見える＝嘘の報告。
@@ -81,13 +89,17 @@ def load_todo(only: str = "") -> list[tuple[str, Path]]:
         if not s or s.startswith("#") or s.startswith("DONE"):
             continue
         parts = s.split("\t")
+        want_replace = False
+        if parts and parts[0].strip() == "REPLACE":
+            want_replace = True
+            parts = parts[1:]
         if len(parts) < 2:
             continue
         nid, rel = parts[0].strip(), parts[1].strip()
         all_pending.append(nid)
         if only and nid != only:
             continue
-        rows.append((nid, REPO / rel))
+        rows.append((nid, REPO / rel, want_replace))
     if only and not rows:
         print(f"✗ 指定した ID `{only}` は未処理リストに無い。**未処理は {len(all_pending)} 本ある**"
               "（＝やることが無いわけではない）。")
@@ -103,6 +115,9 @@ def mark_done(nid: str):
     if not TODO.exists():
         return
     txt = TODO.read_text(encoding="utf-8")
+    # ★2026-11-18: `REPLACE<TAB>` 札の付いた行も DONE にできるようにする
+    #   （札を残したままだと、次の便でもう一度差し替えにいく）
+    txt = txt.replace(f"\nREPLACE\t{nid}\t", f"\nDONE\t{nid}\t")
     TODO.write_text(txt.replace(f"\n{nid}\t", f"\nDONE\t{nid}\t"), encoding="utf-8")
 
 
@@ -269,7 +284,7 @@ def main():
     with sync_playwright() as p:
         ctx = launch(p, args.headless)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        for nid, img in targets:
+        for nid, img, row_replace in targets:
             print(f"\n=== {nid} ===")
             if not img.exists():
                 print(f"   ✗ 画像が無い: {img}")
@@ -303,13 +318,15 @@ def main():
                 results.append((nid, "PROBED_HAS_IMAGE" if had else "PROBED_NO_IMAGE"))
                 continue
 
-            if had and not args.replace:
+            if had and not (args.replace or row_replace):
                 print("   → 既に画像があるので触らない（上書き事故を避ける）")
-                print("      差し替えたいなら --replace を付ける")
+                print("      差し替えたいなら --replace を付けるか、")
+                print("      ops/header_image_todo.tsv のその行の先頭に `REPLACE<TAB>` を書く")
                 results.append((nid, "SKIP_HAS_IMAGE"))
                 continue
             if had:
-                print("   ⚠ 既にある見出し画像を **差し替えます**（--replace 指定）")
+                print("   ⚠ 既にある見出し画像を **差し替えます**"
+                      + ("（行の REPLACE 札）" if row_replace else "（--replace 指定）"))
 
             # 2026-09-19 確定: 見出し画像ボタンは**タイトル textarea の直前の黒丸アイコン**で、
             # aria-label は中の svg に付いている。実装は publisher と共有する（1か所にまとめる）。

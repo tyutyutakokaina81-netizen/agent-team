@@ -494,7 +494,15 @@ try:
     else:
         _rows = [l for l in open(_todo, encoding="utf-8").read().splitlines()
                  if l.strip() and not l.startswith("#")]
-        _pend = [l.split("\t")[0] for l in _rows if not l.startswith("DONE")]
+        # ★2026-11-18: 行ごとの `REPLACE<TAB>` 札に対応する（set_header_image.py と同じ読み方）。
+        #   これを知らないと、note_id の欄に "REPLACE" が入って
+        #   「画像なしで公開されたまま(REPLACE…)」という意味の通らない報告になる。
+        def _nid24(_l):
+            _c = _l.split("\t")
+            if _c and _c[0].strip() == "REPLACE":
+                _c = _c[1:]
+            return _c[0].strip() if _c else ""
+        _pend = [_nid24(l) for l in _rows if not l.startswith("DONE")]
         if _pend:
             add("R24 見出し画像の未修復", "BROKEN",
                 f"**画像なしで公開されたまま {len(_pend)}本**({_pend[0]}…) → "
@@ -1735,7 +1743,10 @@ else:
         if not os.path.exists(_qp): continue
         for _ln in open(_qp, encoding="utf-8", errors="ignore"):
             if _ln.startswith("#") or _ln.startswith("DONE") or not _ln.strip(): continue
-            _nid = _ln.split("\t")[0].strip()
+            _cols34 = _ln.split("\t")
+            if _cols34 and _cols34[0].strip() == "REPLACE":   # ★2026-11-18: 行ごとの REPLACE 札
+                _cols34 = _cols34[1:]
+            _nid = _cols34[0].strip() if _cols34 else ""
             if _nid in _dnt: _leak.append((_nid, os.path.basename(_q)))
 
     if _pending:
@@ -2210,9 +2221,35 @@ try:
             for _f45 in _fn:
                 if _f45.endswith(".md"):
                     _alive.add(_f45)
+    # ★2026-11-18 追加: **書き直してファイル名を変えたものを除外する。**
+    #   R45 が守りたいのは「事故で消えた＝気づく手段が無い」ケース。
+    #   書き直しは正しくやった仕事なのに、元の名前が残らないので同じ形で鳴っていた
+    #   （置き傘＝2026-09-20。cowork が2便続けて報告した）。
+    #   ⚠️**黙って除外はしない**＝ops/intentional_rewrites.tsv に
+    #   「消えた名前／書き直し後の名前／コミット／理由」を人が書いた行だけを外す。
+    _rewritten = {}
+    try:
+        with open(os.path.join(ROOT, "ops/intentional_rewrites.tsv"), encoding="utf-8") as _fh45:
+            for _l45 in _fh45:
+                _l45 = _l45.rstrip("\n")
+                if not _l45.strip() or _l45.startswith("#") or _l45.startswith("deleted_md"):
+                    continue
+                _c45 = _l45.split("\t")
+                if len(_c45) >= 2 and _c45[0].strip():
+                    _rewritten[_c45[0].strip()] = _c45[1].strip()
+    except OSError:
+        pass
+    _skipped45 = 0
     for _base in sorted({os.path.basename(x) for x in _cand}):   # パス違いの二重計上を防ぐ
-        if _base not in _alive:
-            _dead.append(_base)
+        if _base in _alive:
+            continue
+        _rep = _rewritten.get(_base)
+        if _rep and _rep in _alive:
+            # 書き直し後のファイルが**実在するときだけ**除外する
+            # （登録しただけで中身が無ければ、それは事故なので鳴らす）
+            _skipped45 += 1
+            continue
+        _dead.append(_base)
     if _dead:
         add("R45 記事が黙って消えていないか", "BROKEN",
             f"**履歴では削除されたのに、どこにも残っていない記事が {len(_dead)}本**"
@@ -2221,7 +2258,9 @@ try:
             "**公開済みでも note 側には残るので、ここで気づかないと誰も気づけない**")
     else:
         add("R45 記事が黙って消えていないか", "OK",
-            f"直近120コミットで削除された記事 {len({os.path.basename(x) for x in _cand})}本は、すべて move 先に実在する")
+            f"直近120コミットで削除された記事 {len({os.path.basename(x) for x in _cand})}本は、すべて move 先に実在する"
+            + (f"／**書き直して名前が変わった {_skipped45}本は数えていない**"
+               "（ops/intentional_rewrites.tsv・書き直し後の実在を確認済み）" if _skipped45 else ""))
 except Exception as _e45:
     add("R45 記事が黙って消えていないか", "STALE", f"判定不能: {type(_e45).__name__} {str(_e45)[:60]}")
 
