@@ -2060,6 +2060,43 @@ UNUSABLE_AUTHORS = (
 )
 
 
+# ★2026-11-19 追加: **R30 の判定を取得の時点に前倒しする。**
+#   R30（check_requirements）は「記事に出てこない地名がファイル名にあるか」を
+#   **採用したあと**に数えていた。取得側は `_place_mismatch()` で**クエリ**しか見ていなかったので、
+#   **取得は通って、採用の直前に人が目で落とす**ことを毎回やっていた。
+#   却下台帳 351件のうち、**ファイル名の町名・駅名・施設名が理由のものが約30件**ある
+#   （名掛丁／大字田吉947番地／Akasaka／八尾町西神通／生麦駅／三井野原駅／白沙荘／高尾山…）。
+#   **後ろでやっている判定を前でやれば、人が見る前に落ちる。**
+#   地名の正本は `ops/placenames.py`（2か所に同じ表を書かないため）。
+try:
+    import importlib.util as _ilu
+    _pn_spec = _ilu.spec_from_file_location(
+        "placenames", str(Path(__file__).resolve().parents[3] / "ops" / "placenames.py"))
+    _PN = _ilu.module_from_spec(_pn_spec)
+    _pn_spec.loader.exec_module(_PN)
+except Exception:
+    _PN = None          # 読めなければ**この検査だけ飛ばす**（取得そのものは止めない）
+
+
+def _article_body(stem: str) -> str:
+    """記事本文（開示されているかを見るため）。無ければ空。"""
+    try:
+        return (Path(__file__).resolve().parents[3] / "CMO/outputs" / (stem + ".md")
+                ).read_text(encoding="utf-8")
+    except Exception:
+        return ""
+
+
+def _place_in_filename(title: str, stem: str) -> str:
+    """ファイル名に**記事に出てこない地名**があれば、その地名を返す。無ければ ""。"""
+    if _PN is None:
+        return ""
+    try:
+        return _PN.mismatched_place(title or "", stem or "", _article_body(stem)) or ""
+    except Exception:
+        return ""
+
+
 def _is_rejected_author(author: str) -> bool:
     """この投稿者の写真は使わないと決めたか。"""
     a = (author or "").strip().lower()
@@ -2468,6 +2505,12 @@ def fetch_from_wikimedia(query: str, stem: str = ""):
                 last_diag = diag
                 for turl, meta in urls[:6]:
                     try:
+                        # ★2026-11-19: **ダウンロードする前に**ファイル名の地名を見る。
+                        #   R30 が採用後にやっていた判定をここへ前倒しした（約30件の却下理由）。
+                        _pl_bad = _place_in_filename(meta.get("file", ""), stem)
+                        if _pl_bad:
+                            diag["place_in_name"] = diag.get("place_in_name", 0) + 1
+                            continue
                         b = _get(turl)
                         if len(b) < MIN_IMAGE_BYTES:
                             continue

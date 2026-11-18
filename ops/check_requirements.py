@@ -856,28 +856,40 @@ try:
     #     おはぎ → Botamochi, **Katori-city**（千葉）
     #   思いついた地名を並べる作りは、思いつかなかった地名を永久に見逃す。
     #   **47都道府県を漏れなく（富山＝地元だけ除く）** 並べ、ローマ字も対で持つ。
-    _PREF = [
-        ("北海道", "hokkaido"), ("青森", "aomori"), ("岩手", "iwate"), ("宮城", "miyagi"),
-        ("秋田", "akita"), ("山形", "yamagata"), ("福島", "fukushima"), ("茨城", "ibaraki"),
-        ("栃木", "tochigi"), ("群馬", "gunma"), ("埼玉", "saitama"), ("千葉", "chiba"),
-        ("東京", "tokyo"), ("神奈川", "kanagawa"), ("新潟", "niigata"), ("石川", "ishikawa"),
-        ("福井", "fukui"), ("山梨", "yamanashi"), ("長野", "nagano"), ("岐阜", "gifu"),
-        ("静岡", "shizuoka"), ("愛知", "aichi"), ("三重", "mie"), ("滋賀", "shiga"),
-        ("京都", "kyoto"), ("大阪", "osaka"), ("兵庫", "hyogo"), ("奈良", "nara"),
-        ("和歌山", "wakayama"), ("鳥取", "tottori"), ("島根", "shimane"), ("岡山", "okayama"),
-        ("広島", "hiroshima"), ("山口", "yamaguchi"), ("徳島", "tokushima"), ("香川", "kagawa"),
-        ("愛媛", "ehime"), ("高知", "kochi"), ("福岡", "fukuoka"), ("佐賀", "saga"),
-        ("長崎", "nagasaki"), ("熊本", "kumamoto"), ("大分", "oita"), ("宮崎", "miyazaki"),
-        ("鹿児島", "kagoshima"), ("沖縄", "okinawa"),
-    ]   # ※富山は地元なので入れない
-    _pl = [x for pair in _PREF for x in pair] + [
-        # 都道府県名を名乗らない有名地・施設名（見つけ次第足す）
-        "kobe", "kanazawa", "nagoya", "kamakura", "sendai", "yokohama", "nikko", "hakone",
-        "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "yokosuka", "神戸", "金沢", "名古屋",
-        "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京", "横須賀", "大山千枚田", "鳴門", "naruto",
-        # 2026-09-24: 川の名前も土地を名乗る。朝霧に「只見川の川霧」（福島/新潟）を採用した。
-        "只見", "tadami",
-    ]
+    # ★2026-11-19: 地名の表を `ops/placenames.py` に移した（正本は1か所）。
+    #   取得側（fetch_thumbnails_wikimedia.py）が**同じ判定を取得の時点で**するようになったので、
+    #   **同じ表が2か所にあると、片方だけ育って食い違う**。
+    #   2026-09-21 に「手で書いた31語しかなく新潟・福井・福島・千葉が抜けていた」失敗をしており、
+    #   その再発は**表が増える側ではなく、増えたほうを見ていない側**で起きる。
+    #   読み込めなければ**ここだけ従来どおりの内蔵リスト**に落ちる（検査が止まらないように）。
+    try:
+        import importlib.util as _ilu30
+        _sp30 = _ilu30.spec_from_file_location("placenames", os.path.join(ROOT, "ops/placenames.py"))
+        _PN30 = _ilu30.module_from_spec(_sp30)
+        _sp30.loader.exec_module(_PN30)
+        _PREF = _PN30.PREF_PAIRS
+        _pl = _PN30.ALL_PLACES
+    except Exception:
+        _PREF = [
+            ("北海道", "hokkaido"), ("青森", "aomori"), ("岩手", "iwate"), ("宮城", "miyagi"),
+            ("秋田", "akita"), ("山形", "yamagata"), ("福島", "fukushima"), ("茨城", "ibaraki"),
+            ("栃木", "tochigi"), ("群馬", "gunma"), ("埼玉", "saitama"), ("千葉", "chiba"),
+            ("東京", "tokyo"), ("神奈川", "kanagawa"), ("新潟", "niigata"), ("石川", "ishikawa"),
+            ("福井", "fukui"), ("山梨", "yamanashi"), ("長野", "nagano"), ("岐阜", "gifu"),
+            ("静岡", "shizuoka"), ("愛知", "aichi"), ("三重", "mie"), ("滋賀", "shiga"),
+            ("京都", "kyoto"), ("大阪", "osaka"), ("兵庫", "hyogo"), ("奈良", "nara"),
+            ("和歌山", "wakayama"), ("鳥取", "tottori"), ("島根", "shimane"), ("岡山", "okayama"),
+            ("広島", "hiroshima"), ("山口", "yamaguchi"), ("徳島", "tokushima"), ("香川", "kagawa"),
+            ("愛媛", "ehime"), ("高知", "kochi"), ("福岡", "fukuoka"), ("佐賀", "saga"),
+            ("長崎", "nagasaki"), ("熊本", "kumamoto"), ("大分", "oita"), ("宮崎", "miyazaki"),
+            ("鹿児島", "kagoshima"), ("沖縄", "okinawa"),
+        ]   # ※富山は地元なので入れない
+        _pl = [x for pair in _PREF for x in pair] + [
+            "kobe", "kanazawa", "nagoya", "kamakura", "sendai", "yokohama", "nikko", "hakone",
+            "meiji-mura", "harajuku", "yuzawa", "katori", "echizen", "yokosuka", "神戸", "金沢",
+            "名古屋", "鎌倉", "横浜", "日光", "箱根", "原宿", "湯沢", "香取", "越前", "江戸東京",
+            "横須賀", "大山千枚田", "鳴門", "naruto", "只見", "tadami",
+        ]
     import json as _json30
     _pv = _json30.load(open(os.path.join(ROOT, "CDO/outputs/note_publisher/thumbnails/_provenance.json"),
                             encoding="utf-8"))
