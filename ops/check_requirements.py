@@ -2392,6 +2392,79 @@ try:
 except Exception as _e47:
     add("R47 反映したはずの編集がライブに無い", "STALE", f"判定不能: {type(_e47).__name__} {str(_e47)[:60]}")
 
+# R48 本文に混ざった非日本語・非ラテン文字: 2026-10-31 のブロック塀の初稿に **`одну`（キリル文字）**
+# が入っていた。「道が一本の通路として見える」の「一本」が、書いている途中でロシア語の単語に
+# 化けていた。**R36（英文の有無）でも R37（字数）でも拾えない**＝どちらも「有るか」「長いか」しか
+# 見ていないので、日本語の中に別の文字体系が1語混ざっても両方 OK で通る。
+# note に出れば読者には**文字化けか誤植**に見える（A5＝適当なものを出さない、に触れる）。
+# 見るのは本文ブロックだけ。キリル・ギリシャ・アラビア・ヘブライ・ハングル・タイ・デーヴァナーガリー。
+# ※中国語（漢字）は日本語と同じ字を使うので判定できない。ここでは見ない。
+# ※ハングルは CDO の中国語/韓国語マガジンでは正当だが、`CMO/outputs/*note記事*` には入らない。
+try:
+    import glob as _g48
+    _BAD48 = re.compile(r"[Ѐ-ӿͰ-Ͽ؀-ۿ֐-׿"
+                        r"가-힯฀-๿ऀ-ॿ]+")
+    _hit48, _tot48 = [], 0
+    for _p48 in sorted(_g48.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md"))):
+        _t48 = open(_p48, encoding="utf-8").read()
+        _b48 = re.search(r"##\s*本文.*?\n```\n(.+?)\n```", _t48, re.S)
+        if not _b48:
+            continue
+        _tot48 += 1
+        # ★見出し画像のクレジット行は外す＝**撮影者名はどの文字体系でもありうる**
+        #   （2026-08 の蚊取り線香は撮影者名が `مانفی`）。CC の表示義務は
+        #   **名前をそのまま書くこと**なので、ここを直すのは間違い。
+        _keep48 = "\n".join(_l for _l in _b48.group(1).split("\n")
+                            if "見出し画像" not in _l and not _l.strip().startswith("http"))
+        _f48 = _BAD48.findall(_keep48)
+        if _f48:
+            _hit48.append((os.path.basename(_p48), _f48[:3]))
+    if not _hit48:
+        add("R48 本文の文字体系の混入", "OK",
+            f"記事 {_tot48}本の本文に、キリル・ギリシャ・アラビア等の混入なし")
+    else:
+        add("R48 本文の文字体系の混入", "BROKEN",
+            f"**{len(_hit48)}本の本文に日本語でも英語でもない文字が混ざっている**（読者には誤植に見える）"
+            f" 例: {' / '.join(f'{n[:28]}…={chr(44)}'.join([]) or f'{n[:28]} → {w}' for n, w in _hit48[:3])}"
+            " → 該当語をその場で日本語に直す（置換前に `grep -n` で前後の空白を確かめる）")
+except Exception as _e48:
+    add("R48 本文の文字体系の混入", "STALE", f"判定不能: {type(_e48).__name__} {str(_e48)[:60]}")
+
+# R49 英語見出しの型が2本続いていないか（A6 の機械化）: 2026-10-31 のお取り寄せ㉔の初稿が
+# `There Is No Single Serving` で、直前の㉓が `There Is No Step for Taking Things Out` ＝
+# **`There Is No` が2本続いていた**。A6（同パターンの英語要約2連続NG）そのものだが、
+# **記事を1本だけ見ていると絶対に気づけない**（前の記事と並べないと判定できない）。
+# R17 は日本語の文体の反復を見ているので、英語見出しの先頭は拾っていなかった。
+# 判定＝日付順に並べて、隣り合う2本の `【English】` 見出しの**先頭3語が一致**したら BROKEN。
+# 直近30本だけ見る（古い分を今から直す話ではなく、次の1本を止めるための検査）。
+try:
+    import glob as _g49
+    _rows49 = []
+    for _p49 in sorted(_g49.glob(os.path.join(ROOT, "CMO/outputs/*note記事*.md")))[-30:]:
+        _t49 = open(_p49, encoding="utf-8").read()
+        _m49 = re.search(r"【English】\s*(.+)", _t49)
+        if not _m49:
+            continue
+        _w49 = re.findall(r"[A-Za-z']+", _m49.group(1).lower())
+        if _w49:
+            _rows49.append((os.path.basename(_p49), _w49[:3]))
+    _dup49 = [(_rows49[_i - 1][0], _rows49[_i][0], " ".join(_rows49[_i][1]))
+              for _i in range(1, len(_rows49))
+              if len(_rows49[_i][1]) == 3 and _rows49[_i][1] == _rows49[_i - 1][1]]
+    if not _rows49:
+        add("R49 英語見出しの2連続", "STALE", "直近30本に `【English】` 見出しが見つからない")
+    elif _dup49:
+        add("R49 英語見出しの2連続", "BROKEN",
+            f"**英語見出しの先頭3語が同じ記事が隣り合っている {len(_dup49)}組**（A6＝同パターン2連続NG）"
+            f" 例: 「{_dup49[0][2]}」= {_dup49[0][0][:26]} と {_dup49[0][1][:26]}"
+            " → 後ろの1本の見出しを別の構文に書き換える")
+    else:
+        add("R49 英語見出しの2連続", "OK",
+            f"直近 {len(_rows49)}本の英語見出しは、隣り合うもので先頭3語が重なっていない")
+except Exception as _e49:
+    add("R49 英語見出しの2連続", "STALE", f"判定不能: {type(_e49).__name__} {str(_e49)[:60]}")
+
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))
