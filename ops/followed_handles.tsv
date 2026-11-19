@@ -1,0 +1,33 @@
+# フォロー済み・再訪しないハンドル（`_cowork_growth.py` の discover が除外する）
+#
+# なぜ要るか: discover() は `known = {t['a'] for t in TARGETS}` しか除外していなかったので、
+# **過去に discover 経由でフォローした人を毎日もう一度拾っていた**。
+# 2026-11-19 の便は 14人試して **11人が already-following**＝枠がほぼ全部無駄になっていた
+# （フォロワーは 14日で +8人＝1日 0.57人で、目標の1日1人に届いていない＝R41 BROKEN）。
+#
+# 初期値は `ops/logs/publish_*.log` の DONE 行から機械で拾った（手で書いていない）。
+# 以後は growth スクリプトが走るたびに追記される。**消さない**（消すとまた同じ人を訪ねる）。
+#
+# 理由の種類:
+#   followed            … このスクリプトがフォローを押せた
+#   already-following   … 訪ねたらすでにフォロー中だった
+#   no-follow-btn-xN    … フォローボタンが N 回見つからなかった（note公式など、押せない相手）
+#
+# handle	記録日	理由
+1ch1ro_magic	2026-11-13	already-following
+999__9	2026-11-11	already-following
+aoi_journey	2026-11-11	already-following
+hidehito_n	2026-11-19	already-following
+hinata_no_techo	2026-11-15	followed
+iitai_only	2026-11-19	already-following
+info	2026-11-19	no-follow-btn-x4
+light_whale8787	2026-11-15	followed
+lucky_kiwi9297	2026-11-11	already-following
+luluchiru	2026-11-15	followed
+namedtama	2026-11-15	followed
+pure_shrew6292	2026-11-15	followed
+ripe_human4464	2026-11-15	followed
+shimpeitakagi	2026-11-11	already-following
+utbuffett	2026-11-13	already-following
+yossh_1205	2026-11-15	followed
+yuu_888	2026-11-19	already-following

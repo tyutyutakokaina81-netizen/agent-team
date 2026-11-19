@@ -2465,6 +2465,52 @@ except Exception as _e49:
     add("R49 英語見出しの2連続", "STALE", f"判定不能: {type(_e49).__name__} {str(_e49)[:60]}")
 
 
+# R50 集客の枠を再訪で捨てていないか: 2026-11-19 の便は **14人試して 11人が already-following**
+# ＝1便の上限14枠のうち11枠を、**すでにフォローしている人をもう一度訪ねる**のに使っていた。
+# 原因は `_cowork_growth.py` の discover() が除外していたのが `TARGETS`（手書きの固定リスト）だけで、
+# **過去に discover 経由でフォローした人がどこにも記録されていなかった**こと。
+# R41 は結果（フォロワーの増え方）だけを見るので、**なぜ増えないのか**は分からなかった。
+# → `ops/followed_handles.tsv` に残して除外するよう直した。この検査はその回帰防止。
+# 判定＝直近の publish ログの DONE 行で、already-following が試行の半分以上なら BROKEN。
+try:
+    import glob as _g50, json as _j50
+    _logs50 = sorted(_g50.glob(os.path.join(ROOT, "ops/logs/publish_*.log")))
+    _rows50 = []
+    for _f50 in reversed(_logs50):          # 新しいほうから、DONE 行がある便を1つ探す
+        _tmp = []
+        for _ln in open(_f50, encoding="utf-8", errors="replace"):
+            if not _ln.startswith(("DONE ", "DRY ")):
+                continue
+            try:
+                _d50 = _j50.loads(_ln.split(" ", 1)[1])
+            except Exception:
+                continue
+            if _d50.get("author"):
+                _tmp.append(str(_d50.get("follow") or _d50.get("follow_state") or ""))
+        if _tmp:
+            _rows50 = _tmp
+            _name50 = os.path.basename(_f50)
+            break
+    if not _rows50:
+        add("R50 集客の枠を再訪で捨てていないか", "STALE",
+            "publish ログに集客の DONE 行が1つも無い＝**集客の便が走っていない**")
+    else:
+        _again = sum(1 for _x in _rows50 if _x.startswith("already-following"))
+        _got = sum(1 for _x in _rows50 if _x.startswith(("followed", "clicked")))
+        if _again * 2 >= len(_rows50):
+            add("R50 集客の枠を再訪で捨てていないか", "BROKEN",
+                f"**{_name50}: 試した {len(_rows50)}人のうち {_again}人がすでにフォロー済み**"
+                f"（新規に押せたのは {_got}人）→ 枠が足りないのではなく**枠を捨てている**。"
+                "`ops/followed_handles.tsv` に触った相手が追記されているか確認する"
+                "（追記されていれば discover が次便で除外する）")
+        else:
+            add("R50 集客の枠を再訪で捨てていないか", "OK",
+                f"{_name50}: 試した {len(_rows50)}人のうち 再訪は {_again}人"
+                f"（新規に押せた {_got}人）＝枠は新しい相手に使えている")
+except Exception as _e50:
+    add("R50 集客の枠を再訪で捨てていないか", "STALE", f"判定不能: {type(_e50).__name__} {str(_e50)[:60]}")
+
+
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
 results.sort(key=lambda r: order.get(r[1], 9))

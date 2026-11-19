@@ -43,6 +43,78 @@ DISCOVER_TAGS = [
 ]
 DISCOVER_LIMIT = 14   # 1便で新規に触る上限(bot判定回避=owner則の量上限)
 
+# ★2026-11-19 self-fix: **再訪していた。**
+#   discover() が除外していたのは `TARGETS`（手で書いた固定リスト）だけで、
+#   **過去に discover 経由でフォローした人は、どこにも記録されていなかった**。
+#   そのため毎便、同じ人をもう一度訪ねていた＝2026-11-19 の便は
+#   **14人試して 11人が already-following**（残りは err と no-btn）で**新規 0人**。
+#   フォロワーは 2026-11-05 の 72人 → 11-19 の 80人＝**14日で+8人（1日 0.57人）**で、
+#   目標の1日1人に届いていない（R41 BROKEN）。**枠が足りないのではなく、枠を捨てていた。**
+#   → 触った相手を `ops/followed_handles.tsv` に残し、discover の除外に混ぜる。
+#   ★2026-07-28 に「全タグをラウンドロビン＋深くスクロール」を入れたのは正しかったが、
+#     **記録しない限り、深く掘っても毎日同じ深さの同じ人に当たる**。
+def _repo_root() -> Path:
+    """`ops/` を持つ親まで登る。**段数を数えて書くと必ず間違える**
+    （最初に parents[2]＝`CDO/` と書いて、`CDO/ops/...` に書き込む寸前だった）。"""
+    here = Path(__file__).resolve()
+    for d in here.parents:
+        if (d / "ops").is_dir():
+            return d
+    return here.parents[3]
+
+
+FOLLOWED_TSV = _repo_root() / "ops" / "followed_handles.tsv"
+
+
+def load_followed() -> set:
+    """再訪しないハンドルの集合。ファイルが無くても落ちない（空集合で続ける）。"""
+    out = set()
+    try:
+        for ln in FOLLOWED_TSV.read_text(encoding="utf-8").splitlines():
+            if not ln.strip() or ln.lstrip().startswith("#"):
+                continue
+            h = ln.split("\t")[0].strip()
+            if h:
+                out.add(h)
+    except FileNotFoundError:
+        print(f"※ {FOLLOWED_TSV.name} が無い＝除外なしで走る（初回はこれで正常）")
+    except Exception as e:
+        print(f"※ {FOLLOWED_TSV.name} を読めなかった: {type(e).__name__} {e}")
+    return out
+
+
+def save_followed(rows) -> int:
+    """今回の結果のうち「もう訪ねなくていい相手」を追記する。
+    追記のみ＝**既存行は書き換えない**（消すとまた同じ人を訪ねることになる）。
+    対象: フォローできた／すでにフォロー中だった／フォローボタンが無かった。
+    ※ err（ボタンが見えない等）は**一時的な失敗かもしれない**ので記録しない＝次便で再挑戦する。
+    """
+    import datetime
+    known = load_followed()
+    new = []
+    for r in rows:
+        h = (r.get("author") or "").strip()
+        f = str(r.get("follow") or "")
+        if not h or h in known:
+            continue
+        if f.startswith(("followed", "clicked")):
+            why = "followed"
+        elif f.startswith("already-following"):
+            why = "already-following"
+        elif f.startswith("no-author-follow-btn"):
+            why = "no-follow-btn-x1"
+        else:
+            continue
+        new.append(f"{h}\t{datetime.date.today()}\t{why}")
+        known.add(h)
+    if new:
+        with open(FOLLOWED_TSV, "a", encoding="utf-8") as fh:
+            fh.write("\n".join(new) + "\n")
+    print(f"再訪しないハンドル: 既 {len(known) - len(new)}件 + 今回 {len(new)}件 = {len(known)}件"
+          f"（{FOLLOWED_TSV.name}）")
+    return len(new)
+
+
 # 厳選: 実際に富山/氷見/高岡の一次コンテンツを出している発信者。comment は手書きオリジナル。
 # (2026-07-14作成→07-23便でフォロー飽和済。follow/likeは冪等なので再実行しても無害=スキップされる)
 TARGETS = [
@@ -498,7 +570,9 @@ def main():
 
             targets = list(TARGETS)
             if DISCOVER:
-                known = {t["a"] for t in TARGETS}
+                known = {t["a"] for t in TARGETS} | load_followed()
+                print(f"discover の除外: TARGETS {len(TARGETS)}件 + 台帳 "
+                      f"{len(known) - len(TARGETS)}件 = {len(known)}件")
                 newbies = discover(page, known)
                 print(f"DISCOVERED {len(newbies)} new handles:",
                       json.dumps([n["a"] for n in newbies], ensure_ascii=False))
@@ -532,6 +606,9 @@ def main():
 
             fa = read_followers(page)
             print("FOLLOWERS_AFTER::", fa)
+            if GO:
+                # ★ここで記録しないと、次便が同じ人をもう一度訪ねる（2026-11-19 の失敗）
+                save_followed(results)
         finally:
             ctx.close()
     print("\n=== SUMMARY ===")
