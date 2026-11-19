@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-18T20:01:53Z UTC / 成功: 0 / 失敗: 132
+# 最終実行: 2026-11-19T00:05:03Z UTC / 成功: 2 / 失敗: 133
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -170,3 +170,4 @@
   ✗ 2026-10-22_note記事_甲府鳥もつ煮_そば屋のもう一皿  (tried ['鶏もつ煮', '砂肝 煮', '鳥もつ', 'もつ煮']): RuntimeError — 候補なし（query='もつ煮'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 2, 'badname': 9, 'rejected': 1, 'jp_first': 0}
   ✗ 2026-10-27_note記事_カーブミラー_角ごとに鏡が立っている  (tried ['カーブミラー', 'カーブミラー 田', 'カーブミラー 交差点', 'カーブミラー 道路']): RuntimeError — 候補なし（query='カーブミラー 道路'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_tall': 2, 'nojp_hint': 10, 'jp_first': 0}
   ✗ 2026-10-28_note記事_電柱_空に線が何本も渡してある  (tried ['電柱', '電線 町並み', '住宅街 電線', '電柱 並ぶ']): RuntimeError — 候補なし（query='電柱 並ぶ'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
+  ✗ 2026-10-31_note記事_ブロック塀_灰色の壁が道を区切っている  (tried ['ブロック塀', 'コンクリートブロック 塀', '塀 住宅街', '透かしブロック']): RuntimeError — 候補なし（query='透かしブロック'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
