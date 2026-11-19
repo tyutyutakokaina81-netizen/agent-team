@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/1ch1ro_magic/n/n218e6f6013ff",
+ "url": "https://note.com/tamahiro_loko/n/nefd7897493b4",
  "buttons": [
   {
    "tag": "button",
@@ -34,7 +34,19 @@
   },
   {
    "tag": "button",
-   "txt": "フォロー中",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "プロフィールを非表示",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -46,13 +58,19 @@
   },
   {
    "tag": "button",
-   "txt": "21",
-   "aria": "21スキ この記事にスキをつけたユーザーを見る",
+   "txt": "11",
+   "aria": "11スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
    "tag": "button",
-   "txt": "すべて表示",
+   "txt": "フォローする",
+   "aria": "",
+   "cls": "hidden ml-1 text-text-clickable-icon text-xs underline md:inline"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -70,8 +88,8 @@
   },
   {
    "tag": "button",
-   "txt": "21",
-   "aria": "21スキ この記事にスキをつけたユーザーを見る",
+   "txt": "11",
+   "aria": "11スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -100,7 +118,7 @@
   },
   {
    "tag": "button",
-   "txt": "フォロー中",
+   "txt": "フォロー",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
@@ -124,8 +142,8 @@
   },
   {
    "tag": "button",
-   "txt": "21",
-   "aria": "21スキ この記事にスキをつけたユーザーを見る",
+   "txt": "11",
+   "aria": "11スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -172,8 +190,8 @@
   },
   {
    "tag": "button",
-   "txt": "21",
-   "aria": "21スキ この記事にスキをつけたユーザーを見る",
+   "txt": "11",
+   "aria": "11スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
