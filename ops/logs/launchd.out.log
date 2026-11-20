@@ -11734,3 +11734,55 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-20_003_cowork_code.yaml  id=2026-11-20_003
+[main 68c2ac55] cowork: daily backfill (english/follow/x-queue) 2026-11-20_080005
+ 12 files changed, 271 insertions(+), 97 deletions(-)
+ create mode 100644 ops/logs/backfill_tags_2026-11-20_081344.log
+ create mode 100644 ops/outbox/2026-11-20_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   c2b05453..68c2ac55  main -> main
+=== publish run 2026-11-21_080000 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/20] 朝だけ、咲いている。— 夏休みの朝顔
+[4/20] あんみつ — 寒天と黒蜜の、涼
+[5/20] 寝苦しい夜 — 枕を、裏返す
+[6/20] 焼きそば — 休日の、ソースの匂い
+[7/20] 行水 — たらいの水を、浴びる
+[8/20] 団子は、焼きたてがいちばん。— 七輪で焼く、みたらし団子
+[9/20] うちわ — 自分で、あおぐ風
+[10/20] 麦わら帽子 — かぶると、夏になる
+[11/20] 日焼け — 跡が、くっきり残る夏
+[12/20] 暑い盛りに、うなぎを食べる。— 土用の丑の日
+[13/20] 水の上を、光が流れていく。— 灯籠流しという、送り方
+[14/20] 夏のプール — 塩素の匂いと、紫の唇
+[15/20] わらび餅 — ひんやり、ぷるんの、涼菓
+[16/20] 桃 — かじると、手首まで、したたる
+[17/20] 蚊帳 — 緑の網の中で、眠る夜
+[18/20] 夏の星空 — 庭に寝ころんで、見上げる
+[19/20] 扇風機 — 首を振る、あの音のこと
+[20/20] 夏の高校野球 — テレビの前の、他人ごとでない夏
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 2 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-11-21_001_cowork_code.yaml  id=2026-11-21_001
