@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/nf31d24723912",
+ "url": "https://note.com/safe_canna441/n/na9a0b02131ac",
  "buttons": [
   {
    "tag": "a",
@@ -28,33 +28,21 @@
   },
   {
    "tag": "a",
-   "txt": "",
-   "aria": "メッセージ",
-   "href": "/messages/rooms"
-  },
-  {
-   "tag": "button",
-   "txt": "",
+   "txt": "投稿",
    "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "メニュー",
-   "href": ""
+   "href": "/signup"
   },
   {
    "tag": "a",
-   "txt": "投稿",
-   "aria": "新規投稿",
-   "href": "/notes/new"
+   "txt": "ログイン",
+   "aria": "",
+   "href": "/login?redirectPath=https%3A%2F%2Fnote.com%2Fsafe_canna441%2Fn%2Fna9a0b02131ac"
   },
   {
-   "tag": "button",
-   "txt": "",
-   "aria": "投稿メニュー",
-   "href": ""
+   "tag": "a",
+   "txt": "会員登録",
+   "aria": "",
+   "href": "/signup"
   },
   {
    "tag": "a",
@@ -69,10 +57,40 @@
    "href": "https://note.com/safe_canna441"
   },
   {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "プロフィールを非表示",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "a",
+   "txt": "てつ",
+   "aria": "",
+   "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/337833362/rectangle_large_type_2_9c10332f23c69e7527b2869344ae0961.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/337833316/rectangle_large_type_2_06ab83cc19e7d3f7267c5793386a9259.jpeg?width=1200"
   },
   {
    "tag": "button",
@@ -82,8 +100,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -105,34 +123,28 @@
    "href": "https://note.com/safe_canna441"
   },
   {
-   "tag": "button",
+   "tag": "a",
    "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/ne60ae1b02305"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n156a5199e9d7"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n13aa4e281fd5"
+  },
+  {
+   "tag": "button",
+   "txt": "チップで応援する",
    "aria": "",
    "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441/n/n71ca68cce9a8"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441/n/n5b4d7b8f9a0d"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441/n/nc53c78cb4f15"
-  },
-  {
-   "tag": "a",
-   "txt": "#\n\nご当地グルメ\n\n32,786件\n3.2万件",
-   "aria": "",
-   "href": "https://note.com/contest/%E3%81%94%E5%BD%93%E5%9C%B0%E3%82%B0%E3%83%AB%E3%83%A1?f=popular"
   },
   {
    "tag": "a",
@@ -148,39 +160,39 @@
   },
   {
    "tag": "a",
-   "txt": "#ご当地グルメ",
+   "txt": "#食",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%94%E5%BD%93%E5%9C%B0%E3%82%B0%E3%83%AB%E3%83%A1"
+   "href": "https://note.com/hashtag/%E9%A3%9F"
   },
   {
    "tag": "a",
-   "txt": "#秋田",
+   "txt": "#富山",
    "aria": "",
-   "href": "https://note.com/hashtag/%E7%A7%8B%E7%94%B0"
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
   },
   {
    "tag": "a",
-   "txt": "#鍋",
+   "txt": "#japanesefood",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%8D%8B"
+   "href": "https://note.com/hashtag/japanesefood"
   },
   {
    "tag": "a",
-   "txt": "#お取り寄せ",
+   "txt": "#高岡",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8A%E5%8F%96%E3%82%8A%E5%AF%84%E3%81%9B"
+   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
   },
   {
    "tag": "a",
-   "txt": "#B級グルメ",
+   "txt": "#高野豆腐",
    "aria": "",
-   "href": "https://note.com/hashtag/B%E7%B4%9A%E3%82%B0%E3%83%AB%E3%83%A1"
+   "href": "https://note.com/hashtag/%E9%AB%98%E9%87%8E%E8%B1%86%E8%85%90"
   },
   {
    "tag": "a",
-   "txt": "#きりたんぽ",
+   "txt": "#乾物",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8D%E3%82%8A%E3%81%9F%E3%82%93%E3%81%BD"
+   "href": "https://note.com/hashtag/%E4%B9%BE%E7%89%A9"
   },
   {
    "tag": "a",
@@ -196,39 +208,39 @@
   },
   {
    "tag": "a",
-   "txt": "#ご当地グルメ",
+   "txt": "#食",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%94%E5%BD%93%E5%9C%B0%E3%82%B0%E3%83%AB%E3%83%A1"
+   "href": "https://note.com/hashtag/%E9%A3%9F"
   },
   {
    "tag": "a",
-   "txt": "#秋田",
+   "txt": "#富山",
    "aria": "",
-   "href": "https://note.com/hashtag/%E7%A7%8B%E7%94%B0"
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
   },
   {
    "tag": "a",
-   "txt": "#鍋",
+   "txt": "#japanesefood",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%8D%8B"
+   "href": "https://note.com/hashtag/japanesefood"
   },
   {
    "tag": "a",
-   "txt": "#お取り寄せ",
+   "txt": "#高岡",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8A%E5%8F%96%E3%82%8A%E5%AF%84%E3%81%9B"
+   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
   },
   {
    "tag": "a",
-   "txt": "#B級グルメ",
+   "txt": "#高野豆腐",
    "aria": "",
-   "href": "https://note.com/hashtag/B%E7%B4%9A%E3%82%B0%E3%83%AB%E3%83%A1"
+   "href": "https://note.com/hashtag/%E9%AB%98%E9%87%8E%E8%B1%86%E8%85%90"
   },
   {
    "tag": "a",
-   "txt": "#きりたんぽ",
+   "txt": "#乾物",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%81%8D%E3%82%8A%E3%81%9F%E3%82%93%E3%81%BD"
+   "href": "https://note.com/hashtag/%E4%B9%BE%E7%89%A9"
   },
   {
    "tag": "button",
@@ -238,8 +250,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -277,6 +289,12 @@
    "txt": "てつ",
    "aria": "",
    "href": "https://note.com/safe_canna441"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
   },
   {
    "tag": "a",
@@ -304,9 +322,9 @@
   },
   {
    "tag": "a",
-   "txt": "料理・グルメ",
+   "txt": "食材",
    "aria": "",
-   "href": "https://note.com/topic/cooking_gourmet/cooking_gourmet"
+   "href": "https://note.com/topic/cooking_gourmet/ingredients"
   },
   {
    "tag": "a",
@@ -315,6 +333,12 @@
    "href": "https://note.com/safe_canna441/m/m22a5ea6838c5"
   },
   {
+   "tag": "a",
+   "txt": "",
+   "aria": "高岡の食",
+   "href": "https://note.com/safe_canna441/m/m264cf69f123b"
+  },
+  {
    "tag": "button",
    "txt": "",
    "aria": "",
@@ -325,6 +349,18 @@
    "txt": "",
    "aria": "",
    "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "ログイン",
+   "aria": "",
+   "href": "https://note.com/login?redirectPath=%2Fsafe_canna441%2Fn%2Fna9a0b02131ac"
+  },
+  {
+   "tag": "a",
+   "txt": "会員登録",
+   "aria": "",
+   "href": "https://note.com/signup"
   },
   {
    "tag": "button",
@@ -346,8 +382,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -394,8 +430,8 @@
   },
   {
    "tag": "button",
-   "txt": "1",
-   "aria": "1スキ この記事にスキをつけたユーザーを見る",
+   "txt": "2",
+   "aria": "2スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -481,24 +517,6 @@
    "txt": "投資情報の免責事項",
    "aria": "",
    "href": "https://note.com/terms/investment_disclaimer"
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "レイ｜資産3億の視点",
-   "href": "https://note.com/rai_nmaker"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "閉じる",
-   "href": ""
   }
  ]
 }
