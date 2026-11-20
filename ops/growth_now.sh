@@ -36,9 +36,19 @@ N="$(echo "$OUT" | grep -c '^DONE ')"
 # ★2026-10-07: **0人でも「実行した」と報告されるのがいちばん危ない。**
 #   セレクタが全滅していた（note の Next.js 移行でクラス名が消えた）ことに
 #   70日気づかなかったのと同じ型。**0件は失敗として鳴らす**。
-FOLLOWED="$(echo "$OUT" | grep -c 'followed')"
-NOBTN="$(echo "$OUT" | grep -c 'no-follow-btn')"
-NOAUTH="$(echo "$OUT" | grep -c 'no-author-follow-btn')"
+# ★2026-11-20 修正: ここは **出力のどこかに `followed` という文字が出た行**を数えていた。
+#   実際には1人につき最低2行当たる＝①`DONE {...}` の行 ②末尾の `=== SUMMARY ===` の
+#   整形 JSON の `"follow": "followed"` の行。さらに今回から出している
+#   `…（followed_handles.tsv）` の行まで数に入っていた。
+#   実測（2026-11-20 の便）＝**実際にフォローできたのは13人**なのに **27人と報告**していた。
+#   13（DONE）+13（SUMMARY）+1（followed_handles.tsv の文字列）= 27 で、ぴったり合う。
+#   ★**試した人数は14なのに「できた27人」＝同じ行の中で辻褄が合っていない**のに、
+#     11-10 に「試した人数を報告していた」を直したときも、この数え方は見直していなかった。
+#   → **1人1行の `DONE ` だけを数え、その行の `"follow"` の値で判定する。**
+_done_lines="$(echo "$OUT" | grep -a '^DONE ')"
+FOLLOWED="$(echo "$_done_lines" | grep -c '"follow": "\(followed\|clicked\)"')"
+NOBTN="$(echo "$_done_lines" | grep -c '"follow": "no-follow-btn')"
+NOAUTH="$(echo "$_done_lines" | grep -c '"follow": "no-author-follow-btn')"
 if [ "${NOAUTH}" -gt 0 ]; then
   echo ""
   echo "❌ 著者のフォローボタンを特定できませんでした（${NOAUTH}件）。"

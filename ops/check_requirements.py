@@ -2471,45 +2471,47 @@ except Exception as _e49:
 # **過去に discover 経由でフォローした人がどこにも記録されていなかった**こと。
 # R41 は結果（フォロワーの増え方）だけを見るので、**なぜ増えないのか**は分からなかった。
 # → `ops/followed_handles.tsv` に残して除外するよう直した。この検査はその回帰防止。
-# 判定＝直近の publish ログの DONE 行で、already-following が試行の半分以上なら BROKEN。
+#
+# ★2026-11-20 作り直し: 初版は publish ログの `DONE ` 行を数えていたが、
+#   **`ops/cowork_run.sh` は成功した便の出力を `tail -4` しか残さない**。
+#   DONE 行が丸ごと残るのは「0人でした」の分岐に入った日だけなので、
+#   **初版は失敗した日の古いログしか見られず、直った翌日も BROKEN のままだった**（実際そうなった）。
+#   → **`ops/follower_log.tsv` を見る**。1日1行で `new_follows`（実際にフォローできた人数）と
+#     `tried`（試した人数）が入っている＝この検査が知りたいことそのもの。
 try:
-    import glob as _g50, json as _j50
-    _logs50 = sorted(_g50.glob(os.path.join(ROOT, "ops/logs/publish_*.log")))
     _rows50 = []
-    for _f50 in reversed(_logs50):          # 新しいほうから、DONE 行がある便を1つ探す
-        _tmp = []
-        for _ln in open(_f50, encoding="utf-8", errors="replace"):
-            if not _ln.startswith(("DONE ", "DRY ")):
-                continue
-            try:
-                _d50 = _j50.loads(_ln.split(" ", 1)[1])
-            except Exception:
-                continue
-            if _d50.get("author"):
-                _tmp.append(str(_d50.get("follow") or _d50.get("follow_state") or ""))
-        if _tmp:
-            _rows50 = _tmp
-            _name50 = os.path.basename(_f50)
-            break
+    _f50 = os.path.join(ROOT, "ops", "follower_log.tsv")
+    for _ln in (open(_f50, encoding="utf-8").read().splitlines() if os.path.exists(_f50) else []):
+        if not _ln.strip() or _ln.startswith("#"):
+            continue
+        _c50 = _ln.split("\t")
+        if len(_c50) < 4 or _c50[0] == "date":
+            continue
+        try:
+            _rows50.append((_c50[0], int(_c50[2]), int(_c50[3])))
+        except ValueError:
+            continue
     if not _rows50:
         add("R50 集客の枠を再訪で捨てていないか", "STALE",
-            "publish ログに集客の DONE 行が1つも無い＝**集客の便が走っていない**")
+            "ops/follower_log.tsv に読める行が無い＝**集客の便が走っていない**か、記録の形が変わった")
     else:
-        _again = sum(1 for _x in _rows50 if _x.startswith("already-following"))
-        _got = sum(1 for _x in _rows50 if _x.startswith(("followed", "clicked")))
-        if _again * 2 >= len(_rows50):
+        _d50, _got50, _try50 = _rows50[-1]
+        _age50 = (datetime.date.today() - datetime.date.fromisoformat(_d50)).days
+        if _age50 > 2:
+            add("R50 集客の枠を再訪で捨てていないか", "STALE",
+                f"最後の記録が **{_d50}（{_age50}日前）**＝集客の便が走っていない")
+        elif _try50 >= 5 and _got50 * 4 < _try50:
             add("R50 集客の枠を再訪で捨てていないか", "BROKEN",
-                f"**{_name50}: 試した {len(_rows50)}人のうち {_again}人がすでにフォロー済み**"
-                f"（新規に押せたのは {_got}人）→ 枠が足りないのではなく**枠を捨てている**。"
+                f"**{_d50}: 試した {_try50}人のうち、実際にフォローできたのは {_got50}人**"
+                "（枠が足りないのではなく**枠を捨てている**）→ "
                 "`ops/followed_handles.tsv` に触った相手が追記されているか確認する"
                 "（追記されていれば discover が次便で除外する）")
         else:
             add("R50 集客の枠を再訪で捨てていないか", "OK",
-                f"{_name50}: 試した {len(_rows50)}人のうち 再訪は {_again}人"
-                f"（新規に押せた {_got}人）＝枠は新しい相手に使えている")
+                f"{_d50}: 試した {_try50}人のうち {_got50}人に実際にフォローできた"
+                "＝枠は新しい相手に使えている")
 except Exception as _e50:
     add("R50 集客の枠を再訪で捨てていないか", "STALE", f"判定不能: {type(_e50).__name__} {str(_e50)[:60]}")
-
 
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
