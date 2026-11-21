@@ -517,6 +517,36 @@
    "txt": "投資情報の免責事項",
    "aria": "",
    "href": "https://note.com/terms/investment_disclaimer"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "HiRO｜稜線を歩く",
+   "href": "https://note.com/wakux2com"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "刻空",
+   "href": "https://note.com/ozconsultingeasy"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "閉じる",
+   "href": ""
   }
  ]
 }

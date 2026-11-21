@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/honno_hitotoki/n/nb97406a0530b",
+ "url": "https://note.com/simfonio_kampara/n/nea2f68d45b75",
  "buttons": [
   {
    "tag": "button",
@@ -40,9 +40,15 @@
   },
   {
    "tag": "button",
-   "txt": "47",
-   "aria": "47スキ この記事にスキをつけたユーザーを見る",
+   "txt": "9",
+   "aria": "9スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "この記事を別の言語で読む",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
@@ -64,8 +70,8 @@
   },
   {
    "tag": "button",
-   "txt": "47",
-   "aria": "47スキ この記事にスキをつけたユーザーを見る",
+   "txt": "9",
+   "aria": "9スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -100,6 +106,12 @@
   },
   {
    "tag": "button",
+   "txt": "自己紹介を もっとみる",
+   "aria": "",
+   "cls": "text-sm text-text-secondary underline hover:text-text-primary mt-2 sel"
+  },
+  {
+   "tag": "button",
    "txt": "",
    "aria": "",
    "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
@@ -130,8 +142,8 @@
   },
   {
    "tag": "button",
-   "txt": "47",
-   "aria": "47スキ この記事にスキをつけたユーザーを見る",
+   "txt": "9",
+   "aria": "9スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -178,8 +190,8 @@
   },
   {
    "tag": "button",
-   "txt": "47",
-   "aria": "47スキ この記事にスキをつけたユーザーを見る",
+   "txt": "9",
+   "aria": "9スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
