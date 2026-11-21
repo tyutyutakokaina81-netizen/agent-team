@@ -1,0 +1,7 @@
+run_worker.sh 版: 2026-10-23 認証引き継ぎ＋版印をログへ
+auth: ANTHROPIC_API_KEY は見つかりません（保存済みの認証で起動します）
+claude: /Users/apple/.npm-global/bin/claude
+---- ここからワーカーの出力 ----
+Failed to authenticate: OAuth session expired and could not be refreshed
+launcher_error=auth_not_inherited（認証情報が自動実行に渡っていない。対話で claude が起動するなら /login では直らない。$HOME/.agent-team.env に ANTHROPIC_API_KEY を置くか、ログインシェルの設定を確認）
+exit_code=1
