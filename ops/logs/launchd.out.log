@@ -11873,3 +11873,57 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-21_003_cowork_code.yaml  id=2026-11-21_003
+[main 6874fe44] cowork: daily backfill (english/follow/x-queue) 2026-11-21_080000
+ 10 files changed, 278 insertions(+), 115 deletions(-)
+ create mode 100644 ops/logs/_tag_debug/publish_n1bbb920a0ee7_unreadable.html
+ create mode 100644 ops/logs/_tag_debug/shot_n1bbb920a0ee7_unreadable.png
+ create mode 100644 ops/logs/backfill_tags_2026-11-21_081256.log
+ create mode 100644 ops/outbox/2026-11-21_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   900f936a..6874fe44  main -> main
+=== publish run 2026-11-22_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/20] 鮎の塩焼き — 夏の川の、ほろ苦いごちそう
+[4/20] 氷見うどんのある台所
+[5/20] 梅雨の間に光を見つける
+[6/20] ひとり仕事の、いちばんシンプルな段取りの話
+[7/20] 日傘 — 持ち歩く、日陰
+[8/20] 富山の名水 — 立山からの、贈りもの
+[9/20] 怪談 — こわい話で、涼む夜
+[10/20] メロン — スプーンで、すくう贅沢
+[11/20] 夏の昼寝 — 畳の上の、うたた寝
+[12/20] コーラを、火にかけて作る。— 七輪で、スパイスから煮出す
+[13/20] スイカは、冷やして、塩をふる。— 夏の、いちばん派手なく
+[14/20] 夏休みの宿題 — 最終日に、ぜんぶ思い出す
+[15/20] カブトムシ — 夏の朝の、宝物
+[16/20] ラムネ — ビー玉が、からんと鳴る
+[17/20] 冷や汁 — 食欲のない日を、救ってくれる
+[18/20] 蛍が、川辺にともる。— 暗がりに浮かぶ、夏の小さな光
+[19/20] 入道雲が立つと、夕立が来る。— 夏の空の、急な変わりよう
+[20/20] 枝豆は、夏のいちばん手軽なごちそう。— さやから、じかに
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 2 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-11-22_001_cowork_code.yaml  id=2026-11-22_001
