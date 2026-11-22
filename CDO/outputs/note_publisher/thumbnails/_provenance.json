@@ -3330,5 +3330,32 @@
 "license": "CC BY-SA 2.0",
 "query": "牛タン 焼き",
 "src": "https://upload.wikimedia.org/wikipedia/commons/1/11/Gyutan_karaage.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
+"2026-11-02_note記事_ゆず_中身を食べない果物": {
+"author": "Nori Norisa",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%93%E3%81%AE%E3%81%A8%E3%81%93%E3%82%8D%E4%BD%95%E6%97%A5%E9%96%93%E3%81%8B%E3%81%9A%E3%81%A3%E3%81%A8%E6%9F%9A%E5%AD%90%E6%B9%AF.jpg",
+"file": "File:このところ何日間かずっと柚子湯.jpg",
+"license": "CC BY 2.0",
+"query": "柚子湯",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/%E3%81%93%E3%81%AE%E3%81%A8%E3%81%93%E3%82%8D%E4%BD%95%E6%97%A5%E9%96%93%E3%81%8B%E3%81%9A%E3%81%A3%E3%81%A8%E6%9F%9A%E5%AD%90%E6%B9%AF.jpg/1280px-%E3%81%93%E3%81%AE%E3%81%A8%E3%81%93%E3%82%8D%E4%BD%95%E6%97%A5%E9%96%93%E3%81%8B%E3%81%9A%E3%81%A3%E3%81%A8%E6%9F%9A%E5%AD%90%E6%B9%AF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-02_note記事_佐世保バーガー_名前に場所しか入っていない": {
+"author": "",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Big_Mac_hamburger_-_Japan_(1).jpg",
+"file": "File:Big Mac hamburger - Japan (1).jpg",
+"license": "CC BY-SA 3.0",
+"query": "hamburger japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Big_Mac_hamburger_-_Japan_%281%29.jpg/1280px-Big_Mac_hamburger_-_Japan_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-02_note記事_雨戸_壁の中にいる戸": {
+"author": "Solomon203",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg",
+"file": "File:Sagittarius Studio roller shutter and Japanese paper lanterns 20251004.jpg",
+"license": "CC BY-SA 4.0",
+"query": "shutter house japan",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg/1280px-Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
