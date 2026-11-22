@@ -1,0 +1,88 @@
+=== publish run 2026-11-23_080002 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/20] 温泉は、特別じゃない。— 富山の、日帰り温泉のある暮らし
+[4/20] 夏は、氷を食べる。— かき氷という、うちの夏のごほうび
+[5/20] 紙の網で、いのちをすくう。— 縁日の金魚すくい
+[6/20] しゃがんで、火の玉を見つめる。— 線香花火という、夏の終
+[7/20] 街じゅうに、願いが揺れる。— 高岡の八月の七夕
+[8/20] 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器
+[9/20] アウディを買ってよかった、という話。— 地方で、車を選ぶ
+[10/20] 甘酒は、冬より夏。— 冷やして飲む、夏のごほうび
+[11/20] 風鈴は、風を、音に変える。— 耳で涼をとる、夏の知恵
+[12/20] 夏の冷蔵庫には、いつも麦茶。— 家の味が、いちばん濃く出
+[13/20] 「冷やし中華、始めました」。— その貼り紙が、夏の合図
+[14/20] 夏に、みんなが帰ってくる。— 富山の家の、お盆の風景
+[15/20] ご報告。本日、FIREしました。— お金持ちの引退ではな
+[16/20] 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、
+[17/20] ところてんは、味がないのがいい。— 夏の、するりと涼しい
+[18/20] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n8acc12f6a576.html を保存
+    API命中: https://note.com/api/v3/notes/n8acc12f6a576/note_comments （root 1件はすべて返信済み＝返信待ちなし）
+    ✅ コメント 1件はすべて返信済み（返信待ちなし）
+[19/20] 梅干しは、夏の手仕事。— 土用に干して、一年を食べる
+[20/20] FIRE ——今日で、会社を辞めました。こわくて静かな一
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 2 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 1 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n0443f87ce4df.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_nc7a3522ade60.html を保存
+    ⚠️ NO-SELECTOR（コメント欄を特定できず＝0件と断定しない）
+[3/20] 温泉は、特別じゃない。— 富山の、日帰り温泉のある暮らし
+[4/20] 夏は、氷を食べる。— かき氷という、うちの夏のごほうび
+[5/20] 紙の網で、いのちをすくう。— 縁日の金魚すくい
+[6/20] しゃがんで、火の玉を見つめる。— 線香花火という、夏の終
+[7/20] 街じゅうに、願いが揺れる。— 高岡の八月の七夕
+[8/20] 蚊取り線香の煙が、夏の夜をつくる。— あの匂いと、豚の器
+[9/20] アウディを買ってよかった、という話。— 地方で、車を選ぶ
+[10/20] 甘酒は、冬より夏。— 冷やして飲む、夏のごほうび
+[11/20] 風鈴は、風を、音に変える。— 耳で涼をとる、夏の知恵
+[12/20] 夏の冷蔵庫には、いつも麦茶。— 家の味が、いちばん濃く出
+[13/20] 「冷やし中華、始めました」。— その貼り紙が、夏の合図
+[14/20] 夏に、みんなが帰ってくる。— 富山の家の、お盆の風景
+[15/20] ご報告。本日、FIREしました。— お金持ちの引退ではな
+[16/20] 夏休みの朝は、ラジオ体操から。— 眠い目で広場に集まる、
+[17/20] ところてんは、味がないのがいい。— 夏の、するりと涼しい
+[18/20] 夕方の、打ち水。— 水をまいて、夏をやり過ごす小さな知恵
+    debug: /Users/apple/agent-team-run/ops/comments/_debug/https_note_com_safe_canna441_n_n8acc12f6a576.html を保存
+    API命中: https://note.com/api/v3/notes/n8acc12f6a576/note_comments （root 1件はすべて返信済み＝返信待ちなし）
+    ✅ コメント 1件はすべて返信済み（返信待ちなし）
+[19/20] 梅干しは、夏の手仕事。— 土用に干して、一年を食べる
+[20/20] FIRE ——今日で、会社を辞めました。こわくて静かな一
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 2 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 0 / **コメント有りだが本文が取れない 0** ===
+→ セレクタ外れがある。`--debug` で保存したHTMLをリポジトリに置いて報告してください（code が直します）。
+posted: ops/outbox/2026-11-23_001_cowork_code.yaml  id=2026-11-23_001
