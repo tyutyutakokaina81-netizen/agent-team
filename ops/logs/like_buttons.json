@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/simfonio_kampara/n/nea2f68d45b75",
+ "url": "https://note.com/toyama_ossan/n/ne0f5183488b3",
  "buttons": [
   {
    "tag": "button",
@@ -40,21 +40,9 @@
   },
   {
    "tag": "button",
-   "txt": "9",
-   "aria": "9スキ この記事にスキをつけたユーザーを見る",
+   "txt": "10",
+   "aria": "10スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "この記事を別の言語で読む",
-   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative inline-block  outline-0 hover:outline-0 focus:outline-0 activ"
   },
   {
    "tag": "button",
@@ -70,8 +58,8 @@
   },
   {
    "tag": "button",
-   "txt": "9",
-   "aria": "9スキ この記事にスキをつけたユーザーを見る",
+   "txt": "10",
+   "aria": "10スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -112,18 +100,6 @@
   },
   {
    "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative m-0 inline-flex touch-manipulation appearance-none items-cent"
-  },
-  {
-   "tag": "button",
    "txt": "スキ",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
@@ -142,8 +118,8 @@
   },
   {
    "tag": "button",
-   "txt": "9",
-   "aria": "9スキ この記事にスキをつけたユーザーを見る",
+   "txt": "10",
+   "aria": "10スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -190,8 +166,8 @@
   },
   {
    "tag": "button",
-   "txt": "9",
-   "aria": "9スキ この記事にスキをつけたユーザーを見る",
+   "txt": "10",
+   "aria": "10スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
