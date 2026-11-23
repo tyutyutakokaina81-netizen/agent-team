@@ -2520,6 +2520,51 @@ try:
                 "＝枠は新しい相手に使えている")
 except Exception as _e50:
     add("R50 集客の枠を再訪で捨てていないか", "STALE", f"判定不能: {type(_e50).__name__} {str(_e50)[:60]}")
+# R51 note のログインが切れていないか: 2026-11-24、オーナーが Mac で `publish_today.sh` を回したら
+# **「✗ note にログインしていない状態です」で公開0件**だった。記事はキューに残った（ガードは効いた）。
+# ★問題は**気づくのが遅れる形**だったこと＝11-21〜23 は**キューが空**だったので公開を試みておらず、
+#   ログインが切れていても**ログに何も出なかった**。「公開0件」が
+#   「キューが空だった」のか「ログインが切れていた」のか、**報告からは区別がつかない。**
+# ★`ops/cowork_run.sh` は検知して報告の先頭に警告を出す作りになっている（login_fail）。
+#   この検査は、その警告と publish ログを**恒常的に見張る**ぶん。
+# 直し方（オーナーの Mac で1回）: `cd ~/agent-team-run && bash ops/publish_today.sh --login`
+try:
+    import glob as _g51
+    _MARK51 = ("ログインしていない", "初回ログインがまだ", "noteログイン切れ")
+    _logs51 = sorted(_g51.glob(os.path.join(ROOT, "ops/logs/publish_*.log")))
+    _hit51 = None
+    for _f51 in reversed(_logs51):          # 新しいほうから、公開を試みた便を1つ探す
+        _t51 = open(_f51, encoding="utf-8", errors="replace").read()
+        if "公開:" not in _t51 and "公開 " not in _t51:
+            continue
+        _hit51 = (os.path.basename(_f51), any(_m in _t51 for _m in _MARK51))
+        break
+    # cowork の報告（outbox / processed）にも警告が残る
+    _rep51 = []
+    for _d51 in ("ops/outbox", "ops/processed"):
+        _rep51 += _g51.glob(os.path.join(ROOT, _d51, "*_cowork_code.yaml"))
+    _rep_hit51 = None
+    for _f51 in sorted(_rep51)[::-1][:6]:   # 直近6通だけ見る
+        _t51 = open(_f51, encoding="utf-8", errors="replace").read()
+        if any(_m in _t51 for _m in _MARK51):
+            _rep_hit51 = os.path.basename(_f51)
+            break
+    if _hit51 is None and _rep_hit51 is None:
+        add("R51 noteログインの生存", "STALE",
+            "**公開を試みた便が見つからない**＝キューが空の日が続いている。"
+            "ログインが切れていても分からない状態（ログには何も出ない）")
+    elif (_hit51 and _hit51[1]) or _rep_hit51:
+        _who = _rep_hit51 or _hit51[0]
+        add("R51 noteログインの生存", "BROKEN",
+            f"**note のログインが切れている**（{_who}）→ 公開は0件のまま進まない。"
+            "オーナーの Mac で `cd ~/agent-team-run && bash ops/publish_today.sh --login` を1回。"
+            "**記事はキューに残るので失われない**")
+    else:
+        add("R51 noteログインの生存", "OK",
+            f"直近に公開を試みた便（{_hit51[0]}）にログイン切れの警告は出ていない")
+except Exception as _e51:
+    add("R51 noteログインの生存", "STALE", f"判定不能: {type(_e51).__name__} {str(_e51)[:60]}")
+
 
 # 出力
 order = {"BROKEN": 0, "STALE": 1, "BLOCKED": 2, "OK": 3}
