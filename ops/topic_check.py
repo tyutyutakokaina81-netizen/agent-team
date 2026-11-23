@@ -21,6 +21,7 @@
 import glob
 import json
 import os
+import re
 import sys
 import unicodedata
 
@@ -38,8 +39,65 @@ def kana_variants(w):
     return sorted(out)
 
 
+def check_title(title: str) -> int:
+    """**書く前に、公開時と同じ重複判定を回す。**
+
+    ★2026-11-23 追加の理由:
+      `ゆず` で引いて「空き」と出たので、ゆずの記事を1本書き上げた。
+      ところが **2026-10-16 に『柚子：果肉を食べない果物』が公開済み**で、
+      芯（中身を食べない）まで同じ**ほぼ完全な重複**だった。
+      この検査は `kana_variants()` でひらがな⇄カタカナしか見ないので、
+      **漢字の別表記は呼ぶ側が渡さないと見つからない**（docstring にそう書いてある）。
+      ★★**綴りを突き合わせる方式では、`ゆず` と `柚子` の距離は埋まらない。**
+      一方 **publisher の `topic_conflict()` はタイトル同士で判定するので、これは捕まえられた**
+      （実際 R26 が公開の直前に止めた）。
+      → **同じ判定を、書く前に回せるようにする。**
+      使い方: `python3 ops/topic_check.py --title "ゆず：中身を、食べない果物"`
+    """
+    pub = os.path.join(ROOT, "CDO/outputs/note_publisher/publish_to_note.py")
+    try:
+        src = open(pub, encoding="utf-8").read()
+        from pathlib import Path as _P
+        ns = {"re": re, "os": os, "json": json, "Path": _P, "unicodedata": unicodedata,
+              "__file__": pub}
+        # ★publisher の本体を丸ごと import すると playwright が要るので、
+        #   **必要な定義だけを切り出して実行する**（ここが publisher と同じ判定である根拠）。
+        for a, b in (("REGISTRY_PATH = ", "def _ensure_"), ("def _norm_title(", "def _slug"),
+                     ("def load_registry(", "def save_registry("),
+                     ("TOPIC_STOPWORDS = {", "def _publish_one("),):
+            try:
+                i = src.index(a)
+            except ValueError:
+                continue
+            j = src.index(b, i) if b in src[i:] else len(src)
+            exec(src[i:j], ns)
+        if "topic_conflict" not in ns:
+            raise RuntimeError("topic_conflict を取り出せなかった")
+    except Exception as e:
+        print(f"判定不能: publisher の topic_conflict を読めなかった（{type(e).__name__}: {e}）")
+        return 2
+    hit = ns["topic_conflict"](title)
+    if not hit:
+        print(f"○ 重複なし  「{title}」")
+        print("   ※ publisher が公開時に使うのと同じ判定（topic_conflict）を通した。")
+        return 0
+    entry, shared = hit
+    name = entry.get("title") if isinstance(entry, dict) else str(entry)
+    print(f"× 重複あり  「{title}」")
+    print(f"   既公開: {str(name)[:70]}")
+    print(f"   共有トークン: {'/'.join(sorted(shared))}")
+    print("   → 題名を変えるか、題材そのものを変える。**公開時にはねられてその日の枠が消える。**")
+    return 1
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--title" in sys.argv:
+        i = sys.argv.index("--title")
+        if i + 1 >= len(sys.argv):
+            print("使い方: python3 ops/topic_check.py --title \"<記事のタイトル>\"")
+            return 2
+        return check_title(sys.argv[i + 1])
     use_kana = "--kana" in sys.argv
     if not args:
         print(__doc__)
