@@ -1,0 +1,21 @@
+=== publish run 2026-11-24_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-11-01_note記事_しいたけ_裏を返してから決める.md ---
+📝 記事: 2026-11-01_note記事_しいたけ_裏を返してから決める.md
+🏷️  タイトル: しいたけ：裏を返してから、決める
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-11-01_note記事_しいたけ_裏を返してから決める.jpg
+🔖 ハッシュタグ: 8 個 (しいたけ, 富山, きのこ, 食, 鍋…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。
+=== summary(無料): published=0 failed=1 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+ログイン切れのためコメント収集はスキップ
+/Users/apple/agent-team-run/ops/cowork_run.sh: line 231: comment_unreadable: unbound variable

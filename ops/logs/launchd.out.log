@@ -12156,3 +12156,30 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-23_003_cowork_code.yaml  id=2026-11-23_003
+[main 94b23d46] cowork: daily backfill (english/follow/x-queue) 2026-11-23_080002
+ 9 files changed, 166 insertions(+), 35 deletions(-)
+ create mode 100644 ops/logs/backfill_tags_2026-11-23_081305.log
+ create mode 100644 ops/outbox/2026-11-23_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   c0c3ed00..94b23d46  main -> main
+=== publish run 2026-11-24_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-11-01_note記事_しいたけ_裏を返してから決める.md ---
+📝 記事: 2026-11-01_note記事_しいたけ_裏を返してから決める.md
+🏷️  タイトル: しいたけ：裏を返してから、決める
+📸 写真placeholder: 0 個
+🖼️  実写ファイル: 0 枚 (None)
+🖼️  自動サムネ候補: 2026-11-01_note記事_しいたけ_裏を返してから決める.jpg
+🔖 ハッシュタグ: 8 個 (しいたけ, 富山, きのこ, 食, 鍋…)
+📝 text-onlyモード: 写真placeholderを除去してテキストのみ投稿します
+🌐 本物のGoogle Chrome を使用しています
+✅ 重複ゲート通過（note検索でヒットなし）
+✗ note にログインしていない状態です。 `python3 publish_to_note.py --login` を再実行してください。
+=== summary(無料): published=0 failed=1 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+ログイン切れのためコメント収集はスキップ
+/Users/apple/agent-team-run/ops/cowork_run.sh: line 231: comment_unreadable: unbound variable
