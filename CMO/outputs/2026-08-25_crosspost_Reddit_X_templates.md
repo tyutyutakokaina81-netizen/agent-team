@@ -715,3 +715,29 @@ Most days I carry one and never open it. Possibly most days, though I've never k
 4/ The longer one stands there, the vaguer its ownership. You take whichever is nearest the door; nobody comes to reclaim it. A bent rib doesn't get it thrown out either — it just stops being chosen.
 5/ Most days I carry one and never open it. The weight argues for leaving it; I take it anyway. A soaked day stays with you far longer than a day carrying something you didn't need. #Japan #Toyama
 ```
+
+---
+
+<!-- URLS:START -->
+## 公開URL一覧（配布用・投稿者の参照/プロフィール/コメント用）
+
+> ⚠️ Reddit本文にはリンクを直貼りしない。プロフィール欄・コメントで使う。
+
+- **梨**: https://note.com/safe_canna441/n/n8816235bcecd
+- **共働き**: https://note.com/safe_canna441/n/n936820e10c65
+- **獅子舞**: https://note.com/safe_canna441/n/nfcb35ebb2f13
+- **栗ご飯**: https://note.com/safe_canna441/n/nac4021320e0b
+- **虫の声**: https://note.com/safe_canna441/n/n5f114cef1412
+- **干し柿**: https://note.com/safe_canna441/n/n39cce2db71eb
+- **初冠雪**: https://note.com/safe_canna441/n/n7a7a27ae06a6
+- **ぎんなん**: https://note.com/safe_canna441/n/nf705ce597b9f
+- **消雪パイプ**: https://note.com/safe_canna441/n/n35e32ae59980
+- **なめこ**: https://note.com/safe_canna441/n/nb81913749420
+- **夕方のチャイム**: https://note.com/safe_canna441/n/n76835f5bcfd0
+- **焼き芋**: https://note.com/safe_canna441/n/n59753a63ab8c
+- **立山の紅葉**: https://note.com/safe_canna441/n/n169c2e35ecc7
+- **牛たん**: https://note.com/safe_canna441/n/n511803434d6e
+- **塩鮭**: https://note.com/safe_canna441/n/n605986b1398f
+- **讃岐うどん**: https://note.com/safe_canna441/n/n188e9ee375f0
+
+<!-- URLS:END -->
