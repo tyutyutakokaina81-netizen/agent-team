@@ -135,3 +135,58 @@ Already up to date.
 対象がありません（すべて処理済みか、条件に合う記事なし）。
 === 結果: 更新 0 / スキップ 0 / 失敗 0（対象なし＝すべて処理済み・正常） ===
 posted: ops/outbox/2026-11-25_002_cowork_code.yaml  id=2026-11-25_002
+[main d3458e7e] cowork: paid-footer insertion pass (2026-11-25_080005)
+ 5 files changed, 96 insertions(+)
+ create mode 100644 ops/logs/sell_2026-11-25_080225.log
+ create mode 100644 ops/outbox/2026-11-25_002_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   ba36c1db..d3458e7e  main -> main
+
+=== コメントに自動返信する ===
+新しく返すものは無い
+出すものが無い（READY が無い／すでに投稿済み）
+=== フォロワーを増やす（富山/氷見/高岡の発信者に フォロー＋スキ）===
+      → 0人
+  ● 朝から、うどんを食べる。— 香川・讃岐うどん（お取り寄せ: 1スキ この記事にスキをつけたユーザーを見る
+DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-team-run/ops/logs/likers_buttons.json
+      → 0人
+  ● 塩鮭：切り身で買って、一切れずつ焼く: 4スキ この記事にスキをつけたユーザーを見る
+DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-team-run/ops/logs/likers_buttons.json
+      → 0人
+  - 端のほうが、名前を持った。— 宮城・牛たん（お取り寄せ㉖: スキ0件か、ボタンが無い
+  ● しいたけ：裏を返してから、決める: 2スキ この記事にスキをつけたユーザーを見る
+DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-team-run/ops/logs/likers_buttons.json
+      → 0人
+
+フォローしに行く: 0人
+
+== スキをくれた人を 0人フォロー（試した 0人）==
+ },
+ {
+  "author": "kikou0401",
+  "title": "#氷見フィード発見",
+  "like": "no-btn-or-already",
+  "follow": "followed"
+ }
+]
+記録: 2026-11-25 97フォロワー / 今回フォローできた 13人（試した 14人）
+=== 記事が読者に見えているかを少しずつ確認（ログアウト状態・読み取りのみ）===
+今回見たぶんは全部読者に見えている
+（意図して下書きにしている 2本は数えていない＝ops/intentional_drafts.tsv）
+  - n0443f87ce4df 氷見牛は、地元でもめったに食べられない。 … 氷見牛の重複（3本あるうちの1本）。下書きへ戻した
+  - nc7a3522ade60 氷見牛は、里山で育つ知る人ぞ知る牛だ。 … 氷見牛の重複（3本あるうちの1本）。2026-10-22 に下書きへ戻した
+=== 毎日の積み残しを減らす（英語／フォロー導線／タグ／Xキュー）===
+
+== 結果: 追記 0本 / すでに英語あり 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_english_2026-11-25_081227.log
+
+== 結果: 追記 0本 / すでにある 0本 / 失敗 0本 ==
+ログ: ops/logs/backfill_follow_2026-11-25_081228.log
+  n1bbb920a0ee7	SKIP_DRAFT:「更新する」が無く「投稿する」だけがある＝この記事は下書き。意図しない公開を避けるため押していない
+更新できた: 0 / 1  （2026-11-25 08:12）
+ログ: ops/logs/backfill_tags_2026-11-25_081228.log
+  残す投稿済みスレッド     : 4本
+
+✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
+X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
+posted: ops/outbox/2026-11-25_003_cowork_code.yaml  id=2026-11-25_003

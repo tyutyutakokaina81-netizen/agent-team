@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/na9a0b02131ac",
+ "url": "https://note.com/safe_canna441/n/n00213d7a258a",
  "buttons": [
   {
    "tag": "a",
@@ -28,21 +28,33 @@
   },
   {
    "tag": "a",
+   "txt": "",
+   "aria": "メッセージ",
+   "href": "/messages/rooms"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "メニュー",
+   "href": ""
+  },
+  {
+   "tag": "a",
    "txt": "投稿",
-   "aria": "",
-   "href": "/signup"
+   "aria": "新規投稿",
+   "href": "/notes/new"
   },
   {
-   "tag": "a",
-   "txt": "ログイン",
-   "aria": "",
-   "href": "/login?redirectPath=https%3A%2F%2Fnote.com%2Fsafe_canna441%2Fn%2Fna9a0b02131ac"
-  },
-  {
-   "tag": "a",
-   "txt": "会員登録",
-   "aria": "",
-   "href": "/signup"
+   "tag": "button",
+   "txt": "",
+   "aria": "投稿メニュー",
+   "href": ""
   },
   {
    "tag": "a",
@@ -57,40 +69,10 @@
    "href": "https://note.com/safe_canna441"
   },
   {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "button",
-   "txt": "",
-   "aria": "プロフィールを非表示",
-   "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "",
-   "href": "https://note.com/safe_canna441"
-  },
-  {
-   "tag": "a",
-   "txt": "てつ",
-   "aria": "",
-   "href": "https://note.com/safe_canna441"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
    "tag": "a",
    "txt": "",
    "aria": "見出し画像を拡大",
-   "href": "https://assets.st-note.com/production/uploads/images/337833316/rectangle_large_type_2_06ab83cc19e7d3f7267c5793386a9259.jpeg?width=1200"
+   "href": "https://assets.st-note.com/production/uploads/images/339967920/rectangle_large_type_2_dba6dd23fce9e8b10cfa4e439a09d9a4.jpeg?width=1200"
   },
   {
    "tag": "button",
@@ -123,10 +105,22 @@
    "href": "https://note.com/safe_canna441"
   },
   {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "href": ""
+  },
+  {
    "tag": "a",
    "txt": "",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/ne60ae1b02305"
+   "href": "https://note.com/safe_canna441/n/nec45923dfe14"
+  },
+  {
+   "tag": "a",
+   "txt": "",
+   "aria": "",
+   "href": "https://note.com/safe_canna441/n/n1ffab822c2a4"
   },
   {
    "tag": "a",
@@ -136,15 +130,51 @@
   },
   {
    "tag": "a",
-   "txt": "",
+   "txt": "#毎日note",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n13aa4e281fd5"
+   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
   },
   {
-   "tag": "button",
-   "txt": "チップで応援する",
+   "tag": "a",
+   "txt": "#japan",
    "aria": "",
-   "href": ""
+   "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#食",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%A3%9F"
+  },
+  {
+   "tag": "a",
+   "txt": "#富山",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
+  },
+  {
+   "tag": "a",
+   "txt": "#鍋",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E9%8D%8B"
+  },
+  {
+   "tag": "a",
+   "txt": "#きのこ",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E3%81%8D%E3%81%AE%E3%81%93"
+  },
+  {
+   "tag": "a",
+   "txt": "#しいたけ",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E3%81%97%E3%81%84%E3%81%9F%E3%81%91"
+  },
+  {
+   "tag": "a",
+   "txt": "#toyama",
+   "aria": "",
+   "href": "https://note.com/hashtag/toyama"
   },
   {
    "tag": "a",
@@ -172,75 +202,27 @@
   },
   {
    "tag": "a",
-   "txt": "#japanesefood",
+   "txt": "#鍋",
    "aria": "",
-   "href": "https://note.com/hashtag/japanesefood"
+   "href": "https://note.com/hashtag/%E9%8D%8B"
   },
   {
    "tag": "a",
-   "txt": "#高岡",
+   "txt": "#きのこ",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
+   "href": "https://note.com/hashtag/%E3%81%8D%E3%81%AE%E3%81%93"
   },
   {
    "tag": "a",
-   "txt": "#高野豆腐",
+   "txt": "#しいたけ",
    "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E9%87%8E%E8%B1%86%E8%85%90"
+   "href": "https://note.com/hashtag/%E3%81%97%E3%81%84%E3%81%9F%E3%81%91"
   },
   {
    "tag": "a",
-   "txt": "#乾物",
+   "txt": "#toyama",
    "aria": "",
-   "href": "https://note.com/hashtag/%E4%B9%BE%E7%89%A9"
-  },
-  {
-   "tag": "a",
-   "txt": "#毎日note",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%AF%8E%E6%97%A5note"
-  },
-  {
-   "tag": "a",
-   "txt": "#japan",
-   "aria": "",
-   "href": "https://note.com/hashtag/japan"
-  },
-  {
-   "tag": "a",
-   "txt": "#食",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E9%A3%9F"
-  },
-  {
-   "tag": "a",
-   "txt": "#富山",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E5%AF%8C%E5%B1%B1"
-  },
-  {
-   "tag": "a",
-   "txt": "#japanesefood",
-   "aria": "",
-   "href": "https://note.com/hashtag/japanesefood"
-  },
-  {
-   "tag": "a",
-   "txt": "#高岡",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E5%B2%A1"
-  },
-  {
-   "tag": "a",
-   "txt": "#高野豆腐",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E9%AB%98%E9%87%8E%E8%B1%86%E8%85%90"
-  },
-  {
-   "tag": "a",
-   "txt": "#乾物",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E4%B9%BE%E7%89%A9"
+   "href": "https://note.com/hashtag/toyama"
   },
   {
    "tag": "button",
@@ -289,12 +271,6 @@
    "txt": "てつ",
    "aria": "",
    "href": "https://note.com/safe_canna441"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
   },
   {
    "tag": "a",
@@ -349,18 +325,6 @@
    "txt": "",
    "aria": "",
    "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "ログイン",
-   "aria": "",
-   "href": "https://note.com/login?redirectPath=%2Fsafe_canna441%2Fn%2Fna9a0b02131ac"
-  },
-  {
-   "tag": "a",
-   "txt": "会員登録",
-   "aria": "",
-   "href": "https://note.com/signup"
   },
   {
    "tag": "button",
@@ -521,20 +485,20 @@
   {
    "tag": "a",
    "txt": "",
-   "aria": "HiRO｜稜線を歩く",
-   "href": "https://note.com/wakux2com"
+   "aria": "刻空",
+   "href": "https://note.com/ozconsultingeasy"
   },
   {
    "tag": "button",
-   "txt": "フォロー",
+   "txt": "フォロー中",
    "aria": "",
    "href": ""
   },
   {
    "tag": "a",
    "txt": "",
-   "aria": "刻空",
-   "href": "https://note.com/ozconsultingeasy"
+   "aria": "いとのある生活",
+   "href": "https://note.com/ito__seikatu"
   },
   {
    "tag": "button",

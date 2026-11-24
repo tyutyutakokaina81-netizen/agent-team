@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/toyama_ossan/n/ne0f5183488b3",
+ "url": "https://note.com/kikou0401/n/n96148b9b412a",
  "buttons": [
   {
    "tag": "button",
@@ -13,6 +13,24 @@
    "txt": "",
    "aria": "検索フォームを閉じる",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "flex h-6 w-6 items-center justify-center border-0 bg-transparent text-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "メニュー",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "投稿メニュー",
+   "cls": "relative inline-flex cursor-pointer appearance-none items-center justi"
   },
   {
    "tag": "button",
@@ -40,9 +58,27 @@
   },
   {
    "tag": "button",
-   "txt": "10",
-   "aria": "10スキ この記事にスキをつけたユーザーを見る",
+   "txt": "6",
+   "aria": "6スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "フォローする",
+   "aria": "",
+   "cls": "hidden ml-1 text-text-clickable-icon text-xs underline md:inline"
+  },
+  {
+   "tag": "button",
+   "txt": "フォロー",
+   "aria": "",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "",
+   "cls": "relative inline-block  outline-0 hover:outline-0 focus:outline-0 activ"
   },
   {
    "tag": "button",
@@ -58,8 +94,8 @@
   },
   {
    "tag": "button",
-   "txt": "10",
-   "aria": "10スキ この記事にスキをつけたユーザーを見る",
+   "txt": "6",
+   "aria": "6スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -94,12 +130,6 @@
   },
   {
    "tag": "button",
-   "txt": "自己紹介を もっとみる",
-   "aria": "",
-   "cls": "text-sm text-text-secondary underline hover:text-text-primary mt-2 sel"
-  },
-  {
-   "tag": "button",
    "txt": "スキ",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
@@ -118,8 +148,8 @@
   },
   {
    "tag": "button",
-   "txt": "10",
-   "aria": "10スキ この記事にスキをつけたユーザーを見る",
+   "txt": "6",
+   "aria": "6スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -166,8 +196,8 @@
   },
   {
    "tag": "button",
-   "txt": "10",
-   "aria": "10スキ この記事にスキをつけたユーザーを見る",
+   "txt": "6",
+   "aria": "6スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
