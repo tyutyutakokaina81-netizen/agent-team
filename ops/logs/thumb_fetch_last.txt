@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-23T23:48:02Z UTC / 成功: 1 / 失敗: 133
+# 最終実行: 2026-11-24T00:00:12Z UTC / 成功: 2 / 失敗: 134
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -95,7 +95,7 @@
   ✗ 2026-06-20_note記事_富山城_町なかの城址公園  (「富山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「富山」入りの語を足すこと)
   skip(place): 2026-06-20_note記事_黒部峡谷のトロッコ電車_… は「黒部」を名乗る記事。土地名を含まないクエリ ['mountain gorge railway'] は使わない
   ✗ 2026-06-20_note記事_黒部峡谷のトロッコ電車_峡谷を行く  (「黒部」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「黒部」入りの語を足すこと)
-  ✗ 2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子  (tried ['clear mountain stream water japan']): RuntimeError — 候補なし（query='clear mountain stream water japan'） diag={'pages': 12, 'img': 12, 'nonphoto': 6, 'too_tall': 1, 'nonjp': 1, 'nojp_hint': 4, 'jp_first': 0}
+  ✗ 2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子  (tried ['clear mountain stream water japan']): RuntimeError — 候補なし（query='clear mountain stream water japan'） diag={'pages': 12, 'img': 12, 'nonphoto': 7, 'too_tall': 1, 'nonjp': 1, 'nojp_hint': 3, 'jp_first': 0}
   ✗ 2026-06-27_note記事_御旅屋通り_高岡のアーケード  (tried ['高岡 商店街', '高岡 アーケード', '御旅屋']): RuntimeError — 候補なし（query='御旅屋'） diag={'pages': 6, 'img': 6, 'nonphoto': 0, 'too_tall': 1, 'too_small': 2, 'nojp_hint': 3, 'jp_first': 0}
   ✗ 2026-06-27_note記事_御車山会館_祭りの山車を見る  (tried ['japanese festival float']): RuntimeError — 候補なし（query='japanese festival float'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 6, 'nojp_hint': 3, 'badname': 2, 'badname_why': ['exhibit←Takayam
   ✗ 2026-07-08_note記事_nyuzen-jumbo-watermelon-summer  (tried ['スイカ']): RuntimeError — 候補なし（query='スイカ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 1, 'nojp_hint': 6, 'too_small': 3, 'nonjp': 1, 'jp_first': 0}
@@ -179,3 +179,4 @@
   ✗ 2026-11-02_note記事_ほうれん草_根元の赤いところを捨てるかどうか  (tried ['ホウレンソウ', 'ほうれん草 根', 'ほうれん草 束', '菠薐草']): RuntimeError — 候補なし（query='菠薐草'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 3, 'nojp_hint': 4, 'too_tall': 5, 'jp_first': 0}
   ✗ 2026-11-02_note記事_佐世保バーガー_名前に場所しか入っていない  (tried ['手作りハンバーガー', 'ハンバーガー 皿', 'ハンバーガー', 'ご当地バーガー']): RuntimeError — 候補なし（query='ご当地バーガー'） diag={'pages': 4, 'img': 4, 'nonphoto': 0, 'nojp_hint': 3, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-11-02_note記事_雨戸_壁の中にいる戸  (tried ['雨戸', '雨戸 戸袋', '戸袋', 'shutter house japan']): RuntimeError — 候補なし（query='shutter house japan'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 4, 'badname': 1, 'badname_why': ['expo←Expo 2005 of Satsuki and Mei’
+  ✗ 2026-11-03_note記事_洗濯ばさみ_冬のあいだ外で固くなっていく  (tried ['洗濯ばさみ', '物干し 洗濯ばさみ', '洗濯ばさみ ハンガー', 'ピンチハンガー']): RuntimeError — 候補なし（query='ピンチハンガー'） diag={'pages': 4, 'img': 4, 'nonphoto': 0, 'nojp_hint': 1, 'badname': 2, 'badname_why': ['hanger←New! Corner hanger (14879609784).jpg', 'h
