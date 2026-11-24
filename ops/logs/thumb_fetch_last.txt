@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-24T00:23:08Z UTC / 成功: 1 / 失敗: 131
+# 最終実行: 2026-11-24T00:25:10Z UTC / 成功: 1 / 失敗: 130
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -175,5 +175,4 @@
   ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
-  ✗ 2026-11-02_note記事_ほうれん草_根元の赤いところを捨てるかどうか  (tried ['ホウレンソウ 畑', 'ほうれん草 畑', 'spinach field japan', 'ほうれん草']): RuntimeError — 候補なし（query='ほうれん草'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 3, 'nojp_hint': 4, 'too_tall': 5, 'jp_first': 0}
-  ✗ 2026-11-02_note記事_佐世保バーガー_名前に場所しか入っていない  (tried ['チーズバーガー', 'ハンバーガー 断面', 'ハンバーガー 皿', '手作りハンバーガー']): RuntimeError — 候補なし（query='手作りハンバーガー'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-11-02_note記事_佐世保バーガー_名前に場所しか入っていない  (tried ['ハンバーガー', 'ハンバーガー バンズ', 'バーガー 自家製', 'チーズバーガー']): RuntimeError — 候補なし（query='チーズバーガー'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 11, 'too_tall': 1, 'jp_first': 0}
