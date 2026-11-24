@@ -3314,13 +3314,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Wild_Shiitake-Mushroom_Japan.JPG/1280px-Wild_Shiitake-Mushroom_Japan.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-01_note記事_押し入れ_閉めてあるもうひとつの部屋": {
-"author": "丘崈",
+"author": "Kanō Sansetsu",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E9%87%91%E7%93%9C%E7%9F%B3%E5%9B%9B%E9%80%A3%E6%A3%9F%E7%8E%84%E9%97%9C%E8%88%87%E6%8A%BC%E5%85%A5.jpg",
-"file": "File:金瓜石四連棟玄關與押入.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E8%80%81%E6%A2%85%E5%9B%B3%E8%A5%96-Old_Plum_MET_DT229.jpg",
+"file": "File:老梅図襖-Old Plum MET DT229.jpg",
 "license": "CC0",
-"query": "和室 押し入れ",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/%E9%87%91%E7%93%9C%E7%9F%B3%E5%9B%9B%E9%80%A3%E6%A3%9F%E7%8E%84%E9%97%9C%E8%88%87%E6%8A%BC%E5%85%A5.jpg/1280px-%E9%87%91%E7%93%9C%E7%9F%B3%E5%9B%9B%E9%80%A3%E6%A3%9F%E7%8E%84%E9%97%9C%E8%88%87%E6%8A%BC%E5%85%A5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "襖",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/%E8%80%81%E6%A2%85%E5%9B%B3%E8%A5%96-Old_Plum_MET_DT229.jpg/1280px-%E8%80%81%E6%A2%85%E5%9B%B3%E8%A5%96-Old_Plum_MET_DT229.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-01_note記事_牛たん_端のほうが名前を持った": {
 "author": "ノボホショコロトソ",
@@ -3359,13 +3359,13 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Big_Mac_hamburger_-_Japan_%282%29.jpg/1280px-Big_Mac_hamburger_-_Japan_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-02_note記事_雨戸_壁の中にいる戸": {
-"author": "Solomon203",
+"author": "漱石の猫",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg",
-"file": "File:Sagittarius Studio roller shutter and Japanese paper lanterns 20251004.jpg",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E6%97%A7%E5%B0%8F%E5%B1%B1%E5%AE%B6%E4%BD%8F%E5%AE%85_%E7%B8%81%E5%81%B4.jpg",
+"file": "File:旧小山家住宅 縁側.jpg",
 "license": "CC BY-SA 4.0",
-"query": "shutter house japan",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg/1280px-Sagittarius_Studio_roller_shutter_and_Japanese_paper_lanterns_20251004.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"query": "縁側",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/%E6%97%A7%E5%B0%8F%E5%B1%B1%E5%AE%B6%E4%BD%8F%E5%AE%85_%E7%B8%81%E5%81%B4.jpg/1280px-%E6%97%A7%E5%B0%8F%E5%B1%B1%E5%AE%B6%E4%BD%8F%E5%AE%85_%E7%B8%81%E5%81%B4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-03_note記事_塩鮭_切り身で買って一切れずつ焼く": {
 "author": "RuinDig/Yuki Uchida",
@@ -3375,6 +3375,15 @@
 "license": "CC BY 4.0",
 "query": "焼き鮭",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/%E7%84%BC%E3%81%8D%E9%AE%AD---2024-03-05.jpg/1280px-%E7%84%BC%E3%81%8D%E9%AE%AD---2024-03-05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-03_note記事_洗濯ばさみ_冬のあいだ外で固くなっていく": {
+"author": "m-louis .® from Osaka, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%89%A9%E5%B9%B2%E3%81%97%E7%AB%BF_2016_(31837607323).jpg",
+"file": "File:物干し竿 2016 (31837607323).jpg",
+"license": "CC BY-SA 2.0",
+"query": "物干し竿",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/%E7%89%A9%E5%B9%B2%E3%81%97%E7%AB%BF_2016_%2831837607323%29.jpg/1280px-%E7%89%A9%E5%B9%B2%E3%81%97%E7%AB%BF_2016_%2831837607323%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-03_note記事_讃岐うどん_店でも最後は客がやるらしい": {
 "author": "経済特区",
