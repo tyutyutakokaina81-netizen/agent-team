@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-24T17:59:49Z UTC / 成功: 1 / 失敗: 131
+# 最終実行: 2026-11-24T18:04:36Z UTC / 成功: 0 / 失敗: 131
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -144,7 +144,7 @@
   ✗ 2026-08-04_note記事_扇風機_首を振る夏の音  (tried ['扇風機']): RuntimeError — 候補なし（query='扇風機'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 4, 'too_tall': 6, 'nojp_hint': 2, 'jp_first': 0}
   ✗ 2026-08-04_note記事_鮎の塩焼き_夏の川の魚  (tried ['鮎']): RuntimeError — 候補なし（query='鮎'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 1, 'too_small': 2, 'jp_first': 1, 'rejected_md5': 1}
   ✗ 2026-08-05_note記事_ざるそば_つゆにちょんとつける  (tried ['蕎麦']): RuntimeError — 候補なし（query='蕎麦'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 7, 'too_tall': 2, 'rejected': 1, 'jp_first': 0, 'mono': 1}
-  ✗ 2026-08-05_note記事_夏の星空_庭に寝ころんで  (tried ['天の川']): RuntimeError — 候補なし（query='天の川'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'too_tall': 4, 'jp_first': 0}
+  ✗ 2026-08-05_note記事_夏の星空_庭に寝ころんで  (tried ['天の川']): RuntimeError — 候補なし（query='天の川'） diag={'pages': 12, 'img': 12, 'error': "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.
   ✗ 2026-08-05_note記事_桃_したたる夏の果物  (tried ['桃']): RuntimeError — 候補なし（query='桃'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 7, 'too_small': 1, 'nonjp': 1, 'too_tall': 2, 'jp_first': 0, 'rejected_md5': 1}
   ✗ 2026-08-05_note記事_蚊帳_緑の中で眠る夜  (tried ['蚊帳']): RuntimeError — 候補なし（query='蚊帳'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 8, 'badname': 1, 'badname_why': ['museum←Beauty Coming Out from Mosquito Net-by S'], 
   ✗ 2026-08-06_note記事_夏休みの宿題_最終日の攻防  (tried ['朝顔', 'morning glory flower', 'ドリル 学習']): RuntimeError — 候補なし（query='ドリル 学習'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
@@ -174,9 +174,9 @@
   ✗ 2026-08-30_note記事_富山の新米_秋いちばんの一杯  (tried ['白米']): RuntimeError — 候補なし（query='白米'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nonjp': 1, 'nojp_hint': 4, 'too_small': 4, 'too_tall': 2, 'jp_first': 0, 'rejected_md5': 1}
   skip(place): 2026-09-05_note記事_共働き_富山で共働きが多… は「富山」を名乗る記事。土地名を含まないクエリ ['日本 住宅地', '郊外 住宅 日本', 'detached house japan', '一戸建て 住宅'] は使わない
   ✗ 2026-09-05_note記事_共働き_富山で共働きが多いわけ  (「富山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「富山」入りの語を足すこと)
-  ✗ 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる  (tried ['富山 獅子舞', '百足獅子', '越中 獅子舞', '獅子舞 富山県']): RuntimeError — 候補なし（query='獅子舞 富山県'） diag={'pages': 0, 'img': 0, 'error': "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again late
-  ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 0, 'img': 0, 'error': "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.'
+  ✗ 2026-09-06_note記事_獅子舞_富山の秋は笛と太鼓で始まる  (tried ['富山 獅子舞', '百足獅子', '越中 獅子舞', '獅子舞 富山県']): RuntimeError — 候補なし（query='獅子舞 富山県'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
+  ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
-  ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 0, 'img': 0, 'error': "{'code': 'cirrussearch-too-busy-error', 'info': 'Search is currently too busy. Please try again later.',
-  ✗ 2026-11-04_note記事_換気扇_家に一か所だけ開けてある穴  (tried ['換気扇', '換気扇 外壁', '台所 換気扇', '換気口 住宅']): RuntimeError — 候補なし（query='換気口 住宅'） diag={'pages': 1, 'img': 1, 'nonphoto': 0, 'nojp_hint': 1, 'jp_first': 0}
-  ✗ 2026-11-04_note記事_片栗粉_味を知らないまま使っている  (tried ['片栗粉', 'でんぷん', '馬鈴薯澱粉', 'とろみ']): RuntimeError — 候補なし（query='とろみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nonjp': 1, 'too_small': 5, 'too_tall': 2, 'nojp_hint': 3, 'badname': 1, 'badname_why': ['museum←
+  ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
+  ✗ 2026-11-04_note記事_換気扇_家に一か所だけ開けてある穴  (tried ['換気扇 掃除', 'レンジフード', '厨房 換気扇', '換気扇']): RuntimeError — 候補なし（query='換気扇'） diag={'pages': 8, 'img': 8, 'nonphoto': 0, 'nojp_hint': 4, 'too_tall': 1, 'badname': 2, 'badname_why': ['toilet←SkyPlaza Kashiwa Plaza 7 - 8F 
+  ✗ 2026-11-04_note記事_片栗粉_味を知らないまま使っている  (tried ['水溶き片栗粉', '片栗粉', '澱粉 粉末', '白い粉 器']): RuntimeError — 候補なし（query='白い粉 器'） diag={'pages': 5, 'img': 5, 'nonphoto': 0, 'nojp_hint': 3, 'nonjp': 2, 'jp_first': 0}
