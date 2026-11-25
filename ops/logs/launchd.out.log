@@ -12330,3 +12330,57 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-25_003_cowork_code.yaml  id=2026-11-25_003
+[main 8e1c87b5] cowork: daily backfill (english/follow/x-queue) 2026-11-25_080005
+ 11 files changed, 272 insertions(+), 98 deletions(-)
+ create mode 100644 ops/logs/backfill_tags_2026-11-25_081228.log
+ create mode 100644 ops/outbox/2026-11-25_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   d3458e7e..8e1c87b5  main -> main
+=== publish run 2026-11-26_080005 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+--- 公開試行: 2026-11-04_note記事_浜松餃子_同じ料理が盛り方で別の名前になる.md ---
+✗ 重複ゲート(題材トークン): 既公開と同じ題材『餃子』→ https://note.com/safe_canna441/n/n24009d30d300
+  既公開: 完成は、買った人の台所でやる。— 栃木・宇都宮の餃子（お取り寄せ⑳）
+  今回  : 並べ方だけが、違うらしい。— 静岡・浜松餃子（お取り寄せ㉙）
+  角度が異なり別記事として出す場合のみ --allow-topic-dup を付けて再実行。
+=== summary(無料): published=0 failed=1 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] 外国人が高岡に求める「本物」は、駅から歩いて回れる範囲に
+[4/20] 外国人が高岡に来るのは、「買い物」じゃなくて「本物」を探
+[5/20] 高岡で「どこで食べる?」と聞かれたら。——地元の定番と、
+[6/20] 富山の蛇口をひねると、北アルプスの雪が出てくる。
+[7/20] 富山湾に魚が多いのは、海が「すり鉢」だからだ。
+[8/20] 庭に七輪を出す。それだけで、夏の夜がごちそうになる。
+[9/20] 新湊の帆船・海王丸には、年に何度か「すべての帆を張る日」
+[10/20] 富山城の天守は、じつは戦後に建てられた模擬天守だ。
+[11/20] 夏の食卓に、ちょんまげ巻きのそうめんが届く。— 富山「大
+[12/20] ## 英語要約
+[13/20] 花を切って、球根を太らせる町。— 高岡の隣、砺波のチュー
+[14/20] 冬にしか会えない発酵食。— 富山の食卓の「かぶら寿司」
+[15/20] 崖にへばりつく赤い電車。— 黒部峡谷トロッコと、湯の町・
+[16/20] 歩ける速さの街。— 富山の路面電車に、高岡の住人が乗って
+[17/20] Toyama, Takaoka & Himi: 12 t
+[18/20] 【¥100・保存版】富山・高岡・氷見、住人が"外さない"
+[19/20] 縄で縛って持ち歩ける豆腐がある。— 富山「五箇山豆腐」
+[20/20] 駅弁の中にも、宝石みたいなお寿司がある。— 富山「鱒寿司
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-11-26_001_cowork_code.yaml  id=2026-11-26_001
