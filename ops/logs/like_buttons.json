@@ -1,6 +1,6 @@
 {
  "why": "スキのボタンが見つからない",
- "url": "https://note.com/kikou0401/n/n96148b9b412a",
+ "url": "https://note.com/umiapa/n/n02da69396f63",
  "buttons": [
   {
    "tag": "button",
@@ -58,9 +58,15 @@
   },
   {
    "tag": "button",
-   "txt": "6",
-   "aria": "6スキ この記事にスキをつけたユーザーを見る",
+   "txt": "4",
+   "aria": "4スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
+  },
+  {
+   "tag": "button",
+   "txt": "",
+   "aria": "この記事を別の言語で読む",
+   "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
   },
   {
    "tag": "button",
@@ -76,12 +82,6 @@
   },
   {
    "tag": "button",
-   "txt": "",
-   "aria": "",
-   "cls": "relative inline-block  outline-0 hover:outline-0 focus:outline-0 activ"
-  },
-  {
-   "tag": "button",
    "txt": "チップで応援する",
    "aria": "",
    "cls": "relative m-0 inline-flex cursor-pointer touch-manipulation appearance-"
@@ -94,8 +94,8 @@
   },
   {
    "tag": "button",
-   "txt": "6",
-   "aria": "6スキ この記事にスキをつけたユーザーを見る",
+   "txt": "4",
+   "aria": "4スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -148,8 +148,8 @@
   },
   {
    "tag": "button",
-   "txt": "6",
-   "aria": "6スキ この記事にスキをつけたユーザーを見る",
+   "txt": "4",
+   "aria": "4スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
@@ -196,8 +196,8 @@
   },
   {
    "tag": "button",
-   "txt": "6",
-   "aria": "6スキ この記事にスキをつけたユーザーを見る",
+   "txt": "4",
+   "aria": "4スキ この記事にスキをつけたユーザーを見る",
    "cls": "ml-2 whitespace-nowrap text-sm text-text-secondary"
   },
   {
