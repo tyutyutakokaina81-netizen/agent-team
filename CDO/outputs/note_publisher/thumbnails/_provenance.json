@@ -3404,21 +3404,30 @@
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/%E3%83%95%E3%83%A9%E3%82%A4%E3%83%91%E3%83%B3%E3%81%AB%E5%85%A5%E3%81%A3%E3%81%9F%E9%A4%83%E5%AD%90.jpg/1280px-%E3%83%95%E3%83%A9%E3%82%A4%E3%83%91%E3%83%B3%E3%81%AB%E5%85%A5%E3%81%A3%E3%81%9F%E9%A4%83%E5%AD%90.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-05_note記事_かつお節_削ってから使う": {
-"author": "",
+"author": "Matanao",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:Futomaki_%E5%A4%AA%E5%B7%BB%E3%81%8D_Katsuobushi_Oborro_makiE.jpg",
-"file": "File:Futomaki 太巻き Katsuobushi Oborro makiE.jpg",
-"license": "CC BY-SA 4.0",
-"query": "鰹節",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Futomaki_%E5%A4%AA%E5%B7%BB%E3%81%8D_Katsuobushi_Oborro_makiE.jpg/1280px-Futomaki_%E5%A4%AA%E5%B7%BB%E3%81%8D_Katsuobushi_Oborro_makiE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%B0%8F%E5%80%89%E5%BC%8F%E9%B0%B9%E7%AF%80%E5%89%8A%E3%82%8A%E5%99%A8.jpg",
+"file": "File:小倉式鰹節削り器.jpg",
+"license": "CC BY-SA 3.0",
+"query": "鰹節削り器",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/%E5%B0%8F%E5%80%89%E5%BC%8F%E9%B0%B9%E7%AF%80%E5%89%8A%E3%82%8A%E5%99%A8.jpg/1280px-%E5%B0%8F%E5%80%89%E5%BC%8F%E9%B0%B9%E7%AF%80%E5%89%8A%E3%82%8A%E5%99%A8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-05_note記事_南天_冬に庭だけ赤い": {
+"author": "MrPanyGoff",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Nandina_domestica_-_Balchik.jpg",
+"file": "File:Nandina domestica - Balchik.jpg",
+"license": "CC BY-SA 3.0",
+"query": "nandina domestica",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Nandina_domestica_-_Balchik.jpg/1280px-Nandina_domestica_-_Balchik.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 },
 "2026-11-05_note記事_味噌煮込みうどん_湯を使わない麺": {
-"author": "Kyu3a",
+"author": "ketou-daisuki from Kyoto, japansko",
 "backend": "wikimedia",
-"descpage": "https://commons.wikimedia.org/wiki/File:%E4%B8%B8%E4%BA%80%E8%A3%BD%E9%BA%BA_%E5%91%B3%E5%99%8C%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_-_1.jpg",
-"file": "File:丸亀製麺 味噌煮込みうどん - 1.jpg",
-"license": "CC BY-SA 4.0",
-"query": "味噌煮込みうどん",
-"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/%E4%B8%B8%E4%BA%80%E8%A3%BD%E9%BA%BA_%E5%91%B3%E5%99%8C%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_-_1.jpg/1280px-%E4%B8%B8%E4%BA%80%E8%A3%BD%E9%BA%BA_%E5%91%B3%E5%99%8C%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_(1964927815).jpg",
+"file": "File:煮込みうどん (1964927815).jpg",
+"license": "CC BY-SA 2.0",
+"query": "煮込みうどん",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_%281964927815%29.jpg/1280px-%E7%85%AE%E8%BE%BC%E3%81%BF%E3%81%86%E3%81%A9%E3%82%93_%281964927815%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
