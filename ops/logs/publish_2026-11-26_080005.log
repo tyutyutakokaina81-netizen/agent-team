@@ -166,3 +166,9 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-26_003_cowork_code.yaml  id=2026-11-26_003
+[main 5c3d07b9] cowork: daily backfill (english/follow/x-queue) 2026-11-26_080005
+ 7 files changed, 171 insertions(+), 15 deletions(-)
+ create mode 100644 ops/logs/backfill_tags_2026-11-26_081152.log
+ create mode 100644 ops/outbox/2026-11-26_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   2dc8f99d..5c3d07b9  main -> main
