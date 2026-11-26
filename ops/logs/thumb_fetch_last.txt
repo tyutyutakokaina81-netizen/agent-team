@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-26T03:13:48Z UTC / 成功: 1 / 失敗: 129
+# 最終実行: 2026-11-26T06:22:19Z UTC / 成功: 2 / 失敗: 130
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -32,6 +32,7 @@
   skip(await_photo): 2026-11-05_note記事_かつお節_削ってから使う… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-05_note記事_南天_冬に庭だけ赤い… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-06_note記事_ガードレール_向こうが見えるのに通れない… は写真待ち。自動取得しない
+  skip(await_photo): 2026-11-06_note記事_盛岡冷麺_辛さをあとから足す… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-22_note記事_泡盛コーヒー_限定が限定でなくなる… は写真待ち。自動取得しない
   skip(place): 2026-05-28_note記事_氷見牛_富山のブランド牛… は「氷見」を名乗る記事。土地名を含まないクエリ ['wagyu beef'] は使わない
   ✗ 2026-05-28_note記事_氷見牛_富山のブランド牛  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
@@ -183,3 +184,4 @@
   ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
+  ✗ 2026-11-07_note記事_やかん_暖房の上でついでに湯ができている  (tried ['ストーブ やかん', '石油ストーブ', 'やかん', '薬缶']): RuntimeError — 候補なし（query='薬缶'） diag={'pages': 12, 'img': 12, 'nonphoto': 4, 'too_tall': 4, 'nonjp': 1, 'nojp_hint': 3, 'jp_first': 0}
