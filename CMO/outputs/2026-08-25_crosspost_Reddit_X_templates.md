@@ -741,5 +741,7 @@ Most days I carry one and never open it. Possibly most days, though I've never k
 - **讃岐うどん**: https://note.com/safe_canna441/n/n188e9ee375f0
 - **雨戸**: https://note.com/safe_canna441/n/n5d11d97849fc
 - **洗濯ばさみ**: https://note.com/safe_canna441/n/n5c0e719b133d
+- **浜松餃子**: https://note.com/safe_canna441/n/ne18f20a70d32
+- **味噌煮込みうどん**: https://note.com/safe_canna441/n/n7de19eeab87d
 
 <!-- URLS:END -->
