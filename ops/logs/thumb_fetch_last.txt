@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-26T00:07:41Z UTC / 成功: 1 / 失敗: 130
+# 最終実行: 2026-11-26T01:38:58Z UTC / 成功: 0 / 失敗: 129
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -29,6 +29,8 @@
   skip(await_photo): 2026-11-02_note記事_佐世保バーガー_名前に場所しか入っていない… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-04_note記事_換気扇_家に一か所だけ開けてある穴… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-04_note記事_片栗粉_味を知らないまま使っている… は写真待ち。自動取得しない
+  skip(await_photo): 2026-11-05_note記事_かつお節_削ってから使う… は写真待ち。自動取得しない
+  skip(await_photo): 2026-11-05_note記事_南天_冬に庭だけ赤い… は写真待ち。自動取得しない
   skip(await_photo): 2026-11-22_note記事_泡盛コーヒー_限定が限定でなくなる… は写真待ち。自動取得しない
   skip(place): 2026-05-28_note記事_氷見牛_富山のブランド牛… は「氷見」を名乗る記事。土地名を含まないクエリ ['wagyu beef'] は使わない
   ✗ 2026-05-28_note記事_氷見牛_富山のブランド牛  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
@@ -100,7 +102,7 @@
   ✗ 2026-06-20_note記事_富山城_町なかの城址公園  (「富山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「富山」入りの語を足すこと)
   skip(place): 2026-06-20_note記事_黒部峡谷のトロッコ電車_… は「黒部」を名乗る記事。土地名を含まないクエリ ['mountain gorge railway'] は使わない
   ✗ 2026-06-20_note記事_黒部峡谷のトロッコ電車_峡谷を行く  (「黒部」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「黒部」入りの語を足すこと)
-  ✗ 2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子  (tried ['clear mountain stream water japan']): RuntimeError — 候補なし（query='clear mountain stream water japan'） diag={'pages': 12, 'img': 12, 'nonphoto': 7, 'too_tall': 1, 'nonjp': 1, 'nojp_hint': 3, 'jp_first': 0}
+  ✗ 2026-06-27_note記事_富山の水羊羹_夏の涼しい和菓子  (tried ['clear mountain stream water japan']): RuntimeError — 候補なし（query='clear mountain stream water japan'） diag={'pages': 12, 'img': 12, 'nonphoto': 6, 'too_tall': 1, 'nonjp': 1, 'nojp_hint': 4, 'jp_first': 0}
   ✗ 2026-06-27_note記事_御旅屋通り_高岡のアーケード  (tried ['高岡 商店街', '高岡 アーケード', '御旅屋']): RuntimeError — 候補なし（query='御旅屋'） diag={'pages': 6, 'img': 6, 'nonphoto': 0, 'too_tall': 1, 'too_small': 2, 'nojp_hint': 3, 'jp_first': 0}
   ✗ 2026-06-27_note記事_御車山会館_祭りの山車を見る  (tried ['japanese festival float']): RuntimeError — 候補なし（query='japanese festival float'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 6, 'nojp_hint': 3, 'badname': 2, 'badname_why': ['exhibit←Takayam
   ✗ 2026-07-08_note記事_nyuzen-jumbo-watermelon-summer  (tried ['スイカ']): RuntimeError — 候補なし（query='スイカ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 1, 'nojp_hint': 6, 'too_small': 3, 'nonjp': 1, 'jp_first': 0}
@@ -180,4 +182,3 @@
   ✗ 2026-09-07_note記事_栗ご飯_甘くしない栗の食べ方  (tried ['栗ご飯', '栗飯', 'むき栗', 'いがぐり']): RuntimeError — 候補なし（query='いがぐり'） diag={'pages': 1, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 1}, 'jp_first': 0}
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
-  ✗ 2026-11-05_note記事_南天_冬に庭だけ赤い  (tried ['南天の実', '南天 雪', 'ナンテン 赤', '赤い実 冬 庭']): RuntimeError — 候補なし（query='赤い実 冬 庭'） diag={'pages': 8, 'img': 0, 'bitmap_filter_empty': True, 'nonphoto': 0, 'mimes': {'application/pdf': 8}, 'jp_first': 0}
