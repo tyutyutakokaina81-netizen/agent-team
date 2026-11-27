@@ -12626,3 +12626,52 @@ DUMP: 一覧は開いたが handle が増えなかった → /Users/apple/agent-
 ✅ /Users/apple/agent-team-run/ops/x_queue.txt を書き換えました
 X 自動投稿: キー未投入のため投稿していない（bash ops/run_x.sh --setup で入れられる）
 posted: ops/outbox/2026-11-27_003_cowork_code.yaml  id=2026-11-27_003
+[main 0f30709b] cowork: daily backfill (english/follow/x-queue) 2026-11-27_080004
+ 11 files changed, 310 insertions(+), 66 deletions(-)
+ create mode 100644 ops/logs/backfill_tags_2026-11-27_081338.log
+ create mode 100644 ops/outbox/2026-11-27_003_cowork_code.yaml
+To https://github.com/tyutyutakokaina81-netizen/agent-team.git
+   56803dba..0f30709b  main -> main
+=== publish run 2026-11-28_080004 (branch=main) ===
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+From https://github.com/tyutyutakokaina81-netizen/agent-team
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+=== summary(無料): published=0 failed=0 thumb_fail=0 ===
+=== summary(有料): published=0 failed=0 ===
+=== コメント収集（新着10本＋backlog15本） ===
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/1] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+=== 結果: 巡回 1 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 1 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+[1/20] 氷見牛は、地元でもめったに食べられない。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[2/20] 氷見牛は、里山で育つ知る人ぞ知る牛だ。
+    ⚠️ この記事は note 上で **下書き(draft)** ＝公開されていない。published_registry.json の記載と食い違うので確認が要る
+[3/20] AI時代の50代からの個人収益
+[4/20] 金沢ばかり行かないで高岡
+[5/20] 味がついているのは、外側だけ。— 群馬・焼きまんじゅう（
+[6/20] 花見で、羊を焼く。— 北海道のジンギスカン（お取り寄せ⑨
+[7/20] あけび：山に生る、中身だけ食べる実
+[8/20] 赤とんぼ：山で夏を過ごして、秋に降りてくる
+[9/20] 鱒寿司は土産ではなく、富山の朝の話
+[10/20] 富山では「きのどくな」がありがとうになる。— 語尾に出る
+[11/20] ひまわり — 太陽を、追う夏の花
+[12/20] 浴衣 — 年に一度の、晴れ着
+[13/20] 盆踊り — やぐらを、囲む輪
+[14/20] 牛の昆布締め — 富山の昆布好きが、肉にたどりついた
+[15/20] 夏の終わりの気配 — 風に、まじる秋
+[16/20] ざるそば — つゆに、ちょんと、つけるだけ
+[17/20] 冷ややっこ — 何もしない、という料理
+[18/20] 水鉄砲 — ずぶ濡れの、戦い
+[19/20] 汗 — かいても、かいても
+[20/20] サンダル — 夏は、これ一足
+=== 結果: 巡回 20 / 新規コメント 0 / セレクタ外れ 0 / 未描画 0 / **到達不能(404等) 0** / 未公開(draft) 2 / **コメント有りだが本文が取れない 0** ===
+  未公開: https://note.com/safe_canna441/n/n0443f87ce4df  ← registryは公開済みとしているが note 上は下書き
+  未公開: https://note.com/safe_canna441/n/nc7a3522ade60  ← registryは公開済みとしているが note 上は下書き
+posted: ops/outbox/2026-11-28_001_cowork_code.yaml  id=2026-11-28_001
