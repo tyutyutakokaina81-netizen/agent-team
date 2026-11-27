@@ -1,6 +1,6 @@
 {
  "why": "一覧は開いたが handle が増えなかった",
- "url": "https://note.com/safe_canna441/n/n4d781f6c5507",
+ "url": "https://note.com/safe_canna441/n/n8ccfd5db1d8b",
  "buttons": [
   {
    "tag": "a",
@@ -78,7 +78,7 @@
    "tag": "a",
    "txt": "設定する",
    "aria": "",
-   "href": "https://editor.note.com/notes/n4d781f6c5507/edit"
+   "href": "https://editor.note.com/notes/n8ccfd5db1d8b/edit"
   },
   {
    "tag": "button",
@@ -94,8 +94,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -126,7 +126,7 @@
    "tag": "a",
    "txt": "",
    "aria": "",
-   "href": "https://note.com/safe_canna441/n/n35e32ae59980"
+   "href": "https://note.com/safe_canna441/n/n028cc6c50dc6"
   },
   {
    "tag": "a",
@@ -154,9 +154,21 @@
   },
   {
    "tag": "a",
+   "txt": "#植物",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%A4%8D%E7%89%A9"
+  },
+  {
+   "tag": "a",
    "txt": "#japan",
    "aria": "",
    "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#庭",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%BA%AD"
   },
   {
    "tag": "a",
@@ -166,27 +178,15 @@
   },
   {
    "tag": "a",
-   "txt": "#道",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E9%81%93"
-  },
-  {
-   "tag": "a",
-   "txt": "#日本の風景",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A2%A8%E6%99%AF"
-  },
-  {
-   "tag": "a",
    "txt": "#冬の暮らし",
    "aria": "",
    "href": "https://note.com/hashtag/%E5%86%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
   },
   {
    "tag": "a",
-   "txt": "#ガードレール",
+   "txt": "#南天",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%82%AC%E3%83%BC%E3%83%89%E3%83%AC%E3%83%BC%E3%83%AB"
+   "href": "https://note.com/hashtag/%E5%8D%97%E5%A4%A9"
   },
   {
    "tag": "a",
@@ -202,9 +202,21 @@
   },
   {
    "tag": "a",
+   "txt": "#植物",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E6%A4%8D%E7%89%A9"
+  },
+  {
+   "tag": "a",
    "txt": "#japan",
    "aria": "",
    "href": "https://note.com/hashtag/japan"
+  },
+  {
+   "tag": "a",
+   "txt": "#庭",
+   "aria": "",
+   "href": "https://note.com/hashtag/%E5%BA%AD"
   },
   {
    "tag": "a",
@@ -214,27 +226,15 @@
   },
   {
    "tag": "a",
-   "txt": "#道",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E9%81%93"
-  },
-  {
-   "tag": "a",
-   "txt": "#日本の風景",
-   "aria": "",
-   "href": "https://note.com/hashtag/%E6%97%A5%E6%9C%AC%E3%81%AE%E9%A2%A8%E6%99%AF"
-  },
-  {
-   "tag": "a",
    "txt": "#冬の暮らし",
    "aria": "",
    "href": "https://note.com/hashtag/%E5%86%AC%E3%81%AE%E6%9A%AE%E3%82%89%E3%81%97"
   },
   {
    "tag": "a",
-   "txt": "#ガードレール",
+   "txt": "#南天",
    "aria": "",
-   "href": "https://note.com/hashtag/%E3%82%AC%E3%83%BC%E3%83%89%E3%83%AC%E3%83%BC%E3%83%AB"
+   "href": "https://note.com/hashtag/%E5%8D%97%E5%A4%A9"
   },
   {
    "tag": "button",
@@ -244,8 +244,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -304,15 +304,15 @@
   },
   {
    "tag": "a",
-   "txt": "デザイン",
+   "txt": "ライフスタイル",
    "aria": "",
-   "href": "https://note.com/topic/design"
+   "href": "https://note.com/topic/lifestyle"
   },
   {
    "tag": "a",
-   "txt": "インダストリアルデザイン",
+   "txt": "ガーデニング",
    "aria": "",
-   "href": "https://note.com/tag/インダストリアルデザイン"
+   "href": "https://note.com/topic/lifestyle/gardening"
   },
   {
    "tag": "a",
@@ -352,8 +352,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -400,8 +400,8 @@
   },
   {
    "tag": "button",
-   "txt": "2",
-   "aria": "2スキ この記事にスキをつけたユーザーを見る",
+   "txt": "1",
+   "aria": "1スキ この記事にスキをつけたユーザーを見る",
    "href": ""
   },
   {
@@ -491,24 +491,12 @@
   {
    "tag": "a",
    "txt": "",
-   "aria": "デスクまわり研究所＠フラハ",
-   "href": "https://note.com/hatsuuta"
+   "aria": "あーさん",
+   "href": "https://note.com/limber_lynx8551"
   },
   {
    "tag": "button",
-   "txt": "フォロー",
-   "aria": "",
-   "href": ""
-  },
-  {
-   "tag": "a",
-   "txt": "",
-   "aria": "あおさん|30年前のレコード棚",
-   "href": "https://note.com/keen_quokka9859"
-  },
-  {
-   "tag": "button",
-   "txt": "フォロー",
+   "txt": "フォロー中",
    "aria": "",
    "href": ""
   },
