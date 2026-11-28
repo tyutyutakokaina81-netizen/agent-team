@@ -134,7 +134,10 @@ def judge(path, pubtitles, verified, conflict):
 
     jpg = os.path.join(THUMBS, stem + ".jpg")
     if not os.path.exists(jpg):
-        warn.append("見出し画像が無い（note 既定の画像で公開される。**あとから付けられない**）")
+        warn.append("見出し画像が無い（note 既定の画像で公開される。"
+                    "⚠️ただし**あとから付けられる**＝`bash ops/fix_header_images.sh`。"
+                    "2026-11-28 に実測＝`ops/header_image_todo.tsv` の **131本が DONE** になっている。"
+                    "付けられないのは『画像が無いとき』であって、『公開したあと』ではない）")
     elif stem not in verified:
         warn.append("画像はあるが `_verified.txt` に無い＝未検品。publisher は使わない")
 
