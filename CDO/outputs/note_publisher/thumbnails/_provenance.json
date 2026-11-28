@@ -3492,5 +3492,32 @@
 "license": "CC BY 3.0",
 "query": "kyusu",
 "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Two-decorative-kyusu-japan-nov17-2015.jpg/1280px-Two-decorative-kyusu-japan-nov17-2015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-09_note記事_座布団_人が来るときだけ出てくる": {
+"author": "Tamaki Sono from Shiga, Japan",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%81%BF%E3%81%8B%E3%82%93_(6389279433).jpg",
+"file": "File:みかん (6389279433).jpg",
+"license": "CC BY 2.0",
+"query": "座布団",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/%E3%81%BF%E3%81%8B%E3%82%93_%286389279433%29.jpg/1280px-%E3%81%BF%E3%81%8B%E3%82%93_%286389279433%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-09_note記事_横手やきそば_家で作れる料理に土地の名前がついている": {
+"author": "RuinDig/Yuki Uchida",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E7%84%BC%E3%81%8D%E3%81%9D%E3%81%B0---2023-10-02_02.jpg",
+"file": "File:焼きそば---2023-10-02 02.jpg",
+"license": "CC BY 4.0",
+"query": "焼きそば 目玉焼き",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/%E7%84%BC%E3%81%8D%E3%81%9D%E3%81%B0---2023-10-02_02.jpg/1280px-%E7%84%BC%E3%81%8D%E3%81%9D%E3%81%B0---2023-10-02_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-09_note記事_銀杏_拾うのは簡単で食べるまでが遠い": {
+"author": "Love Krittaya",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Ginkgo_biloba_seeds-002.jpg",
+"file": "File:Ginkgo biloba seeds-002.jpg",
+"license": "Public domain",
+"query": "ぎんなん",
+"src": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Ginkgo_biloba_seeds-002.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
 }
 }
