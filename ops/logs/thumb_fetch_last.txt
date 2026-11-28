@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-28T00:43:29Z UTC / 成功: 3 / 失敗: 130
+# 最終実行: 2026-11-28T01:08:48Z UTC / 成功: 1 / 失敗: 131
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -186,3 +186,4 @@
   ✗ 2026-09-21_note記事_ざくろ_実が生っているのに誰も採らない木  (tried ['ザクロ 木', 'ザクロ 実 枝', 'ザクロ 果実', '柘榴']): RuntimeError — 候補なし（query='柘榴'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 11, 'jp_first': 0}
   ✗ 2026-09-27_note記事_渡り鳥_いなくなったほうに先に気づく  (tried ['田んぼ 鳥', '水田 鳥', '刈田 鳥', '渡り鳥']): RuntimeError — 候補なし（query='渡り鳥'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_small': 2, 'nojp_hint': 8, 'too_tall': 2, 'jp_first': 0}
   ✗ 2026-11-07_note記事_やかん_暖房の上でついでに湯ができている  (tried ['ストーブ やかん', '石油ストーブ', 'やかん', '薬缶']): RuntimeError — 候補なし（query='薬缶'） diag={'pages': 12, 'img': 12, 'nonphoto': 4, 'too_tall': 4, 'nonjp': 1, 'nojp_hint': 2, 'badname': 1, 'badname_why': ['museum←Pahrump, Nevada -
+  ✗ 2026-11-09_note記事_横手やきそば_家で作れる料理に土地の名前がついている  (tried ['横手やきそば', '鉄板 焼きそば', '焼きそば 鉄板 ヘラ', 'ソース焼きそば 皿']): RuntimeError — 候補なし（query='ソース焼きそば 皿'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
