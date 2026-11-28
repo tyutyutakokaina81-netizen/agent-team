@@ -650,14 +650,25 @@ try:
                 _prov32 = {}
 
         def _needs_credit32(_st):
-            """表示義務があるか。CC0/PD は不要、ライセンス不明は判定しない（Falseを返す）。"""
+            """表示義務があるか。CC0/PD は不要、ライセンス不明は判定しない（Falseを返す）。
+
+            ★2026-11-28 追加: **オーナー自身が撮った写真も不要。**
+              きっかけ＝涙巻きの記事に**オーナーの実写**を付けたら「クレジット行なし」と鳴った。
+              `ops/use_my_photo.sh` は出典を `license: "owner own work"` / `backend: "owner"` で
+              記録し、**「クレジット行は本文に入りません」と明記している**のに、
+              この判定がそれを知らなかった。
+              ⚠️**自分の写真に自分への表示義務は無い。** 鳴らすほうが誤り。
+            """
             _v = _prov32.get(_st)
             if not isinstance(_v, dict):
+                return False
+            if (_v.get("backend") or "").strip().lower() == "owner":
                 return False
             _lic = (_v.get("license") or "").strip().lower()
             if not _lic:
                 return False
-            if "cc0" in _lic or "public domain" in _lic or _lic.startswith("pd"):
+            if ("cc0" in _lic or "public domain" in _lic or _lic.startswith("pd")
+                    or "own work" in _lic):
                 return False
             return True
 
