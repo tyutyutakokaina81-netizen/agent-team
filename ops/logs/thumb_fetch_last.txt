@@ -1,4 +1,4 @@
-# 最終実行: 2026-11-28T00:11:20Z UTC / 成功: 0 / 失敗: 130
+# 最終実行: 2026-11-28T00:20:12Z UTC / 成功: 3 / 失敗: 130
 # ✗ の行＝取得できなかった記事とその理由。diag= は候補が落ちた内訳。
   skip(await_photo): 2026-09-22_note記事_墓参り_年に何度行くかは家によって違う… は写真待ち。自動取得しない
   skip(await_photo): 2026-10-06_note記事_風除室_玄関の前にもうひとつ部屋がある… は写真待ち。自動取得しない
@@ -131,7 +131,7 @@
   ✗ 2026-07-23_note記事_氷見カレー  (「氷見」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「氷見」入りの語を足すこと)
   ✗ 2026-07-27_note記事_散居村_家が点在する風景  (tried ['田んぼ']): RuntimeError — 候補なし（query='田んぼ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 1, 'nonjp': 11, 'jp_first': 0}
   ✗ 2026-07-28_note記事_富山のにおい_潮と鋳物と田んぼ  (tried ['田んぼ']): RuntimeError — 候補なし（query='田んぼ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 1, 'nonjp': 11, 'jp_first': 0}
-  ✗ 2026-07-28_note記事_富山弁きときと_言葉でわかる富山  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-07-28_note記事_富山弁きときと_言葉でわかる富山  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 8, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
   skip(place): 2026-07-29_note記事_川遊び_立山からの冷たい… は「立山」を名乗る記事。土地名を含まないクエリ ['渓流'] は使わない
   ✗ 2026-07-29_note記事_川遊び_立山からの冷たい川  (「立山」を名乗る記事なのに土地名入りのクエリが無い → JP_QUERY に「立山」入りの語を足すこと)
   ✗ 2026-07-30_note記事_入善ジャンボ西瓜_富山の夏の大玉  (tried ['スイカ']): RuntimeError — 候補なし（query='スイカ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'too_tall': 1, 'nojp_hint': 6, 'too_small': 3, 'nonjp': 1, 'jp_first': 0}
@@ -170,9 +170,9 @@
   ✗ 2026-08-13_note記事_怪談_こわい話で涼む夜  (tried ['蚊帳', 'mosquito net japan', '線香']): RuntimeError — 候補なし（query='線香'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'too_tall': 3, 'nonjp': 4, 'nojp_hint': 5, 'jp_first': 0}
   ✗ 2026-08-13_note記事_日傘_持ち歩く日陰  (tried ['日傘']): RuntimeError — 候補なし（query='日傘'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 9, 'nonjp_lic': 1, 'jp_first': 0}
   ✗ 2026-08-14_note記事_いちじく_夏の終わりのやさしい甘さ  (tried ['イチジク']): RuntimeError — 候補なし（query='イチジク'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 6, 'too_tall': 4, 'too_small': 1, 'jp_first': 0}
-  ✗ 2026-08-14_note記事_富山弁_きのどくながありがとう  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-14_note記事_富山弁_きのどくながありがとう  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 8, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-08-14_note記事_網戸_風だけを通す夏  (tried ['網戸']): RuntimeError — 候補なし（query='網戸'） diag={'pages': 12, 'img': 12, 'nonphoto': 2, 'nojp_hint': 4, 'too_tall': 5, 'jp_first': 1, 'rejected_md5': 1}
-  ✗ 2026-08-15_note記事_富山弁_いじくらしい  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 9, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
+  ✗ 2026-08-15_note記事_富山弁_いじくらしい  (tried ['富山 方言', '富山県', '富山 まちなみ']): RuntimeError — 候補なし（query='富山 まちなみ'） diag={'pages': 12, 'img': 12, 'nonphoto': 1, 'nojp_hint': 8, 'too_small': 2, 'too_tall': 1, 'jp_first': 0}
   ✗ 2026-08-16_note記事_夏バテ_だるさとつきあう  (tried ['麦茶 グラス', '扇風機', 'うちわ', '冷たい 麦茶']): RuntimeError — 候補なし（query='冷たい 麦茶'） diag={'pages': 0, 'img': 0, 'nonphoto': 0, 'jp_first': 0}
   ✗ 2026-08-16_note記事_帰省_お盆に実家へ帰る  (tried ['夏祭り']): RuntimeError — 候補なし（query='夏祭り'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 3, 'too_small': 1, 'rejected': 3, 'too_tall': 2, 'jp_first': 3, 'place_in_name': 3}
   ✗ 2026-08-17_note記事_ラジオ体操_夏休みの朝の広場  (tried ['ラジオ体操']): RuntimeError — 候補なし（query='ラジオ体操'） diag={'pages': 12, 'img': 12, 'nonphoto': 0, 'nojp_hint': 3, 'too_small': 4, 'rejected': 3, 'too_tall': 1, 'jp_first': 1, 'rejected_md5': 1}

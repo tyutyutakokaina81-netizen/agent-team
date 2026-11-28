@@ -3465,5 +3465,32 @@
 "license": "CC BY 2.0",
 "query": "chawanmushi",
 "src": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Chawanmushi_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+},
+"2026-11-08_note記事_たい焼き_尾まであんが入っているかどうか": {
+"author": "KKPCW",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E3%82%AF%E3%83%AD%E3%83%AF%E3%83%83%E3%82%B5%E3%83%B3%E3%81%9F%E3%81%84%E7%84%BC%E3%81%8D.jpg",
+"file": "File:クロワッサンたい焼き.jpg",
+"license": "CC BY-SA 4.0",
+"query": "たい焼き",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/%E3%82%AF%E3%83%AD%E3%83%AF%E3%83%83%E3%82%B5%E3%83%B3%E3%81%9F%E3%81%84%E7%84%BC%E3%81%8D.jpg/1280px-%E3%82%AF%E3%83%AD%E3%83%AF%E3%83%83%E3%82%B5%E3%83%B3%E3%81%9F%E3%81%84%E7%84%BC%E3%81%8D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-08_note記事_出雲そば_器から器へつゆを移す": {
+"author": "girakku",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:%E5%87%BA%E9%9B%B2%E5%B8%82_(28351842198).jpg",
+"file": "File:出雲市 (28351842198).jpg",
+"license": "CC0",
+"query": "出雲そば",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/%E5%87%BA%E9%9B%B2%E5%B8%82_%2828351842198%29.jpg/1280px-%E5%87%BA%E9%9B%B2%E5%B8%82_%2828351842198%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+},
+"2026-11-08_note記事_急須_取っ手が横についている": {
+"author": "Nesnad",
+"backend": "wikimedia",
+"descpage": "https://commons.wikimedia.org/wiki/File:Two-decorative-kyusu-japan-nov17-2015.jpg",
+"file": "File:Two-decorative-kyusu-japan-nov17-2015.jpg",
+"license": "CC BY 3.0",
+"query": "kyusu",
+"src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Two-decorative-kyusu-japan-nov17-2015.jpg/1280px-Two-decorative-kyusu-japan-nov17-2015.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
 }
 }
